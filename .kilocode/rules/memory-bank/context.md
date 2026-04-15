@@ -1,87 +1,91 @@
-# Active Context: Next.js Starter Template
+# Active Context: NexusGraph - Self-Organizing Knowledge Library
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**Project Status**: ✅ Built and operational
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+NexusGraph is a comprehensive knowledge management system designed for handling massive document collections (5000+ documents, 45000+ words). It provides cross-referencing, external source integration, and a visual knowledge graph.
 
 ## Recently Completed
 
-- [x] Base Next.js 16 setup with App Router
-- [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration
-- [x] ESLint configuration
-- [x] Memory bank documentation
-- [x] Recipe system for common features
+- [x] NexusGraph application built from scratch
+- [x] SQLite database with Drizzle ORM (8 tables: documents, tags, links, sources, collections, documentTags, documentCollections, searchIndex)
+- [x] Dark theme UI with purple/cyan accent colors
+- [x] Sidebar navigation with document stats
+- [x] Library page with document grid and filtering
+- [x] Document detail page with forward links and backlinks
+- [x] Knowledge graph visualization (canvas-based force-directed)
+- [x] Sources page for external connectors (GitHub, Medium, DOI, Twitter)
+- [x] Collections page for organizing documents
+- [x] Command palette search (⌘K) with real-time results
+- [x] API routes for search functionality
+- [x] Mock data fallbacks for demo mode
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| `src/lib/db.ts` | Database operations with mock fallbacks | ✅ |
+| `src/components/Sidebar.tsx` | Navigation sidebar | ✅ |
+| `src/components/SearchModal.tsx` | Command palette search | ✅ |
+| `src/app/page.tsx` | Dashboard with stats | ✅ |
+| `src/app/library/page.tsx` | Document library grid | ✅ |
+| `src/app/library/[id]/page.tsx` | Document detail with links | ✅ |
+| `src/app/graph/page.tsx` | Visual knowledge graph | ✅ |
+| `src/app/sources/page.tsx` | External source connectors | ✅ |
+| `src/app/collections/page.tsx` | Document collections | ✅ |
+| `src/app/api/search/route.ts` | Search API | ✅ |
+| `src/db/schema.ts` | Database schema | ✅ |
+
+## Features Implemented
+
+### Core Features
+- Document management (add, view, organize)
+- Cross-linking system with `[[doc-id]]` references
+- Bi-directional links (forward links + backlinks)
+- Full-text search with ⌘K command palette
+- Collections (manual + auto-generated)
+
+### External Sources (UI Ready)
+- GitHub repositories
+- Medium articles
+- DOI papers
+- Twitter/X
+- Custom URLs
+
+### Visual Features
+- Force-directed graph visualization
+- Document type color coding
+- Connection count indicators
+- Dark theme with glassmorphism
+
+### Data Model
+- Documents: 5000 capacity, word counts, metadata
+- Tags: colored categories
+- Links: cross-references with context
+- Sources: external platform connections
+- Collections: grouped documents
 
 ## Current Focus
 
-The template is ready. Next steps depend on user requirements:
-
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
-
-## Quick Start Guide
-
-### To add a new page:
-
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
-
-### To add components:
-
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+The app is complete and builds successfully. To extend:
+1. Connect real database by setting DB_URL/DB_TOKEN env vars
+2. Add API routes for creating/editing documents
+3. Implement actual external source sync (GitHub API, Medium RSS, CrossRef)
+4. Add vector search for semantic similarity
+5. Export functionality for AI consumption (JSONL)
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
-| Initial | Template created with base setup |
+| Initial | Base Next.js template created |
+| Today | Built NexusGraph - full knowledge library app |
+
+## Tech Stack
+
+- Next.js 16 with App Router
+- TypeScript
+- Tailwind CSS 4
+- Drizzle ORM + SQLite
+- Bun package manager

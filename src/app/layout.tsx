@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Sidebar } from "@/components/Sidebar";
+import { SearchModal } from "@/components/SearchModal";
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "NexusGraph - Self-Organizing Knowledge Library",
+  description: "A massive, self-organizing library for your documents, papers, and ideas",
 };
 
 export default function RootLayout({
@@ -24,10 +15,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="min-h-screen">
+        <div className="flex min-h-screen">
+          <Sidebar />
+          <main className="flex-1 ml-[280px] min-h-screen">
+            {children}
+          </main>
+        </div>
+        <SearchModal />
       </body>
     </html>
   );
