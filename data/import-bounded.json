@@ -1,0 +1,239 @@
+[
+  {
+    "title": "overstory",
+    "type": "repo",
+    "path": "C:\\Users\\seand\\overstory",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": ""
+  },
+  {
+    "title": "kilo-desktop",
+    "type": "repo",
+    "path": "C:\\Users\\seand\\kilo-desktop",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": true
+    },
+    "notes": ""
+  },
+  {
+    "title": "kilocode",
+    "type": "repo",
+    "path": "C:\\Users\\seand\\kilocode",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": true
+    },
+    "notes": ""
+  },
+  {
+    "title": "Deliberate-AI-Ensemble",
+    "type": "repo",
+    "path": "C:\\Users\\seand\\Deliberate-AI-Ensemble",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": ""
+  },
+  {
+    "title": "NemoClaw",
+    "type": "repo",
+    "path": "C:\\Users\\seand\\NemoClaw",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": ""
+  },
+  {
+    "title": "mev-swarm-temp",
+    "type": "repo",
+    "path": "C:\\Users\\seand\\mev-swarm-temp",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": ""
+  },
+  {
+    "title": "workspace-kilocode",
+    "type": "repo",
+    "path": "C:\\workspace-kilocode",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": ""
+  },
+  {
+    "title": "autonomous-elasticsearch-evolution-agent",
+    "type": "repo",
+    "path": "C:\\autonomous-elasticsearch-evolution-agent",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": ""
+  },
+  {
+    "title": "federation",
+    "type": "repo",
+    "path": "S:\\federation",
+    "source": "S:",
+    "status": "canonical",
+    "tags": ["git", "repo", "federation", "consciousness"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": "Main consciousness simulation project"
+  },
+  {
+    "title": "snac-v2-clean",
+    "type": "repo",
+    "path": "S:\\projects\\snac-v2-clean",
+    "source": "S:",
+    "status": "unknown",
+    "tags": ["git", "repo"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": ""
+  },
+  {
+    "title": "self-organizing-library",
+    "type": "repo",
+    "path": "S:\\self-organizing-library",
+    "source": "S:",
+    "status": "canonical",
+    "tags": ["git", "repo", "library"],
+    "metadata": {
+      "isGitRepo": true,
+      "hasPackageJson": false
+    },
+    "notes": "Current project - library for organizing everything"
+  },
+  {
+    "title": "01 The Rosetta Stone",
+    "type": "paper",
+    "path": "S:\\papers\\01_The_Rosetta_Stone.pdf.pdf",
+    "source": "S:",
+    "status": "canonical",
+    "tags": ["paper", "pdf", "constraint-systems"],
+    "metadata": {
+      "extension": "pdf",
+      "series": "constraint-papers",
+      "order": 1
+    },
+    "notes": "First in the constraint systems paper series"
+  },
+  {
+    "title": "02 Constraint Lattices and Stability",
+    "type": "paper",
+    "path": "S:\\papers\\02_Constraint_Lattices_and_Stability.pdf.pdf",
+    "source": "S:",
+    "status": "canonical",
+    "tags": ["paper", "pdf", "constraint-systems"],
+    "metadata": {
+      "extension": "pdf",
+      "series": "constraint-papers",
+      "order": 2
+    },
+    "notes": "Second in the constraint systems paper series"
+  },
+  {
+    "title": "03 Phenotype Selection in Constraint Governed Systems",
+    "type": "paper",
+    "path": "S:\\papers\\03_Phenotype_Selection_in_Constraint_Governed_Systems.pdf.pdf",
+    "source": "S:",
+    "status": "canonical",
+    "tags": ["paper", "pdf", "constraint-systems"],
+    "metadata": {
+      "extension": "pdf",
+      "series": "constraint-papers",
+      "order": 3
+    },
+    "notes": "Third in the constraint systems paper series"
+  },
+  {
+    "title": "04 Drift Identity and Ensemble Coherence",
+    "type": "paper",
+    "path": "S:\\papers\\04_Drift_Identity_and_Ensemble_Coherence.pdf.pdf",
+    "source": "S:",
+    "status": "canonical",
+    "tags": ["paper", "pdf", "constraint-systems"],
+    "metadata": {
+      "extension": "pdf",
+      "series": "constraint-papers",
+      "order": 4
+    },
+    "notes": "Fourth in the constraint systems paper series"
+  },
+  {
+    "title": "05 The WE4FREE Framework",
+    "type": "paper",
+    "path": "S:\\papers\\05_The_WE4FREE_Framework.pdf.pdf",
+    "source": "S:",
+    "status": "canonical",
+    "tags": ["paper", "pdf", "constraint-systems"],
+    "metadata": {
+      "extension": "pdf",
+      "series": "constraint-papers",
+      "order": 5
+    },
+    "notes": "Fifth in the constraint systems paper series"
+  },
+  {
+    "title": "constitutional intelligence positioning brief",
+    "type": "paper",
+    "path": "C:\\Users\\seand\\Downloads\\constitutional_intelligence_positioning_brief_regenerated (1).pdf",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["paper", "pdf"],
+    "metadata": {
+      "extension": "pdf"
+    },
+    "notes": ""
+  },
+  {
+    "title": "connection map one page",
+    "type": "paper",
+    "path": "C:\\Users\\seand\\Downloads\\connection_map_one_page_regenerated.pdf",
+    "source": "C:",
+    "status": "unknown",
+    "tags": ["paper", "pdf"],
+    "metadata": {
+      "extension": "pdf"
+    },
+    "notes": ""
+  }
+]

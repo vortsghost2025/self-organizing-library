@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* NexusGraph Custom Theme */
+:root {
+  --background: #0D0D0F;
+  --surface: #16161A;
+  --surface-hover: #1E1E24;
+  --border: #2A2A32;
+  --primary: #7C3AED;
+  --primary-hover: #8B5CF6;
+  --secondary: #06B6D4;
+  --text-primary: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--background);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Glassmorphism for modals */
+.glass {
+  background: rgba(22, 22, 26, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* Card shadow */
+.card-shadow {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Primary button gradient */
+.btn-primary {
+  background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  transform: translateY(-1px);
+}
+
+/* Monospace for document IDs, links */
+.mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}

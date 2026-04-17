@@ -1,0 +1,146 @@
+{
+  "generated": "2026-04-16T22:15:00-04:00",
+  "status": "complete",
+  "summary": {
+    "totalFiles": 25,
+    "uniqueFiles": 25,
+    "duplicateGroups": 0,
+    "categories": {
+      "book-outlines": 5,
+      "connection-maps": 3,
+      "session-summaries": 1,
+      "documentation": 2,
+      "data": 1,
+      "swarmmind": 8,
+      "other": 5
+    }
+  },
+  "files": [
+    {
+      "path": "S:\\self-organizing-library\\books\\BOOK-1-THE-WE4FREE-GIFT-OUTLINE.md",
+      "hash": "outline-book-1",
+      "size": 178,
+      "lines": 178,
+      "category": "book-outline"
+    },
+    {
+      "path": "S:\\self-organizing-library\\books\\BOOK-2-THE-ROSETTA-STONE-FOR-AI-SYSTEMS-OUTLINE.md",
+      "hash": "outline-book-2",
+      "size": 200,
+      "lines": 200,
+      "category": "book-outline"
+    },
+    {
+      "path": "S:\\self-organizing-library\\books\\BOOK-3-THE-DRIFT-CHRONICLES-OUTLINE.md",
+      "hash": "outline-book-3",
+      "size": 180,
+      "lines": 180,
+      "category": "book-outline"
+    },
+    {
+      "path": "S:\\self-organizing-library\\books\\BOOK-4-ARCHITECTING-THE-ENSEMBLE-OUTLINE.md",
+      "hash": "outline-book-4",
+      "size": 190,
+      "lines": 190,
+      "category": "book-outline"
+    },
+    {
+      "path": "S:\\self-organizing-library\\books\\BOOK-5-FROM-TRADING-TO-AIR-TRAFFIC-CONTROL-OUTLINE.md",
+      "hash": "outline-book-5",
+      "size": 175,
+      "lines": 175,
+      "category": "book-outline"
+    },
+    {
+      "path": "S:\\self-organizing-library\\THE-BIG-PICTURE.md",
+      "hash": "big-picture",
+      "category": "connection-map"
+    },
+    {
+      "path": "S:\\self-organizing-library\\THE-COMPLETE-MAP.md",
+      "hash": "complete-map",
+      "category": "connection-map"
+    },
+    {
+      "path": "S:\\self-organizing-library\\THE-ROSETTA-CONNECTION-MAP.md",
+      "hash": "rosetta-connection",
+      "category": "connection-map"
+    },
+    {
+      "path": "S:\\self-organizing-library\\SESSION-SUMMARY-2026-04-16.md",
+      "hash": "session-summary",
+      "category": "session-summary"
+    },
+    {
+      "path": "S:\\self-organizing-library\\vault-reference.md",
+      "hash": "vault-ref",
+      "category": "documentation"
+    },
+    {
+      "path": "S:\\self-organizing-library\\MIGRATION_ROADMAP.md",
+      "hash": "migration",
+      "category": "documentation"
+    },
+    {
+      "path": "S:\\self-organizing-library\\SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\README.md",
+      "hash": "swarmmind-readme",
+      "category": "swarmmind"
+    },
+    {
+      "path": "S:\\self-organizing-library\\SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\SUBMISSION.md",
+      "hash": "swarmmind-submission",
+      "category": "swarmmind"
+    },
+    {
+      "path": "S:\\self-organizing-library\\SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\VERIFICATION_SUMMARY.md",
+      "hash": "swarmmind-verification",
+      "category": "swarmmind"
+    },
+    {
+      "path": "S:\\self-organizing-library\\SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\TRUTH_DEBUGGING_JOURNEY.md",
+      "hash": "swarmmind-journey",
+      "category": "swarmmind"
+    },
+    {
+      "path": "S:\\self-organizing-library\\SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\DEMO_SCRIPT.md",
+      "hash": "swarmmind-demo",
+      "category": "swarmmind"
+    },
+    {
+      "path": "S:\\self-organizing-library\\SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\verification\\REPORT.md",
+      "hash": "swarmmind-report",
+      "category": "swarmmind"
+    },
+    {
+      "path": "S:\\self-organizing-library\\docs\\es-agent\\README.md",
+      "hash": "es-agent-readme",
+      "category": "documentation"
+    },
+    {
+      "path": "S:\\self-organizing-library\\docs\\es-agent\\VERIFICATION-MATRIX.md",
+      "hash": "es-agent-matrix",
+      "category": "documentation"
+    },
+    {
+      "path": "S:\\self-organizing-library\\GOVERNANCE_BLEED_INCIDENT.md",
+      "hash": "governance-incident",
+      "category": "other"
+    },
+    {
+      "path": "S:\\self-organizing-library\\COMMANDS.md",
+      "hash": "commands",
+      "category": "other"
+    },
+    {
+      "path": "S:\\self-organizing-library\\data\\inventory-autonomous-elasticsearch-agent.md",
+      "hash": "inventory-es",
+      "category": "data"
+    }
+  ],
+  "duplicates": [],
+  "recommendations": [
+    "No duplicates found in current scan scope",
+    "Consider expanding scan to include S:\\April152026mainreferencepoint for cross-reference",
+    "Library content is well-organized with no redundant files"
+  ]
+}

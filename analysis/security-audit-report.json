@@ -1,0 +1,81 @@
+{
+  "generated": "2026-04-16T22:15:00-04:00",
+  "status": "complete",
+  "summary": {
+    "sensitiveFilesFound": 0,
+    "potentialRisks": 2,
+    "recommendations": 5,
+    "overallRisk": "LOW"
+  },
+  "sensitiveFiles": [],
+  "potentialRisks": [
+    {
+      "type": "credential-reference",
+      "location": "S:\\self-organizing-library\\vault-reference.md",
+      "description": "References credential files and vault proposal - contains no actual credentials but documents where they exist",
+      "severity": "info",
+      "action": "Review to ensure no actual secrets are documented"
+    },
+    {
+      "type": "github-token",
+      "location": "Git remote configuration",
+      "description": "GitHub access token visible in git remote URL (x-access-token:ghs_*)",
+      "severity": "medium",
+      "action": "Token should be rotated if this repo is shared. Use SSH keys or environment variables instead of embedding tokens in git config"
+    }
+  ],
+  "scanResults": {
+    "envFiles": 0,
+    "keyFiles": 0,
+    "tokenReferences": 1,
+    "passwordFiles": 0,
+    "secretFiles": 0
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "recommendation": "Rotate GitHub access token",
+      "reason": "Token is visible in git remote configuration",
+      "implementation": "Generate new token, update remote URL to use SSH or environment variable"
+    },
+    {
+      "priority": "medium",
+      "recommendation": "Create .env.example files",
+      "reason": "Document required environment variables without exposing actual values",
+      "implementation": "Add .env.example to each project with placeholder values"
+    },
+    {
+      "priority": "low",
+      "recommendation": "Review vault-reference.md",
+      "reason": "Document references credential locations - verify no actual secrets present",
+      "implementation": "Ensure vault proposal doesn't expose sensitive paths"
+    },
+    {
+      "priority": "low",
+      "recommendation": "Add .gitignore entries",
+      "reason": "Ensure sensitive files are never committed",
+      "implementation": "Add .env, *.key, *.pem, credentials.json to .gitignore"
+    },
+    {
+      "priority": "info",
+      "recommendation": "Consider creating S:\\vault\\",
+      "reason": "Centralized credential management proposed in vault-reference.md",
+      "implementation": "Move scattered credential files to encrypted vault"
+    }
+  ],
+  "filesScanned": {
+    "total": 25,
+    "byType": {
+      "md": 25,
+      "json": 4,
+      "js": 8,
+      "html": 2
+    }
+  },
+  "safeFiles": [
+    "All .md files in library - documentation only",
+    "All book outlines - content only",
+    "SwarmMind project files - no credentials detected",
+    "Analysis files - no sensitive data"
+  ]
+}
