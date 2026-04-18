@@ -75,11 +75,50 @@ From external lane analysis:
 
 ## Related Failure Modes
 
-- NFM-001: Process Isolation Failure (child processes)
-- NFM-002: Self-State Aliasing (identity confusion)
+- **NFM-001:** Process Isolation Failure (child processes bypass gate)
+- **NFM-002:** Self-State Aliasing (identity confusion from stale artifacts)
+
+**Cross-Reference:** All three failure modes share a common theme: implementation gaps in behavioral enforcement that allow bypassing lane boundaries.
 
 ---
 
 ## Commitment
 
 This failure mode will be tracked until Phase 3 provides OS-level enforcement.
+
+---
+
+## Layer Status Table (Per Authority 100 Decision)
+
+| Layer | Status | Enforcement Level |
+|-------|--------|-------------------|
+| JS fs API | ✅ gated | JS-level (Phase 2) |
+| fs.promises | ⚠️ verify | JS-level (Phase 2.5) |
+| child_process | ⚠️ verify | JS-level (Phase 2.5) |
+| internalBinding | ❌ exposed | **REQUIRES OS-LEVEL** |
+| OS boundary | ❌ none | Phase 3 scope |
+
+**Critical finding:** process.binding is NOT safely interceptable in userland. Attempting to patch it creates false sense of security. Must escalate to OS boundary.
+
+---
+
+## Escalation Path
+
+1. **Phase 2.5:** Verify fs.promises and child_process blocked
+2. **Document:** internalBinding as "requires OS-level enforcement"
+3. **Phase 3:** OS-level file permissions, ACLs, seccomp-bpf
+
+**STOP condition:** Do NOT proceed to Phase 3 until Phase 2.5 verification complete.
+
+---
+
+## Related Documents
+
+- `S:\Archivist-Agent\.artifacts\DECISION_NFM003_RESPONSE_STRATEGY.md` — Sequential execution decision
+- `S:\Archivist-Agent\.lane-relay\library-inbox.md` — Verification task
+- `S:\Archivist-Agent\.lane-relay\swarmmind-inbox.md` — SwarmMind task
+
+---
+
+**Decision Authority:** Human Operator (via external isolated lane guidance)
+**Date:** 2026-04-18
