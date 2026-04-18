@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Identity keys (NEVER commit)
+.identity/
+*.key
+keys.json
+
+# Session memory (persists locally)
+.memory/
