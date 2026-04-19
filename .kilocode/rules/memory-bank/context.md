@@ -99,6 +99,8 @@ Library is configured as **verification-preserving memory layer** for Archivist-
 ### Pending
 - [ ] SwarmMind: Implement matching attestation stack
 - [x] QuarantineManager added for local tracking of failed artefacts
+- [x] RecoveryClassifier syntax issue resolved; legacy `verifyJWS` fallback removed from continuity/recovery paths
+- [x] RecoveryClassifier syntax issue resolved; legacy  fallback removed from continuity/recovery paths
 - [x] SwarmMind orchestrator client implemented
 - [ ] Library: Copy KeyManager, Signer, Verifier, TrustStoreManager modules
 - [ ] Update `.trust/keys.json` with SwarmMind/Library public keys
