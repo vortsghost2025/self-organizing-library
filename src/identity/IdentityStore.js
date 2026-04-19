@@ -47,6 +47,15 @@ class IdentityStore {
     fs.mkdirSync(this.baseDir, { recursive: true });
   }
 
+  _isValidLaneId(value) {
+    return (
+      typeof value === 'string' &&
+      value.trim().length > 0 &&
+      value.trim().length <= 128 &&
+      /^[A-Za-z0-9._-]+$/.test(value.trim())
+    );
+  }
+
   /** Load the current identity if it exists */
   load() {
     if (!fs.existsSync(this.currentPath)) return null;
@@ -79,14 +88,36 @@ class IdentityStore {
 
   /** Detect the lane identifier using the environment or a session‑mode file */
   _detectLaneId() {
-    if (process.env.LANE_ID) {
-      return process.env.LANE_ID;
+    const envLaneId = process.env.LANE_ID;
+    if (envLaneId && String(envLaneId).trim()) {
+      return String(envLaneId).trim();
     }
+
     const modePath = path.join(this.repoRoot, '.session-mode');
     if (fs.existsSync(modePath)) {
       try {
         const raw = fs.readFileSync(modePath, 'utf8').trim();
-        if (raw) return raw;
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw);
+            if (
+              parsed &&
+              parsed.lane_identity &&
+              typeof parsed.lane_identity.lane_id === 'string' &&
+              parsed.lane_identity.lane_id.trim()
+            ) {
+              return parsed.lane_identity.lane_id.trim();
+            }
+            if (typeof parsed.laneId === 'string' && parsed.laneId.trim()) {
+              return parsed.laneId.trim();
+            }
+          } catch (_jsonErr) {
+            // Backward-compatible plain-text mode file support
+            if (/^[A-Za-z0-9._-]+$/.test(raw)) {
+              return raw;
+            }
+          }
+        }
       } catch (_) {}
     }
     // Fallback default – keep deterministic but warn in logs
@@ -149,6 +180,25 @@ class IdentityStore {
     this._ensureDir();
     if (fs.existsSync(this.currentPath)) {
       const identity = this.load();
+      if (identity && !this._isValidLaneId(identity.laneId)) {
+        const repairedLaneId = this._detectLaneId();
+        const events = Array.isArray(identity.events) ? [...identity.events] : [];
+        events.push({
+          timestamp: new Date().toISOString(),
+          type: 'lane-repaired',
+          details: {
+            previousLaneId: identity.laneId,
+            repairedLaneId,
+          },
+        });
+        const repairedIdentity = {
+          ...identity,
+          laneId: repairedLaneId,
+          events,
+        };
+        this.save(repairedIdentity);
+        return { loaded: true, identity: repairedIdentity, identityPath: this.currentPath };
+      }
       return { loaded: true, identity, identityPath: this.currentPath };
     }
     if (readOnlyIfMissing) {
