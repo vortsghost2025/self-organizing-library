@@ -1,12 +1,21 @@
 #!/usr/bin/env node
 /**
  * CONTINUITY_VERIFICATION.js
- * 
+ *
  * Startup verification script that:
  * 1. Loads context
  * 2. Recomputes fingerprints
  * 3. Compares to stored values in CONTINUITY_REGISTRY.json
  * 4. Sets recovery_status: verified | mismatch | corrupted
+ *
+ * DELEGATED CONSTITUTIONAL AUTHORITY:
+ * Library (Lane 3) delegates constitutional authority to Archivist-Agent (Lane 1).
+ * Constitutional files (BOOTSTRAP.md, COVENANT.md, GOVERNANCE.md, CPS_ENFORCEMENT.md)
+ * are NOT expected to exist locally. Instead, we verify:
+ *   - Our own continuity files (fingerprint, lineage, recovery state)
+ *   - Our identity anchor (.identity/keys.json)
+ *   - Our audit trail (logs/audit.log)
+ * Constitutional fingerprint check is SKIPPED for delegated lanes.
  */
 
 const crypto = require('crypto');
@@ -53,28 +62,43 @@ function main() {
   console.log('Previous status:', registry.parsed.recovery_status);
   console.log('');
 
-  // Compute constitutional fingerprints
-  console.log('--- Constitutional Fingerprint ---');
-  const bootstrap = readFile(path.join(ROOT, 'BOOTSTRAP.md'));
-  const covenant = readFile(path.join(ROOT, 'COVENANT.md'));
-  const governance = readFile(path.join(ROOT, 'GOVERNANCE.md'));
-  const cps = readFile(path.join(ROOT, 'CPS_ENFORCEMENT.md'));
+	// Check if this lane delegates constitutional authority
+	const delegatedAuthority = registry.parsed.governance?.constitutional_authority === 'delegated';
+	const authoritySource = registry.parsed.governance?.authority_source || 'archivist-agent';
 
-  const constitutionalCombined = (bootstrap.content || '') + 
-                                  (covenant.content || '') + 
-                                  (governance.content || '') + 
-                                  (cps.content || '');
-  const constitutionalHash = computeHash(constitutionalCombined);
+	// Compute constitutional fingerprints (SKIP if delegated)
+	console.log('--- Constitutional Fingerprint ---');
+	let constitutionalMatch = true;
+	let constitutionalHash = '';
 
-  const constitutionalMatch = constitutionalHash === registry.parsed.constitutional_fingerprint?.combined_hash;
-  console.log('BOOTSTRAP.md:', bootstrap.hash.substring(0, 16) + '...');
-  console.log('COVENANT.md:', covenant.hash.substring(0, 16) + '...');
-  console.log('GOVERNANCE.md:', governance.hash.substring(0, 16) + '...');
-  console.log('CPS_ENFORCEMENT.md:', cps.hash.substring(0, 16) + '...');
-  console.log('Combined:', constitutionalHash);
-  console.log('Expected:', registry.parsed.constitutional_fingerprint?.combined_hash);
-  console.log('Match:', constitutionalMatch ? 'YES' : 'NO');
-  console.log('');
+	if (delegatedAuthority) {
+		console.log(`DELEGATED: Constitutional authority from ${authoritySource}`);
+		console.log('Local constitutional files NOT required.');
+		console.log('Skipping constitutional fingerprint check.');
+		// Use stored hash as "match" since we delegate
+		constitutionalHash = registry.parsed.constitutional_fingerprint?.combined_hash || 'delegated';
+	} else {
+		const bootstrap = readFile(path.join(ROOT, 'BOOTSTRAP.md'));
+		const covenant = readFile(path.join(ROOT, 'COVENANT.md'));
+		const governance = readFile(path.join(ROOT, 'GOVERNANCE.md'));
+		const cps = readFile(path.join(ROOT, 'CPS_ENFORCEMENT.md'));
+
+		const constitutionalCombined = (bootstrap.content || '') +
+			(covenant.content || '') +
+			(governance.content || '') +
+			(cps.content || '');
+		constitutionalHash = computeHash(constitutionalCombined);
+
+		constitutionalMatch = constitutionalHash === registry.parsed.constitutional_fingerprint?.combined_hash;
+		console.log('BOOTSTRAP.md:', bootstrap.hash.substring(0, 16) + '...');
+		console.log('COVENANT.md:', covenant.hash.substring(0, 16) + '...');
+		console.log('GOVERNANCE.md:', governance.hash.substring(0, 16) + '...');
+		console.log('CPS_ENFORCEMENT.md:', cps.hash.substring(0, 16) + '...');
+		console.log('Combined:', constitutionalHash);
+		console.log('Expected:', registry.parsed.constitutional_fingerprint?.combined_hash);
+		console.log('Match:', constitutionalMatch ? 'YES' : 'NO');
+	}
+	console.log('');
 
   // Compute continuity fingerprints
   console.log('--- Continuity Fingerprint ---');
