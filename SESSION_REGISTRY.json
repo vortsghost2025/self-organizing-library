@@ -1,0 +1,51 @@
+{
+  "$schema": "https://archivist.dev/schemas/session-registry.json",
+  "version": "1.1.0",
+  "last_updated": "2026-04-19T01:20:00Z",
+  "purpose": "Enable bidirectional communication between concurrent agent lanes",
+  "active_sessions": {},
+  "terminated_sessions": {},
+  "inactive_sessions": {},
+  "communication_protocol": {
+    "heartbeat_interval_ms": 60000,
+    "lock_timeout_ms": 300000,
+    "observer_idle_timeout_ms": 86400000,
+    "conflict_resolution": "first-writer-wins",
+    "notification_method": "file-based",
+    "notification_path": "S:\\self-organizing-library\\SESSION_NOTIFICATIONS"
+  },
+  "rules": {
+    "session_start": [
+      "Read SESSION_REGISTRY.json",
+      "Read .session-mode file if present",
+      "If .session-mode exists, use declared mode",
+      "Otherwise default to mode: governing",
+      "Check for active sessions on target lanes",
+      "If mode == governing: Acquire lock file in own lane",
+      "Register session in registry with mode",
+      "If mode == governing: Begin heartbeat (60s interval)"
+    ],
+    "session_end": [
+      "Remove session from registry",
+      "If mode == governing: Release lock file",
+      "If mode == governing: Write session handoff document",
+      "If mode == observer: No handoff required"
+    ]
+  },
+  "mode_definitions": {
+    "governing": {
+      "description": "Primary agent with write access and heartbeat requirement",
+      "heartbeat_required": true,
+      "can_write": true,
+      "timeout_behavior": "terminate",
+      "use_case": "Production agent lanes"
+    },
+    "observer": {
+      "description": "Read-only test session, no heartbeat enforcement",
+      "heartbeat_required": false,
+      "can_write": false,
+      "timeout_behavior": "inactive",
+      "use_case": "Stress testing, parallel verification"
+    }
+  }
+}
