@@ -1,0 +1,56 @@
+{
+  "$schema": "https://archivist.dev/schemas/continuity-registry.json",
+  "version": "1.0.0",
+  "lane_id": "self-organizing-library",
+  "role": "memory-layer",
+  "position": 3,
+  "generated_at": "2026-04-19T01:05:00Z",
+
+  "parent_session_id": "library-session-001",
+  "origin_handoff": null,
+
+  "constitutional_fingerprint": {
+    "source": "archivist-agent",
+    "source_path": "S:\\Archivist-Agent",
+    "combined_hash": "72d60ca4606222c8f9d39f708ebb506728195e6c267990d8f2fdb463f0ebf130",
+    "note": "Constitutional authority delegated from governance-root lane"
+  },
+
+  "continuity_fingerprint": {
+    "identity_hash": "5473c6d41d303fa12efca1fb69ba56f6c8e6f43f2dd0ecfd12b1716adea0d456",
+    "session_memory_hash": "c355315cebdaa4718a855aa2a0d6c2de693b2db19fcf6f8f5eef1c6d4fa658be",
+    "session_registry_hash": "FILE_NOT_FOUND",
+    "audit_log_hash": "0290563a1d1f16bf9792ac6620598a8d6f6f94a7c50e6ba9ebad073571cea3ee",
+    "combined_hash": "3d12301d8048715ab3800f1f1b74e034474d7df212acac3cdc456edc9110b5cd"
+  },
+
+  "recovery_status": "partial",
+  "recovery_timestamp": "2026-04-19T01:05:00Z",
+  "verification_result": {
+    "constitutional": "DELEGATED",
+    "continuity": "PARTIAL",
+    "missing_inputs": ["SESSION_REGISTRY.json"],
+    "timestamp": "2026-04-19T01:05:00Z"
+  },
+
+  "inputs": {
+    "identity": ".identity/keys.json",
+    "session_memory": ".memory/sessions.json",
+    "session_registry": "SESSION_REGISTRY.json (MISSING)",
+    "audit_log": "logs/audit.log"
+  },
+
+  "identity_anchor": {
+    "key_fingerprint": "5473c6d41d303fa12efca1fb69ba56f6c8e6f43f2dd0ecfd12b1716adea0d456",
+    "created": "2026-04-19T01:00:00Z",
+    "algorithm": "Ed25519",
+    "purpose": "Identity attestation for memory-layer lane"
+  },
+
+  "notes": [
+    "This registry is the proof boundary layer for Library",
+    "Constitutional authority delegated from Archivist (governance-root)",
+    "On startup: verify constitutional hash matches Archivist, recompute continuity fingerprints",
+    "Recovery status: unverified | partial | verified | mismatch | corrupted"
+  ]
+}
