@@ -30,6 +30,11 @@ const LANE_KEY_PATH =
   'S:/self-organizing-library/.trust/library.json';
 
 /**
+ * Trust store version (must match what's in keys.json)
+ */
+const TRUST_STORE_VERSION = '1.0';
+
+/**
  * Lane identifier for Library
  */
 const LANE_ID = process.env.LANE_ID || 'library';
@@ -53,5 +58,6 @@ module.exports = {
   ARCHIVIST_TRUST_STORE_PATH,
   LANE_KEY_PATH,
   LANE_ID,
+  TRUST_STORE_VERSION,
   VERIFY_REASON
 };

@@ -33,20 +33,8 @@ this.submitToRecovery = options.submitToRecovery !== false; // Default true if c
 
 async verify(item) {
 if (!item.signature) {
-const cutoff = this.verifier.hmacCutoffDate;
-const now = new Date();
-if (now < cutoff) {
-return {
-valid: true,
-mode: 'HMAC_ACCEPTED_DUAL_MODE',
-warning: 'Signature missing but dual-mode active'
-};
-}
-return {
-valid: false,
-reason: VERIFY_REASON.MISSING_SIGNATURE,
-error: 'SIGNATURE_REQUIRED'
-};
+return this._handleFailure(item, VERIFY_REASON.MISSING_SIGNATURE,
+'No signature provided - REJECTED (no fallback)', null);
 }
 
 // Step 1: Get outer lane from envelope (A)
@@ -57,8 +45,14 @@ return this._handleFailure(item, VERIFY_REASON.MISSING_LANE,
 'Outer envelope missing lane field', null);
 }
 
-// Step 2: Parse JWS without trusting it yet
-const parsed = this.verifier._parseJWS(item.signature);
+// Step 2: Parse JWS without trusting it yet (protected from throw)
+let parsed;
+try {
+  parsed = this.verifier._parseJWS(item.signature);
+} catch (e) {
+  return this._handleFailure(item, VERIFY_REASON.SIGNATURE_MISMATCH,
+    `Malformed JWS: ${e.message}`, outerLane);
+}
 if (!parsed) {
 return this._handleFailure(item, VERIFY_REASON.SIGNATURE_MISMATCH,
 'Invalid JWS format', outerLane);
@@ -124,14 +118,12 @@ lane,
 { valid: false, reason, note, itemId, lane }
 );
 
-// RecoveryEngine accepted the artifact
-if (recoveryResult.status === 'OK') {
-// Release from local quarantine since recovery succeeded
-if (this.quarantineManager.isQuarantined(itemId)) {
-this.quarantineManager.release(itemId);
-}
-return { valid: true, mode: 'RECOVERY_VERIFIED', recoveryResult };
-}
+// RecoveryEngine CANNOT override local deterministic failure
+// "Provable" guarantees require this to be locally verifiable
+// If RecoveryEngine says OK, we log but still REJECT
+console.log('[RECOVERY] RecoveryEngine response ignored - local verification is authoritative');
+console.log('[RECOVERY] Status:', recoveryResult.status);
+console.log('[RECOVERY] Local reason:', reason);
 
 // RecoveryEngine returned a definitive status
 if (recoveryResult.quarantineId) {

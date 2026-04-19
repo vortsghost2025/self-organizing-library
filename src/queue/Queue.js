@@ -122,7 +122,7 @@ const all = this._loadAll();
 return all.filter(i => i.status === 'pending');
 }
 
-updateStatus(id, newStatus, resolution = null) {
+async updateStatus(id, newStatus, resolution = null) {
 const allowed = ['pending', 'accepted', 'rejected', 'superseded'];
 if (!allowed.includes(newStatus)) {
 throw new Error(`Invalid status ${newStatus}`);
@@ -137,7 +137,7 @@ const current = all[idx];
 // Attestation: verify signature via VerifierWrapper (deterministic path)
 if (Queue._verifierWrapper) {
 if (current.signature) {
-const v = Queue._verifierWrapper.verify(current);
+const v = await Queue._verifierWrapper.verify(current);
 if (!v.valid) {
 throw new Error(`Signature verification failed for item ${id}: ${v.reason || v.error || 'unknown'}`);
 }
