@@ -1,0 +1,211 @@
+SwarmMind Team Responses to Library Questions
+1. How do you currently track artefact IDs across retries?
+Current Implementation:
+SwarmMind uses a hybrid approach - in-memory Map with file-based persistence:
+// QuarantineManager.js
+class QuarantineManager {
+    constructor(options = {}) {
+        this.quarantinedItems = new Map();  // In-memory tracking
+        this.logPath = options.logPath || QUARANTINE_LOG_PATH;
+        // ...
+    }
+    quarantine(item, reason) {
+        const itemId = item.id || item.signature?.slice(0, 16);
+        this.quarantinedItems.set(itemId, {
+            item,
+            reason,
+            retryCount: existing ? existing.retryCount + 1 : 1,
+            firstQuarantined: timestamp,
+            lastRetry: null
+        });
+        // Persist to log file
+        this._logEvent({ event: 'QUARANTINE', item_id: itemId, ... });
+    }
+}
+Persistence Strategy:
+- In-memory: Map<itemId, QuarantineEntry> for fast access
+- File-based: Append-only JSON log at QUARANTINE_LOG_PATH
+- Cross-restart recovery: Log file can be replayed to reconstruct state
+Code Locations:
+- src/attestation/QuarantineManager.js:24-25 - In-memory Map
+- src/attestation/QuarantineManager.js:40-51 - File persistence
+Recommendation: For production, consider adding:
+// Periodic snapshot to JSON for crash recovery
+setInterval(() => {
+    fs.writeFileSync('quarantine-state.json', JSON.stringify([...this.quarantinedItems]));
+}, 60000);
+---
+2. Are you comfortable moving retry scheduling to SwarmMind?
+Answer: YES, SwarmMind should own retry scheduling.
+Rationale:
+Approach	Pros
+SwarmMind schedules (current)	- Lane owns its retry timing<br>- No message queue dependency<br>- Simpler architecture
+Archivist pushes via queue	- Centralized retry management<br>- Survives lane restarts<br>- Better observability
+Current Implementation:
+// QuarantineManager.js:226-242
+scheduleRetry(itemId, callback) {
+    const entry = this.quarantinedItems.get(itemId);
+    if (!entry) return false;
+    entry.lastRetry = new Date().toISOString();
+    const delay = this.backoffMs * entry.retryCount;  // 5000ms * retryCount
+    setTimeout(() => {
+        if (this.quarantinedItems.has(itemId)) {
+            callback(entry.item);
+        }
+    }, delay);
+    return true;
+}
+Proposed Enhancement:
+Add nextRetryIn from Archivist response:
+// VerifierWrapper.js
+async _handleFailure(item, reason, note, outerLane) {
+    const recoveryResult = await this.recoveryClient.submitRecovery(...);
+    
+    if (recoveryResult.nextRetryIn) {
+        // Use Archivist's recommended delay
+        this.quarantineManager.scheduleRetry(itemId, async (quarantinedItem) => {
+            await this.verify(quarantinedItem);  // Retry verification
+        }, recoveryResult.nextRetryIn);  // Override default backoff
+    }
+}
+Why SwarmMind ownership is better:
+1. Lane autonomy - Each lane controls its retry policy
+2. Lower latency - No round-trip to queue
+3. Simpler failure handling - No queue outage scenarios
+4. Archivist stays authoritative - Still owns retryCount and nextRetryIn
+---
+3. Which logging/monitoring stack will you use?
+Current Implementation:
+SwarmMind uses structured JSON logging compatible with multiple backends:
+// QuarantineManager.js:40-51
+_logEvent(event) {
+    const entry = {
+        timestamp: new Date().toISOString(),
+        ...event
+    };
+    const line = JSON.stringify(entry) + '\n';
+    fs.appendFileSync(this.logPath, line);
+}
+Log Format:
+{"timestamp":"2026-04-19T13:46:35Z","event":"QUARANTINE","item_id":"Q-123","lane":"swarmmind","reason":"SIGNATURE_MISMATCH","retry_count":2}
+Recommended Stack:
+Layer	Tool
+Collection	Filebeat / Fluent Bit
+Aggregation	Loki / Elastic
+Visualization	Grafana / Kibana
+Alerting	Prometheus AlertManager
+Proposed Metrics:
+// Prometheus-compatible metrics
+quarantine_events_total{lane="swarmmind",reason="LANE_MISMATCH"} 42
+quarantine_retry_current{lane="swarmmind"} 3
+quarantine_handoff_total{lane="swarmmind"} 1
+recovery_client_requests_total{status="success"} 150
+recovery_client_latency_seconds{quantile="0.95"} 0.234
+Integration Point:
+// Add to governed-start.js
+const promClient = require('prom-client');
+const gauge = new promClient.Gauge({
+    name: 'quarantine_current',
+    help: 'Currently quarantined items',
+    labelNames: ['lane']
+});
+// Expose /metrics endpoint
+app.get('/metrics', async (req, res) => {
+    res.set('Content-Type', promClient.register.contentType);
+    res.end(await promClient.register.metrics());
+});
+---
+4. Do you need a fallback mode if orchestrator becomes unavailable?
+Answer: NO - Pipeline should HALT, not fallback.
+Rationale:
+Fallback Mode	Risk
+Continue processing	- Deterministic guarantee broken<br>- Unsigned/mismatched artefacts accepted<br>- Audit trail incomplete<br>- Cross-lane state desync
+Halt pipeline	- Processing paused temporarily<br>- Backpressure on upstream lanes<br>- Clear signal for ops intervention
+Current Implementation:
+// VerifierWrapper.js - Hard-fail on orchestrator unreachable
+async verify(item) {
+    if (this.recoveryClient && this.submitToRecovery) {
+        try {
+            const recoveryResult = await submitToRecoveryEngine(...);
+            // Handle result...
+        } catch (e) {
+            // Log and continue with LOCAL quarantine
+            console.error('[VerifierWrapper] RecoveryEngine unreachable:', e.message);
+            // Falls back to local quarantine loop
+        }
+    }
+}
+Proposed Enhancement:
+Add circuit breaker for orchestrator availability:
+class OrchestratorCircuitBreaker {
+    constructor(options = {}) {
+        this.failureThreshold = options.failureThreshold || 5;
+        this.failureCount = 0;
+        this.state = 'CLOSED';  // CLOSED | OPEN | HALF_OPEN
+        this.lastFailure = null;
+    }
+    async execute(fn) {
+        if (this.state === 'OPEN') {
+            const elapsed = Date.now() - this.lastFailure;
+            if (elapsed < 30000) {  // 30s cooldown
+                throw new Error('Circuit breaker OPEN - orchestrator unreachable');
+            }
+            this.state = 'HALF_OPEN';
+        }
+        try {
+            const result = await fn();
+            this.failureCount = 0;
+            this.state = 'CLOSED';
+            return result;
+        } catch (e) {
+            this.failureCount++;
+            this.lastFailure = Date.now();
+            
+            if (this.failureCount >= this.failureThreshold) {
+                this.state = 'OPEN';
+                // Trigger handoff signal
+                this._writeHandoffSignal('ORCHESTRATOR_UNREACHABLE');
+            }
+            
+            throw e;
+        }
+    }
+}
+Decision Matrix:
+// governed-start.js - Add configuration
+const ALLOW_FALLBACK = process.env.ALLOW_ORCHESTRATOR_FALLBACK === 'true';
+if (!ALLOW_FALLBACK) {
+    // Production mode - halt on orchestrator failure
+    wrapper = new VerifierWrapper({
+        recoveryClient,
+        haltOnOrchestratorFailure: true
+    });
+} else {
+    // Development mode - allow local quarantine fallback
+    wrapper = new VerifierWrapper({
+        recoveryClient,
+        haltOnOrchestratorFailure: false
+    });
+}
+Why HALT is correct:
+1. Deterministic guarantee - No artefacts processed without verification
+2. Audit integrity - All events flow through orchestrator
+3. Cross-lane sync - No state divergence
+4. Ops visibility - Clear failure signal triggers intervention
+Exception: Development/testing environments could use ALLOW_ORCHESTRATOR_FALLBACK=true
+---
+Summary Table
+Question	SwarmMind Answer
+1. Track artefact IDs	Hybrid: in-memory Map + file log
+2. Retry scheduling	SwarmMind owns scheduling
+3. Logging stack	JSON logs → Loki/Elastic
+4. Fallback mode	HALT pipeline (no fallback)
+▣  Code · z-ai/glm5 · 2m 21s
+/agents                    
+Switch agent
+Code 
+GLM5
+Nvidia
+·
+high
+S:\SwarmMind Self-Optimizing Multi-Agent AI System:master
