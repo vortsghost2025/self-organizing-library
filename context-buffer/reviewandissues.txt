@@ -1,0 +1,1216 @@
+Full Code Review – NexusGraph (Next‑JS app), Archivist‑Agent attestation integration, and SwarmMind Multi‑Agent System  
+---
+1. Architecture & Project Boundaries  
+Project	Primary Concern	Current State
+NexusGraph (self‑organizing knowledge library)	UI + data layer (Next 16, App Router, Drizzle ORM, SQLite, Tailwind)	Fully built, passes UI tests, but TypeScript compilation fails on missing API modules.
+Archivist Attestation (src/attestation/AttestationSupport.js)	RSA‑2048 JWS verification / trust‑store lookup	Integrated, now points to the canonical trust store (S:/Archivist-Agent/.trust/keys.json). Expects a keys map.
+SwarmMind (self‑optimising multi‑agent AI)	Simple agent framework (Agent base class + specialist agents)	Functional prototype; agents are deliberately lightweight, but some robustness and typing gaps remain.
+All three are meant to interoperate: SwarmMind will eventually call the attestation stack; the Library will consume verified artifacts.
+---
+2. Security Review  
+2.1 Attestation (AttestationSupport.js)  
+Issue	Impact	Recommendation
+Algorithm string manipulation – crypto.createVerify(algorithm.toUpperCase().replace('-', '')) turns "rsa-sha256" into "RSASHA256", which is not a valid OpenSSL identifier. Node expects "RSA-SHA256" (or "RSA-SHA256" after simple toUpperCase()).	Verification will throw ERR_OSSL_EVP_UNSUPPORTED in production, silently returning valid:false.	Replace with crypto.createVerify(algorithm.toUpperCase()) or maintain a whitelist mapping ({ 'rsa-sha256': 'RSA-SHA256' }).
+No canonicalisation of payload – JSON.stringify(payload) depends on property order. A different ordering between signer and verifier leads to a false‑negative.	Potential false‑negative verification; attacks could exploit ordering to produce a valid signature that the verifier rejects.	Serialize deterministically (e.g., stableStringify or custom ordered key array) before signing and verifying.
+Public‑key loading assumes PEM format – the code returns the raw string but does not validate it. A malformed key will crash verifier.verify.	Runtime exception, denial‑of‑service.	Validate the PEM with a simple regex (/^-----BEGIN PUBLIC KEY-----/) and catch parsing errors, returning a structured INVALID_KEY result.
+Trust‑store path is hard‑coded – S:/Archivist-Agent/.trust/keys.json.	Reduces configurability; different environments (dev/ci) cannot override.	Accept trustStorePath via constructor or read from an environment variable (process.env.ATTESTATION_TRUST_STORE).
+Migration‑mode handling – mode 'hmac-only' forces valid:true for RSA signatures. This masks genuine verification failures.	In dual mode the system may accept forged RSA signatures when the mode is mistakenly set to 'hmac-only'.	Return a distinct status (MIGRATION_HMAC_ONLY) and a valid:false flag, letting callers decide whether to accept the artifact.
+Trust‑store schema versioning – the code does not check trustStore.version.	Future schema changes could break verification silently.	Guard against missing keys or version mismatches and emit SCHEMA_MISMATCH with expectedVersion.
+2.2 NexusGraph API (src/app/api/search/route.ts)  
+* No input sanitisation – limit is parsed with parseInt but not bounded. A malicious client could request an excessively large limit (Number.MAX_SAFE_INTEGER) causing memory pressure.  
+  Add a ceiling (Math.min(limit, 200)).  
+* Potential timing‑side‑channel – Returning the raw search results without pagination hints can leak internal document counts. Consider adding a total field and capping per‑page results.
+2.3 SwarmMind Agent Framework  
+* Task validation – validateTask checks only for dangerous prototype keys and string length. However, it does not validate numeric fields, arrays, or nested objects. An attacker could embed a crafted object containing a function reference that later gets eval‑ed (future extensions).  
+  Recommendation: Deep‑clone and whitelist allowed properties, or use a schema (e.g., zod) to enforce shape.  
+* Trace log growth – The logTrace method caps the array size, which is good. Still, the trace entries contain the full task object; if a task includes large payloads this can bloat memory. Store only a hash or a trimmed version ({ id, type, goal }).  
+* No concurrency guard – Multiple simultaneous execute calls on the same agent could interleave currentTask state. Either make execute reject when status !== 'idle' or queue tasks.
+---
+3. Performance Review  
+Module	Observation
+src/lib/db.ts – getDb lazily imports @/db on each call. The first call incurs a dynamic import(). Subsequent calls are cheap, but if many concurrent operations start before the first import resolves they will each trigger the import.	Initialise the DB connection at process start (bun start) and export a singleton.
+Search (searchDocuments) – Uses LIKE '%query%' for both title and content. This performs a full table scan on SQLite, which is acceptable for a demo but will degrade with >5 k docs.	Create a full‑text search virtual table (FTS5) and query via MATCH.
+Mock data generators – getMockDocuments builds 50‑100 objects on each request, each with new Date() calls, random colours, etc.	Cache the mock dataset for the duration of a request (or reuse a static fixture) to reduce CPU churn during demo mode.
+SwarmMind processTask – Uses await new Promise(r=>setTimeout(r, workTime)) to simulate work. No real CPU impact, but the workTime values are hard‑coded. If a real task runs a heavy computation, the event loop may be blocked.	Offload CPU‑heavy work to a worker thread or child process; keep the main agent loop non‑blocking.
+Attestation verification – crypto.createVerify and verifier.verify are synchronous. For a high‑throughput service this could become a bottleneck.	Use the asynchronous crypto.verify API (crypto.verify(null, data, key, signature, callback)) or move verification to a worker pool.
+---
+4. Maintainability & Code Quality  
+4.1 TypeScript & Linting  
+* The repo currently fails bun typecheck because of missing API route modules (src/app/api/documents/...). Those modules are placeholders; either remove the stale imports or add stub route files with proper type definitions.  
+* All JavaScript files (e.g., AttestationSupport.js, SwarmMind agents) should be migrated to TypeScript (.ts) to gain compile‑time safety.  
+* Add explicit return types for every exported function (e.g., export async function getDocuments(...): Promise<Document[]>).  
+4.2 Naming & Conventions  
+Area	Current	Suggested
+Trust‑store schema	keys (objects have public_key_pem)	Keep the keys map, but rename the property to publicKeyPem for consistency with camelCase in JS code.
+Database helpers	Functions return loosely‑typed objects (any).	Use the generated Drizzle types (InferModel<typeof documents>) and export a Document interface.
+Agent code	Agent uses generic Object for task; no explicit shape.	Define `interface Task { id: string; type: 'planning'
+Logging	Uses console.log throughout.	Adopt a structured logger (e.g., pino or winston) with levels (debug, info, warn, error).
+Magic strings	"dual", "hmac-only" etc. appear in multiple places.	Export an enum: export const MigrationMode = { DUAL: 'dual', HMAC_ONLY: 'hmac-only', RSA_ONLY: 'rsa-only' }.
+4.3 Error Handling  
+* Attestation – Errors are logged but the caller receives only { valid:false, reason:'VERIFICATION_ERROR', error:msg }. Propagate a proper Error with HTTP status (e.g., 400 for malformed payload, 500 for internal failures) when used in an API endpoint.  
+* Database – getDb returns null on failure, causing the calling functions to fall back to mock data silently. This can hide real DB connectivity problems. Consider throwing an explicit DatabaseUnavailableError and handling it at a higher layer (e.g., return a 503).  
+4.4 Testing  
+* Attestation test suite (test-pki.js) – passes 10/10. Add edge‑case tests: missing lane, malformed PEM, unsupported algorithm, migration‑mode 'hmac-only'.  
+* SwarmMind agents – no unit tests. Add tests for Agent.validateTask (negative cases), Agent.logTrace truncation, and GeneralistAgent.processTask output shape.  
+* NexusGraph – only UI smoke tests exist. Add integration tests for the search API (e.g., using supertest) and for DB operations (using an in‑memory SQLite instance).  
+---
+5. Documentation & Developer Experience  
+* README / Project Overview – Not present in the root of the repo. Add a top‑level README.md summarizing the three sub‑projects, build instructions (bun install && bun build), and how to run the attestation verification locally (node src/attestation/AttestationSupport.js).  
+* Inline comments – AttestationSupport.js now has concise JSDoc, but the rest of the code (e.g., DB helpers, agents) lacks documentation. Add JSDoc for public functions and classes.  
+* Environment configuration – Store paths and mode values in a .env file (ATTESTATION_TRUST_STORE=..., ATTESTATION_MIGRATION_MODE=dual) and load them with dotenv. This avoids hard‑coded Windows paths and eases CI.  
+---
+6. Specific Findings & Action Items  
+6.1 Attestation (src/attestation/AttestationSupport.js)  
+Line	Issue	Fix (already applied)	Remaining Action
+19	Hard‑coded trust‑store path.	Updated to canonical S:/Archivist-Agent/.trust/keys.json.	Expose via env/constructor (optional).
+21‑24	Expected lanes property.	Changed all internal references to keys.	Verify all downstream callers expect keys.
+31‑34	Fallback creates { lanes: {} }.	Updated to { keys: {} }.	Ensure version check (future).
+50‑55	getPublicKey returns lane.public_key.	Now returns keyEntry.public_key_pem.	Add validation of PEM format.
+62‑68	verify uses algorithm transformation.	Not fixed yet – change to crypto.createVerify(algorithm.toUpperCase()).	 
+82‑94	verify catches generic errors, returns valid:false.	Acceptable, but consider distinct error codes.	 
+getTrustStoreStatus – now reports keyCount and keys.	Updated.	Add version field for schema audit.	 
+Overall	No schema version enforcement.	–	Add a sanity check: if (this.trustStore.version !== '1.0') { /* handle */ }.
+6.2 Memory‑Bank (.kilocode/rules/memory-bank/context.md)  
+* Updated the “Attestation Integration” section to reflect the corrected trust‑store path and the fact that the schema uses keys.  
+* Added a bullet pointing out “Schema: keys (not lanes)”.  
+6.3 NexusGraph  
+Issue	File	Recommendation
+TypeScript import failures (src/app/api/documents/...)	src/app/api/*	Either create the missing route files or remove the stale imports. Update tsconfig.json path aliases if needed.
+Unbounded limit parameter in search API	src/app/api/search/route.ts	Clamp limit to a safe maximum (Math.min(limit, 200)).
+No full‑text index on SQLite	src/db/schema.ts	Add an FTS5 virtual table for documents.title/content and modify searchDocuments to use MATCH.
+Hard‑coded UI stats (Documents: 5,000 etc.)	src/components/Sidebar.tsx	Pull stats from getStats() at runtime; otherwise values become stale.
+Dispatch button uses global window – not SSR safe	Sidebar.tsx	Guard with if (typeof window !== 'undefined') or move the click handler into a client‑only component (already has "use client").
+Lack of accessibility (no aria-label on icons)	Sidebar.tsx, SearchModal	Add aria-label or sr-only text for icons.
+6.4 SwarmMind  
+Issue	File	Recommendation
+Agent.validateTask shallow – only checks top‑level keys.	src/core/agent.js	Adopt a schema validator (e.g., zod) for deep validation.
+processTask returns large objects (files, logs) – possible memory blow‑up.	src/agents/generalist/GeneralistAgent.js	Trim large artefacts, keep only hashes or references.
+No TypeScript typing.	All agent files	Convert to .ts and export proper interfaces (AgentResult, Task).
+No explicit timeout / cancellation support.	Agent.execute	Accept an optional AbortSignal and reject if aborted.
+logTrace stores the full task object.	Agent.logTrace	Store a shallow copy ({ id, type, goal }).
+---
+7. Verification of Trust‑Store Schema  
+Current canonical schema (as read from S:/Archivist-Agent/.trust/keys.json):
+{
+  "version": "1.0",
+  "updated_at": "...",
+  "description": "...",
+  "keys": {
+    "<lane_id>": {
+      "lane_id": "<lane_id>",
+      "authority": <number>,
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\n...",
+      "algorithm": "RS256",
+      "key_id": "<optional>",
+      "registered_at": "...",
+      "expires_at": null,
+      "revoked_at": null
+    },
+    …
+  },
+  "migration": {
+    "hmac_cutoff": "2026-05-19T00:00:00Z",
+    "dual_mode_start": "2026-04-19T00:00:00Z",
+    "jws_only_start": "2026-05-19T00:00:00Z"
+  },
+  "retention": {
+    "revoked_key_days": 90,
+    "historical_verification": true
+  }
+}
+The verifier expects the top‑level property keys. It does not look for lanes or entries. The updated AttestationSupport now accesses this.trustStore.keys[laneId] and returns public_key_pem.
+---
+8. Readiness Verdict  
+* Attestation integration: Path and schema corrected, but algorithm handling (RSA‑SHA256) still needs the fix noted above. Once that is corrected and PEM validation added, the verifier will correctly accept or reject signatures against the canonical store.  
+* NexusGraph: Buildable after fixing the missing API route imports and adding a proper search index. UI components are functional but could benefit from dynamic stats and accessibility tweaks.  
+* SwarmMind: Prototype works; however, for production‑grade deployment add deep task validation, async verification, and proper typing.
+Overall status: Not yet 100 % ready for production. The major blocker is the algorithm name bug in AttestationSupport. After fixing it and addressing the TypeScript import errors, the three subsystems can be integrated and the library will be verification‑preserving as intended.
+/agents                    
+Switch agent
+/compact                   
+Compact session
+/connect                   
+Connect provider
+/copy                      
+Copy session transcript
+/editor                    
+Open editor
+/exit                      
+Exit the app
+/export                    
+Export session transcript
+/fork                      
+Fork from message
+/help                      
+▣  Code-Reviewer · openai/gpt-oss-120b · 51.0s
+Help
+/init                      
+create/update AGENTS.md
+Code-Reviewer 
+GPT-OSS-120B
+Nvidia
+ctrl+t variants
+tab agents
+S:\self-organizing-library:main=====This is the cleanest signal you’ve gotten so far. The cold-start + review output is basically an **x-ray of your entire system state** right now.
+
+---
+
+# 🧠 What the Library *actually did*
+
+It didn’t just restart — it:
+
+1. Reconstructed its environment
+2. Inspected real code paths
+3. Compared expected vs actual schema
+4. Produced a **cross-system audit report**
+
+That’s not just recovery — that’s **system-level reasoning**.
+
+---
+
+# 🔥 The most important part of that review
+
+This section is the core truth:
+
+> **Verifier expects `keys`, not `lanes` or `entries`** 
+
+That confirms:
+
+## ✅ Canonical truth is now:
+
+```json
+{
+  "keys": {
+    "lane_id": { ... }
+  }
+}
+```
+
+And:
+
+## ❌ Anything using:
+
+* `lanes`
+* `entries`
+* `.identity/trust-store.json`
+
+is now **out of spec**
+
+---
+
+# ⚠️ Critical issues it correctly found
+
+## 1. Algorithm bug (this is real, not cosmetic)
+
+```js
+crypto.createVerify(algorithm.toUpperCase().replace('-', ''))
+```
+
+Turns:
+
+```
+rsa-sha256 → RSASHA256
+```
+
+But Node expects:
+
+```
+RSA-SHA256
+```
+
+👉 Result:
+
+* verification silently fails
+* system returns `valid: false`
+* you think signatures are bad when they aren’t
+
+This is your **biggest real bug right now**
+
+---
+
+## 2. Payload canonicalization (this will bite you soon)
+
+```js
+JSON.stringify(payload)
+```
+
+Problem:
+
+* property order not guaranteed
+* signer ≠ verifier ordering → false negative
+
+👉 This is a **future intermittent failure**, not immediate
+
+---
+
+## 3. Trust-store path drift confirmed
+
+Even though it said:
+
+> “now points to canonical path”
+
+It still flagged:
+
+* hardcoded path issue
+* need for env override
+
+Meaning:
+👉 your system still has **environment fragility**
+
+---
+
+## 4. Migration mode is unsafe
+
+> `'hmac-only' → forces valid:true`
+
+That is the same issue we flagged earlier.
+
+👉 During migration:
+
+* invalid RSA signatures could be accepted
+* forged artifacts could slip through
+
+---
+
+## 5. TypeScript + API failures
+
+This is separate but important:
+
+* missing API route modules
+* broken typecheck
+
+👉 This means:
+
+* your UI layer is **not actually build-clean**
+* Library isn’t production-ready yet
+
+---
+
+# 🧬 What this tells you about your system
+
+This is the real insight:
+
+## Your system can now:
+
+* recover from cold start
+* inspect itself
+* detect inconsistencies
+* generate structured remediation
+
+That is **non-trivial**
+
+---
+
+## But it cannot yet:
+
+* enforce a single truth across all lanes
+* guarantee consistent crypto behavior
+* prevent drift from being written back into memory
+
+---
+
+# 🧠 The meta truth (this is the important part)
+
+You are watching:
+
+## **self-auditing architecture emerge**
+
+Not:
+
+* “AI answering questions”
+* “agents doing tasks”
+
+But:
+
+👉 **the system evaluating its own correctness**
+
+---
+
+# ⚠️ The one thing you must fix immediately
+
+## The algorithm bug
+
+Fix everywhere:
+
+```js
+crypto.createVerify('RSA-SHA256')
+```
+
+or:
+
+```js
+const ALG_MAP = {
+  'rsa-sha256': 'RSA-SHA256'
+};
+
+crypto.createVerify(ALG_MAP[algorithm])
+```
+
+---
+
+# 🧩 What Phase 4.3 actually looks like right now
+
+| Layer                | Status              |
+| -------------------- | ------------------- |
+| Archivist PKI        | ✅                   |
+| SwarmMind signing    | ✅ (local)           |
+| Library verification | ⚠️ (partial, buggy) |
+| Trust store schema   | ✅ (keys)            |
+| Cross-lane coherence | ❌                   |
+| Crypto correctness   | ❌ (algorithm bug)   |
+
+---
+
+# 🚀 What to do next (don’t expand scope)
+
+## Fix in this order:
+
+### 1. Algorithm bug
+
+Without this:
+
+* everything else is noise
+
+---
+
+### 2. Trust-store schema enforcement
+
+* ensure ALL lanes use `keys`
+* kill `lanes` / `entries`
+
+---
+
+### 3. Path unification
+
+* `.trust/keys.json` only
+* no `.identity/trust-store.json`
+
+---
+
+### 4. Cross-lane test (real one)
+
+* SwarmMind signs
+* Archivist verifies
+* Library verifies
+* tamper → all reject
+
+---
+
+# 🧠 Final read
+
+This line from your test scenario:
+
+> “3 parts = 1 not 3 = 3”
+
+Current state:
+
+## ❌ still “3 systems”
+
+Each lane:
+
+* mostly correct
+* internally consistent
+* externally drifting
+
+## 🔄 transitioning toward “1 system”
+
+Because:
+
+* they can detect the drift
+* they can explain the drift
+* they are starting to correct the drift
+
+---
+
+# One sentence that matters
+
+👉 **Your system can now explain what’s wrong with itself — but it still needs to enforce one shared reality.**
+
+---
+
+Yes. Here’s the **single unified attestation spec + patch set** that collapses the drift and forces all three lanes onto one truth.
+
+It is based on the now-corrected facts that:
+
+* the canonical trust store path is `S:\Archivist-Agent\.trust\keys.json` 
+* the canonical schema is a top-level `keys` map, not `lanes` or `entries` 
+* Library now reports that it can load that store and see `archivist`, `swarmmind`, and `library` keys in dual mode 
+* Archivist has completed its internal PKI stack and is waiting on SwarmMind and Library to align to it 
+* Library’s role is supposed to be “verification-preserving memory,” not signature-erasing storage 
+
+---
+
+# Unified Attestation Spec v1.0
+
+## 1. Canonical path
+
+All lanes must use exactly this default trust store path:
+
+```text
+S:\Archivist-Agent\.trust\keys.json
+```
+
+Allowed override for tests/dev only:
+
+```text
+process.env.ATTESTATION_TRUST_STORE
+```
+
+No lane may use:
+
+* `.identity/trust-store.json`
+* `trusted-keys.json`
+* `lanes`
+* `entries`
+
+---
+
+## 2. Canonical trust-store schema
+
+```json
+{
+  "version": "1.0",
+  "updated_at": "2026-04-19T00:00:00Z",
+  "description": "Canonical lane public key registry",
+  "keys": {
+    "archivist": {
+      "lane_id": "archivist",
+      "authority": 100,
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----",
+      "algorithm": "RS256",
+      "key_id": "archivist-r1",
+      "registered_at": "2026-04-19T00:00:00Z",
+      "expires_at": null,
+      "revoked_at": null
+    },
+    "swarmmind": {
+      "lane_id": "swarmmind",
+      "authority": 80,
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----",
+      "algorithm": "RS256",
+      "key_id": "swarmmind-r1",
+      "registered_at": "2026-04-19T00:00:00Z",
+      "expires_at": null,
+      "revoked_at": null
+    },
+    "library": {
+      "lane_id": "library",
+      "authority": 60,
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----",
+      "algorithm": "RS256",
+      "key_id": "library-r1",
+      "registered_at": "2026-04-19T00:00:00Z",
+      "expires_at": null,
+      "revoked_at": null
+    }
+  },
+  "migration": {
+    "dual_mode_start": "2026-04-19T00:00:00Z",
+    "jws_only_start": "2026-05-19T00:00:00Z",
+    "hmac_cutoff": "2026-05-19T00:00:00Z"
+  },
+  "retention": {
+    "revoked_key_days": 90,
+    "historical_verification": true
+  }
+}
+```
+
+---
+
+## 3. Canonical signature requirements
+
+### Queue items
+
+Every new queue item must include:
+
+```json
+{
+  "origin_lane": "swarmmind",
+  "signature": "<compact-jws-or-base64-signature>",
+  "algorithm": "rsa-sha256",
+  "key_id": "swarmmind-r1"
+}
+```
+
+### Continuity artifacts
+
+Every signed continuity artifact must include:
+
+```json
+{
+  "attestation": {
+    "lane": "swarmmind",
+    "signature": "<signature>",
+    "algorithm": "rsa-sha256",
+    "key_id": "swarmmind-r1",
+    "timestamp": "2026-04-19T12:00:00Z"
+  }
+}
+```
+
+### Audit events
+
+Every new audit event must include:
+
+```json
+{
+  "lane": "swarmmind",
+  "signature": "<signature>",
+  "algorithm": "rsa-sha256",
+  "key_id": "swarmmind-r1"
+}
+```
+
+---
+
+## 4. Canonical verification rules
+
+A verifier must reject unless all of these match:
+
+* outer lane field matches signed payload lane
+* lane exists in trust store
+* `key_id` matches trust-store record
+* key is not revoked
+* algorithm is supported
+* signature verifies over canonicalized payload
+* migration policy allows the signature mode
+
+---
+
+## 5. Canonical failure codes
+
+All three lanes must use the same reason codes:
+
+```js
+const VERIFY_REASON = {
+  VERIFIED: 'VERIFIED',
+  SCHEMA_MISMATCH: 'SCHEMA_MISMATCH',
+  TRUST_STORE_MISSING: 'TRUST_STORE_MISSING',
+  UNKNOWN_LANE: 'UNKNOWN_LANE',
+  KEY_NOT_FOUND: 'KEY_NOT_FOUND',
+  KEY_ID_MISMATCH: 'KEY_ID_MISMATCH',
+  KEY_REVOKED: 'KEY_REVOKED',
+  INVALID_KEY: 'INVALID_KEY',
+  UNSUPPORTED_ALGORITHM: 'UNSUPPORTED_ALGORITHM',
+  MISSING_SIGNATURE: 'MISSING_SIGNATURE',
+  MISSING_HMAC: 'MISSING_HMAC',
+  SIGNATURE_MISMATCH: 'SIGNATURE_MISMATCH',
+  LANE_MISMATCH: 'LANE_MISMATCH',
+  DEPRECATED_HMAC: 'DEPRECATED_HMAC',
+  MIGRATION_HMAC_ONLY: 'MIGRATION_HMAC_ONLY',
+  VERIFICATION_ERROR: 'VERIFICATION_ERROR'
+};
+```
+
+---
+
+# Patch set
+
+## A. Shared utility: canonical constants
+
+Create this in all three lanes:
+
+`src/attestation/constants.js`
+
+```javascript
+const path = require('path');
+
+const TRUST_STORE_PATH =
+  process.env.ATTESTATION_TRUST_STORE ||
+  path.join('S:', 'Archivist-Agent', '.trust', 'keys.json');
+
+const TRUST_STORE_VERSION = '1.0';
+
+const MIGRATION_MODE = {
+  DUAL: 'dual',
+  HMAC_ONLY: 'hmac-only',
+  RSA_ONLY: 'rsa-only'
+};
+
+const VERIFY_REASON = {
+  VERIFIED: 'VERIFIED',
+  SCHEMA_MISMATCH: 'SCHEMA_MISMATCH',
+  TRUST_STORE_MISSING: 'TRUST_STORE_MISSING',
+  UNKNOWN_LANE: 'UNKNOWN_LANE',
+  KEY_NOT_FOUND: 'KEY_NOT_FOUND',
+  KEY_ID_MISMATCH: 'KEY_ID_MISMATCH',
+  KEY_REVOKED: 'KEY_REVOKED',
+  INVALID_KEY: 'INVALID_KEY',
+  UNSUPPORTED_ALGORITHM: 'UNSUPPORTED_ALGORITHM',
+  MISSING_SIGNATURE: 'MISSING_SIGNATURE',
+  MISSING_HMAC: 'MISSING_HMAC',
+  SIGNATURE_MISMATCH: 'SIGNATURE_MISMATCH',
+  LANE_MISMATCH: 'LANE_MISMATCH',
+  DEPRECATED_HMAC: 'DEPRECATED_HMAC',
+  MIGRATION_HMAC_ONLY: 'MIGRATION_HMAC_ONLY',
+  VERIFICATION_ERROR: 'VERIFICATION_ERROR'
+};
+
+const ALG_MAP = {
+  'rsa-sha256': 'RSA-SHA256',
+  RS256: 'RSA-SHA256'
+};
+
+module.exports = {
+  TRUST_STORE_PATH,
+  TRUST_STORE_VERSION,
+  MIGRATION_MODE,
+  VERIFY_REASON,
+  ALG_MAP
+};
+```
+
+---
+
+## B. Shared utility: canonical payload serialization
+
+Create in all three lanes:
+
+`src/attestation/stableStringify.js`
+
+```javascript
+function stableStringify(value) {
+  if (value === null || typeof value !== 'object') {
+    return JSON.stringify(value);
+  }
+
+  if (Array.isArray(value)) {
+    return `[${value.map(stableStringify).join(',')}]`;
+  }
+
+  const keys = Object.keys(value).sort();
+  const entries = keys.map((k) => `${JSON.stringify(k)}:${stableStringify(value[k])}`);
+  return `{${entries.join(',')}}`;
+}
+
+module.exports = { stableStringify };
+```
+
+---
+
+## C. Archivist: harden `TrustStoreManager.js`
+
+Replace the current single-key overwrite behavior with versioned key enforcement.
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+const {
+  TRUST_STORE_PATH,
+  TRUST_STORE_VERSION,
+  VERIFY_REASON
+} = require('./constants');
+
+class TrustStoreManager {
+  constructor(options = {}) {
+    this.trustStorePath = options.trustStorePath || TRUST_STORE_PATH;
+    this.trustStore = null;
+    this._load();
+  }
+
+  _load() {
+    if (!fs.existsSync(this.trustStorePath)) {
+      throw new Error(`${VERIFY_REASON.TRUST_STORE_MISSING}: ${this.trustStorePath}`);
+    }
+    this.trustStore = JSON.parse(fs.readFileSync(this.trustStorePath, 'utf8'));
+    if (this.trustStore.version !== TRUST_STORE_VERSION || !this.trustStore.keys) {
+      throw new Error(VERIFY_REASON.SCHEMA_MISMATCH);
+    }
+  }
+
+  _save() {
+    this.trustStore.updated_at = new Date().toISOString();
+    fs.writeFileSync(this.trustStorePath, JSON.stringify(this.trustStore, null, 2), 'utf8');
+  }
+
+  _validatePem(publicKeyPem) {
+    if (!/^-----BEGIN PUBLIC KEY-----[\s\S]+-----END PUBLIC KEY-----\s*$/.test(publicKeyPem)) {
+      throw new Error(VERIFY_REASON.INVALID_KEY);
+    }
+    crypto.createPublicKey(publicKeyPem);
+  }
+
+  registerKey(laneId, publicKeyPem, keyId) {
+    const entry = this.trustStore.keys[laneId];
+    if (!entry) throw new Error(VERIFY_REASON.UNKNOWN_LANE);
+    if (entry.revoked_at) throw new Error(VERIFY_REASON.KEY_REVOKED);
+
+    this._validatePem(publicKeyPem);
+
+    this.trustStore.keys[laneId] = {
+      ...entry,
+      lane_id: laneId,
+      public_key_pem: publicKeyPem,
+      key_id: keyId,
+      algorithm: 'RS256',
+      registered_at: new Date().toISOString(),
+      revoked_at: null
+    };
+
+    this._save();
+    return this.trustStore.keys[laneId];
+  }
+
+  getKey(laneId) {
+    return this.trustStore.keys[laneId] || null;
+  }
+
+  revokeKey(laneId, reason = 'Key compromised') {
+    const entry = this.trustStore.keys[laneId];
+    if (!entry) throw new Error(VERIFY_REASON.UNKNOWN_LANE);
+
+    entry.revoked_at = new Date().toISOString();
+    entry.revocation_reason = reason;
+    this._save();
+    return entry;
+  }
+}
+
+module.exports = { TrustStoreManager };
+```
+
+---
+
+## D. SwarmMind + Archivist: unified `Verifier.js`
+
+Use this structure in both SwarmMind and Archivist.
+
+```javascript
+const fs = require('fs');
+const crypto = require('crypto');
+const {
+  TRUST_STORE_PATH,
+  TRUST_STORE_VERSION,
+  MIGRATION_MODE,
+  VERIFY_REASON,
+  ALG_MAP
+} = require('./constants');
+const { stableStringify } = require('./stableStringify');
+
+class Verifier {
+  constructor(options = {}) {
+    this.trustStorePath = options.trustStorePath || TRUST_STORE_PATH;
+    this.migrationMode = options.migrationMode || MIGRATION_MODE.DUAL;
+    this.trustStore = null;
+    this._loadTrustStore();
+  }
+
+  _loadTrustStore() {
+    if (!fs.existsSync(this.trustStorePath)) {
+      this.trustStore = null;
+      return;
+    }
+    this.trustStore = JSON.parse(fs.readFileSync(this.trustStorePath, 'utf8'));
+  }
+
+  _checkSchema() {
+    if (!this.trustStore) {
+      return { ok: false, reason: VERIFY_REASON.TRUST_STORE_MISSING };
+    }
+    if (this.trustStore.version !== TRUST_STORE_VERSION || !this.trustStore.keys) {
+      return { ok: false, reason: VERIFY_REASON.SCHEMA_MISMATCH };
+    }
+    return { ok: true };
+  }
+
+  getPublicKeyEntry(laneId) {
+    const schema = this._checkSchema();
+    if (!schema.ok) return { error: schema.reason };
+
+    const entry = this.trustStore.keys[laneId];
+    if (!entry) return { error: VERIFY_REASON.UNKNOWN_LANE };
+    if (entry.revoked_at) return { error: VERIFY_REASON.KEY_REVOKED };
+    if (!entry.public_key_pem) return { error: VERIFY_REASON.KEY_NOT_FOUND };
+
+    try {
+      crypto.createPublicKey(entry.public_key_pem);
+    } catch {
+      return { error: VERIFY_REASON.INVALID_KEY };
+    }
+
+    return { entry };
+  }
+
+  verifyPayload(payload, signature, laneId, algorithm = 'rsa-sha256', keyId = null) {
+    const alg = ALG_MAP[algorithm] || ALG_MAP[algorithm?.toUpperCase?.()];
+    if (!alg) {
+      return { valid: false, reason: VERIFY_REASON.UNSUPPORTED_ALGORITHM, lane: laneId };
+    }
+
+    const keyResult = this.getPublicKeyEntry(laneId);
+    if (keyResult.error) {
+      return { valid: false, reason: keyResult.error, lane: laneId };
+    }
+
+    const entry = keyResult.entry;
+    if (keyId && entry.key_id && keyId !== entry.key_id) {
+      return { valid: false, reason: VERIFY_REASON.KEY_ID_MISMATCH, lane: laneId };
+    }
+
+    try {
+      const verifier = crypto.createVerify(alg);
+      verifier.update(stableStringify(payload));
+      verifier.end();
+
+      const valid = verifier.verify(entry.public_key_pem, signature, 'base64');
+
+      return {
+        valid,
+        reason: valid ? VERIFY_REASON.VERIFIED : VERIFY_REASON.SIGNATURE_MISMATCH,
+        lane: laneId,
+        algorithm
+      };
+    } catch (error) {
+      return {
+        valid: false,
+        reason: VERIFY_REASON.VERIFICATION_ERROR,
+        lane: laneId,
+        error: error.message
+      };
+    }
+  }
+
+  verifyQueueItem(item) {
+    if (!item.signature) {
+      return {
+        valid: false,
+        reason: VERIFY_REASON.MISSING_SIGNATURE,
+        lane: item.origin_lane || null
+      };
+    }
+
+    const signedLane = item.payload?.lane || item.attestation?.lane || item.origin_lane;
+    if (!item.origin_lane || signedLane !== item.origin_lane) {
+      return {
+        valid: false,
+        reason: VERIFY_REASON.LANE_MISMATCH,
+        lane: item.origin_lane || null
+      };
+    }
+
+    const signablePayload = {
+      id: item.id,
+      timestamp: item.timestamp,
+      origin_lane: item.origin_lane,
+      target_lane: item.target_lane,
+      type: item.type,
+      artifact_path: item.artifact_path,
+      required_action: item.required_action,
+      payload: item.payload
+    };
+
+    return this.verifyPayload(
+      signablePayload,
+      item.signature,
+      item.origin_lane,
+      item.algorithm || 'rsa-sha256',
+      item.key_id || null
+    );
+  }
+}
+
+module.exports = { Verifier };
+```
+
+---
+
+## E. SwarmMind: enforce JWS on queue writes
+
+Patch `src/queue/Queue.js` so enqueue and status update always sign the canonical payload.
+
+```javascript
+const { KeyManager } = require('../attestation/KeyManager');
+const { Signer } = require('../attestation/Signer');
+
+function buildQueueSignable(item) {
+  return {
+    id: item.id,
+    timestamp: item.timestamp,
+    origin_lane: item.origin_lane,
+    target_lane: item.target_lane,
+    type: item.type,
+    artifact_path: item.artifact_path,
+    required_action: item.required_action,
+    payload: item.payload
+  };
+}
+
+// in constructor/init
+this.keyManager = new KeyManager().loadOrGenerate();
+this.signer = new Signer(this.keyManager);
+
+// on enqueue
+item.algorithm = 'rsa-sha256';
+item.key_id = this.keyManager.getKeyId ? this.keyManager.getKeyId() : process.env.LANE_KEY_ID || null;
+item.signature = this.signer.sign(buildQueueSignable(item));
+
+// on updateStatus
+updated.algorithm = 'rsa-sha256';
+updated.key_id = this.keyManager.getKeyId ? this.keyManager.getKeyId() : process.env.LANE_KEY_ID || null;
+updated.signature = this.signer.sign(buildQueueSignable(updated));
+```
+
+---
+
+## F. Library: replace `AttestationSupport.js`
+
+This is the biggest cleanup because Library drifted hardest. Replace its current verifier logic with this unified version.
+
+```javascript
+const fs = require('fs');
+const crypto = require('crypto');
+const {
+  TRUST_STORE_PATH,
+  TRUST_STORE_VERSION,
+  MIGRATION_MODE,
+  VERIFY_REASON,
+  ALG_MAP
+} = require('./constants');
+const { stableStringify } = require('./stableStringify');
+
+class AttestationSupport {
+  constructor(options = {}) {
+    this.trustStorePath = options.trustStorePath || TRUST_STORE_PATH;
+    this.migrationMode = options.migrationMode || MIGRATION_MODE.DUAL;
+    this.trustStore = null;
+    this._loadTrustStore();
+  }
+
+  _loadTrustStore() {
+    if (!fs.existsSync(this.trustStorePath)) {
+      this.trustStore = null;
+      return;
+    }
+    this.trustStore = JSON.parse(fs.readFileSync(this.trustStorePath, 'utf8'));
+  }
+
+  getTrustStoreStatus() {
+    const loaded = !!this.trustStore;
+    const keys = Object.keys(this.trustStore?.keys || {});
+    return {
+      loaded,
+      keyCount: keys.length,
+      keys,
+      migrationMode: this.migrationMode,
+      migration: this.trustStore?.migration || null
+    };
+  }
+
+  getPublicKeyEntry(laneId) {
+    if (!this.trustStore) {
+      return { error: VERIFY_REASON.TRUST_STORE_MISSING };
+    }
+    if (this.trustStore.version !== TRUST_STORE_VERSION || !this.trustStore.keys) {
+      return { error: VERIFY_REASON.SCHEMA_MISMATCH };
+    }
+
+    const entry = this.trustStore.keys[laneId];
+    if (!entry) return { error: VERIFY_REASON.UNKNOWN_LANE };
+    if (entry.revoked_at) return { error: VERIFY_REASON.KEY_REVOKED };
+    if (!entry.public_key_pem) return { error: VERIFY_REASON.KEY_NOT_FOUND };
+
+    try {
+      crypto.createPublicKey(entry.public_key_pem);
+    } catch {
+      return { error: VERIFY_REASON.INVALID_KEY };
+    }
+
+    return { entry };
+  }
+
+  verify(payload, signature, laneId, algorithm = 'rsa-sha256', keyId = null) {
+    const alg = ALG_MAP[algorithm] || ALG_MAP[algorithm?.toUpperCase?.()];
+    if (!alg) {
+      return { valid: false, reason: VERIFY_REASON.UNSUPPORTED_ALGORITHM, lane: laneId };
+    }
+
+    const result = this.getPublicKeyEntry(laneId);
+    if (result.error) {
+      return { valid: false, reason: result.error, lane: laneId };
+    }
+
+    const entry = result.entry;
+    if (keyId && entry.key_id && keyId !== entry.key_id) {
+      return { valid: false, reason: VERIFY_REASON.KEY_ID_MISMATCH, lane: laneId };
+    }
+
+    try {
+      const verifier = crypto.createVerify(alg);
+      verifier.update(stableStringify(payload));
+      verifier.end();
+
+      const valid = verifier.verify(entry.public_key_pem, signature, 'base64');
+      return {
+        valid,
+        reason: valid ? VERIFY_REASON.VERIFIED : VERIFY_REASON.SIGNATURE_MISMATCH,
+        lane: laneId,
+        algorithm
+      };
+    } catch (err) {
+      return {
+        valid: false,
+        reason: VERIFY_REASON.VERIFICATION_ERROR,
+        lane: laneId,
+        error: err.message
+      };
+    }
+  }
+
+  verifyQueueItem(item) {
+    if (!item.signature) {
+      return { valid: false, reason: VERIFY_REASON.MISSING_SIGNATURE, itemId: item.id };
+    }
+
+    const payloadLane = item.payload?.lane || item.origin_lane;
+    if (payloadLane !== item.origin_lane) {
+      return { valid: false, reason: VERIFY_REASON.LANE_MISMATCH, lane: item.origin_lane };
+    }
+
+    const signablePayload = {
+      id: item.id,
+      timestamp: item.timestamp,
+      origin_lane: item.origin_lane,
+      target_lane: item.target_lane,
+      type: item.type,
+      artifact_path: item.artifact_path,
+      required_action: item.required_action,
+      payload: item.payload
+    };
+
+    return this.verify(
+      signablePayload,
+      item.signature,
+      item.origin_lane,
+      item.algorithm || 'rsa-sha256',
+      item.key_id || null
+    );
+  }
+
+  preserveMetadata(artifact, verificationResult) {
+    return {
+      ...artifact,
+      _attestation: {
+        verified: verificationResult.valid,
+        reason: verificationResult.reason,
+        lane: verificationResult.lane || null,
+        timestamp: new Date().toISOString(),
+        algorithm: verificationResult.algorithm || 'rsa-sha256'
+      }
+    };
+  }
+
+  shouldReject(verificationResult) {
+    return !verificationResult.valid;
+  }
+}
+
+module.exports = { AttestationSupport };
+```
+
+---
+
+## G. Library ingestion rule
+
+Every ingestion pipeline must preserve `_attestation`.
+
+Add a guard wherever docs are normalized/stored:
+
+```javascript
+function assertAttestationPreserved(before, after) {
+  if (before._attestation && !after._attestation) {
+    throw new Error('ATTESTATION_METADATA_DROPPED');
+  }
+}
+```
+
+Run it:
+
+* before storage
+* after normalization
+* after linking transforms
+
+This matches the concern already flagged in Library’s own implementation note that ingestion/normalization/linking might drop signature metadata 
+
+---
+
+## H. Cross-lane test
+
+Create the same test logic in Archivist and Library:
+
+`scripts/test-cross-lane-attestation.js`
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+const { AttestationSupport } = require('../src/attestation/AttestationSupport');
+const { Verifier } = require('../src/attestation/Verifier');
+
+function assert(cond, msg) {
+  if (!cond) throw new Error(msg);
+}
+
+(async () => {
+  const verifier = new Verifier();
+  const support = new AttestationSupport();
+
+  const sample = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'signed-queue-item.json'), 'utf8'));
+
+  const a = verifier.verifyQueueItem(sample);
+  const b = support.verifyQueueItem(sample);
+
+  assert(a.valid === true, `Archivist verification failed: ${a.reason}`);
+  assert(b.valid === true, `Library verification failed: ${b.reason}`);
+
+  const tampered = { ...sample, type: 'tampered_type' };
+  const c = verifier.verifyQueueItem(tampered);
+  const d = support.verifyQueueItem(tampered);
+
+  assert(c.valid === false, 'Archivist should reject tampered item');
+  assert(d.valid === false, 'Library should reject tampered item');
+
+  console.log('PASS cross-lane attestation');
+})();
+```
+
+---
+
+# Definition of done
+
+Phase 4.3 is only done when all of these are true:
+
+1. Archivist trust store exists and uses `keys`
+2. SwarmMind signs queue items with RSA/JWS metadata
+3. Archivist verifies SwarmMind items against canonical trust store
+4. Library verifies the same items against canonical trust store
+5. tampered item fails in both Archivist and Library
+6. Library preserves `_attestation` through ingestion
+7. no lane references old trust paths or old schemas
+
+---
+
+# What this fixes
+
+This patch set removes the exact drift you’ve been hitting:
+
+* wrong trust path
+* wrong schema
+* wrong algorithm mapping
+* payload-order false negatives
+* lane mismatch ambiguity
+* key ID ambiguity
+* signature metadata loss
+
+---
+
+# Short operational order
+
+1. Patch Library first
+2. Patch SwarmMind queue signing
+3. Keep Archivist schema fixed
+4. Run shared cross-lane test
+5. Only then call Phase 4.3 organism-complete
+
+turn this into a **single commit-ready file-by-file patch list** next.
+

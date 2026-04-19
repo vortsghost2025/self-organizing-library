@@ -27,11 +27,11 @@
     "combined_hash": "ab2ea965035cd987f4503bc21b9783f1f7486ca91b95c762fbab7e3bd80b4f1d"
   },
   "recovery_status": "verified",
-  "recovery_timestamp": "2026-04-19T02:17:47.886Z",
+  "recovery_timestamp": "2026-04-19T02:22:49.146Z",
   "verification_result": {
     "constitutional": "MATCH",
     "continuity": "MATCH",
-    "timestamp": "2026-04-19T02:17:47.886Z"
+    "timestamp": "2026-04-19T02:22:49.145Z"
   },
   "inputs": {
     "identity": ".identity/keys.json",

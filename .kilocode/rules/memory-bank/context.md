@@ -10,6 +10,8 @@ NexusGraph is a comprehensive knowledge management system designed for handling 
 
 - [x] NexusGraph application built from scratch
 - [x] SQLite database with Drizzle ORM (8 tables: documents, tags, links, sources, collections, documentTags, documentCollections, searchIndex)
+- [x] SwarmMind public key registered in trust store
+- [x] Library public key registered in trust store
 - [x] Dark theme UI with purple/cyan accent colors
 - [x] Sidebar navigation with document stats
 - [x] Library page with document grid and filtering
@@ -20,6 +22,7 @@ NexusGraph is a comprehensive knowledge management system designed for handling 
 - [x] Command palette search (⌘K) with real-time results
 - [x] API routes for search functionality
 - [x] Mock data fallbacks for demo mode
+- [x] Added external references (Twitter thread and Medium article) to library docs
 
 ## Current Structure
 
@@ -81,6 +84,27 @@ The app is complete and builds successfully. To extend:
 |------|---------|
 | Initial | Base Next.js template created |
 | Today | Built NexusGraph - full knowledge library app |
+| 2026-04-19 | Phase 4.3 Archivist attestation integration - AttestationSupport.js configured |
+
+## Attestation Integration (Phase 4.3)
+
+Library is configured as **verification-preserving memory layer** for Archivist-Agent.
+
+### Status
+- **AttestationSupport.js**: ✅ Corrected
+- **Trust Store Path**: `S:/Archivist-Agent/.trust/keys.json` (canonical)
+- **Schema**: `keys` (not `lanes`)
+- **Migration Mode**: Dual (accepts HMAC + RSA)
+
+### Pending
+- [ ] SwarmMind: Implement matching attestation stack
+- [x] QuarantineManager added for local tracking of failed artefacts
+- [x] SwarmMind orchestrator client implemented
+- [ ] Library: Copy KeyManager, Signer, Verifier, TrustStoreManager modules
+- [ ] Update `.trust/keys.json` with SwarmMind/Library public keys
+
+### Files
+- `src/attestation/AttestationSupport.js` - Signature verification for Library
 
 ## Tech Stack
 
