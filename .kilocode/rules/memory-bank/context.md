@@ -86,28 +86,53 @@ The app is complete and builds successfully. To extend:
 | Today | Built NexusGraph - full knowledge library app |
 | 2026-04-19 | Phase 4.3 Archivist attestation integration - AttestationSupport.js configured |
 | 2026-04-19 | IdentityStore lane parsing fix - `.session-mode` now parses `lane_identity.lane_id`; malformed persisted lane IDs auto-repair on bootstrap |
+| 2026-04-19 | Phase 4.4 - Ported deterministic verification infrastructure from SwarmMind |
 
-## Attestation Integration (Phase 4.3)
+## Attestation Integration (Phase 4.4)
 
-Library is configured as **verification-preserving memory layer** for Archivist-Agent.
+Library now has **full deterministic verification infrastructure** ported from SwarmMind.
 
-### Status
-- **AttestationSupport.js**: ✅ Corrected
-- **Trust Store Path**: `S:/Archivist-Agent/.trust/keys.json` (canonical)
-- **Schema**: `keys` (not `lanes`)
-- **Migration Mode**: Dual (accepts HMAC + RSA)
+### Phase 4.4 Status - COMPLETE
+- [x] Attestation infrastructure ported from SwarmMind (13 files, 2,694 lines)
+- [x] Queue.js routes through VerifierWrapper (deterministic lane-first verification)
+- [x] Constants updated - trust store path points to Archivist
+- [x] test-lane-consistency.js verifies all components
+
+### Key Files Added
+| Component | File | Purpose |
+|-----------|------|---------|
+| **Core Crypto** | `src/attestation/KeyManager.js` | RSA-2048 key generation/loading |
+| **Core Crypto** | `src/attestation/Signer.js` | JWS signature creation |
+| **Core Crypto** | `src/attestation/Verifier.js` | JWS signature verification |
+| **Core Crypto** | `src/attestation/VerifierWrapper.js` | Unified verification entry point (lane-first) |
+| **Trust** | `src/attestation/TrustStoreManager.js` | Public key trust store |
+| **Recovery** | `src/attestation/RecoveryClient.js` | Orchestrator communication |
+| **Recovery** | `src/attestation/AuthenticatedRecoveryClient.js` | Signed recovery requests |
+| **State** | `src/attestation/PhenotypeStore.js` | Lane state tracking |
+| **State** | `src/attestation/QuarantineManager.js` | Quarantine loop management |
+| **Queue** | `src/queue/Queue.js` | Signed queue items, VerifierWrapper integration |
+| **Resilience** | `src/resilience/ContinuityVerifier.js` | Fingerprint verification |
+| **Resilience** | `src/resilience/RecoveryClassifier.js` | Recovery state classification |
+
+### Deterministic Verification Contract
+```
+1. Extract outerLane from envelope (A)
+2. Parse JWS payload lane (B)
+3. Compare: A === B (before any crypto)
+4. Fetch public key for agreed lane (C)
+5. Verify signature (after identity settled)
+6. If fail → quarantine → orchestrator → retry
+```
+
+### Trust Store Path
+- **Location**: `S:/Archivist-Agent/.trust/keys.json`
+- **Lane Keys**: SwarmMind, Library, Archivist
+- **Constants**: `src/attestation/constants.js`
 
 ### Pending
-- [ ] SwarmMind: Implement matching attestation stack
-- [x] QuarantineManager added for local tracking of failed artefacts
-- [x] RecoveryClassifier syntax issue resolved; legacy `verifyJWS` fallback removed from continuity/recovery paths
-- [x] RecoveryClassifier syntax issue resolved; legacy  fallback removed from continuity/recovery paths
-- [x] SwarmMind orchestrator client implemented
-- [ ] Library: Copy KeyManager, Signer, Verifier, TrustStoreManager modules
-- [ ] Update `.trust/keys.json` with SwarmMind/Library public keys
-
-### Files
-- `src/attestation/AttestationSupport.js` - Signature verification for Library
+- [ ] Generate Library RSA key pair on first startup
+- [ ] Register Library public key in Archivist trust store
+- [ ] Create governed-start.js for production entrypoint
 
 ## Tech Stack
 
