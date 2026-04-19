@@ -218,13 +218,7 @@ return { valid: false, error: VERIFY_REASON.MISSING_LANE };
 return this.verifyAgainstTrustStore(event.signature, laneId);
 }
 
-isHMACAccepted() {
-if (this._explicitLegacyMode !== undefined) {
-return this._explicitLegacyMode;
-}
-const cutoff = new Date(this.trustStore.migration?.jws_only_start || this.hmacCutoffDate);
-return new Date() < cutoff;
-}
+// isHMACAccepted() removed - HMAC fallback fully deprecated
 
 getMigrationStatus() {
 // HMAC fallback removed - JWS-only enforcement active
@@ -255,40 +249,7 @@ pending_lanes: pending
 };
 }
 
-/**
-* Verify legacy HMAC signature (if allowed)
-* @param {object} item — Item with 'hmac' field (hex)
-* @returns {object} { valid, error }
-*/
-verifyHMAC(item) {
-if (!this.isHMACAccepted()) {
-return { valid: false, error: 'HMAC signatures not allowed (migration window closed)' };
-}
-if (!this.hmacSecret) {
-return { valid: false, error: 'No HMAC secret configured' };
-}
-if (!item.hmac) {
-return { valid: false, error: VERIFY_REASON.MISSING_HMAC };
-}
-
-// Normalize lane field for legacy items
-try {
-item = this._normalizeLaneField(item);
-} catch (e) {
-return { valid: false, error: VERIFY_REASON.LANE_MISMATCH, note: e.message };
-}
-
-// Compute HMAC using stable stringify
-const { hmac, ...rest } = item;
-const canonical = stableStringify(rest);
-const expected = crypto.createHmac('sha256', this.hmacSecret).update(canonical).digest('hex');
-
-if (hmac === expected) {
-return { valid: true, error: null };
-} else {
-return { valid: false, error: VERIFY_REASON.SIGNATURE_MISMATCH };
-}
-}
+// verifyHMAC() removed - HMAC fallback fully deprecated
 
 /**
 * Add a trusted key at runtime (for dynamic trust updates, e.g., self-verification)
