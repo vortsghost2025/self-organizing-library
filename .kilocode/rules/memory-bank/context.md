@@ -85,6 +85,7 @@ The app is complete and builds successfully. To extend:
 | Initial | Base Next.js template created |
 | Today | Built NexusGraph - full knowledge library app |
 | 2026-04-19 | Phase 4.3 Archivist attestation integration - AttestationSupport.js configured |
+| 2026-04-19 | IdentityStore lane parsing fix - `.session-mode` now parses `lane_identity.lane_id`; malformed persisted lane IDs auto-repair on bootstrap |
 
 ## Attestation Integration (Phase 4.3)
 
