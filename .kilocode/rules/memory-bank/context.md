@@ -130,9 +130,9 @@ Library now has **full deterministic verification infrastructure** ported from S
 - **Constants**: `src/attestation/constants.js`
 
 ### Pending
-- [ ] Generate Library RSA key pair on first startup
-- [ ] Register Library public key in Archivist trust store
-- [ ] Create governed-start.js for production entrypoint
+- [x] Generate Library RSA key pair on first startup
+- [x] Register Library public key in Archivist trust store
+- [x] Create governed-start.js for production entrypoint
 
 ## Tech Stack
 

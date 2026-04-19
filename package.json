@@ -10,6 +10,9 @@
     "typecheck": "tsc --noEmit",
     "identity:export": "node scripts/export-identity.js",
     "identity:import": "node scripts/import-identity.js",
+    "governed-start": "node scripts/governed-start.js",
+    "generate-keys": "node scripts/generate-library-keys.js",
+    "test-lane-consistency": "node scripts/test-lane-consistency.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun run src/db/migrate.ts"
   },
