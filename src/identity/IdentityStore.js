@@ -16,11 +16,11 @@
  *   }
  *
  * The store also provides a very small attestation mechanism so that an
- * exported bundle can be trusted by another model instance.  The attestation is
+ * exported bundle can be trusted by another model instance. The attestation is
  * a signed payload containing an `identityHash` and an `issuedAt` timestamp.
  * For simplicity we use a deterministic HMAC‑SHA256 with a secret key taken
- * from the environment (`IDENTITY_SIGNING_KEY`).  In a production setting the
- * lane's private key from the trust store would be used instead.
+ * from the environment (`IDENTITY_SIGNING_KEY`). In production the lane's private
+ * key from the trust store would replace this.
  */
 
 const fs = require('fs');
@@ -29,11 +29,15 @@ const crypto = require('crypto');
 
 class IdentityStore {
   /**
-   * @param {Object} opts
-   * @param {string} opts.repoRoot – absolute path to the repository root
+   * Create an IdentityStore.
+   * The constructor is backward‑compatible – callers may instantiate the class
+   * with no arguments (as `load-context.js` does) or provide an explicit
+   * `repoRoot`.
+   * @param {Object} [opts]
    */
-  constructor({ repoRoot }) {
-    this.repoRoot = repoRoot;
+  constructor(opts = {}) {
+    const defaultRoot = path.resolve(__dirname, '../../');
+    this.repoRoot = opts.repoRoot || defaultRoot;
     this.baseDir = path.join(this.repoRoot, '.identity');
     this.currentPath = path.join(this.baseDir, 'current.json');
   }
@@ -63,7 +67,7 @@ class IdentityStore {
   /** Create a brand‑new identity record */
   initialize() {
     const sessionId = `sess-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
-    const laneId = process.env.LANE_ID || 'library';
+    const laneId = this._detectLaneId();
     const identity = {
       sessionId,
       laneId,
@@ -71,6 +75,23 @@ class IdentityStore {
       events: []
     };
     return this.save(identity);
+  }
+
+  /** Detect the lane identifier using the environment or a session‑mode file */
+  _detectLaneId() {
+    if (process.env.LANE_ID) {
+      return process.env.LANE_ID;
+    }
+    const modePath = path.join(this.repoRoot, '.session-mode');
+    if (fs.existsSync(modePath)) {
+      try {
+        const raw = fs.readFileSync(modePath, 'utf8').trim();
+        if (raw) return raw;
+      } catch (_) {}
+    }
+    // Fallback default – keep deterministic but warn in logs
+    console.warn('[IdentityStore] Lane ID not found, defaulting to "library"');
+    return 'library';
   }
 
   /** Compute a stable SHA‑256 hash of any JSON‑serialisable object */
@@ -85,7 +106,10 @@ class IdentityStore {
    * @returns {{purpose:string, payload:Object, signature:string, issuedAt:string}}
    */
   sign(purpose, payload) {
-    const secret = process.env.IDENTITY_SIGNING_KEY || 'default‑insecure‑key';
+    const secret = process.env.IDENTITY_SIGNING_KEY;
+    if (!secret) {
+      throw new Error('IDENTITY_SIGNING_KEY environment variable is required for signing');
+    }
     const issuedAt = new Date().toISOString();
     const data = JSON.stringify({ purpose, payload, issuedAt });
     const hmac = crypto.createHmac('sha256', secret).update(data).digest('hex');
@@ -104,13 +128,34 @@ class IdentityStore {
     if (!purpose || !payload || !signature || !issuedAt) {
       return { valid: false, reason: 'missing-fields' };
     }
-    const secret = process.env.IDENTITY_SIGNING_KEY || 'default‑insecure‑key';
+    const secret = process.env.IDENTITY_SIGNING_KEY;
+    if (!secret) {
+      return { valid: false, reason: 'signing-key-missing' };
+    }
     const data = JSON.stringify({ purpose, payload, issuedAt });
     const expected = crypto.createHmac('sha256', secret).update(data).digest('hex');
     if (expected !== signature) {
       return { valid: false, reason: 'signature-mismatch' };
     }
     return { valid: true };
+  }
+
+  /** Bootstrap helper used by load-context.js
+   * Options:
+   *   readOnlyIfMissing (bool) – when true, do not create a new identity if the
+   *   file is absent; instead return { loaded:false, reason, identityPath }.
+   */
+  bootstrap({ readOnlyIfMissing = false } = {}) {
+    this._ensureDir();
+    if (fs.existsSync(this.currentPath)) {
+      const identity = this.load();
+      return { loaded: true, identity, identityPath: this.currentPath };
+    }
+    if (readOnlyIfMissing) {
+      return { loaded: false, reason: 'identity file missing', identityPath: this.currentPath };
+    }
+    const identity = this.initialize();
+    return { loaded: true, identity, identityPath: this.currentPath };
   }
 }
 
