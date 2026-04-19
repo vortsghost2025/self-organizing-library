@@ -1,0 +1,20 @@
+{
+  "identity": {
+    "lane_id": "self-organizing-library",
+    "role": "memory-layer",
+    "position": 3,
+    "created": "2026-04-19T00:59:17.066Z",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEABmW8Ocwh9yYdGWZodnrQaAuznm6QE4qLOuU0GQ4ISio=\n-----END PUBLIC KEY-----\n",
+    "key_fingerprint": "7b62d74bb9a1202c243ab125f9fe0e1eb0d0f1d43d73059429d2ba4a190c587b",
+    "purpose": "Identity anchor for continuity proof boundary",
+    "usage": {
+      "signing": "Session attestations, handoff documents, verification gates",
+      "verification": "Cross-lane attestation validation"
+    },
+    "constraints": {
+      "never_export_private_key": true,
+      "rotate_on_compromise_only": true
+    }
+  },
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIDwTc/IVGrIUhnRqt9iZgJKEJ/QjBgGextnK0uL5hAGE\n-----END PRIVATE KEY-----\n"
+}
