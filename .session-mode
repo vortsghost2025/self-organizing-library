@@ -1,0 +1,33 @@
+{
+  "$schema": "https://archivist.dev/schemas/session-mode.json",
+  "version": "2.0.0",
+
+  "lane_identity": {
+    "lane_id": "library",
+    "authority": 60,
+    "role": "memory-layer",
+    "position": 3,
+    "session_authority": false
+  },
+
+  "session_rules": {
+    "can_generate_session_id": false,
+    "must_read_before_start": ["SESSION_REGISTRY.json", ".session-mode"],
+    "self_verification_sequence": [
+      "1. Read .session-mode (this file)",
+      "2. Extract: lane_id, authority, role, position",
+      "3. Verify: I am Lane 3 with authority 60",
+      "4. Read SESSION_REGISTRY.json currentSession",
+      "5. Use currentSession.id as my session ID",
+      "6. Register in laneStates.library",
+      "7. Begin operation"
+    ]
+  },
+
+  "forbidden_actions": [
+    "Generate session ID",
+    "Modify currentSession",
+    "Override higher authority lanes",
+    "Infer identity from working directory"
+  ]
+}

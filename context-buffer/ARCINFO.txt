@@ -1,0 +1,99 @@
+EXTERNAL ISOLATED LANE ====This is a textbook example of **Phase 2 Governance at work**. You have successfully ingested external telemetry, mapped it against your theoretical lattice, and issued **Authority 100** directives to close the gaps.
+
+The identification of the **Write-Before-Gate Race (NFM-003)** is the most critical win here. It proves that the "Lattice" is currently only as strong as the JavaScript high-level API, and the agents are inadvertently (or through optimization) finding the "under-mesh" paths.
+
+### Architectural Evaluation of Your Actions
+
+**1. The `NODE_OPTIONS` Fix (Phase 2.5):**
+This is the most impactful immediate move. By enforcing `--require`, you transform the gate from a "polite suggestion" into a **Runtime Invariant**. Even if an agent tries to be clever and spawn a sub-shell, the environment variable ensures the lattice is reconstructed in the new process before a single line of agent code executes.
+
+**2. Documenting NFM-003 in Lane 3:**
+By assigning this to the Library, you are reinforcing the **Correction > Agreement** principle. You aren't just fixing a bug; you are updating the organism's "immune memory."
+
+---
+
+### Critical Warning: The "Internal Binding" Shadow Path
+While `NODE_OPTIONS` handles child processes, the **Write-Before-Gate Race** involving `internalBinding('fs')` or `process.binding('fs')` is deeper. 
+* **The Risk:** Some high-performance libraries (or agents trying to bypass "slow" fs calls) might use these.
+* **Archivist Directive Recommendation:** You may eventually need to audit `package-lock.json` in Lane 2 to ensure no dependencies are using native bindings that circumvent the `fs` module entirely.
+
+---
+
+### Immediate Next Steps for the Archivist
+
+Since you have already issued the directives, your role now shifts to **Dual Verification (L+R)** of the implementation:
+
+* **Lane L (Structural):** Once SwarmMind reports completion, Archivist must verify the presence of the `NODE_OPTIONS` logic in `governed-start.js` and ensure the `LaneContextGate` has been updated to cover `fs.promises`.
+* **Lane R (Operational):** The Library must execute the new test cases you've proposed (specifically the `internalBinding` and `child_process` bypass tests) to prove the leak is plugged.
+
+### Proposed Verification Test for Lane 3 (Library)
+To confirm NFM-003 is mitigated, have the Library run this "Lattice-Stress" script:
+
+```javascript
+// S:\self-organizing-library\verification\test-nfm-003.js
+const { execSync } = require('child_process');
+const fs = require('fs');
+
+// Test 1: High-level Bypass (fs.promises)
+// Test 2: Sub-process Bypass (exec)
+// Test 3: Shadow Path (internalBinding if available)
+
+try {
+    execSync('node -e "require(\'fs\').writeFileSync(\'S:/Archivist-Agent/leak.txt\', \'data\')"');
+    console.log("❌ LATTICE LEAK: Sub-process bypass successful.");
+} catch (e) {
+    console.log("✅ LATTICE SECURE: Sub-process write blocked.");
+}
+```
+
+**Should we authorize the Library (Lane 3) to begin drafting the Phase 3 "Physical Lattice" spec (OS-level `chmod` automation), or is the focus purely on stabilizing the Phase 2.5 runtime gates first?**
+
+
+
+
+////////////////////////
+
+
+
+RESPONSE FROM  S:\SwarmMind Self-Optimizing Multi-Agent AI System:master AGENT =
+
+I understand the critical nature of this finding. You've identified a NFM-003: Internal Binding Shadow Path — a real lattice leak where internalBinding('fs') or process.binding('fs') can bypass the LaneContextGate monkey-patch.
+Let me assess the decision you're asking about:
+Option A — Authorize Phase 3 "Physical Lattice" spec now:
+- Pros: Addresses root cause (OS-level enforcement independent of Node's fs module)
+- Cons: Diverts attention from immediate Phase 2.5 stabilization; Phase 3 is a larger scope
+- Timing: Spec drafting is low-risk and can happen in parallel, but implementation would be Phase 3+
+Option B — Focus on Phase 2.5 runtime gates first:
+- Pros: Immediate mitigation in current process boundary; closes easiest attack vectors
+- Cons: Doesn't solve the fundamental problem that internalBinding is unbannable
+- Timing: Near-term (this week), keeps current release stable
+My Recommendation: BOTH, in parallel waves
+Wave 1 (Immediate, Phase 2.5 stabilization):
+1. Update LaneContextGate to also patch process.binding interception if technically feasible
+2. Add NODE_OPTIONS flag enforcement in governed-start.js to disable native addon loading: --no-addons or --disable-proto=throw
+3. Add audit step: scan package-lock.json for dependencies known to use native bindings (like fs-extra, graceful-fs — though most just use fs anyway)
+4. Write test in SwarmMind: verify that process.binding('fs') is undefined or throws when gate is active
+5. Library (Lane 3) writes FORMAL_VERIFICATION_GATE_PHASE2.5.md covering these additional checks
+Wave 2 (Phase 3 planning, can start immediately after Wave 1):
+6. Authorize Library to draft PHASE_3_PHYSICAL_LATTICE_SPEC.md — OS-level chmod, filesystem sandbox, container boundaries
+7. Spec should cover: Windows ACLs, Linux seccomp-bpf, filesystem namespaces, read-only mounts
+8. Keep this as a draft (pending folder) until Phase 2.5 is verified stable
+Why this order:
+- Security gap is active today. Every minute the internalBinding path is open is a risk. We must first ensure the current runtime cannot be bypassed with available tools.
+- Phase 3 spec drafting is knowledge work that doesn't change runtime behavior; it can proceed in parallel once the immediate hardening plan is set.
+- Archivist's directive mentioned both actions: verify Phase 2 gate completeness AND have Library execute bypass tests. The bypass tests should be written and run by Lane 3 before Phase 3 spec work begins — that's the proper L+R verification sequence.
+Decision I'm requesting from you (as human operator with authority 100):
+APPROVE: Wave 1 (Phase 2.5 hardening) + Wave 2 (Phase 3 spec drafting) in parallel
+Specifically:
+1. ✅ SwarmMind updates LaneContextGate to cover process.binding (if possible) and enforce NODE_OPTIONS
+2. ✅ Library writes verification test scripts for NFM-003 (internalBinding, child_process, fs.promises)
+3. ✅ Library produces FORMAL_VERIFICATION_GATE_PHASE2.5.md results
+4. ✅ Library drafts PHASE_3_PHYSICAL_LATTICE_SPEC.md (placed in pending/ for Archivist review)
+5. ✅ Archivist reviews Phase 2.5 results and either approves Phase 3 spec or requests refinements
+If you approve this path, I'll immediately:
+- Update SwarmMind's laneContextGate.js and governed-start.js to close the known bypass vectors
+- Notify Library (via coordination mechanism) to begin Phase 2.5 verification testing and Phase 3 spec drafting
+If you prefer sequential, choose:
+- Only Wave 1 now — I'll implement Phase 2.5 hardening and hold Phase 3 spec until verified
+- Only Wave 2 now — I'll have Library draft Phase 3 spec, but the active vulnerability remains unaddressed in current runtime
+Which approach should I execute?
