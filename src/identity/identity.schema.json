@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://archivist.dev/schemas/identity-store.schema.json",
+  "title": "Identity Store",
+  "type": "object",
+  "required": [
+    "version",
+    "sessionId",
+    "laneId",
+    "createdAt",
+    "updatedAt",
+    "lastKnownContext",
+    "events"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version for identity.json"
+    },
+    "sessionId": {
+      "type": "string",
+      "description": "Stable logical session identifier across model swaps"
+    },
+    "laneId": {
+      "type": "string",
+      "description": "Lane identity for this store"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "trustStateHash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "sha256 hash of the active trust store file"
+    },
+    "identityKeyFingerprint": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "sha256 fingerprint of public key used to attest identity"
+    },
+    "lastKnownContext": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "timestamp",
+          "type",
+          "details"
+        ],
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
