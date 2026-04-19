@@ -187,11 +187,8 @@ return { valid: false, error: VERIFY_REASON.LANE_MISMATCH, note: e.message };
 }
 
 if (!item.signature) {
-const cutoff = new Date(this.trustStore.migration?.jws_only_start || this.hmacCutoffDate);
-if (new Date() < cutoff) {
-return { valid: true, mode: 'HMAC_ACCEPTED_DUAL_MODE', warning: 'Signature missing but dual-mode active' };
-}
-return { valid: false, error: VERIFY_REASON.MISSING_SIGNATURE };
+// HMAC fallback removed - enforce JWS-only
+return { valid: false, error: VERIFY_REASON.MISSING_SIGNATURE, note: 'HMAC fallback removed - SIGNATURE_REQUIRED' };
 }
 
 const laneId = item.lane || item.origin_lane;
@@ -230,16 +227,15 @@ return new Date() < cutoff;
 }
 
 getMigrationStatus() {
+// HMAC fallback removed - JWS-only enforcement active
 const now = new Date();
-const cutoff = new Date(this.trustStore.migration?.jws_only_start || this.hmacCutoffDate);
-const dualModeStart = new Date(this.trustStore.migration?.dual_mode_start || now);
-
 return {
-dual_mode_active: now < cutoff,
-hmac_accepted: now < cutoff,
-jws_required: now >= cutoff,
-cutoff_date: cutoff.toISOString(),
-days_remaining: Math.max(0, Math.ceil((cutoff - now) / 86400000))
+dual_mode_active: false,
+hmac_accepted: false,
+jws_required: true,
+migration_status: 'JWS_ONLY_ENFORCED',
+cutoff_date: '2026-04-01T00:00:00Z',
+days_remaining: 0
 };
 }
 
