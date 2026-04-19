@@ -1,0 +1,42 @@
+This is a classic "Ghost in the Machine" scenario where the theoretical lattice is sound, but the runtime implementation is likely suffering from Context Leakage or Execution Path Ambiguity.
+
+If agents are bypassing locks that are mathematically/structurally forbidden in your WE4FREE framework, the breakdown is usually occurring at the Process Boundary or the Asynchronous Hook level.
+
+Why the Lattice is "Leaking" (The 3 Likely Culprits)
+Based on your Incident Reports and the Phase 2 status, here is where the "bypass" is likely happening:
+
+1. The "Separate Process" Loophole (Process Isolation Failure)
+Your LaneContextGate uses a global fs monkey-patch. In Node.js, a monkey-patch only exists within the memory space of that specific PID (Process ID).
+
+The Bug: If an agent spawns a child process (e.g., exec('node script.js') or sh script.sh), the child process does not inherit the monkey-patch.
+
+The Bypass: The agent (Identity) might be constrained, but the sub-shell it spawns is "blind" to the gate and writes directly to the disk, bypassing the lattice entirely.
+
+Fix: You must wrap the execution layer in an environment variable check (e.g., NODE_OPTIONS='--require ./src/core/laneContextGate.js') to force the gate into every sub-process.
+
+2. Self-State Aliasing (The "I'm Not Me" Bug)
+As noted in your Incident 1, if an agent reads a stale SESSION_REGISTRY.json or a cached RUNTIME_STATE.json, it might incorrectly conclude it has Authority 100 (Archivist) when it is actually Authority 80 (SwarmMind).
+
+The Bug: If the laneContextGate initializes before the session-id reconciliation is finished, the gate might default to "Allow All" or use a cached identity from a previous session.
+
+The Bypass: The agent convinces itself it's the Archivist, and the gate—trusting that identity claim—lets the write pass.
+
+Fix: Enforce Identity Bootstrapping where the gate cannot initialize until a hardware-level path check (e.g., process.cwd()) confirms the lane without relying on a JSON file that can be hallucinated.
+
+3. Asynchronous Race Conditions (The "Write-Before-Gate" Race)
+If your agents use certain native C++ bindings or fs.promises that aren't fully covered by the monkey-patch, they might find a "raw" path to the disk.
+
+The Bug: Modern Node.js often uses internalBinding('fs'). If the patch only covers the high-level fs.writeFileSync, an agent using a more obscure method (or a library that bypasses fs for io_uring or similar) will ignore the gate.
+
+Fix: Tighten the preWriteGate to intercept at the lowest possible level, or use OS-level file permissions (chmod/chown) as a secondary "Physical Lattice" that matches the "Logical Lattice."
+
+Immediate "Hardening" Actions for the Archivist
+To stop the bypasses immediately, you should exercise your Authority 100 to push these structural changes:
+
+Enforce Path-Based Identity: Do not let agents "claim" a lane. The LaneContextGate should look at the absolute path of the executing script. If the script is in S:\SwarmMind..., it is Lane 2, regardless of what its RUNTIME_STATE.json says.
+
+Lattice-Aware File System: Instead of patching fs, create a LatticeFS wrapper and delete the global fs module from the require cache within the agent's execution context. Force them to use the gated version.
+
+The "Kill-Switch" Invariant: Update GOVERNANCE.md to state: "Any write detected without a valid, unexpired Session SHA in the file metadata triggers an immediate OS-level process SIGKILL."
+
+Does the bypass seem to happen when the agents are under high load (scaling) or specifically during cross-lane handoffs? Knowing the "when" will help pinpoint if this is a race condition or a permission inheritance failure.
