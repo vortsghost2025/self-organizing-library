@@ -87,6 +87,62 @@ The app is complete and builds successfully. To extend:
 | 2026-04-19 | Phase 4.3 Archivist attestation integration - AttestationSupport.js configured |
 | 2026-04-19 | IdentityStore lane parsing fix - `.session-mode` now parses `lane_identity.lane_id`; malformed persisted lane IDs auto-repair on bootstrap |
 | 2026-04-19 | Phase 4.4 - Ported deterministic verification infrastructure from SwarmMind |
+| 2026-04-19 | Executed FREEAGENT_PRODUCTION_PHENOTYPE_ROADMAP - All 5 phases complete |
+
+## FreeAgent Production Phenotype (2026-04-19)
+
+Executed full roadmap for deterministic verification production phenotype:
+
+### Phase 0: Scope Lock
+- [x] FREEAGENT_SCOPE_LOCK.md - Defined included/excluded surfaces
+- [x] FREEAGENT_EXCLUDED_SURFACES.md - Documented deferred tracks
+
+### Phase 1: Topology and Contract Map
+- [x] FREEAGENT_COMPONENT_MAP.md - Full component topology (13 files, ~2,694 lines)
+- [x] FREEAGENT_RUNTIME_CONTRACTS.md - JWS, recovery, trust store contracts
+- [x] FREEAGENT_PORT_BINDINGS.md - Planned ports (3847, 54121-54123)
+- [x] FREEAGENT_ENV_MATRIX.md - Environment variables and defaults
+
+### Phase 2: Boot Path Unification
+- [x] scripts/start-core.ps1 - Canonical startup script
+- [x] scripts/health-core.ps1 - Health check script
+- [x] scripts/smoke-core.ps1 - Smoke test script
+- [x] FREEAGENT_BOOT_SEQUENCE.md - Boot order documentation
+
+### Phase 3: Hardening
+- [x] scripts/test-hardening-drill.js - Automated hardening verification
+- [x] FREEAGENT_HARDENING_EVIDENCE.md - 8 scenarios verified
+- [x] FREEAGENT_BYPASS_REGISTER.md - All bypass paths documented
+
+### Phase 4: Recovery Discipline
+- [x] FREEAGENT_RECOVERY_POLICY.md - Retry boundaries, escalation
+- [x] FREEAGENT_OPERATOR_HANDOFF_RUNBOOK.md - Operator procedures
+
+### Phase 5: Documentation Lock
+- [x] FREEAGENT_PRODUCTION_INDEX.md - Final production index
+- [x] FREEAGENT_CHANGELOG_PRODUCTION_WAVE.md - Full changelog
+
+### Key Findings
+- Library lane provides VERIFICATION infrastructure, not execution runtime
+- orchestrator + agent1/2/3 are NOT in this repository (run in SwarmMind lane)
+- HMAC fallback removed, JWS-only mode enforced
+- Recovery engine cannot override local deterministic rejection
+
+### Phase 4A/4B Additions (2026-04-20)
+
+**Phase 4A: Recovery Discipline**
+- [x] FREEAGENT_RECOVERY_STATE_MACHINE.md - 9 states, transitions, audit trail
+- [x] scripts/test-recovery-discipline.js - 7 test scenarios
+- [x] State machine: NEW → VERIFYING → ACCEPTED|QUARANTINED → ESCALATED|DEFERRED|HANDOFF
+
+**Phase 4B: Outcome Protocol**
+- [x] src/attestation/OutcomeProtocol.js - Status enum, confidence calculator
+- [x] src/attestation/OutcomeRouter.js - Route decider, consensus checker
+- [x] FREEAGENT_OUTCOME_PROTOCOL_DESIGN.md - Full protocol design
+- [x] scripts/test-outcome-protocol.js - 12 test scenarios
+- [x] Confidence scoring: signature(0.4) + lane(0.3) + trust(0.2) + recovery(0.1)
+- [x] "4 minds > 1": Low confidence escalates to higher authority lanes
+- [x] ESCALATE/DEFER status for routing parked artifacts
 
 ## Attestation Integration (Phase 4.4)
 
