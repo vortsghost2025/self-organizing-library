@@ -241,11 +241,11 @@ class ProbeInstaller {
             console.log('[RuntimeProbe] Could not instrument QuarantineManager:', e.message);
         }
         
-        // Try to instrument Queue
-        try {
-            const Queue = require('../queue/Queue').Queue;
-            
-            const originalEnqueue = Queue.prototype._enqueue;
+// Try to instrument Queue
+try {
+const Queue = require('../queue/Queue');  // Direct export, not .Queue
+
+const originalEnqueue = Queue.prototype._enqueue;
             ProbeRegistry.register('Queue._enqueue', {
                 artifact: 'src/queue/Queue.js',
                 method: '_enqueue',

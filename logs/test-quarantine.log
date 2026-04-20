@@ -1,0 +1,12 @@
+{"timestamp":"2026-04-20T16:08:02.827Z","event":"QUARANTINE","item_id":"test-unsigned-001","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:08:02.828Z","event":"QUARANTINE","item_id":"test-malformed-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:08:02.828Z","event":"QUARANTINE","item_id":"test-quarantine-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:49:04.367Z","event":"QUARANTINE","item_id":"test-unsigned-001","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:49:04.368Z","event":"QUARANTINE","item_id":"test-malformed-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:49:04.368Z","event":"QUARANTINE","item_id":"test-quarantine-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:57:14.045Z","event":"QUARANTINE","item_id":"test-unsigned-001","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:57:14.046Z","event":"QUARANTINE","item_id":"test-malformed-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T16:57:14.047Z","event":"QUARANTINE","item_id":"test-quarantine-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:03:17.369Z","event":"QUARANTINE","item_id":"test-unsigned-001","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:03:17.370Z","event":"QUARANTINE","item_id":"test-malformed-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:03:17.371Z","event":"QUARANTINE","item_id":"test-quarantine-001","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}

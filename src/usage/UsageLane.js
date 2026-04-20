@@ -35,21 +35,57 @@ class UsageReport {
     constructor(options = {}) {
         this.artifactId = options.artifactId || null;
         this.artifactType = options.artifactType || 'unknown';
+        
+        // Phase 1: Static analysis
         this.isUsed = options.isUsed ?? false;
         this.isReachable = options.isReachable ?? false;
+        
+        // Phase 2: Runtime proof (CRITICAL)
+        this.isExecuted = options.isExecuted ?? false;       // Proven at runtime?
+        this.executionCount = options.executionCount || 0;   // How many times?
+        this.lastExecuted = options.lastExecuted || null;    // When?
+        
+        // Phase 2: Bypass detection (CRITICAL)
         this.isBypassable = options.isBypassable ?? false;
-        this.callers = options.callers || [];
         this.bypassPaths = options.bypassPaths || [];
+        
+        // Callers (from static analysis)
+        this.callers = options.callers || [];
+        
+        // Runtime evidence
         this.runtimeEvidence = options.runtimeEvidence || {
             lastCalled: null,
             callCount: 0,
             errorCount: 0,
             avgExecutionTime: 0
         };
+        
         this.status = options.status || UsageStatus.DEAD;
         this.confidence = options.confidence ?? 0;
         this.recommendation = options.recommendation || 'INVESTIGATE';
         this.timestamp = options.timestamp || new Date().toISOString();
+    }
+
+    /**
+     * Five-point verification standard
+     * All five must be true for "ACTIVE" status
+     */
+    getVerificationStandard() {
+        return {
+            exists: this.artifactId !== null,
+            referenced: this.isUsed,
+            executed: this.isExecuted,
+            notBypassed: !this.isBypassable,
+            enforced: this.callers.length > 0 && this.isExecuted
+        };
+    }
+
+    /**
+     * Check if artifact meets all five standards
+     */
+    meetsAllStandards() {
+        const standard = this.getVerificationStandard();
+        return Object.values(standard).every(v => v === true);
     }
 
     toJSON() {
@@ -58,10 +94,14 @@ class UsageReport {
             artifactType: this.artifactType,
             isUsed: this.isUsed,
             isReachable: this.isReachable,
+            isExecuted: this.isExecuted,
+            executionCount: this.executionCount,
+            lastExecuted: this.lastExecuted,
             isBypassable: this.isBypassable,
-            callers: this.callers,
             bypassPaths: this.bypassPaths,
+            callers: this.callers,
             runtimeEvidence: this.runtimeEvidence,
+            verificationStandard: this.getVerificationStandard(),
             status: this.status,
             confidence: this.confidence,
             recommendation: this.recommendation,

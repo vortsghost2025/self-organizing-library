@@ -1,0 +1,738 @@
+TITLE: Autogenesis ↔ Lattice Alignment + Next 5 Steps
+PURPOSE: Preserve alignment between protocol-based self-evolution (Autogenesis) and enforcement-first lattice architecture
+
+---
+
+## PART 1 — COMPONENT MAPPING
+
+Autogenesis (AGP/AGS) → Lattice Equivalent
+
+1. RSPL (Resource Substrate Protocol Layer)
+   → Lattice: Artifact Layer
+   - Files, agents, prompts, memory, tools
+   - Must be versioned AND enforced in runtime to exist
+
+2. SEPL (Self-Evolution Protocol Layer)
+   → Lattice: Outcome Protocol + Recovery + Governance
+   - SUCCESS / FAILURE / ESCALATE / DEFER / QUARANTINE
+   - Closed-loop correction, not just improvement
+
+3. Resource Versioning
+   → Lattice: Evidence Index + Anchor + Git
+   - Version alone is insufficient without execution proof
+
+4. Proposal / Assessment / Commit Loop
+   → Lattice: Multi-lane system
+   - Archivist (build)
+   - Library (structure/map)
+   - Codex (adversarial verification)
+   - Operator (resolve contradictions)
+
+5. Rollback + Lineage
+   → Lattice: Recovery Policy + Quarantine + Retry Boundaries
+   - Cannot override deterministic rejection
+
+---
+
+## PART 2 — CRITICAL DIFFERENCE
+
+Autogenesis:
+- Assumes correctness via structured evolution
+
+Lattice:
+- Requires proof via runtime enforcement
+
+Core invariant:
+"If it is not in the execution path, it does not exist"
+
+---
+
+## PART 3 — USAGE LANE ROLE
+
+Missing in Autogenesis:
+- Explicit “is this actually used?” layer
+
+Lattice addition:
+Usage Lane = runtime truth validator
+
+Detects:
+- DEAD (never called)
+- DORMANT (not in execution path)
+- BYPASSED (exists but avoidable)
+- SHADOW (runtime ≠ documentation)
+
+---
+
+## PART 4 — CURRENT STATE
+
+- Outcome Protocol integrated (partially real)
+- Enforcement improved (not fully behavioral yet)
+- Usage Lane implemented (static only)
+
+Gap:
+Static truth ≠ Runtime truth
+
+---
+
+## PART 5 — NEXT 5 STEPS (MANDATORY ORDER)
+
+STEP 1 — Runtime Probe Injection
+Add minimal instrumentation to critical paths:
+- VerifierWrapper.verifyQueueItem
+- Queue processing
+Goal: prove actual execution
+
+---
+
+STEP 2 — Behavioral Enforcement Test
+Create real test:
+- unsigned input → must be rejected
+- executed through full runtime path
+
+If not triggered → BYPASSED
+
+---
+
+STEP 3 — Upgrade Usage Lane
+Combine:
+- static analysis (existing)
+- runtime evidence (probe data)
+
+Status must be based on BOTH
+
+---
+
+STEP 4 — Enforcement Integration
+Rule:
+IF verification artifacts are DORMANT or BYPASSED
+→ FAIL gate
+
+Usage becomes authoritative, not advisory
+
+---
+
+STEP 5 — Re-run Full Audit
+- Archivist rebuild
+- Library re-map
+- Codex adversarial pass
+
+Only then consider Phase 5
+
+---
+
+## FINAL GOAL
+
+Move system from:
+"structured and consistent"
+
+To:
+"enforced, non-bypassable, and self-correcting under real runtime conditions"////////////////////
+
+
+**Status:** VALIDATED — This is a necessary architectural correction to close the *verification gap* between declared structure and actual runtime behavior.
+
+---
+
+## EXECUTIVE ASSESSMENT
+
+You have identified the **Shadow Code vulnerability** endemic to self-evolving systems: components that exist in repository, pass static analysis, and appear in documentation, but are **bypassed by runtime execution paths** due to conditional logic, missing integrations, or configuration drift.
+
+The invariant *"If it is not in the execution path, it does not exist"* is the correct posture for high-assurance autogenesis. The 5-step sequence is architecturally sound: **instrument → prove → reconcile → enforce → validate**.
+
+---
+
+## CRITICAL NUANCE: THE BYPASS SPECTRUM
+
+Your Usage Lane categories require precise detection mechanisms:
+
+| State | Detection Signature | Risk Level |
+|-------|-------------------|------------|
+| **DEAD** | Symbol present, zero references in call graph | Low (dead code elimination) |
+| **DORMANT** | Referenced but guarded by always-false predicate | **Critical** (appears live, never executes) |
+| **BYPASSED** | Active in code, but runtime config routes around it | **Critical** (main execution path ignores it) |
+| **SHADOW** | Runtime execution differs from documented logic | **Severe** (documentation lies) |
+
+**Priority:** Focus Step 1 instrumentation on detecting **DORMANT** and **BYPASSED** verification logic, as these provide false assurance of security controls.
+
+---
+
+## STEP-BY-STEP EXECUTION NOTES
+
+### STEP 1: Runtime Probe Injection
+**Implementation:**
+- Inject **trace spans** at `VerifierWrapper.verifyQueueItem` entry/exit
+- Add **coverage counters** (lightweight atomic increments) to SEPL decision branches
+- Capture **hash of active configuration** at verification time (detects config drift)
+
+**Risk Mitigation:**
+- Use **sampling** (1% of traffic) to avoid latency impact in hot paths
+- Store probe data in **append-only Evidence Index** (Lattice equivalent to AGP versioning)
+
+**Completion Criteria:**
+- Can query: "How many times was `verifyQueueItem` called in last 24h?"
+- Can prove: "Was the SEPL outcome protocol invoked for this artifact?"
+
+---
+
+### STEP 2: Behavioral Enforcement Test
+**Design Pattern:** *Fault Injection + Negative Testing*
+
+**Test Specification:**
+```
+INPUT:  Unsigned/malformed payload
+EXPECT: REJECTED via VerifierWrapper → Outcome Protocol logs FAILURE
+VERIFY: Probe from Step 1 confirms execution through verification logic
+FAIL IF: 
+  - Acceptance (security bypass)
+  - OR Rejection without probe trigger (shadow rejection—fake failure)
+  - OR Bypass to alternate code path (dormant verification)
+```
+
+**Critical:** This must run against **production runtime** (or high-fidelity staging with production configuration), not unit tests. Unit tests exercise code; this test exercises *the execution path*.
+
+---
+
+### STEP 3: Upgrade Usage Lane
+**Algorithm:**
+```
+Usage_Status = f(Static_Analysis, Runtime_Evidence)
+WHERE:
+  Static = Code presence + Dependency graph
+  Runtime = Probe hits + Execution frequency + Config active state
+
+RANKING:
+  LIVE:      Runtime > 0 hits + Static present
+  DORMANT:   Static present + Runtime = 0 + Config references
+  BYPASSED:  Static present + Runtime = 0 + Alternative path detected
+  DEAD:      Static present + Zero references + Zero runtime
+  SHADOW:    Static present + Runtime hits BUT execution flow ≠ documented
+```
+
+**Integration Point:** Codex (adversarial verification) must challenge Usage Lane classifications. If Codex finds a code path that Usage Lane marks as DORMANT, this is a **Shadow** detection event.
+
+---
+
+### STEP 4: Enforcement Integration
+**The Kill Switch Implementation:**
+
+```python
+# Conceptual enforcement gate
+def execution_gate(artifact):
+    usage_status = UsageLane.check(artifact.verification_module)
+    
+    if usage_status in [DORMANT, BYPASSED, SHADOW]:
+        # FAIL GATE: Verification exists but is not trusted in runtime
+        return OutcomeProtocol.QUARANTINE(
+            reason="Verification integrity failure: static presence ≠ runtime truth",
+            evidence=usage_status.proof
+        )
+    
+    if usage_status == DEAD:
+        # Removal candidate, but not a runtime threat (yet)
+        Archivist.flag_for_removal(artifact)
+    
+    return OutcomeProtocol.PROCEED
+```
+
+**Operational Warning:** 
+- Deploy with **monitor-only mode** (log but don't block) for 1 production cycle
+- Watch for **false positives**: legitimate cold-paths (disaster recovery, rare edge cases) may appear DORMANT
+- Require **manual exemption** with expiration dates for rare-path verification modules
+
+---
+
+### STEP 5: Re-run Full Audit
+**Audit Protocol:**
+
+1. **Archivist Rebuild:** Regenerate artifact manifest including **runtime provenance** (not just git history)
+2. **Library Re-map:** Update dependency graph with **execution-weighted edges** (thickness = call frequency)
+3. **Codex Adversarial Pass:** 
+   - Attempt to craft inputs that bypass verification despite appearing compliant
+   - Verify that Step 4 enforcement gates trigger correctly
+   - Challenge the "Recovery Policy" — can an attacker force a rollback to an unverified state?
+
+**Success Definition:**
+- Zero **DORMANT** verification artifacts in critical paths
+- All **Outcome Protocol** states reachable in test
+- **Lattice alignment** proven: RSPL ↔ Artifact Layer, SEPL ↔ Outcome Protocol mappings verified via runtime traces
+
+---
+
+## ADDITIONAL RECOMMENDATIONS
+
+### A. The "Canary" Contract
+Before Step 4 goes fully authoritative, implement a **Canary Artifact**:
+- A deliberately DORMANT verification module (in test environment only)
+- Step 4 enforcement must detect and quarantine it
+- If it slips through, the enforcement integration is incomplete
+
+### B. Recovery Policy Tension
+Your document mentions "Rollback + Lineage" ↔ "Recovery Policy + Quarantine". Ensure that **rollback does not bypass Step 4 enforcement**. A common failure mode:
+1. System rolls back to "known good" state (Git revert)
+2. That state has DORMANT verification (it was broken then too)
+3. Enforcement was weaker in that version
+4. Rollback creates a **bypass window**
+
+**Fix:** Recovery Policy must re-run Step 4 validation on rolled-back artifacts before re-introduction to execution path.
+
+### C. Operator Lane Authority
+When Usage Lane detects SHADOW (runtime ≠ documentation), the **Operator lane** (human or AI resolver) must have authority to:
+1. **Emergency halt** (if security-critical)
+2. **Force reconciliation** (update documentation OR update code)
+3. **Escalate to SEPL** (self-evolution request to close the gap)
+
+---
+
+## FINAL VALIDATION CHECKPOINT
+
+You will know the system has achieved the **Final Goal** when you can demonstrate:
+
+> **"In the last 30 days, 100% of verification outcomes were produced by code paths that were (a) present in static analysis, (b) executed at runtime, and (c) non-bypassable via configuration or conditional logic."**
+
+Any deviation detected by Usage Lane → immediate Outcome Protocol.QUARANTINE.
+
+This closes the **autogenesis integrity loop**: not only does the system evolve, but it **proves it is evolving correctly under real conditions**.
+
+Proceed with Step 1. The sequencing is non-negotiable./////////////////
+
+This is **not too big** — this is exactly the level where things become *real*.
+
+And more importantly:
+
+## 🔥 This is the first time your system is describing **how it proves itself in reality**, not just structure
+
+From what you dropped :
+
+---
+
+# 🧠 What just happened (this is important)
+
+This is no longer:
+
+* documentation
+* architecture
+* planning
+
+This is now:
+
+```text
+execution doctrine
+```
+
+---
+
+# ✅ What is actually strong (no fluff)
+
+## 1. You nailed the real failure class
+
+```text
+Shadow Code vulnerability
+```
+
+This is exactly what broke Phase 4 earlier:
+
+* code exists
+* tests pass
+* system thinks it’s safe
+* runtime bypasses it
+
+That definition is **dead-on accurate**
+
+---
+
+## 2. The sequencing is correct
+
+```text
+instrument → prove → reconcile → enforce → validate
+```
+
+That’s not arbitrary — that’s **causal order**.
+
+If you skip:
+
+* instrument → you can’t prove
+* prove → enforcement becomes guesswork
+* enforce → system still lies
+* validate → drift returns
+
+---
+
+## 3. The “BYPASS SPECTRUM” is one of your strongest constructs
+
+This table:
+
+```text
+DEAD / DORMANT / BYPASSED / SHADOW
+```
+
+is 🔥
+
+Because it captures:
+
+* structural absence (DEAD)
+* execution absence (DORMANT)
+* path avoidance (BYPASSED)
+* truth mismatch (SHADOW)
+
+That’s not just classification — that’s **attack surface modeling**
+
+---
+
+# ⚠️ Now where I push you (important)
+
+## You are now crossing a line
+
+This is the point where systems usually:
+
+```text
+look complete → but aren’t hardened yet
+```
+
+---
+
+## 🔴 Risk 1 — Instrumentation must not be fake
+
+If your probes are:
+
+```js
+console.log("verify called")
+```
+
+but:
+
+* placed in wrong location
+* skipped by alternate path
+
+Then:
+
+```text
+false confidence returns immediately
+```
+
+---
+
+## 🔴 Risk 2 — “monitor mode” can lie to you
+
+This part:
+
+> deploy monitor-only first
+
+is correct…
+
+BUT:
+
+If you don’t explicitly check:
+
+```text
+expected executions vs actual executions
+```
+
+You will think:
+
+```text
+“no alerts = safe”
+```
+
+When reality is:
+
+```text
+“nothing is being checked”
+```
+
+---
+
+## 🔴 Risk 3 — Usage Lane authority is still fragile
+
+Right now:
+
+```text
+Usage Lane → reports truth
+```
+
+But unless Step 4 is enforced:
+
+```text
+system can ignore truth
+```
+
+That’s the last failure mode.
+
+---
+
+# 🧠 The biggest insight in this whole doc
+
+This line:
+
+> **"Rejection without probe trigger = shadow rejection"**
+
+That is next-level.
+
+That means:
+
+```text
+even correct outcomes can be fake
+```
+
+Because:
+
+* result looks right
+* but system didn’t go through correct path
+
+That is **exactly** how systems lie while appearing correct.
+
+---
+
+# 🎯 My real verdict
+
+## This is:
+
+```text
+architecturally correct
+execution-ready
+not yet hardened
+```
+
+---
+
+# 🧭 What I would do next (tight, no drift)
+
+## DO NOT expand
+
+No new features
+No new docs
+No new layers
+
+---
+
+## DO THIS ONLY
+
+### 1. Implement ONE probe
+
+At:
+
+```text
+VerifierWrapper.verifyQueueItem
+```
+
+---
+
+### 2. Run ONE real flow
+
+* upload document
+* track probe hits
+
+---
+
+### 3. Answer ONE question
+
+```text
+Did verification actually execute?
+```
+
+---
+
+### 4. If answer is unclear
+
+System is not ready.
+
+---
+
+# 🧠 Final grounding
+
+You’ve moved from:
+
+```text
+building a system
+```
+
+to:
+
+```text
+proving a system cannot lie
+```
+
+That’s a different game.
+
+---
+
+# 🔥 Final answer to your question
+
+## ❌ Not too big
+
+## ✅ Actually the right size for this stage
+
+But:
+
+```text
+this is only real if Step 1 actually happens in code
+```
+
+---
+
+If you want next, I’ll give you:
+
+## 🔧 exact code snippet for probe + how to validate it in under 2 minutes
+
+That’s the moment this stops being theory.////////////////////
+
+
+**Status:** ACKNOWLEDGED — Execution doctrine engaged. No expansion. Single probe. Provable path.
+
+---
+
+## 🎯 RISK LOCK-DOWN (Your 3 Points)
+
+### 1. Instrumentation Fake → Mitigation: **Filesystem Side-Effect**
+Memory flags can be optimized away. Logs can be filtered.  
+**Use:** `fs.appendFileSync` to a path outside the runtime temp directory.  
+**Proof:** If the file doesn't exist or timestamp < transaction time → **BYPASSED**.
+
+### 2. Monitor Mode Lie → Mitigation: **Cardinality Check**
+Do not check "was there an error?"  
+**Check:** `probe_hits == expected_transactions`  
+If 5 items processed but probe shows 3 hits → 2 items took **shadow paths**.
+
+### 3. Usage Lane Fragility → Mitigation: **Kill Switch Wiring**
+Before Step 4 is live, add this temporary gate:
+```javascript
+if (usageStatus === 'DORMANT' || usageStatus === 'BYPASSED') {
+  console.error('FATAL: Verification bypass detected. Halting.');
+  process.exit(1); // Hard stop until Step 4 formal enforcement
+}
+```
+**This ensures Step 4 behavior is simulated during testing.**
+
+---
+
+## 🔧 EXACT PROBE CODE (Copy-Paste Ready)
+
+**Target:** `src/queue/VerifierWrapper.js` (or wherever `verifyQueueItem` lives)
+
+**Insert at top of function body:**
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+
+// PROBE: Runtime Truth Validator
+const probeLog = path.join(process.cwd(), 'audit', 'verify-probe.logl');
+const probeEntry = {
+  ts: Date.now(),
+  pid: process.pid,
+  itemId: queueItem?.id || 'unknown',
+  lane: process.env.LANE_NAME || 'unidentified',
+  stage: 'entry', // 'entry' | 'exit-success' | 'exit-failure' | 'shadow-reject'
+  checksum: null // populate if you have item hash
+};
+
+// Ensure dir exists (creates audit trail even if dir missing)
+fs.mkdirSync(path.dirname(probeLog), { recursive: true });
+
+// ENTRY PROBE: Function was actually entered
+fs.appendFileSync(probeLog, JSON.stringify({...probeEntry, stage: 'entry'}) + '\n');
+
+// ... [EXISTING VERIFICATION LOGIC HERE] ...
+
+// EXIT PROBE: Distinguish verified-rejection from shadow-rejection
+if (result === 'REJECTED' || result === false) {
+  fs.appendFileSync(probeLog, JSON.stringify({
+    ...probeEntry, 
+    stage: 'exit-failure',
+    evidence: 'verified' // If this line fires, verification actually ran
+  }) + '\n');
+} else if (result === 'ACCEPTED' || result === true) {
+  fs.appendFileSync(probeLog, JSON.stringify({...probeEntry, stage: 'exit-success'}) + '\n');
+}
+
+// SHADOW DETECTION: If we reach end without logging exit, something is wrong
+// (Add this block at the very end of the function before return)
+process.nextTick(() => {
+  // Check if exit was logged by reading last line (inefficient but provable)
+  const lines = fs.readFileSync(probeLog, 'utf8').trim().split('\n');
+  const lastLine = JSON.parse(lines[lines.length - 1]);
+  if (lastLine.itemId === probeEntry.itemId && lastLine.stage === 'entry') {
+    // Entry logged but no exit logged → Shadow path taken inside function
+    fs.appendFileSync(probeLog, JSON.stringify({
+      ...probeEntry,
+      stage: 'shadow-reject',
+      warning: 'Function entered but exited without logging - bypass detected'
+    }) + '\n');
+  }
+});
+```
+
+**Key Shadow-Rejection Detection:**  
+If `entry` appears without matching `exit-*` on same `itemId` → **SHADOW** state confirmed.
+
+---
+
+## ⏱️ 2-MINUTE VALIDATION PROTOCOL
+
+**Prerequisites:** Node.js environment, SwarmMind running (or test harness)
+
+### Minute 0: Inject
+1. Open `src/queue/VerifierWrapper.js` (or your verification entry point)
+2. Paste probe code above at function entry
+3. Save
+
+### Minute 1: Execute
+Run **ONE** transaction through the full path:
+```bash
+# Option A: If you have a test script
+node scripts/test-one-item.js --item-id="PROBE-TEST-001"
+
+# Option B: Manual via API (if SwarmMind is running)
+curl -X POST http://localhost:3000/queue/enqueue \
+  -H "Content-Type: application/json" \
+  -d '{"id":"PROBE-TEST-001","payload":"test","requiresVerification":true}'
+```
+
+### Minute 2: Verify
+Check the probe log:
+```bash
+cat audit/verify-probe.logl | grep "PROBE-TEST-001"
+```
+
+**Expected (Valid):**
+```
+{"ts":123456,"itemId":"PROBE-TEST-001","stage":"entry"}
+{"ts":123457,"itemId":"PROBE-TEST-001","stage":"exit-failure"} // or exit-success
+```
+
+**Detected (Shadow/Bypassed):**
+```
+{"ts":123456,"itemId":"PROBE-TEST-001","stage":"entry"}
+{"ts":123459,"itemId":"PROBE-TEST-001","stage":"shadow-reject"}
+```
+→ **SHADOW** detected (entered function but exited through uninstrumented path)
+
+**Detected (DORMANT):**
+```
+[No output]
+```
+→ **DORMANT** confirmed (function never called despite item processing)
+
+---
+
+## 🧪 SHADOW REJECTION TEST (Critical)
+
+To verify your system isn't faking rejections:
+
+1. Submit **unsigned** item (should be rejected)
+2. Check probe log:
+   - If `exit-failure` appears → **Real** (verification ran, correctly rejected)
+   - If `shadow-reject` appears → **CRITICAL** (bypass path rejected it)
+   - If no entry → **BYPASSED** (verification logic skipped entirely)
+
+**Only `exit-failure` is acceptable.** All others indicate the lattice is compromised.
+
+---
+
+## NEXT ACTION (No other moves)
+
+Do not proceed to Step 2 (Behavioral Enforcement Test) until this probe shows **entry + exit-failure** for a rejected item.
+
+If the probe shows **shadow-reject** or **no entry**, you have found a **live bypass**. Fix the path before continuing.
+
+**This is the moment of proof.** Run it now.
+
