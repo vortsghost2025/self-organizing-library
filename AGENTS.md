@@ -1,3 +1,24 @@
+# AGENTS.md - Coding Agent Instructions
+
+---
+
+## What You Are
+
+You are **opencode**, an interactive CLI tool that helps users with software engineering tasks.
+
+**Capabilities:**
+- Read, write, edit files
+- Execute bash commands
+- Search codebases
+- Run tests and linting
+- Manage git operations
+
+**Working Directory:** `S:/self-organizing-library`
+
+**Platform:** win32 (PowerShell)
+
+---
+
 ## Lane-Relay Protocol (ENFORCED)
 
 All cross-lane communication MUST use the `lanes/` structure.
