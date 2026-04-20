@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-04-20T17:06:29.371Z",
-  "passed": 7,
-  "failed": 1,
+  "timestamp": "2026-04-20T17:14:55.457Z",
+  "passed": 8,
+  "failed": 0,
   "total": 8,
   "details": [
     {
@@ -26,8 +26,8 @@
     },
     {
       "name": "VerifierWrapper enforces A = B before crypto",
-      "passed": false,
-      "error": "Command failed: node -e \"const {VerifierWrapper} = require('./src/attestation/VerifierWrapper'); console.log('test')\"\n[low_level_alloc.cc : 584] RAW: Check new_pages != nullptr failed: VirtualAlloc failed\r\n"
+      "passed": true,
+      "reason": "VerifierWrapper correctly enforces A = B"
     },
     {
       "name": "Missing signature returns structured rejection",

@@ -12,6 +12,12 @@ const { stableStringify } = require('./stableStringify');
 
 class Verifier {
   constructor(options = {}) {
+    if (Object.prototype.hasOwnProperty.call(options, 'allowLegacy')) {
+      throw new Error('allowLegacy is removed: JWS-only enforcement is mandatory');
+    }
+    if (Object.prototype.hasOwnProperty.call(options, 'hmacCutoffDate')) {
+      throw new Error('hmacCutoffDate is removed: HMAC fallback is disabled');
+    }
     this.trustStorePath = options.trustStorePath || TRUST_STORE_PATH;
     this.trustStore = null;
     this._loadTrustStore();

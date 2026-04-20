@@ -26,9 +26,9 @@ this.quarantineManager = options.quarantineManager || new QuarantineManager(opti
 this.phenotypeStore = options.phenotypeStore || new PhenotypeStore(options);
 this.onQuarantineRetry = options.onQuarantineRetry || null;
 
-// RecoveryEngine integration (optional)
+// RecoveryEngine integration (optional), but never policy-toggleable.
+// If a client is provided, submission is always attempted.
 this.recoveryClient = options.recoveryClient || null;
-this.submitToRecovery = options.submitToRecovery !== false; // Default true if client provided
 }
 
 async verify(item) {
@@ -94,7 +94,12 @@ key_id: result.header?.kid || 'unknown'
 });
 
 const quarantinedId = item.id || item.signature?.slice(0, 16);
-if (quarantinedId && this.quarantineManager.isQuarantined(quarantinedId)) {
+if (
+  quarantinedId &&
+  typeof this.quarantineManager.isQuarantined === 'function' &&
+  this.quarantineManager.isQuarantined(quarantinedId) &&
+  typeof this.quarantineManager.release === 'function'
+) {
 this.quarantineManager.release(quarantinedId);
 }
 
@@ -108,7 +113,7 @@ const lane = outerLane || item.origin_lane || item.lane || 'unknown';
 const quarantineResult = this.quarantineManager.quarantine(item, reason);
 
 // Submit to RecoveryEngine if client configured
-if (this.recoveryClient && this.submitToRecovery) {
+if (this.recoveryClient) {
 try {
 const recoveryResult = await submitToRecoveryEngine(
 this,
