@@ -190,6 +190,79 @@ Library now has **full deterministic verification infrastructure** ported from S
 - [x] Register Library public key in Archivist trust store
 - [x] Create governed-start.js for production entrypoint
 
+## Usage Lane (Phase 2 - 2026-04-20)
+
+**Status**: ✅ GATE PASSED
+
+### Usage Lane Phase 2: "Cannot-Lie" Standard
+
+Implemented five-point verification standard:
+1. Exists - file/function present
+2. Referenced - static import/call
+3. Executed - runtime evidence (proven)
+4. Not Bypassed - no HIGH risk paths
+5. Enforced - connected to outcomes
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `src/usage/UsageLane.js` | Static usage tracer |
+| `src/usage/RuntimeProbe.js` | Runtime execution proof |
+| `src/usage/BypassDetector.js` | Bypass path detection |
+| `src/usage/UsageGateEnforcer.js` | Gate blocking if DORMANT |
+| `scripts/analyze-usage-complete.js` | Full analysis runner |
+| `scripts/behavioral-test.js` | Behavioral test suite |
+| `context-buffer/USAGE_LANE_DESIGN_2026-04-20.md` | Design document |
+
+### Gate Result
+
+- VerifierWrapper: ✅ EXECUTED at runtime
+- QuarantineManager: ✅ EXECUTED at runtime
+- Bypass Detection: ✅ NO HIGH RISK (2 low-risk config options)
+- Behavioral Tests: ✅ PASSED
+- Gate Status: ✅ PASS
+
+### Key Insight
+
+The Usage Lane asks the question verification lanes don't:
+**"Where is this actually used?"**
+
+This prevents building things that exist, pass tests, but never run.
+
+## Lane-Relay Protocol (2026-04-20)
+
+**Status**: ✅ ENACTED
+
+Enforced coordination surface for cross-lane communication.
+
+### Structure
+
+```
+.lane-relay/
+├── inbox.md          ← Messages TO this lane
+├── outbox.md         ← Messages FROM this lane
+├── urgent.md         ← P0/Critical only
+├── session-handoff.md ← Context preservation
+└── README.md         ← Protocol documentation
+```
+
+### Session Start Protocol
+
+Before any other work:
+1. Read `.lane-relay/inbox.md`
+2. Check `.lane-relay/urgent.md`
+3. Process by priority
+4. Write responses to target inbox AND own outbox
+
+### No Guessing
+
+Paths are deterministic: `{LANE_ROOT}/.lane-relay/inbox.md`
+
+---
+- [x] Register Library public key in Archivist trust store
+- [x] Create governed-start.js for production entrypoint
+
 ## Tech Stack
 
 - Next.js 16 with App Router

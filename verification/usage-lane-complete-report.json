@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-04-20T16:43:53.567Z",
-  "gateStatus": "FAIL",
+  "timestamp": "2026-04-20T17:41:50.408Z",
+  "gateStatus": "PASS",
   "behavioral": {
     "passed": 3,
     "failed": 0,
@@ -66,28 +66,14 @@
     ]
   },
   "bypass": {
-    "timestamp": "2026-04-20T16:43:53.567Z",
+    "timestamp": "2026-04-20T17:41:50.408Z",
     "bypasses": [
       {
         "type": "CONFIG_FLAG",
-        "artifact": "src/attestation/VerifierWrapper.js",
-        "bypass": "submitToRecovery = options.submitToRecovery !== false",
-        "risk": "HIGH",
-        "description": "Config option that could bypass verification: submitToRecovery = options.submitToRecovery !== false"
-      },
-      {
-        "type": "CONFIG_FLAG",
-        "artifact": "src/attestation/VerifierWrapper.js",
-        "bypass": "submitToRecovery: false",
-        "risk": "MEDIUM",
-        "description": "Recovery engine can be disabled via constructor option"
-      },
-      {
-        "type": "FALLBACK",
         "artifact": "src/attestation/Verifier.js",
-        "bypass": "HMAC fallback",
-        "risk": "HIGH",
-        "description": "HMAC fallback mode present - could bypass JWS verification"
+        "bypass": "allowLegacy, allowLegacy",
+        "risk": "LOW",
+        "description": "Config option that could bypass verification: allowLegacy, allowLegacy"
       },
       {
         "type": "FALLBACK",
@@ -98,30 +84,30 @@
       }
     ],
     "summary": {
-      "total": 4,
-      "highRisk": 2,
-      "mediumRisk": 1,
-      "lowRisk": 1
+      "total": 2,
+      "highRisk": 0,
+      "mediumRisk": 0,
+      "lowRisk": 2
     }
   },
   "proof": {
-    "timestamp": "2026-04-20T16:43:53.567Z",
+    "timestamp": "2026-04-20T17:41:50.408Z",
     "proven": [
       {
         "probeId": "VerifierWrapper.verify",
         "invokeCount": 2,
-        "lastInvoked": "2026-04-20T16:43:53.542Z"
+        "lastInvoked": "2026-04-20T17:41:50.384Z"
       },
       {
         "probeId": "QuarantineManager.quarantine",
         "invokeCount": 2,
-        "lastInvoked": "2026-04-20T16:43:53.542Z"
+        "lastInvoked": "2026-04-20T17:41:50.384Z"
       }
     ],
     "notProven": [
       {
         "probeId": "Queue._enqueue",
-        "registered": "2026-04-20T16:43:53.541Z"
+        "registered": "2026-04-20T17:41:50.383Z"
       }
     ],
     "summary": {
@@ -130,14 +116,7 @@
       "notProven": 1
     }
   },
-  "violations": [
-    {
-      "artifact": "bypass-detection",
-      "status": "BYPASSED",
-      "issue": "2 HIGH risk bypass paths detected",
-      "critical": true
-    }
-  ],
+  "violations": [],
   "warnings": [],
   "summary": {
     "total": 40,

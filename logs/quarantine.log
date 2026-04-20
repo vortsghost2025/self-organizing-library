@@ -8,3 +8,10 @@
 {"timestamp":"2026-04-20T16:08:25.135Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
 {"timestamp":"2026-04-20T17:03:37.959Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
 {"timestamp":"2026-04-20T17:06:29.336Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:14:30.202Z","event":"QUARANTINE","item_id":"no-sig-1","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:14:30.204Z","event":"QUARANTINE","item_id":"bad-jws-1","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:14:30.341Z","event":"QUARANTINE","item_id":"lane-mismatch-1","lane":"library","reason":"LANE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:14:49.032Z","event":"QUARANTINE","item_id":"no-sig-1","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:14:49.034Z","event":"QUARANTINE","item_id":"bad-jws-1","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:14:49.097Z","event":"QUARANTINE","item_id":"lane-mismatch-1","lane":"library","reason":"LANE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-20T17:14:55.432Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}

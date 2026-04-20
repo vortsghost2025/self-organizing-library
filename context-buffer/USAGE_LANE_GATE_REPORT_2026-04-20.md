@@ -1,10 +1,10 @@
 # USAGE LANE GATE REPORT
 
-Date: 2026-04-20T16:43:53.568Z
+Date: 2026-04-20T17:41:50.409Z
 
-## Status: FAIL
+## Status: PASS
 
-❌ GATE FAILED - Verification artifacts are DORMANT, DEAD, or BYPASSED
+✅ GATE PASSED - All verification artifacts are ACTIVE and ENFORCED
 
 ## Summary
 
@@ -14,10 +14,6 @@ Date: 2026-04-20T16:43:53.568Z
 | DORMANT | 0 |
 | DEAD | 40 |
 | BYPASSED | 0 |
-
-## Violations (CRITICAL)
-
-- **bypass-detection**: 2 HIGH risk bypass paths detected
 
 ## Enforcement Rule
 
