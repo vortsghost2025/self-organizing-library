@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-04-20T16:11:30.723Z",
+  "passed": 7,
+  "failed": 0,
+  "total": 7,
+  "details": [
+    {
+      "name": "Retry counting increments correctly",
+      "passed": true,
+      "reason": "Retry count correctly incremented to 3"
+    },
+    {
+      "name": "Handoff triggered at max retries",
+      "passed": true,
+      "reason": "Handoff correctly triggered at retry 5"
+    },
+    {
+      "name": "Handoff artifact contains required fields",
+      "passed": true,
+      "reason": "Handoff artifact has all required fields"
+    },
+    {
+      "name": "Invalid state transitions are rejected",
+      "passed": true,
+      "reason": "State machine correctly rejects invalid transitions"
+    },
+    {
+      "name": "Quarantine events are logged",
+      "passed": true,
+      "reason": "Quarantine events logged with required fields"
+    },
+    {
+      "name": "Terminal states reject all transitions",
+      "passed": true,
+      "reason": "Terminal states correctly reject transitions"
+    },
+    {
+      "name": "Defer state handles missing dependencies",
+      "passed": true,
+      "reason": "Defer state correctly handles dependencies"
+    }
+  ]
+}

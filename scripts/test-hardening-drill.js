@@ -414,22 +414,32 @@ test('Quarantine prevents silent re-acceptance', () => {
 // ------------------------------------------------------------------------------
 
 test('HMAC fallback is disabled (JWS-only mode)', () => {
-    const verifier = new Verifier();
-    const status = verifier.getMigrationStatus();
-    
-    if (status.dual_mode_active === true) {
-        return { passed: false, reason: 'Dual mode is still active' };
-    }
-    
-    if (status.hmac_accepted === true) {
-        return { passed: false, reason: 'HMAC is still accepted' };
-    }
-    
-    if (status.jws_required !== true) {
-        return { passed: false, reason: 'JWS not enforced' };
-    }
-    
-    return { passed: true, reason: 'JWS-only mode enforced, HMAC fallback disabled' };
+  const verifier = new Verifier();
+
+  // Verify that HMAC methods don't exist
+  if (typeof verifier.isHMACAccepted === 'function') {
+    return { passed: false, reason: 'isHMACAccepted method still exists' };
+  }
+
+  if (typeof verifier.verifyHMAC === 'function') {
+    return { passed: false, reason: 'verifyHMAC method still exists' };
+  }
+
+  if (typeof verifier.getMigrationStatus === 'function') {
+    return { passed: false, reason: 'getMigrationStatus method still exists' };
+  }
+
+  // Verify that missing signature returns structured rejection (not HMAC fallback)
+  const result = verifier.verifyQueueItem({ id: 'test', lane: 'test' });
+  if (result.valid !== false) {
+    return { passed: false, reason: 'Missing signature was accepted' };
+  }
+
+  if (!result.error || result.error !== 'MISSING_SIGNATURE') {
+    return { passed: false, reason: 'Missing signature did not return MISSING_SIGNATURE error' };
+  }
+
+  return { passed: true, reason: 'JWS-only mode enforced, HMAC methods removed' };
 });
 
 // ==============================================================================

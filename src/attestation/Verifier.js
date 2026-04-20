@@ -2,8 +2,7 @@
 * Verifier.js - Phase 4.3 JWS Verification
 *
 * Verifies JSON Web Signatures against public keys from trust store.
-* Supports HMAC→JWS migration during dual-mode period.
-* ENFORCEMENT: A = B = C lane consistency check
+* ENFORCEMENT: JWS-only, A = B = C lane consistency check
 */
 
 const crypto = require('crypto');
@@ -12,14 +11,11 @@ const { TRUST_STORE_PATH, TRUST_STORE_VERSION, VERIFY_REASON } = require('./cons
 const { stableStringify } = require('./stableStringify');
 
 class Verifier {
-constructor(options = {}) {
-this.trustStorePath = options.trustStorePath || TRUST_STORE_PATH;
-this.hmacCutoffDate = options.hmacCutoffDate || new Date('2026-05-19T00:00:00Z');
-this._explicitLegacyMode = options.allowLegacy; // undefined, true, or false
-this.trustStore = null;
-this.hmacSecret = process.env.LANE_HMAC_SECRET;
-this._loadTrustStore();
-}
+  constructor(options = {}) {
+    this.trustStorePath = options.trustStorePath || TRUST_STORE_PATH;
+    this.trustStore = null;
+    this._loadTrustStore();
+  }
 
 _defaultTrustStorePath() {
 return TRUST_STORE_PATH;
@@ -127,11 +123,16 @@ return { valid: false, error: VERIFY_REASON.VERIFICATION_ERROR, message: e.messa
 * @returns {object} Verification result
 */
 verifyAgainstTrustStore(jws, laneId) {
-// Step 1: Parse JWS to extract payload
-const parsed = this._parseJWS(jws);
-if (!parsed) {
-return { valid: false, error: VERIFY_REASON.SIGNATURE_MISMATCH };
-}
+  // Step 1: Parse JWS to extract payload (with structured error handling)
+  let parsed;
+  try {
+    parsed = this._parseJWS(jws);
+  } catch (e) {
+    return { valid: false, error: VERIFY_REASON.SIGNATURE_MISMATCH, note: `JWS parse error: ${e.message}` };
+  }
+  if (!parsed) {
+    return { valid: false, error: VERIFY_REASON.SIGNATURE_MISMATCH };
+  }
 
 // Step 2: Check lane field presence
 if (!parsed.payload.lane) {
@@ -218,20 +219,8 @@ return { valid: false, error: VERIFY_REASON.MISSING_LANE };
 return this.verifyAgainstTrustStore(event.signature, laneId);
 }
 
-// isHMACAccepted() removed - HMAC fallback fully deprecated
-
-getMigrationStatus() {
-// HMAC fallback removed - JWS-only enforcement active
-const now = new Date();
-return {
-dual_mode_active: false,
-hmac_accepted: false,
-jws_required: true,
-migration_status: 'JWS_ONLY_ENFORCED',
-cutoff_date: '2026-04-01T00:00:00Z',
-days_remaining: 0
-};
-}
+// HMAC acceptance check removed - JWS-only enforcement
+// Migration status getter removed - migration complete
 
 getTrustStoreStats() {
 const lanes = Object.keys(this.trustStore.keys || {});
@@ -249,7 +238,7 @@ pending_lanes: pending
 };
 }
 
-// verifyHMAC() removed - HMAC fallback fully deprecated
+// HMAC verification removed - JWS-only enforcement active
 
 /**
 * Add a trusted key at runtime (for dynamic trust updates, e.g., self-verification)

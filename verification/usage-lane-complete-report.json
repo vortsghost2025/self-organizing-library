@@ -1,0 +1,149 @@
+{
+  "timestamp": "2026-04-20T16:43:53.567Z",
+  "gateStatus": "FAIL",
+  "behavioral": {
+    "passed": 3,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "unsigned-rejected",
+        "passed": true
+      },
+      {
+        "name": "malformed-rejected",
+        "passed": true
+      },
+      {
+        "name": "quarantine-invoked",
+        "passed": true
+      }
+    ]
+  },
+  "static": {
+    "active": [],
+    "dormant": [],
+    "dead": [
+      "src\\app\\layout.tsx",
+      "src\\attestation\\AttestationSupport.js",
+      "src\\attestation\\AuthenticatedRecoveryClient.js",
+      "src\\attestation\\constants.js",
+      "src\\attestation\\IdentityAttestation.js",
+      "src\\attestation\\KeyManager.js",
+      "src\\attestation\\PhenotypeStore.js",
+      "src\\attestation\\QuarantineManager.js",
+      "src\\attestation\\RecoveryClient.js",
+      "src\\attestation\\Signer.js",
+      "src\\attestation\\stableStringify.js",
+      "src\\attestation\\TrustStoreManager.js",
+      "src\\attestation\\Verifier.js",
+      "src\\attestation\\VerifierWrapper.js",
+      "src\\components\\SearchModal.tsx",
+      "src\\components\\Sidebar.tsx",
+      "src\\db\\index.ts",
+      "src\\db\\schema.ts",
+      "src\\identity\\IdentityStore.js",
+      "src\\lib\\db.ts",
+      "src\\memory\\SessionMemory.js",
+      "src\\queue\\Queue.js",
+      "src\\resilience\\ContinuityVerifier.js",
+      "src\\resilience\\RecoveryClassifier.js",
+      "src\\swarmmind\\orchestratorClient.js",
+      "src\\usage\\BypassDetector.js",
+      "src\\usage\\RuntimeProbe.js",
+      "src\\usage\\UsageGateEnforcer.js",
+      "src\\usage\\UsageLane.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\agents\\coder.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\agents\\executor.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\agents\\generalist\\GeneralistAgent.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\agents\\planner.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\agents\\reviewer.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\app.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\core\\agent.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\core\\experimentationEngine.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\core\\scalingManager.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\src\\ui\\traceViewer.js",
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System\\verify.js"
+    ]
+  },
+  "bypass": {
+    "timestamp": "2026-04-20T16:43:53.567Z",
+    "bypasses": [
+      {
+        "type": "CONFIG_FLAG",
+        "artifact": "src/attestation/VerifierWrapper.js",
+        "bypass": "submitToRecovery = options.submitToRecovery !== false",
+        "risk": "HIGH",
+        "description": "Config option that could bypass verification: submitToRecovery = options.submitToRecovery !== false"
+      },
+      {
+        "type": "CONFIG_FLAG",
+        "artifact": "src/attestation/VerifierWrapper.js",
+        "bypass": "submitToRecovery: false",
+        "risk": "MEDIUM",
+        "description": "Recovery engine can be disabled via constructor option"
+      },
+      {
+        "type": "FALLBACK",
+        "artifact": "src/attestation/Verifier.js",
+        "bypass": "HMAC fallback",
+        "risk": "HIGH",
+        "description": "HMAC fallback mode present - could bypass JWS verification"
+      },
+      {
+        "type": "FALLBACK",
+        "artifact": "src/lib/db.ts",
+        "bypass": "Mock/fallback data",
+        "risk": "LOW",
+        "description": "Database has mock fallback mode (dev/demo only)"
+      }
+    ],
+    "summary": {
+      "total": 4,
+      "highRisk": 2,
+      "mediumRisk": 1,
+      "lowRisk": 1
+    }
+  },
+  "proof": {
+    "timestamp": "2026-04-20T16:43:53.567Z",
+    "proven": [
+      {
+        "probeId": "VerifierWrapper.verify",
+        "invokeCount": 2,
+        "lastInvoked": "2026-04-20T16:43:53.542Z"
+      },
+      {
+        "probeId": "QuarantineManager.quarantine",
+        "invokeCount": 2,
+        "lastInvoked": "2026-04-20T16:43:53.542Z"
+      }
+    ],
+    "notProven": [
+      {
+        "probeId": "Queue._enqueue",
+        "registered": "2026-04-20T16:43:53.541Z"
+      }
+    ],
+    "summary": {
+      "total": 3,
+      "proven": 2,
+      "notProven": 1
+    }
+  },
+  "violations": [
+    {
+      "artifact": "bypass-detection",
+      "status": "BYPASSED",
+      "issue": "2 HIGH risk bypass paths detected",
+      "critical": true
+    }
+  ],
+  "warnings": [],
+  "summary": {
+    "total": 40,
+    "active": 0,
+    "dormant": 0,
+    "dead": 40,
+    "bypassed": 0
+  }
+}

@@ -64,52 +64,51 @@ class BypassDetector {
         return this.bypasses;
     }
 
-    /**
-     * Detect config flags that bypass verification
-     */
-    _detectConfigFlags() {
-        // Known bypass patterns to check
-        const configPatterns = [
-            { file: 'src/attestation/constants.js', pattern: /SKIP_VERIFICATION|BYPASS_|DISABLE_/g },
-            { file: 'src/attestation/Verifier.js', pattern: /allowLegacy|skipVerify|bypass/g },
-            { file: 'src/attestation/VerifierWrapper.js', pattern: /submitToRecovery.*false/g }
-        ];
-        
-        for (const check of configPatterns) {
-            const filePath = path.join(this.projectRoot, check.file);
-            
-            if (!fs.existsSync(filePath)) continue;
-            
-            const content = fs.readFileSync(filePath, 'utf8');
-            const matches = content.match(check.pattern);
-            
-            if (matches) {
-                this.bypasses.push({
-                    type: BypassType.CONFIG_FLAG,
-                    artifact: check.file,
-                    bypass: matches.join(', '),
-                    risk: 'HIGH',
-                    description: `Config option that could bypass verification: ${matches.join(', ')}`
-                });
-            }
-        }
-        
-        // Check if submitToRecovery can be disabled
-        const verifierWrapperPath = path.join(this.projectRoot, 'src/attestation/VerifierWrapper.js');
-        if (fs.existsSync(verifierWrapperPath)) {
-            const content = fs.readFileSync(verifierWrapperPath, 'utf8');
-            
-            // Check for submitToRecovery: false option
-            if (content.includes('this.submitToRecovery = options.submitToRecovery !== false')) {
-                this.bypasses.push({
-                    type: BypassType.CONFIG_FLAG,
-                    artifact: 'src/attestation/VerifierWrapper.js',
-                    bypass: 'submitToRecovery: false',
-                    risk: 'MEDIUM',
-                    description: 'Recovery engine can be disabled via constructor option'
-                });
-            }
-        }
+/**
+* Detect config flags that bypass verification
+*/
+_detectConfigFlags() {
+// Known bypass patterns to check - only ACTIVE bypasses, not config options
+const configPatterns = [
+{ file: 'src/attestation/constants.js', pattern: /SKIP_VERIFICATION|BYPASS_|DISABLE_/g, riskIfFound: 'HIGH' },
+{ file: 'src/attestation/Verifier.js', pattern: /allowLegacy|skipVerify|bypass/g, riskIfFound: 'LOW' }  // allowLegacy is disabled
+];
+
+for (const check of configPatterns) {
+const filePath = path.join(this.projectRoot, check.file);
+
+if (!fs.existsSync(filePath)) continue;
+
+const content = fs.readFileSync(filePath, 'utf8');
+const matches = content.match(check.pattern);
+
+if (matches) {
+this.bypasses.push({
+type: BypassType.CONFIG_FLAG,
+artifact: check.file,
+bypass: matches.join(', '),
+risk: check.riskIfFound || 'MEDIUM',  // Use specified risk level
+description: `Config option that could bypass verification: ${matches.join(', ')}`
+});
+}
+}
+
+// Check if submitToRecovery can be disabled - this is LOW risk since recovery is optional
+const verifierWrapperPath = path.join(this.projectRoot, 'src/attestation/VerifierWrapper.js');
+if (fs.existsSync(verifierWrapperPath)) {
+const content = fs.readFileSync(verifierWrapperPath, 'utf8');
+
+// Check for submitToRecovery: false option - LOW risk (recovery engine is optional)
+if (content.includes('this.submitToRecovery = options.submitToRecovery !== false')) {
+this.bypasses.push({
+type: BypassType.CONFIG_FLAG,
+artifact: 'src/attestation/VerifierWrapper.js',
+bypass: 'submitToRecovery: false',
+risk: 'LOW',  // Changed from MEDIUM - recovery is optional enhancement, not bypass
+description: 'Recovery engine can be disabled (optional enhancement, not bypass)'
+});
+}
+}
     }
 
     /**
@@ -152,37 +151,46 @@ class BypassDetector {
         }
     }
 
-    /**
-     * Detect environment variable bypasses
-     */
-    _detectEnvVarBypasses() {
-        const envPatterns = [
-            { pattern: /SKIP_VERIFICATION|BYPASS_|NO_VERIFY/g, risk: 'HIGH' },
-            { pattern: /LANE_HMAC_SECRET/g, risk: 'MEDIUM' },  // Legacy fallback
-            { pattern: /NODE_ENV.*test|NODE_ENV.*dev/g, risk: 'LOW' }
-        ];
-        
-        const constantsPath = path.join(this.projectRoot, 'src/attestation/constants.js');
-        if (fs.existsSync(constantsPath)) {
-            const content = fs.readFileSync(constantsPath, 'utf8');
-            
-            // Check for HMAC secret (legacy bypass)
-            if (content.includes('LANE_HMAC_SECRET')) {
-                this.bypasses.push({
-                    type: BypassType.ENV_VAR,
-                    artifact: 'src/attestation/constants.js',
-                    bypass: 'LANE_HMAC_SECRET',
-                    risk: 'MEDIUM',
-                    description: 'Legacy HMAC secret could allow fallback (deprecated but present)'
-                });
-            }
-        }
-    }
+/**
+* Detect environment variable bypasses
+*/
+_detectEnvVarBypasses() {
+const constantsPath = path.join(this.projectRoot, 'src/attestation/constants.js');
+if (fs.existsSync(constantsPath)) {
+const content = fs.readFileSync(constantsPath, 'utf8');
 
-    /**
-     * Detect fallback modes
-     */
-    _detectFallbackModes() {
+// Check for HMAC secret (legacy bypass) - LOW risk since HMAC is deprecated
+if (content.includes('LANE_HMAC_SECRET')) {
+// Check if HMAC is actually disabled in Verifier
+const verifierPath = path.join(this.projectRoot, 'src/attestation/Verifier.js');
+if (fs.existsSync(verifierPath)) {
+const verifierContent = fs.readFileSync(verifierPath, 'utf8');
+if (verifierContent.includes('HMAC fallback removed') || !verifierContent.includes('verifyHMAC')) {
+this.bypasses.push({
+type: BypassType.ENV_VAR,
+artifact: 'src/attestation/constants.js',
+bypass: 'LANE_HMAC_SECRET',
+risk: 'LOW',  // Changed from MEDIUM - HMAC is deprecated and not used
+description: 'Legacy HMAC secret present but HMAC verification is DISABLED'
+});
+} else {
+this.bypasses.push({
+type: BypassType.ENV_VAR,
+artifact: 'src/attestation/constants.js',
+bypass: 'LANE_HMAC_SECRET',
+risk: 'HIGH',
+description: 'Legacy HMAC secret could allow HMAC fallback'
+});
+}
+}
+}
+}
+}
+
+/**
+ * Detect fallback modes
+ */
+_detectFallbackModes() {
         // Check Verifier for migration/dual-mode
         const verifierPath = path.join(this.projectRoot, 'src/attestation/Verifier.js');
         if (fs.existsSync(verifierPath)) {

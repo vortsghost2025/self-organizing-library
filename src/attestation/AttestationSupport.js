@@ -19,9 +19,8 @@ const { QuarantineManager } = require('./QuarantineManager');
 
 class AttestationSupport {
   constructor(options = {}) {
-    this.trustStorePath = options.trustStorePath || 'S:/Archivist-Agent/.trust/keys.json';
-    this.migrationMode = options.migrationMode || 'dual'; // dual | hmac-only | rsa-only
-    this.trustStore = null;
+this.trustStorePath = options.trustStorePath || 'S:/Archivist-Agent/.trust/keys.json';
+this.trustStore = null;
     this.verifiedArtifacts = [];
     this.quarantineManager = new QuarantineManager();
     
@@ -73,17 +72,8 @@ class AttestationSupport {
       };
     }
 
-    // Check migration mode
-    if (this.migrationMode === 'hmac-only') {
-      return {
-        valid: true,
-        reason: 'MIGRATION_HMAC_ONLY',
-        lane: laneId,
-        note: 'Skipping RSA verification in HMAC-only mode'
-      };
-    }
-
-    try {
+// HMAC-only mode removed - JWS verification required
+try {
         const algoMap = { 'rsa-sha256': 'RSA-SHA256' };
         const algoId = algoMap[algorithm] || algorithm.toUpperCase();
         const verifier = crypto.createVerify(algoId);
@@ -199,29 +189,25 @@ class AttestationSupport {
    * Check if artifact should be rejected. If rejection is needed, report to
    * the Archivist orchestrator first.
    */
-  async shouldReject(verificationResult, item) {
-    if (!verificationResult.valid) {
-      if (this.migrationMode === 'hmac-only') {
-        return false; // Accept in HMAC-only mode
-      }
-      await this.reportFailureToArchivist(item, verificationResult.reason);
-      return true;
-    }
-    return false;
+async shouldReject(verificationResult, item) {
+  if (!verificationResult.valid) {
+    await this.reportFailureToArchivist(item, verificationResult.reason);
+    return true;
   }
+  return false;
+}
 
   /**
    * Get trust store status
    */
-  getTrustStoreStatus() {
-    return {
-        loaded: !!this.trustStore,
-        keyCount: Object.keys(this.trustStore.keys || {}).length,
-        keys: Object.keys(this.trustStore.keys || {}),
-        migrationMode: this.migrationMode,
-        migration: this.trustStore.migration || null
-    };
-  }
+getTrustStoreStatus() {
+  return {
+    loaded: !!this.trustStore,
+    keyCount: Object.keys(this.trustStore.keys || {}).length,
+    keys: Object.keys(this.trustStore.keys || {}),
+    migration: this.trustStore.migration || null
+  };
+}
 }
 
 module.exports = { AttestationSupport };

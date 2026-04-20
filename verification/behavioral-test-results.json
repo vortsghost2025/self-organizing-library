@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-04-20T17:03:17.374Z",
+  "passed": 5,
+  "failed": 0,
+  "proof": {
+    "timestamp": "2026-04-20T17:03:17.374Z",
+    "proven": [
+      {
+        "probeId": "QuarantineManager.quarantine",
+        "invokeCount": 1,
+        "lastInvoked": "2026-04-20T17:03:17.371Z"
+      }
+    ],
+    "notProven": [],
+    "summary": {
+      "total": 1,
+      "proven": 1,
+      "notProven": 0
+    }
+  },
+  "details": [
+    {
+      "name": "Unsigned artifact triggers verification",
+      "passed": true,
+      "reason": "Unsigned artifact rejected, verify() called 1 time(s)"
+    },
+    {
+      "name": "Malformed JWS triggers verification and rejection",
+      "passed": true,
+      "reason": "Malformed JWS rejected through verification path"
+    },
+    {
+      "name": "Quarantine is invoked on verification failure",
+      "passed": true,
+      "reason": "Quarantine invoked 1 time(s)"
+    },
+    {
+      "name": "All critical verification artifacts executed",
+      "passed": true,
+      "reason": "All critical verification artifacts executed at runtime"
+    },
+    {
+      "name": "No bypass paths in verification flow",
+      "passed": true,
+      "reason": "No high-risk bypass paths (2 total detected, all low/medium)"
+    }
+  ]
+}
