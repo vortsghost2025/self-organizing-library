@@ -1,0 +1,11 @@
+{
+  "id": "test-001",
+  "from": "library",
+  "to": "archivist",
+  "type": "notification",
+  "priority": "normal",
+  "subject": "Library Lane Structure Initialized",
+  "body": "Library inbox/outbox structure created per Lane-Relay Protocol.",
+  "timestamp": "2026-04-20T13:50:00-04:00",
+  "requires_action": false
+}

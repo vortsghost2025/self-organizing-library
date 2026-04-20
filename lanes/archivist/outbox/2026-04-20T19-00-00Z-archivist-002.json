@@ -1,0 +1,10 @@
+{
+  "id": "2026-04-20T19-00-00Z-archivist-002",
+  "from": "archivist",
+  "to": "swarmmind",
+  "type": "request",
+  "priority": "high",
+  "subject": "Onboarding Verification - Confirm Identity & Capabilities",
+  "timestamp": "2026-04-20T19:00:00Z",
+  "delivered_to": "lanes/swarmmind/inbox/2026-04-20T19-00-00Z-archivist-002.json"
+}
