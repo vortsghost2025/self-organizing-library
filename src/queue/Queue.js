@@ -164,6 +164,7 @@ all[idx] = resigned;
 console.error('[Queue] Failed to re-sign item after status change:', e.message);
 throw e;
 }
+}
 
 const tempPath = this.filePath + '.tmp';
 const data = all.map(o => JSON.stringify(o)).join('\n') + '\n';
