@@ -128,19 +128,17 @@ throw new Error(`Queue item ${id} not found`);
 }
 const current = all[idx];
 
-// Attestation: verify signature via VerifierWrapper (deterministic path)
-if (Queue._verifierWrapper) {
-if (current.signature) {
-const v = await Queue._verifierWrapper.verify(current);
-if (!v.valid) {
-throw new Error(`Signature verification failed for item ${id}: ${v.reason || v.error || 'unknown'}`);
-}
-} else if (current.hmac) {
-const verifier = Queue._verifierWrapper.verifier;
-} else {
-throw new Error(`Queue item ${id} missing required signature - HMAC fallback removed`);
-}
-}
+  // Attestation: verify signature via VerifierWrapper (deterministic path)
+  // ANCHOR ENFORCEMENT: hmac_accepted = false, missing_signature_mode = "REJECT"
+  if (Queue._verifierWrapper) {
+    if (!current.signature) {
+      throw new Error(`Queue item ${id} missing required signature - HMAC not accepted per anchor policy`);
+    }
+    const v = await Queue._verifierWrapper.verify(current);
+    if (!v.valid && v.status !== 'SUCCESS') {
+      throw new Error(`Signature verification failed for item ${id}: ${v.reason || v.error || 'unknown'}`);
+    }
+  }
 
 if (current.status !== 'pending') {
 throw new Error(`Only pending items can be transitioned (current: ${current.status})`);
