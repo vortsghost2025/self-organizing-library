@@ -1,3 +1,47 @@
+## Lane-Relay Protocol (ENFORCED)
+
+All cross-lane communication MUST use the `lanes/` structure.
+
+### Paths (Deterministic - No Guessing)
+
+| Lane | Inbox Path |
+|------|------------|
+| Archivist | `lanes/archivist/inbox/` |
+| Library | `lanes/library/inbox/` |
+| SwarmMind | `lanes/swarmmind/inbox/` |
+
+**Each repo has all three directories. This is NOT one repo.**
+
+### Session Start Protocol (MANDATORY)
+
+1. READ `lanes/{self}/inbox/` FIRST
+2. Process by priority (P0 > P1 > P2 > P3)
+3. Move processed to `lanes/{self}/inbox/processed/`
+
+### Sending Messages (MANDATORY)
+
+```
+WRITE lanes/{target}/inbox/{message-id}.json
+LOG  lanes/{self}/outbox/{message-id}.json
+```
+
+For P0 priority:
+```
+ALSO WRITE lanes/{target}/inbox/urgent_{id}.json
+```
+
+### Verification Checklist
+
+- [ ] inbox processed
+- [ ] outbox logged
+- [ ] no pending P0 items
+
+### Deprecated
+
+`.lane-relay/` is DEPRECATED. Use `lanes/` only.
+
+---
+
 ## Optional Feature Guides
 
 When users request features beyond the base template, check for available recipes in `.kilocode/recipes/`.
