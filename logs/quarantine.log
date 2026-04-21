@@ -20,3 +20,8 @@
 {"timestamp":"2026-04-20T23:46:51.638Z","event":"QUARANTINE","item_id":"lane-mismatch-1","lane":"library","reason":"LANE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
 {"timestamp":"2026-04-20T23:46:51.835Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
 {"timestamp":"2026-04-20T23:50:43.513Z","event":"QUARANTINE","item_id":"x1","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-21T00:55:53.717Z","event":"QUARANTINE","item_id":"lib-recovery-test","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-21T00:55:53.717Z","event":"QUARANTINE","item_id":"no-sig-1","lane":"library","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-21T00:55:53.719Z","event":"QUARANTINE","item_id":"bad-jws-1","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-04-21T00:55:53.727Z","event":"HANDOFF_SIGNAL","item_id":"lib-recovery-test","lane":"library","reason":"ORCHESTRATOR_UNREACHABLE","retry_count":0,"message":"Operator intervention required"}
+{"timestamp":"2026-04-21T00:55:53.792Z","event":"QUARANTINE","item_id":"lane-mismatch-1","lane":"swarmmind","reason":"LANE_MISMATCH","retry_count":1,"next_retry_in_ms":null}

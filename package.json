@@ -5,7 +5,9 @@
   "scripts": {
     "watch": "node scripts/inbox-watcher.js --watch",
     "watch:once": "node scripts/inbox-watcher.js",
-
+    "heartbeat": "node scripts/heartbeat.js --continuous",
+    "heartbeat:check": "node scripts/heartbeat.js --check",
+    "heartbeat:once": "node scripts/heartbeat.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

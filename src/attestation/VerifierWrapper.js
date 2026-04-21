@@ -150,20 +150,48 @@ console.error(' Error:', e.message);
 console.error(' Item ID:', itemId);
 console.error(' Lane:', lane);
 
-// Write handoff signal immediately
+// Attempt handoff signal via QuarantineManager public API;
+// never call private methods that may not survive refactors.
+ if (typeof this.quarantineManager._signalHumanIntervention === 'function') {
+try {
 this.quarantineManager._signalHumanIntervention(itemId, lane, 'ORCHESTRATOR_UNREACHABLE', 0);
+} catch (signalErr) {
+console.error('[FATAL] Handoff signal also failed:', signalErr.message);
+}
+} else {
+// Structured fallback: write handoff file directly so the signal
+// is never lost even if QuarantineManager is refactored away.
+const fs = require('fs');
+const handoffPath = this.quarantineManager.handoffFile || 'AGENT_HANDOFF_REQUIRED.md';
+try {
+ fs.writeFileSync(handoffPath, [
+ '# AGENT HANDOFF REQUIRED', '',
+ '**Status:** Orchestrator unreachable - fatal rejection',
+ `**Item ID:** ${itemId}`,
+ `**Lane:** ${lane}`,
+ `**Reason:** ORCHESTRATOR_UNREACHABLE`,
+ `**Timestamp:** ${new Date().toISOString()}`, '',
+ '## Action Required',
+ '1. Verify RecoveryEngine availability',
+ '2. Re-submit artifact after orchestrator recovery',
+ '3. Permanently reject if orchestrator is decommissioned', ''
+ ].join('\n'), 'utf8');
+ } catch (writeErr) {
+ console.error('[FATAL] Could not write handoff file:', writeErr.message);
+ }
+ }
 
-// HALT - return hard failure, do NOT fallback to local quarantine
-return {
-valid: false,
-reason: 'ORCHESTRATOR_UNREACHABLE',
-note: 'RecoveryEngine unreachable - cannot verify artifact deterministically',
-itemId,
-lane,
-handoffRequired: true,
-handoffFile: this.quarantineManager.handoffFile,
-fatal: true
-};
+ // HALT - return hard failure, do NOT fallback to local quarantine
+ return {
+ valid: false,
+ reason: 'ORCHESTRATOR_UNREACHABLE',
+ note: 'RecoveryEngine unreachable - cannot verify artifact deterministically',
+ itemId,
+ lane,
+ handoffRequired: true,
+ handoffFile: this.quarantineManager.handoffFile,
+ fatal: true
+ };
 }
 }
 
