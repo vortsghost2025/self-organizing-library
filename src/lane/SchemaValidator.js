@@ -225,19 +225,40 @@ function createMessage(template = {}) {
       },
       ...template.watcher,
     },
-    delivery_verification: {
-      verified: false,
-      verified_at: null,
-      retries: 0,
-      ...template.delivery_verification,
-    },
+  delivery_verification: {
+    verified: false,
+    verified_at: null,
+    retries: 0,
+    // NOTE: template.delivery_verification is NOT spread here.
+    // Bug 3 fix: caller cannot override verified=true during construction.
+    // Only deliverMessage() can set verified=true after validating + writing.
+  },
   };
 
   const message = { ...defaults, ...template };
 
-  // Always recompute idempotency_key if not explicitly provided
+  // Bug 3 fix: ALWAYS force delivery_verification.verified = false on creation.
+  // Only deliverMessage() can set this to true after schema validation + disk write.
+  // Allow template to set retries but NEVER allow overriding verified=true.
+  message.delivery_verification = {
+    verified: false,
+    verified_at: null,
+    retries: template.delivery_verification?.retries || 0,
+  };
+
+  // Recompute idempotency_key if not explicitly provided
   if (!template.idempotency_key) {
     message.idempotency_key = computeIdempotencyKey(message);
+  }
+
+  // Bug 3 fix: validate the constructed message before returning
+  const validationResult = validate(message);
+  if (!validationResult.valid) {
+    console.error('[SchemaValidator] createMessage: constructed message fails validation:');
+    for (const err of validationResult.errors) {
+      console.error(` - ${err}`);
+    }
+    message._validation_errors = validationResult.errors;
   }
 
   return message;
@@ -257,9 +278,20 @@ function loadSchema() {
 /**
  * Write a message to a canonical inbox path with delivery verification.
  * Per v1.1 amendment: sender SHOULD verify file exists after writing.
- * Returns { delivered: boolean, verified: boolean, path: string, error: string|null }
+ *
+ * Bug 1 fix: validates schema BEFORE writing. delivery_verification.verified
+ * means BOTH "schema is valid" AND "file landed on disk". Invalid messages
+ * are still written (for audit trail) but stamped verified=false with
+ * validation_errors attached.
+ *
+ * Returns { delivered: boolean, schema_valid: boolean, verified: boolean,
+ *           path: string, error: string|null, validation_errors: string[]|null }
  */
 function deliverMessage(message, canonicalPath) {
+  // VALIDATE BEFORE WRITE — Bug 1 fix: never stamp verified=true without schema check
+  const validationResult = validate(message);
+  const schemaValid = validationResult.valid;
+
   const filename = `${message.task_id || message.message_id || `msg-${Date.now()}`}.json`;
   const fullPath = path.join(canonicalPath, filename);
 
@@ -267,31 +299,56 @@ function deliverMessage(message, canonicalPath) {
     // Ensure directory exists
     fs.mkdirSync(canonicalPath, { recursive: true });
 
-    // Write message
+    // Pre-stamp delivery_verification with schema result
+    if (message.delivery_verification) {
+      message.delivery_verification.verified = false; // will be set to true only if both checks pass
+      message.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
+    }
+
+    // Write message — even if schema-invalid, for audit trail
     fs.writeFileSync(fullPath, JSON.stringify(message, null, 2), 'utf8');
 
-    // Verify delivery (v1.1 requirement)
+    // Verify delivery (v1.1 requirement) — file landed on disk
     const exists = fs.existsSync(fullPath);
+
     if (exists) {
-      // Update delivery_verification on the message
+      // delivery_verification.verified = true ONLY if both schema valid AND file landed
       if (message.delivery_verification) {
-        message.delivery_verification.verified = true;
-        message.delivery_verification.verified_at = new Date().toISOString();
+        message.delivery_verification.verified = schemaValid;
+        message.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
+        // Clean up validation_errors if valid (no errors to report)
+        if (schemaValid) {
+          delete message.delivery_verification.validation_errors;
+        }
+      }
+
+      // Re-write with updated verification stamps
+      fs.writeFileSync(fullPath, JSON.stringify(message, null, 2), 'utf8');
+    }
+
+    if (!schemaValid) {
+      console.warn(`[SchemaValidator] deliverMessage: WARNING — message written but schema-invalid:`);
+      for (const err of validationResult.errors) {
+        console.warn(`  - ${err}`);
       }
     }
 
     return {
-      delivered: true,
-      verified: exists,
+      delivered: exists,
+      schema_valid: schemaValid,
+      verified: schemaValid && exists,
       path: fullPath,
       error: exists ? null : 'File not found after write',
+      validation_errors: schemaValid ? null : validationResult.errors,
     };
   } catch (err) {
     return {
       delivered: false,
+      schema_valid: schemaValid,
       verified: false,
       path: fullPath,
       error: err.message,
+      validation_errors: schemaValid ? null : validationResult.errors,
     };
   }
 }

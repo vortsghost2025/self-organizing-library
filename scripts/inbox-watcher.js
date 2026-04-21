@@ -9,6 +9,13 @@ const {
   acquireWatcherLock
 } = require('./concurrency-policy');
 
+let validateMessage;
+try {
+  validateMessage = require('../src/lane/SchemaValidator').validate;
+} catch (_) {
+  validateMessage = null;
+}
+
 const PRIORITY_ORDER = { P0: 0, P1: 1, P2: 2, P3: 3 };
 const PREEMPTION_CYCLE_LIMIT = 2;
 const P0_YIELD_EVERY_N = 5;
@@ -31,11 +38,11 @@ function isValidInboxMessage(filename) {
 }
 
 const DEFAULT_CONFIG = {
-  laneName: 'archivist',
-  inboxPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox'),
-  processedPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'processed'),
-  outboxPath: path.join(__dirname, '..', 'lanes', 'archivist', 'outbox'),
-  expiredPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'expired'),
+  laneName: 'library',
+  inboxPath: path.join(__dirname, '..', 'lanes', 'library', 'inbox'),
+  processedPath: path.join(__dirname, '..', 'lanes', 'library', 'inbox', 'processed'),
+  outboxPath: path.join(__dirname, '..', 'lanes', 'library', 'outbox'),
+  expiredPath: path.join(__dirname, '..', 'lanes', 'library', 'inbox', 'expired'),
   canonicalPaths: {
     archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
     library: 'S:/self-organizing-library/lanes/library/inbox/',
@@ -122,15 +129,24 @@ class InboxWatcher {
         const msg = JSON.parse(raw);
         msg._sourceFile = filename;
         msg._sourcePath = filePath;
+        // Schema validation FIRST — before idempotency check
+        if (validateMessage) {
+          const result = validateMessage(msg);
+          if (!result.valid) {
+            console.warn(`[watcher] INVALID: ${filename} — ${result.errors.slice(0,3).join('; ')}`);
+            this.moveToExpired(filename, filePath);
+            continue;
+          }
+        }
         if (!this.checkIdempotencyKey(msg)) {
           this.moveToProcessed(filename, filePath);
           continue;
         }
         messages.push(msg);
-      } catch (e) {
-        console.error(`[watcher] Cannot parse ${filename}:`, e.message);
-        this.moveToProcessed(filename, filePath);
-      }
+    } catch (e) {
+      console.error(`[watcher] Cannot parse ${filename}:`, e.message);
+      this.moveToExpired(filename, filePath);
+    }
     }
 
     messages.sort((a, b) => {
@@ -191,17 +207,44 @@ class InboxWatcher {
     }
   }
 
+  moveToExpired(filename, sourcePath) {
+    const expiredDir = this.config.expiredPath;
+    if (!fs.existsSync(expiredDir)) {
+      fs.mkdirSync(expiredDir, { recursive: true });
+    }
+    const dest = path.join(expiredDir, filename);
+    try {
+      if (fs.existsSync(dest)) {
+        fs.unlinkSync(sourcePath);
+      } else {
+        fs.renameSync(sourcePath, dest);
+      }
+      console.log(`[watcher] MOVED TO EXPIRED: ${filename} (schema-invalid, not processed)`);
+    } catch (e) {
+      console.error(`[watcher] Cannot move to expired ${filename}:`, e.message);
+    }
+  }
+
   processMessage(msg) {
     const filename = msg._sourceFile;
     const sourcePath = msg._sourcePath;
+    // Use actual message fields — no silent defaults for log output
     const priority = msg.priority || 'P3';
     const type = msg.type || 'unknown';
     const from = msg.from || msg.from_lane || 'unknown';
     const body = typeof msg.body === 'string' ? msg.body : JSON.stringify(msg.body || '');
     const requiresAction = msg.requires_action || false;
     const idempotencyKey = msg.idempotency_key || msg.id || filename;
+    // Bug 2 fix: note any defaulting in the log
+    const defaultedFields = [];
+    if (!msg.priority) defaultedFields.push('priority');
+    if (!msg.type) defaultedFields.push('type');
+    if (!msg.from && !msg.from_lane) defaultedFields.push('from');
 
     console.log(`[watcher] Processing ${priority} ${type} from ${from}: ${body.slice(0, 80)}`);
+    if (defaultedFields.length > 0) {
+      console.warn(`[watcher] WARNING: defaulted fields: ${defaultedFields.join(', ')} — message may be non-compliant`);
+    }
 
     if (type === 'finding' || type === 'review') {
       this.handleConvergenceCheck(msg);
