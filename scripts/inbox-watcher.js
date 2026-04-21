@@ -129,7 +129,7 @@ class InboxWatcher {
         const msg = JSON.parse(raw);
         msg._sourceFile = filename;
         msg._sourcePath = filePath;
-			// Schema validation FIRST — before idempotency check
+		// Schema validation FIRST — before idempotency check
 			if (validateMessage) {
 				const result = validateMessage(msg);
 				if (!result.valid) {
@@ -138,16 +138,15 @@ class InboxWatcher {
 					continue;
 				}
 			}
-        }
-        if (!this.checkIdempotencyKey(msg)) {
-          this.moveToProcessed(filename, filePath);
-          continue;
-        }
-        messages.push(msg);
-    } catch (e) {
-      console.error(`[watcher] Cannot parse ${filename}:`, e.message);
-      this.moveToExpired(filename, filePath);
-    }
+			if (!this.checkIdempotencyKey(msg)) {
+				this.moveToProcessed(filename, filePath);
+				continue;
+			}
+			messages.push(msg);
+		} catch (e) {
+			console.error(`[watcher] Cannot parse ${filename}:`, e.message);
+			this.moveToExpired(filename, filePath);
+		}
     }
 
     messages.sort((a, b) => {
