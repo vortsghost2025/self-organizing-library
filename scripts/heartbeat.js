@@ -29,7 +29,7 @@ const STALENESS_THRESHOLD_MS = 900000; // 15 minutes (900 seconds)
 const OTHER_LANE_HEARTBEATS = [
   { lane: 'archivist', path: 'S:/Archivist-Agent/lanes/archivist/inbox/heartbeat-archivist.json', repo: 'S:/Archivist-Agent' },
   { lane: 'swarmmind', path: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/heartbeat-swarmmind.json', repo: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' },
-  { lane: 'kernel-lane', path: 'S:/kernel-lane/lanes/kernel-lane/inbox/heartbeat-kernel-lane.json', repo: 'S:/kernel-lane' }
+  { lane: 'kernel', path: 'S:/kernel-lane/lanes/kernel/inbox/heartbeat-kernel.json', repo: 'S:/kernel-lane' }
 ];
 
 const ACTIVITY_THRESHOLD_MS = 3600000; // 60 minutes — recent git activity means lane is alive
