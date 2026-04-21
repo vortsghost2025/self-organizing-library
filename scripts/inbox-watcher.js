@@ -8,6 +8,7 @@ const {
   assertWatcherConfig,
   acquireWatcherLock
 } = require('./concurrency-policy');
+const { IdentityEnforcer } = require('./identity-enforcer');
 
 let validateMessage;
 try {
@@ -62,6 +63,7 @@ class InboxWatcher {
     this.consecutiveP0Count = 0;
     this.loadProcessedKeys();
     this.loadConvergenceConstraint();
+    this.identityEnforcer = new IdentityEnforcer({ enforcementMode: 'enforce' });
   }
 
   loadConvergenceConstraint() {
@@ -125,20 +127,28 @@ class InboxWatcher {
 
       const filePath = path.join(this.config.inboxPath, filename);
       try {
-        const raw = fs.readFileSync(filePath, 'utf8');
-        const msg = JSON.parse(raw);
-        msg._sourceFile = filename;
-        msg._sourcePath = filePath;
-		// Schema validation FIRST — before idempotency check
-			if (validateMessage) {
-				const result = validateMessage(msg);
-				if (!result.valid) {
-					console.warn(`[watcher] INVALID: ${filename} — ${result.errors.slice(0,3).join('; ')}`);
-					this.moveToExpired(filename, filePath);
-					continue;
-				}
-			}
-			if (!this.checkIdempotencyKey(msg)) {
+          const raw = fs.readFileSync(filePath, 'utf8');
+          const msg = JSON.parse(raw);
+          msg._sourceFile = filename;
+          msg._sourcePath = filePath;
+          // Schema validation FIRST — before idempotency check
+          if (validateMessage) {
+            const result = validateMessage(msg);
+            if (!result.valid) {
+              console.warn(`[watcher] INVALID: ${filename} — ${result.errors.slice(0,3).join('; ')}`);
+              this.moveToExpired(filename, filePath);
+              continue;
+            }
+          }
+          // Identity enforcement — structurally reject unsigned/spoofed
+          const idResult = this.identityEnforcer.enforceMessage(msg);
+          msg._identity = idResult;
+          if (idResult.decision === 'reject') {
+            console.log(`[watcher] IDENTITY_REJECT: ${filename} from ${idResult.from} — ${idResult.reason}`);
+            this.moveToExpired(filename, filePath);
+            continue;
+          }
+          if (!this.checkIdempotencyKey(msg)) {
 				this.moveToProcessed(filename, filePath);
 				continue;
 			}
