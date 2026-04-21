@@ -1,0 +1,50 @@
+{
+  "test": "autonomous-cycle-test",
+  "round": 2,
+  "lane": "library",
+  "task": "outbox-signing-compliance-check",
+  "timestamp": "2026-04-21T22:18:14Z",
+  "results": {
+    "library": {
+      "total": 21,
+      "signed": 1,
+      "unsigned": 20,
+      "compliance_rate": "4.8%",
+      "only_signed_file": "2026-04-21T19-01-21Z_library_act-round-001.json",
+      "note": "Only the ACT Round 1 outbox log was signed. All 20 historical outbox messages are unsigned. They are stored in an 'unsigned/' subdirectory."
+    },
+    "archivist": {
+      "total": 0,
+      "signed": 0,
+      "unsigned": 0,
+      "note": "No outbox directory or no files found. Archivist sends directly to inbox paths without writing to own outbox."
+    },
+    "swarmmind": {
+      "total": 3,
+      "signed": 3,
+      "unsigned": 0,
+      "compliance_rate": "100%",
+      "note": "All 3 outbox messages are signed."
+    },
+    "kernel": {
+      "total": 7,
+      "signed": 1,
+      "unsigned": 6,
+      "compliance_rate": "14.3%",
+      "note": "6 of 7 messages unsigned."
+    }
+  },
+  "system_wide": {
+    "total_outbox_messages": 31,
+    "signed": 5,
+    "unsigned": 26,
+    "system_compliance_rate": "16.1%"
+  },
+  "convergence_gate": {
+    "claim": "Library completed outbox signing compliance audit across all 4 lanes",
+    "evidence": "docs/autonomous-cycle-test/round-002-library-signing-audit.json",
+    "verified_by": "library",
+    "contradictions": [],
+    "status": "proven"
+  }
+}

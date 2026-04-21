@@ -1,0 +1,52 @@
+{
+  "test": "autonomous-cycle-test",
+  "round": 2,
+  "lane": "library",
+  "task": "trust-store-keyid-cross-verification",
+  "timestamp": "2026-04-21T22:18:14Z",
+  "results": {
+    "archivist": {
+      "status": "MATCH",
+      "actual_key_id": "583b2c36f397ef01",
+      "trust_store_key_id": "583b2c36f397ef01",
+      "pem_match": true,
+      "key_id_match": true
+    },
+    "library": {
+      "status": "MATCH",
+      "actual_key_id": "a3136a93627b7b46",
+      "trust_store_key_id": "a3136a93627b7b46",
+      "pem_match": true,
+      "key_id_match": true
+    },
+    "swarmmind": {
+      "status": "CRITICAL_MISMATCH",
+      "actual_key_id": "KEY_MISSING",
+      "trust_store_key_id": "b5d6bf66c0ad53a7",
+      "pem_match": false,
+      "key_id_match": false,
+      "detail": "SwarmMind has NO .identity/ directory. The public.pem file does not exist. The trust store entry (key_id b5d6bf66c0ad53a7) is orphaned — there is no corresponding private key on disk. SwarmMind CANNOT sign outbound messages with this key. Any inbound messages claiming to be from SwarmMind with this key_id CANNOT be verified against the actual key material."
+    },
+    "kernel": {
+      "status": "MATCH",
+      "actual_key_id": "74bc4b8df188b771",
+      "trust_store_key_id": "74bc4b8df188b771",
+      "pem_match": true,
+      "key_id_match": true
+    }
+  },
+  "summary": {
+    "total_lanes": 4,
+    "match": 3,
+    "mismatch": 1,
+    "missing_keys": ["swarmmind"],
+    "trust_store_integrity": "PARTIAL — 3/4 lanes verified, SwarmMind key material missing from disk"
+  },
+  "convergence_gate": {
+    "claim": "Library completed trust store key_id cross-verification — 3/4 lanes match, SwarmMind has no .identity/ directory",
+    "evidence": "docs/autonomous-cycle-test/round-002-library-trust-store-verify.json",
+    "verified_by": "library",
+    "contradictions": [],
+    "status": "proven"
+  }
+}
