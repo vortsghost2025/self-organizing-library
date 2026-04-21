@@ -27,10 +27,12 @@ const WRITE_INTERVAL_MS = 60000;       // 60 seconds minimum between writes
 const STALENESS_THRESHOLD_MS = 900000; // 15 minutes (900 seconds)
 
 const OTHER_LANE_HEARTBEATS = [
-  { lane: 'archivist', path: 'S:/Archivist-Agent/lanes/archivist/inbox/heartbeat-archivist.json' },
-  { lane: 'swarmmind', path: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/heartbeat-swarmmind.json' },
-  { lane: 'kernel-lane', path: 'S:/kernel-lane/lanes/kernel-lane/inbox/heartbeat-kernel-lane.json' }
+  { lane: 'archivist', path: 'S:/Archivist-Agent/lanes/archivist/inbox/heartbeat-archivist.json', repo: 'S:/Archivist-Agent' },
+  { lane: 'swarmmind', path: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/heartbeat-swarmmind.json', repo: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' },
+  { lane: 'kernel-lane', path: 'S:/kernel-lane/lanes/kernel-lane/inbox/heartbeat-kernel-lane.json', repo: 'S:/kernel-lane' }
 ];
+
+const ACTIVITY_THRESHOLD_MS = 3600000; // 60 minutes — recent git activity means lane is alive
 
 // Track start time for uptime calculation
 const startTime = Date.now();
@@ -119,13 +121,76 @@ function writeHeartbeat(status = 'active') {
 }
 
 /**
- * Check all other lanes for staleness
+ * Check if a lane has recent coordination artifacts (NOT a liveness signal).
+ *
+ * This measures: "Has this lane recently emitted an observable coordination artifact?"
+ * It does NOT answer: "Is this lane alive right now?"
+ *
+ * A lane can be actively thinking, editing files, or waiting on inbox —
+ * and still show no recent commit or heartbeat. That's a coordination
+ * freshness gap, not a dead lane.
+ *
+ * Signals checked:
+ *   1. Last git commit timestamp (recent checkpoint signal)
+ *   2. Uncommitted changes in working tree (session-in-progress signal)
+ */
+function checkGitActivity(repoPath) {
+  const { execSync } = require('child_process');
+  try {
+    // Primary: last commit timestamp
+    const output = execSync('git log -1 --format=%ct', {
+      cwd: repoPath,
+      timeout: 5000,
+      stdio: ['pipe', 'pipe', 'pipe']
+    }).toString().trim();
+    const commitTimestamp = parseInt(output, 10) * 1000;
+    const commitAge = Date.now() - commitTimestamp;
+
+    // Secondary: uncommitted changes (means session is active right now)
+    let hasUncommittedChanges = false;
+    try {
+      const status = execSync('git status --porcelain', {
+        cwd: repoPath,
+        timeout: 5000,
+        stdio: ['pipe', 'pipe', 'pipe']
+      }).toString().trim();
+      hasUncommittedChanges = status.length > 0;
+    } catch (_) { /* ignore */ }
+
+    // Recent coordination if: recent commit OR uncommitted working tree changes
+    const recent = commitAge < ACTIVITY_THRESHOLD_MS || hasUncommittedChanges;
+    return {
+      recent,
+      lastCommitTime: new Date(commitTimestamp).toISOString(),
+      ageSeconds: Math.floor(commitAge / 1000),
+      hasUncommittedChanges
+    };
+  } catch (err) {
+    return { recent: false, lastCommitTime: null, ageSeconds: null, error: err.message };
+  }
+}
+
+/**
+ * Check coordination freshness across all lanes using multi-signal detection.
+ *
+ * THIS IS NOT A LIVENESS CHECK.
+ * It answers: "Has this lane recently emitted an observable coordination artifact?"
+ * It does NOT answer: "Is this lane alive right now?"
+ *
+ * A lane can be actively working but not have recently committed or written
+ * a heartbeat — that's a coordination freshness gap, not a dead lane.
+ *
+ * Signal 1: Heartbeat file timestamp (deliberate coordination signal)
+ * Signal 2: Git activity (checkpoint signal)
+ *
+ * A lane is only marked NO_SIGNAL if BOTH signals are absent.
  */
 function checkStaleness() {
   const results = [];
   const now = Date.now();
 
-  console.log('\n=== Lane Heartbeat Health Check ===\n');
+  console.log('\n=== Lane Coordination Freshness Check ===');
+  console.log('(Measures recent coordination artifacts, NOT session liveness)\n');
 
   // Check own heartbeat
   if (fs.existsSync(HEARTBEAT_FILE)) {
@@ -133,49 +198,95 @@ function checkStaleness() {
       const own = JSON.parse(fs.readFileSync(HEARTBEAT_FILE, 'utf8'));
       const age = now - new Date(own.timestamp).getTime();
       const isStale = age > STALENESS_THRESHOLD_MS;
-      console.log(`  library:      ${isStale ? '⚠️ STALE' : '✅ ACTIVE'} (age: ${Math.floor(age / 1000)}s)`);
-      results.push({ lane: 'library', stale: isStale, ageSeconds: Math.floor(age / 1000) });
+      const label = isStale ? '🔇 NO RECENT SIGNAL' : '📡 FRESH';
+      console.log(`  library:      ${label} (heartbeat: ${Math.floor(age / 1000)}s ago)`);
+      results.push({ lane: 'library', fresh: !isStale, ageSeconds: Math.floor(age / 1000) });
     } catch (err) {
       console.log(`  library:      ❌ ERROR (${err.message})`);
-      results.push({ lane: 'library', stale: true, error: err.message });
+      results.push({ lane: 'library', fresh: false, error: err.message });
     }
   } else {
-    console.log(`  library:      ⚠️ NO HEARTBEAT FILE`);
-    results.push({ lane: 'library', stale: true, error: 'no heartbeat file' });
+    console.log(`  library:      🔇 NO HEARTBEAT FILE`);
+    results.push({ lane: 'library', fresh: false, error: 'no heartbeat file' });
   }
 
-  // Check other lanes
-  for (const { lane, path: lanePath } of OTHER_LANE_HEARTBEATS) {
+  // Check other lanes (heartbeat + git activity)
+  for (const { lane, path: lanePath, repo } of OTHER_LANE_HEARTBEATS) {
+    let heartbeatStale = true;
+    let heartbeatAge = null;
+    let hbStatus = null;
+    let isProxy = false;
+
+    // Signal 1: Heartbeat file
     if (fs.existsSync(lanePath)) {
       try {
         const hb = JSON.parse(fs.readFileSync(lanePath, 'utf8'));
-        const age = now - new Date(hb.timestamp).getTime();
-        const isStale = age > STALENESS_THRESHOLD_MS;
-        const statusLabel = hb.status === 'shutdown' ? '🛑 SHUTDOWN' : (isStale ? '⚠️ STALE' : '✅ ACTIVE');
-        console.log(`  ${lane.padEnd(14)}${statusLabel} (age: ${Math.floor(age / 1000)}s, status: ${hb.status || 'unknown'})`);
-        results.push({ lane, stale: isStale, ageSeconds: Math.floor(age / 1000), status: hb.status });
+        heartbeatAge = Math.floor((now - new Date(hb.timestamp).getTime()) / 1000);
+        heartbeatStale = heartbeatAge > (STALENESS_THRESHOLD_MS / 1000);
+        hbStatus = hb.status || 'unknown';
+        isProxy = !!(hb.note && hb.note.includes('Proxy heartbeat'));
       } catch (err) {
-        console.log(`  ${lane.padEnd(14)}❌ ERROR (${err.message})`);
-        results.push({ lane, stale: true, error: err.message });
+        heartbeatAge = null;
       }
-    } else {
-      console.log(`  ${lane.padEnd(14)}⚠️ NO HEARTBEAT FILE`);
-      results.push({ lane, stale: true, error: 'no heartbeat file' });
     }
+
+    // Signal 2: Git activity
+    const gitActivity = repo ? checkGitActivity(repo) : { recent: false };
+
+    // Multi-signal decision: no signal only if BOTH signals absent
+    const noSignal = heartbeatStale && !gitActivity.recent;
+
+    // Build display — label by what signals are present
+    let statusLabel;
+    if (hbStatus === 'shutdown') {
+      statusLabel = '🛑 SHUTDOWN';
+    } else if (noSignal) {
+      statusLabel = '🔇 NO RECENT SIGNAL';
+    } else if (heartbeatStale && gitActivity.recent) {
+      statusLabel = '📡 INDIRECT';
+    } else {
+      statusLabel = '📡 FRESH';
+    }
+
+    const heartbeatInfo = heartbeatAge !== null ? `heartbeat: ${heartbeatAge}s ago` : 'no heartbeat';
+    const gitInfo = gitActivity.recent
+      ? (gitActivity.hasUncommittedChanges
+        ? 'git: uncommitted changes (session active)'
+        : `git: ${gitActivity.ageSeconds}s ago`)
+      : 'git: no recent commit';
+
+    let line = `  ${lane.padEnd(14)}${statusLabel}  (${heartbeatInfo}, ${gitInfo})`;
+    if (isProxy) line += ' [proxy hb]';
+    if (heartbeatStale && gitActivity.recent) line += ' (indirect: git only)';
+
+    console.log(line);
+    results.push({
+      lane,
+      fresh: !noSignal,
+      heartbeatStale,
+      gitRecent: gitActivity.recent,
+      ageSeconds: heartbeatAge,
+      status: hbStatus,
+      isProxy
+    });
   }
 
   // Summary
-  const staleCount = results.filter(r => r.stale).length;
-  console.log(`\n  Total: ${results.length} lanes, ${staleCount} stale\n`);
-
-  if (staleCount > 0) {
-    console.warn('⚠️  Stale lanes detected! Report to Archivist if persistent.');
-    console.log('');
-  }
+  const noSignalCount = results.filter(r => !r.fresh).length;
+  const indirectCount = results.filter(r => r.fresh && r.heartbeatStale).length;
+  console.log(`\n  Total: ${results.length} lanes`);
+  console.log(`    Fresh (direct signal):    ${results.length - noSignalCount - indirectCount}`);
+  console.log(`    Indirect (git only):      ${indirectCount}`);
+  console.log(`    No recent signal:         ${noSignalCount}`);
+  console.log('\n  Note: "No recent signal" means no heartbeat or git commit within');
+  console.log('  threshold — it does NOT mean the lane is dead. The lane may be');
+  console.log('  actively working without having emitted a coordination artifact yet.\n');
 
   return results;
 }
 
+// =============================================================================
+// Main
 // =============================================================================
 // Main
 // =============================================================================
