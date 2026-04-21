@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
+  { href: '/governance', icon: '⚖️', label: 'Governance' },
   { href: "/", icon: "◈", label: "Dashboard" },
   { href: "/library", icon: "☰", label: "Library" },
   { href: "/graph", icon: "◇", label: "Graph" },

@@ -1,0 +1,174 @@
+{ 
+  "$id": "https://example.com/schemas/inbox-message-v1.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "1.0"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "from": {
+      "type": "string",
+      "default": "library"
+    },
+    "to": {
+      "type": "string",
+      "enum": ["archivist", "library", "swarmmind", "kernel-lane"]
+    },
+    "type": {
+      "type": "string",
+      "enum": ["task", "response", "heartbeat", "escalation", "handoff"]
+    },
+    "task_kind": {
+      "type": "string",
+      "enum": ["proposal", "review", "amendment", "ratification"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"]
+    },
+    "subject": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "requires_action": {
+      "type": "boolean"
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["inline", "path", "chunked"]
+        },
+        "path": {
+          "type": "string"
+        },
+        "chunk": {
+          "type": "object",
+          "properties": {
+            "index": {"type": "integer"},
+            "count": {"type": "integer"},
+            "group_id": {"type": "string"
+            }
+          },
+          "required": ["index", "count"]
+        }
+      },
+      "required": ["mode"]
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["manual", "session_task", "watcher"]
+        },
+        "engine": {
+          "type": "string",
+          "enum": ["kilo", "opencode", "other"]
+        },
+        "actor": {
+          "type": "string",
+          "enum": ["lane", "subagent"]
+        },
+        "session_id": {"type": "string"}
+      },
+      "required": ["mode", "engine", "actor"]
+    },
+    "lease": {
+      "type": "object",
+      "properties": {
+        "owner": {"type": "string"},
+        "acquired_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "renew_count": {
+          "type": "integer",
+          "default": 0
+        },
+        "max_renewals": {
+          "type": "integer",
+          "default": 3
+        }
+      }
+    },
+    "retry": {
+      "type": "object",
+      "properties": {
+        "attempt": {"type": "integer", "default": 1},
+        "max_attempts": {"type": "integer", "default": 3},
+        "last_error": {"type": "string"},
+        "last_attempt_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "boolean",
+          "default": true
+        },
+        "evidence_path": {"type": "string"},
+        "verified": {"type": "boolean", "default": false},
+        "verified_by": {"type": "string"},
+        "verified_at": {"type": "string",
+        "format": "date-time"}
+      }
+    },
+    "heartbeat": {
+      "type": "object",
+      "properties": {
+        "interval_seconds": {"type": "integer", "default": 300},
+        "last_heartbeat_at": {"type": "string",
+          "format": "date-time"},
+        "timeout_seconds": {"type": "integer", "default": 900},
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in_progress", "done", "failed", "escalated", "timed_out"]
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version", 
+    "task_id", 
+    "idempotency_key", 
+    "from", 
+    "to", 
+    "type", 
+    "task_kind", 
+    "priority", 
+    "subject", 
+    "body", 
+    "timestamp", 
+    "requires_action", 
+    "payload", 
+    "execution", 
+    "lease", 
+    "retry", 
+    "evidence",
+    "heartbeat"
+  ]
+}
