@@ -19,8 +19,10 @@ const ORCHESTRATOR_REQUEST_TIMEOUT_MS = 5000;
  * Library reads from this location to verify signatures.
  */
 const ARCHIVIST_TRUST_STORE_PATH =
-  process.env.ARCHIVIST_TRUST_STORE_PATH ||
-  'S:/Archivist-Agent/.trust/keys.json';
+  'S:/self-organizing-library/lanes/broadcast/trust-store.json';
+
+const TRUST_STORE_PATH = 
+  process.env.TRUST_STORE_PATH || 'S:/self-organizing-library/lanes/broadcast/trust-store.json';
 
 /**
  * Path to the Library's own key pair (generated on first run).
@@ -56,6 +58,7 @@ module.exports = {
   ARCHIVIST_ORCHESTRATOR_URL,
   ORCHESTRATOR_REQUEST_TIMEOUT_MS,
   ARCHIVIST_TRUST_STORE_PATH,
+  TRUST_STORE_PATH,
   LANE_KEY_PATH,
   LANE_ID,
   TRUST_STORE_VERSION,
