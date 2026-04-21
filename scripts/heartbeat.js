@@ -17,6 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { loadPolicy, assertWatcherConfig } = require('./concurrency-policy');
 
 // =============================================================================
 // Configuration
@@ -25,6 +26,13 @@ const path = require('path');
 const HEARTBEAT_FILE = path.join(__dirname, '..', 'lanes', 'library', 'inbox', 'heartbeat-library.json');
 const WRITE_INTERVAL_MS = 60000;       // 60 seconds minimum between writes
 const STALENESS_THRESHOLD_MS = 900000; // 15 minutes (900 seconds)
+
+const REPO_ROOT = path.join(__dirname, '..');
+const POLICY = loadPolicy(REPO_ROOT);
+assertWatcherConfig({
+  laneName: 'library',
+  heartbeatSeconds: WRITE_INTERVAL_MS / 1000
+}, POLICY);
 
 const OTHER_LANE_HEARTBEATS = [
   { lane: 'archivist', path: 'S:/Archivist-Agent/lanes/archivist/inbox/heartbeat-archivist.json', repo: 'S:/Archivist-Agent' },
