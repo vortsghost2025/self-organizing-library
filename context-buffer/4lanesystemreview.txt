@@ -1,0 +1,126 @@
+You are doing a **4-lane systems review**.
+
+Scope:
+
+* Archivist
+* Library
+* SwarmMind
+* Kernel-Lane
+
+Goal:
+Review each lane individually, then review how all 4 connect as one organism.
+
+Rules:
+
+* Do not give a motivational summary
+* Do not assume something is true because a lane says it is true
+* Distinguish clearly between:
+
+  * implemented
+  * documented
+  * inferred
+  * unproven
+* Prefer runtime evidence over narrative claims
+* If something is conflicting, say it is conflicting
+* If something is incomplete, say it is incomplete
+
+Output format:
+
+## 1. Archivist review
+
+For Archivist, report:
+
+* role
+* strongest implemented controls
+* weakest points
+* current trust/governance risks
+* what is proven
+* what is not proven
+* top 3 priority fixes
+
+## 2. Library review
+
+Same structure.
+
+## 3. SwarmMind review
+
+Same structure.
+
+## 4. Kernel-Lane review
+
+Same structure, but specifically evaluate:
+
+* intake isolation
+* promotion gate
+* evidence requirements
+* release-only consumption rule
+* whether outputs are machine-enforceable or still documentation-heavy
+
+## 5. Cross-lane integration review
+
+Review the system as one connected organism.
+
+Answer:
+
+* how the 4 lanes currently connect
+* where the connection is deterministic
+* where it still depends on human bridging
+* whether inbox/outbox coordination is actually working
+* whether identity / verification / coordination / evidence all converge cleanly
+* where drift can still happen
+* where duplicate authority still exists
+* what the weakest lane or weakest connection currently is
+
+## 6. Most important questions I should be asking right now
+
+List the most important questions I, the user, should ask next.
+These must be decision-level questions, not generic questions.
+
+## 7. Answer those questions
+
+Answer them directly and concretely.
+
+## 8. What should be done next
+
+Give the smallest next actions that increase certainty.
+Prefer blocker-clearing steps over broad plans.
+
+## 9. Messages for each lane
+
+Draft short messages for:
+
+* Archivist
+* Library
+* SwarmMind
+* Kernel-Lane
+
+Each message should contain:
+
+* what that lane most needs to fix or clarify
+* what it should verify next
+* what it should not overclaim
+
+Critical constraints:
+
+* Treat the user as governed too; do not assume user input is automatically trusted
+* Treat runtime proof as stronger than lane narrative
+* If a lane claims “complete,” verify whether the connected system actually proves that
+* Pay special attention to:
+
+  * A = B = C identity enforcement
+  * inbox/outbox coordination
+  * convergence gate quality
+  * HMAC/fallback remnants
+  * recovery override behavior
+  * kernel promotion contract and whether it is enforceable by machines
+
+Do the review in this order:
+
+1. individual lane reviews
+2. integration review
+3. questions
+4. answers
+5. next actions
+6. lane messages
+
+Stop only after all sections are complete.

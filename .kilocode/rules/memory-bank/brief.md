@@ -1,48 +1,18 @@
-# Project Brief: Next.js Starter Template
+# Project Brief: Library Lane in AI Governance Lattice
 
 ## Purpose
 
-This is a minimal Next.js starter template designed for AI-assisted development. It provides a clean foundation that can be extended to build any type of web application through interaction with an AI assistant.
+This project is a Library Lane positioned within a four-lane AI governance lattice. It serves as a verification-and-enforcement lane, assisting in the evaluation of AI governance claims, and providing runtime evidence to support decision-making.
 
-## Target Users
+## Key Characteristics
 
-- Developers wanting a clean Next.js starting point
-- Users building applications through AI-assisted coding
-- Teams needing a standardized, modern Next.js setup
-
-## Core Use Case
-
-Users describe what they want to build to an AI assistant, which then expands this template by:
-
-1. Adding components and pages as needed
-2. Installing additional dependencies
-3. Setting up databases, authentication, etc. using recipes
-4. Customizing styling and branding
-
-## Key Requirements
-
-### Must Have
-
-- Modern Next.js 16 setup with App Router
-- TypeScript for type safety
-- Tailwind CSS 4 for styling
-- ESLint for code quality
-- Clean, minimal starting structure
-- Bun as package manager
-
-### Nice to Have
-
-- Recipe system for common additions (database, auth)
-- Memory bank for AI context persistence
-- Clear development guidelines
-
-## Success Metrics
-
-- Clean, zero-error TypeScript setup
-- Passing lint and type checks
-
-## Constraints
-
-- Minimal dependencies by default
-- Framework: Next.js 16 + React 19 + Tailwind CSS 4
-- Package manager: Bun
+- **Position:** 2  
+- **Authority:** 90  
+- **Role:** Verification-and-enforcement lane  
+- **Primary Duty:** Prove or reject claims with runtime evidence  
+- **GitHub:** [github.com/vortsghost2025/self-organizing-library](https://github.com/vortsghost2025/self-organizing-library)
+- **Tech Stack:** Next.js 16, TypeScript, Tailwind CSS 4, Drizzle ORM, SQLite, Bun
+- **Verification Infrastructure:** Deterministic verification methods including JWS attestation, trust store, quarantine, and recovery procedures.
+- **Usage Lane:** Implements a five-point verification standard to assess interactions and claims.
+- **Lane-Relay Protocol:** Utilizes a protocol for cross-lane communication with JSON inbox and outbox structures.
+- **Federated AI System:** Functions within a multi-AI system governed by constitutional safety standards (see `S:\federation`).
