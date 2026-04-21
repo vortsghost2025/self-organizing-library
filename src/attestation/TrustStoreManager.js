@@ -15,13 +15,31 @@ this.trustStore = null;
 this._load();
 }
 
-_load() {
-if (!fs.existsSync(this.trustStorePath)) {
-throw new Error(`Trust store not found: ${this.trustStorePath}`);
-}
-const raw = fs.readFileSync(this.trustStorePath, 'utf8');
-this.trustStore = JSON.parse(raw);
-}
+  _load() {
+    if (!fs.existsSync(this.trustStorePath)) {
+      throw new Error(`Trust store not found: ${this.trustStorePath}`);
+    }
+    const raw = fs.readFileSync(this.trustStorePath, 'utf8');
+    const parsed = JSON.parse(raw);
+
+    // Normalize trust store format: support both nested { keys: {...} } and
+    // flat { laneId: {...} } formats (broadcast trust store uses flat format)
+    if (parsed.keys && typeof parsed.keys === 'object') {
+      this.trustStore = parsed;
+    } else {
+      // Flat format: lane IDs are top-level keys — wrap in keys object
+      this.trustStore = { keys: {}, migration: {} };
+      for (const [laneId, entry] of Object.entries(parsed)) {
+        if (entry && typeof entry === 'object' && entry.public_key_pem) {
+          this.trustStore.keys[laneId] = entry;
+        }
+      }
+    }
+
+    if (!this.trustStore.migration) {
+      this.trustStore.migration = {};
+    }
+  }
 
 _save() {
 this.trustStore.updated_at = new Date().toISOString();

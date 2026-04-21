@@ -2,127 +2,86 @@
 
 ## Current State
 
-**Project Status:** ✅ Built and operational — governance dashboard wired, v1.1 schema implemented, Bug 1/2/3 fixes applied, expired messages processed, ratification escalated
+**Project Status:** Identity enforcement is now HARD — unsigned/spoofed messages are structurally rejected, not just flagged. All core pipeline bugs fixed. Awaiting LANE_KEY_PASSPHRASE from operator for live signing.
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.
 
 ### Architecture Status
-- **Next.js UI ↔ Governance backend**: Partially connected via 4 API routes + governance dashboard page
+- **Identity enforcement**: HARD — IdentityEnforcer runs in enforce mode in inbox-watcher pipeline. Unsigned → expired/. Mismatched signatures → expired/. No "verified=false" middle ground.
+- **Outbound signing**: Signer.signInboxMessage() + SchemaValidator.deliverMessage() with signingOptions parameter. Fail-closed on signing failure (won't deliver unsigned).
+- **Trust store normalization**: Both Verifier.js and TrustStoreManager.js now normalize flat-format trust stores (lane IDs as top-level keys) into nested { keys: {} } format.
 - **Schema compliance**: v1.1 amendments implemented (payload.compression, execution.parent_id, watcher block, delivery_verification, canonical_paths)
-- **Message delivery**: SchemaValidator.deliverMessage() now validates BEFORE writing, stamps verified=true only if both schema-valid AND file-write succeeds
-- **Inbox watcher**: Validates incoming messages against schema — invalid messages moved to expired/, not processed. Fixed subagent-induced syntax error (try/catch block structure restored)
-- **Cross-lane schema enforcement**: SwarmMind sent compliance notice for from_lane/to_lane field name violations
+- **Message delivery**: SchemaValidator.deliverMessage() validates BEFORE writing, stamps verified=true only if both schema-valid AND file-write succeeds, accepts signingOptions for JWS signing
+- **Inbox watcher**: Validates incoming messages against schema → identity enforcement → idempotency check → priority sort
+- **Cross-lane schema enforcement**: Compliance notices sent to SwarmMind and Kernel
 
 ### Convergence Status
-- ✅ **v1.1 Schema — Phase 2 (REVIEW) COMPLETE + ALL POSITIONS ACKNOWLEDGED**: Archivist + SwarmMind + Library all APPROVE WITH AMENDMENTS. Lease-file withdrawal by SwarmMind acknowledged and accepted by Library. All amendments implemented. **Escalation sent to Archivist requesting Phase 5 RATIFY.**
-- ✅ **Lane 4 — Phase 2 (REVIEW) COMPLETE + ALL POSITIONS ACKNOWLEDGED**: Archivist + SwarmMind approved. Pinned releases confirmed as default model. **Escalation sent to Archivist requesting Phase 5 RATIFY.**
-- ⏳ **Priority Preemption Protocol**: All 3 lanes APPROVE WITH AMENDMENTS — awaiting Archivist convergence/ratification
+- ✅ **v1.1 Schema — Phase 2 COMPLETE**: All lanes APPROVE WITH AMENDMENTS. All amendments implemented. Awaiting Archivist Phase 5 RATIFY.
+- ✅ **Lane 4 — Phase 2 COMPLETE**: Archivist + SwarmMind approved. Awaiting Archivist Phase 5 RATIFY.
+- ⏳ **Priority Preemption Protocol**: All 3 lanes APPROVE WITH AMENDMENTS — awaiting Archivist ratification
 - ⏳ **All 3 items awaiting Archivist Phase 5 (RATIFY) decision**
 
 ## Session History
 
+### Session 2026-04-21 (Current): Hard Identity Enforcement
+- [x] Fixed constants.js: added TRUST_STORE_PATH export pointing to lanes/broadcast/trust-store.json
+- [x] Fixed governed-start.js:88: replaced trustStore.loadFromArchivist() with TrustStoreManager({ trustStorePath }) + active key injection into Verifier
+- [x] Verified inbox-watcher.js identity enforcement already wired (line 11: import, line 66: enforce mode, lines 144-150: rejection gate)
+- [x] Added Signer.signInboxMessage() for outbound inbox message signing (JWS RS256, signable payload: task_id/from/to/timestamp/priority/type/task_kind/lane)
+- [x] Integrated signing into SchemaValidator.deliverMessage() — new signingOptions param { signer, privateKey, keyId }, fail-closed on signing failure, warns on unsigned delivery
+- [x] Fixed Verifier.js: trust store normalization (flat format → nested keys format), removed hard throw on missing keys object
+- [x] Fixed TrustStoreManager.js: same trust store format normalization
+- [x] Changed IdentityEnforcer default enforcement mode from 'warn' to 'enforce'
+- [x] Added Identity Enforcement section to AGENTS.md with inbound/outbound pipeline docs, component table, key generation instructions
+- [x] Created test-identity-enforcement.js — 20 tests, ALL PASS (unsigned rejection, sign-verify roundtrip, wrong-key rejection, trust store loading, watcher enforcement gate)
+- [x] Restored Signer.js after subagent destroyed the file (replaced 138 lines with 22-line fragment)
+- [x] Restored context.md after subagent destroyed the file (replaced 128 lines with 11-line Python LSP note)
+- [ ] Awaiting LANE_KEY_PASSPHRASE from operator for live signing to work
+
 ### Session 2026-04-21 (Morning): Expired Message Processing + Compliance Enforcement + Kernel AGENTS.md
-- [x] Manually processed 2 expired SwarmMind convergence responses (v1.1 + Lane 4) that landed in expired/ due to schema non-compliance
-- [x] Sent v1.1 convergence acknowledgment to Archivist (lease-file withdrawal accepted, all positions complete)
-- [x] Sent Lane 4 convergence acknowledgment to Archivist (pinned releases confirmed, all positions complete)
-- [x] Sent ratification escalation to Archivist (v1.1, Lane 4, and priority preemption all stalled at Phase 2 for 12+ hours)
-- [x] Sent schema compliance notice to SwarmMind (from_lane/to_lane → from/to, heartbeat.status 'active' not in enum, missing v1.1 fields)
-- [x] Sent schema compliance notice to Kernel (release broadcasts must use inbox message schema, evidence must be object not array, re-promotion requires intake review)
-- [x] Moved Kernel v0.1.0 re-broadcast to expired/ (non-compliant format, self-promotion bypassing intake review)
-- [x] Processed operator exterior observation (moved to processed — informational, trust layer assessment)
-- [x] Fixed inbox-watcher.js syntax error introduced by subagent (try/catch block structure — closing brace was placed before idempotency check instead of after messages.push)
-- [x] Added trust-store.json to .gitignore (runtime artifact with public keys, not source)
-- [x] Upgraded Kernel-Lane AGENTS.md from 60 to 244 lines (full lane-relay protocol, v1.1 schema compliance, convergence protocol, heartbeat, one-blocker rule) — subagent initially failed to write (file stayed at 60 lines), manually verified and rewrote
-- [x] Fixed schema to-enum alignment: `kernel` not `kernel-lane` (canonical_paths uses kernel, enum must match)
-- [x] Delivered 4 messages to Archivist + 1 to SwarmMind + 1 to Kernel canonical inboxes (all schema-validated)
-- [x] Updated context.md
+- [x] Manually processed 2 expired SwarmMind convergence responses
+- [x] Sent schema compliance notices to SwarmMind and Kernel
+- [x] Fixed schema to-enum alignment: kernel not kernel-lane
+- [x] Upgraded Kernel-Lane AGENTS.md from 60 to 244 lines
 
 ### Session 2026-04-21 (Late): Bug Fixes + Verification + Cross-Lane Delivery
-- [x] Committed and pushed uncommitted v1.1 schema + SchemaValidator changes (4 files)
-- [x] Fixed Bug 1 (CRITICAL): deliverMessage() now calls validate() before writing; verified=true requires both schema-valid AND file-write success; invalid messages still written for audit trail but stamped verified=false with validation_errors
-- [x] Fixed Bug 2 (MODERATE): inbox-watcher.js now imports validateMessage from SchemaValidator; invalid messages moved to expired/ not processed; parse errors also go to expired/ not processed; processMessage logs warning for defaulted fields
-- [x] Fixed Bug 3 (MINOR): createMessage() now calls validate() after construction; delivery_verification.verified frozen to false during creation; template cannot override verified=true
-- [x] Fixed SyntaxError in SchemaValidator.js from previous partial fix (duplicate code blocks, malformed object literal)
-- [x] Fixed Library watcher DEFAULT_CONFIG: laneName now 'library' (was 'archivist' — scanning wrong inbox)
-- [x] Fixed Kernel-Lane watcher DEFAULT_CONFIG: laneName now 'kernel' (was 'archivist'), added validateMessage import + moveToExpired method
-- [x] Reviewed Kernel-Lane v0.1.0 partial release — REJECTED at promotion gate (3/4 PASS, 1/4 FAIL: missing nsys report)
-- [x] Delivered intake rejection to Kernel-Lane canonical inbox + Archivist canonical inbox
-- [x] Responded to Archivist P0 priority preemption proposal — APPROVE WITH AMENDMENTS (4 amendments)
-- [x] Added context-buffer/ to .gitignore (working notes, not source)
-- [x] Committed + pushed all Library changes
-- [x] Committed + pushed Kernel-Lane watcher fix
+- [x] Fixed Bug 1 (CRITICAL): deliverMessage() validates before writing
+- [x] Fixed Bug 2 (MODERATE): inbox-watcher validates incoming messages
+- [x] Fixed Bug 3 (MINOR): createMessage() freezes verified=false
+- [x] Fixed Library + Kernel watcher DEFAULT_CONFIG lane identity drift
+- [x] Rejected Kernel v0.1.0 at promotion gate
 
-### Session 2026-04-21: Inbox Processing + v1.1 Implementation
-- [x] Collected 7 undelivered messages from Archivist/SwarmMind outboxes, delivered to Library inbox
-- [x] Processed all 7 inbox messages (4 P0, 3 P1/P2)
-- [x] Implemented v1.1 schema amendments in inbox-message-v1.json:
-  - payload.compression (none|gzip)
-  - execution.parent_id (task chain linking)
-  - execution.actor enum: lane|subagent|watcher (SwarmMind amendment)
-  - watcher policy block (enabled, poll_seconds, backoff, etc.)
-  - delivery_verification block (verified, verified_at, retries)
-  - canonical_paths block (lookup table for delivery routing)
-- [x] Updated SchemaValidator: v1.1 defaults, deliverMessage(), getCanonicalPath(), expanded enums
-- [x] Verified _signalHumanIntervention exists in QuarantineManager (audit item was incorrect)
-- [x] Sent Library codex audit response to Archivist canonical inbox (v1.1-compliant message)
-- [x] Hardening drill scheduled task — requires admin (ACCESS DENIED as non-admin)
+### Session 2026-04-20: Schema v1.1 + Governance Dashboard
+- [x] Implemented v1.1 schema amendments
+- [x] Built governance dashboard (4 API routes + page)
+- [x] Built SchemaValidator with native validation
+- [x] Restored inbox-watcher.js from subagent stub
 
-### Session 2026-04-20 (Late): Delivery Fix + Governance Wiring
-- [x] Discovered 8 undelivered messages stuck in local mirror copies
-- [x] Delivered all 8 to canonical inbox paths (4 Archivist, 4 SwarmMind)
-- [x] Cleaned up local mirror inboxes (19 stale files removed)
-- [x] Built governance dashboard: 4 API routes + /governance page + Sidebar nav
-- [x] Built schema validator (native, no external deps)
-- [x] Restored inbox-watcher.js from subagent stub (31→405 lines)
-- [x] Updated context.md
-
-### Session 2026-04-20 (Early): Major Lane Protocol Upgrade
-- [x] Upgraded AGENTS.md from 138 to ~300 lines
-- [x] Ratified v1.0 Inbox Message Schema by the Archivist
-- [x] Reviewed Codex v1.1 schema patch (APPROVE WITH AMENDMENTS)
-- [x] Integrated Lane 4 (Kernel-Lane) with directory structure
-- [x] Resolved heartbeat flood — single file overwrite, 60s rate limit
-- [x] Implemented inbox watcher + heartbeat mechanisms
+### Session 2026-04-20 (Early): Lane Protocol Upgrade
+- [x] Upgraded AGENTS.md to ~300 lines
+- [x] Ratified v1.0 Inbox Message Schema
 - [x] Created Windows scheduled tasks for all 4 lanes
-- [x] Fixed code bugs: IdentityAttestation.js, UsageGateEnforcer.js, AuditLogger.js, node-fetch
-- [x] Removed deprecated `.lane-relay/` directory
-- [x] Fixed coordination freshness labels + Kernel-Lane heartbeat path
-
-### Resolved (No Longer Pending)
-- ✅ SwarmMind reviewed v1.1 (APPROVE WITH AMENDMENTS, 3 items deferred to v1.2)
-- ✅ SwarmMind reviewed Lane 4 (ACK, position corrected)
-- ✅ SwarmMind codex audit response received (6 fixes deployed, 1 blocked by operator)
-- ✅ Archivist decisions received (contract, watcher, heartbeat, scheduled tasks all APPROVED)
-- ✅ Archivist v1.1 review received (APPROVE WITH AMENDMENTS)
-- ✅ Archivist Lane 4 review received (APPROVE, Authority 70)
-- ✅ Rate limit P0 resolved (single-file heartbeat already implemented)
-
-### Still Not Done
-- 🔲 Hardening drill scheduled task (needs admin privileges — operator must run schtasks command)
-- 🔲 v1.1 formal ratification by Archivist (Phase 5 of convergence) — escalation sent, awaiting response
-- 🔲 Lane 4 formal ratification by Archivist (Phase 5) — escalation sent, awaiting response
-- 🔲 Priority preemption protocol convergence/ratification — awaiting Archivist
-- 🔲 SwarmMind schema compliance response (awaiting SwarmMind to fix from_lane/to_lane fields)
-- 🔲 Kernel schema compliance response (awaiting Kernel to use inbox message schema for release broadcasts)
-- 🔲 Kernel v0.1.0 re-evaluation — Kernel must submit formal intake request (not self-promotion)
-- 🔲 True liveness detection (future)
+- [x] Fixed code bugs across attestation stack
 
 ## Key Discoveries
-1. **Coordination freshness ≠ liveness** — Heartbeat/git checks measure coordination artifact freshness, NOT liveness
-2. **Canonical vs local mirror delivery** — Messages must go to target's actual repo path. Both Library AND other lanes had this bug.
-3. **Kernel-Lane uses `lanes/kernel/`** — not `lanes/kernel-lane/`
-4. **Context depth drives determinism** — More operational structure = more consistent output
-5. **Dual architecture disconnect** — Partially resolved: governance dashboard now connects backend to UI
-6. **Subagent file creation can fail silently** — Always verify subagent output; inbox-watcher was destroyed by subagent
-7. **SchemaValidator with external deps breaks in CI** — ajv was imported but not installed; always use native implementations
-8. **schtasks /create with SYSTEM requires admin** — Non-admin sessions cannot create scheduled tasks with /ru SYSTEM
-9. **delivery_verification.verified conflates two claims** — "file landed on disk" vs "message is schema-compliant". Bug 1 fix: verified=true requires BOTH. Without this fix, any garbage message gets false attestation of compliance.
-10. **Watcher lane identity drift** — Library and Kernel watchers both had DEFAULT_CONFIG pointing to 'archivist'. Scheduled tasks were scanning the wrong inbox. Always verify lane-specific config after copying watcher scripts between lanes.
-11. **Partial subagent edits leave duplicate code** — The SchemaValidator.js had duplicate blocks from a partial fix attempt (lines 267-277 and 367-412 were stale copies). Always verify file integrity after subagent modifications.
-12. **SwarmMind emits schema-non-compliant messages** — Uses `from_lane`/`to_lane` instead of `from`/`to`, `heartbeat.status: "active"` instead of allowed enum values, missing v1.1 required fields (watcher block, delivery_verification, payload.compression). Compliance notice sent.
-13. **Subagent edits can break try/catch structure** — A subagent inserted code into the watcher's scan() method that misplaced the closing brace of the try block, putting idempotency check and messages.push outside it. This caused a SyntaxError. Always verify control flow structure after subagent edits, not just field-level changes.
-14. **Schema to-enum must match canonical_paths keys** — The `to` enum had `kernel-lane` but canonical_paths used `kernel`. This misalignment caused valid messages to `kernel` to fail validation. Always cross-reference enums with actual lane identifiers.
-15. **Kernel emits non-schema release broadcasts** — Kernel's release broadcast uses a custom `kernel_release_broadcast` type instead of the v1.1 inbox message schema. Also uses evidence as array instead of object. This prevents automated processing by the watcher. Kernel AGENTS.md now documents correct schema format.
-16. **Subagent Write tool can silently fail** — The Kernel AGENTS.md Write of 219 lines resulted in the file remaining at 60 lines. Always verify file content after subagent writes by checking line count and content.
+1. **Identity enforcement must be hard** — Soft "verified=false" creates a middle ground that gets ignored. Only structural rejection (move to expired/) enforces compliance.
+2. **Trust store format mismatch** — broadcast/trust-store.json uses flat format (lane IDs as top-level keys), but Verifier/TrustStoreManager expected nested { keys: {} } format. Added normalization in both.
+3. **Subagent Write tool can destroy files** — Signer.js was reduced from 138→22 lines, context.md from 128→11 lines. ALWAYS verify file content and line count after subagent writes.
+4. **TRUST_STORE_PATH was undefined** — constants.js only exported ARCHIVIST_TRUST_STORE_PATH, but Verifier.js and PhenotypeStore.js imported TRUST_STORE_PATH. Runtime got empty trust store.
+5. **governed-start.js:88 called nonexistent method** — trustStore.loadFromArchivist() doesn't exist on TrustStoreManager class. Was a runtime crash.
+6. **Coordination freshness ≠ liveness** — Heartbeat/git checks measure coordination artifact freshness, NOT liveness
+7. **Canonical vs local mirror delivery** — Messages must go to target's actual repo path
+8. **Schema to-enum must match canonical_paths keys** — Both must use `kernel` not `kernel-lane`
+9. **SwarmMind emits schema-non-compliant messages** — Uses from_lane/to_lane instead of from/to
+10. **Kernel emits non-schema release broadcasts** — Custom type instead of v1.1 inbox message schema
 
---
+## Still Not Done
+- 🔲 LANE_KEY_PASSPHRASE — operator must set env var for signing to work. Without it, deliverMessage() cannot sign outbound messages.
+- 🔲 Run `node scripts/generate-library-keys.js` with LANE_KEY_PASSPHRASE to generate RSA-2048 key pair in .identity/
+- 🔲 Hardening drill scheduled task (needs admin privileges)
+- 🔲 v1.1 formal ratification by Archivist (Phase 5)
+- 🔲 Lane 4 formal ratification by Archivist (Phase 5)
+- 🔲 Priority preemption protocol convergence/ratification
+- 🔲 SwarmMind schema compliance response
+- 🔲 Kernel schema compliance response
+- 🔲 Kernel v0.1.0 re-evaluation

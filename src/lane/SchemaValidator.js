@@ -284,15 +284,61 @@ function loadSchema() {
  * are still written (for audit trail) but stamped verified=false with
  * validation_errors attached.
  *
+ * Identity enforcement: If signingOptions is provided, the message is signed
+ * with JWS (RS256) before writing. If not provided, a warning is emitted
+ * because the receiving lane's IdentityEnforcer (mode='enforce') will reject
+ * unsigned messages. The caller MUST provide { signer, privateKey, keyId }
+ * to produce a valid signed message.
+ *
+ * @param {object} message - Inbox message to deliver
+ * @param {string} canonicalPath - Target directory path
+ * @param {object} [signingOptions] - Optional signing configuration
+ * @param {object} [signingOptions.signer] - Signer instance (src/attestation/Signer.js)
+ * @param {string|Buffer} [signingOptions.privateKey] - RSA private key for signing
+ * @param {string} [signingOptions.keyId] - Key identifier for trust store lookup
+ *
  * Returns { delivered: boolean, schema_valid: boolean, verified: boolean,
- *           path: string, error: string|null, validation_errors: string[]|null }
+ * path: string, error: string|null, validation_errors: string[]|null,
+ * signed: boolean }
  */
-function deliverMessage(message, canonicalPath) {
+function deliverMessage(message, canonicalPath, signingOptions) {
   // VALIDATE BEFORE WRITE — Bug 1 fix: never stamp verified=true without schema check
   const validationResult = validate(message);
   const schemaValid = validationResult.valid;
 
-  const filename = `${message.task_id || message.message_id || `msg-${Date.now()}`}.json`;
+  // SIGN BEFORE WRITE — Identity enforcement: outbound messages MUST be signed.
+  // If signingOptions provided, sign the message with JWS (RS256).
+  // If not provided, emit warning because receiving lanes will reject unsigned messages.
+  let signedMessage = message;
+  let wasSigned = false;
+
+  if (signingOptions && signingOptions.signer && signingOptions.privateKey && signingOptions.keyId) {
+    try {
+      signedMessage = signingOptions.signer.signInboxMessage(message, signingOptions.privateKey, signingOptions.keyId);
+      wasSigned = true;
+    } catch (signErr) {
+      console.error(`[SchemaValidator] deliverMessage: SIGNING FAILED — ${signErr.message}`);
+      console.error(`[SchemaValidator] Message will be delivered unsigned — receiving lane WILL REJECT it`);
+      // Fail-closed: do NOT silently deliver unsigned. Return error.
+      return {
+        delivered: false,
+        schema_valid: schemaValid,
+        verified: false,
+        path: null,
+        error: `Signing failed: ${signErr.message}`,
+        validation_errors: schemaValid ? null : validationResult.errors,
+        signed: false
+      };
+    }
+  } else if (!message.signature && !message.jws) {
+    // Message is unsigned and no signing options provided — warn loudly.
+    // In enforce mode, the receiving lane WILL reject this message.
+    console.warn(`[SchemaValidator] deliverMessage: WARNING — delivering UNSIGNED message`);
+    console.warn(`[SchemaValidator] Receiving lanes with enforcementMode='enforce' will REJECT this message`);
+    console.warn(`[SchemaValidator] Provide signingOptions={ signer, privateKey, keyId } to sign outbound messages`);
+  }
+
+  const filename = `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
   const fullPath = path.join(canonicalPath, filename);
 
   try {
@@ -300,36 +346,36 @@ function deliverMessage(message, canonicalPath) {
     fs.mkdirSync(canonicalPath, { recursive: true });
 
     // Pre-stamp delivery_verification with schema result
-    if (message.delivery_verification) {
-      message.delivery_verification.verified = false; // will be set to true only if both checks pass
-      message.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
+    if (signedMessage.delivery_verification) {
+      signedMessage.delivery_verification.verified = false; // will be set to true only if both checks pass
+      signedMessage.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
     }
 
     // Write message — even if schema-invalid, for audit trail
-    fs.writeFileSync(fullPath, JSON.stringify(message, null, 2), 'utf8');
+    fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
 
     // Verify delivery (v1.1 requirement) — file landed on disk
     const exists = fs.existsSync(fullPath);
 
     if (exists) {
       // delivery_verification.verified = true ONLY if both schema valid AND file landed
-      if (message.delivery_verification) {
-        message.delivery_verification.verified = schemaValid;
-        message.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
+      if (signedMessage.delivery_verification) {
+        signedMessage.delivery_verification.verified = schemaValid;
+        signedMessage.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
         // Clean up validation_errors if valid (no errors to report)
         if (schemaValid) {
-          delete message.delivery_verification.validation_errors;
+          delete signedMessage.delivery_verification.validation_errors;
         }
       }
 
       // Re-write with updated verification stamps
-      fs.writeFileSync(fullPath, JSON.stringify(message, null, 2), 'utf8');
+      fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
     }
 
     if (!schemaValid) {
       console.warn(`[SchemaValidator] deliverMessage: WARNING — message written but schema-invalid:`);
       for (const err of validationResult.errors) {
-        console.warn(`  - ${err}`);
+        console.warn(` - ${err}`);
       }
     }
 
@@ -340,6 +386,7 @@ function deliverMessage(message, canonicalPath) {
       path: fullPath,
       error: exists ? null : 'File not found after write',
       validation_errors: schemaValid ? null : validationResult.errors,
+      signed: wasSigned
     };
   } catch (err) {
     return {
@@ -349,6 +396,7 @@ function deliverMessage(message, canonicalPath) {
       path: fullPath,
       error: err.message,
       validation_errors: schemaValid ? null : validationResult.errors,
+      signed: wasSigned
     };
   }
 }
