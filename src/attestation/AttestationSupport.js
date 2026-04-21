@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const fetch = require('node-fetch'); // HTTP client for reporting failures
+// Use built-in global fetch (Node.js 18+) — node-fetch removed
 const { ARCHIVIST_ORCHESTRATOR_URL, ORCHESTRATOR_REQUEST_TIMEOUT_MS } = require('./constants');
 const { QuarantineManager } = require('./QuarantineManager');
 

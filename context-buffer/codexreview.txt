@@ -1,0 +1,227 @@
+## 1. Archivist review
+
+- Role:
+  - Governance root and coordination lane (policy, anchor, health/smoke orchestration).
+
+- Strongest implemented controls:
+  - `read_only_mode` is actually enforced in code/config (`[safety.rs](S:/Archivist-Agent/src-tauri/src/safety.rs)`, `[allowed_roots.json](S:/Archivist-Agent/config/allowed_roots.json)`).
+  - Runtime gate scripts execute and fail hard on missing prerequisites (`[health-core.js](S:/Archivist-Agent/scripts/health-core.js)`, `[smoke-core.js](S:/Archivist-Agent/scripts/smoke-core.js)`).
+  - Behavioral/enforcement tests run and pass (`21/21`, `7/7`).
+
+- Weakest points:
+  - Integration dependency is broken: health/smoke fail because SwarmMind is missing `.identity/snapshot.jws`.
+  - Registry/anchor are stale for current reality (still 3-lane, old commit pins): `[LANE_REGISTRY.json](S:/Archivist-Agent/LANE_REGISTRY.json)`, `[FREEAGENT_SYSTEM_ANCHOR.json](S:/Archivist-Agent/FREEAGENT_SYSTEM_ANCHOR.json)`.
+  - Convergence gate is largely documented, not globally runtime-enforced.
+
+- Current trust/governance risks:
+  - Governance truth sources conflict (`S:\.global\BOOTSTRAP.md` vs `S:\Archivist-Agent\BOOTSTRAP.md` differ in role semantics).
+  - Duplicate/mirror inbox writes allow contradictory state copies.
+
+- What is proven:
+  - Health/smoke scripts execute and catch missing identity.
+  - Lane health monitor executes and reports heartbeat/activity.
+  - Attestation behavioral tests execute.
+
+- What is not proven:
+  - End-to-end deterministic convergence gate enforcement across all lanes.
+  - 4-lane canonical routing adherence.
+
+- Top 3 priority fixes:
+  1. Add Kernel-Lane + current commits to authoritative registry/anchor.
+  2. Resolve dual BOOTSTRAP conflict to one canonical governance entrypoint.
+  3. Enforce canonical delivery checks (block mirror-only deliveries).
+
+## 2. Library review
+
+- Role:
+  - Verification/memory lane (attestation logic + usage analysis + documentation/indexing).
+
+- Strongest implemented controls:
+  - A=B lane comparison before crypto in wrapper path (`[VerifierWrapper.js](S:/self-organizing-library/src/attestation/VerifierWrapper.js)`).
+  - Legacy ctor bypass knobs are rejected in verifier (`allowLegacy`, `hmacCutoffDate` throw) (`[Verifier.js](S:/self-organizing-library/src/attestation/Verifier.js)`).
+  - Hardening and outcome scripts run and pass (`test-hardening-drill`, `test-outcome-protocol`, `analyze-usage-complete`).
+
+- Weakest points:
+  - Recovery failure path is broken at runtime: recovery-unreachable triggers call to missing method and crashes (`_signalHumanIntervention` not present in `[QuarantineManager.js](S:/self-organizing-library/src/attestation/QuarantineManager.js)` but called from wrapper).
+  - Usage gate can pass despite incomplete proof (e.g., `Queue._enqueue` “not proven” while gate still PASS in generated report).
+  - Stale/dead attestation surface exists (`tests/test-attestation.js` fails immediately on missing `node-fetch`).
+
+- Current trust/governance risks:
+  - False confidence risk from “PASS” reports that do not require full critical probe execution.
+  - Delivery ambiguity: at least one outbox message reports delivery to local mirror path, not canonical target inbox.
+
+- What is proven:
+  - Core wrapper path rejects unsigned/malformed/lane-mismatch under tested scripts.
+  - Runtime probe instrumentation now hooks Queue import correctly.
+
+- What is not proven:
+  - Recovery path safety under real orchestrator outages (currently crashy in one branch).
+  - Full critical-path runtime execution (not all critical probes proven each run).
+
+- Top 3 priority fixes:
+  1. Fix wrapper/quarantine API mismatch so recovery-unreachable never throws.
+  2. Make usage gate fail unless all critical probes are executed, not just “no high-risk bypass”.
+  3. Remove or repair stale attestation test/surface (`node-fetch` dependency and dead path).
+
+## 3. SwarmMind review
+
+- Role:
+  - Execution/trace lane with active inbox watcher and coordination behavior.
+
+- Strongest implemented controls:
+  - Inbox watcher + heartbeat hygiene now works (single heartbeat file, UUID flood filtering) (`[inbox-watcher.js](S:/SwarmMind%20Self-Optimizing%20Multi-Agent%20AI%20System/scripts/inbox-watcher.js)`, `[heartbeat.js](S:/SwarmMind%20Self-Optimizing%20Multi-Agent%20AI%20System/scripts/heartbeat.js)`).
+  - Hardening drill and lane consistency scripts execute and pass.
+  - A=B enforcement exists in wrapper verify flow.
+
+- Weakest points:
+  - Legacy/bypass-era control surfaces still present and active (`allowLegacy`, `hmacCutoffDate`, `getMigrationStatus`, `submitToRecovery` toggle).
+  - Direct verifier API can throw on malformed JWS (no guarded parse in `verifyAgainstTrustStore`).
+  - Startup warns missing permission enforcement module (`FilePermissionEnforcer`) and commit drift against registry.
+
+- Current trust/governance risks:
+  - Swarm claims hardening while legacy knobs still accept bypass-era constructor options.
+  - Missing `.identity/snapshot.jws` blocks Archivist health model.
+  - Registry mismatch means identity/commit assumptions are stale.
+
+- What is proven:
+  - Watcher behavior is active and processing inbox.
+  - Hardening drill scenarios pass in script context.
+  - Canonical write to Kernel `lanes/kernel/inbox` occurred at least once.
+
+- What is not proven:
+  - That all legacy/bypass surfaces are removed (they are not).
+  - That startup permission enforcement is active (module missing).
+
+- Top 3 priority fixes:
+  1. Match Library/Archivist strict verifier posture: reject/remove legacy ctor knobs and parse-throw path.
+  2. Generate and maintain `.identity/snapshot.jws`.
+  3. Fix/restore `permissions/FilePermissionEnforcer` load path.
+
+## 4. Kernel-Lane review
+
+- Role:
+  - Lane 4 GPU/kernel optimization lane with promotion/rejection artifact generation.
+
+- Intake isolation:
+  - Documented: intake from `S:\snac-v2\kimi-shared` is specified.
+  - Implemented: no machine-enforced intake validator/snapshot immutability check found.
+  - Status: documented, not enforced.
+
+- Promotion gate:
+  - Implemented: `[promote-release.ps1](S:/kernel-lane/scripts/promote-release.ps1)` enforces file existence and emits `manifest.json`, `convergence.json`, outbox broadcast, index update.
+  - Weakness: does not validate metric quality (null/garbage metrics can still pass if file exists).
+
+- Evidence requirements:
+  - Implemented: requires benchmark/nsys/ncu file presence.
+  - Unproven: no semantic validation of those reports (correctness/regression thresholds not machine-checked).
+
+- Release-only consumption rule:
+  - Documented in `[README.md](S:/kernel-lane/README.md)` and `[RELEASE_CONTRACT.md](S:/kernel-lane/docs/RELEASE_CONTRACT.md)`.
+  - Not machine-enforced in consumer lanes.
+
+- Machine-enforceable outputs vs docs-heavy:
+  - Machine-enforceable pieces exist: promotion/rejection JSON artifacts.
+  - Current state is still docs-heavy operationally: no promoted versions (`releases/index.json` empty), no active outbox release broadcasts, no consumer enforcement hooks.
+
+- Top 3 priority fixes:
+  1. Unify lane identity/path (`kernel` vs `kernel-lane`) to one canonical contract.
+  2. Add semantic gate checks (non-null metrics + regression threshold) before promotion.
+  3. Add consumer-side validator script in other lanes to enforce release-only intake.
+
+## 5. Cross-lane integration review
+
+- How the 4 lanes currently connect:
+  - Filesystem relay via `lanes/<lane>/inbox` + outbox logs.
+  - Swarm has active watcher; others are mixed/manual/script-driven.
+  - Kernel has inbox structures but no active watcher loop yet.
+
+- Where connection is deterministic:
+  - Swarm watcher processes local inbox deterministically.
+  - Archivist health/smoke scripts deterministically detect missing artifacts.
+  - Some canonical cross-repo writes are correct (example: Swarm -> Kernel).
+
+- Where it depends on human bridging:
+  - No global runtime router enforcing canonical target delivery for all lanes.
+  - Library still produces mirror/canonical duplicates and at least one mirror-only “delivery”.
+  - Kernel intake processing currently manual/script-driven, not continuously automated.
+
+- Inbox/outbox coordination actually working?
+  - Partially.
+  - Working: messages are being exchanged and processed in some lanes.
+  - Failing/ambiguous: same message filenames exist across multiple repo mirrors; schema fields vary (`from/to` vs `from_lane/to_lane`, `id` vs `message_id`).
+
+- Do identity / verification / coordination / evidence converge cleanly?
+  - No.
+  - Identity: 3-lane anchor/registry stale, lane4 not anchored, Swarm snapshot.jws missing.
+  - Verification: Archivist/Library stricter than Swarm (surface divergence).
+  - Coordination: lane naming conflict (`kernel` vs `kernel-lane`) and dual inbox trees.
+  - Evidence: some runtime proofs are real, but some gates still permit incomplete proof.
+
+- Where drift can still happen:
+  - Mirror path writes and duplicate inbox copies.
+  - Stale registry commit pins and missing lane4 registration.
+  - Legacy verifier knobs in Swarm.
+  - Recovery path inconsistency in Library.
+
+- Where duplicate authority still exists:
+  - Lane identity/canonical path authority is split across docs/messages/scripts (Archivist registry vs Swarm onboarding vs Library lane4 messages).
+  - Kernel lane naming has two concurrent authorities (`kernel` and `kernel-lane`).
+
+- Weakest lane or connection right now:
+  - Weakest connection: Lane4 integration boundary (identity/path/schema split).
+  - Weakest runtime reliability point: Library recovery-failure crash path.
+
+## 6. Most important questions you should ask right now
+
+1. Which lane ID is canonical for lane 4: `kernel` or `kernel-lane`?
+2. Do you want strict fail-closed behavior: reject any message not matching one canonical schema and path map?
+3. Should SwarmMind be required to remove legacy verifier knobs before any further “hardened” claims?
+4. Should recovery-unreachable in Library be treated as fatal reject-without-crash, and never call undefined methods?
+5. Do you want promotion blocked unless benchmark metrics are non-null and pass explicit thresholds?
+6. Should `LANE_REGISTRY.json` + `FREEAGENT_SYSTEM_ANCHOR.json` be updated immediately to 4-lane truth and current commits?
+7. Should mirror inbox writes be forbidden and audited (only canonical target inbox allowed)?
+8. Do you want one mandatory cross-lane delivery verifier run before any “phase complete” declaration?
+
+## 7. Answers to those questions
+
+1. Canonical should be `kernel` (it is already referenced by Swarm canonical path and kernel `lanes/kernel/...` structure).
+2. Yes. Without fail-closed schema/path validation, you keep silent divergence.
+3. Yes. Swarm’s current verifier still accepts bypass-era options; hardening is not uniform.
+4. Yes. Fatal outcome is acceptable; crash due undefined method is not.
+5. Yes. File-exists-only promotion is insufficient for trust.
+6. Yes. Until registry/anchor reflect 4 lanes and current commits, governance truth is stale.
+7. Yes. Mirror writes are the current biggest coordination integrity leak.
+8. Yes. Make it a hard precondition for phase completion.
+
+## 8. What should be done next (smallest certainty-increasing actions)
+
+1. Publish one canonical lane4 decision:
+   - `lane_id = kernel`
+   - canonical inbox = `S:/kernel-lane/lanes/kernel/inbox/`
+   - deprecate `kernel-lane` path tree.
+2. Patch Library recovery crash path:
+   - remove undefined `_signalHumanIntervention` call or implement compatible method in `QuarantineManager`.
+3. Patch Swarm verifier parity:
+   - remove/forbid `allowLegacy`, `hmacCutoffDate`, `submitToRecovery` bypass toggle; guard parse errors in `verifyAgainstTrustStore`.
+4. Update governance truth files:
+   - `S:/Archivist-Agent/LANE_REGISTRY.json`
+   - `S:/Archivist-Agent/FREEAGENT_SYSTEM_ANCHOR.json`
+   - include lane4 + current commit pins.
+5. Add one cross-lane delivery verifier script:
+   - validate each outbox message exists in canonical target inbox exactly once (no mirror-only delivery).
+6. Add promotion semantic gate:
+   - fail promotion if key metrics are null/missing or below threshold.
+
+## 9. Messages for each lane
+
+- Archivist:
+  - “Most critical fix: update `LANE_REGISTRY.json` and `FREEAGENT_SYSTEM_ANCHOR.json` to 4-lane canonical truth (`kernel`), current commits, and canonical path map. Verify next by running health/smoke and showing lane4-aware checks. Do not overclaim phase completion while registry/anchor are stale.”
+
+- Library:
+  - “Most critical fix: repair recovery failure path in `VerifierWrapper` so unreachable orchestrator cannot throw due missing quarantine method. Verify next with a forced recovery-unreachable test returning structured outcome (no crash). Do not overclaim ‘gate pass’ while critical probes remain unproven or mirror delivery still occurs.”
+
+- SwarmMind:
+  - “Most critical fix: remove active legacy verifier surfaces (`allowLegacy`, `hmacCutoffDate`, migration-era getters/toggles) and add guarded parse rejection in direct verifier API. Verify next by demonstrating constructor rejection and malformed-JWS structured failure in both wrapper and direct verifier paths. Do not overclaim hardening while legacy knobs still function.”
+
+- Kernel-Lane:
+  - “Most critical fix: converge to one lane identity/path (`kernel`) and deprecate `kernel-lane` duplicates. Verify next by producing one valid promoted release with non-null metrics and a broadcast consumed via canonical path checks. Do not overclaim machine enforceability while release-only consumption remains documentation-only in consumer lanes.”

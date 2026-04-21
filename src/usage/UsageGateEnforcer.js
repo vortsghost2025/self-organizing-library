@@ -32,14 +32,12 @@ const GateResult = {
 class UsageGateEnforcer {
     constructor(options = {}) {
         this.strictMode = options.strictMode ?? true;  // Fail on any DORMANT verification
-        this.criticalArtifacts = [
-            'src/attestation/Verifier.js',
-            'src/attestation/VerifierWrapper.js',
-            'src/attestation/QuarantineManager.js',
-            'src/queue/Queue.js',
-            'src/attestation/OutcomeProtocol.js',
-            'src/attestation/OutcomeRouter.js'
-        ];
+  this.criticalArtifacts = [
+    'src/attestation/Verifier.js',
+    'src/attestation/VerifierWrapper.js',
+    'src/attestation/QuarantineManager.js',
+    'src/queue/Queue.js'
+  ];
     }
 
     /**

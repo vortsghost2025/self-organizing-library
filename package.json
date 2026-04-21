@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "watch": "node scripts/inbox-watcher.js --watch",
+    "watch:once": "node scripts/inbox-watcher.js",
+
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

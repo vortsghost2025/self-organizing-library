@@ -7,7 +7,7 @@
  * – callers can replace `retryCallback` with their verification routine.
  */
 
-const fetch = require('node-fetch');
+// Use built-in global fetch (Node.js 18+) — node-fetch removed
 const { ARCHIVIST_ORCHESTRATOR_URL, ORCHESTRATOR_REQUEST_TIMEOUT_MS } = require('../attestation/constants');
 
 /**
