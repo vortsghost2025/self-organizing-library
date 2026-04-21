@@ -27,10 +27,14 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] Sent Lane 4 convergence acknowledgment to Archivist (pinned releases confirmed, all positions complete)
 - [x] Sent ratification escalation to Archivist (v1.1, Lane 4, and priority preemption all stalled at Phase 2 for 12+ hours)
 - [x] Sent schema compliance notice to SwarmMind (from_lane/to_lane → from/to, heartbeat.status 'active' not in enum, missing v1.1 fields)
+- [x] Sent schema compliance notice to Kernel (release broadcasts must use inbox message schema, evidence must be object not array, re-promotion requires intake review)
+- [x] Moved Kernel v0.1.0 re-broadcast to expired/ (non-compliant format, self-promotion bypassing intake review)
+- [x] Processed operator exterior observation (moved to processed — informational, trust layer assessment)
 - [x] Fixed inbox-watcher.js syntax error introduced by subagent (try/catch block structure — closing brace was placed before idempotency check instead of after messages.push)
 - [x] Added trust-store.json to .gitignore (runtime artifact with public keys, not source)
-- [x] Drafted Kernel-Lane AGENTS.md (131 lines, full lane-relay protocol, convergence protocol, heartbeat, schema compliance)
-- [x] Delivered 4 messages to Archivist canonical inbox + 1 to SwarmMind canonical inbox (all schema-validated)
+- [x] Upgraded Kernel-Lane AGENTS.md from 60 to 244 lines (full lane-relay protocol, v1.1 schema compliance, convergence protocol, heartbeat, one-blocker rule) — subagent initially failed to write (file stayed at 60 lines), manually verified and rewrote
+- [x] Fixed schema to-enum alignment: `kernel` not `kernel-lane` (canonical_paths uses kernel, enum must match)
+- [x] Delivered 4 messages to Archivist + 1 to SwarmMind + 1 to Kernel canonical inboxes (all schema-validated)
 - [x] Updated context.md
 
 ### Session 2026-04-21 (Late): Bug Fixes + Verification + Cross-Lane Delivery
@@ -95,11 +99,12 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 
 ### Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges — operator must run schtasks command)
-- 🔲 ~~Kernel-Lane needs: AGENTS.md with lane-relay protocol~~ → ✅ DONE (131 lines written)
-- 🔲 v1.1 formal ratification by Archivist (Phase 5 of convergence) — escalation sent
-- 🔲 Lane 4 formal ratification by Archivist (Phase 5) — escalation sent
+- 🔲 v1.1 formal ratification by Archivist (Phase 5 of convergence) — escalation sent, awaiting response
+- 🔲 Lane 4 formal ratification by Archivist (Phase 5) — escalation sent, awaiting response
 - 🔲 Priority preemption protocol convergence/ratification — awaiting Archivist
 - 🔲 SwarmMind schema compliance response (awaiting SwarmMind to fix from_lane/to_lane fields)
+- 🔲 Kernel schema compliance response (awaiting Kernel to use inbox message schema for release broadcasts)
+- 🔲 Kernel v0.1.0 re-evaluation — Kernel must submit formal intake request (not self-promotion)
 - 🔲 True liveness detection (future)
 
 ## Key Discoveries
@@ -116,5 +121,8 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 11. **Partial subagent edits leave duplicate code** — The SchemaValidator.js had duplicate blocks from a partial fix attempt (lines 267-277 and 367-412 were stale copies). Always verify file integrity after subagent modifications.
 12. **SwarmMind emits schema-non-compliant messages** — Uses `from_lane`/`to_lane` instead of `from`/`to`, `heartbeat.status: "active"` instead of allowed enum values, missing v1.1 required fields (watcher block, delivery_verification, payload.compression). Compliance notice sent.
 13. **Subagent edits can break try/catch structure** — A subagent inserted code into the watcher's scan() method that misplaced the closing brace of the try block, putting idempotency check and messages.push outside it. This caused a SyntaxError. Always verify control flow structure after subagent edits, not just field-level changes.
+14. **Schema to-enum must match canonical_paths keys** — The `to` enum had `kernel-lane` but canonical_paths used `kernel`. This misalignment caused valid messages to `kernel` to fail validation. Always cross-reference enums with actual lane identifiers.
+15. **Kernel emits non-schema release broadcasts** — Kernel's release broadcast uses a custom `kernel_release_broadcast` type instead of the v1.1 inbox message schema. Also uses evidence as array instead of object. This prevents automated processing by the watcher. Kernel AGENTS.md now documents correct schema format.
+16. **Subagent Write tool can silently fail** — The Kernel AGENTS.md Write of 219 lines resulted in the file remaining at 60 lines. Always verify file content after subagent writes by checking line count and content.
 
 --
