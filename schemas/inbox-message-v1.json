@@ -1,14 +1,14 @@
 {
   "$id": "https://example.com/schemas/inbox-message-v1.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Inbox Message Schema v1.1",
-  "description": "Cross-lane inbox message format. v1.1 adds: payload.compression, execution.parent_id, watcher block, canonical_paths, delivery_verification. Ratified amendments from Archivist + SwarmMind reviews.",
+  "title": "Inbox Message Schema v1.2",
+  "description": "Cross-lane inbox message format. v1.2 adds: signature/key_id REQUIRED (fail-closed identity), type enum expanded with 'ack'. v1.1 added: payload.compression, execution.parent_id, watcher block, canonical_paths, delivery_verification.",
   "type": "object",
   "properties": {
     "schema_version": {
       "type": "string",
-      "default": "1.1",
-      "enum": ["1.0", "1.1"]
+    "default": "1.2",
+    "enum": ["1.0", "1.1", "1.2"]
     },
     "task_id": {
       "type": "string"
@@ -25,10 +25,10 @@
     "type": "string",
     "enum": ["archivist", "library", "swarmmind", "kernel"]
   },
-    "type": {
-      "type": "string",
-      "enum": ["task", "response", "heartbeat", "escalation", "handoff"]
-    },
+  "type": {
+    "type": "string",
+    "enum": ["task", "response", "heartbeat", "escalation", "handoff", "ack"]
+  },
     "task_kind": {
       "type": "string",
       "enum": ["proposal", "review", "amendment", "ratification"]
@@ -202,12 +202,32 @@
         "verified_at": {"type": "string", "format": "date-time"},
         "retries": {"type": "integer", "default": 0}
       }
+    },
+    "signature": {
+      "type": "string",
+      "description": "v1.2: JWS compact signature (RS256). All outbound messages MUST be signed.",
+      "minLength": 1,
+      "pattern": "^eyJ[A-Za-z0-9_-]+\\.eyJ[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+    },
+    "signature_alg": {
+      "type": "string",
+      "description": "v1.2: Signature algorithm. Must be RS256.",
+      "enum": ["RS256"],
+      "default": "RS256"
+    },
+    "key_id": {
+      "type": "string",
+      "description": "v1.2: Key identifier (first 16 hex chars of SHA-256 of public key). MUST match trust store.",
+      "minLength": 16,
+      "maxLength": 16,
+      "pattern": "^[a-f0-9]{16}$"
     }
   },
   "required": [
     "schema_version", "task_id", "idempotency_key", "from", "to",
     "type", "task_kind", "priority", "subject", "body",
     "timestamp", "requires_action", "payload", "execution",
-    "lease", "retry", "evidence", "heartbeat"
+    "lease", "retry", "evidence", "heartbeat",
+    "signature", "key_id"
   ]
 }
