@@ -19,7 +19,11 @@
     "generate-keys": "node scripts/generate-library-keys.js",
     "test-lane-consistency": "node scripts/test-lane-consistency.js",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "bun run src/db/migrate.ts"
+    "db:migrate": "bun run src/db/migrate.ts",
+    "act:daemon": "node scripts/act-daemon.js",
+    "act:daemon:dry": "node scripts/act-daemon.js --dry-run",
+    "act:daemon:status": "node -e \"console.log(JSON.stringify(require('fs').readFileSync('docs/autonomous-cycle-test/daemon-state.json','utf8'))||'no state')\"",
+    "act:daemon:reset": "node -e \"require('fs').unlinkSync('docs/autonomous-cycle-test/daemon-state.json');console.log('state reset')\""
   },
   "dependencies": {
     "@kilocode/app-builder-db": "github:Kilo-Org/app-builder-db#main",
