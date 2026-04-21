@@ -12,14 +12,16 @@ const REQUIRED_FIELDS = [
 ];
 
 const ENUM_CONSTRAINTS = {
+  schema_version: ['1.0', '1.1'],
   to: ['archivist', 'library', 'swarmmind', 'kernel-lane'],
   type: ['task', 'response', 'heartbeat', 'escalation', 'handoff'],
   task_kind: ['proposal', 'review', 'amendment', 'ratification'],
   priority: ['P0', 'P1', 'P2', 'P3'],
   'payload.mode': ['inline', 'path', 'chunked'],
+  'payload.compression': ['none', 'gzip'],
   'execution.mode': ['manual', 'session_task', 'watcher'],
   'execution.engine': ['kilo', 'opencode', 'other'],
-  'execution.actor': ['lane', 'subagent'],
+  'execution.actor': ['lane', 'subagent', 'watcher'],
   'heartbeat.status': ['pending', 'in_progress', 'done', 'failed', 'escalated', 'timed_out'],
 };
 
@@ -152,7 +154,7 @@ function computeIdempotencyKey({ task_id, from, to, subject }) {
 function createMessage(template = {}) {
   const now = new Date().toISOString();
   const defaults = {
-    schema_version: '1.0',
+    schema_version: '1.1',
     task_id: template.task_id || `task-${Date.now()}`,
     idempotency_key: '',
     from: template.from || 'library',
@@ -166,6 +168,7 @@ function createMessage(template = {}) {
     requires_action: template.requires_action !== undefined ? template.requires_action : true,
     payload: {
       mode: 'inline',
+      compression: 'none',
       path: null,
       chunk: { index: 0, count: 1, group_id: null },
       ...template.payload,
@@ -175,6 +178,7 @@ function createMessage(template = {}) {
       engine: 'kilo',
       actor: 'lane',
       session_id: null,
+      parent_id: null,
       ...template.execution,
     },
     lease: {
@@ -207,6 +211,26 @@ function createMessage(template = {}) {
       status: 'pending',
       ...template.heartbeat,
     },
+    watcher: {
+      enabled: false,
+      poll_seconds: 60,
+      p0_fast_path: true,
+      max_concurrent: 1,
+      heartbeat_required: true,
+      stale_after_seconds: 300,
+      backoff: {
+        initial_seconds: 60,
+        max_seconds: 300,
+        multiplier: 2,
+      },
+      ...template.watcher,
+    },
+    delivery_verification: {
+      verified: false,
+      verified_at: null,
+      retries: 0,
+      ...template.delivery_verification,
+    },
   };
 
   const message = { ...defaults, ...template };
@@ -230,12 +254,69 @@ function loadSchema() {
   }
 }
 
+/**
+ * Write a message to a canonical inbox path with delivery verification.
+ * Per v1.1 amendment: sender SHOULD verify file exists after writing.
+ * Returns { delivered: boolean, verified: boolean, path: string, error: string|null }
+ */
+function deliverMessage(message, canonicalPath) {
+  const filename = `${message.task_id || message.message_id || `msg-${Date.now()}`}.json`;
+  const fullPath = path.join(canonicalPath, filename);
+
+  try {
+    // Ensure directory exists
+    fs.mkdirSync(canonicalPath, { recursive: true });
+
+    // Write message
+    fs.writeFileSync(fullPath, JSON.stringify(message, null, 2), 'utf8');
+
+    // Verify delivery (v1.1 requirement)
+    const exists = fs.existsSync(fullPath);
+    if (exists) {
+      // Update delivery_verification on the message
+      if (message.delivery_verification) {
+        message.delivery_verification.verified = true;
+        message.delivery_verification.verified_at = new Date().toISOString();
+      }
+    }
+
+    return {
+      delivered: true,
+      verified: exists,
+      path: fullPath,
+      error: exists ? null : 'File not found after write',
+    };
+  } catch (err) {
+    return {
+      delivered: false,
+      verified: false,
+      path: fullPath,
+      error: err.message,
+    };
+  }
+}
+
+/**
+ * Get canonical inbox path for a target lane.
+ */
+function getCanonicalPath(lane) {
+  const paths = {
+    archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
+    library: 'S:/self-organizing-library/lanes/library/inbox/',
+    swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/',
+    kernel: 'S:/kernel-lane/lanes/kernel/inbox/',
+  };
+  return paths[lane] || null;
+}
+
 module.exports = {
   validate,
   validateAndThrow,
   createMessage,
   computeIdempotencyKey,
   loadSchema,
+  deliverMessage,
+  getCanonicalPath,
   REQUIRED_FIELDS,
   ENUM_CONSTRAINTS,
 };
