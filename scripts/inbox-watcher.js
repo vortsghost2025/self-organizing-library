@@ -129,14 +129,15 @@ class InboxWatcher {
         const msg = JSON.parse(raw);
         msg._sourceFile = filename;
         msg._sourcePath = filePath;
-        // Schema validation FIRST — before idempotency check
-        if (validateMessage) {
-          const result = validateMessage(msg);
-          if (!result.valid) {
-            console.warn(`[watcher] INVALID: ${filename} — ${result.errors.slice(0,3).join('; ')}`);
-            this.moveToExpired(filename, filePath);
-            continue;
-          }
+			// Schema validation FIRST — before idempotency check
+			if (validateMessage) {
+				const result = validateMessage(msg);
+				if (!result.valid) {
+					console.warn(`[watcher] INVALID: ${filename} — ${result.errors.slice(0,3).join('; ')}`);
+					this.moveToExpired(filename, filePath);
+					continue;
+				}
+			}
         }
         if (!this.checkIdempotencyKey(msg)) {
           this.moveToProcessed(filename, filePath);
