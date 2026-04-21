@@ -21,10 +21,10 @@
       "type": "string",
       "default": "library"
     },
-    "to": {
-      "type": "string",
-      "enum": ["archivist", "library", "swarmmind", "kernel-lane"]
-    },
+  "to": {
+    "type": "string",
+    "enum": ["archivist", "library", "swarmmind", "kernel"]
+  },
     "type": {
       "type": "string",
       "enum": ["task", "response", "heartbeat", "escalation", "handoff"]

@@ -13,7 +13,7 @@ const REQUIRED_FIELDS = [
 
 const ENUM_CONSTRAINTS = {
   schema_version: ['1.0', '1.1'],
-  to: ['archivist', 'library', 'swarmmind', 'kernel-lane'],
+  to: ['archivist', 'library', 'swarmmind', 'kernel'],
   type: ['task', 'response', 'heartbeat', 'escalation', 'handoff'],
   task_kind: ['proposal', 'review', 'amendment', 'ratification'],
   priority: ['P0', 'P1', 'P2', 'P3'],
