@@ -2,21 +2,38 @@
 
 ## Current State
 
-**Project Status:** ✅ Built and operational — governance dashboard wired, v1.1 schema implemented
+**Project Status:** ✅ Built and operational — governance dashboard wired, v1.1 schema implemented, Bug 1/2/3 fixes applied
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.
 
 ### Architecture Status
 - **Next.js UI ↔ Governance backend**: Partially connected via 4 API routes + governance dashboard page
 - **Schema compliance**: v1.1 amendments implemented (payload.compression, execution.parent_id, watcher block, delivery_verification, canonical_paths)
-- **Message delivery**: SchemaValidator.deliverMessage() now writes + verifies at canonical paths
+- **Message delivery**: SchemaValidator.deliverMessage() now validates BEFORE writing, stamps verified=true only if both schema-valid AND file-write succeeds
+- **Inbox watcher**: Now validates incoming messages against schema — invalid messages moved to expired/, not processed
 
 ### Convergence Status
 - ✅ **v1.1 Schema — Phase 2 (REVIEW) COMPLETE**: Archivist + SwarmMind + Library all APPROVE WITH AMENDMENTS. All amendments implemented. Ready for Phase 3/4.
 - ✅ **Lane 4 — Phase 2 (REVIEW) COMPLETE**: Archivist + SwarmMind approved (Authority 70, Position 4, can_govern: false). Canonical path added.
 - ⏳ **Both awaiting Archivist ratification to move to Phase 5 (RATIFY)**
+- 🆕 **Priority Preemption Protocol**: Archivist P0 proposal received — Library APPROVE WITH AMENDMENTS (4 amendments: inbox-first ordering, P1 SLA 4 cycles, P0 broadcast handling, compliance evidence)
 
 ## Session History
+
+### Session 2026-04-21 (Late): Bug Fixes + Verification + Cross-Lane Delivery
+- [x] Committed and pushed uncommitted v1.1 schema + SchemaValidator changes (4 files)
+- [x] Fixed Bug 1 (CRITICAL): deliverMessage() now calls validate() before writing; verified=true requires both schema-valid AND file-write success; invalid messages still written for audit trail but stamped verified=false with validation_errors
+- [x] Fixed Bug 2 (MODERATE): inbox-watcher.js now imports validateMessage from SchemaValidator; invalid messages moved to expired/ not processed; parse errors also go to expired/ not processed; processMessage logs warning for defaulted fields
+- [x] Fixed Bug 3 (MINOR): createMessage() now calls validate() after construction; delivery_verification.verified frozen to false during creation; template cannot override verified=true
+- [x] Fixed SyntaxError in SchemaValidator.js from previous partial fix (duplicate code blocks, malformed object literal)
+- [x] Fixed Library watcher DEFAULT_CONFIG: laneName now 'library' (was 'archivist' — scanning wrong inbox)
+- [x] Fixed Kernel-Lane watcher DEFAULT_CONFIG: laneName now 'kernel' (was 'archivist'), added validateMessage import + moveToExpired method
+- [x] Reviewed Kernel-Lane v0.1.0 partial release — REJECTED at promotion gate (3/4 PASS, 1/4 FAIL: missing nsys report)
+- [x] Delivered intake rejection to Kernel-Lane canonical inbox + Archivist canonical inbox
+- [x] Responded to Archivist P0 priority preemption proposal — APPROVE WITH AMENDMENTS (4 amendments)
+- [x] Added context-buffer/ to .gitignore (working notes, not source)
+- [x] Committed + pushed all Library changes
+- [x] Committed + pushed Kernel-Lane watcher fix
 
 ### Session 2026-04-21: Inbox Processing + v1.1 Implementation
 - [x] Collected 7 undelivered messages from Archivist/SwarmMind outboxes, delivered to Library inbox
@@ -78,5 +95,8 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 6. **Subagent file creation can fail silently** — Always verify subagent output; inbox-watcher was destroyed by subagent
 7. **SchemaValidator with external deps breaks in CI** — ajv was imported but not installed; always use native implementations
 8. **schtasks /create with SYSTEM requires admin** — Non-admin sessions cannot create scheduled tasks with /ru SYSTEM
+9. **delivery_verification.verified conflates two claims** — "file landed on disk" vs "message is schema-compliant". Bug 1 fix: verified=true requires BOTH. Without this fix, any garbage message gets false attestation of compliance.
+10. **Watcher lane identity drift** — Library and Kernel watchers both had DEFAULT_CONFIG pointing to 'archivist'. Scheduled tasks were scanning the wrong inbox. Always verify lane-specific config after copying watcher scripts between lanes.
+11. **Partial subagent edits leave duplicate code** — The SchemaValidator.js had duplicate blocks from a partial fix attempt (lines 267-277 and 367-412 were stale copies). Always verify file integrity after subagent modifications.
 
 --
