@@ -47,3 +47,13 @@ keys.json
 
 # Session memory (persists locally)
 .memory/
+
+# Inbox hygiene - prevent UUID/temp heartbeat files from being committed
+# Only heartbeat-{lane}.json (single file per lane) should exist
+lanes/*/inbox/!(*-library.json|README.md)
+lanes/*/inbox/processed/
+lanes/*/inbox/expired/
+lanes/*/inbox/watcher.log
+lanes/*/inbox/heartbeat-*.json
+!lanes/*/inbox/heartbeat-library.json
+lanes/*/outbox/
