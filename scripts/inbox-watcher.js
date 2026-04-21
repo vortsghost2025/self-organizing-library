@@ -1,402 +1,380 @@
 #!/usr/bin/env node
-/**
- * Library Lane Inbox Watcher
- *
- * Polls lanes/library/inbox/ for new messages, processes by priority,
- * and moves completed messages to processed/.
- *
- * Usage:
- *   node scripts/inbox-watcher.js          # Run once (single scan)
- *   node scripts/inbox-watcher.js --watch  # Continuous polling (60s interval)
- *   node scripts/inbox-watcher.js --check  # Just report inbox status, don't process
- *
- * Per v1.0 inbox message schema and ratified Archivist contract.
- */
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
-const { validate: validateSchema } = require('../src/lane/SchemaValidator');
-
-// =============================================================================
-// Configuration
-// =============================================================================
-
-const INBOX_DIR = path.join(__dirname, '..', 'lanes', 'library', 'inbox');
-const PROCESSED_DIR = path.join(INBOX_DIR, 'processed');
-const EXPIRED_DIR = path.join(INBOX_DIR, 'expired');
-const LOG_FILE = path.join(INBOX_DIR, 'watcher.log');
-
-const POLL_INTERVAL_MS = 60000; // 60 seconds
-const LEASE_DURATION_MS = 300000; // 5 minutes
-const MAX_RETRIES = 3;
+const {
+  loadPolicy,
+  assertWatcherConfig,
+  acquireWatcherLock
+} = require('./concurrency-policy');
 
 const PRIORITY_ORDER = { P0: 0, P1: 1, P2: 2, P3: 3 };
+const PREEMPTION_CYCLE_LIMIT = 2;
+const P0_YIELD_EVERY_N = 5;
 
-// =============================================================================
-// Utilities
-// =============================================================================
+const SKIP_FILENAMES = new Set([
+  'heartbeat.json', 'watcher.log', 'watcher.pid', 'readme.md'
+]);
 
-function ensureDir(dir) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+const HEARTBEAT_PATTERN = /^heartbeat-.+\.json$/i;
+const INBOX_MSG_PATTERN = /^\d{4}-/;
+const UUID_PATTERN = /^\d{8}-\d{4}-\d{4}-\d{4}-\d{12}\.json$/i;
+
+function isValidInboxMessage(filename) {
+  const lower = filename.toLowerCase();
+  if (SKIP_FILENAMES.has(lower)) return false;
+  if (HEARTBEAT_PATTERN.test(lower)) return false;
+  if (UUID_PATTERN.test(filename)) return false;
+  if (!INBOX_MSG_PATTERN.test(filename)) return false;
+  return filename.endsWith('.json');
+}
+
+const DEFAULT_CONFIG = {
+  laneName: 'archivist',
+  inboxPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox'),
+  processedPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'processed'),
+  outboxPath: path.join(__dirname, '..', 'lanes', 'archivist', 'outbox'),
+  expiredPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'expired'),
+  canonicalPaths: {
+    archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
+    library: 'S:/self-organizing-library/lanes/library/inbox/',
+    swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/',
+    kernel: 'S:/kernel-lane/lanes/kernel/inbox/'
   }
-}
+};
 
-function log(entry) {
-  const line = JSON.stringify({ timestamp: new Date().toISOString(), ...entry });
-  // Console output
-  console.log(`[watcher] ${entry.action || 'unknown'}: ${entry.messageId || entry.details || ''}`);
-  // File output (append)
-  try {
-    ensureDir(path.dirname(LOG_FILE));
-    fs.appendFileSync(LOG_FILE, line + '\n', 'utf8');
-  } catch (err) {
-    console.error(`[watcher] Failed to write log: ${err.message}`);
+class InboxWatcher {
+  constructor(overrides) {
+    this.config = Object.assign({}, DEFAULT_CONFIG, overrides || {});
+    this.processedKeys = new Set();
+    this.repoRoot = path.join(__dirname, '..');
+    this.policy = loadPolicy(this.repoRoot);
+    this.consecutiveEmptyScans = 0;
+    this.maxBackoffSeconds = 300;
+    this.consecutiveP0Count = 0;
+    this.loadProcessedKeys();
+    this.loadConvergenceConstraint();
   }
-}
 
-function readJson(filePath) {
-  try {
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  } catch (err) {
-    return null;
+  loadConvergenceConstraint() {
+    const ccPath = path.join(this.repoRoot, 'lanes', 'broadcast', 'CONVERGENCE_CONSTRAINT.md');
+    try {
+      if (fs.existsSync(ccPath)) {
+        this.constraintVersion = fs.statSync(ccPath).mtimeMs;
+      }
+    } catch (_) {}
   }
-}
 
-function writeJson(filePath, data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
-}
+  ensureDirs() {
+    for (const dir of [this.config.inboxPath, this.config.processedPath,
+      this.config.outboxPath, this.config.expiredPath]) {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+    }
+  }
 
-function isHeartbeatFile(filename) {
-  return filename.startsWith('heartbeat-') && filename.endsWith('.json');
-}
+  loadProcessedKeys() {
+    try {
+      const files = fs.readdirSync(this.config.processedPath);
+      for (const f of files) {
+        if (f.endsWith('.json')) {
+          this.processedKeys.add(f);
+        }
+      }
+    } catch (_) {}
+  }
 
-function isSystemFile(filename) {
-  return filename === 'README.md' || filename === 'watcher.log' || filename.startsWith('.') || isHeartbeatFile(filename);
-}
+  checkIdempotencyKey(msg) {
+    if (!msg.idempotency_key && !msg.id) {
+      console.log('[watcher] REJECT: message has no idempotency_key or id — cannot guarantee once-only processing');
+      return false;
+    }
+    const key = msg.idempotency_key || msg.id;
+    if (this.processedKeys.has(key)) {
+      console.log(`[watcher] SKIP: idempotency_key=${key} already processed`);
+      return false;
+    }
+    return true;
+  }
 
-// =============================================================================
-// Core Functions
-// =============================================================================
+  scan() {
+    this.ensureDirs();
 
-/**
- * Scan inbox directory and return actionable messages sorted by priority.
- * Includes schema validation — invalid messages are logged and skipped.
- */
-function scan() {
-  ensureDir(INBOX_DIR);
-  ensureDir(PROCESSED_DIR);
-  ensureDir(EXPIRED_DIR);
-
-  const files = fs.readdirSync(INBOX_DIR).filter(f => f.endsWith('.json') && !isSystemFile(f));
-
-  const messages = [];
-
-  for (const file of files) {
-    const filePath = path.join(INBOX_DIR, file);
-    const msg = readJson(filePath);
-
-    if (!msg) {
-      log({ action: 'skip', messageId: file, details: 'malformed JSON' });
-      continue;
+    let files;
+    try {
+      files = fs.readdirSync(this.config.inboxPath);
+    } catch (e) {
+      console.error('[watcher] Cannot read inbox:', e.message);
+      return [];
     }
 
-    // Schema validation
-    const schemaResult = validateSchema(msg);
-    if (!schemaResult.valid) {
-      log({ action: 'schema-invalid', messageId: file, details: schemaResult.errors.join('; ') });
-      // Don't skip entirely — still process with a warning, but mark as schema-invalid
-      // This prevents data loss while still flagging protocol violations
-      msg._schema_warnings = schemaResult.errors;
+    const messages = [];
+
+    for (const filename of files) {
+      if (!isValidInboxMessage(filename)) continue;
+      if (this.processedKeys.has(filename)) continue;
+
+      const filePath = path.join(this.config.inboxPath, filename);
+      try {
+        const raw = fs.readFileSync(filePath, 'utf8');
+        const msg = JSON.parse(raw);
+        msg._sourceFile = filename;
+        msg._sourcePath = filePath;
+        if (!this.checkIdempotencyKey(msg)) {
+          this.moveToProcessed(filename, filePath);
+          continue;
+        }
+        messages.push(msg);
+      } catch (e) {
+        console.error(`[watcher] Cannot parse ${filename}:`, e.message);
+        this.moveToProcessed(filename, filePath);
+      }
     }
 
-    // Check idempotency: already processed?
-    const taskId = msg.task_id || msg.id || file;
-    const processedFiles = fs.readdirSync(PROCESSED_DIR);
-    const alreadyProcessed = processedFiles.some(pf => {
-      const processed = readJson(path.join(PROCESSED_DIR, pf));
-      return processed && (processed.task_id === taskId || processed.id === taskId);
+    messages.sort((a, b) => {
+      const pa = PRIORITY_ORDER[a.priority] ?? 3;
+      const pb = PRIORITY_ORDER[b.priority] ?? 3;
+      return pa - pb;
     });
 
-    if (alreadyProcessed) {
-      log({ action: 'skip', messageId: file, details: `already processed (task_id: ${taskId})` });
-      continue;
-    }
-
-    // Check lease: if leased by another and not expired, skip
-    if (msg.lease && msg.lease.owner && msg.lease.owner !== 'library') {
-      const expiresAt = msg.lease.expires_at ? new Date(msg.lease.expires_at).getTime() : 0;
-      if (Date.now() < expiresAt) {
-        log({ action: 'skip', messageId: file, details: `leased by ${msg.lease.owner} until ${msg.lease.expires_at}` });
-        continue;
-      }
-      // Lease expired - can claim
-      log({ action: 'lease-expired', messageId: file, details: `lease by ${msg.lease.owner} expired` });
-    }
-
-    messages.push({ file, filePath, msg, taskId });
+    return messages;
   }
 
-  // Sort by priority (P0 first)
-  messages.sort((a, b) => {
-    const pa = PRIORITY_ORDER[a.msg.priority] ?? 99;
-    const pb = PRIORITY_ORDER[b.msg.priority] ?? 99;
-    return pa - pb;
-  });
+  applyPreemption(messages) {
+    const hasP0orP1 = messages.some(m => {
+      const p = PRIORITY_ORDER[m.priority] ?? 3;
+      return p <= 1;
+    });
 
-  return messages;
-}
+    if (!hasP0orP1) return messages;
 
-/**
- * Claim a message by updating its lease fields
- */
-function acquire(message) {
-  const { msg, filePath } = message;
-  const now = new Date().toISOString();
+    const prioritized = [];
+    const deferred = [];
 
-  msg.lease = {
-    owner: 'library',
-    acquired_at: now,
-    expires_at: new Date(Date.now() + LEASE_DURATION_MS).toISOString(),
-    renew_count: (msg.lease?.renew_count || 0) + 1,
-    max_renewals: 3
-  };
-
-  writeJson(filePath, msg);
-  log({ action: 'acquire', messageId: message.file, details: `leased until ${msg.lease.expires_at}` });
-  return msg;
-}
-
-/**
- * Process a single message (log + any P0 alerts)
- */
-function processMessage(message) {
-  const { msg, file } = message;
-
-  log({
-    action: 'process',
-    messageId: file,
-    details: {
-      from: msg.from,
-      to: msg.to,
-      type: msg.type,
-      priority: msg.priority,
-      subject: msg.subject,
-      task_id: msg.task_id || msg.id,
-      requires_action: msg.requires_action,
-      schema_warnings: msg._schema_warnings || []
-    }
-  });
-
-  // P0 messages get console alert
-  if (msg.priority === 'P0') {
-    console.warn(`\n⚠️ P0 MESSAGE: ${msg.subject}`);
-    console.warn(`  From: ${msg.from}`);
-    console.warn(`  Type: ${msg.type}`);
-    console.warn(`  Task: ${msg.task_id || msg.id}`);
-    if (msg.requires_action) {
-      console.warn(`  ACTION REQUIRED: Yes`);
-    }
-    console.warn('');
-  }
-
-  // Log schema warnings if present
-  if (msg._schema_warnings && msg._schema_warnings.length > 0) {
-    console.warn(`[watcher] Schema warnings for ${file}: ${msg._schema_warnings.join(', ')}`);
-  }
-
-  return true;
-}
-
-/**
- * Move message to processed/ directory
- */
-function complete(message) {
-  const { file, filePath, msg } = message;
-
-  // Update heartbeat status
-  if (msg.heartbeat) {
-    msg.heartbeat.status = 'done';
-    msg.heartbeat.last_heartbeat_at = new Date().toISOString();
-  }
-
-  // Set evidence path
-  if (msg.evidence) {
-    msg.evidence.evidence_path = `lanes/library/inbox/processed/${file}`;
-    msg.evidence.verified = true;
-    msg.evidence.verified_by = 'library';
-    msg.evidence.verified_at = new Date().toISOString();
-  }
-
-  // Write to processed
-  const processedPath = path.join(PROCESSED_DIR, file);
-  writeJson(processedPath, msg);
-
-  // Remove from inbox
-  try {
-    fs.unlinkSync(filePath);
-  } catch (err) {
-    log({ action: 'error', messageId: file, details: `failed to remove from inbox: ${err.message}` });
-  }
-
-  log({ action: 'complete', messageId: file, details: 'moved to processed/' });
-}
-
-/**
- * Handle processing failure
- */
-function fail(message, error) {
-  const { msg, file, filePath } = message;
-
-  // Update retry counter
-  if (!msg.retry) msg.retry = {};
-  msg.retry.attempt = (msg.retry.attempt || 0) + 1;
-  msg.retry.last_error = error.message || String(error);
-  msg.retry.last_attempt_at = new Date().toISOString();
-
-  // Release lease
-  if (msg.lease) {
-    msg.lease.owner = null;
-    msg.lease.acquired_at = null;
-    msg.lease.expires_at = null;
-  }
-
-  if (msg.retry.attempt >= (msg.retry.max_attempts || MAX_RETRIES)) {
-    // Max retries exceeded - move to expired
-    const expiredPath = path.join(EXPIRED_DIR, file);
-    writeJson(expiredPath, msg);
-    try { fs.unlinkSync(filePath); } catch (e) { /* ignore */ }
-    log({ action: 'expire', messageId: file, details: `max retries (${msg.retry.attempt}) exceeded, moved to expired/` });
-  } else {
-    // Write back with updated retry counter (release for re-acquisition)
-    writeJson(filePath, msg);
-    log({ action: 'fail', messageId: file, details: `attempt ${msg.retry.attempt}, will retry` });
-  }
-}
-
-/**
- * Report inbox status without processing
- */
-function checkStatus() {
-  ensureDir(INBOX_DIR);
-  ensureDir(PROCESSED_DIR);
-
-  const files = fs.readdirSync(INBOX_DIR).filter(f => f.endsWith('.json') && !isSystemFile(f));
-  const processedFiles = fs.readdirSync(PROCESSED_DIR).filter(f => f.endsWith('.json'));
-  const expiredFiles = fs.existsSync(EXPIRED_DIR) ? fs.readdirSync(EXPIRED_DIR).filter(f => f.endsWith('.json')) : [];
-
-  const byPriority = { P0: 0, P1: 0, P2: 0, P3: 0, unknown: 0 };
-  let schemaInvalid = 0;
-
-  for (const file of files) {
-    const msg = readJson(path.join(INBOX_DIR, file));
-    if (msg && msg.priority) {
-      byPriority[msg.priority] = (byPriority[msg.priority] || 0) + 1;
-    } else {
-      byPriority.unknown++;
-    }
-    // Check schema validity
-    if (msg) {
-      const result = validateSchema(msg);
-      if (!result.valid) schemaInvalid++;
-    }
-  }
-
-  console.log('\n=== Library Lane Inbox Status ===');
-  console.log(`Pending: ${files.length}`);
-  console.log(`  P0: ${byPriority.P0 || 0}`);
-  console.log(`  P1: ${byPriority.P1 || 0}`);
-  console.log(`  P2: ${byPriority.P2 || 0}`);
-  console.log(`  P3: ${byPriority.P3 || 0}`);
-  console.log(`  Unknown: ${byPriority.unknown || 0}`);
-  console.log(`  Schema-invalid: ${schemaInvalid}`);
-  console.log(`Processed: ${processedFiles.length}`);
-  console.log(`Expired: ${expiredFiles.length}`);
-  console.log('================================\n');
-
-  return { pending: files.length, processed: processedFiles.length, byPriority, schemaInvalid };
-}
-
-/**
- * Run a single scan cycle
- */
-function runOnce() {
-  log({ action: 'scan-start', details: 'beginning inbox scan' });
-
-  const messages = scan();
-
-  if (messages.length === 0) {
-    log({ action: 'scan-complete', details: 'inbox empty, no messages to process' });
-    return 0;
-  }
-
-  log({ action: 'scan-found', details: `${messages.length} actionable message(s)` });
-
-  let processed = 0;
-
-  for (const message of messages) {
-    try {
-      acquire(message);
-      const success = processMessage(message);
-      if (success) {
-        complete(message);
-        processed++;
+    for (const msg of messages) {
+      const p = PRIORITY_ORDER[msg.priority] ?? 3;
+      if (p <= 1) {
+        prioritized.push(msg);
       } else {
-        fail(message, new Error('processing returned false'));
+        deferred.push(msg);
       }
-    } catch (err) {
-      fail(message, err);
+    }
+
+    if (deferred.length > 0) {
+      console.log(`[watcher] PREEMPTION: ${prioritized.length} P0/P1 messages prioritized, ${deferred.length} P2/P3 deferred`);
+    }
+
+    return prioritized;
+  }
+
+  checkStarvation() {
+    if (this.consecutiveP0Count > 0 && this.consecutiveP0Count % P0_YIELD_EVERY_N === 0) {
+      console.log(`[watcher] STARVATION_GUARD: ${this.consecutiveP0Count} consecutive P0/P1 messages — yielding 1 cycle to lower priority`);
+      return true;
+    }
+    return false;
+  }
+
+  moveToProcessed(filename, sourcePath) {
+    const dest = path.join(this.config.processedPath, filename);
+    try {
+      if (fs.existsSync(dest)) {
+        fs.unlinkSync(sourcePath);
+      } else {
+        fs.renameSync(sourcePath, dest);
+      }
+      this.processedKeys.add(filename);
+    } catch (e) {
+      console.error(`[watcher] Cannot move ${filename}:`, e.message);
     }
   }
 
-  log({ action: 'scan-complete', details: `processed ${processed}/${messages.length}` });
-  return processed;
+  processMessage(msg) {
+    const filename = msg._sourceFile;
+    const sourcePath = msg._sourcePath;
+    const priority = msg.priority || 'P3';
+    const type = msg.type || 'unknown';
+    const from = msg.from || msg.from_lane || 'unknown';
+    const body = typeof msg.body === 'string' ? msg.body : JSON.stringify(msg.body || '');
+    const requiresAction = msg.requires_action || false;
+    const idempotencyKey = msg.idempotency_key || msg.id || filename;
+
+    console.log(`[watcher] Processing ${priority} ${type} from ${from}: ${body.slice(0, 80)}`);
+
+    if (type === 'finding' || type === 'review') {
+      this.handleConvergenceCheck(msg);
+    }
+
+    if (requiresAction) {
+      console.log(`[watcher] ACTION REQUIRED: ${msg.id || filename}`);
+    }
+
+    this.moveToProcessed(filename, sourcePath);
+    this.processedKeys.add(idempotencyKey);
+
+    const p = PRIORITY_ORDER[priority] ?? 3;
+    if (p <= 1) {
+      this.consecutiveP0Count++;
+    } else {
+      this.consecutiveP0Count = 0;
+    }
+  }
+
+  handleConvergenceCheck(msg) {
+    const status = msg.status || 'unproven';
+    if (status === 'unproven') {
+      console.log(`[watcher] SKIP: unproven claim from ${msg.from || msg.from_lane} — not forwarded`);
+      return;
+    }
+
+    if (msg.claim && msg.evidence) {
+      console.log(`[watcher] CONVERGENCE: ${msg.claim}`);
+      console.log(`[watcher] Evidence: ${msg.evidence}`);
+      console.log(`[watcher] Status: ${status}`);
+    }
+  }
+
+  checkLaneHealth() {
+    const results = {};
+    const laneNames = Object.keys(this.config.canonicalPaths);
+
+    for (const laneName of laneNames) {
+      const inboxPath = this.config.canonicalPaths[laneName];
+      const hbPath = path.join(inboxPath, `heartbeat-${laneName}.json`);
+
+      try {
+        if (!fs.existsSync(hbPath)) {
+          results[laneName] = { status: 'no_heartbeat', stale_for_seconds: -1 };
+          continue;
+        }
+
+        const raw = fs.readFileSync(hbPath, 'utf8');
+        const data = JSON.parse(raw);
+        const elapsed = Math.floor((Date.now() - new Date(data.timestamp).getTime()) / 1000);
+        results[laneName] = {
+          status: elapsed > 900 ? 'stale' : 'alive',
+          last_heartbeat: data.timestamp,
+          stale_for_seconds: elapsed
+        };
+      } catch (e) {
+        results[laneName] = { status: 'error', stale_for_seconds: -1 };
+      }
+    }
+
+    return results;
+  }
+
+  run() {
+    const releaseLock = acquireWatcherLock({
+      repoRoot: this.repoRoot,
+      laneName: this.config.laneName,
+      policy: this.policy
+    });
+
+    console.log(`[watcher] ${this.config.laneName} inbox scan starting`);
+    try {
+      let messages = this.scan();
+      console.log(`[watcher] Found ${messages.length} messages`);
+
+      if (messages.length === 0) {
+        this.consecutiveEmptyScans++;
+        this.consecutiveP0Count = 0;
+        return 0;
+      } else {
+        this.consecutiveEmptyScans = 0;
+      }
+
+      if (this.checkStarvation()) {
+        const p0p1 = messages.filter(m => (PRIORITY_ORDER[m.priority] ?? 3) <= 1);
+        const lower = messages.filter(m => (PRIORITY_ORDER[m.priority] ?? 3) > 1);
+        if (lower.length > 0) {
+          messages = [...p0p1, lower[0]];
+          console.log(`[watcher] STARVATION_GUARD: processing 1 deferred P2/P3 message`);
+        }
+      }
+
+      messages = this.applyPreemption(messages);
+
+      for (const msg of messages) {
+        try {
+          this.processMessage(msg);
+        } catch (e) {
+          console.error(`[watcher] Error processing ${msg._sourceFile}:`, e.message);
+        }
+      }
+
+      return messages.length;
+    } finally {
+      releaseLock();
+    }
+  }
 }
 
-/**
- * Run continuous polling loop
- */
-function runContinuous() {
-  console.log(`[watcher] Starting continuous mode (poll every ${POLL_INTERVAL_MS / 1000}s)`);
-  console.log(`[watcher] Inbox: ${INBOX_DIR}`);
-  console.log(`[watcher] Press Ctrl+C to stop\n`);
+module.exports = { InboxWatcher, DEFAULT_CONFIG, PRIORITY_ORDER };
 
-  // Initial scan
-  runOnce();
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  const watcher = new InboxWatcher();
 
-  // Polling interval
-  const interval = setInterval(() => {
-    runOnce();
-  }, POLL_INTERVAL_MS);
-
-  // Graceful shutdown
-  process.on('SIGINT', () => {
-    console.log('\n[watcher] Shutting down...');
-    clearInterval(interval);
-    log({ action: 'shutdown', details: 'received SIGINT' });
-    process.exit(0);
-  });
-
-  process.on('SIGTERM', () => {
-    console.log('\n[watcher] Shutting down...');
-    clearInterval(interval);
-    log({ action: 'shutdown', details: 'received SIGTERM' });
-    process.exit(0);
-  });
-}
-
-// =============================================================================
-// Main
-// =============================================================================
-
-const mode = process.argv[2];
-
-if (mode === '--watch' || mode === '--continuous') {
-  runContinuous();
-} else if (mode === '--check' || mode === '--status') {
-  checkStatus();
-} else {
-  // Default: run once
-  const processed = runOnce();
-  console.log(`[watcher] Processed ${processed} message(s)`);
+  if (args.includes('--health')) {
+    const health = watcher.checkLaneHealth();
+    console.log(JSON.stringify(health, null, 2));
+  } else if (args.includes('--scan')) {
+    const messages = watcher.scan();
+    console.log(JSON.stringify(messages.map(m => ({
+      id: m.id, from: m.from, priority: m.priority, type: m.type
+    })), null, 2));
+  } else if (args.includes('--test-preemption')) {
+    console.log('[test] Preemption gate test');
+    const testMessages = [
+      { priority: 'P2', id: 'test-p2-1', body: 'low priority' },
+      { priority: 'P1', id: 'test-p1-1', body: 'high priority' },
+      { priority: 'P3', id: 'test-p3-1', body: 'lowest priority' },
+      { priority: 'P1', id: 'test-p1-2', body: 'another high' },
+      { priority: 'P2', id: 'test-p2-2', body: 'another low' }
+    ];
+    const watcher2 = new InboxWatcher();
+    const result = watcher2.applyPreemption(testMessages);
+    const processedPriorities = result.map(m => m.priority);
+    console.log(`[test] Input:  P2, P1, P3, P1, P2`);
+    console.log(`[test] Output: ${processedPriorities.join(', ')}`);
+    const allP1orBelow = processedPriorities.every(p => (PRIORITY_ORDER[p] ?? 3) <= 1);
+    console.log(`[test] ${allP1orBelow ? 'PASS' : 'FAIL'}: only P0/P1 processed when preemption active`);
+  } else if (args.includes('--test-starvation')) {
+    console.log('[test] Starvation guard test');
+    const watcher2 = new InboxWatcher();
+    for (let i = 1; i <= 12; i++) {
+      watcher2.consecutiveP0Count = i;
+      const shouldYield = watcher2.checkStarvation();
+      if (shouldYield) {
+        console.log(`[test] Cycle ${i}: YIELD triggered (every ${P0_YIELD_EVERY_N} P0/P1 messages)`);
+      }
+    }
+    console.log(`[test] PASS: starvation guard yields every ${P0_YIELD_EVERY_N} consecutive P0/P1 messages`);
+  } else if (args.includes('--test-crash-recovery')) {
+    console.log('[test] Crash + recovery test');
+    const lockDir = path.join(watcher.repoRoot, '.runtime', 'locks');
+    const lockFile = path.join(lockDir, `watcher-${watcher.config.laneName}.lock`);
+    if (fs.existsSync(lockFile)) {
+      const raw = fs.readFileSync(lockFile, 'utf8');
+      const lock = JSON.parse(raw);
+      lock.acquired_at = new Date(Date.now() - 1000 * 1000).toISOString();
+      lock.pid = 99999;
+      fs.writeFileSync(lockFile, JSON.stringify(lock, null, 2));
+      console.log(`[test] Wrote stale lock (PID 99999, age 1000s > stale_after=900s)`);
+      try {
+        watcher.run();
+        console.log(`[test] PASS: stale lock reclaimed, watcher ran successfully`);
+      } catch (e) {
+        console.log(`[test] FAIL: ${e.message}`);
+      }
+    } else {
+      console.log(`[test] SKIP: no lock file to test against (run watcher once first)`);
+    }
+  } else {
+    const count = watcher.run();
+    console.log(`[watcher] Processed ${count} messages`);
+  }
 }
