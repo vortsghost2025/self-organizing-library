@@ -45,6 +45,9 @@ next-env.d.ts
 *.key
 keys.json
 
+# Context buffer (working notes, not source)
+/context-buffer/
+
 # Session memory (persists locally)
 .memory/
 

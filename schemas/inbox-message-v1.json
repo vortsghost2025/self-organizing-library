@@ -1,11 +1,14 @@
-{ 
+{
   "$id": "https://example.com/schemas/inbox-message-v1.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Inbox Message Schema v1.1",
+  "description": "Cross-lane inbox message format. v1.1 adds: payload.compression, execution.parent_id, watcher block, canonical_paths, delivery_verification. Ratified amendments from Archivist + SwarmMind reviews.",
   "type": "object",
   "properties": {
     "schema_version": {
       "type": "string",
-      "default": "1.0"
+      "default": "1.1",
+      "enum": ["1.0", "1.1"]
     },
     "task_id": {
       "type": "string"
@@ -54,6 +57,12 @@
           "type": "string",
           "enum": ["inline", "path", "chunked"]
         },
+        "compression": {
+          "type": "string",
+          "enum": ["none", "gzip"],
+          "default": "none",
+          "description": "v1.1: Compression for large payloads. gzip recommended for body > 2000 chars."
+        },
         "path": {
           "type": "string"
         },
@@ -62,8 +71,7 @@
           "properties": {
             "index": {"type": "integer"},
             "count": {"type": "integer"},
-            "group_id": {"type": "string"
-            }
+            "group_id": {"type": "string"}
           },
           "required": ["index", "count"]
         }
@@ -83,9 +91,15 @@
         },
         "actor": {
           "type": "string",
-          "enum": ["lane", "subagent"]
+          "enum": ["lane", "subagent", "watcher"],
+          "description": "v1.1: 'watcher' added for watcher-initiated processing provenance."
         },
-        "session_id": {"type": "string"}
+        "session_id": {"type": "string"},
+        "parent_id": {
+          "type": "string",
+          "default": null,
+          "description": "v1.1: Links to parent task for fan-out/fan-in patterns. Null if this is a root task."
+        }
       },
       "required": ["mode", "engine", "actor"]
     },
@@ -134,7 +148,7 @@
         "verified": {"type": "boolean", "default": false},
         "verified_by": {"type": "string"},
         "verified_at": {"type": "string",
-        "format": "date-time"}
+          "format": "date-time"}
       }
     },
     "heartbeat": {
@@ -149,26 +163,51 @@
           "enum": ["pending", "in_progress", "done", "failed", "escalated", "timed_out"]
         }
       }
+    },
+    "watcher": {
+      "type": "object",
+      "description": "v1.1: Watcher policy block for inbox consumer configuration.",
+      "properties": {
+        "enabled": {"type": "boolean", "default": false},
+        "poll_seconds": {"type": "integer", "default": 60},
+        "p0_fast_path": {"type": "boolean", "default": true},
+        "max_concurrent": {"type": "integer", "default": 1},
+        "heartbeat_required": {"type": "boolean", "default": true},
+        "stale_after_seconds": {"type": "integer", "default": 300},
+        "backoff": {
+          "type": "object",
+          "properties": {
+            "initial_seconds": {"type": "integer", "default": 60},
+            "max_seconds": {"type": "integer", "default": 300},
+            "multiplier": {"type": "integer", "default": 2}
+          }
+        }
+      }
+    },
+    "canonical_paths": {
+      "type": "object",
+      "description": "v1.1: Canonical delivery paths. Senders MUST write to the target lane's canonical path, NOT their own local mirror.",
+      "properties": {
+        "archivist": {"type": "string", "default": "S:/Archivist-Agent/lanes/archivist/inbox/"},
+        "library": {"type": "string", "default": "S:/self-organizing-library/lanes/library/inbox/"},
+        "swarmmind": {"type": "string", "default": "S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/"},
+        "kernel": {"type": "string", "default": "S:/kernel-lane/lanes/kernel/inbox/"}
+      }
+    },
+    "delivery_verification": {
+      "type": "object",
+      "description": "v1.1: Post-write delivery verification. Sender SHOULD verify file exists at canonical path after writing.",
+      "properties": {
+        "verified": {"type": "boolean", "default": false},
+        "verified_at": {"type": "string", "format": "date-time"},
+        "retries": {"type": "integer", "default": 0}
+      }
     }
   },
   "required": [
-    "schema_version", 
-    "task_id", 
-    "idempotency_key", 
-    "from", 
-    "to", 
-    "type", 
-    "task_kind", 
-    "priority", 
-    "subject", 
-    "body", 
-    "timestamp", 
-    "requires_action", 
-    "payload", 
-    "execution", 
-    "lease", 
-    "retry", 
-    "evidence",
-    "heartbeat"
+    "schema_version", "task_id", "idempotency_key", "from", "to",
+    "type", "task_kind", "priority", "subject", "body",
+    "timestamp", "requires_action", "payload", "execution",
+    "lease", "retry", "evidence", "heartbeat"
   ]
 }
