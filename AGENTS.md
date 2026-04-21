@@ -63,6 +63,14 @@ Each repo has lane directories for local structure, but delivery must target the
 3. Move completed messages to `lanes/library/inbox/processed/`.
 4. Log outbox entries to `lanes/library/outbox/`.
 5. Verify no pending P0 items remain before starting new work.
+6. **Post-compact audit (MANDATORY):** Run `node scripts/post-compact-audit.js` — if status is `conflicted`, do NOT proceed with new work. Escalate to coordinator.
+
+### After Context Compact (MANDATORY)
+
+If your context was compacted mid-session:
+1. Run `node scripts/recovery-test-suite.js` — all 11 tests must pass.
+2. If any test fails, status = `conflicted` — stop and escalate.
+3. Compare your handoff hash against `scripts/.compact-audit/HANDOFF_HASH_LOG.jsonl` — if mismatch, quarantine the restore.
 
 ### Sending Messages (MANDATORY)
 
