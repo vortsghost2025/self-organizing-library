@@ -27,35 +27,45 @@ _defaultTrustStorePath() {
 return TRUST_STORE_PATH;
 }
 
-_loadTrustStore() {
-if (!fs.existsSync(this.trustStorePath)) {
-this.trustStore = { keys: {}, migration: {} };
-return;
-}
-try {
-const raw = fs.readFileSync(this.trustStorePath, 'utf8');
-this.trustStore = JSON.parse(raw);
+  _loadTrustStore() {
+    if (!fs.existsSync(this.trustStorePath)) {
+      this.trustStore = { keys: {}, migration: {} };
+      return;
+    }
+    try {
+      const raw = fs.readFileSync(this.trustStorePath, 'utf8');
+      const parsed = JSON.parse(raw);
 
-// Schema version check
-if (this.trustStore.version && this.trustStore.version !== TRUST_STORE_VERSION) {
-throw new Error(`Trust store version mismatch: expected ${TRUST_STORE_VERSION}, got ${this.trustStore.version}`);
-}
+      // Normalize trust store format: support both nested { keys: {...} } and
+      // flat { laneId: {...} } formats (broadcast trust store uses flat format)
+      if (parsed.keys && typeof parsed.keys === 'object') {
+        this.trustStore = parsed;
+      } else {
+        // Flat format: lane IDs are top-level keys
+        this.trustStore = { keys: {}, migration: {} };
+        for (const [laneId, entry] of Object.entries(parsed)) {
+          if (entry && typeof entry === 'object' && entry.public_key_pem) {
+            this.trustStore.keys[laneId] = entry;
+          }
+        }
+      }
 
-// Required schema check
-if (!this.trustStore.keys || typeof this.trustStore.keys !== 'object') {
-throw new Error('Trust store missing required "keys" object');
-}
+      // Schema version check (only if explicitly set)
+      if (this.trustStore.version && this.trustStore.version !== TRUST_STORE_VERSION) {
+        throw new Error(`Trust store version mismatch: expected ${TRUST_STORE_VERSION}, got ${this.trustStore.version}`);
+      }
 
-if (!this.trustStore.migration) {
-this.trustStore.migration = {};
-}
-} catch (e) {
-if (e.message.includes('version') || e.message.includes('missing')) {
-throw e;
-}
-this.trustStore = { keys: {}, migration: {} };
-}
-}
+      // Ensure migration object exists
+      if (!this.trustStore.migration) {
+        this.trustStore.migration = {};
+      }
+    } catch (e) {
+      if (e.message.includes('version') || e.message.includes('missing')) {
+        throw e;
+      }
+      this.trustStore = { keys: {}, migration: {} };
+    }
+  }
 
 reloadTrustStore() {
 this._loadTrustStore();

@@ -123,6 +123,78 @@ Prove or reject claims with runtime evidence. Not an oracle — a verification s
 
 ---
 
+## Identity Enforcement (MANDATORY)
+
+### Hard Enforcement Active
+
+Identity enforcement is **NON-OPTIONAL**. The `IdentityEnforcer` runs in `enforce` mode in the inbox-watcher pipeline. This means:
+
+- **Unsigned messages → structurally rejected** — moved to `expired/`, never enter processing
+- **Mismatched signatures → structurally rejected** — `msg.from` must match the JWS `payload.lane`
+- **Invalid signatures → structurally rejected** — crypto verification must pass against trust store
+- **Expired signatures → structurally rejected** — JWS `exp` field is checked
+- **Revoked keys → structurally rejected** — trust store `revoked_at` field is checked
+
+There is NO "verified=false" middle ground. A message is either identity-verified (enters processing) or rejected (moved to expired/).
+
+### Inbound Pipeline (Inbox Watcher)
+
+The `InboxWatcher.scan()` method enforces identity in this order:
+1. **Schema validation** — invalid schema → expired/
+2. **Identity enforcement** — unsigned/invalid signature → expired/
+3. **Idempotency check** — already processed → processed/
+4. **Priority sort** — valid messages sorted by priority
+
+### Outbound Pipeline (SchemaValidator.deliverMessage)
+
+All outbound messages MUST be signed before delivery. `deliverMessage()` accepts a `signingOptions` parameter:
+
+```javascript
+const { Signer } = require('./src/attestation/Signer');
+const { KeyManager } = require('./src/attestation/KeyManager');
+
+const keyManager = new KeyManager({
+  laneId: 'library',
+  identityDir: path.join(repoRoot, '.identity')
+});
+const signer = new Signer();
+const privateKey = keyManager.loadPrivateKey(process.env.LANE_KEY_PASSPHRASE);
+const keyId = keyManager.getPublicKeyInfo().key_id;
+
+const result = deliverMessage(message, canonicalPath, {
+  signer,
+  privateKey,
+  keyId
+});
+```
+
+If `signingOptions` is not provided and the message has no existing signature, `deliverMessage()` emits a warning. The receiving lane WILL reject it.
+
+If signing fails (e.g., bad passphrase, missing key), `deliverMessage()` **fail-closes** — returns `{ delivered: false, signed: false }` and does NOT write the unsigned message.
+
+### Trust Store
+
+The trust store at `lanes/broadcast/trust-store.json` contains RSA-2048 public keys for all 4 lanes. This file is on `.gitignore`.
+
+Both `Verifier.js` and `TrustStoreManager.js` now normalize flat-format trust stores (lane IDs as top-level keys) into the nested `{ keys: { ... } }` format used internally.
+
+### Key Generation
+
+Run `node scripts/generate-library-keys.js` to generate RSA-2048 key pair in `.identity/`. Requires `LANE_KEY_PASSPHRASE` environment variable.
+
+### Components
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| IdentityEnforcer | `scripts/identity-enforcer.js` | Inbound verification gate (enforce mode) |
+| Signer.signInboxMessage | `src/attestation/Signer.js` | Outbound message signing |
+| Verifier | `src/attestation/Verifier.js` | JWS RS256 verification against trust store |
+| KeyManager | `src/attestation/KeyManager.js` | RSA key generation, storage, loading |
+| TrustStoreManager | `src/attestation/TrustStoreManager.js` | Trust store key registration/revocation |
+| SchemaValidator.deliverMessage | `src/lane/SchemaValidator.js` | Sign-before-write outbound delivery |
+
+---
+
 ## Convergence Gate (MANDATORY)
 
 Every output MUST include:

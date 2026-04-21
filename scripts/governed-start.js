@@ -82,10 +82,21 @@ class GovernedStartup {
       }
       console.log(` ✓ Key ID: ${keyInit.keyId}`);
 
-      // Initialize Verifier with Archivist trust store
-      this.verifier = new Verifier();
-      const trustStore = new TrustStoreManager();
-      trustStore.loadFromArchivist();
+       // Initialize Verifier with trust store
+       this.verifier = new Verifier();
+
+       // Load trust store manager with correct path  
+       const trustStore = new TrustStoreManager({
+          trustStorePath: path.join(this.repoRoot, 'lanes', 'broadcast', 'trust-store.json')
+       });
+
+       // Ensure verifier has all active keys from trust store
+       const activeKeys = trustStore.getActiveKeys();
+       for (const [laneId, keyEntry] of Object.entries(activeKeys)) {
+          if (!this.verifier.getPublicKey(laneId)) {
+             this.verifier.addTrustedKey(laneId, keyEntry.public_key_pem, keyEntry.key_id);
+          }
+       }
 
       // Trust our own key
       const publicKey = this.keyManager.loadPublicKey();
