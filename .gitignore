@@ -61,3 +61,6 @@ lanes/*/inbox/watcher.log
 lanes/*/inbox/heartbeat-*.json
 !lanes/*/inbox/heartbeat-library.json
 lanes/*/outbox/
+
+lanes/*/outbox/unsigned/
+logs/quarantine-tracker.json
