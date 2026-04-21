@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-20T17:41:50.408Z",
+  "timestamp": "2026-04-20T23:46:51.621Z",
   "gateStatus": "PASS",
   "behavioral": {
     "passed": 3,
@@ -23,6 +23,7 @@
     "active": [],
     "dormant": [],
     "dead": [
+      "scripts\\schema-validator.js",
       "src\\app\\layout.tsx",
       "src\\attestation\\AttestationSupport.js",
       "src\\attestation\\AuthenticatedRecoveryClient.js",
@@ -66,7 +67,7 @@
     ]
   },
   "bypass": {
-    "timestamp": "2026-04-20T17:41:50.408Z",
+    "timestamp": "2026-04-20T23:46:51.621Z",
     "bypasses": [
       {
         "type": "CONFIG_FLAG",
@@ -91,23 +92,23 @@
     }
   },
   "proof": {
-    "timestamp": "2026-04-20T17:41:50.408Z",
+    "timestamp": "2026-04-20T23:46:51.621Z",
     "proven": [
       {
         "probeId": "VerifierWrapper.verify",
         "invokeCount": 2,
-        "lastInvoked": "2026-04-20T17:41:50.384Z"
+        "lastInvoked": "2026-04-20T23:46:51.586Z"
       },
       {
         "probeId": "QuarantineManager.quarantine",
         "invokeCount": 2,
-        "lastInvoked": "2026-04-20T17:41:50.384Z"
+        "lastInvoked": "2026-04-20T23:46:51.587Z"
       }
     ],
     "notProven": [
       {
         "probeId": "Queue._enqueue",
-        "registered": "2026-04-20T17:41:50.383Z"
+        "registered": "2026-04-20T23:46:51.586Z"
       }
     ],
     "summary": {
@@ -119,10 +120,10 @@
   "violations": [],
   "warnings": [],
   "summary": {
-    "total": 40,
+    "total": 41,
     "active": 0,
     "dormant": 0,
-    "dead": 40,
+    "dead": 41,
     "bypassed": 0
   }
 }

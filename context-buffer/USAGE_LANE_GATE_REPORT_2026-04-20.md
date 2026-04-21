@@ -1,6 +1,6 @@
 # USAGE LANE GATE REPORT
 
-Date: 2026-04-20T17:41:50.409Z
+Date: 2026-04-20T23:46:51.622Z
 
 ## Status: PASS
 
@@ -12,7 +12,7 @@ Date: 2026-04-20T17:41:50.409Z
 |--------|-------|
 | ACTIVE | 0 |
 | DORMANT | 0 |
-| DEAD | 40 |
+| DEAD | 41 |
 | BYPASSED | 0 |
 
 ## Enforcement Rule

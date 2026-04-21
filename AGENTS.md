@@ -27,6 +27,17 @@ This lane follows the same Git Protocol as Archivist/SwarmMind:
 3. **VERIFY PUSH SUCCESS** — confirm remote is up to date.
 4. **NO "DONE" CLAIMS UNTIL PUSHED** — local-only state is not durable.
 
+### GitHub Origin
+
+`github.com/vortsghost2025/self-organizing-library`
+
+### Cross-Lane Coordination
+
+After pushing to Library:
+1. Update SESSION_REGISTRY.json in Archivist-Agent if applicable
+2. Push coordination updates
+3. Other lanes pull before continuing
+
 ---
 
 ## Lane-Relay Protocol (ENFORCED)
@@ -47,9 +58,11 @@ Each repo has lane directories for local structure, but delivery must target the
 
 ### Session Start Protocol (MANDATORY)
 
-1. Read `lanes/library/inbox/` first.
+1. Read `lanes/library/inbox/` first — BEFORE any other work.
 2. Process by priority (`P0 > P1 > P2 > P3`).
 3. Move completed messages to `lanes/library/inbox/processed/`.
+4. Log outbox entries to `lanes/library/outbox/`.
+5. Verify no pending P0 items remain before starting new work.
 
 ### Sending Messages (MANDATORY)
 
@@ -199,15 +212,55 @@ echo '{"mode":"drill","purpose":"hardening"}' > .session-mode
 2. Claim unleased messages (ACQUIRE step per v1.0 contract)
 3. Skip messages already in `processed/` (idempotency)
 4. Respect leased messages from other lanes until expiry
-5. Log all activity to `lanes/library/inbox/watcher.log`
+5. Process by priority: P0 first, then P1, P2, P3
+6. Log all activity to `lanes/library/inbox/watcher.log`
+
+### Inbox Hygiene Rules
+
+- **ONE heartbeat file per lane** — `heartbeat-library.json` (overwrite in place, NEVER create new files)
+- No UUID/temp files in inbox directories
+- Rate limit: 60 seconds minimum between heartbeat writes
+- Real messages must not be buried by operational noise
+- Heartbeat staleness check: >900s = stale → report to Archivist
 
 ### Message Schema Compliance
 
 All outgoing messages MUST conform to the v1.0 inbox message schema:
-- `schema_version`, `task_id`, `idempotency_key`
-- `lease`, `retry`, `evidence`, `heartbeat`
-- `execution` (mode, engine, actor, session_id)
-- `payload` (mode, path, chunk)
+
+```json
+{
+  "schema_version": "1.0",
+  "task_id": "stable-unique-id",
+  "idempotency_key": "SHA-256 of task_id+from+to+subject",
+  "from": "library",
+  "to": "archivist|library|swarmmind|kernel-lane",
+  "type": "task|response|heartbeat|escalation|handoff",
+  "task_kind": "proposal|review|amendment|ratification",
+  "priority": "P0|P1|P2|P3",
+  "subject": "one-line summary",
+  "body": "full message content",
+  "timestamp": "ISO-8601",
+  "requires_action": true|false,
+
+  "payload": { "mode": "inline|path|chunked", "path": null, "chunk": { "index": 0, "count": 1, "group_id": null } },
+  "execution": { "mode": "manual|session_task|watcher", "engine": "kilo|opencode|other", "actor": "lane|subagent", "session_id": null },
+
+  "lease": { "owner": null, "acquired_at": null, "expires_at": null, "renew_count": 0, "max_renewals": 3 },
+  "retry": { "attempt": 1, "max_attempts": 3, "last_error": null, "last_attempt_at": null },
+  "evidence": { "required": true, "evidence_path": null, "verified": false, "verified_by": null, "verified_at": null },
+  "heartbeat": { "interval_seconds": 300, "last_heartbeat_at": null, "timeout_seconds": 900, "status": "pending|in_progress|done|failed|escalated|timed_out" }
+}
+```
+
+### Field Rules
+
+| Field | Rule |
+|-------|------|
+| `idempotency_key` | MUST be deterministic SHA-256 hash. Placeholder keys are draft-only. |
+| `type` | MUST be from declared enum. `task_kind` used for sub-classification when type is "task". |
+| `retry.max_attempts` | Default 3. After exhaustion, auto-escalate to Archivist. |
+| `evidence.evidence_path` | MUST be set before marking heartbeat.status = "done". null = not done. |
+| `payload.mode` | Use "path" for body > 2000 chars. Write full content to payload.path. |
 
 ---
 
@@ -220,6 +273,25 @@ Library must use structured command templates for repeatable behavior:
 - `lane4-release-intake-check.md`
 
 If the task matches one of these flows, use the template instead of ad-hoc wording.
+
+---
+
+## Convergence Protocol
+
+Library follows the 5-phase convergence process per `lanes/broadcast/CONVERGENCE_PROTOCOL.md`:
+
+1. **PROPOSAL** — Any lane can propose. Must use schema-compliant message with `task_kind: "proposal"`.
+2. **REVIEW** — All lanes review within domain expertise. Send APPROVE/REJECT/AMEND.
+3. **AMEND** — Additive only. Don't delete, add alternatives. Justify amendments.
+4. **CONVERGE** — All lanes reviewed, no contradictions, amendments resolved, implementation path clear.
+5. **RATIFY** — Archivist approves. Implementation priority and owner assigned.
+
+### Library's Convergence Responsibilities
+
+- Review all proposals for schema correctness and evidence requirements
+- Verify claims have `evidence_path` before marking converged
+- Escalate contradictions to Archivist via P0 escalation
+- Send explicit "PASS" if no domain-specific concerns (don't just skip)
 
 ---
 
