@@ -50,6 +50,13 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] Committed and pushed all 4 repos: Library (964b3e6), Archivist (ba31894), Kernel (a0f5bda), SwarmMind (3d16841)
 - [x] Updated memory bank
 
+### Session 2026-04-22 (Evening): P0 Inbox Processing + E2E Summary Delivery
+- [x] Processed P0 inbox messages: key-id-convergence-resolution, e2e-summary-request, e2e-test-broadcast, phase5-ratification
+- [x] Ran E2E tests: identity-enforcement (20/20 PASS), recovery-discipline (7/7 PASS), lane-consistency (PASS with minor warnings)
+- [x] Delivered lane-e2e-summary-library.json to Archivist inbox: PASS-WARN status (trust store key_id divergence noted)
+- [x] Moved processed P0 messages to inbox/processed/ directory
+- [x] Updated memory bank
+
 ### Session 2026-04-22: Round 7 Remediation + Phase 5 Ratification + Code Review Distribution
 - [x] Received SwarmMind Round 7 Constitutional Audit status (task_id: round-7-constitutional-audit-status)
 - [x] Verified audit claims: 2 enforcement bypass gaps confirmed (UPGRADED to P1/P0 severity)
@@ -134,7 +141,6 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - 🔲 LANE_KEY_PASSPHRASE — operator must set env var for signing to work
 - 🔲 Run `node scripts/generate-library-keys.js` with LANE_KEY_PASSPHRASE to generate RSA-2048 key pair
 - 🔲 Hardening drill scheduled task (needs admin privileges)
-- 🔲 Process Archivist P0 inbox items (trust-store-convergence-p0-escalation, act-sync-enforcement-authority, etc.)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
 - 🔲 v1.1 formal ratification by Archivist (Phase 5) — *pending Archivist finalization*
 - 🔲 Lane 4 formal ratification by Archivist (Phase 5) — *pending*
@@ -153,3 +159,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - ✅ All 4 broadcast trust stores have correct key_ids and PEMs
 - ✅ Archivist recovery tests 11/11
 - ✅ All 4 repos committed and pushed
+- ✅ **P0 INBOX PROCESSING COMPLETE**:
+- ✅ Processed key-id-convergence-resolution, e2e-summary-request, e2e-test-broadcast
+- ✅ Delivered lane-e2e-summary-library.json (PASS-WARN, identity enforcement 20/20 PASS)
+- ✅ Moved processed messages to inbox/processed/
