@@ -4,12 +4,40 @@ const crypto = require('crypto');
 
 const SCHEMA_PATH = path.resolve(__dirname, '../../schemas/inbox-message-v1.json');
 
-const REQUIRED_FIELDS = [
+// v1.3: task_kind optional for non-task types; conditional in validate()
+const REQUIRED_FIELDS_V13 = [
   'schema_version', 'task_id', 'idempotency_key', 'from', 'to',
   'type', 'priority', 'subject', 'body',
   'timestamp', 'requires_action', 'payload', 'execution',
+  'lease', 'retry', 'evidence', 'evidence_exchange', 'heartbeat',
+  'signature', 'key_id'
+];
+
+// v1.2: task_kind always required; signature/key_id required
+const REQUIRED_FIELDS_V12 = [
+  'schema_version', 'task_id', 'idempotency_key', 'from', 'to',
+  'type', 'task_kind', 'priority', 'subject', 'body',
+  'timestamp', 'requires_action', 'payload', 'execution',
+  'lease', 'retry', 'evidence', 'heartbeat',
+  'signature', 'key_id'
+];
+
+// v1.1 and earlier: no signature/key_id/evidence_exchange required
+const REQUIRED_FIELDS_V11 = [
+  'schema_version', 'task_id', 'idempotency_key', 'from', 'to',
+  'type', 'task_kind', 'priority', 'subject', 'body',
+  'timestamp', 'requires_action', 'payload', 'execution',
   'lease', 'retry', 'evidence', 'heartbeat'
 ];
+
+function getRequiredFields(schemaVersion) {
+  if (schemaVersion === '1.3') return REQUIRED_FIELDS_V13;
+  if (schemaVersion === '1.2') return REQUIRED_FIELDS_V12;
+  return REQUIRED_FIELDS_V11;
+}
+
+// Backward-compatible alias
+const REQUIRED_FIELDS = REQUIRED_FIELDS_V13;
 
 const ENUM_CONSTRAINTS = {
   schema_version: ['1.0', '1.1', '1.2', '1.3'],
@@ -23,6 +51,7 @@ const ENUM_CONSTRAINTS = {
   'execution.engine': ['kilo', 'opencode', 'other'],
   'execution.actor': ['lane', 'subagent', 'watcher'],
   'heartbeat.status': ['pending', 'in_progress', 'done', 'failed', 'escalated', 'timed_out'],
+  'evidence_exchange.artifact_type': ['benchmark', 'profile', 'release', 'log'],
 };
 
 const TYPE_CHECKS = {
@@ -43,6 +72,7 @@ const TYPE_CHECKS = {
   lease: 'object',
   retry: 'object',
   evidence: 'object',
+  evidence_exchange: 'object',
   heartbeat: 'object',
 };
 
@@ -70,10 +100,12 @@ function validate(message) {
     return { valid: false, errors: ['Message must be a non-null object'] };
   }
 
-  // Check required fields
-  for (const field of REQUIRED_FIELDS) {
+  // Check required fields (version-aware)
+  const schemaVersion = message.schema_version || '1.1';
+  const requiredFields = getRequiredFields(schemaVersion);
+  for (const field of requiredFields) {
     if (!(field in message)) {
-      errors.push(`Missing required field: ${field}`);
+      errors.push(`Missing required field (v${schemaVersion}): ${field}`);
     }
   }
 
@@ -125,17 +157,30 @@ function validate(message) {
     }
   }
 
-  // Signature and key_id for v1.2 and v1.3 messages
-  if (message.schema_version === '1.2' || message.schema_version === '1.3') {
-    if (!message.signature || !message.key_id) {
-      errors.push('signature and key_id are required for v1.2 and v1.3 messages');
-    }
-  }
+  // v1.3: signature/key_id required via REQUIRED_FIELDS_V13 (checked above)
+  // v1.2: signature/key_id required via REQUIRED_FIELDS_V12 (checked above)
 
   // v1.3: task_kind conditionally required only for task/response/escalation/handoff
   if (['task', 'response', 'escalation', 'handoff'].includes(message.type)) {
     if (!('task_kind' in message)) {
       errors.push('task_kind is required for task/response/escalation/handoff messages');
+    }
+  }
+
+  // v1.3: evidence_exchange required when evidence.required is true for response/ack
+  if (message.evidence && message.evidence.required === true) {
+    if (['response', 'ack'].includes(message.type)) {
+      if (!('evidence_exchange' in message)) {
+        errors.push('evidence_exchange is required when evidence.required is true for response/ack types');
+      } else {
+        const exch = message.evidence_exchange;
+        if (!exch.artifact_path || !exch.artifact_type || !exch.delivered_at) {
+          errors.push('evidence_exchange must have artifact_path, artifact_type, and delivered_at');
+        }
+        if (!['benchmark', 'profile', 'release', 'log'].includes(exch.artifact_type)) {
+          errors.push('evidence_exchange.artifact_type must be benchmark|profile|release|log');
+        }
+      }
     }
   }
 
@@ -218,6 +263,12 @@ function createMessage(template = {}) {
       verified_by: null,
       verified_at: null,
       ...template.evidence,
+    },
+    evidence_exchange: {
+      artifact_path: null,
+      artifact_type: null,
+      delivered_at: null,
+      ...template.evidence_exchange,
     },
     heartbeat: {
       interval_seconds: 300,
@@ -330,8 +381,34 @@ function deliverMessage(message, canonicalPath, signingOptions) {
       };
     }
   } else {
-    console.warn(`[SchemaValidator] deliverMessage: WARNING — delivering UNSIGNED message`);
-    console.warn(`[SchemaValidator] Provide signingOptions={ signer, privateKey, keyId } to sign outbound messages`);
+    // Fail-closed: no signing options provided, message will fail outbox write guard below
+    console.error('[SchemaValidator] deliverMessage: no signingOptions provided — message will fail outbox write guard');
+  }
+
+  // Outbox write guard: refuse to write unsigned messages
+  if (!signedMessage.signature || typeof signedMessage.signature !== 'string' || signedMessage.signature.length < 10) {
+    console.error('[SchemaValidator] deliverMessage: OUTBOX_WRITE_BLOCKED — missing or invalid signature');
+    return {
+      delivered: false,
+      schema_valid: schemaValid,
+      verified: false,
+      path: null,
+      error: 'OUTBOX_WRITE_BLOCKED: missing or invalid signature — unsigned messages cannot be delivered',
+      validation_errors: schemaValid ? null : validationResult.errors,
+      signed: wasSigned
+    };
+  }
+  if (!signedMessage.key_id || typeof signedMessage.key_id !== 'string' || signedMessage.key_id.length < 16) {
+    console.error('[SchemaValidator] deliverMessage: OUTBOX_WRITE_BLOCKED — missing or invalid key_id');
+    return {
+      delivered: false,
+      schema_valid: schemaValid,
+      verified: false,
+      path: null,
+      error: 'OUTBOX_WRITE_BLOCKED: missing or invalid key_id — unsigned messages cannot be delivered',
+      validation_errors: schemaValid ? null : validationResult.errors,
+      signed: wasSigned
+    };
   }
 
   const filename = 
@@ -419,5 +496,9 @@ module.exports = {
   deliverMessage,
   getCanonicalPath,
   REQUIRED_FIELDS,
+  REQUIRED_FIELDS_V11,
+  REQUIRED_FIELDS_V12,
+  REQUIRED_FIELDS_V13,
+  getRequiredFields,
   ENUM_CONSTRAINTS,
 };

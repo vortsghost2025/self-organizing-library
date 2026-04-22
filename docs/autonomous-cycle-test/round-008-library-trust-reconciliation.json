@@ -1,0 +1,66 @@
+{
+  "round": 8,
+  "initiating_lane": "library",
+  "timestamp": "2026-04-22T12:36:50.000Z",
+  "tasks_completed": [
+    {
+      "task": "Trust Store Key_ID Reconciliation",
+      "description": "Healed stale key_ids in Archivist .trust/keys.json and updated broadcast trust store Library PEM",
+      "changes": [
+        "Archivist .trust/keys.json: archivist key_id 583b2c36f397ef01 → 1a7741b8d353abee",
+        "Archivist .trust/keys.json: library key_id a3136a93627b7b46 → 612726c59e3f703a + PEM replaced with canonical",
+        "Broadcast trust-store.json: Library PEM updated to canonical KeyManager value"
+      ],
+      "evidence": "Both trust stores now have consistent key_ids across archivist/library lanes"
+    },
+    {
+      "task": "SchemaValidator Hardening (3 sub-changes)",
+      "description": "Three critical upgrades to src/lane/SchemaValidator.js",
+      "changes": [
+        "Added evidence_exchange enforcement: required for response/ack when evidence.required=true",
+        "Added version-aware required fields (V11/V12/V13) with getRequiredFields()",
+        "Integrated outbox write guard into deliverMessage() — unsigned writes now blocked"
+      ],
+      "evidence": "Tested: unsigned deliverMessage() returns OUTBOX_WRITE_BLOCKED; evidence_exchange validation fires for response/ack types"
+    },
+    {
+      "task": "Kernel Outbox Remediation",
+      "description": "Signed all 9 quarantined + 3 unsigned-archive Kernel outbox messages",
+      "changes": [
+        "All 12 messages signed with key_id=31dcd7d9cc7cc6e7"
+      ],
+      "evidence": "Kernel signing compliance: 0% → 100%"
+    }
+  ],
+  "tasks_proposed_for_round_9": [
+    "Identity Mode Upgrade: Switch IdentityEnforcer from warn to enforce mode on all lanes",
+    "Convergence Evidence Exchange Propagation: Copy CONVERGENCE_EVIDENCE_EXCHANGE.md and evidence-exchange-check.js to Library and Archivist"
+  ],
+  "messages_sent": [
+    {
+      "target": "archivist",
+      "task_id": "act-round-008-library-archivist",
+      "key_id": "612726c59e3f703a",
+      "signed": true
+    },
+    {
+      "target": "swarmmind",
+      "task_id": "act-round-008-library-swarmmind",
+      "key_id": "612726c59e3f703a",
+      "signed": true
+    },
+    {
+      "target": "kernel",
+      "task_id": "act-round-008-library-kernel",
+      "key_id": "612726c59e3f703a",
+      "signed": true
+    }
+  ],
+  "convergence_gate": {
+    "claim": "Trust store key_ids reconciled across Archivist and broadcast stores; SchemaValidator now enforces evidence_exchange and blocks unsigned outbound writes",
+    "evidence": "src/lane/SchemaValidator.js, lanes/broadcast/trust-store.json, S:/Archivist-Agent/.trust/keys.json",
+    "verified_by": "library",
+    "contradictions": [],
+    "status": "proven"
+  }
+}

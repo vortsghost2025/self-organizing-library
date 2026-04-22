@@ -10,7 +10,7 @@
   },
   "library": {
     "lane_id": "library",
-    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7jg4m/vvMPeufU0x4tZI\nqR1SjZwtNU1z29bgxuDg7+BZU+c1k45DhNawT4bMLbaPt2ezP3twSyW99A83T8\nh0Cq6pcJcRQZIA376e8cHj1R/VWlC0RTWqkS26w3nZvnAYgCLPdDdTzc66rOFpKX\nH0BKlmOcullxDBemfpUOBfD0JVYxfZRvGf2I55Lc0Hjvd3rWzkvA3wPR8cU1BrEE\nXFN0GIyySUF5neyJJq9aydeXE7zqdOkbFZL6wrE/mLyWnRGMZCw/z2sSwxU/rczh\nhT5gQsL+eO6c0+3Qxh1+U+5Jim8YpIZq67kGLdMl8CLY9tSXQEwycfj7KD2Xnlt/\n9wIDAQAB\n-----END PUBLIC KEY-----\n",
+    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp8TK00bHH8dCLZn3rDvY\nDFXWm2GfTDf5440ascO8pEEjSptN1ZYeQPTouDggr4dlteFQPZRKXQpPJ7RfAysC\nLJ1KU/F2Be6xYthpcKvOYri+xaNoqhI1/m6kLqk5/4GoepkimeugTL0HR+GXlSR8\naMTb2usXbDWmhVPIE6fPVcLpOgYEqjMBvFqCWBdrd+HL/ZdK+tcZYqFw4GDYxs7F\n08clQhIdzL8ZLSR6gl8jkDz2PaKwAjnQJBXLYSbuQgnlj02BdY3fF1WOQUYyWYXR\nf8HV4MzxRsZAUBAK/dELrR8JBGxWevbvSxSs8Nm1BPRF7/eO2JgdbgSEh6ztvjmp\nmQIDAQAB\n-----END PUBLIC KEY-----\n",
     "algorithm": "RS256",
     "key_id": "612726c59e3f703a",
     "registered_at": "2026-04-21T20:05:13.512Z",
