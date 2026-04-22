@@ -8,6 +8,10 @@ const crypto = require('crypto');
 const { createSignedMessage } = require('./create-signed-message');
 const { computeIdempotencyKey } = require('../src/lane/SchemaValidator');
 
+// LEASE + ATOMIC WRITE: Require kernel primitives for cross-lane mutation safety
+const KERNEL_ROOT = 'S:/kernel-lane';
+const { atomicWriteJson, atomicWriteWithLease, atomicWriteOutbox } = require(path.join(KERNEL_ROOT, 'scripts', 'atomic-write-util'));
+
 const CANONICAL_PATHS = {
   archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
   swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/',
@@ -124,7 +128,7 @@ function buildMessage(targetLane) {
   };
 }
 
-function main() {
+async function main() {
   const targets = Object.keys(CANONICAL_PATHS);
   const results = [];
 
@@ -132,18 +136,20 @@ function main() {
     const msg = buildMessage(target);
     const signed = createSignedMessage(msg, 'library');
 
-    // Write to canonical inbox
+    // Write to canonical inbox using mandatory lease + atomic write
     const canonicalPath = CANONICAL_PATHS[target];
     fs.mkdirSync(canonicalPath, { recursive: true });
     const inboxFilename = `${msg.task_id}.json`;
     const inboxPath = path.join(canonicalPath, inboxFilename);
-    fs.writeFileSync(inboxPath, JSON.stringify(signed, null, 2) + '\n', 'utf8');
+    // Determine target lane for lease ownership
+    const targetLaneForLease = target === 'archivist' ? 'archivist' : target === 'swarmmind' ? 'swarmmind' : 'kernel';
+    await atomicWriteWithLease(inboxPath, signed, targetLaneForLease, 30000);
 
-    // Write to own outbox
+    // Write to own outbox using mandatory lease + atomic write
     fs.mkdirSync(OUTBOX_PATH, { recursive: true });
     const outboxFilename = `${msg.task_id}.json`;
     const outboxPath = path.join(OUTBOX_PATH, outboxFilename);
-    fs.writeFileSync(outboxPath, JSON.stringify(signed, null, 2) + '\n', 'utf8');
+    await atomicWriteWithLease(outboxPath, signed, 'library', 30000);
 
     console.log(`[round-008] Delivered to ${target}: ${inboxPath}`);
     console.log(`[round-008] Outbox copy: ${outboxPath}`);
@@ -157,4 +163,7 @@ function main() {
   }
 }
 
-main();
+main().catch(e => {
+  console.error('[round-008] FATAL:', e.message);
+  process.exit(1);
+});
