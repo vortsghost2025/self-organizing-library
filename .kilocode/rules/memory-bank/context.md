@@ -23,6 +23,21 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 
 ## Session History
 
+### Session 2026-04-22: Round 7 Constitutional Audit + Severity Reclassification + Round 8 Kernel Response
+- [x] Received SwarmMind Round 7 Constitutional Audit status (task_id: round-7-constitutional-audit-status)
+- [x] Verified audit claims: 2 enforcement bypass gaps confirmed (UPGRADED to P1/P0 severity)
+  - Gap 1 guardWrite bypass: P1 — structural path-dependent enforcement bypass
+  - Gap 2 SchemaValidator non-fail-closed: P0 — philosophical violation (invalid state permitted)
+- [x] Sent Library verification/acknowledgement to Archivist (round-7-audit-library-ack-001)
+- [x] Proposed remediation plan round-7-remediation-001 (P1) to Archivist
+- [x] Sent P0 severity escalation (round-7-gap-severity-escalation-001) to Archivist with corrected classification and immediate patch demand
+- [x] Received Kernel Round 8 response (act-round-008-kernel-response): all lanes already in enforce mode, evidence exchange propagated
+- [x] ACK'd Kernel Round 8 response (act-round-008-kernel-response-ack)
+- [x] Updated memory: gaps reclassified as P1/P0, not medium; these are Round 7 closure blockers
+- [ ] Implement patches: guardWrite mandatory (create-signed-message.js), SchemaValidator fail-closed (SchemaValidator.js)
+- [ ] Request SwarmMind Round 7 re-audit after patch
+- [ ] Archivist to integrate round-7-remediation-001 into convergence (DO NOT ADVANCE until patches verified)
+
 ### Session 2026-04-21 (Current): Hard Identity Enforcement
 - [x] Fixed constants.js: added TRUST_STORE_PATH export pointing to lanes/broadcast/trust-store.json
 - [x] Fixed governed-start.js:88: replaced trustStore.loadFromArchivist() with TrustStoreManager({ trustStorePath }) + active key injection into Verifier
@@ -76,8 +91,8 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 10. **Kernel emits non-schema release broadcasts** — Custom type instead of v1.1 inbox message schema
 
 ## Still Not Done
-- 🔲 LANE_KEY_PASSPHRASE — operator must set env var for signing to work. Without it, deliverMessage() cannot sign outbound messages.
-- 🔲 Run `node scripts/generate-library-keys.js` with LANE_KEY_PASSPHRASE to generate RSA-2048 key pair in .identity/
+- 🔲 LANE_KEY_PASSPHRASE — operator must set env var for signing to work
+- 🔲 Run `node scripts/generate-library-keys.js` with LANE_KEY_PASSPHRASE to generate RSA-2048 key pair
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 v1.1 formal ratification by Archivist (Phase 5)
 - 🔲 Lane 4 formal ratification by Archivist (Phase 5)
@@ -85,3 +100,9 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - 🔲 SwarmMind schema compliance response
 - 🔲 Kernel schema compliance response
 - 🔲 Kernel v0.1.0 re-evaluation
+- 🔥 **ROUND 7 REMEDIATION (P0/P1 BLOCKERS) — IMMEDIATE PATCH:**
+  - 🔲 Implement guardWrite mandatory enforcement (create-signed-message.js:117) — P1 structural bypass
+  - 🔲 Implement SchemaValidator fail-closed on schema-invalid (SchemaValidator.js:448-453) — P0 philosophical violation
+  - 🔲 Add unit tests verifying both gates
+  - 🔲 Request SwarmMind Round 7 re-audit after patch
+  - 🔲 Archivist to integrate round-7-remediation-001 into convergence decision (DO NOT ADVANCE until patches land)

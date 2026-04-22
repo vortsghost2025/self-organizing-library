@@ -384,6 +384,7 @@ function deliverMessage(message, canonicalPath, signingOptions) {
     // Fail-closed: no signing options provided, message will fail outbox write guard below
     console.error('[SchemaValidator] deliverMessage: no signingOptions provided — message will fail outbox write guard');
   }
+    // Enforce outbox write guard with error handling    try {      const { guardWrite } = require("../scripts/outbox-write-guard");      guardWrite(signedMessage, canonicalPath, `msg-${Date.now()}.json`);    } catch (gErr) {      console.error(`[SchemaValidator] deliverMessage: OUTBOX_WRITE_BLOCKED — ${gErr.message}`);      return {        delivered: false,        schema_valid: schemaValid,        verified: false,        path: null,        error: gErr.message,        validation_errors: schemaValid ? null : validationResult.errors,        signed: wasSigned      };    }
 
   // Outbox write guard: refuse to write unsigned messages
   if (!signedMessage.signature || typeof signedMessage.signature !== 'string' || signedMessage.signature.length < 10) {
