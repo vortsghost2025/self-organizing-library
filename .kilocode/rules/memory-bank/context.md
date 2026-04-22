@@ -59,6 +59,14 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] Library inbox now clean - no pending messages requiring action
 - [x] Updated memory bank
 
+### Session 2026-04-22 (Critical Fix): P0 Data Integrity Failure - KeyManager Canonicalization
+- [x] IDENTIFIED: All broadcast trust stores had key_id != sha256(PEM) due to newline-sensitive raw string hashing
+- [x] ROOT CAUSE: KeyManager._generateKeyId() used raw PEM, trust stores used canonical PEM (trimEnd + '\\n')
+- [x] FIX APPLIED: Updated _generateKeyId() in all 4 lanes to use canonical PEM canonicalization
+- [x] VERIFIED: All KeyManager instances now produce correct canonical key_ids matching trust stores
+- [x] IMPACT: Cryptographic consistency restored - signature validation infrastructure now works
+- [x] PREVENTION: Future key generation uses canonical method, preventing recurrence
+
 ### Session 2026-04-22: Round 7 Remediation + Phase 5 Ratification + Code Review Distribution
 - [x] Received SwarmMind Round 7 Constitutional Audit status (task_id: round-7-constitutional-audit-status)
 - [x] Verified audit claims: 2 enforcement bypass gaps confirmed (UPGRADED to P1/P0 severity)
