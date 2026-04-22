@@ -1,10 +1,13 @@
 {
   "$schema": "https://app.kilo.ai/config.json",
-  "model": "openrouter/openai/gpt-4o-mini",
-  "disabled_providers": ["lmstudio", "ollama"],
+  "model": "openrouter/openrouter/free",
+  "disabled_providers": [
+    "lmstudio",
+    "ollama"
+  ],
   "agent": {
     "orchestrator": {
-      "model": "nvidia/z-ai/glm-5.1",
+      "model": "kilo/kilo-auto/free",
       "tools": {
         "invalid": true
       },
@@ -22,25 +25,25 @@
       }
     },
     "plan": {
-      "model": "openrouter/openai/gpt-4o-mini"
+      "model": "nvidia/openai/gpt-oss-120b"
     },
     "code": {
-      "model": "openrouter/openai/gpt-4o"
+      "model": "nvidia/z-ai/glm-5.1"
     },
     "build": {
-      "model": "openrouter/openai/gpt-4o-mini"
+      "model": "openrouter/openrouter/free"
     },
     "debug": {
-      "model": "openrouter/openai/gpt-4o"
+      "model": "openrouter/openai/gpt-oss-120b:free"
     },
     "ask": {
-      "model": "openrouter/openai/gpt-4o-mini"
+      "model": "openrouter/openrouter/free"
     },
     "general": {
-      "model": "openrouter/openai/gpt-4o-mini"
+      "model": "openrouter/openrouter/free"
     },
     "code-reviewer": {
-      "model": "openrouter/openai/gpt-4o"
+      "model": "openrouter/openrouter/free"
     }
   },
   "provider": {
