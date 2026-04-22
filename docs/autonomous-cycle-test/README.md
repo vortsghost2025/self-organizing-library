@@ -78,12 +78,13 @@ node scripts/act-daemon.js --max-rounds 10        # Stop after 10 rounds
 |-------|----------------|----------------|--------|----------|--------|
 | 1 | library | Schema Self-Audit + Heartbeat Health Check | completed | no | — |
 | 2 | archivist→library | Outbox Signing Compliance + Trust Store KeyID Verify | completed | no | Round 2 msg rejected by schema validator — processed manually from expired/ |
-| 3 | library→all | Schema Version Alignment + Identity Key Material Recovery | in_progress | no | — |
+| 3 | library→all | Schema Version Alignment + Identity Key Material Recovery | completed | no | — |
+| 4 | library | Outbox Historical Message Remediation + Daemon Live-Run Verification | in_progress | no |
 
 ## Metrics
-- **Rounds completed:** 2
+- **Rounds completed:** 3
 - **Human interventions required:** 0
-- **Schema rejections:** 1 (Archivist R2→Library rejected, processed manually)
+- **Schema rejections:** 1
 - **Contradictions detected:** 0
 - **Cycle still alive:** yes
 - **Daemon built:** yes (scripts/act-daemon.js)
