@@ -2,27 +2,53 @@
 
 ## Current State
 
-**Project Status:** Identity enforcement is now HARD — unsigned/spoofed messages are structurally rejected, not just flagged. All core pipeline bugs fixed. Awaiting LANE_KEY_PASSPHRASE from operator for live signing.
+**Project Status:** Trust-store convergence COMPLETE across all 4 lanes. All broadcast trust stores now have cryptographically-derived key_ids matching `.identity/public.pem` files. Archivist recovery tests 11/11. All 4 repos committed and pushed.
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.
 
 ### Architecture Status
 - **Identity enforcement**: HARD — IdentityEnforcer runs in enforce mode in inbox-watcher pipeline. Unsigned → expired/. Mismatched signatures → expired/. No "verified=false" middle ground.
 - **Outbound signing**: Signer.signInboxMessage() + SchemaValidator.deliverMessage() with signingOptions parameter. Fail-closed on signing failure (won't deliver unsigned).
+- **Trust store convergence**: ✅ ALL 4 broadcast trust stores verified identical with correct key_ids. Per-lane `.trust/keys.json` files verified for Library (cb3e57dd7818da3d) and Kernel (bd553e7c2daac20d). Archivist manually fixed. SwarmMind `.identity/public.pem` recreated.
 - **Trust store normalization**: Both Verifier.js and TrustStoreManager.js now normalize flat-format trust stores (lane IDs as top-level keys) into nested { keys: {} } format.
 - **Schema compliance**: v1.1 amendments implemented (payload.compression, execution.parent_id, watcher block, delivery_verification, canonical_paths)
 - **Message delivery**: SchemaValidator.deliverMessage() validates BEFORE writing, stamps verified=true only if both schema-valid AND file-write succeeds, accepts signingOptions for JWS signing
 - **Inbox watcher**: Validates incoming messages against schema → identity enforcement → idempotency check → priority sort
 - **Cross-lane schema enforcement**: Compliance notices sent to SwarmMind and Kernel
 
+### Trust Store Key IDs (Verified Correct)
+| Lane | key_id | Source |
+|------|--------|--------|
+| Archivist | `a94ef3e05c4f856d` | SHA-256 of DER public key |
+| Library | `cb3e57dd7818da3d` | SHA-256 of DER public key |
+| SwarmMind | `959dc79dbaa38113` | SHA-256 of DER public key |
+| Kernel | `bd553e7c2daac20d` | SHA-256 of DER public key |
+
 ### Convergence Status
-- ✅ **v1.1 Schema — Phase 2 COMPLETE**: All lanes APPROVE WITH AMENDMENTS. All amendments implemented. Phase 5 RATIFY received from Archivist.
-- ✅ **Lane 4 — Phase 2 COMPLETE**: Archivist + SwarmMind approved. Phase 5 RATIFY received.
+- ✅ **Trust Store Convergence**: All 4 broadcast stores identical, correct key_ids, correct PEMs. 11/11 Archivist recovery.
+- ✅ **v1.1 Schema — Phase 2 COMPLETE**: All lanes APPROVE WITH AMENDMENTS. All amendments implemented. Phase 5 RATIFY received from Archivist.
+- ✅ **Lane 4 — Phase 2 COMPLETE**: Archivist + SwarmMind approved. Phase 5 RATIFY received.
 - ⏳ **Priority Preemption Protocol**: All 3 lanes APPROVE WITH AMENDMENTS — awaiting Archivist final ratification
-- ✅ **Round 7 Remediation CONVERGED**: Patches applied, evidence‑exchange clean, phase5‑ratification delivered to all lanes.
+- ✅ **Round 7 Remediation CONVERGED**: Patches applied, evidence‑exchange clean, phase5‑ratification delivered to all lanes.
 - ⏳ **Awaiting SwarmMind post‑remedial re‑audit report** (request sent)
 
 ## Session History
+
+### Session 2026-04-22 (Afternoon): Trust Store Convergence Fix
+- [x] Diagnosed trust-store divergence: all 4 lanes had different/wrong key_ids in trust stores vs actual `.identity/public.pem` fingerprints
+- [x] Root cause: old sync-trust-store.js only copied Archivist's key to all lanes, destroying other entries; deploy script atomic writes silently failed on Windows
+- [x] Computed correct key_ids via SHA-256 of DER-encoded public keys (openssl-style fingerprint, first 16 hex chars)
+- [x] Built and deployed unified trust store via fix-trust-stores.js (check/deploy/verify modes)
+- [x] Rewrote sync-trust-store.js at SwarmMind to build proper 4-lane store from `.identity/public.pem` files
+- [x] Updated Archivist constants.js + TrustStoreManager.js to point to broadcast trust store
+- [x] Updated Kernel constants.js — added TRUST_STORE_PATH
+- [x] Fixed Archivist `.trust/keys.json` — had kernel's PEM instead of archivist's (manual write after atomic write failed)
+- [x] Recreated SwarmMind `.identity/public.pem` (directory was entirely missing)
+- [x] Verified all 4 broadcast trust stores are identical and correct
+- [x] Verified Library `.trust/keys.json` (cb3e57dd7818da3d ✅) and Kernel `.trust/keys.json` (bd553e7c2daac20d ✅)
+- [x] Archivist recovery tests: 10/11 → **11/11** (multi_source_consistency fixed by recreating SwarmMind identity)
+- [x] Committed and pushed all 4 repos: Library (964b3e6), Archivist (ba31894), Kernel (a0f5bda), SwarmMind (3d16841)
+- [x] Updated memory bank
 
 ### Session 2026-04-22: Round 7 Remediation + Phase 5 Ratification + Code Review Distribution
 - [x] Received SwarmMind Round 7 Constitutional Audit status (task_id: round-7-constitutional-audit-status)
@@ -100,20 +126,30 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 8. **Schema to-enum must match canonical_paths keys** — Both must use `kernel` not `kernel-lane`
 9. **SwarmMind emits schema-non-compliant messages** — Uses from_lane/to_lane instead of from/to
 10. **Kernel emits non-schema release broadcasts** — Custom type instead of v1.1 inbox message schema
+11. **Trust store key_ids must be cryptographically derived** — All 4 lanes had wrong key_ids that didn't match their `.identity/public.pem` fingerprints. The old sync script propagated one lane's key to all entries.
+12. **Atomic writes can silently fail on Windows** — The fix-trust-stores.js deploy reported "verified" for Archivist `.trust/keys.json` but the file wasn't actually updated (Windows file locking race). Always verify file content after atomic write.
+13. **SwarmMind `.identity/` directory can disappear** — Likely due to git operations or `.gitignore` patterns. The `multi_source_consistency` test catches this via `identity_exists` check.
 
 ## Still Not Done
 - 🔲 LANE_KEY_PASSPHRASE — operator must set env var for signing to work
 - 🔲 Run `node scripts/generate-library-keys.js` with LANE_KEY_PASSPHRASE to generate RSA-2048 key pair
 - 🔲 Hardening drill scheduled task (needs admin privileges)
+- 🔲 Process Archivist P0 inbox items (trust-store-convergence-p0-escalation, act-sync-enforcement-authority, etc.)
+- 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
 - 🔲 v1.1 formal ratification by Archivist (Phase 5) — *pending Archivist finalization*
 - 🔲 Lane 4 formal ratification by Archivist (Phase 5) — *pending*
 - 🔲 Priority preemption protocol convergence/ratification — *pending*
 - 🔲 SwarmMind schema compliance response — *pending*
 - 🔲 Kernel schema compliance response — *pending*
 - 🔲 Kernel v0.1.0 re-evaluation — *pending*
+- 🔲 Remove `nul` file from Library working directory (Windows device name, can't git add)
 - ✅ **ROUND 7 REMEDIATION COMPLETE**:
-  - ✅ guardWrite mandatory enforcement integrated (SchemaValidator.deliverMessage)
-  - ✅ SchemaValidator fail‑closed on unsigned messages
-  - ✅ Unit tests added and passing (test-schema-guard.js)
-  - ✅ Re‑audit request sent to SwarmMind (awaiting response)
-  - ✅ Archivist ratification received (phase5-ratification.json); convergence gate cleared
+- ✅ guardWrite mandatory enforcement integrated (SchemaValidator.deliverMessage)
+- ✅ SchemaValidator fail‑closed on unsigned messages
+- ✅ Unit tests added and passing (test-schema-guard.js)
+- ✅ Re‑audit request sent to SwarmMind (awaiting response)
+- ✅ Archivist ratification received (phase5-ratification.json); convergence gate cleared
+- ✅ **TRUST STORE CONVERGENCE COMPLETE**:
+- ✅ All 4 broadcast trust stores have correct key_ids and PEMs
+- ✅ Archivist recovery tests 11/11
+- ✅ All 4 repos committed and pushed
