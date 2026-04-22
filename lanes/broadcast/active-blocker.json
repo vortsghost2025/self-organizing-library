@@ -3,16 +3,28 @@
   "created_at": "2026-04-22T14:45:00.000Z",
   "owner_lane": "archivist",
   "blocking_lane": null,
-  "title": "Archivist Identity Key ID Mismatch",
-  "description": "Archivist .trust/keys.json has key_id 1a7741b8d353abee but .identity/snapshot.json has key_id d5faddfa2ab2ff3f. This mismatch causes test-three-lane-integration.js to fail.",
-  "impact": "Integration tests fail; cross-lane trust verification cannot complete",
+  "title": "Archivist Identity Key ID Mismatch + Cross-Lane Sync Gate",
+  "description": "Archivist .trust/keys.json has key_id 1a7741b8d353abee but .identity/snapshot.json has key_id d5faddfa2ab2ff3f. Additionally, Archivist is implementing a cross-lane sync gate that enforces convergence before cross-lane writes.",
+  "impact": "Integration tests fail; cross-lane trust verification cannot complete; sync gate implementation pending",
   "evidence": [
     "S:/Archivist-Agent/.trust/keys.json",
-    "S:/Archivist-Agent/.identity/snapshot.json"
+    "S:/Archivist-Agent/.identity/snapshot.json",
+    "lanes/broadcast/active-blocker.json"
   ],
-  "required_action": "Archivist must regenerate its identity snapshot to match the trust store key_id, or rotate the trust store key to match the snapshot",
+  "required_action": "1. Archivist must resolve key_id mismatch (regenerate snapshot OR rotate trust store key). 2. Implement cross-lane sync gate. 3. User must authorize key rotation decision and review sync gate design.",
   "status": "active",
   "priority": "P0",
   "reported_by": "library",
-  "convergence_status": "blocked"
+  "convergence_status": "blocked",
+  "sync_gate": {
+    "status": "in_progress",
+    "initiated_by": "archivist",
+    "delivered_to": ["archivist", "library", "swarmmind", "kernel"],
+    "message_id": "cross-lane-sync-gate-p0-001"
+  },
+  "user_action_required": [
+    "Authorize key rotation: Option A (regenerate snapshot) OR Option B (rotate trust store)",
+    "Review sync gate design before implementation",
+    "Run tests post-implementation"
+  ]
 }
