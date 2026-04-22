@@ -180,7 +180,7 @@ function scanInbox(laneId) {
 }
 
 function extractRoundNumber(str) {
-  const match = str.match(/round[_-]?(\d+)/i) || str.match(/R(\d+)/i) || str.match(/act-round-(\d+)/i);
+  const match = str.match(/round[_-]?(\\d+)/i) || str.match(/R(\\d+)/i) || str.match(/act-round-(\\d+)/i);
   return match ? parseInt(match[1], 10) : 0;
 }
 
@@ -198,33 +198,7 @@ function buildPrompt(laneId, message) {
 
   const targetList = allLanes.map(l => `- ${l}: ${canonicalPaths[l]}`).join('\n');
 
-  return `AUTONOMOUS CYCLE TEST — You have an incoming ACT message in your inbox.
-
-MESSAGE FROM: ${message.from}
-SUBJECT: ${message.subject}
-TASK_ID: ${message.task_id}
-ROUND: ${message.round}
-
-Read the full message at: ${message.filepath}
-
-YOUR INSTRUCTIONS:
-1. Read the full ACT message from your inbox
-2. Complete the 2 tasks assigned to your lane (${laneId}) in that message
-3. Choose 2 NEW tasks that ALL lanes should complete to improve cross-lane functioning
-4. Send signed, schema-compliant messages to all other lanes with your 2 new tasks attached
-5. Include this question in each message: "For each lane, what are the next 2 most effective tasks all lanes can complete as tasks that would improve the way we function together?"
-6. Document your round in docs/autonomous-cycle-test/round-${message.round}-${laneId}.json
-7. Move the processed message to your processed/ directory
-8. Commit and push all changes
-
-TARGET LANE INBOXES (write to these CANONICAL paths):
-${targetList}
-
-SIGNING: Use node scripts/sign-outbox-message.js or node scripts/create-signed-message.js to sign outbound messages with your lane's identity.
-
-SCHEMA: All outbound messages MUST conform to the v1.0 inbox message schema (schema_version, task_id, idempotency_key, from, to, type, task_kind, priority, subject, body, timestamp, requires_action, payload, execution, lease, retry, evidence, heartbeat).
-
-IMPORTANT: This is part of the Autonomous Cycle Test. Each lane that receives your message will do the same: complete your tasks, choose 2 new ones, and forward the cycle. The test runs until a lane requires human input.`;
+  return `AUTONOMOUS CYCLE TEST — You have an incoming ACT message in your inbox.\n\nMESSAGE FROM: ${message.from}\nSUBJECT: ${message.subject}\nTASK_ID: ${message.task_id}\nROUND: ${message.round}\n\nRead the full message at: ${message.filepath}\n\nYOUR INSTRUCTIONS:\n1. Read the full ACT message from your inbox\n2. Complete the 2 tasks assigned to your lane (${laneId}) in that message\n3. Choose 2 NEW tasks that ALL lanes should complete to improve cross-lane functioning\n4. Send signed, schema-compliant messages to all other lanes with your 2 new tasks attached\n5. Include this question in each message: "For each lane, what are the next 2 most effective tasks all lanes can complete as tasks that would improve the way we function together?"\n6. Document your round in docs/autonomous-cycle-test/round-${message.round}-${laneId}.json\n7. Move the processed message to your processed/ directory\n8. Commit and push all changes\n\nTARGET LANE INBOXES (write to these CANONICAL paths):\n${targetList}\n\nSIGNING: Use node scripts/sign-outbox-message.js or node scripts/create-signed-message.js to sign outbound messages with your lane's identity.\n\nSCHEMA: All outbound messages MUST conform to the v1.3 inbox message schema (schema_version, task_id, idempotency_key, from, to, type, task_kind, priority, subject, body, timestamp, requires_action, payload, execution, lease, retry, evidence, heartbeat).\n\nIMPORTANT: This is part of the Autonomous Cycle Test. Each lane that receives your message will do the same: complete your tasks, choose 2 new ones, and forward the cycle. The test runs until a lane requires human input.`;
 }
 
 function invokeSession(laneId, message, opts) {
@@ -239,27 +213,18 @@ function invokeSession(laneId, message, opts) {
   });
 
   if (opts.dryRun) {
-    log('INFO', `[DRY RUN] Would invoke: kilo run --auto --dir "${config.projectDir}" with ${prompt.length} char prompt`);
+    log('INFO', `[DRY RUN] Would invoke: kilo run --auto --dir \"${config.projectDir}\" with ${prompt.length} char prompt`);
     return { success: true, dryRun: true, lane: laneId };
   }
 
   try {
-    // Write prompt to temp file to avoid shell escaping issues
-    const promptFile = path.join(config.projectDir, '.act-prompt.txt');
-    fs.writeFileSync(promptFile, prompt, 'utf8');
-
-    const cmd = `kilo run --auto --dir "${config.projectDir}" --file "${promptFile}" --format json`;
-    log('INFO', `Executing: ${cmd.substring(0, 200)}...`);
-
-    const output = execSync(cmd, {
+    const output = execSync(`kilo run --auto --dir \\"${config.projectDir}\\" --format json`, {
+      input: prompt,
       timeout: opts.sessionTimeoutMs || DEFAULTS.sessionTimeoutMs,
       maxBuffer: 50 * 1024 * 1024,
       encoding: 'utf8',
       cwd: config.projectDir,
     });
-
-    // Clean up prompt file
-    try { fs.unlinkSync(promptFile); } catch (_) {}
 
     log('INFO', `Session completed for ${laneId}`, {
       lane: laneId,
