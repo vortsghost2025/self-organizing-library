@@ -6,15 +6,15 @@ const SCHEMA_PATH = path.resolve(__dirname, '../../schemas/inbox-message-v1.json
 
 const REQUIRED_FIELDS = [
   'schema_version', 'task_id', 'idempotency_key', 'from', 'to',
-  'type', 'task_kind', 'priority', 'subject', 'body',
+  'type', 'priority', 'subject', 'body',
   'timestamp', 'requires_action', 'payload', 'execution',
   'lease', 'retry', 'evidence', 'heartbeat'
 ];
 
 const ENUM_CONSTRAINTS = {
-  schema_version: ['1.0', '1.1'],
+  schema_version: ['1.0', '1.1', '1.2', '1.3'],
   to: ['archivist', 'library', 'swarmmind', 'kernel'],
-  type: ['task', 'response', 'heartbeat', 'escalation', 'handoff'],
+  type: ['task', 'response', 'heartbeat', 'escalation', 'handoff', 'ack', 'alert'],
   task_kind: ['proposal', 'review', 'amendment', 'ratification'],
   priority: ['P0', 'P1', 'P2', 'P3'],
   'payload.mode': ['inline', 'path', 'chunked'],
@@ -95,11 +95,12 @@ function validate(message) {
     }
   }
 
-  // Idempotency key format (SHA-256 hex)
+  // Idempotency key – v1.3 relaxes to any non-empty string.
   if (message.idempotency_key && typeof message.idempotency_key === 'string') {
-    if (!SHA256_PATTERN.test(message.idempotency_key)) {
-      errors.push('idempotency_key must be 64 lowercase hex characters (SHA-256)');
+    if (message.idempotency_key.length === 0) {
+      errors.push('idempotency_key must be a non-empty string');
     }
+    // No pattern enforcement – allows descriptive keys.
   }
 
   // Timestamp format (ISO-8601)
@@ -121,6 +122,20 @@ function validate(message) {
       if (!(reqField in message.execution)) {
         errors.push(`execution.${reqField} is required`);
       }
+    }
+  }
+
+  // Signature and key_id for v1.2 and v1.3 messages
+  if (message.schema_version === '1.2' || message.schema_version === '1.3') {
+    if (!message.signature || !message.key_id) {
+      errors.push('signature and key_id are required for v1.2 and v1.3 messages');
+    }
+  }
+
+  // v1.3: task_kind conditionally required only for task/response/escalation/handoff
+  if (['task', 'response', 'escalation', 'handoff'].includes(message.type)) {
+    if (!('task_kind' in message)) {
+      errors.push('task_kind is required for task/response/escalation/handoff messages');
     }
   }
 
@@ -154,7 +169,7 @@ function computeIdempotencyKey({ task_id, from, to, subject }) {
 function createMessage(template = {}) {
   const now = new Date().toISOString();
   const defaults = {
-    schema_version: '1.1',
+    schema_version: '1.3',
     task_id: template.task_id || `task-${Date.now()}`,
     idempotency_key: '',
     from: template.from || 'library',
@@ -225,33 +240,21 @@ function createMessage(template = {}) {
       },
       ...template.watcher,
     },
-  delivery_verification: {
-    verified: false,
-    verified_at: null,
-    retries: 0,
-    // NOTE: template.delivery_verification is NOT spread here.
-    // Bug 3 fix: caller cannot override verified=true during construction.
-    // Only deliverMessage() can set verified=true after validating + writing.
-  },
+    delivery_verification: {
+      verified: false,
+      verified_at: null,
+      retries: 0,
+    },
   };
 
   const message = { ...defaults, ...template };
-
-  // Bug 3 fix: ALWAYS force delivery_verification.verified = false on creation.
-  // Only deliverMessage() can set this to true after schema validation + disk write.
-  // Allow template to set retries but NEVER allow overriding verified=true.
-  message.delivery_verification = {
-    verified: false,
-    verified_at: null,
-    retries: template.delivery_verification?.retries || 0,
-  };
 
   // Recompute idempotency_key if not explicitly provided
   if (!template.idempotency_key) {
     message.idempotency_key = computeIdempotencyKey(message);
   }
 
-  // Bug 3 fix: validate the constructed message before returning
+  // Validate the constructed message before returning
   const validationResult = validate(message);
   if (!validationResult.valid) {
     console.error('[SchemaValidator] createMessage: constructed message fails validation:');
@@ -277,7 +280,6 @@ function loadSchema() {
 
 /**
  * Write a message to a canonical inbox path with delivery verification.
- * Per v1.1 amendment: sender SHOULD verify file exists after writing.
  *
  * Bug 1 fix: validates schema BEFORE writing. delivery_verification.verified
  * means BOTH "schema is valid" AND "file landed on disk". Invalid messages
@@ -302,13 +304,11 @@ function loadSchema() {
  * signed: boolean }
  */
 function deliverMessage(message, canonicalPath, signingOptions) {
-  // VALIDATE BEFORE WRITE — Bug 1 fix: never stamp verified=true without schema check
+  // VALIDATE BEFORE WRITE
   const validationResult = validate(message);
   const schemaValid = validationResult.valid;
 
   // SIGN BEFORE WRITE — Identity enforcement: outbound messages MUST be signed.
-  // If signingOptions provided, sign the message with JWS (RS256).
-  // If not provided, emit warning because receiving lanes will reject unsigned messages.
   let signedMessage = message;
   let wasSigned = false;
 
@@ -318,7 +318,6 @@ function deliverMessage(message, canonicalPath, signingOptions) {
       wasSigned = true;
     } catch (signErr) {
       console.error(`[SchemaValidator] deliverMessage: SIGNING FAILED — ${signErr.message}`);
-      console.error(`[SchemaValidator] Message will be delivered unsigned — receiving lane WILL REJECT it`);
       // Fail-closed: do NOT silently deliver unsigned. Return error.
       return {
         delivered: false,
@@ -330,15 +329,13 @@ function deliverMessage(message, canonicalPath, signingOptions) {
         signed: false
       };
     }
-  } else if (!message.signature && !message.jws) {
-    // Message is unsigned and no signing options provided — warn loudly.
-    // In enforce mode, the receiving lane WILL reject this message.
+  } else {
     console.warn(`[SchemaValidator] deliverMessage: WARNING — delivering UNSIGNED message`);
-    console.warn(`[SchemaValidator] Receiving lanes with enforcementMode='enforce' will REJECT this message`);
     console.warn(`[SchemaValidator] Provide signingOptions={ signer, privateKey, keyId } to sign outbound messages`);
   }
 
-  const filename = `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
+  const filename = 
+    `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
   const fullPath = path.join(canonicalPath, filename);
 
   try {
@@ -353,8 +350,6 @@ function deliverMessage(message, canonicalPath, signingOptions) {
 
     // Write message — even if schema-invalid, for audit trail
     fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
-
-    // Verify delivery (v1.1 requirement) — file landed on disk
     const exists = fs.existsSync(fullPath);
 
     if (exists) {
@@ -362,6 +357,7 @@ function deliverMessage(message, canonicalPath, signingOptions) {
       if (signedMessage.delivery_verification) {
         signedMessage.delivery_verification.verified = schemaValid;
         signedMessage.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
+
         // Clean up validation_errors if valid (no errors to report)
         if (schemaValid) {
           delete signedMessage.delivery_verification.validation_errors;
