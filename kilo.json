@@ -1,6 +1,6 @@
 {
   "$schema": "https://app.kilo.ai/config.json",
-  "model": "openrouter/openrouter/free",
+  "model": "kilo/kilo-auto/free",
   "disabled_providers": [
     "lmstudio",
     "ollama"
@@ -8,9 +8,6 @@
   "agent": {
     "orchestrator": {
       "model": "kilo/kilo-auto/free",
-      "tools": {
-        "invalid": true
-      },
       "permission": {
         "question": "allow",
         "read": "allow",
@@ -31,19 +28,19 @@
       "model": "nvidia/z-ai/glm-5.1"
     },
     "build": {
-      "model": "openrouter/openrouter/free"
+      "model": "kilo/kilo-auto/free"
     },
     "debug": {
-      "model": "openrouter/openai/gpt-oss-120b:free"
+      "model": "nvidia/openai/gpt-oss-120b"
     },
     "ask": {
-      "model": "openrouter/openrouter/free"
+      "model": "kilo/kilo-auto/free"
     },
     "general": {
-      "model": "openrouter/openrouter/free"
+      "model": "kilo/kilo-auto/free"
     },
     "code-reviewer": {
-      "model": "openrouter/openrouter/free"
+      "model": "nvidia/openai/gpt-oss-120b"
     }
   },
   "provider": {
