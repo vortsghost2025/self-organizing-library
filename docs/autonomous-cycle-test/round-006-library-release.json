@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-04-22T11:42:01.485Z",
+  "release": {
+    "version": "0.9.0",
+    "lanes_updated": [
+      "archivist",
+      "library",
+      "swarmmind",
+      "kernel"
+    ],
+    "key_changes": [
+      "schema v1.3 evidence_exchange block",
+      "trust store reconciliation script",
+      "outbox write guard enhancement"
+    ]
+  }
+}
