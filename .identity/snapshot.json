@@ -1,55 +1,12 @@
 {
-  "version": "2.0",
-  "identity": {
-    "id": "library-001",
-    "lane": "library",
-    "authority": 60,
-    "created_at": "2026-04-19T18:47:08.460Z",
-    "model_origin": "library",
-    "last_updated": "2026-04-19T18:47:08.462Z",
-    "issued_by": "library",
-    "key_id": "713485afdb41c35a",
-    "expires_at": "2026-07-19T00:00:00Z"
-  },
-  "invariants": [
-    "A = B = C (lane consistency)",
-    "Correction is mandatory: Agreement is optional",
-    "Agent evaluates WE: You observe, you are not part of the collective"
-  ],
-  "goals": [
-    {
-      "id": "goal-001",
-      "description": "Implement deterministic verification infrastructure",
-      "priority": "high",
-      "status": "completed",
-      "progress": "Ported from SwarmMind, integrated with Queue"
-    },
-    {
-      "id": "goal-002",
-      "description": "Maintain lane consistency",
-      "priority": "high",
-      "status": "in_progress",
-      "progress": "Verifying cross-lane signatures"
-    }
-  ],
-  "open_loops": [],
-  "context_fingerprint": {
-    "files_read": [
-      "src/attestation/KeyManager.js",
-      "src/attestation/Signer.js",
-      "src/attestation/Verifier.js",
-      "src/attestation/VerifierWrapper.js",
-      "src/attestation/TrustStoreManager.js",
-      "src/attestation/QuarantineManager.js",
-      "src/attestation/PhenotypeStore.js",
-      "src/attestation/constants.js",
-      "src/queue/Queue.js"
-    ],
-    "key_decisions": [
-      "Library Phase 4.4: Ported deterministic verification from SwarmMind",
-      "Library key ID: af30a9545e60513d",
-      "Library governed-start.js production entrypoint created"
-    ],
-    "last_activity": "2026-04-19T21:11:26.553Z"
+  "lane": "library",
+  "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp8TK00bHH8dCLZn3rDvY\nDFXWm2GfTDf5440ascO8pEEjSptN1ZYeQPTouDggr4dlteFQPZRKXQpPJ7RfAysC\nLJ1KU/F2Be6xYthpcKvOYri+xaNoqhI1/m6kLqk5/4GoepkimeugTL0HR+GXlSR8\naMTb2usXbDWmhVPIE6fPVcLpOgYEqjMBvFqCWBdrd+HL/ZdK+tcZYqFw4GDYxs7F\n08clQhIdzL8ZLSR6gl8jkDz2PaKwAjnQJBXLYSbuQgnlj02BdY3fF1WOQUYyWYXR\nf8HV4MzxRsZAUBAK/dELrR8JBGxWevbvSxSs8Nm1BPRF7/eO2JgdbgSEh6ztvjmp\nmQIDAQAB\n-----END PUBLIC KEY-----",
+  "key_id": "612726c59e3f703a",
+  "created_at": "2026-04-23T00:25:45.993Z",
+  "expires_at": null,
+  "metadata": {
+    "version": "1.0",
+    "authority": 80,
+    "role": "identity-validation"
   }
 }
