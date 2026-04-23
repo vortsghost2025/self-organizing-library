@@ -41,13 +41,13 @@ try {
   console.log(` ✓ ARCHIVIST_TRUST_STORE_PATH: ${constants.ARCHIVIST_TRUST_STORE_PATH}`);
   console.log(` ✓ LANE_ID: ${constants.LANE_ID}`);
   console.log(` ✓ ARCHIVIST_ORCHESTRATOR_URL: ${constants.ARCHIVIST_ORCHESTRATOR_URL}`);
-  
-  // Check trust store path points to Archivist
-  if (!constants.ARCHIVIST_TRUST_STORE_PATH.includes('Archivist-Agent')) {
-    console.error(' ✗ Trust store path does not point to Archivist-Agent');
+
+  // Check trust store path is configured for local lane broadcast
+  if (!constants.ARCHIVIST_TRUST_STORE_PATH.includes('library/lanes/broadcast/trust-store.json')) {
+    console.error(' ✗ Trust store path does not point to local lane broadcast');
     allFilesExist = false;
   } else {
-    console.log(' ✓ Trust store path correctly points to Archivist');
+    console.log(' ✓ Trust store path correctly points to local lane broadcast');
   }
 } catch (e) {
   console.error(' ✗ Failed to load constants:', e.message);

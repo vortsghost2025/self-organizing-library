@@ -23,7 +23,8 @@
     "act:daemon": "node scripts/act-daemon.js",
     "act:daemon:dry": "node scripts/act-daemon.js --dry-run",
     "act:daemon:status": "node -e \"console.log(JSON.stringify(require('fs').readFileSync('docs/autonomous-cycle-test/daemon-state.json','utf8'))||'no state')\"",
-    "act:daemon:reset": "node -e \"require('fs').unlinkSync('docs/autonomous-cycle-test/daemon-state.json');console.log('state reset')\""
+    "act:daemon:reset": "node -e \"require('fs').unlinkSync('docs/autonomous-cycle-test/daemon-state.json');console.log('state reset')\"",
+    "health": "curl -s http://localhost:3000/api/health | jq"
   },
   "dependencies": {
     "@kilocode/app-builder-db": "github:Kilo-Org/app-builder-db#main",
