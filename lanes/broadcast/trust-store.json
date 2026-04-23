@@ -21,7 +21,7 @@
     "lane_id": "swarmmind",
     "public_key_pem": null,
     "algorithm": "HMAC-SHA256",
-    "key_id": "c70506b0ded9d5ca",
+    "key_id": "7a91050f68a96f1f",
     "registered_at": "2026-04-23T00:31:04.098Z",
     "expires_at": null,
     "revoked_at": null,
@@ -32,7 +32,7 @@
     "lane_id": "kernel",
     "public_key_pem": "-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoFp1pEU8Ctb1LnxV3NKn\r\nyqFGT2VIeIkZke/qLI98lM1bTXG5Gtqubqj5TPmmn/sSjZbTZTadrJ3UxJSNjHdQ\r\naOvz9toibrga8B7s8yxEfgBMJYs86czSQCuCuXZF4jbVKf8Itm/VJYNHPVXU0+nK\r\nX4GZOmxW0TCNcD5o33N/5fIcz3Qxcvf4PGbf0ZeEUk8IHvvNt+1e2Y2aC10vPxUW\r\nqdeGsXRdjIuA6Y/vjXxZC+72ISNwIoS/d2vZJ/ax8hDl28QkR+D9tgTwvpuN5g7v\r\nHeEYNuxsO7QddOZn0lRIK21KjtXejMXl2eUMwKTHOMF/hHzjr6dlqc+xo9w848t7\r\n5QIDAQAB\r\n-----END PUBLIC KEY-----\r\n",
     "algorithm": "RS256",
-    "key_id": "d0e08f6e8747886f",
+    "key_id": "31dcd7d9cc7cc6e7",
     "registered_at": "2026-04-23T00:31:04.098Z",
     "expires_at": null,
     "revoked_at": null
