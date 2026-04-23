@@ -1,0 +1,181 @@
+{
+  "status": "FAIL",
+  "timestamp": "2026-04-23T19:04:09.107Z",
+  "evidence": {
+    "trust_store": {
+      "selected": {
+        "path": "S:\\kernel-lane\\lanes\\broadcast\\trust-store.json",
+        "exists": true,
+        "parse_ok": true,
+        "valid_count": 4,
+        "lanes": {
+          "archivist": {
+            "stored_key_id": "147c5c2bb7d8941f",
+            "derived_key_id": "147c5c2bb7d8941f",
+            "matches_derivation": true
+          },
+          "library": {
+            "stored_key_id": "cb3e57dd7818da3d",
+            "derived_key_id": "cb3e57dd7818da3d",
+            "matches_derivation": true
+          },
+          "swarmmind": {
+            "stored_key_id": "60afaa026a3d969d",
+            "derived_key_id": "60afaa026a3d969d",
+            "matches_derivation": true
+          },
+          "kernel": {
+            "stored_key_id": "7f1a9fe931d1fbba",
+            "derived_key_id": "7f1a9fe931d1fbba",
+            "matches_derivation": true
+          }
+        }
+      },
+      "candidates": [
+        {
+          "path": "S:\\self-organizing-library\\lanes\\broadcast\\trust-store.json",
+          "exists": true,
+          "parse_ok": true,
+          "valid_count": 1,
+          "lanes": {
+            "archivist": {
+              "stored_key_id": "147c5c2bb7d8941f",
+              "derived_key_id": null,
+              "matches_derivation": false
+            },
+            "library": {
+              "stored_key_id": "cb3e57dd7818da3d",
+              "derived_key_id": null,
+              "matches_derivation": false
+            },
+            "swarmmind": {
+              "stored_key_id": "60afaa026a3d969d",
+              "derived_key_id": null,
+              "matches_derivation": false
+            },
+            "kernel": {
+              "stored_key_id": "7f1a9fe931d1fbba",
+              "derived_key_id": "7f1a9fe931d1fbba",
+              "matches_derivation": true
+            }
+          }
+        },
+        {
+          "path": "S:\\kernel-lane\\lanes\\broadcast\\trust-store.json",
+          "exists": true,
+          "parse_ok": true,
+          "valid_count": 4,
+          "lanes": {
+            "archivist": {
+              "stored_key_id": "147c5c2bb7d8941f",
+              "derived_key_id": "147c5c2bb7d8941f",
+              "matches_derivation": true
+            },
+            "library": {
+              "stored_key_id": "cb3e57dd7818da3d",
+              "derived_key_id": "cb3e57dd7818da3d",
+              "matches_derivation": true
+            },
+            "swarmmind": {
+              "stored_key_id": "60afaa026a3d969d",
+              "derived_key_id": "60afaa026a3d969d",
+              "matches_derivation": true
+            },
+            "kernel": {
+              "stored_key_id": "7f1a9fe931d1fbba",
+              "derived_key_id": "7f1a9fe931d1fbba",
+              "matches_derivation": true
+            }
+          }
+        },
+        {
+          "path": "S:\\Archivist-Agent\\lanes\\broadcast\\trust-store.json",
+          "exists": true,
+          "parse_ok": true,
+          "valid_count": 1,
+          "lanes": {
+            "archivist": {
+              "stored_key_id": "147c5c2bb7d8941f",
+              "derived_key_id": null,
+              "matches_derivation": false
+            },
+            "library": {
+              "stored_key_id": "cb3e57dd7818da3d",
+              "derived_key_id": null,
+              "matches_derivation": false
+            },
+            "swarmmind": {
+              "stored_key_id": "60afaa026a3d969d",
+              "derived_key_id": null,
+              "matches_derivation": false
+            },
+            "kernel": {
+              "stored_key_id": "7f1a9fe931d1fbba",
+              "derived_key_id": "7f1a9fe931d1fbba",
+              "matches_derivation": true
+            }
+          }
+        }
+      ],
+      "error": null
+    },
+    "snapshots": {
+      "archivist": {
+        "path": "S:\\Archivist-Agent\\.identity\\snapshot.json",
+        "exists": true,
+        "key_id": "147c5c2bb7d8941f"
+      },
+      "library": {
+        "path": "S:\\self-organizing-library\\.identity\\snapshot.json",
+        "exists": true,
+        "key_id": "cb3e57dd7818da3d"
+      },
+      "kernel": {
+        "path": "S:\\kernel-lane\\.identity\\snapshot.json",
+        "exists": true,
+        "key_id": "7f1a9fe931d1fbba"
+      },
+      "swarmmind": {
+        "path": "S:\\SwarmMind Self-Optimizing Multi-Agent AI System\\.identity\\snapshot.json",
+        "exists": false,
+        "key_id": null
+      }
+    },
+    "verification_bundles": {
+      "behavioral-test-results.json": {
+        "path": "S:\\self-organizing-library\\verification\\behavioral-test-results.json",
+        "exists": true,
+        "parse_ok": true
+      },
+      "hardening-drill-results.json": {
+        "path": "S:\\self-organizing-library\\verification\\hardening-drill-results.json",
+        "exists": true,
+        "parse_ok": true
+      },
+      "recovery-discipline-results.json": {
+        "path": "S:\\self-organizing-library\\verification\\recovery-discipline-results.json",
+        "exists": true,
+        "parse_ok": true
+      },
+      "usage-lane-complete-report.json": {
+        "path": "S:\\self-organizing-library\\verification\\usage-lane-complete-report.json",
+        "exists": true,
+        "parse_ok": true
+      },
+      "verdict.json": {
+        "path": "S:\\self-organizing-library\\verification\\verdict.json",
+        "exists": true,
+        "parse_ok": true
+      }
+    }
+  },
+  "issues": [
+    {
+      "code": "SNAPSHOT_MISSING",
+      "lane": "swarmmind",
+      "path": "S:\\SwarmMind Self-Optimizing Multi-Agent AI System\\.identity\\snapshot.json",
+      "message": "Snapshot missing for swarmmind."
+    }
+  ],
+  "mismatches": []
+}
