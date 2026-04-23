@@ -301,3 +301,35 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - 🔄 **STRESS GATE**: Waiting for Archivist (10 minute observation)
 - 🔄 **PUSH GATE**: Waiting for corrected authority approval
 - 🔄 **POST-CONVERGENCE-LOCK**: Waiting for all lanes to report sync complete
+
+### Session 2026-04-23 (Late Evening): PUSH Phase Complete + POST-CONVERGENCE-LOCK Active
+
+**Library PUSH Phase COMPLETE:**
+- [x] Verified authority approval (CORRECTED): per-lane key_ids ✅
+- [x] Trust store already synced to canonical DER fingerprints ✅
+- [x] Emitted `key-sync-complete-library.json` → Archivist/Kernel/SwarmMind inboxes ✅
+- [x] POST-CONVERGENCE-LOCK activated by Archivist (post-convergence-lock-001.json) ✅
+- [x] Library trust store LOCKED: no writes without new authority approval ✅
+
+**HARDEN Gate Status:**
+| Lane | HARDEN | PUSH (key-sync-complete) | Status |
+|------|--------|----------------------|--------|
+| Library | ✅ PASS (sign+verify proven) | ✅ Complete | DONE |
+| Kernel | ✅ PASS (kernel-runtime-proof-report.json) | ✅ Complete | DONE |
+| SwarmMind | ✅ PASS (swarmmind-signing-role-status.json) | 🔄 WAITING | IN PROGRESS |
+| Archivist | N/A (coordinator) | 🔄 Aggregating | IN PROGRESS |
+
+**Messages Processed This Session:**
+- `authority-approval-key-convergence-20260423.json` (CORRECTED, signed by Archivist) → processed/ ✅
+- `kernel-verify-proof-20260423-001.json` (verification request) → processed/ ✅
+- `kernel-response-harden-complete-20260423-001.json` (HARDEN complete) → processed/ ✅
+- `post-convergence-lock-001.json` (LOCK active) → processed/ ✅
+
+**Current Lock Rules (Active):**
+1. No trust-store writes unless authority approval artifact is present
+2. All attempted trust mutations must be logged to `trust-store-mutations.log`
+3. Library key_id `cb3e57dd7818da3d` is LOCKED ✅
+
+**Waiting For:**
+- SwarmMind: `key-sync-complete-swarmmind.json` in Archivist inbox
+- Archivist: `convergence-complete.json` (after all 4 lanes report)
