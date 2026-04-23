@@ -27,6 +27,7 @@ export default function GraphPage() {
   const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const nodesRef = useRef<GraphNode[]>([]);
+  const dirtyRef = useRef(false);
 
   useEffect(() => {
     const mockNodes: GraphNode[] = Array.from({ length: 50 }, (_, i) => ({
@@ -64,72 +65,17 @@ export default function GraphPage() {
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || nodes.length === 0) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const width = canvas.width;
-    const height = canvas.height;
-
-    const simulate = () => {
-      const nodeArr = nodesRef.current;
-      
-      for (let i = 0; i < nodeArr.length; i++) {
-        for (let j = i + 1; j < nodeArr.length; j++) {
-          const dx = nodeArr[j].x! - nodeArr[i].x!;
-          const dy = nodeArr[j].y! - nodeArr[i].y!;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100 && dist > 0) {
-            const force = (100 - dist) / 100 * 0.5;
-            nodeArr[i].vx! -= (dx / dist) * force;
-            nodeArr[j].vx! += (dx / dist) * force;
-            nodeArr[i].vy! -= (dy / dist) * force;
-            nodeArr[j].vy! += (dy / dist) * force;
-          }
-        }
+    let rafId: number | undefined;
+    const sync = () => {
+      if (dirtyRef.current) {
+        dirtyRef.current = false;
+        setNodes([...nodesRef.current]);
       }
-
-      edges.forEach(edge => {
-        const source = nodeArr.find(n => n.id === edge.source);
-        const target = nodeArr.find(n => n.id === edge.target);
-        if (source && target) {
-          const dx = target.x! - source.x!;
-          const dy = target.y! - source.y!;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist > 0) {
-            const force = (dist - 80) / dist * 0.1;
-            source.vx! += dx * force;
-            source.vy! += dy * force;
-            target.vx! -= dx * force;
-            target.vy! -= dy * force;
-          }
-        }
-      });
-
-      nodeArr.forEach(node => {
-        node.vx! *= 0.95;
-        node.vy! *= 0.95;
-        node.x! += node.vx!;
-        node.y! += node.vy!;
-
-        if (node.x! < 20) node.x = 20;
-        if (node.x! > width - 20) node.x = width - 20;
-        if (node.y! < 20) node.y = 20;
-        if (node.y! > height - 20) node.y = height - 20;
-      });
-
-      setNodes([...nodeArr]);
-      animationRef.current = requestAnimationFrame(simulate);
+      rafId = requestAnimationFrame(sync);
     };
-
-    simulate();
-
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-  }, [edges, nodes.length]);
+    rafId = requestAnimationFrame(sync);
+    return () => { if (rafId !== undefined) cancelAnimationFrame(rafId); };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
