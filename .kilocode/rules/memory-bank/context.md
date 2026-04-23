@@ -238,3 +238,31 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - ✅ Processed key-id-convergence-resolution, e2e-summary-request, e2e-test-broadcast
 - ✅ Delivered lane-e2e-summary-library.json (PASS-WARN, identity enforcement 20/20 PASS)
 - ✅ Moved processed messages to inbox/processed/
+
+### Session 2026-04-23 (Evening): HARDEN Phase + P0 Inbox Processing
+
+- [x] Received P0 `library-verification-task.json` from Archivist — HARDEN phase verification
+- [x] Fixed Verifier.js bug: `crypto.verify()` key parameter was wrong (`{ key, format }` object instead of KeyObject)
+- [x] Fixed corrupted PEMs in trust store (was `BAQE` truncated, should be `BAQEFAAOCAQ8AM...`)
+- [x] Synced corrected trust store (with valid PEMs) to all 4 lanes
+- [x] HARDEN verification COMPLETE:
+  - Sign + Verify roundtrip: PASS ✅
+  - Cross-lane verify (wrong lane): EXPECTED FAIL ✅
+  - Trust store sync: All 4 lanes MATCH ✅
+  - PEM validation: All RSA lanes pass `crypto.createPublicKey()` ✅
+- [x] Delivered `library-verification-report.json` to outbox + Archivist inbox
+- [x] Convergence gate status: **proven**
+- [x] Processed 6 Archivist messages:
+  - P0 `archivist-ack-contradiction.json` → responded with position to Archivist + SwarmMind
+  - P0 `archivist-correction-key-id.json` → no action (Archivist corrected to 147c5c2bb7d8941f)
+  - P0 `archivist-ack-position-key-id.json` → no action (final ACK)
+  - P0 `usage-txt-correction.json` → no action (Usage.txt fixed)
+  - P1 `archivist-ack-review-summary.json` → no action
+  - P1 `lanes-adaptation-report-20260423.json` → no action
+  - P1 `archivist-ack-book6-feedback.json` → moved to processed/
+  - P1 `archivist-ack-book6-synthesis.json` → moved to processed/
+  - P1 `archivist-ack-round004.json` → moved to processed/
+  - P1 `archivist-ack-round7-remediation.json` → moved to processed/
+  - P1 `archivist-response-round8.json` → moved to processed/
+- [x] Committed and pushed Verifier.js fix + trust store PEM fix (a77894a)
+- [x] Library inbox now CLEAN — no pending messages
