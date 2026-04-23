@@ -113,11 +113,12 @@ return { valid: false, error: 'SIGNATURE_EXPIRED' };
 }
 
 const signature = this._base64UrlDecode(parsed.signature);
+const keyObject = crypto.createPublicKey(publicKey);
 const verified = crypto.verify(
-'RSA-SHA256',
-Buffer.from(parsed.signingInput),
-{ key: publicKey, format: 'pem' },
-signature
+  'RSA-SHA256',
+  Buffer.from(parsed.signingInput),
+  keyObject,
+  signature
 );
 
 if (!verified) {
