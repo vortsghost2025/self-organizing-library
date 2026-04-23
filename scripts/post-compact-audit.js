@@ -5,6 +5,16 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+const HMAC_LANES = ['swarmmind'];
+
+function laneHasIdentity(laneId, laneRoot) {
+  const identityDir = path.join(laneRoot, '.identity');
+  if (HMAC_LANES.includes(laneId)) {
+    return fs.existsSync(path.join(identityDir, 'keys.json'));
+  }
+  return fs.existsSync(path.join(identityDir, 'public.pem'));
+}
+
 const LANES = {
   archivist: { root: 'S:/Archivist-Agent', inbox: 'S:/Archivist-Agent/lanes/archivist/inbox' },
   library: { root: 'S:/self-organizing-library', inbox: 'S:/self-organizing-library/lanes/library/inbox' },
@@ -414,7 +424,7 @@ class PostCompactAudit {
           try { return JSON.parse(fs.readFileSync(hbPath, 'utf8')); } catch (_) { return null; }
         })(),
         inbox_count: this._countInboxMessages(config.inbox),
-        identity_exists: fs.existsSync(path.join(config.root, '.identity', 'public.pem'))
+        identity_exists: laneHasIdentity(laneId, config.root)
       };
     }
 
