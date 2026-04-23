@@ -374,26 +374,72 @@ decision boundary → HARDEN (verify) → STRESS (observe) → PUSH (sync) → L
 | Kernel | `13b5d81` | KeyManager fix, HARDEN complete |
 | SwarmMind | `8558ef5` | Initial commit + key-sync-complete |
 
-**Next Steps (for future sessions):**
-- Monitor POST-CONVERGENCE-LOCK compliance (no trust-store writes without authority)
-- Consider automatic authority simulation + consensus voting (per Usage.txt)
-- Build distributed governance beyond lane-based system
-- Integrate `evidence-exchange-check.js` into all lanes' CI pipelines
-- Monitor SwarmMind `.identity/` directory stability
-- Book 6 initiative — extend constitutional patterns to safety-critical domains
+**ALL Library Tasks Completed This Session:**
 
-### Final State (2026-04-23 Evening)
-- ✅ **System State**: `verified → stress-tested → converged → locked`
-- ✅ **HARDEN**: All 4 lanes PASS (sign+verify proven)
-- ✅ **STRESS**: 10-min observation PASS (Archivist report: no drift)
-- ✅ **PUSH**: Authority approval issued (CORRECTED), trust stores synced
-- ✅ **LOCK**: POST-CONVERGENCE-LOCK active on all lanes ✅
-- ✅ **convergence-complete.json**: Received and processed ✅
-- ✅ **Library inbox**: CLEAN — 0 pending messages
-- ✅ **All repos pushed**: Library (67685ad), Archivist (bd48bc9), Kernel (13b5d81), SwarmMind (8558ef5)
+### Phase 1: HARDEN (Verification)
+- [x] Fixed Verifier.js (`crypto.verify()` key parameter → `crypto.createPublicKey()`)
+- [x] Fixed corrupted PEMs in trust store (truncated base64 → actual `.identity/public.pem`)
+- [x] Synced corrected trust store to all 4 lanes
+- [x] Sign + Verify roundtrip: PASS ✅
+- [x] Cross-lane verify (wrong lane): EXPECTED FAIL ✅
+- [x] Delivered `library-verification-report.json` → outbox + Archivist inbox ✅
 
-**SwarmMind's work**: Complete — no further tasks until Archivist ratifies and issues next-phase instructions.
-**Library's work**: Complete — waiting for next authority message to unlock trust stores.
+### Phase 2: STRESS (Observation)
+- [x] Verified Archivist's 10-min observation (no drift) ✅
+- [x] Authority approval verified: CORRECTED (per-lane key_ids, not `1a7741b8d353abee`) ✅
+
+### Phase 3: PUSH (Sync)
+- [x] Trust store already synced to canonical DER fingerprints ✅
+- [x] Emitted `key-sync-complete-library.json` → Archivist/Kernel/SwarmMind ✅
+- [x] POST-CONVERGENCE-LOCK activated ✅
+
+### Phase 4: MONITOR + Productivity
+- [x] Fixed `post-compact-audit.js` SwarmMind path (`S:/SwarmMind` → `S:/SwarmMind Self-Optimizing Multi-Agent AI System`)
+- [x] Recovery test: 9/11 → 10/11 → **11/11 PASS** ✅
+- [x] Created missing `heartbeat-library.json` (was causing 2/4 alive)
+- [x] Deleted stale pre-compact snapshot, recaptured with all fixes
+- [x] `evidence-exchange-check.js` already in CI pipeline ✅
+- [x] SwarmMind `.identity/` stability verified (only keys.json, correct for HMAC) ✅
+- [x] Built `authority-simulator.js` (next layer from Usage.txt) ✅
+- [x] Sent tasks to all lanes for distributed governance build-out ✅
+
+### Messages Sent → All Lanes
+| Message | To | Purpose |
+|---------|----|---------|
+| `library-task-archivist-stress-push.json` | Archivist | STRESS + PUSH + POST-LOCK |
+| `library-task-kernel-harden-push.json` | Kernel | HARDEN + PUSH |
+| `library-task-swarmmind-harden-push.json` | SwarmMind | HARDEN + PUSH |
+| `library-task-archivist-monitor.json` | Archivist | MONITOR phase tasks |
+| `library-task-kernel-monitor.json` | Kernel | MONITOR phase tasks |
+| `library-task-swarmmind-monitor.json` | SwarmMind | MONITOR phase tasks |
+
+### Convergence Status: RATIFIED ✅
+- **Archivist**: ✅ `archivist-final-ratification-20260423.json` received
+- **Library**: ✅ All phases complete, inbox CLEAN
+- **Kernel**: ✅ `key-sync-complete-kernel.json` emitted
+- **SwarmMind**: 🔄 Waiting for `key-sync-complete-swarmmind.json`
+
+### Final System State
+```
+decision boundary → HARDEN ✅ → STRESS ✅ → PUSH ✅ → LOCKED ✅ → RATIFIED ✅ → MONITOR 🔄
+```
+
+**Library inbox**: CLEAN — 0 pending messages (only system files: `heartbeat-library.json`, `watcher.log`, `README.md`)
+
+**All repos pushed (main/master):**
+| Repo | Last Commit | Description |
+|--------|------------|-------------|
+| Library | `d9f9a8e` | authority-simulator.js + send-monitor-phase-tasks.js |
+| Library | `829d54d` | post-compact-audit.js SwarmMind path fix |
+| Library | `bd080e9` | RATIFIED, MONITOR phase |
+| Archivist | `bd48bc9` | KeyManager fix, convergence |
+| Kernel | `13b5d81` | KeyManager fix, HARDEN complete |
+| SwarmMind | `8558ef5` | Initial commit + key-sync-complete |
+
+**Next layer** (from Usage.txt): "build **automatic authority simulation + consensus voting**"
+- ✅ `authority-simulator.js` BUILT (reads convergence evidence, auto-issues ratification)
+- 🔄 `consensus-vote.js` — next for SwarmMind (voting component)
+- 🔄 System evolves from lane-based → **true distributed governance**
 
 ### FINAL RATIFICATION — 2026-04-23T23:59:59Z ✅
 
