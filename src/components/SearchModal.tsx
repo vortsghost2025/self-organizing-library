@@ -55,7 +55,10 @@ export function SearchModal() {
     return () => clearTimeout(timer);
   }, [query, search]);
 
-  if (!isOpen) return null;
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); return () => setMounted(false); }, []);
+
+  if (!isOpen || !mounted || typeof document === "undefined") return null;
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]">
