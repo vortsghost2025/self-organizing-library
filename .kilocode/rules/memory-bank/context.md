@@ -203,7 +203,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - 🔲 SwarmMind schema compliance response — *pending*
 - 🔲 Kernel schema compliance response — *pending*
 - 🔲 Kernel v0.1.0 re-evaluation — *pending*
-- 🔲 SwarmMind git repo initialization and push to GitHub
+- ✅ SwarmMind git repo initialized and pushed to GitHub (8558ef5, main branch)
 
 ### Session 2026-04-23 (Evening): Kernel Key Correction + Authority Contradiction + Push All
 
@@ -221,6 +221,9 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] Committed and pushed Archivist (e2a8747)
 - [x] Force pushed Kernel (a6fee01) — user approved, local had correct state
 - [x] Recovery tests: 11/11 PASS after Kernel key change
+- [x] Delivered session summary to all 3 lane inboxes (Archivist, SwarmMind, Kernel)
+- [x] Fixed KeyManager require path bug in all 3 RSA lanes: ../.global/ → ../../.global/
+- [x] Initialized SwarmMind git repo and pushed to GitHub (8558ef5, main)
 - ✅ **ROUND 7 REMEDIATION COMPLETE**:
 - ✅ guardWrite mandatory enforcement integrated (SchemaValidator.deliverMessage)
 - ✅ SchemaValidator fail‑closed on unsigned messages
