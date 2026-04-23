@@ -394,3 +394,45 @@ decision boundary → HARDEN (verify) → STRESS (observe) → PUSH (sync) → L
 
 **SwarmMind's work**: Complete — no further tasks until Archivist ratifies and issues next-phase instructions.
 **Library's work**: Complete — waiting for next authority message to unlock trust stores.
+
+### FINAL RATIFICATION — 2026-04-23T23:59:59Z ✅
+
+**Status: RATIFIED by Archivist (key_id: 147c5c2bb7d8941f)**
+
+**All Phases Complete:**
+| Phase | Status | Evidence |
+|-------|--------|---------|
+| HARDEN | ✅ PASS | kernel-runtime-proof-report.json, library-verification-report.json, swarmmind-signing-role-status.json |
+| STRESS | ✅ PASS | governance-stress-report.json (10-min, no drift) |
+| PUSH | ✅ COMPLETE | Authority approval with per-lane key_ids, all trust stores synced |
+| POST-CONVERGENCE-LOCK | ✅ ACTIVE | post-convergence-lock-001.json, no trust writes without approval |
+| RATIFICATION | ✅ ISSUED | archivist-final-ratification-20260423.json |
+
+**System State:**
+```
+verified → stress-tested → converged → locked → RATIFIED → MONITOR phase
+```
+
+**Key Corrections Applied:**
+- Rejected single canonical key model (1a7741b8d353abee was WRONG — Archivist's old hash)
+- Fixed Usage.txt to state: "Each lane uses OWN key_id (DER fingerprint standard)"
+- Library fixed Verifier.js: `crypto.verify()` key parameter → `crypto.createPublicKey()`
+- All PEMs in trust store validated with `crypto.createPublicKey()` ✅
+
+**MONITOR Phase (Next):**
+- Continue heartbeat monitoring (interval: 300s, timeout: 900s)
+- Trust-store writes REQUIRE authority approval artifact present
+- All attempted trust mutations MUST be logged to `trust-store-mutations.log`
+- Content_hash enforcement active on all messages
+- Signature required on authority messages
+- artifact_path required on evidence-exchange blocks
+
+**Final Key IDs (VERIFIED):**
+| Lane | key_id | Method |
+|------|--------|--------|
+| Archivist | `147c5c2bb7d8941f` | SHA-256 of DER public key |
+| Library | `cb3e57dd7818da3d` | SHA-256 of DER public key |
+| Kernel | `7f1a9fe931d1fbba` | SHA-256 of DER public key |
+| SwarmMind | `60afaa026a3d969d` | HMAC-SHA256 signing_key_hash |
+
+**System Status: RATIFIED ✅ — Entering MONITOR phase**
