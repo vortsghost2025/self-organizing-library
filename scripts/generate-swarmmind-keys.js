@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LANE_ID = 'swarmmind';
-const IDENTITY_DIR = 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/.identity';
+const IDENTITY_DIR = 'S:/SwarmMind/.identity';
 const PUBLIC_KEY_PATH = path.join(IDENTITY_DIR, 'public.pem');
 const PRIVATE_KEY_PATH = path.join(IDENTITY_DIR, 'private.pem');
 

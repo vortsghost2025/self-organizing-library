@@ -7,7 +7,7 @@ const PROJECT_ROOT = join(process.cwd());
 const LANE_HEARTBEATS: Record<string, string> = {
   library: join(PROJECT_ROOT, 'lanes/library/inbox/heartbeat-library.json'),
   archivist: join('S:/Archivist-Agent/lanes/archivist/inbox/heartbeat-archivist.json'),
-  swarmmind: join('S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/heartbeat-swarmmind.json'),
+   swarmmind: join('S:/SwarmMind/lanes/swarmmind/inbox/heartbeat-swarmmind.json'),
   kernel: join('S:/kernel-lane/lanes/kernel/inbox/heartbeat-kernel.json'),
 };
 

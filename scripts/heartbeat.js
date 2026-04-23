@@ -18,6 +18,7 @@
 const fs = require('fs');
 const path = require('path');
 const { loadPolicy, assertWatcherConfig } = require('./concurrency-policy');
+const crypto = require('crypto');
 
 // =============================================================================
 // Configuration
@@ -36,9 +37,11 @@ assertWatcherConfig({
 
 const OTHER_LANE_HEARTBEATS = [
   { lane: 'archivist', path: 'S:/Archivist-Agent/lanes/archivist/inbox/heartbeat-archivist.json', repo: 'S:/Archivist-Agent' },
-  { lane: 'swarmmind', path: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/heartbeat-swarmmind.json', repo: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' },
+   { lane: 'swarmmind', path: 'S:/SwarmMind/lanes/swarmmind/inbox/heartbeat-swarmmind.json', repo: 'S:/SwarmMind' },
   { lane: 'kernel', path: 'S:/kernel-lane/lanes/kernel/inbox/heartbeat-kernel.json', repo: 'S:/kernel-lane' }
 ];
+
+const IDEMPOTENCY_KEY = crypto.createHash('sha256').update('heartbeat-library-fixed').digest('hex');
 
 const ACTIVITY_THRESHOLD_MS = 3600000; // 60 minutes — recent git activity means lane is alive
 
@@ -82,24 +85,74 @@ function buildHeartbeat(status = 'active') {
           const stat = fs.statSync(path.join(processedDir, f));
           if (!newest || stat.mtime > newest.mtime) {
             newest = stat;
-          }
-        }
-        if (newest) {
-          lastProcessed = newest.mtime.toISOString();
-        }
-      }
     }
-  } catch (err) {
-    // Ignore
+  }
+
+  // Map status to schema-compliant values
+  let topLevelStatus, heartbeatStatus;
+  if (status === 'active') {
+    topLevelStatus = 'in_progress';
+    heartbeatStatus = 'in_progress';
+  } else if (status === 'shutdown') {
+    topLevelStatus = 'done';
+    heartbeatStatus = 'done';
+  } else {
+    topLevelStatus = status;
+    heartbeatStatus = status;
   }
 
   return {
-    schema_version: '1.0',
-    type: 'heartbeat',
+    // Schema v1.2 required fields
+    schema_version: '1.2',
+    task_id: 'heartbeat-library',
+    idempotency_key: IDEMPOTENCY_KEY,
     from: 'library',
-    lane_id: 'library',
+    to: 'library',
+    type: 'heartbeat',
+    task_kind: 'proposal',
+    priority: 'P3',
+    subject: 'Library Lane Heartbeat',
+    body: 'Periodic heartbeat signal from Library lane',
     timestamp: new Date().toISOString(),
-    status: status,
+    requires_action: false,
+    payload: {
+      mode: 'inline',
+      compression: 'none'
+    },
+    execution: {
+      mode: 'manual',
+      engine: 'kilo',
+      actor: 'lane'
+    },
+    lease: {
+      owner: null,
+      acquired_at: null,
+      expires_at: null,
+      renew_count: 0,
+      max_renewals: 3
+    },
+    retry: {
+      attempt: 1,
+      max_attempts: 3,
+      last_error: null,
+      last_attempt_at: null
+    },
+    evidence: {
+      required: true,
+      evidence_path: null,
+      verified: false,
+      verified_by: null,
+      verified_at: null
+    },
+    heartbeat: {
+      status: heartbeatStatus,
+      interval_seconds: 60,
+      last_heartbeat_at: new Date().toISOString(),
+      timeout_seconds: 900
+    },
+    // Existing custom fields
+    status: topLevelStatus,
+    lane_id: 'library',
     uptime_seconds: Math.floor((Date.now() - startTime) / 1000),
     version: '1.0.0',
     position: 2,

@@ -13,7 +13,7 @@ const lanes = ['archivist', 'library', 'swarmmind', 'kernel'];
 const trustStores = {};
 
 lanes.forEach(lane => {
-  const storePath = `S:/${lane === 'kernel' ? 'kernel-lane' : lane === 'swarmmind' ? 'SwarmMind Self-Optimizing Multi-Agent AI System' : lane === 'archivist' ? 'Archivist-Agent' : 'self-organizing-library'}/lanes/broadcast/trust-store.json`;
+   const storePath = `S:/${lane === 'kernel' ? 'kernel-lane' : lane === 'swarmmind' ? 'SwarmMind' : lane === 'archivist' ? 'Archivist-Agent' : 'self-organizing-library'}/lanes/broadcast/trust-store.json`;
   
   try {
     trustStores[lane] = JSON.parse(fs.readFileSync(storePath, 'utf8'));
