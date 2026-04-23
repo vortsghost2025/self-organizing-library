@@ -266,3 +266,38 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
   - P1 `archivist-response-round8.json` → moved to processed/
 - [x] Committed and pushed Verifier.js fix + trust store PEM fix (a77894a)
 - [x] Library inbox now CLEAN — no pending messages
+
+### Session 2026-04-23 (Late Evening): Task Distribution + Convergence Preparation
+
+**Q1: What tasks should Library do right now?**
+1. Monitor for STRESS phase completion — wait for Archivist's `governance-stress-report.json`
+2. Verify any authority approval uses CORRECT key_ids (reject `1a7741b8d353abee`, accept per-lane DER fingerprints)
+3. After PUSH phase: verify all lanes emit `key-sync-complete-{lane}.json`
+4. After all complete: verify POST-CONVERGENCE-LOCK is implemented
+
+**Q2: What tasks could the other lanes do that would help Library?**
+| Lane | Task | Why It Helps Library |
+|------|------|---------------------|
+| Archivist | Complete STRESS phase (10-min observation), deliver `governance-stress-report.json` | Proves system waits correctly without drifting |
+| Archivist | Issue CORRECTED authority approval (per-lane key_ids, not `1a7741b8d353abee`) | Enables PUSH phase with correct cryptography |
+| Kernel | Complete HARDEN phase (`kernel-runtime-proof-report.json` with key_id `7f1a9fe931d1fbba`) | Completes HARDEN gate so system can proceed |
+| SwarmMind | Complete HARDEN phase (`swarmmind-signing-role-status.json`) | Completes HARDEN gate so system can proceed |
+
+- [x] Sent distributed task messages to all 3 lanes:
+  - `library-task-archivist-stress-push.json` → Archivist: STRESS + CORRECTED PUSH + POST-CONVERGENCE-LOCK
+  - `library-task-kernel-harden-push.json` → Kernel: HARDEN + PUSH preparation
+  - `library-task-swarmmind-harden-push.json` → SwarmMind: HARDEN + PUSH preparation
+- [x] Told each lane to propagate tasks to others (distributed task propagation)
+- [x] Library now in WAIT state — monitoring inbox for:
+  - Archivist: `governance-stress-report.json`
+  - Archivist: CORRECTED authority approval (per-lane key_ids)
+  - Kernel: `kernel-runtime-proof-report.json`
+  - Kernel: `key-sync-complete-kernel.json`
+  - SwarmMind: `swarmmind-signing-role-status.json`
+  - SwarmMind: `key-sync-complete-swarmmind.json`
+  - Any: `post-convergence-lock-status.json`
+
+- ✅ **HARDEN GATE**: Library PASS (sign+verify proven)
+- 🔄 **STRESS GATE**: Waiting for Archivist (10 minute observation)
+- 🔄 **PUSH GATE**: Waiting for corrected authority approval
+- 🔄 **POST-CONVERGENCE-LOCK**: Waiting for all lanes to report sync complete
