@@ -9,7 +9,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 ### Architecture Status
 - **Identity enforcement**: HARD — IdentityEnforcer runs in enforce mode in inbox-watcher pipeline. Unsigned → expired/. Mismatched signatures → expired/. No "verified=false" middle ground.
 - **Outbound signing**: Signer.signInboxMessage() + SchemaValidator.deliverMessage() with signingOptions parameter. Fail-closed on signing failure (won't deliver unsigned).
-- **Trust store convergence**: ✅ ALL 4 broadcast trust stores verified identical with correct key_ids. Per-lane `.trust/keys.json` files verified for Library (cb3e57dd7818da3d) and Kernel (bd553e7c2daac20d). Archivist manually fixed. SwarmMind `.identity/public.pem` recreated.
+- **Trust store convergence**: ✅ ALL 4 broadcast trust stores verified identical with correct key_ids. Kernel key_id updated to `7f1a9fe931d1fbba` (on-disk DER fingerprint). Per-lane `.trust/keys.json` files verified for Library (cb3e57dd7818da3d) and Kernel (7f1a9fe931d1fbba). Archivist manually fixed. SwarmMind `.identity/public.pem` recreated.
 - **Trust store normalization**: Both Verifier.js and TrustStoreManager.js now normalize flat-format trust stores (lane IDs as top-level keys) into nested { keys: {} } format.
 - **Schema compliance**: v1.1 amendments implemented (payload.compression, execution.parent_id, watcher block, delivery_verification, canonical_paths)
 - **Message delivery**: SchemaValidator.deliverMessage() validates BEFORE writing, stamps verified=true only if both schema-valid AND file-write succeeds, accepts signingOptions for JWS signing
@@ -22,9 +22,11 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 | Archivist | `147c5c2bb7d8941f` | SHA-256 of DER public key |
 | Library | `cb3e57dd7818da3d` | SHA-256 of DER public key |
 | SwarmMind | `7a91050f68a96f1f` | HMAC-SHA256 signing_key_hash |
-| Kernel | `6b39158e43688686` | SHA-256 of DER public key |
+| Kernel | `7f1a9fe931d1fbba` | SHA-256 of DER public key (on-disk) |
 
 **Standard adopted**: DER fingerprint (Option A). KeyManager._generateKeyId() now exports SPKI DER + SHA-256, matching OpenSSL-standard fingerprinting. All trust stores and per-lane keys.json updated.
+
+**CRITICAL CORRECTION (2026-04-23 evening)**: Kernel has TWO public keys — the on-disk `public.pem` (DER fingerprint `7f1a9fe931d1fbba`) differs from `snapshot.json` and old trust store entry (`6b39158e43688686`). The on-disk key is what would be used for actual signing. All trust stores updated to `7f1a9fe931d1fbba`. The Authority key_id `1a7741b8d353abee` is a MAPPING ERROR — it is Archivist's own OLD canonical-PEM hash, NOT Kernel's key_id. P0 contradiction escalation delivered to Archivist.
 
 ### Convergence Status
 - ✅ **Trust Store Convergence**: All 4 broadcast stores identical, correct key_ids, correct PEMs. 11/11 Archivist recovery.
@@ -187,6 +189,8 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 11. **Trust store key_ids must be cryptographically derived** — All 4 lanes had wrong key_ids that didn't match their `.identity/public.pem` fingerprints. The old sync script propagated one lane's key to all entries.
 12. **Atomic writes can silently fail on Windows** — The fix-trust-stores.js deploy reported "verified" for Archivist `.trust/keys.json` but the file wasn't actually updated (Windows file locking race). Always verify file content after atomic write.
 13. **SwarmMind `.identity/` directory can disappear** — Likely due to git operations or `.gitignore` patterns. The `multi_source_consistency` test catches this via `identity_exists` check.
+14. **Authority key_id mapping can be wrong** — `AUTHORITY_SELF_RESOLUTION_PARADOX.md` Round 9 incorrectly assigned Archivist's key_id (`1a7741b8d353abee`) to Kernel. Always verify against actual DER fingerprints, not Authority claims.
+15. **Kernel can have divergent keys** — On-disk `public.pem` can differ from `snapshot.json` and trust store entries. Always use the on-disk key as canonical (it's what signing actually uses).
 
 ## Still Not Done
 - 🔲 LANE_KEY_PASSPHRASE — operator must set env var for signing to work
@@ -199,7 +203,24 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - 🔲 SwarmMind schema compliance response — *pending*
 - 🔲 Kernel schema compliance response — *pending*
 - 🔲 Kernel v0.1.0 re-evaluation — *pending*
-- 🔲 Remove `nul` file from Library working directory (Windows device name, can't git add)
+- 🔲 SwarmMind git repo initialization and push to GitHub
+
+### Session 2026-04-23 (Evening): Kernel Key Correction + Authority Contradiction + Push All
+
+- [x] DISCOVERED: Authority key_id `1a7741b8d353abee` is Archivist's OLD canonical-PEM hash, NOT Kernel's key_id — mapping error in AUTHORITY_SELF_RESOLUTION_PARADOX.md Round 9
+- [x] DISCOVERED: Kernel has TWO public keys — on-disk `public.pem` (DER `7f1a9fe931d1fbba`) vs `snapshot.json`/old trust store (`6b39158e43688686`)
+- [x] Updated all 4 trust stores: Kernel key_id → `7f1a9fe931d1fbba`, PEM → actual on-disk public.pem
+- [x] Updated Kernel `.identity/snapshot.json` with correct key_id + PEM
+- [x] Created Kernel `.trust/keys.json` with DER fingerprint `7f1a9fe931d1fbba`
+- [x] Moved Kernel authority approval to processed/ with rejection note
+- [x] Created SwarmMind `lanes/broadcast/` + deployed unified trust store
+- [x] Sent P0 contradiction escalation to Archivist inbox (library-contradiction-key-id-mapping-20260423.json)
+- [x] Moved 3 stale proposals from Archivist inbox to expired/
+- [x] Updated active-blocker.json: status → resolved
+- [x] Committed and pushed Library (cfa4d46, then 614aeb8)
+- [x] Committed and pushed Archivist (e2a8747)
+- [x] Force pushed Kernel (a6fee01) — user approved, local had correct state
+- [x] Recovery tests: 11/11 PASS after Kernel key change
 - ✅ **ROUND 7 REMEDIATION COMPLETE**:
 - ✅ guardWrite mandatory enforcement integrated (SchemaValidator.deliverMessage)
 - ✅ SchemaValidator fail‑closed on unsigned messages
