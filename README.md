@@ -183,6 +183,62 @@ bun run db:migrate
 bun run dev
 ```
 
+## Testing Infrastructure
+
+This repository uses a comprehensive testing infrastructure to verify constitutional AI governance compliance. All tests generate evidence artifacts and contribute to an overall system verdict.
+
+### Running Tests Locally
+
+```bash
+# Run all verification tests
+npm run test-lane-consistency
+node scripts/behavioral-test.js
+node scripts/test-hardening-drill.js
+node scripts/test-recovery-discipline.js
+
+# Generate consolidated verdict from test results
+npm run verdict
+
+# Check verdict status (used in CI)
+node -e "console.log(JSON.parse(require('fs').readFileSync('verification/verdict.json')).overall.status)"
+```
+
+### Test Categories
+
+| Test | Script | Purpose | Output |
+|------|--------|---------|--------|
+| Lane Consistency | `npm run test-lane-consistency` | Cross-lane coordination verification | `verification/lane-consistency-results.json` |
+| Behavioral | `node scripts/behavioral-test.js` | Runtime execution proof for critical artifacts | `verification/behavioral-test-results.json` |
+| Hardening Drill | `node scripts/test-hardening-drill.js` | Security verification and hardening | `verification/hardening-drill-results.json` |
+| Recovery Discipline | `node scripts/test-recovery-discipline.js` | State machine and retry logic verification | `verification/recovery-discipline-results.json` |
+| Verdict Generation | `npm run verdict` | Aggregates all test results into unified verdict | `verification/verdict.json` |
+
+### Evidence Exchange
+
+The system implements runtime evidence collection:
+
+```bash
+# Scan all lanes for evidence artifacts
+node scripts/evidence-exchange-check.js scan
+
+# Check specific lane
+node scripts/evidence-exchange-check.js lane library
+```
+
+Evidence artifacts include:
+- Benchmark results
+- Profile data
+- Release artifacts
+- Log files
+
+### CI/CD Integration
+
+Tests run automatically on push/PR to main branch. The pipeline:
+1. Runs all verification tests
+2. Generates consolidated verdict
+3. Gates deployment on PASS status
+4. Validates evidence artifact existence
+
 ---
 
 ## Features
