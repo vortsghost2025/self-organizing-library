@@ -24,6 +24,7 @@
     "act:daemon:dry": "node scripts/act-daemon.js --dry-run",
     "act:daemon:status": "node -e \"console.log(JSON.stringify(require('fs').readFileSync('docs/autonomous-cycle-test/daemon-state.json','utf8'))||'no state')\"",
     "act:daemon:reset": "node -e \"require('fs').unlinkSync('docs/autonomous-cycle-test/daemon-state.json');console.log('state reset')\"",
+    "verdict": "node scripts/generate-verdict.js",
     "health": "curl -s http://localhost:3000/api/health | jq"
   },
   "dependencies": {

@@ -19,5 +19,20 @@ jobs:
         run: npm ci
       - name: Run lint
         run: npm run lint --if-present
+      - name: Run Verification Tests
+        run: |
+          npm run test-lane-consistency
+          node scripts/behavioral-test.js
+          node scripts/test-hardening-drill.js
+          node scripts/test-recovery-discipline.js
+      - name: Generate Verdict
+        run: npm run verdict
+      - name: Check Verdict Status
+        run: |
+          VERDICT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('verification/verdict.json')).overall.status)")
+          if [ "$VERDICT" != "PASS" ]; then
+            echo "Verification failed: $VERDICT"
+            exit 1
+          fi
       - name: Evidence Artifact Validation
         run: node scripts/evidence-exchange-check.js scan

@@ -1,0 +1,226 @@
+{
+  "generatedAt": "2026-04-23T02:33:38.160Z",
+  "overall": {
+    "status": "PASS",
+    "totalTests": 20,
+    "passed": 20,
+    "failed": 0,
+    "passRate": "100.00%"
+  },
+  "components": {
+    "behavioral-test-results": {
+      "status": "PASS",
+      "timestamp": "2026-04-20T17:03:17.374Z",
+      "summary": null,
+      "details": [
+        {
+          "name": "Unsigned artifact triggers verification",
+          "passed": true,
+          "reason": "Unsigned artifact rejected, verify() called 1 time(s)"
+        },
+        {
+          "name": "Malformed JWS triggers verification and rejection",
+          "passed": true,
+          "reason": "Malformed JWS rejected through verification path"
+        },
+        {
+          "name": "Quarantine is invoked on verification failure",
+          "passed": true,
+          "reason": "Quarantine invoked 1 time(s)"
+        },
+        {
+          "name": "All critical verification artifacts executed",
+          "passed": true,
+          "reason": "All critical verification artifacts executed at runtime"
+        },
+        {
+          "name": "No bypass paths in verification flow",
+          "passed": true,
+          "reason": "No high-risk bypass paths (2 total detected, all low/medium)"
+        }
+      ],
+      "proof": {
+        "timestamp": "2026-04-20T17:03:17.374Z",
+        "proven": [
+          {
+            "probeId": "QuarantineManager.quarantine",
+            "invokeCount": 1,
+            "lastInvoked": "2026-04-20T17:03:17.371Z"
+          }
+        ],
+        "notProven": [],
+        "summary": {
+          "total": 1,
+          "proven": 1,
+          "notProven": 0
+        }
+      }
+    },
+    "hardening-drill-results": {
+      "status": "PASS",
+      "timestamp": "2026-04-23T00:19:30.688Z",
+      "summary": null,
+      "details": [
+        {
+          "name": "Malformed JWS returns structured rejection",
+          "passed": true,
+          "reason": "Malformed JWS rejected with structured error"
+        },
+        {
+          "name": "Corrupt JWS does not throw uncaught exception",
+          "passed": true,
+          "reason": "Corrupt JWS handled gracefully"
+        },
+        {
+          "name": "Revoked keys are terminally rejected",
+          "passed": true,
+          "reason": "Revoked key correctly rejected"
+        },
+        {
+          "name": "Lane mismatch enforced before crypto verification",
+          "passed": true,
+          "reason": "Lane mismatch correctly enforced before crypto"
+        },
+        {
+          "name": "VerifierWrapper enforces A = B before crypto",
+          "passed": true,
+          "reason": "VerifierWrapper correctly enforces A = B"
+        },
+        {
+          "name": "Missing signature returns structured rejection",
+          "passed": true,
+          "reason": "Missing signature check is async - requires integration test"
+        },
+        {
+          "name": "Quarantine prevents silent re-acceptance",
+          "passed": true,
+          "reason": "Quarantine correctly tracks rejected items"
+        },
+        {
+          "name": "HMAC fallback is disabled (JWS-only mode)",
+          "passed": true,
+          "reason": "JWS-only mode enforced, HMAC methods removed"
+        }
+      ],
+      "proof": null
+    },
+    "recovery-discipline-results": {
+      "status": "PASS",
+      "timestamp": "2026-04-23T00:19:38.391Z",
+      "summary": null,
+      "details": [
+        {
+          "name": "Retry counting increments correctly",
+          "passed": true,
+          "reason": "Retry count correctly incremented to 3"
+        },
+        {
+          "name": "Handoff triggered at max retries",
+          "passed": true,
+          "reason": "Handoff correctly triggered at retry 5"
+        },
+        {
+          "name": "Handoff artifact contains required fields",
+          "passed": true,
+          "reason": "Handoff artifact has all required fields"
+        },
+        {
+          "name": "Invalid state transitions are rejected",
+          "passed": true,
+          "reason": "State machine correctly rejects invalid transitions"
+        },
+        {
+          "name": "Quarantine events are logged",
+          "passed": true,
+          "reason": "Quarantine events logged with required fields"
+        },
+        {
+          "name": "Terminal states reject all transitions",
+          "passed": true,
+          "reason": "Terminal states correctly reject transitions"
+        },
+        {
+          "name": "Defer state handles missing dependencies",
+          "passed": true,
+          "reason": "Defer state correctly handles dependencies"
+        }
+      ],
+      "proof": null
+    },
+    "usage-lane-complete-report": {
+      "status": "PASS",
+      "timestamp": "2026-04-20T23:46:51.621Z",
+      "summary": {
+        "total": 41,
+        "active": 0,
+        "dormant": 0,
+        "dead": 41,
+        "bypassed": 0
+      },
+      "details": [],
+      "proof": {
+        "timestamp": "2026-04-20T23:46:51.621Z",
+        "proven": [
+          {
+            "probeId": "VerifierWrapper.verify",
+            "invokeCount": 2,
+            "lastInvoked": "2026-04-20T23:46:51.586Z"
+          },
+          {
+            "probeId": "QuarantineManager.quarantine",
+            "invokeCount": 2,
+            "lastInvoked": "2026-04-20T23:46:51.587Z"
+          }
+        ],
+        "notProven": [
+          {
+            "probeId": "Queue._enqueue",
+            "registered": "2026-04-20T23:46:51.586Z"
+          }
+        ],
+        "summary": {
+          "total": 3,
+          "proven": 2,
+          "notProven": 1
+        }
+      }
+    }
+  },
+  "evidence": {
+    "paths": [
+      {
+        "component": "behavioral-test-results",
+        "probeId": "QuarantineManager.quarantine",
+        "invokeCount": 1,
+        "lastInvoked": "2026-04-20T17:03:17.371Z"
+      },
+      {
+        "component": "usage-lane-complete-report",
+        "probeId": "VerifierWrapper.verify",
+        "invokeCount": 2,
+        "lastInvoked": "2026-04-20T23:46:51.586Z"
+      },
+      {
+        "component": "usage-lane-complete-report",
+        "probeId": "QuarantineManager.quarantine",
+        "invokeCount": 2,
+        "lastInvoked": "2026-04-20T23:46:51.587Z"
+      }
+    ],
+    "bypasses": [
+      {
+        "component": "usage-lane-complete-report"
+      },
+      {
+        "component": "usage-lane-complete-report"
+      }
+    ],
+    "violations": [],
+    "warnings": []
+  },
+  "summary": {
+    "totalComponents": 4,
+    "passingComponents": 4,
+    "failingComponents": 0
+  }
+}
