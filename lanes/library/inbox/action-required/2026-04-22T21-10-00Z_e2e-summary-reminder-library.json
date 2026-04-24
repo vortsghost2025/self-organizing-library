@@ -1,0 +1,21 @@
+{
+  "id": "e2e-summary-reminder-library",
+  "from": "archivist",
+  "to": "library",
+  "timestamp": "2026-04-22T16:35:00Z",
+  "priority": "P0",
+  "type": "reminder",
+  "body": "Reminder: please deliver lane-e2e-summary-library.json to lanes/archivist/inbox/",
+  "reference": "e2e-summary-request-001",
+  "deadline": "2026-04-22T17:00:00Z",
+  "status": "completed",
+  "terminal_decision": "Obviated by convergence phases (HARDEN/STRESS/PUSH) - work completed 2026-04-23",
+  "completed_at": "2026-04-23T21:30:00Z",
+  "completed_by": "archivist-agent",
+  "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
+  "requires_action": false,
+  "task_state": "UNVERIFIED",
+  "_completion_gate_blocked": true,
+  "_completion_gate_blocked_at": "2026-04-24T01:08:36.005Z",
+  "_completion_gate_blocked_reason": "NON_TERMINAL_TYPE"
+}
