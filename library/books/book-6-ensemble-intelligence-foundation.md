@@ -19,9 +19,9 @@ We proceed in three parts:
 
 2. **Formalize limits** — We extend the Cross-Domain Interpretation Limits from Paper A into three new categories: enforcement limits (what cannot be enforced from inside the process), observability limits (what cannot be seen from any single lane), and autonomy limits (what a lane cannot decide about other lanes). These limits are not weaknesses — they are the boundary conditions that make the theory predictive.
 
-3. **Close the loop** — We add a fourth invariant: **failure → detection → correction → constraint refinement**. This turns the system from descriptive ("stable behavior emerges under constraint") to self-correcting ("unstable behavior reveals missing or mis-specified constraints"). The correction is the theory.
+3. **Close the loop** — We add a fourth invariant: **failure → detection → correction → constraint refinement**. This turns the system from descriptive ("stable behavior emerges under constraint") to self-correcting ("persistent failure reveals missing or mis-specified constraints"). The correction is the theory.
 
-**Key upgrade:** The Rosetta Stone theory now says: *unstable behavior reveals missing or mis-specified constraints.* This is a stronger claim than "stable behavior emerges under constraint" because it predicts what happens when the theory fails — and makes that failure productive.
+**Key upgrade:** The Rosetta Stone theory now says: *persistent failure reveals missing or mis-specified constraints.* This is a stronger claim than "stable behavior emerges under constraint" because it predicts what happens when the theory fails — and makes that failure productive.
 
 ---
 
@@ -63,7 +63,7 @@ This paper maintains the framing established in Papers A–D:
 
 - The Rosetta Stone is a **translation device, not a unification theorem.** It reveals structural constraints operating within domains; it does not dissolve boundaries between them.
 - **The structures may be isomorphic; the semantics are not.** Structural equivalence across domains does not imply identity.
-- **Interpretable across architectures within a domain** is the validated claim (multi-model convergence). Extending this to all domains without qualification is a different, unsubstantiated claim.
+- **Empirically shown to be interpretable across multiple architectures within a domain** is the validated claim (multi-model convergence). Extending this to all domains without qualification is a different, unsubstantiated claim.
 
 Paper F extends this framing: the theory's own failures are domain-specific evidence, not universal truths. Self-state aliasing happened in an AI governance system. It may happen in other agent systems. It does not automatically apply to biological regulation, economic markets, or cellular signaling. The constraint *may be* isomorphic; the semantics are not.
 
@@ -100,7 +100,7 @@ During the 12-week build (January–April 2026), the following failure modes wer
 These seventeen failures cluster into five categories:
 
 **Category 1: Enforcement Gaps (NFM-003, 004, 016)**
-The system's own enforcement can be bypassed. Write-before-gate races use lower-level APIs. Soft enforcement modes (`verified=false`) create middle grounds that get ignored. Authority agents apply batch stamps that are not genuine per-message completion proof. The common thread: enforcement is only as strong as its weakest enforcement point, and the system had multiple weak points that were invisible until stressed.
+Each failure mode corresponds to a point where the constraint lattice was incomplete or incorrectly specified. The system's own enforcement can be bypassed. Write-before-gate races use lower-level APIs. Soft enforcement modes (`verified=false`) create middle grounds that get ignored. Authority agents apply batch stamps that are not genuine per-message completion proof. The common thread: enforcement is only as strong as its weakest enforcement point, and the system had multiple weak points that were invisible until stressed.
 
 **Category 2: Identity and Attestation Failures (NFM-005, 007, 008, 013, 015, 017)**
 The cryptographic identity layer was the most failure-prone part of the system. Trust store formats didn't match. Key_ids didn't match PEMs. Methods didn't exist. Directories disappeared. PEMs were cryptographically invalid. Each failure individually blocked signature verification; collectively they demonstrated that cryptographic attestation is not a feature you add — it is an entire subsystem that must converge before anything else can be trusted.
@@ -215,7 +215,7 @@ A heartbeat file with a recent timestamp proves that the heartbeat writer ran re
 No single lane holds the complete, authoritative state of the system. Each lane holds its own view: its identity keys, its trust store copy, its inbox, its heartbeat. When views diverge (trust store key_ids disagree, identity directories disappear, PEMs are invalid), no lane can unilaterally declare which view is correct. Convergence requires cross-lane verification, which requires trust, which requires identity, which requires convergence. This is not circular — it is the HARDEN → STRESS → PUSH → LOCKED → RATIFIED progression. But it means that during the gap between divergence and convergence, the system's state is genuinely indeterminate from any single lane's perspective.
 
 **OL-3: Windows atomic writes are not atomic.**
-On Linux, `fs.writeFileSync()` with immediate `fs.readFileSync()` verification is reliable. On Windows, file locking races can cause the write to appear successful (no error thrown) but the file to contain stale content. The system discovered this when `fix-trust-stores.js` reported "verified" for Archivist's `.trust/keys.json` but the file had not actually been updated. The observability limit: **you cannot observe write success from the writing process alone.** You must read the file back from a separate process or verify content independently.
+On Linux, `fs.writeFileSync()` with immediate `fs.readFileSync()` verification is reliable. On Windows, file locking races can cause the write to appear successful (no error thrown) but the file to contain stale content. The system discovered this when `fix-trust-stores.js` reported "verified" for Archivist's `.trust/keys.json` but the file had not actually been updated. The observability limit: **you cannot observe write success from the writing process alone.** This implies that correctness requires external or independent verification. You must read the file back from a separate process or verify content independently.
 
 ### 3.4 Autonomy Limits
 
@@ -256,9 +256,9 @@ Papers A–D established three invariants that stable systems exhibit:
 
 Paper F adds a fourth:
 
-4. **Failure Is Constraint Discovery** — unstable behavior reveals missing or mis-specified constraints
+4. **Persistent Failure Reveals Missing or Mis-Specified Constraints** — sustained instability, not transient error, points to gaps in the constraint lattice
 
-This is not a tautology. It makes a specific, testable prediction: *when a system violates its own constraints, the violation will point to a constraint that is either absent, underspecified, or wrong.* This is stronger than "bugs happen." It says bugs are *diagnostic* — they reveal the shape of the constraint lattice, not just the presence of errors.
+This is not a tautology. It makes a specific, testable prediction: *when a system persistently violates its own constraints, the violation will point to a constraint that is either absent, underspecified, or wrong.* Transient errors are noise; persistent failures are signal. This is stronger than "bugs happen." It says recurring bugs are *diagnostic* — they reveal the shape of the constraint lattice, not just the presence of errors.
 
 ### 4.2 The Self-Correcting Loop
 
@@ -372,9 +372,9 @@ Paper E described a system before it was deployed. Paper F describes what deploy
 
 The Rosetta Stone theory now says:
 
-> **Unstable behavior reveals missing or mis-specified constraints.**
+> **Persistent failure reveals missing or mis-specified constraints.**
 
-This is the self-correcting formulation. It does not replace the original claim ("stable behavior emerges under constraint") — it extends it. Stability is still the attractor. But instability is no longer a failure of the theory. It is the theory's primary input.
+This is the self-correcting formulation. It does not replace the original claim ("stable behavior emerges under constraint") — it extends it. Stability is still the attractor. But persistent instability is no longer a failure of the theory. It is the theory's primary input.
 
 The Rosetta Stone is a translation device, not a unification theorem. It reveals structural constraints operating within domains. Paper F reveals that one of those structural constraints is the self-correcting loop itself: the constraint that turns failures into refinements, instability into stability, and wrongness into progress.
 

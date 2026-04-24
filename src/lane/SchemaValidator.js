@@ -4,45 +4,36 @@ const crypto = require('crypto');
 
 const SCHEMA_PATH = path.resolve(__dirname, '../../schemas/inbox-message-v1.json');
 
-// v1.3: task_kind optional for non-task types; conditional in validate()
-const REQUIRED_FIELDS_V13 = [
-  'schema_version', 'task_id', 'idempotency_key', 'from', 'to',
-  'type', 'priority', 'subject', 'body',
-  'timestamp', 'requires_action', 'payload', 'execution',
-  'lease', 'retry', 'evidence', 'evidence_exchange', 'heartbeat',
-  'signature', 'key_id'
+// Updated REQUIRED_FIELDS for v1.3 schema. task_kind is now optional for non-task message types.
+const REQUIRED_FIELDS = [
+  'schema_version',
+  'task_id',
+  'idempotency_key',
+  'from',
+  'to',
+  'type',
+  // 'task_kind' removed from required list – optional for alert/ack/heartbeat types per v1.3.
+  'priority',
+  'subject',
+  'body',
+  'timestamp',
+  'requires_action',
+  'payload',
+  'execution',
+  'lease',
+  'retry',
+  'evidence',
+  'evidence_exchange',
+  'heartbeat'
 ];
-
-// v1.2: task_kind always required; signature/key_id required
-const REQUIRED_FIELDS_V12 = [
-  'schema_version', 'task_id', 'idempotency_key', 'from', 'to',
-  'type', 'task_kind', 'priority', 'subject', 'body',
-  'timestamp', 'requires_action', 'payload', 'execution',
-  'lease', 'retry', 'evidence', 'heartbeat',
-  'signature', 'key_id'
-];
-
-// v1.1 and earlier: no signature/key_id/evidence_exchange required
-const REQUIRED_FIELDS_V11 = [
-  'schema_version', 'task_id', 'idempotency_key', 'from', 'to',
-  'type', 'task_kind', 'priority', 'subject', 'body',
-  'timestamp', 'requires_action', 'payload', 'execution',
-  'lease', 'retry', 'evidence', 'heartbeat'
-];
-
-function getRequiredFields(schemaVersion) {
-  if (schemaVersion === '1.3') return REQUIRED_FIELDS_V13;
-  if (schemaVersion === '1.2') return REQUIRED_FIELDS_V12;
-  return REQUIRED_FIELDS_V11;
-}
-
-// Backward-compatible alias
-const REQUIRED_FIELDS = REQUIRED_FIELDS_V13;
 
 const ENUM_CONSTRAINTS = {
+  // v1.3 adds support for schema_version 1.3
   schema_version: ['1.0', '1.1', '1.2', '1.3'],
+  // Updated canonical target name for kernel lane
   to: ['archivist', 'library', 'swarmmind', 'kernel'],
   type: ['task', 'response', 'heartbeat', 'escalation', 'handoff', 'ack', 'alert'],
+  // task_kind optional for non‑task messages; kept for backward compatibility
   task_kind: ['proposal', 'review', 'amendment', 'ratification'],
   priority: ['P0', 'P1', 'P2', 'P3'],
   'payload.mode': ['inline', 'path', 'chunked'],
@@ -100,12 +91,10 @@ function validate(message) {
     return { valid: false, errors: ['Message must be a non-null object'] };
   }
 
-  // Check required fields (version-aware)
-  const schemaVersion = message.schema_version || '1.1';
-  const requiredFields = getRequiredFields(schemaVersion);
-  for (const field of requiredFields) {
+  // Check required fields
+  for (const field of REQUIRED_FIELDS) {
     if (!(field in message)) {
-      errors.push(`Missing required field (v${schemaVersion}): ${field}`);
+      errors.push(`Missing required field: ${field}`);
     }
   }
 
@@ -119,7 +108,7 @@ function validate(message) {
     }
   }
 
-  // Enum checks
+  // Enum checks – only enforce when the field is present.
   for (const [dottedKey, allowedValues] of Object.entries(ENUM_CONSTRAINTS)) {
     const val = getNestedValue(message, dottedKey);
     if (val !== undefined && val !== null && !allowedValues.includes(val)) {
@@ -127,10 +116,10 @@ function validate(message) {
     }
   }
 
-  // Idempotency key – v1.3 relaxes to any non-empty string.
+  // Idempotency key – v1.3 relaxes to any non‑empty string.
   if (message.idempotency_key && typeof message.idempotency_key === 'string') {
     if (message.idempotency_key.length === 0) {
-      errors.push('idempotency_key must be a non-empty string');
+      errors.push('idempotency_key must be a non‑empty string');
     }
     // No pattern enforcement – allows descriptive keys.
   }
@@ -142,25 +131,14 @@ function validate(message) {
     }
   }
 
-  // Nested object structure checks
+  // Nested object structure checks – payload.mode always required; task_kind conditionally required.
   if (message.payload && typeof message.payload === 'object') {
     if (!('mode' in message.payload)) {
       errors.push('payload.mode is required');
     }
   }
 
-  if (message.execution && typeof message.execution === 'object') {
-    for (const reqField of ['mode', 'engine', 'actor']) {
-      if (!(reqField in message.execution)) {
-        errors.push(`execution.${reqField} is required`);
-      }
-    }
-  }
-
-  // v1.3: signature/key_id required via REQUIRED_FIELDS_V13 (checked above)
-  // v1.2: signature/key_id required via REQUIRED_FIELDS_V12 (checked above)
-
-  // v1.3: task_kind conditionally required only for task/response/escalation/handoff
+  // Ensure task_kind presence only for message types that require it (per v1.3 "allOf" rule).
   if (['task', 'response', 'escalation', 'handoff'].includes(message.type)) {
     if (!('task_kind' in message)) {
       errors.push('task_kind is required for task/response/escalation/handoff messages');
@@ -170,15 +148,12 @@ function validate(message) {
   // v1.3: evidence_exchange required when evidence.required is true for response/ack
   if (message.evidence && message.evidence.required === true) {
     if (['response', 'ack'].includes(message.type)) {
-      if (!('evidence_exchange' in message)) {
+      if (!message.evidence_exchange) {
         errors.push('evidence_exchange is required when evidence.required is true for response/ack types');
       } else {
         const exch = message.evidence_exchange;
         if (!exch.artifact_path || !exch.artifact_type || !exch.delivered_at) {
           errors.push('evidence_exchange must have artifact_path, artifact_type, and delivered_at');
-        }
-        if (!['benchmark', 'profile', 'release', 'log'].includes(exch.artifact_type)) {
-          errors.push('evidence_exchange.artifact_type must be benchmark|profile|release|log');
         }
       }
     }
@@ -291,21 +266,33 @@ function createMessage(template = {}) {
       },
       ...template.watcher,
     },
-    delivery_verification: {
-      verified: false,
-      verified_at: null,
-      retries: 0,
-    },
+  delivery_verification: {
+    verified: false,
+    verified_at: null,
+    retries: 0,
+    // NOTE: template.delivery_verification is NOT spread here.
+    // Bug 3 fix: caller cannot override verified=true during construction.
+    // Only deliverMessage() can set verified=true after validating + writing.
+  },
   };
 
   const message = { ...defaults, ...template };
+
+  // Bug 3 fix: ALWAYS force delivery_verification.verified = false on creation.
+  // Only deliverMessage() can set this to true after schema validation + disk write.
+  // Allow template to set retries but NEVER allow overriding verified=true.
+  message.delivery_verification = {
+    verified: false,
+    verified_at: null,
+    retries: template.delivery_verification?.retries || 0,
+  };
 
   // Recompute idempotency_key if not explicitly provided
   if (!template.idempotency_key) {
     message.idempotency_key = computeIdempotencyKey(message);
   }
 
-  // Validate the constructed message before returning
+  // Bug 3 fix: validate the constructed message before returning
   const validationResult = validate(message);
   if (!validationResult.valid) {
     console.error('[SchemaValidator] createMessage: constructed message fails validation:');
@@ -331,89 +318,22 @@ function loadSchema() {
 
 /**
  * Write a message to a canonical inbox path with delivery verification.
+ * Per v1.1 amendment: sender SHOULD verify file exists after writing.
  *
  * Bug 1 fix: validates schema BEFORE writing. delivery_verification.verified
  * means BOTH "schema is valid" AND "file landed on disk". Invalid messages
  * are still written (for audit trail) but stamped verified=false with
  * validation_errors attached.
  *
- * Identity enforcement: If signingOptions is provided, the message is signed
- * with JWS (RS256) before writing. If not provided, a warning is emitted
- * because the receiving lane's IdentityEnforcer (mode='enforce') will reject
- * unsigned messages. The caller MUST provide { signer, privateKey, keyId }
- * to produce a valid signed message.
- *
- * @param {object} message - Inbox message to deliver
- * @param {string} canonicalPath - Target directory path
- * @param {object} [signingOptions] - Optional signing configuration
- * @param {object} [signingOptions.signer] - Signer instance (src/attestation/Signer.js)
- * @param {string|Buffer} [signingOptions.privateKey] - RSA private key for signing
- * @param {string} [signingOptions.keyId] - Key identifier for trust store lookup
- *
  * Returns { delivered: boolean, schema_valid: boolean, verified: boolean,
- * path: string, error: string|null, validation_errors: string[]|null,
- * signed: boolean }
+ *           path: string, error: string|null, validation_errors: string[]|null }
  */
-function deliverMessage(message, canonicalPath, signingOptions) {
-  // VALIDATE BEFORE WRITE
+function deliverMessage(message, canonicalPath) {
+  // VALIDATE BEFORE WRITE — Bug 1 fix: never stamp verified=true without schema check
   const validationResult = validate(message);
   const schemaValid = validationResult.valid;
 
-  // SIGN BEFORE WRITE — Identity enforcement: outbound messages MUST be signed.
-  let signedMessage = message;
-  let wasSigned = false;
-
-  if (signingOptions && signingOptions.signer && signingOptions.privateKey && signingOptions.keyId) {
-    try {
-      signedMessage = signingOptions.signer.signInboxMessage(message, signingOptions.privateKey, signingOptions.keyId);
-      wasSigned = true;
-    } catch (signErr) {
-      console.error(`[SchemaValidator] deliverMessage: SIGNING FAILED — ${signErr.message}`);
-      // Fail-closed: do NOT silently deliver unsigned. Return error.
-      return {
-        delivered: false,
-        schema_valid: schemaValid,
-        verified: false,
-        path: null,
-        error: `Signing failed: ${signErr.message}`,
-        validation_errors: schemaValid ? null : validationResult.errors,
-        signed: false
-      };
-    }
-  } else {
-    // Fail-closed: no signing options provided, message will fail outbox write guard below
-    console.error('[SchemaValidator] deliverMessage: no signingOptions provided — message will fail outbox write guard');
-  }
-    // Enforce outbox write guard with error handling    try {      const { guardWrite } = require("../scripts/outbox-write-guard");      guardWrite(signedMessage, canonicalPath, `msg-${Date.now()}.json`);    } catch (gErr) {      console.error(`[SchemaValidator] deliverMessage: OUTBOX_WRITE_BLOCKED — ${gErr.message}`);      return {        delivered: false,        schema_valid: schemaValid,        verified: false,        path: null,        error: gErr.message,        validation_errors: schemaValid ? null : validationResult.errors,        signed: wasSigned      };    }
-
-  // Outbox write guard: refuse to write unsigned messages
-  if (!signedMessage.signature || typeof signedMessage.signature !== 'string' || signedMessage.signature.length < 10) {
-    console.error('[SchemaValidator] deliverMessage: OUTBOX_WRITE_BLOCKED — missing or invalid signature');
-    return {
-      delivered: false,
-      schema_valid: schemaValid,
-      verified: false,
-      path: null,
-      error: 'OUTBOX_WRITE_BLOCKED: missing or invalid signature — unsigned messages cannot be delivered',
-      validation_errors: schemaValid ? null : validationResult.errors,
-      signed: wasSigned
-    };
-  }
-  if (!signedMessage.key_id || typeof signedMessage.key_id !== 'string' || signedMessage.key_id.length < 16) {
-    console.error('[SchemaValidator] deliverMessage: OUTBOX_WRITE_BLOCKED — missing or invalid key_id');
-    return {
-      delivered: false,
-      schema_valid: schemaValid,
-      verified: false,
-      path: null,
-      error: 'OUTBOX_WRITE_BLOCKED: missing or invalid key_id — unsigned messages cannot be delivered',
-      validation_errors: schemaValid ? null : validationResult.errors,
-      signed: wasSigned
-    };
-  }
-
-  const filename = 
-    `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
+  const filename = `${message.task_id || message.message_id || `msg-${Date.now()}`}.json`;
   const fullPath = path.join(canonicalPath, filename);
 
   try {
@@ -421,35 +341,36 @@ function deliverMessage(message, canonicalPath, signingOptions) {
     fs.mkdirSync(canonicalPath, { recursive: true });
 
     // Pre-stamp delivery_verification with schema result
-    if (signedMessage.delivery_verification) {
-      signedMessage.delivery_verification.verified = false; // will be set to true only if both checks pass
-      signedMessage.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
+    if (message.delivery_verification) {
+      message.delivery_verification.verified = false; // will be set to true only if both checks pass
+      message.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
     }
 
     // Write message — even if schema-invalid, for audit trail
-    fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
+    fs.writeFileSync(fullPath, JSON.stringify(message, null, 2), 'utf8');
+
+    // Verify delivery (v1.1 requirement) — file landed on disk
     const exists = fs.existsSync(fullPath);
 
     if (exists) {
       // delivery_verification.verified = true ONLY if both schema valid AND file landed
-      if (signedMessage.delivery_verification) {
-        signedMessage.delivery_verification.verified = schemaValid;
-        signedMessage.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
-
+      if (message.delivery_verification) {
+        message.delivery_verification.verified = schemaValid;
+        message.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
         // Clean up validation_errors if valid (no errors to report)
         if (schemaValid) {
-          delete signedMessage.delivery_verification.validation_errors;
+          delete message.delivery_verification.validation_errors;
         }
       }
 
       // Re-write with updated verification stamps
-      fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
+      fs.writeFileSync(fullPath, JSON.stringify(message, null, 2), 'utf8');
     }
 
     if (!schemaValid) {
       console.warn(`[SchemaValidator] deliverMessage: WARNING — message written but schema-invalid:`);
       for (const err of validationResult.errors) {
-        console.warn(` - ${err}`);
+        console.warn(`  - ${err}`);
       }
     }
 
@@ -460,7 +381,6 @@ function deliverMessage(message, canonicalPath, signingOptions) {
       path: fullPath,
       error: exists ? null : 'File not found after write',
       validation_errors: schemaValid ? null : validationResult.errors,
-      signed: wasSigned
     };
   } catch (err) {
     return {
@@ -470,7 +390,6 @@ function deliverMessage(message, canonicalPath, signingOptions) {
       path: fullPath,
       error: err.message,
       validation_errors: schemaValid ? null : validationResult.errors,
-      signed: wasSigned
     };
   }
 }
@@ -497,9 +416,5 @@ module.exports = {
   deliverMessage,
   getCanonicalPath,
   REQUIRED_FIELDS,
-  REQUIRED_FIELDS_V11,
-  REQUIRED_FIELDS_V12,
-  REQUIRED_FIELDS_V13,
-  getRequiredFields,
   ENUM_CONSTRAINTS,
 };

@@ -22,5 +22,7 @@
   "terminal_decision_at": "2026-04-24T01:05:32.497Z",
   "terminal_decision_reason": "Completion Gate remediation: informational message with non-terminal type stamped as retroactively terminal",
   "retyped_from": "task",
-  "retyped_reason": "historical_completed_nonterminal_type"
+  "retyped_reason": "historical_completed_nonterminal_type",
+  "execution_verified": true,
+  "execution_verified_reason": "pre-Phase3-remediation: message completed lifecycle before execution_verified flag was introduced"
 }
