@@ -280,17 +280,19 @@ class LaneWorker {
           reason: 'EXECUTION_NOT_VERIFIED',
           detail: `Execution verification failed: type=${executionResult.verification_type} reason=${executionResult.reason} artifact_path=${executionResult.artifact_path || 'null'}`,
           execution_verified: false,
+          execution_would_verify: executionResult.would_verify === true,
         };
       }
     }
 
-    return { queue: 'processed', reason: gate.reason, detail: gate.detail, execution_verified: true };
+    return { queue: 'processed', reason: gate.reason, detail: gate.detail, execution_verified: true, execution_would_verify: true };
   }
 
   _writeWithMetadata(targetPath, msg, decision, schemaResult, signatureResult) {
     const enriched = {
       ...msg,
       execution_verified: decision.execution_verified !== undefined ? decision.execution_verified : false,
+      would_verify: decision.execution_would_verify === true,
       _lane_worker: {
         lane: this.lane,
         routed_at: nowIso(),
@@ -302,6 +304,7 @@ class LaneWorker {
         signature_valid: !!signatureResult.valid,
         english_only: isEnglishOnly(msg),
         execution_verified: decision.execution_verified !== undefined ? decision.execution_verified : false,
+        would_verify: decision.execution_would_verify === true,
       },
     };
     if (decision.reason === 'FORMAT_VIOLATION_NON_ASCII') {
@@ -343,6 +346,7 @@ class LaneWorker {
       actionable: isActionable(msg),
       has_completion_proof: cp.hasCompletionProof(msg),
       execution_verified: decision.execution_verified !== undefined ? decision.execution_verified : false,
+      would_verify: decision.execution_would_verify === true,
       dry_run: this.dryRun,
     };
 

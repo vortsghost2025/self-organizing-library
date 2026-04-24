@@ -32,6 +32,7 @@ class ExecutionGate {
     if (!msg || typeof msg !== 'object') {
       return {
         execution_verified: false,
+        would_verify: false,
         verification_type: 'INVALID_MESSAGE',
         reason: 'Message is null or not an object',
         verifier_lane: this.lane,
@@ -44,6 +45,7 @@ class ExecutionGate {
     if (classification.type === 'NONE') {
       return {
         execution_verified: false,
+        would_verify: false,
         verification_type: 'NO_PROOF',
         reason: 'No completion proof field present — cannot verify execution',
         verifier_lane: this.lane,
@@ -56,6 +58,7 @@ class ExecutionGate {
       const refVerified = this._verifyReference(msg, classification);
       return {
         execution_verified: refVerified.verified,
+        would_verify: !!refVerified.wouldVerify,
         verification_type: classification.type,
         reason: refVerified.reason,
         verifier_lane: this.lane,
@@ -68,6 +71,7 @@ class ExecutionGate {
     if (!resolution.resolved) {
       return {
         execution_verified: false,
+        would_verify: false,
         verification_type: resolution.type,
         reason: `Artifact unresolvable: ${resolution.reason}`,
         artifact_path: resolution.path,
@@ -76,8 +80,21 @@ class ExecutionGate {
       };
     }
 
+    if (this.dryRun && resolution.reason === 'DRY_RUN_SKIP_FS_CHECK') {
+      return {
+        execution_verified: false,
+        would_verify: true,
+        verification_type: resolution.type,
+        reason: resolution.reason,
+        artifact_path: resolution.path,
+        verifier_lane: this.lane,
+        verified_at: null,
+      };
+    }
+
     return {
       execution_verified: true,
+      would_verify: true,
       verification_type: resolution.type,
       reason: resolution.reason,
       artifact_path: resolution.path,
@@ -89,34 +106,34 @@ class ExecutionGate {
   _verifyReference(msg, classification) {
     if (classification.type === 'LEGACY_MESSAGE_ID') {
       const msgId = msg.completion_message_id;
-      if (!msgId) return { verified: false, reason: 'completion_message_id is empty' };
+      if (!msgId) return { verified: false, wouldVerify: false, reason: 'completion_message_id is empty' };
 
       const found = this._findReferencedMessage(msgId, msg);
       if (found) {
-        return { verified: true, reason: 'Referenced message exists on disk' };
+        return { verified: true, wouldVerify: true, reason: 'Referenced message exists on disk' };
       }
       if (this.dryRun) {
-        return { verified: true, reason: 'DRY_RUN_SKIP_REF_CHECK' };
+        return { verified: false, wouldVerify: true, reason: 'DRY_RUN_SKIP_REF_CHECK' };
       }
-      return { verified: false, reason: `Referenced message not found: ${msgId}` };
+      return { verified: false, wouldVerify: false, reason: `Referenced message not found: ${msgId}` };
     }
 
     if (classification.type === 'LEGACY_TASK_ID') {
       const taskId = msg.resolved_by_task_id;
-      if (!taskId) return { verified: false, reason: 'resolved_by_task_id is empty' };
+      if (!taskId) return { verified: false, wouldVerify: false, reason: 'resolved_by_task_id is empty' };
 
       const found = this._findReferencedTask(taskId, msg);
       if (found) {
-        return { verified: true, reason: 'Referenced task exists on disk' };
+        return { verified: true, wouldVerify: true, reason: 'Referenced task exists on disk' };
       }
       if (this.dryRun) {
-        return { verified: true, reason: 'DRY_RUN_SKIP_REF_CHECK' };
+        return { verified: false, wouldVerify: true, reason: 'DRY_RUN_SKIP_REF_CHECK' };
       }
-      return { verified: false, reason: `Referenced task not found: ${taskId}` };
+      return { verified: false, wouldVerify: false, reason: `Referenced task not found: ${taskId}` };
     }
 
     // LEGACY_REFERENCE from completion-proof classifyProof
-    return { verified: true, reason: 'NON_PATH_PROOF_ACCEPTED' };
+    return { verified: false, wouldVerify: false, reason: 'NON_PATH_PROOF_UNVERIFIED' };
   }
 
   _findReferencedMessage(msgId, sourceMsg) {
@@ -163,9 +180,11 @@ class ExecutionGate {
     return {
       ...msg,
       execution_verified: result.execution_verified,
+      would_verify: result.would_verify === true,
       execution_verification: {
         type: result.verification_type,
         reason: result.reason,
+        would_verify: result.would_verify === true,
         verifier_lane: result.verifier_lane,
         verified_at: result.verified_at,
         artifact_path: result.artifact_path || null,

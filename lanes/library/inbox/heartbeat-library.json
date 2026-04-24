@@ -9,7 +9,7 @@
   "priority": "P3",
   "subject": "Library Lane Heartbeat",
   "body": "Periodic heartbeat signal from Library lane",
-  "timestamp": "2026-04-24T14:28:01.749Z",
+  "timestamp": "2026-04-24T21:40:02.197Z",
   "requires_action": false,
   "payload": {
     "mode": "inline",
@@ -43,7 +43,7 @@
   "heartbeat": {
     "status": "in_progress",
     "interval_seconds": 60,
-    "last_heartbeat_at": "2026-04-24T14:28:01.749Z",
+    "last_heartbeat_at": "2026-04-24T21:40:02.197Z",
     "timeout_seconds": 900
   },
   "status": "in_progress",
@@ -52,7 +52,7 @@
   "version": "1.0.0",
   "position": 2,
   "authority": 90,
-  "inbox_pending": 3,
+  "inbox_pending": 1,
   "last_processed": null,
   "capabilities": [
     "verification",
@@ -64,7 +64,7 @@
     "swarmmind_no_heartbeat",
     "priority_P0_contradiction"
   ],
-  "processed_ok": true,
+  "processed_ok": false,
   "compaction_enabled": false,
   "compaction_suspend_reason": "Active contradictions present"
 }

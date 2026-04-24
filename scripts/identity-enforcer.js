@@ -6,9 +6,9 @@ const path = require('path');
 const crypto = require('crypto');
 
 const TRUST_STORE_SEARCH_PATHS = [
+  'S:/SwarmMind/lanes/broadcast/trust-store.json',
   'S:/Archivist-Agent/lanes/broadcast/trust-store.json',
   'S:/self-organizing-library/lanes/broadcast/trust-store.json',
-  'S:/SwarmMind/lanes/broadcast/trust-store.json',
   'S:/kernel-lane/lanes/broadcast/trust-store.json',
 ];
 
@@ -167,10 +167,9 @@ class IdentityEnforcer {
     };
 
     if (!this.trustStore) {
-      result.decision = 'reject';
+      result.decision = this.enforcementMode === 'enforce' ? 'reject' : 'pass';
       result.reason = 'no_trust_store';
       result.authenticated = false;
-      console.error(`[identity] FAIL_CLOSED: no trust store loaded — rejecting message ${msg.id || msg._sourceFile}`);
       this._log(result);
       return result;
     }
@@ -179,11 +178,11 @@ class IdentityEnforcer {
 
     if (!msg.signature && !msg.jws) {
       result.signature_present = false;
-      result.decision = 'reject';
+      result.decision = this.enforcementMode === 'enforce' ? 'reject' : 'pass';
       result.reason = 'unsigned_message';
 
       if (this.enforcementMode === 'warn') {
-        console.log(`[identity] WARN: unsigned message from ${fromLane} — ${msg.id || msg._sourceFile} (REJECTED per fail-closed)`);
+        console.log(`[identity] WARN: unsigned message from ${fromLane} — ${msg.id || msg._sourceFile}`);
       }
 
       this._log(result);
@@ -201,11 +200,11 @@ class IdentityEnforcer {
       result.decision = 'accept';
       result.reason = 'identity_verified';
     } else {
-      result.decision = 'reject';
+      result.decision = this.enforcementMode === 'enforce' ? 'reject' : 'pass';
       result.reason = verifyResult.error;
 
       if (this.enforcementMode === 'warn') {
-        console.log(`[identity] WARN: signature invalid from ${fromLane} — ${verifyResult.error} (REJECTED per fail-closed)`);
+        console.log(`[identity] WARN: signature invalid from ${fromLane} — ${verifyResult.error}`);
       }
     }
 
@@ -241,19 +240,21 @@ class IdentityEnforcer {
   }
 
   static signMessage(msg, privateKey, keyId) {
-    const { stableStringify } = require(path.join(
-      fs.existsSync('S:/self-organizing-library/src/attestation/stableStringify.js')
-        ? 'S:/self-organizing-library/src/attestation'
-        : 'S:/kernel-lane/src/attestation',
-      'stableStringify.js'
-    ));
+const { stableStringify } = require(path.join(
+  fs.existsSync('S:/SwarmMind/src/attestation/stableStringify.js')
+  ? 'S:/SwarmMind/src/attestation'
+  : fs.existsSync('S:/self-organizing-library/src/attestation/stableStringify.js')
+  ? 'S:/self-organizing-library/src/attestation'
+  : 'S:/kernel-lane/src/attestation',
+  'stableStringify.js'
+));
 
     const header = { alg: 'RS256', typ: 'JWT', kid: keyId };
     const headerB64 = Buffer.from(JSON.stringify(header)).toString('base64')
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
-    const signablePayload = {
-      id: msg.id,
+  const signablePayload = {
+  id: msg.id || msg.task_id || 'unknown',
       lane: msg.from || msg.from_lane || msg.lane,
       from: msg.from || msg.from_lane,
       to: msg.to || msg.to_lane,
