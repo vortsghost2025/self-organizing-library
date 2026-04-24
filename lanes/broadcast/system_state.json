@@ -1,6 +1,6 @@
 {
   "system_status": "degraded",
-  "timestamp": "2026-04-24T14:28:01.750Z",
+  "timestamp": "2026-04-24T21:40:02.197Z",
   "active_contradictions": [
     "swarmmind_no_heartbeat",
     "priority_P0_contradiction"
@@ -8,7 +8,7 @@
   "total_contradictions": 2,
   "compaction_enabled": false,
   "compaction_suspend_reason": "Active contradictions present",
-  "processed_ok": true,
+  "processed_ok": false,
   "derived_from": "contradictions.json",
   "written_by": "heartbeat.js"
 }

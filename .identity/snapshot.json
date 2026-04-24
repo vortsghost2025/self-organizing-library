@@ -1,12 +1,14 @@
 {
   "lane": "library",
-  "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp8TK00bHH8dCLZn3rDvY\nDFXWm2GfTDf5440ascO8pEEjSptN1ZYeQPTouDggr4dlteFQPZRKXQpPJ7RfAysC\nLJ1KU/F2Be6xYthpcKvOYri+xaNoqhI1/m6kLqk5/4GoepkimeugTL0HR+GXlSR8\nnaMTb2usXbDWmhVPIE6fPVcLpOgYEqjMBvFqCWBdrd+HL/ZdK+tcZYqFw4GDYxs7F\n08clQhIdzL8ZLSR6gl8jkDz2PaKwAjnQJBXLYSbuQgnlj02BdY3fF1WOQUYyWYXR\nf8HV4MzxRsZAUBAK/dELrR8JBGxWevbvSxSs8Nm1BPRF7/eO2JgdbgSEh6ztvjmp\nmQIDAQAB\n-----END PUBLIC KEY-----\n",
-  "key_id": "cb3e57dd7818da3d",
-  "created_at": "2026-04-23T00:31:04.098Z",
+  "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoCGLYvb8gGGwgMn1nF9Z\n8NnKi+zTCn5yjAyL4yQkwO7cKrXl8ExSc0LYcTwKgDvpmut+ILJGlwepIoLiZ00y\nCc50CH6LSTmeYyyUl1f6lcsBKvraKwBrnPm8tEu/Nk399WAXfjqY2Kg3sMQWZ1OY\nKY9k6fzgZyYoF8Tw5LTokiqQ8Z8iC+rpFN5CPZC25Zf5cZfTBOOFaOpDUnB0/nU+\nUtE8BjuK88iNwEZTCXv7sxod/+0IGW0Ca9vVfphG9vn7jAWJB+NnF3GeynwbiDg9\nCh3bHz9U+a/an8FD4QYrhMMJbyW3OIX+vPybsU8M0ejdQ4TioanwixTsvZCZgTEg\n+wIDAQAB\n-----END PUBLIC KEY-----\n",
+  "key_id": "2eec06be0befc8d5",
+  "created_at": "2026-04-24T21:15:47.279Z",
   "expires_at": null,
   "metadata": {
-    "version": "1.0",
-    "authority": 80,
-    "role": "constitutional-governance"
-  }
+    "version": "2.0",
+    "reason": "key_rotation_mismatched_pair"
+  },
+  "last_heartbeat_at": "2026-04-24T21:15:47.279Z",
+  "status": "alive",
+  "revoked_key_id": "cb3e57dd7818da3d"
 }
