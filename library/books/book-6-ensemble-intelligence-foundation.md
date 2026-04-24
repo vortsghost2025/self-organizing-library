@@ -360,7 +360,7 @@ Paper A's Cross-Domain Interpretation Limits still apply. The self-correcting lo
 
 **The structures may be isomorphic; the semantics are not.**
 
-The self-correcting loop in an AI governance system runs through schema validation, cryptographic attestation, and convergence phases. The self-correcting loop in a biological system runs through gene regulation, apoptosis, and selection pressure. The formal structure — failure → detection → correction → refinement — may be shared. The mechanism is not.
+The self-correcting loop in an AI governance system runs through schema validation, cryptographic attestation, and convergence phases. The self-correcting loop in a biological system runs through gene regulation, apoptosis, and selection pressure. The formal structure — failure → detection → correction → refinement — may be structurally similar. The mechanism is not.
 
 ---
 
