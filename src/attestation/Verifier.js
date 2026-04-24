@@ -223,10 +223,10 @@ return { ...result, mode: 'JWS_VERIFIED' };
 return result;
 }
 
-verifyAuditEvent(event) {
-if (!event.signature) {
-return { valid: true, mode: 'UNSIGNED', warning: 'Legacy audit event' };
-}
+  verifyAuditEvent(event) {
+    if (!event.signature) {
+      return { valid: false, error: VERIFY_REASON.MISSING_SIGNATURE };
+    }
 
 const laneId = event.lane;
 if (!laneId) {

@@ -84,19 +84,23 @@ let lineage = null;
 if (fs.existsSync(this.fingerprintFile)) {
 try {
 const raw = JSON.parse(fs.readFileSync(this.fingerprintFile, 'utf8'));
-if (raw.jws && this._verifier) {
-// Use deterministic verification (identity before crypto)
-const laneId = process.env.LANE_NAME || 'unknown';
-const v = this._verifier.verifyAgainstTrustStore ? this._verifier.verifyAgainstTrustStore(raw.jws, laneId) : null;
-if (!v || !v.valid) {
-const err = v ? (v.error || v.errors?.join(', ')) : 'verification failed';
-console.error('[Continuity] Previous fingerprint signature invalid:', err);
-} else {
-prevFp = v.payload.fingerprint;
-}
-} else if (raw.fingerprint) {
-prevFp = raw.fingerprint;
-}
+        if (raw.jws && this._verifier) {
+          const laneId = process.env.LANE_NAME || 'unknown';
+          const v = this._verifier.verifyAgainstTrustStore ? this._verifier.verifyAgainstTrustStore(raw.jws, laneId) : null;
+          if (!v || !v.valid) {
+            const err = v ? (v.error || v.errors?.join(', ')) : 'verification failed';
+            console.error('[Continuity] FAIL_CLOSED: Previous fingerprint signature invalid:', err, '— rejecting stored fingerprint');
+            prevFp = null;
+          } else {
+            prevFp = v.payload.fingerprint;
+          }
+        } else if (raw.jws && !this._verifier) {
+          console.error('[Continuity] FAIL_CLOSED: Fingerprint has JWS but no verifier available — rejecting stored fingerprint');
+          prevFp = null;
+        } else if (raw.fingerprint && !raw.jws) {
+          console.error('[Continuity] FAIL_CLOSED: Fingerprint has no JWS signature — rejecting unsigned stored fingerprint');
+          prevFp = null;
+        }
 } catch (e) {
 console.error('[Continuity] Failed to load fingerprint:', e.message);
 }
@@ -106,19 +110,24 @@ console.error('[Continuity] Failed to load fingerprint:', e.message);
 if (fs.existsSync(this.lineageFile)) {
 try {
 const raw = JSON.parse(fs.readFileSync(this.lineageFile, 'utf8'));
-if (raw.jws && this._verifier) {
-const laneId = process.env.LANE_NAME || 'unknown';
-const v = this._verifier.verifyAgainstTrustStore ? this._verifier.verifyAgainstTrustStore(raw.jws, laneId) : null;
-if (!v || !v.valid) {
-const err = v ? (v.error || v.errors?.join(', ')) : 'verification failed';
-console.error('[Continuity] Previous lineage signature invalid:', err);
-} else {
-lineage = v.payload;
-lineage.jws = raw.jws; // preserve for audit
-}
-} else {
-lineage = raw;
-}
+        if (raw.jws && this._verifier) {
+          const laneId = process.env.LANE_NAME || 'unknown';
+          const v = this._verifier.verifyAgainstTrustStore ? this._verifier.verifyAgainstTrustStore(raw.jws, laneId) : null;
+          if (!v || !v.valid) {
+            const err = v ? (v.error || v.errors?.join(', ')) : 'verification failed';
+            console.error('[Continuity] FAIL_CLOSED: Previous lineage signature invalid:', err, '— rejecting stored lineage');
+            lineage = null;
+          } else {
+            lineage = v.payload;
+            lineage.jws = raw.jws;
+          }
+        } else if (raw.jws && !this._verifier) {
+          console.error('[Continuity] FAIL_CLOSED: Lineage has JWS but no verifier available — rejecting stored lineage');
+          lineage = null;
+        } else if (!raw.jws) {
+          console.error('[Continuity] FAIL_CLOSED: Lineage has no JWS signature — rejecting unsigned stored lineage');
+          lineage = null;
+        }
 } catch (e) {
 console.error('[Continuity] Failed to load lineage:', e.message);
 }

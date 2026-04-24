@@ -167,9 +167,10 @@ class IdentityEnforcer {
     };
 
     if (!this.trustStore) {
-      result.decision = this.enforcementMode === 'enforce' ? 'reject' : 'pass';
+      result.decision = 'reject';
       result.reason = 'no_trust_store';
       result.authenticated = false;
+      console.error(`[identity] FAIL_CLOSED: no trust store loaded — rejecting message ${msg.id || msg._sourceFile}`);
       this._log(result);
       return result;
     }
@@ -178,11 +179,11 @@ class IdentityEnforcer {
 
     if (!msg.signature && !msg.jws) {
       result.signature_present = false;
-      result.decision = this.enforcementMode === 'enforce' ? 'reject' : 'pass';
+      result.decision = 'reject';
       result.reason = 'unsigned_message';
 
       if (this.enforcementMode === 'warn') {
-        console.log(`[identity] WARN: unsigned message from ${fromLane} — ${msg.id || msg._sourceFile}`);
+        console.log(`[identity] WARN: unsigned message from ${fromLane} — ${msg.id || msg._sourceFile} (REJECTED per fail-closed)`);
       }
 
       this._log(result);
@@ -200,11 +201,11 @@ class IdentityEnforcer {
       result.decision = 'accept';
       result.reason = 'identity_verified';
     } else {
-      result.decision = this.enforcementMode === 'enforce' ? 'reject' : 'pass';
+      result.decision = 'reject';
       result.reason = verifyResult.error;
 
       if (this.enforcementMode === 'warn') {
-        console.log(`[identity] WARN: signature invalid from ${fromLane} — ${verifyResult.error}`);
+        console.log(`[identity] WARN: signature invalid from ${fromLane} — ${verifyResult.error} (REJECTED per fail-closed)`);
       }
     }
 
