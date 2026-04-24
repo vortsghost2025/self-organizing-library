@@ -1,20 +1,16 @@
-const fs = require('fs');
-const path = require('path');
-
-// Get ACTUAL active contradiction count
-const contraPath = 'S:/Archivist-Agent/lanes/broadcast/contradictions.json';
-let activeCount = 0;
-let contradictions = [];
-try {
-  contradictions = JSON.parse(fs.readFileSync(contraPath, 'utf8'));
-  activeCount = contradictions.filter(c => c.status === 'active' || c.status === 'resolving').length;
-} catch(e) { console.log('ERROR reading contradictions:', e.message); }
-
-console.log('=== THE TRUTH (No Lies) ===');
-console.log('Active/resolving contradictions:', activeCount);
-contradictions.forEach(c => {
-  console.log('  [' + c.status + '] ' + c.id + ' - ' + c.description);
-});
+#!/usr/bin/env node
+/**
+ * DEPRECATED — DO NOT USE
+ * This script was a one-time fix utility that wrote to system_state.json
+ * and heartbeat files directly, bypassing the single-source-of-truth chain.
+ *
+ * INVARIANT: contradictions.json → heartbeat.js → system_state.json
+ * Only heartbeat.js may derive and write system_state.json.
+ * No other script may write system_state.json.
+ */
+console.error('[fix-heartbeats-truth] DEPRECATED. Only heartbeat.js may write system_state.json.');
+console.error('[fix-heartbeats-truth] Invariant: contradictions → heartbeat → system_state');
+process.exit(1);
 
 // Update ALL heartbeats atomically (read + write in same command)
 const heartbeats = [
@@ -64,7 +60,7 @@ sysStates.forEach(p => {
     s.active_contradictions = contradictions;
     s.last_updated = new Date().toISOString();
     if (!('compaction_enabled' in s)) s.compaction_enabled = false;
-    fs.writeFileSync(p, JSON.stringify(s, null, 2));
+    console.error('[fix-heartbeats-truth] SKIPPED: Only heartbeat.js may write system_state.json');
     console.log('✅ ' + path.basename(path.dirname(path.dirname(p))) + ': system_status=' + s.system_status + ', contradictions=' + s.active_contradictions.length);
   } catch(e) { console.log('❌ ERROR:', p, e.message); }
 });

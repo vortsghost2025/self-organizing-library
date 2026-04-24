@@ -49,6 +49,36 @@ const ACTIVITY_THRESHOLD_MS = 3600000; // 60 minutes — recent git activity mea
 const startTime = Date.now();
 
 // =============================================================================
+// system_state.json writer — SINGLE SOURCE OF TRUTH
+// Invariant: contradictions.json → heartbeat.js → system_state.json
+// No other script may write system_state.json
+// =============================================================================
+
+function writeSystemState(systemState, activeContradictions, processedOk) {
+  const broadcastDir = path.join(__dirname, '..', 'lanes', 'broadcast');
+  const statePath = path.join(broadcastDir, 'system_state.json');
+  const payload = {
+    system_status: systemState,
+    timestamp: new Date().toISOString(),
+    active_contradictions: activeContradictions,
+    total_contradictions: activeContradictions.length,
+    compaction_enabled: activeContradictions.length === 0,
+    compaction_suspend_reason: activeContradictions.length > 0 ? 'Active contradictions present' : null,
+    processed_ok: processedOk,
+    derived_from: 'contradictions.json',
+    written_by: 'heartbeat.js'
+  };
+  try {
+    if (!fs.existsSync(broadcastDir)) {
+      fs.mkdirSync(broadcastDir, { recursive: true });
+    }
+    fs.writeFileSync(statePath, JSON.stringify(payload, null, 2) + '\n', 'utf8');
+  } catch (err) {
+    console.error('Failed to write system_state.json:', err.message);
+  }
+}
+
+// =============================================================================
 // Heartbeat Functions
 // =============================================================================
 
@@ -89,18 +119,13 @@ function buildHeartbeat(status = 'active') {
     heartbeatStatus = status;
   }
 
-  // Load system state and contradictions
+  // Load contradictions (truth-over-stability) — derive system_state, do NOT read system_state.json
   let systemState = 'consistent';
   let activeContradictions = [];
   let processedOk = true;
   try {
     const broadcastDir = path.join(__dirname, '..', 'lanes', 'broadcast');
-    const statePath = path.join(broadcastDir, 'system_state.json');
     const contraPath = path.join(broadcastDir, 'contradictions.json');
-    if (fs.existsSync(statePath)) {
-      const stateData = JSON.parse(fs.readFileSync(statePath, 'utf8'));
-      systemState = stateData.system_status || 'consistent';
-    }
     if (fs.existsSync(contraPath)) {
       const contraData = JSON.parse(fs.readFileSync(contraPath, 'utf8'));
       activeContradictions = contraData
@@ -198,6 +223,9 @@ function buildHeartbeat(status = 'active') {
  */
 function writeHeartbeat(status = 'active') {
   const heartbeat = buildHeartbeat(status);
+
+  // Write system_state.json (single source of truth: contradictions → heartbeat → system_state)
+  writeSystemState(heartbeat.system_state, heartbeat.active_contradictions, heartbeat.processed_ok);
 
   // Ensure directory exists
   const dir = path.dirname(HEARTBEAT_FILE);
