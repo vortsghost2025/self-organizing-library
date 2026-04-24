@@ -587,3 +587,16 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 - [x] Created `ROSETTA_STONE_SUMMARY.md` at project root — consolidated summary of all 5 foundational papers, theory, system architecture, validation evidence, convergence progression, and open questions
 - [x] Compresses ~37,000 words of paper content + translation layer documents into single navigable reference
 - [x] Updated memory bank context.md
+
+### Session 2026-04-24 (Late Afternoon): Paper 6 Full Draft Written
+
+- [x] Wrote complete Paper F (Paper 6): Failure Modes, Formal Limits, and the Self-Correcting Loop
+- [x] Replaced 37-line outline stub in `library/books/book-6-ensemble-intelligence-foundation.md` with ~450-line full draft
+- [x] Three-part structure per Sean's vision:
+  1. **Part I: Failure Modes** — 17 named failure modes, 5-category classification, detailed self-state aliasing case study, gap analysis vs Paper E §12.2
+  2. **Part II: Formalizing Limits** — 3 new limit categories: enforcement (EL-1 to EL-3), observability (OL-1 to OL-3), autonomy (AL-1 to AL-3). Extends Paper A's cross-domain limits into operational limits.
+  3. **Part III: Closing the Self-Correcting Loop** — Fourth invariant: "Failure Is Constraint Discovery." Self-correcting loop: failure → detection → correction → constraint refinement → new stable state. 5-round correction timeline as evidence. Phase transition from descriptive to self-correcting theory.
+- [x] Key theoretical upgrade: "unstable behavior reveals missing or mis-specified constraints" (subsumes "stable behavior emerges under constraint")
+- [x] Preserved all approved wording: "The Rosetta Stone is a translation device, not a unification theorem", "The structures may be isomorphic; the semantics are not"
+- [x] 5 appendices: Named Failure Mode Topology, Correction Timeline, Convergence Gate Assessments, Cryptographic Key Lifecycle, Test and Verification Plan
+- [x] Convergence gate assessments include explicit "unproven" callout (sample size = 1 for self-correcting loop convergence)
