@@ -92,7 +92,7 @@ This distinction carries three operational consequences:
 
 2. **Mappings are constrained by domain semantics.** A constraint that selects for behavioral stability in an AI agent (CPS score) operates differently than a constraint that selects for phenotypic stability in an organism (fitness landscape). The structures may be isomorphic; the semantics are not. Any cross-domain mapping must preserve this asymmetry or it becomes overgeneralization.
 
-3. **Misuse = overgeneralization.** The theory's predictive power lies in its specificity: it predicts that constraint structure is interpretable across *architectures within a domain* (validated by multi-model convergence). Extending this to claim interpretability across *all domains without qualification* is not a stronger claim — it is a different, unsubstantiated one. The Rosetta Stone is a translation device, not a unification theorem.
+3. **Misuse = overgeneralization.** The theory's predictive power lies in its specificity: constraint structure is *empirically shown to be interpretable across multiple architectures within a domain* (validated by multi-model convergence). Extending this to claim interpretability across *all domains without qualification* is not a stronger claim — it is a different, unsubstantiated one. The Rosetta Stone is a translation device, not a unification theorem.
 
 ---
 
