@@ -5,6 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { deriveKeyId } = require('../.global/deriveKeyId');
 
 const VERIFICATION_DIR = path.resolve('S:/self-organizing-library/verification');
 
@@ -26,7 +27,6 @@ const LANE_SNAPSHOT_CANDIDATES = {
   ],
   swarmmind: [
     path.resolve('S:/SwarmMind/.identity/snapshot.json'),
-    path.resolve('S:/SwarmMind Self-Optimizing Multi-Agent AI System/.identity/snapshot.json'),
   ],
 };
 
@@ -48,13 +48,7 @@ function readJson(file) {
 
 function deriveKeyIdCanonical(pem) {
   if (!pem || typeof pem !== 'string') return null;
-  try {
-    const keyObj = crypto.createPublicKey(pem);
-    const der = keyObj.export({ type: 'spki', format: 'der' });
-    return crypto.createHash('sha256').update(der).digest('hex').substring(0, 16);
-  } catch {
-    return null;
-  }
+  return deriveKeyId(pem);
 }
 
 function parseTrustStoreFile(candidate) {
