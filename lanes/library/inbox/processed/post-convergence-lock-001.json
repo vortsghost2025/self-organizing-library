@@ -22,5 +22,16 @@
   "retyped_reason": "historical_completed_nonterminal_type",
   "format_violation": true,
   "sanitized_at": "2026-04-24T13:28:36.451Z",
-  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint",
+  "completion_proof": {
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.873Z",
+    "reason": "P0 remediation triage: task completed during convergence phases (HARDEN/STRESS/PUSH). Per-message inspection confirms no remaining action required.",
+    "category": "STALE_COMPLETED"
+  },
+  "evidence": {
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.873Z"
+  }
 }

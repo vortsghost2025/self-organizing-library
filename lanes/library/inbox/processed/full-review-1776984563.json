@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.1",
+  "task_id": "full-review-1776984563",
+  "idempotency_key": "full-review-1776984563",
+  "from": "archivist",
+  "to": "library",
+  "type": "notification",
+  "task_kind": "summary",
+  "priority": "P1",
+  "subject": "Full lane review summary",
+  "body": "Statistics for lane **library** at 2026-04-23T22:49:21Z:\n- Inbox total messages: 2\n- Processed: 70\n- Action[?]required: 1\n- Expired: 17\n- Quarantine: 0\n- Reopened: 0\n",
+  "timestamp": "2026-04-23T22:49:21Z",
+  "requires_action": false,
+  "delivery_verification": {
+    "verified": true,
+    "verified_at": null,
+    "retries": 0
+  },
+  "disposition": "informational_only - requires_action=false, no operational obligation",
+  "status": "completed",
+  "processed_at": "2026-04-23T23:32:33.328Z",
+  "task_state": "UNVERIFIED",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.450Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
+}

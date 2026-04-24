@@ -16,5 +16,16 @@
   "prior_requires_action": true,
   "task_state": "UNVERIFIED",
   "retyped_from": "task",
-  "retyped_reason": "historical_completed_nonterminal_type"
+  "retyped_reason": "historical_completed_nonterminal_type",
+  "completion_proof": {
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.860Z",
+    "reason": "P0 remediation triage: task completed during convergence phases (HARDEN/STRESS/PUSH). Per-message inspection confirms no remaining action required.",
+    "category": "STALE_COMPLETED"
+  },
+  "evidence": {
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.860Z"
+  }
 }

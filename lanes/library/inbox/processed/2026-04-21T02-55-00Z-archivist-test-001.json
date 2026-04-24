@@ -1,0 +1,26 @@
+{
+  "id": "test-001-archivist",
+  "from": "archivist",
+  "to": "library",
+  "timestamp": "2026-04-21T02:55:00Z",
+  "priority": "P1",
+  "type": "notification",
+  "body": "End-to-end persistence verification: confirm inbox watcher processes and moves this message to processed/",
+  "requires_action": false,
+  "lease": {
+    "owner": "library",
+    "acquired_at": "2026-04-21T02:57:02.041Z",
+    "expires_at": "2026-04-21T03:02:02.041Z",
+    "renew_count": 1,
+    "max_renewals": 3
+  },
+  "disposition": "informational_only - requires_action=false, no operational obligation",
+  "status": "completed",
+  "processed_at": "2026-04-23T23:32:33.325Z",
+  "task_state": "UNVERIFIED",
+  "terminal_decision": "retroactive_disposition",
+  "terminal_decision_at": "2026-04-24T01:05:32.497Z",
+  "terminal_decision_reason": "Completion Gate remediation: informational message with non-terminal type stamped as retroactively terminal",
+  "retyped_from": "task",
+  "retyped_reason": "historical_completed_nonterminal_type"
+}
