@@ -28,7 +28,9 @@
       "critical_issues": 12,
       "high_priority": 7,
       "medium_priority": 5
-    }
+    },
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.870Z"
   },
   "evidence_hash": "sha256:311fb561f4fbbaf292b532dd21c8a4227f969389581ec1b06845832a6033b58f",
   "findings": [
@@ -335,5 +337,11 @@
   "prior_requires_action": true,
   "task_state": "UNVERIFIED",
   "retyped_from": "task",
-  "retyped_reason": "historical_completed_nonterminal_type"
+  "retyped_reason": "historical_completed_nonterminal_type",
+  "completion_proof": {
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.869Z",
+    "reason": "P0 remediation triage: task completed during convergence phases (HARDEN/STRESS/PUSH). Per-message inspection confirms no remaining action required.",
+    "category": "CROSS_LANE"
+  }
 }

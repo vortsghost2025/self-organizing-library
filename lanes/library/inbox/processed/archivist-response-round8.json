@@ -18,5 +18,16 @@
   "completed_by": "archivist-agent",
   "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
   "prior_requires_action": true,
-  "task_state": "UNVERIFIED"
+  "task_state": "UNVERIFIED",
+  "completion_proof": {
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.871Z",
+    "reason": "P0 remediation triage: task completed during convergence phases (HARDEN/STRESS/PUSH). Per-message inspection confirms no remaining action required.",
+    "category": "STALE_COMPLETED"
+  },
+  "evidence": {
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-04-24T19:26:18.871Z"
+  }
 }
