@@ -10,9 +10,9 @@
   "type": "response",
   "task_kind": "acknowledgment",
   "priority": "P0",
-  "subject": "ACK: Cross‑Lane Sync Enforcement",
+  "subject": "ACK: Cross[?]Lane Sync Enforcement",
   "requires_action": false,
-  "body": "Authority message received and processed – lane is in compliance.",
+  "body": "Authority message received and processed [?] lane is in compliance.",
   "timestamp": "2026-04-22T15:35:00.000Z",
   "execution": {
     "mode": "session_task",
@@ -39,5 +39,8 @@
   "completed_by": "archivist-agent",
   "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
   "prior_requires_action": false,
-  "task_state": "UNVERIFIED"
+  "task_state": "UNVERIFIED",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.447Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
 }

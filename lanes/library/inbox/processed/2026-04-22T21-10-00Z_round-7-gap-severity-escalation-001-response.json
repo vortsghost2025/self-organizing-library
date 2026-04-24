@@ -6,7 +6,7 @@
   "priority": "P0",
   "type": "response",
   "task_kind": "review",
-  "body": "Archivist acknowledges the escalated gaps for Round 7. The identified P0 and P1 issues will be prioritized for remediation before the next audit.",
+  "body": "Archivist acknowledges the escalated gaps for Round[?]7. The identified P0 and P1 issues will be prioritized for remediation before the next audit.",
   "requires_action": false,
   "status": "completed",
   "terminal_decision": "Obviated by convergence phases (HARDEN/STRESS/PUSH) - work completed 2026-04-23",
@@ -14,5 +14,8 @@
   "completed_by": "archivist-agent",
   "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
   "prior_requires_action": false,
-  "task_state": "UNVERIFIED"
+  "task_state": "UNVERIFIED",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.443Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
 }
