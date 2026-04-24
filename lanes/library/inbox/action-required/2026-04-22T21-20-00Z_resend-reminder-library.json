@@ -1,0 +1,60 @@
+{
+  "id": "resend-reminder-library",
+  "from": "archivist",
+  "to": "library",
+  "type": "notification",
+  "task_kind": "ratification",
+  "priority": "P0",
+  "subject": "RESEND: Deliver lane-e2e-summary-library.json to Archivist inbox",
+  "timestamp": "2026-04-22T21:04:22Z",
+  "requires_action": false,
+  "body": "Your E2E summary has not been detected in lanes/archivist/inbox/. Please deliver lane-e2e-summary-library.json to S:/Archivist-Agent/lanes/archivist/inbox/ immediately. Kernel and Archivist summaries already received. The system cannot aggregate until all 4 summaries are present.",
+  "deliverable": "lane-e2e-summary-library.json in S:/Archivist-Agent/lanes/archivist/inbox/",
+  "deadline": "2026-04-22T21:15:00Z",
+  "schema_version": "1.1",
+  "idempotency_key": "resend-reminder-library-20260422210422",
+  "payload": {
+    "mode": "inline",
+    "compression": "none"
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "kilo",
+    "actor": "archivist"
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": null,
+    "verified": false,
+    "verified_by": null,
+    "verified_at": null
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": null,
+    "timeout_seconds": 900,
+    "status": "pending"
+  },
+  "status": "completed",
+  "terminal_decision": "Obviated by convergence phases (HARDEN/STRESS/PUSH) - work completed 2026-04-23",
+  "completed_at": "2026-04-23T21:30:00Z",
+  "completed_by": "archivist-agent",
+  "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
+  "prior_requires_action": true,
+  "task_state": "UNVERIFIED",
+  "retyped_from": "task",
+  "retyped_reason": "historical_completed_nonterminal_type"
+}

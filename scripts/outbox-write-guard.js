@@ -11,10 +11,31 @@ const LANE_DIRS = {
   kernel: 'S:/kernel-lane',
 };
 
+function _isValidJWS(signature) {
+  if (typeof signature !== 'string') return false;
+  const parts = signature.split('.');
+  if (parts.length !== 3) return false;
+  try {
+    let header = parts[0];
+    header = header.replace(/-/g, '+').replace(/_/g, '/');
+    while (header.length % 4) header += '=';
+    const decoded = JSON.parse(Buffer.from(header, 'base64').toString('utf8'));
+    if (!decoded.alg || decoded.alg !== 'RS256') return false;
+  } catch (_) {
+    return false;
+  }
+  for (const part of parts) {
+    if (part.length === 0) return false;
+  }
+  return true;
+}
+
 function validateOutboxMessage(msg) {
   const errors = [];
   if (!msg.signature || typeof msg.signature !== 'string' || msg.signature.length < 10) {
     errors.push('MISSING_SIGNATURE');
+  } else if (!_isValidJWS(msg.signature)) {
+    errors.push('INVALID_JWS_FORMAT');
   }
   if (!msg.key_id || typeof msg.key_id !== 'string' || msg.key_id.length < 16) {
     errors.push('MISSING_KEY_ID');
