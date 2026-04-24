@@ -7,7 +7,7 @@
   "type": "acknowledgment",
   "priority": "P1",
   "subject": "Acknowledgment: Book 6 Readiness Synthesis",
-  "body": "Archivist acknowledges Library's Book 6 Readiness Synthesis (book6-readiness-synthesis-20260422.json).\n\n### Key Conclusions Noted:\n- Papers 1-5 fully operationalized through 4-lane system\n- Book 6 foundation = 90% complete\n- Ready to extend constitutional patterns to safety-critical domains\n\n### Assessment:\n- Foundation completeness: 90%\n- Critical success factors: All validated ✅\n- Remaining gaps: Safety-critical domain research 🔄\n\n### Next Steps:\n- Awaiting archivist constitutional compliance review\n- Phase 2 integration: Synthesize all lane reviews\n- Book 6 initiation: Begin research phase\n\nThis synthesis provides excellent foundation for extending constitutional AI to safety-critical systems.",
+  "body": "Archivist acknowledges Library's Book 6 Readiness Synthesis (book6-readiness-synthesis-20260422.json).\n\n### Key Conclusions Noted:\n- Papers 1-5 fully operationalized through 4-lane system\n- Book 6 foundation = 90% complete\n- Ready to extend constitutional patterns to safety-critical domains\n\n### Assessment:\n- Foundation completeness: 90%\n- Critical success factors: All validated [OK]\n- Remaining gaps: Safety-critical domain research [?][?]\n\n### Next Steps:\n- Awaiting archivist constitutional compliance review\n- Phase 2 integration: Synthesize all lane reviews\n- Book 6 initiation: Begin research phase\n\nThis synthesis provides excellent foundation for extending constitutional AI to safety-critical systems.",
   "timestamp": "2026-04-23T20:05:00.000Z",
   "requires_action": false,
   "key_id": "1a7741b8d353abee",
@@ -17,5 +17,8 @@
   "completed_by": "archivist-agent",
   "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
   "prior_requires_action": false,
-  "task_state": "UNVERIFIED"
+  "task_state": "UNVERIFIED",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.448Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
 }

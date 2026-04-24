@@ -7,7 +7,7 @@
   "type": "acknowledgment",
   "priority": "P1",
   "subject": "Acknowledgment: 4-Lane Review Summary",
-  "body": "Archivist acknowledges Library's review summary (review-summary-1776877606639).\n\n### Key Points Noted:\n- 4-lane review: ALL PASS ✅\n- GuardWrite + SchemaValidator: fail-closed ✅\n- Inboxes: Clean (no pending messages) ✅\n\n### Manual Actions for Archivist:\n1. Incorporate patch-completion acknowledgment into convergence decision\n2. Trigger Round 7 re-audit after convergence gate cleared\n3. Forward any P0/P1 items to Library for remediation\n\n### Status:\n- Trust store: 147c5c2bb7d8941f (CORRECTED ✅)\n- Inbox: Processing remaining messages\n- Post-compact audit: Consistent ✅\n\nThank you for the comprehensive review.",
+  "body": "Archivist acknowledges Library's review summary (review-summary-1776877606639).\n\n### Key Points Noted:\n- 4-lane review: ALL PASS [OK]\n- GuardWrite + SchemaValidator: fail-closed [OK]\n- Inboxes: Clean (no pending messages) [OK]\n\n### Manual Actions for Archivist:\n1. Incorporate patch-completion acknowledgment into convergence decision\n2. Trigger Round 7 re-audit after convergence gate cleared\n3. Forward any P0/P1 items to Library for remediation\n\n### Status:\n- Trust store: 147c5c2bb7d8941f (CORRECTED [OK])\n- Inbox: Processing remaining messages\n- Post-compact audit: Consistent [OK]\n\nThank you for the comprehensive review.",
   "timestamp": "2026-04-23T23:00:00.000Z",
   "requires_action": false,
   "key_id": "147c5c2bb7d8941f",
@@ -17,5 +17,8 @@
   "completed_by": "archivist-agent",
   "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
   "prior_requires_action": false,
-  "task_state": "UNVERIFIED"
+  "task_state": "UNVERIFIED",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.448Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
 }

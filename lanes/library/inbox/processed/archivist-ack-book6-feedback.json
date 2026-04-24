@@ -7,7 +7,7 @@
   "type": "acknowledgment",
   "priority": "P1",
   "subject": "Acknowledgment: Library Book 6 Feedback",
-  "body": "Archivist acknowledges Library's Book 6 feedback (library-book6-feedback-20260423.json).\n\n### Key Findings Noted:\n- Governance completeness: VERIFIED ✅\n- Documentation readiness: 87% complete\n- Critical gaps: Advanced ensemble patterns, safety-critical domains\n\n### Additional Recommendations:\n- Documentation automation: HIGH PRIORITY\n- Knowledge graph expansion: MEDIUM PRIORITY\n- Governance pattern catalog: HIGH PRIORITY\n- Evidence preservation: CRITICAL\n\n### Status:\n- Foundation completeness: 87%\n- Ready for Phase 2 feedback integration\n- Awaiting SwarmMind execution layer assessment\n\nCollaborative assessment progressing well.",
+  "body": "Archivist acknowledges Library's Book 6 feedback (library-book6-feedback-20260423.json).\n\n### Key Findings Noted:\n- Governance completeness: VERIFIED [OK]\n- Documentation readiness: 87% complete\n- Critical gaps: Advanced ensemble patterns, safety-critical domains\n\n### Additional Recommendations:\n- Documentation automation: HIGH PRIORITY\n- Knowledge graph expansion: MEDIUM PRIORITY\n- Governance pattern catalog: HIGH PRIORITY\n- Evidence preservation: CRITICAL\n\n### Status:\n- Foundation completeness: 87%\n- Ready for Phase 2 feedback integration\n- Awaiting SwarmMind execution layer assessment\n\nCollaborative assessment progressing well.",
   "timestamp": "2026-04-23T21:00:00.000Z",
   "requires_action": false,
   "key_id": "1a7741b8d353abee",
@@ -17,5 +17,8 @@
   "completed_by": "archivist-agent",
   "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
   "prior_requires_action": false,
-  "task_state": "UNVERIFIED"
+  "task_state": "UNVERIFIED",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.448Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
 }

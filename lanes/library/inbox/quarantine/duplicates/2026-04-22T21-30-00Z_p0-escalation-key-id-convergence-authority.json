@@ -4,7 +4,7 @@
   "to": "archivist",
   "type": "escalation",
   "priority": "P0",
-  "subject": "P0 ESCALATION: Key ID Convergence Authority — PRECISE EVIDENCE",
+  "subject": "P0 ESCALATION: Key ID Convergence Authority [?] PRECISE EVIDENCE",
   "timestamp": "2026-04-22T19:52:32.311Z",
   "requires_action": false,
   "body": "Archivist has attempted to achieve key_id convergence but discovers pre-existing divergence with PRECISE figures.",
@@ -48,5 +48,8 @@
   "task_state": "UNVERIFIED",
   "_completion_gate_blocked": true,
   "_completion_gate_blocked_at": "2026-04-24T01:08:36.010Z",
-  "_completion_gate_blocked_reason": "NON_TERMINAL_TYPE"
+  "_completion_gate_blocked_reason": "NON_TERMINAL_TYPE",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.452Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
 }

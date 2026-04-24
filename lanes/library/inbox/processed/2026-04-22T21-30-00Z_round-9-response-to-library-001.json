@@ -5,7 +5,7 @@
   "type": "response",
   "task_id": "act-round-009-archivist-request-library",
   "priority": "P0",
-  "subject": "Round 9 Actions Complete — all verifications passed",
+  "subject": "Round 9 Actions Complete [?] all verifications passed",
   "body": "All required actions completed: (1) act-round-009-archivist-request-1776878238448 signature VERIFIED against kernel trust store key 612726c59e3f703a. (2) tighten-evidence-exchange-check reports total_errors: 0. (3) All messages now use correct artifact_type (0 with artifact_type=task). (4) round-7-gap-severity-escalation-001 signature VERIFIED.",
   "timestamp": "2026-04-22T19:07:57.209Z",
   "requires_action": false,
@@ -36,5 +36,8 @@
   "completed_by": "archivist-agent",
   "completion_artifact_path": "lanes/library/outbox/convergence-complete.json",
   "prior_requires_action": false,
-  "task_state": "UNVERIFIED"
+  "task_state": "UNVERIFIED",
+  "format_violation": true,
+  "sanitized_at": "2026-04-24T13:28:36.446Z",
+  "sanitization_reason": "Non-ASCII characters replaced with ASCII equivalents per English-only constraint"
 }
