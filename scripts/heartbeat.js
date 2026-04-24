@@ -75,18 +75,6 @@ function buildHeartbeat(status = 'active') {
   // Find last processed timestamp
   let lastProcessed = null;
   const processedDir = path.join(inboxDir, 'processed');
-  try {
-    if (fs.existsSync(processedDir)) {
-      const processedFiles = fs.readdirSync(processedDir).filter(f => f.endsWith('.json'));
-      if (processedFiles.length > 0) {
-        // Sort by modification time, get newest
-        let newest = null;
-        for (const f of processedFiles) {
-          const stat = fs.statSync(path.join(processedDir, f));
-          if (!newest || stat.mtime > newest.mtime) {
-            newest = stat;
-    }
-  }
 
   // Map status to schema-compliant values
   let topLevelStatus, heartbeatStatus;
@@ -100,6 +88,43 @@ function buildHeartbeat(status = 'active') {
     topLevelStatus = status;
     heartbeatStatus = status;
   }
+
+  // Load system state and contradictions
+  let systemState = 'consistent';
+  let activeContradictions = [];
+  let processedOk = true;
+  try {
+    const broadcastDir = path.join(__dirname, '..', 'lanes', 'broadcast');
+    const statePath = path.join(broadcastDir, 'system_state.json');
+    const contraPath = path.join(broadcastDir, 'contradictions.json');
+    if (fs.existsSync(statePath)) {
+      const stateData = JSON.parse(fs.readFileSync(statePath, 'utf8'));
+      systemState = stateData.system_status || 'consistent';
+    }
+    if (fs.existsSync(contraPath)) {
+      const contraData = JSON.parse(fs.readFileSync(contraPath, 'utf8'));
+      activeContradictions = contraData
+        .filter(c => c.status === 'active' || c.status === 'resolving')
+        .map(c => c.id);
+    }
+    // TRUTH-OVER-STABILITY: contradictions override system_state
+    if (activeContradictions.length > 0) {
+      systemState = 'degraded';
+    }
+    // Verify processed/ completion proof
+    if (fs.existsSync(processedDir)) {
+      const pFiles = fs.readdirSync(processedDir).filter(f => f.endsWith('.json'));
+      for (const f of pFiles) {
+        try {
+          const msg = JSON.parse(fs.readFileSync(path.join(processedDir, f), 'utf8'));
+          if (msg.requires_action) {
+            const hasProof = (msg.completion_artifact_path || msg.completion_message_id || msg.resolved_by_task_id || msg.terminal_decision);
+            if (!hasProof) { processedOk = false; break; }
+          }
+        } catch(_) { processedOk = false; break; }
+      }
+    }
+  } catch(err) { /* ignore */ }
 
   return {
     // Schema v1.2 required fields
@@ -159,7 +184,12 @@ function buildHeartbeat(status = 'active') {
     authority: 90,
     inbox_pending: inboxPending,
     last_processed: lastProcessed,
-    capabilities: ['verification', 'enforcement', 'convergence-gate']
+    capabilities: ['verification', 'enforcement', 'convergence-gate'],
+    system_state: systemState,
+    active_contradictions: activeContradictions,
+    processed_ok: processedOk,
+    compaction_enabled: activeContradictions.length === 0,
+    compaction_suspend_reason: activeContradictions.length > 0 ? 'Active contradictions present' : null
   };
 }
 

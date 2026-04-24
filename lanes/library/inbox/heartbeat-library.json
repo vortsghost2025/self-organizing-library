@@ -1,19 +1,70 @@
 {
-  "schema_version": "1.0",
-  "type": "heartbeat",
+  "schema_version": "1.2",
+  "task_id": "heartbeat-library",
+  "idempotency_key": "8b9e57b0dc43eabe611abbcf7ea957bdb1dd6e8799e205b748ab97e188b7a1f5",
   "from": "library",
+  "to": "library",
+  "type": "heartbeat",
+  "task_kind": "proposal",
+  "priority": "P3",
+  "subject": "Library Lane Heartbeat",
+  "body": "Periodic heartbeat signal from Library lane",
+  "timestamp": "2026-04-24T00:23:01.186Z",
+  "requires_action": false,
+  "payload": {
+    "mode": "inline",
+    "compression": "none"
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "kilo",
+    "actor": "lane"
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": null,
+    "verified": false,
+    "verified_by": null,
+    "verified_at": null
+  },
+  "heartbeat": {
+    "status": "in_progress",
+    "interval_seconds": 60,
+    "last_heartbeat_at": "2026-04-24T00:23:01.187Z",
+    "timeout_seconds": 900
+  },
+  "status": "in_progress",
   "lane_id": "library",
-  "timestamp": "2026-04-23T18:48:01.691Z",
-  "status": "active",
   "uptime_seconds": 0,
   "version": "1.0.0",
   "position": 2,
   "authority": 90,
-  "inbox_pending": 1,
-  "last_processed": "2026-04-23T00:54:55.009Z",
+  "inbox_pending": 3,
+  "last_processed": null,
   "capabilities": [
     "verification",
     "enforcement",
     "convergence-gate"
-  ]
+  ],
+  "system_state": "degraded",
+  "active_contradictions": [
+    "swarmmind_no_heartbeat",
+    "priority_P0_contradiction"
+  ],
+  "processed_ok": true,
+  "compaction_enabled": false,
+  "compaction_suspend_reason": "Active contradictions present"
 }

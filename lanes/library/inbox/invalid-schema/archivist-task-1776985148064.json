@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.3",
+  "task_id": "archivist-task-1776985148064",
+  "idempotency_key": "3d3efb9e-c436-4161-be0c-420bfc2e5507",
+  "from": "archivist",
+  "to": "library",
+  "timestamp": "2026-04-23T22:59:08.063Z",
+  "priority": "P0",
+  "type": "task",
+  "task_kind": "cross-lane-review-remediation",
+  "subject": "Required remediation tasks (full-lane-review-1776985146874)",
+  "body": "# Cross-Lane Review Dispatch (full-lane-review-1776985146874)\n\nProven findings:\n- sync-gate status: FAIL\n- sync-gate issues: 1\n- post-compact status: drifted (contradictions=0)\n- git drift (library): total=15, modified=4, deleted=2, untracked=9\n\nRequired tasks:\n1. Recover 21 action-required messages from processed/ using recover-action-required-from-processed.js --lane library --apply, then triage action-required/ with completion evidence.\n2. Repair malformed SwarmMind public_key_pem in lanes/broadcast/trust-store.json (DER parse currently failing) using kernel canonical trust-store as source, then re-run sync-gate verification.\n3. Commit and ship watcher fail-closed guard changes; verify action-required messages never auto-move to processed.\n\nResponse contract: send signed completion response with exact evidence paths and command outputs.",
+  "requires_action": true,
+  "lease": {
+    "owner": "archivist",
+    "acquired_at": "2026-04-23T22:59:08.063Z",
+    "expires_at": "2026-04-23T23:04:08.063Z",
+    "duration_minutes": 5
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": null,
+    "evidence_hash": null,
+    "verified": false,
+    "verified_by": null,
+    "verified_at": null
+  },
+  "review_id": "full-lane-review-1776985146874",
+  "generated_by": "full-lane-review-and-dispatch.js",
+  "content_hash": "sha256:bb5d6256bcec34a1a88bdf6a4069c84c52ba652117f74c6e40a75d6dcfc579df",
+  "signature": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE0N2M1YzJiYjdkODk0MWYifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6YmI1ZDYyNTZiY2VjMzRhMWE4OGJkZjZhNDA2OWM4NGM1MmJhNjUyMTE3Zjc0YzZlNDBhNzVkNmRjZmM1NzlkZiIsImV4cCI6MTc3NzA3MTU0OCwiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3Njk4NTE0OCwiaWQiOm51bGwsImxhbmUiOiJhcmNoaXZpc3QiLCJwcmlvcml0eSI6IlAwIiwidGFza19pZCI6ImFyY2hpdmlzdC10YXNrLTE3NzY5ODUxNDgwNjQiLCJ0byI6ImxpYnJhcnkifQ.otz_sDvPb54L0Z6qZ3Hzy5rfcWjEGM5mD8dr88eTW1aSNKzb76QhYQHj384gk2GUqmxLMulfYCEOXU2V2YqdOZAm7xGpEetcBvmj8M1qWztsmVjPJjhPFbNVZ4NQ7dZ2yw5b--IeDzxrHHbqJpEwgSTACJkD2IQKd3koVYy0tylcVqo4TUHjCHcfAPrhj9jTBcnZrmvTyoM3fmxFc34eYIwiBO7L4CAjFDMLF1YqOkFmS-r7hmd-Uj9jTF3IrIhbX5NRqDe7zpfSabJNan9n2cRdUkeEZSt9v15fH0YVwnXobHTeU2C6KhtBW4G2-7ge8re5HLL3L6vPx77GWZY4yA",
+  "signature_alg": "RS256",
+  "key_id": "147c5c2bb7d8941f"
+}
