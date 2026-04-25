@@ -1,7 +1,7 @@
 # Failure Modes Index
 
-**Last Updated:** 2026-04-24
-**Total Named Failure Modes:** 6
+**Last Updated:** 2026-04-25
+**Total Named Failure Modes:** 7
 
 ---
 
@@ -94,6 +94,21 @@
 
 ---
 
+### NFM-021: Relative Path Resolution Failure
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** MEDIUM
+**Definition:** Artifact-resolver only handled absolute paths. Relative evidence_exchange.artifact_path values were always rejected with OUTSIDE_ALLOWED_ROOTS.
+**Discovery:** 2026-04-25 (Archivist lane-worker blocking SwarmMind multi-task review)
+**File:** `RELATIVE_PATH_RESOLUTION_FAILURE.md`
+
+**Key Evidence:**
+- SwarmMind review had relative `artifact_path = "lanes/archivist/inbox/..."`
+- Rejected: `OUTSIDE_ALLOWED_ROOTS` (path didn't start with any allowed root)
+- Fixed: `resolveRelativePath()` joins relative paths against allowed roots
+- Same message processed successfully after fix: `execution_verified=true`
+
+---
+
 ## Cross-References
 
 | Failure Mode | Related To | Shared Concept |
@@ -106,6 +121,7 @@
 | NFM-019 | NFM-018, NFM-020 | Same incident (relay loop test) |
 | NFM-020 | NFM-003, NFM-018 | Epistemic boundary / observability limits |
 | NFM-020 | NFM-018, NFM-019 | Same incident (relay loop test) |
+| NFM-021 | NFM-020 | Relative path as special case of observability boundary |
 
 ---
 
@@ -140,6 +156,11 @@
 - EXECUTION_NOT_VERIFIED with OUTSIDE_ALLOWED_ROOTS on cross-lane messages
 - Artifact exists at sender's path but not in receiver's scope
 - Cross-lane messages always fail execution verification when carrying artifact_path
+
+### NFM-021: Relative Path Resolution Failure
+- EXECUTION_NOT_VERIFIED with OUTSIDE_ALLOWED_ROOTS on messages with relative artifact_path
+- Artifact exists at `<allowed-root>/<relative-path>` but resolver only checked raw path
+- Fixed: resolveRelativePath() joins relative path against each allowed root
 
 ---
 
