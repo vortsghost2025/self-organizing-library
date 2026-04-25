@@ -1,0 +1,74 @@
+name: Sync Site Index
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/generate-site-index.js'
+      - '.github/workflows/sync-index.yml'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate site index
+        run: node scripts/generate-site-index.js
+        env:
+          REPO_ROOTS: >-
+            self-organizing-library=${{ github.workspace }}
+            Archivist-Agent=/tmp/repos/Archivist-Agent
+            SwarmMind=/tmp/repos/SwarmMind
+            kernel-lane=/tmp/repos/kernel-lane
+            federation=/tmp/repos/federation
+            FreeAgent=/tmp/repos/FreeAgent
+
+      - name: Clone sibling repos for indexing
+        run: |
+          mkdir -p /tmp/repos
+          for repo in Archivist-Agent SwarmMind-Self-Optimizing-Multi-Agent-AI-System kernel-lane federation FreeAgent; do
+            git clone --depth 1 "https://github.com/vortsghost2025/${repo}.git" "/tmp/repos/${repo}" 2>/dev/null || echo "Skip $repo"
+          done
+          if [ -d "/tmp/repos/SwarmMind-Self-Optimizing-Multi-Agent-AI-System" ]; then
+            mv "/tmp/repos/SwarmMind-Self-Optimizing-Multi-Agent-AI-System" "/tmp/repos/SwarmMind"
+          fi
+
+      - name: Re-generate index with all repos
+        run: node scripts/generate-site-index.js
+
+      - name: Build & generate Pagefind index
+        run: |
+          npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet data/ public/pagefind/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit & push updated index
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/site-index.json data/site-index-summary.json public/pagefind/
+          git commit -m "chore: auto-sync site index and Pagefind [skip ci]"
+          git push
