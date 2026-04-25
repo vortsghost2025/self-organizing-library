@@ -10,6 +10,7 @@ const stats = getStats();
 const navItems = [
   { href: "/", icon: "◈", label: "Dashboard", ariaLabel: "Dashboard - overview and stats" },
   { href: "/library", icon: "☰", label: "Library", ariaLabel: "Library - browse all documents" },
+  { href: "/search-catalog", icon: "⊗", label: "Search Index", ariaLabel: "Search index - full document catalog" },
   { href: "/repos", icon: "⊕", label: "Repos", ariaLabel: "Repositories - browse by repo" },
   { href: "/graph", icon: "◇", label: "Graph", ariaLabel: "Nexus graph - interactive document map" },
   { href: "/papers", icon: "⋇", label: "Papers", ariaLabel: "Papers - Rosetta Stone series and CAISC" },

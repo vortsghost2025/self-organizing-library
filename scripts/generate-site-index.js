@@ -72,6 +72,14 @@ const REPOS = [
       'library': 'library',
     },
     maxDepth: Infinity,
+    excludeDirs: new Set([
+      '.overstory', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+      '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.global',
+      '.artifacts', '.compact-audit', '.test-trust', '.test-memory',
+      '.test-identity', '.continuity_test', '.continuity_test2',
+      '.continuity_test2b', '.continuity_test3', '.continuity_test4',
+      '.lane-relay', 'backup_static_old', 'target', 'public_html',
+    ]),
   },
   {
     name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
@@ -144,12 +152,39 @@ const REPOS = [
     excludeDirs: new Set(['node_modules', '.git', '.next', 'dist', 'build', 'coverage', '.cache', '.vercel',
       'supreme-octo-computing-machine', 'context-buffer', '.identity', '.trust', '.memory', '.runtime']),
   },
+  {
+    name: 'storytime',
+    root: 'S:/storytime',
+    github: 'https://github.com/vortsghost2025/storytime/blob/main',
+    categoryMap: {
+      'docs': 'docs',
+      'src': 'code',
+      'scripts': 'script',
+      'tests': 'test',
+      'test': 'test',
+      'config': 'config',
+      'data': 'data',
+      'lanes': 'lane-protocol',
+      'schemas': 'schema',
+      'logs': 'log',
+      'agents': 'agent',
+      'templates': 'template',
+    },
+    maxDepth: Infinity,
+    excludeDirs: new Set([
+      '.overstory', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+      '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.cline',
+    ]),
+  },
 ];
 
 const DEFAULT_EXCLUDE_DIRS = new Set([
   'node_modules', '.next', '.git', '.ruff_cache', '.identity', '.trust',
   '.memory', 'context-buffer', '.runtime', 'out', 'build', 'coverage',
-  '.vercel', 'dist', '.cache'
+  '.vercel', 'dist', '.cache', 'target', '.turbo', '.astro', '.nuxt',
+  '.svelte-kit', '.vuepress', '.docusaurus', '.terraform', '.tox',
+  '__pycache__', '.pytest_cache', '.mypy_cache', '.venv', 'venv',
+  '.pytest_cache',
 ]);
 
 const DEFAULT_EXTENSIONS = new Set([
@@ -224,7 +259,80 @@ function getCategory(relativePath, categoryMap) {
   for (const [prefix, category] of Object.entries(categoryMap)) {
     if (normalized.startsWith(prefix)) return category;
   }
-  if (normalized.includes('/')) return 'misc';
+  if (normalized.includes('/')) {
+    const topDir = normalized.split('/')[0];
+    const dirMap = {
+      'src': 'code',
+      'src-tauri': 'code',
+      'docs': 'docs',
+      'scripts': 'script',
+      'tests': 'test',
+      'lanes': 'lane-protocol',
+      'schemas': 'schema',
+      'config': 'config',
+      'data': 'data',
+      'library': 'library',
+      'papers': 'paper',
+      'logs': 'log',
+      'verification': 'verification',
+      'projects': 'project',
+      'context': 'context',
+      'COORDINATION': 'coordination',
+      'agents': 'agent',
+      'medical': 'medical',
+      'core': 'code',
+      'utils': 'code',
+      'tools': 'code',
+      'bridge': 'code',
+      'redis': 'infrastructure',
+      'swarmmind-governance-extension': 'governance',
+      'federation-game': 'game',
+      'federationpublichtml': 'web',
+      'WE4FREE': 'we4free',
+      'we4free_global': 'we4free',
+      'we4free_website': 'we4free',
+      'DISTRIBUTED_MICROSERVICES_UNIVERSE': 'distributed',
+      'distributed': 'distributed',
+      'SESSION_RECORDS': 'log',
+      'releases': 'release',
+      'scratch': 'scratch',
+      'public': 'web',
+      'tmp': 'scratch',
+      '_root': 'root-doc',
+      '_extracted': 'data',
+      'math': 'math',
+      'intelligence': 'ai',
+      'cockpit': 'ui',
+      'cockpit-spine': 'ui',
+      'who-project': 'project',
+      'originals': 'data',
+      'ci': 'infrastructure',
+      'quantum_consciousness_networks': 'ai',
+      'meta_narrative_synthesis_engines': 'ai',
+      'reality_fabric_protectors': 'ai',
+      'service_orchestration': 'infrastructure',
+      'temporal_stability_fields': 'ai',
+      'connection_bridge': 'infrastructure',
+      'ensemble_storage': 'data',
+      'state': 'code',
+      'introspection': 'ai',
+      'registry': 'infrastructure',
+      'monitoring': 'monitoring',
+      'ui': 'ui',
+      'phase-6': 'phase-6',
+      'uss-chaosbringer': 'game',
+      'uss_chaosbringer': 'game',
+      'agents-public': 'agent',
+      'federation_saves': 'data',
+      'cleanup-2026-02-22': 'scratch',
+      'sensitive': 'sensitive',
+      'AGENTS': 'agent',
+      'AGENT_COORDINATION': 'coordination',
+    };
+    if (dirMap[topDir]) return dirMap[topDir];
+    if (topDir.startsWith('.')) return 'config';
+    return topDir;
+  }
   return 'root-doc';
 }
 

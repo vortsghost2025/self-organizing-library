@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function StartHerePage() {
   return (
-    <div className="p-8 max-w-3xl mx-auto">
+    <div className="p-8 max-w-3xl mx-auto" data-pagefind-body>
       <div className="mb-8 animate-fade-in">
         <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Start Here</h1>
         <p className="text-[var(--text-secondary)]">Your guide to the Deliberate Ensemble archive</p>

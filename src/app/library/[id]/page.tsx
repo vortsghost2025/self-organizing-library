@@ -3,6 +3,24 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import MarkdownContent from "@/components/MarkdownContent";
 
+export const dynamic = "force-static";
+
+export async function generateStaticParams() {
+  const index = getSiteIndex();
+  const priorityEntries = index.entries.filter(
+    (e) =>
+      e.content_type === "doc" ||
+      e.content_type === "paper" ||
+      e.category === "root-doc" ||
+      e.category === "paper" ||
+      e.category === "verification" ||
+      e.category === "governance" ||
+      e.category === "spec" ||
+      e.tags.length > 0
+  );
+  return priorityEntries.map((e) => ({ id: e.id }));
+}
+
 export default async function DocumentPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const entry = getEntryById(id);
@@ -18,8 +36,8 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
 
   return (
     <div className="flex min-h-screen">
-      <div className="flex-1 p-8">
-        <div className="mb-6 animate-fade-in">
+      <div className="flex-1 p-8" data-pagefind-body>
+        <div className="mb-6 animate-fade-in" data-pagefind-ignore>
           <Link href="/library" className="text-[var(--text-muted)] hover:text-[var(--primary)] text-sm">
             ← Back to Library
           </Link>
@@ -42,9 +60,9 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
                 <span className="text-sm text-[var(--text-muted)]">·</span>
                 <span className="text-sm text-[var(--text-muted)]">{entry.category}</span>
               </div>
-              <h1 className="text-3xl font-bold text-[var(--text-primary)]">{entry.title}</h1>
-            </div>
-            <a
+          <h1 className="text-3xl font-bold text-[var(--text-primary)]" data-pagefind-meta="title">{entry.title}</h1>
+        </div>
+        <a
               href={entry.github_url}
               target="_blank"
               rel="noopener noreferrer"
@@ -142,7 +160,7 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
         </div>
       </div>
 
-      <aside className="w-[320px] border-l border-[var(--border)] p-6 bg-[var(--bg-surface)]">
+      <aside className="w-[320px] border-l border-[var(--border)] p-6 bg-[var(--bg-surface)]" data-pagefind-ignore>
         <div className="mb-6">
           <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">
             Related by Tag

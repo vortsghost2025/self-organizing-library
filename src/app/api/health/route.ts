@@ -1,19 +1,16 @@
 import { NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs';
-import { documents } from '@/db/schema';
 
 export async function GET() {
   try {
-    // Check database connectivity
-    let dbStatus = 'unknown';
+    const { getSiteIndex } = await import('@/lib/site-index');
+    let indexStatus = 'unknown';
     try {
-      const { db } = await import('@/db');
-      // Simple connectivity check
-      const result = await db.$count(documents);
-      dbStatus = 'healthy';
-    } catch (error) {
-      dbStatus = 'unhealthy';
+      const index = getSiteIndex();
+      indexStatus = index.entries.length > 0 ? 'healthy' : 'degraded';
+    } catch {
+      indexStatus = 'unhealthy';
     }
 
     // Check file system access
@@ -48,7 +45,7 @@ export async function GET() {
       version: process.env.npm_package_version || 'unknown',
       uptime: process.uptime(),
       checks: {
-        database: dbStatus,
+        site_index: indexStatus,
         filesystem: fsStatus,
         inbox_watcher: watcherStatus,
         identity: identityStatus,
