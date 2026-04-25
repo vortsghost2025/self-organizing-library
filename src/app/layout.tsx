@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import { SearchModal } from "@/components/SearchModal";
+import { AccessibilityProvider } from "@/components/AccessibilityProvider";
 
 export const metadata: Metadata = {
   title: "Deliberate Ensemble - Research Archive",
@@ -15,15 +16,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
-        <div className="flex min-h-screen">
-          <Sidebar />
-          <main className="flex-1 ml-[280px] min-h-screen">
-            {children}
-          </main>
-        </div>
-        <SearchModal />
-      </body>
+    <body className="min-h-screen">
+    <AccessibilityProvider>
+    <a href="#main-content" className="skip-to-content">Skip to main content</a>
+    <div className="flex min-h-screen">
+    <Sidebar />
+    <main id="main-content" className="flex-1 ml-[280px] min-h-screen" role="main">
+      {children}
+    </main>
+    </div>
+    <SearchModal />
+    </AccessibilityProvider>
+    </body>
     </html>
   );
 }
