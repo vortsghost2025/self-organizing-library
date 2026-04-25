@@ -754,3 +754,82 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 - `eslint src/`: clean
 - `next build`: success (22 pages, Turbopack)
 - Committed and pushed (`de9c9f4`)
+
+### Session 2026-04-25 (Continued): db.ts Deletion + Pagefind Fix + Category Improvements
+
+**db.ts and src/db/ Fully Deleted — ✅ COMPLETE**
+- Deleted `src/lib/db.ts` and entire `src/db/` directory (schema.ts, index.ts, migrate.ts, migrations/)
+- Rewired `/api/health/route.ts` to check site-index health instead of database connectivity
+
+**Pagefind Full-Text Search Fixed — ✅ MASSIVE IMPROVEMENT**
+- Problem: Pagefind only indexes static (○) pages, not dynamic (ƒ) pages. Was 9 pages / 424 words.
+- Fix 1: Set `/library/[id]` to `export const dynamic = "force-static"` + `generateStaticParams()` filtering priority entries → 1,468 static document pages
+- Fix 2: Created `/search-catalog` page — force-static, embeds ALL 2,932 doc metadata (title, description, category, content_type, repo, tags) as HTML for Pagefind
+- Fix 3: Moved `data-pagefind-body` from root layout `<main>` to individual page content divs
+- Fix 4: Added `data-pagefind-ignore` to sidebars/navigation to avoid polluting search index
+- Fix 5: Added `data-pagefind-filter="tag"` for tag-based search filtering
+- Result: **1,472 pages indexed, 10,784 words** (up from 9 pages / 424 words)
+- Added `/public/pagefind/` to `.gitignore` (generated files, rebuilt on each build)
+- Removed `pagefind-entry.json` from git tracking
+
+**Category Coverage Improved — ✅ COMPLETE**
+- `getCategory()` in `generate-site-index.js` now uses parent directory fallback with comprehensive `dirMap`
+- 0 entries fall into "misc" — all get meaningful categories
+- 50+ directory-to-category mappings added
+
+**storytime Repo Added — ✅ COMPLETE (7th repo)**
+- Root: `S:/storytime`, GitHub: `vortsghost2025/storytime`
+- Added `excludeDirs` for dot-directories (`.overstory`, `.kilo`, `.kilocode`, `.claude`, etc.)
+- Added category mappings: logs, agents, templates
+
+**Archivist-Agent excludeDirs — ✅ FIXED**
+- Moved repo-specific dot-dirs from global DEFAULT_EXCLUDE_DIRS to Archivist-Agent's `excludeDirs` Set
+- Prevents global excludes from accidentally filtering other repos' content
+
+**Index Regenerated — ✅ 2,932 entries**
+| Repo | Files |
+|------|-------|
+| self-organizing-library | 356 |
+| Archivist-Agent | 446 |
+| SwarmMind | 223 |
+| kernel-lane | 273 |
+| federation | 569 |
+| FreeAgent | 794 |
+| storytime | 271 |
+| **Total** | **2,932** |
+
+**Build + Pagefind — ✅ ALL PASS**
+- `tsc --noEmit`: clean
+- `eslint`: clean
+- `next build`: success (1,491 pages generated including 1,468 /library/[id] SSG pages)
+- Pagefind: 1,472 pages indexed, 10,784 words, 1 filter
+- Committed and pushed (`4b5eca6`)
+
+### Session 2026-04-25 (Continued): content_snippet + /library Static Conversion + OOM Fix
+
+**content_snippet Field Added — ✅ COMPLETE (commit `a76a6e0`)**
+- Added `extractContentSnippet()` to `generate-site-index.js` — extracts first ~500 chars of markdown content (strips frontmatter, headings, images, links, HTML, code blocks, inline formatting)
+- Added `content_snippet` field to `IndexEntry` type in `site-index.ts`
+- Rendered in `/search-catalog` page within `data-pagefind-body` for richer Pagefind indexing
+- 42% of entries have snippets (only .md/.mdx/.txt files get content extraction)
+- Pagefind word count: 10,784 → 15,851 (+47%)
+
+**/library Converted from Dynamic to Static — ✅ COMPLETE (commit `a76a6e0`)**
+- `/library` was `ƒ` (dynamic, used `searchParams` for server-side filtering) — not indexed by Pagefind
+- Converted to `○` (force-static) with client-side filtering via new `LibraryClient.tsx` component
+- Server page fetches all data at build time, client component filters in-browser with `useState`/`useMemo`
+- All filter links converted from `<Link>` to `<button>` with onClick handlers
+
+**OOM Build Fix — ✅ COMPLETE (this session)**
+- Build OOM'd generating 1,469 SSG pages (priority filter was too loose — `tags.length > 0` caught 1,469 entries)
+- Tightened `generateStaticParams()` filter: papers, governance, verification, spec categories, + docs with 2+ tags → 657 entries
+- Non-SSG document pages still accessible at runtime (dynamic fallback), just not pre-rendered
+- `/search-catalog` page still covers ALL 2,932 entries for Pagefind
+- Build now succeeds: 680 total pages, Pagefind indexes 662 pages / 13,085 words
+- `next.config.ts` kept minimal (staticGenerationWorkerCount env var not needed after filter fix)
+
+**Current Build Stats:**
+- Total pages: 680
+- SSG `/library/[id]`: 657 pre-rendered + dynamic fallback for others
+- Pagefind: 662 pages indexed, 13,085 words, 1 filter
+- Index: 2,954 entries across 7 repos
