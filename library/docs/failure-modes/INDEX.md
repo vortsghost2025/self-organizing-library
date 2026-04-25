@@ -154,6 +154,22 @@
 
 ---
 
+## Routing Invariants
+
+**Authoritative document:** `ROUTING_INVARIANT_TABLE.md`
+
+Three message categories, twelve gates (G1-G12), six non-negotiable invariants (INV-1 through INV-6).
+
+| Category | Route Rule |
+|----------|------------|
+| New Task | actionRequired or inProgress (never blocked for evidence) |
+| Completion Claim | processed if artifact verified, blocked if not |
+| Transport Ack | processed (no artifact needed) |
+
+Key invariant: **INV-1** (NFM-022) = new tasks never blocked for missing evidence. **INV-2** (NFM-020) = completion claims require verifiable artifacts. **INV-6** = quarantine for format, blocked for trust.
+
+---
+
 ## Cross-References
 
 | Failure Mode | Related To | Shared Concept |
