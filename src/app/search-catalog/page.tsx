@@ -36,6 +36,9 @@ export default function SearchCatalogPage() {
             {entry.description && (
               <p className="text-sm text-[var(--text-secondary)] mt-1">{entry.description}</p>
             )}
+            {entry.content_snippet && (
+              <p className="text-xs text-[var(--text-muted)] mt-1 line-clamp-2">{entry.content_snippet}</p>
+            )}
         <div className="flex gap-2 mt-2 flex-wrap text-xs">
             <span className="px-2 py-0.5 rounded bg-[var(--bg-surface)] text-[var(--text-muted)]">
               {entry.category}

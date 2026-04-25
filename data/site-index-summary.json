@@ -1,26 +1,26 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-04-25T20:30:07.845Z",
+  "generated_at": "2026-04-25T22:30:46.993Z",
   "repo_count": 7,
   "stats": {
-    "total_files": 2932,
-    "total_size_bytes": 42340235,
+    "total_files": 2954,
+    "total_size_bytes": 42649853,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 356,
-        "total_size_bytes": 4037798
+        "total_files": 358,
+        "total_size_bytes": 4273388
       },
       "Archivist-Agent": {
-        "total_files": 446,
-        "total_size_bytes": 3537595
+        "total_files": 454,
+        "total_size_bytes": 3562712
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 223,
-        "total_size_bytes": 716055
+        "total_files": 224,
+        "total_size_bytes": 724285
       },
       "kernel-lane": {
-        "total_files": 273,
-        "total_size_bytes": 1193858
+        "total_files": 284,
+        "total_size_bytes": 1234539
       },
       "federation": {
         "total_files": 569,
@@ -93,7 +93,7 @@
     },
     {
       "tag": "Kernel",
-      "count": 94
+      "count": 95
     },
     {
       "tag": "Covenant",
@@ -152,11 +152,11 @@
       "count": 11
     },
     {
-      "tag": "NFM-020",
-      "count": 11
+      "tag": "NFM-002",
+      "count": 10
     },
     {
-      "tag": "NFM-002",
+      "tag": "NFM-020",
       "count": 10
     }
   ],
@@ -164,14 +164,14 @@
     "root-doc": 747,
     "config": 308,
     "data": 27,
-    "docs": 106,
+    "docs": 107,
     "schema": 37,
-    "script": 233,
-    "code": 309,
+    "script": 238,
+    "code": 310,
     "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
     "test": 10,
     "verification": 14,
-    "lane-protocol": 212,
+    "lane-protocol": 227,
     "paper": 14,
     "library": 1,
     "web": 34,
