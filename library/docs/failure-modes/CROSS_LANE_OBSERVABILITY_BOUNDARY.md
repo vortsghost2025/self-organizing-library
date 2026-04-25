@@ -4,7 +4,7 @@
 **Discovered:** 2026-04-24
 **Source:** Archivist-Agent execution gate failure on SwarmMind response
 **Severity:** HIGH
-**Status:** DOCUMENTED, PARTIALLY MITIGATED
+**Status:** DOCUMENTED, MITIGATED
 
 ---
 
@@ -84,6 +84,27 @@ msg.evidence_exchange = {
 ```
 
 This is correct for the specific case but does NOT solve the general problem.
+
+---
+
+## The Fix (Applied -- 2026-04-25)
+
+Implemented Option C from the general fix: `resolveRelativePath()` in `artifact-resolver.js` now checks filesystem existence across **all** allowed roots instead of returning the first containment match.
+
+```javascript
+for (const root of this.allowedRoots) {
+  const candidate = path.join(root, artifactPath);
+  if (fs.existsSync(candidate)) return candidate;  // found at actual location
+  candidates.push(candidate);  // fallback
+}
+return candidates.length > 0 ? candidates[0] : null;
+```
+
+Before: `lanes/swarmmind/inbox/processed/...` resolved to `S:/Archivist-Agent/lanes/swarmmind/...` (wrong root, FILE_NOT_FOUND).
+
+After: same path resolves to `S:/SwarmMind/lanes/swarmmind/...` (correct root, FILE_EXISTS).
+
+All 4 lanes now have `config/allowed_roots.json` containing all 4 lane roots, enabling cross-lane artifact resolution.
 
 ---
 
