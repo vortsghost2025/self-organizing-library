@@ -26,7 +26,8 @@
     "act:daemon:reset": "node -e \"require('fs').unlinkSync('docs/autonomous-cycle-test/daemon-state.json');console.log('state reset')\"",
     "verdict": "node scripts/generate-verdict.js",
     "health": "curl -s http://localhost:3000/api/health | jq",
-    "generate-index": "node scripts/generate-site-index.js"
+    "generate-index": "node scripts/generate-site-index.js",
+    "postbuild": "npx pagefind --site .next/server/app --output-path public/pagefind"
   },
   "dependencies": {
     "@kilocode/app-builder-db": "github:Kilo-Org/app-builder-db#main",
@@ -43,6 +44,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9.39.1",
     "eslint-config-next": "^16.0.0",
+    "pagefind": "^1.5.2",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3"
   }

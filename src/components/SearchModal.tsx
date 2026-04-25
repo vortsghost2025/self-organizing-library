@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
+import { PagefindSearch } from "@/components/PagefindSearch";
 
 interface SearchResult {
   id: string;
@@ -154,6 +155,9 @@ export function SearchModal() {
               <p className="text-xs">Use filters: source:github, type:paper, tag:ai</p>
             </div>
           )}
+          <div className="px-5 py-2">
+            <PagefindSearch query={query} />
+          </div>
         </div>
 
         <div className="flex items-center justify-between px-5 py-3 border-t border-[var(--border)] text-xs text-[var(--text-muted)]" aria-hidden="true">
