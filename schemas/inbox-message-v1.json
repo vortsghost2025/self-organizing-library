@@ -36,18 +36,20 @@
         "kernel"
       ]
     },
-    "type": {
-      "type": "string",
-      "enum": [
-        "task",
-        "response",
-        "heartbeat",
-        "escalation",
-        "handoff",
-        "ack",
-        "alert"
-      ]
-    },
+  "type": {
+    "type": "string",
+    "enum": [
+      "task",
+      "response",
+      "heartbeat",
+      "escalation",
+      "handoff",
+      "ack",
+      "alert",
+      "notification",
+      "status"
+    ]
+  },
     "task_kind": {
       "type": "string",
       "enum": [
@@ -56,13 +58,13 @@
         "amendment",
         "ratification",
         "ack",
-        "alert",
-        "notification",
-        "heartbeat",
         "done",
         "status",
         "report",
-        "handoff"
+        "handoff",
+        "alert",
+        "notification",
+        "heartbeat"
       ],
       "description": "v1.3: Optional for alert/ack/heartbeat types. Required for task/response/escalation/handoff."
     },
@@ -244,6 +246,33 @@
         }
       }
     },
+    "evidence_exchange": {
+      "type": "object",
+      "description": "v1.3: Convergence evidence exchange block. Required when evidence.required is true for response/ack types.",
+      "properties": {
+        "artifact_path": {
+          "type": "string"
+        },
+        "artifact_type": {
+          "type": "string",
+          "enum": [
+            "benchmark",
+            "profile",
+            "release",
+            "log"
+          ]
+        },
+        "delivered_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "artifact_path",
+        "artifact_type",
+        "delivered_at"
+      ]
+    },
     "heartbeat": {
       "type": "object",
       "properties": {
@@ -379,33 +408,6 @@
       "minLength": 16,
       "maxLength": 16,
       "pattern": "^[a-f0-9]{16}$"
-    },
-    "evidence_exchange": {
-      "type": "object",
-      "description": "v1.3: Convergence evidence exchange block. Required when evidence.required is true for response/ack types.",
-      "properties": {
-        "artifact_path": {
-          "type": "string"
-        },
-        "artifact_type": {
-          "type": "string",
-          "enum": [
-            "benchmark",
-            "profile",
-            "release",
-            "log"
-          ]
-        },
-        "delivered_at": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "artifact_path",
-        "artifact_type",
-        "delivered_at"
-      ]
     }
   },
   "required": [
@@ -427,8 +429,7 @@
     "evidence",
     "heartbeat",
     "signature",
-    "key_id",
-    "evidence_exchange"
+    "key_id"
   ],
   "allOf": [
     {
@@ -439,7 +440,9 @@
               "task",
               "response",
               "escalation",
-              "handoff"
+              "handoff",
+              "notification",
+              "status"
             ]
           }
         }
