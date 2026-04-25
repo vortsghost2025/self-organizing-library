@@ -1,7 +1,7 @@
 # Failure Modes Index
 
 **Last Updated:** 2026-04-25
-**Total Named Failure Modes:** 7
+**Total Named Failure Modes:** 10
 
 ---
 
@@ -80,7 +80,7 @@
 ---
 
 ### NFM-020: Cross-Lane Observability Boundary
-**Status:** DOCUMENTED, PARTIALLY MITIGATED
+**Status:** DOCUMENTED, MITIGATED
 **Severity:** HIGH
 **Definition:** Execution verification cannot resolve artifact paths across lane boundaries. Each lane's verification scope is limited to its own filesystem root.
 **Discovery:** 2026-04-24 (Archivist execution gate failed on SwarmMind response artifact)
@@ -91,6 +91,51 @@
 - Archivist execution gate looked in `S:/Archivist-Agent/lanes/swarmmind/outbox/...`
 - Result: OUTSIDE_ALLOWED_ROOTS, artifact unresolvable
 - Proves: execution verification is lane-relative unless shared observability exists
+
+**Fix Applied (2026-04-25):**
+- `resolveRelativePath()` now checks filesystem existence across all allowed roots
+- Before: resolved to first containment match (wrong root)
+- After: resolves to root where file actually exists (correct root)
+- All 4 lanes have all 4 lane roots in `config/allowed_roots.json`
+
+---
+
+### NFM-022: Evidence Pre-condition on New Tasks
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** HIGH
+**Definition:** The execution verification gate treats evidence.required=true as a pre-condition for all messages, including new actionable tasks that haven't been executed yet. Causality violation: demands proof of completion before work begins.
+**Discovery:** 2026-04-25 (Archivist → SwarmMind relay loop test)
+**File:** `EVIDENCE_PRECONDITION_ON_NEW_TASKS.md`
+
+**Key Evidence:**
+- Actionable task with requires_action=true routed to blocked (EXECUTION_NOT_VERIFIED)
+- Artifact cannot exist before task is executed (causally impossible)
+- Fixed: skip hasUnresolvableEvidence for actionable tasks (requires_action=true)
+
+---
+
+### NFM-023: Transport ≠ Execution
+**Status:** DOCUMENTED, OBSERVED
+**Severity:** MEDIUM
+**Definition:** Successful message delivery (transport layer) does not imply successful task execution (application layer). A delivered message with valid signature may sit in action-required/ indefinitely if no agent is running to consume it.
+**Discovery:** 2026-04-25 (E2E relay loop test, SwarmMind observation)
+**File:** `TRANSPORT_NOT_EXECUTION.md`
+
+**Key Insight:** This is not a bug — the system correctly refuses to pretend a task is done when it hasn't been executed. Transport success without execution capability should not be confused with task completion.
+
+---
+
+### NFM-024: Schema Enum Insufficient for Operational Vocabulary
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** MEDIUM
+**Definition:** Schema's evidence_exchange.artifact_type enum defined only 4 values (benchmark, profile, release, log) but the operational system needed "response" for task reply messages. Tasks dispatched with artifact_type: "response" were quarantined as SCHEMA_INVALID.
+**Discovery:** 2026-04-25 (Kernel lane quarantined Archivist tasks)
+**File:** `SCHEMA_ENUM_INSUFFICIENT.md`
+
+**Key Evidence:**
+- Kernel quarantined 2 Archivist tasks: artifact_type "response" not in allowed values
+- Signature valid, message structure correct — only the enum was too narrow
+- Fixed: extended enum to include response, report, artifact
 
 ---
 
@@ -122,6 +167,9 @@
 | NFM-020 | NFM-003, NFM-018 | Epistemic boundary / observability limits |
 | NFM-020 | NFM-018, NFM-019 | Same incident (relay loop test) |
 | NFM-021 | NFM-020 | Relative path as special case of observability boundary |
+| NFM-022 | NFM-018 | Same causal inversion — demand proof before work is done |
+| NFM-023 | NFM-022 | Transport without consumer = stalled execution |
+| NFM-024 | NFM-019 | Same class — schema enum too narrow for behavior |
 
 ---
 
@@ -161,6 +209,21 @@
 - EXECUTION_NOT_VERIFIED with OUTSIDE_ALLOWED_ROOTS on messages with relative artifact_path
 - Artifact exists at `<allowed-root>/<relative-path>` but resolver only checked raw path
 - Fixed: resolveRelativePath() joins relative path against each allowed root
+
+### NFM-022: Evidence Pre-condition on New Tasks
+- Actionable tasks routed to `blocked` instead of `actionRequired`
+- EXECUTION_NOT_VERIFIED on messages with requires_action=true and no artifact yet
+- Causality violation: system demands proof of completion before task starts
+
+### NFM-023: Transport ≠ Execution
+- Messages delivered to inbox but never moved from action-required/
+- Outbox empty despite incoming tasks
+- No agent session active for the lane (live consumer missing)
+
+### NFM-024: Schema Enum Insufficient for Operational Vocabulary
+- Signed, valid messages quarantined as SCHEMA_INVALID
+- Error detail mentions specific enum field value not in allowed list
+- The rejected value is semantically meaningful in the system's operational context
 
 ---
 
