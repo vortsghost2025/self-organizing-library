@@ -6,7 +6,9 @@ interface GraphNode {
   id: string;
   title: string;
   type: string;
+  category: string;
   connectionCount: number;
+  tags: string[];
   x?: number;
   y?: number;
   vx?: number;
@@ -16,8 +18,18 @@ interface GraphNode {
 interface GraphEdge {
   source: string;
   target: string;
-  context?: string;
+  type: string;
 }
+
+const TYPE_COLORS: Record<string, string> = {
+  doc: "#7C3AED",
+  paper: "#06B6D4",
+  code: "#10B981",
+  data: "#F59E0B",
+  config: "#EC4899",
+  schema: "#8B5CF6",
+  "test-data": "#F97316",
+};
 
 export default function GraphPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -25,56 +37,117 @@ export default function GraphPage() {
   const [edges, setEdges] = useState<GraphEdge[]>([]);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
-  const animationRef = useRef<number | undefined>(undefined);
+  const [filter, setFilter] = useState<string>("all");
+  const [loading, setLoading] = useState(true);
   const nodesRef = useRef<GraphNode[]>([]);
   const dirtyRef = useRef(false);
 
   useEffect(() => {
-    const mockNodes: GraphNode[] = Array.from({ length: 50 }, (_, i) => ({
-      id: `doc-${i}`,
-      title: `Document ${i + 1}`,
-      type: ["text", "code", "paper", "link", "note"][i % 5],
-      connectionCount: Math.floor(Math.random() * 10) + 1,
-    }));
-
-    const mockEdges: GraphEdge[] = [];
-    for (let i = 0; i < mockNodes.length; i++) {
-      const numLinks = Math.floor(Math.random() * 3) + 1;
-      for (let j = 0; j < numLinks; j++) {
-        const target = Math.floor(Math.random() * mockNodes.length);
-        if (target !== i) {
-          mockEdges.push({ source: mockNodes[i].id, target: mockNodes[target].id });
+    async function loadData() {
+      try {
+        const res = await fetch("/api/graph-data");
+        const data = await res.json();
+        const canvas = canvasRef.current;
+        if (canvas) {
+          const width = (canvas.width = canvas.offsetWidth);
+          const height = (canvas.height = canvas.offsetHeight);
+          data.nodes.forEach((node: GraphNode) => {
+            node.x = Math.random() * width;
+            node.y = Math.random() * height;
+            node.vx = 0;
+            node.vy = 0;
+          });
         }
+        nodesRef.current = data.nodes;
+        setNodes(data.nodes);
+        setEdges(data.edges);
+      } catch (e) {
+        console.error("Failed to load graph data:", e);
+      } finally {
+        setLoading(false);
       }
     }
-
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const width = canvas.width = canvas.offsetWidth;
-      const height = canvas.height = canvas.offsetHeight;
-
-      mockNodes.forEach(node => {
-        node.x = Math.random() * width;
-        node.y = Math.random() * height;
-      });
-    }
-
-    nodesRef.current = mockNodes;
-    setNodes(mockNodes);
-    setEdges(mockEdges);
+    loadData();
   }, []);
 
   useEffect(() => {
     let rafId: number | undefined;
+    const simulate = () => {
+      const current = nodesRef.current;
+      if (!current.length) {
+        rafId = requestAnimationFrame(simulate);
+        return;
+      }
+
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const width = canvas.width;
+      const height = canvas.height;
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      for (const node of current) {
+        if (node.x === undefined || node.y === undefined) continue;
+
+        let fx = (centerX - node.x) * 0.001;
+        let fy = (centerY - node.y) * 0.001;
+
+        for (const other of current) {
+          if (other.id === node.id || other.x === undefined || other.y === undefined) continue;
+          const dx = node.x - other.x;
+          const dy = node.y - other.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (dist < 80) {
+            fx += (dx / dist) * 0.5;
+            fy += (dy / dist) * 0.5;
+          }
+        }
+
+        for (const edge of edges) {
+          if (edge.source === node.id || edge.target === node.id) {
+            const otherId = edge.source === node.id ? edge.target : edge.source;
+            const other = current.find((n) => n.id === otherId);
+            if (other && other.x !== undefined && other.y !== undefined) {
+              const dx = other.x - node.x;
+              const dy = other.y - node.y;
+              fx += dx * 0.0005;
+              fy += dy * 0.0005;
+            }
+          }
+        }
+
+        node.vx = ((node.vx || 0) + fx) * 0.85;
+        node.vy = ((node.vy || 0) + fy) * 0.85;
+        node.x += node.vx;
+        node.y += node.vy;
+
+        node.x = Math.max(20, Math.min(width - 20, node.x));
+        node.y = Math.max(20, Math.min(height - 20, node.y));
+      }
+
+      dirtyRef.current = true;
+      rafId = requestAnimationFrame(simulate);
+    };
+    rafId = requestAnimationFrame(simulate);
+    return () => {
+      if (rafId !== undefined) cancelAnimationFrame(rafId);
+    };
+  }, [edges]);
+
+  useEffect(() => {
+    let syncId: number | undefined;
     const sync = () => {
       if (dirtyRef.current) {
         dirtyRef.current = false;
         setNodes([...nodesRef.current]);
       }
-      rafId = requestAnimationFrame(sync);
+      syncId = requestAnimationFrame(sync);
     };
-    rafId = requestAnimationFrame(sync);
-    return () => { if (rafId !== undefined) cancelAnimationFrame(rafId); };
+    syncId = requestAnimationFrame(sync);
+    return () => {
+      if (syncId !== undefined) cancelAnimationFrame(syncId);
+    };
   }, []);
 
   useEffect(() => {
@@ -86,35 +159,34 @@ export default function GraphPage() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    edges.forEach(edge => {
-      const source = nodes.find(n => n.id === edge.source);
-      const target = nodes.find(n => n.id === edge.target);
+    const filteredNodes = filter === "all" ? nodes : nodes.filter((n) => n.type === filter);
+    const filteredIds = new Set(filteredNodes.map((n) => n.id));
+
+    edges.forEach((edge) => {
+      if (!filteredIds.has(edge.source) || !filteredIds.has(edge.target)) return;
+      const source = nodes.find((n) => n.id === edge.source);
+      const target = nodes.find((n) => n.id === edge.target);
       if (source && target && source.x !== undefined && target.x !== undefined && source.y !== undefined && target.y !== undefined) {
         ctx.beginPath();
         ctx.moveTo(source.x, source.y);
         ctx.lineTo(target.x, target.y);
-        ctx.strokeStyle = "#2A2A32";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = edge.type === "shared-tag" ? "#1a1a24" : "#2A2A32";
+        ctx.lineWidth = 0.5;
         ctx.stroke();
       }
     });
 
-    nodes.forEach(node => {
+    filteredNodes.forEach((node) => {
       if (node.x === undefined || node.y === undefined) return;
 
       const isHovered = hoveredNode?.id === node.id;
       const isSelected = selectedNode?.id === node.id;
-      const radius = isHovered || isSelected ? 12 : 6 + node.connectionCount;
+      const radius = isHovered || isSelected ? 12 : 4 + Math.min(node.connectionCount, 8);
 
       ctx.beginPath();
       ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
 
-      let color = "#7C3AED";
-      if (node.type === "paper") color = "#06B6D4";
-      else if (node.type === "code") color = "#10B981";
-      else if (node.type === "link") color = "#F59E0B";
-      else if (node.type === "note") color = "#EC4899";
-
+      const color = TYPE_COLORS[node.type] || TYPE_COLORS.doc;
       ctx.fillStyle = color;
       ctx.fill();
 
@@ -125,13 +197,13 @@ export default function GraphPage() {
       }
     });
 
-    if (hoveredNode && hoveredNode.x !== undefined && hoveredNode.y !== undefined) {
-      ctx.font = "14px DM Sans";
+    if (hoveredNode && hoveredNode.x !== undefined && hoveredNode.y !== undefined && filteredIds.has(hoveredNode.id)) {
+      ctx.font = "13px DM Sans";
       ctx.fillStyle = "#F4F4F5";
       ctx.textAlign = "center";
       ctx.fillText(hoveredNode.title, hoveredNode.x, hoveredNode.y - 20);
     }
-  }, [nodes, edges, hoveredNode, selectedNode]);
+  }, [nodes, edges, hoveredNode, selectedNode, filter]);
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -141,7 +213,8 @@ export default function GraphPage() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const clickedNode = nodes.find(node => {
+    const filteredNodes = filter === "all" ? nodes : nodes.filter((n) => n.type === filter);
+    const clickedNode = filteredNodes.find((node) => {
       if (node.x === undefined || node.y === undefined) return false;
       const dx = x - node.x;
       const dy = y - node.y;
@@ -159,7 +232,8 @@ export default function GraphPage() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const hovered = nodes.find(node => {
+    const filteredNodes = filter === "all" ? nodes : nodes.filter((n) => n.type === filter);
+    const hovered = filteredNodes.find((node) => {
       if (node.x === undefined || node.y === undefined) return false;
       const dx = x - node.x;
       const dy = y - node.y;
@@ -169,53 +243,79 @@ export default function GraphPage() {
     setHoveredNode(hovered || null);
   };
 
+  const typeFilters = [
+    { key: "all", label: "All", color: "#F4F4F5" },
+    { key: "doc", label: "Docs", color: TYPE_COLORS.doc },
+    { key: "paper", label: "Papers", color: TYPE_COLORS.paper },
+    { key: "code", label: "Code", color: TYPE_COLORS.code },
+    { key: "data", label: "Data", color: TYPE_COLORS.data },
+    { key: "schema", label: "Schema", color: TYPE_COLORS.schema },
+  ];
+
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-8 animate-fade-in">
         <div>
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Knowledge Graph</h1>
-          <p className="text-[var(--text-secondary)]">Visualize connections between your documents</p>
+          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
+          <p className="text-[var(--text-secondary)]">Interactive map of document connections</p>
         </div>
       </div>
 
-      <div className="card p-4 mb-6 flex gap-4 animate-fade-in stagger-1">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[var(--primary)]" />
-          <span className="text-sm text-[var(--text-secondary)]">Text</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[var(--secondary)]" />
-          <span className="text-sm text-[var(--text-secondary)]">Paper</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[var(--success)]" />
-          <span className="text-sm text-[var(--text-secondary)]">Code</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[var(--warning)]" />
-          <span className="text-sm text-[var(--text-secondary)]">Link</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#EC4899]" />
-          <span className="text-sm text-[var(--text-secondary)]">Note</span>
-        </div>
+      <div className="card p-4 mb-6 flex gap-4 animate-fade-in stagger-1 flex-wrap">
+        {typeFilters.map((tf) => (
+          <button
+            key={tf.key}
+            onClick={() => setFilter(tf.key)}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
+              filter === tf.key
+                ? "bg-[var(--bg-surface-hover)] text-[var(--text-primary)]"
+                : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+            }`}
+          >
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: tf.color }} />
+            {tf.label}
+          </button>
+        ))}
+        <span className="ml-auto text-sm text-[var(--text-muted)]">
+          {nodes.length} nodes · {edges.length} edges
+        </span>
       </div>
 
       <div className="card relative overflow-hidden" style={{ height: "600px" }}>
-        <canvas
-          ref={canvasRef}
-          className="w-full h-full cursor-pointer"
-          onClick={handleCanvasClick}
-          onMouseMove={handleCanvasMouseMove}
-        />
+        {loading ? (
+          <div className="flex items-center justify-center h-full text-[var(--text-muted)]">
+            Loading graph data...
+          </div>
+        ) : (
+          <canvas
+            ref={canvasRef}
+            className="w-full h-full cursor-pointer"
+            onClick={handleCanvasClick}
+            onMouseMove={handleCanvasMouseMove}
+          />
+        )}
         {selectedNode && (
           <div className="absolute bottom-6 left-6 p-4 bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg max-w-sm">
             <div className="flex items-center gap-2 mb-2">
-              <span className={`w-2 h-2 rounded-full ${selectedNode.type === 'paper' ? 'bg-[var(--secondary)]' : selectedNode.type === 'code' ? 'bg-[var(--success)]' : selectedNode.type === 'link' ? 'bg-[var(--warning)]' : 'bg-[var(--primary)]'}`} />
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: TYPE_COLORS[selectedNode.type] || TYPE_COLORS.doc }}
+              />
               <span className="text-sm text-[var(--text-muted)] uppercase">{selectedNode.type}</span>
+              <span className="text-sm text-[var(--text-muted)]">·</span>
+              <span className="text-sm text-[var(--text-muted)]">{selectedNode.category}</span>
             </div>
             <h3 className="font-semibold text-[var(--text-primary)] mb-2">{selectedNode.title}</h3>
             <p className="text-sm text-[var(--text-muted)] mb-3">{selectedNode.connectionCount} connections</p>
+            {selectedNode.tags.length > 0 && (
+              <div className="flex gap-1 mb-3 flex-wrap">
+                {selectedNode.tags.slice(0, 4).map((tag) => (
+                  <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
             <a href={`/library/${selectedNode.id}`} className="text-[var(--primary)] text-sm hover:underline">
               View Document →
             </a>

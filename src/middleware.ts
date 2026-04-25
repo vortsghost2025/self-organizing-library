@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   // Check localhost origin (127.0.0.1, ::1, localhost)
   const hostname = request.nextUrl.host.split(':')[0];
-  const clientIp = request.ip;
+  const clientIp = (request as any).ip || request.headers.get('x-forwarded-for')?.split(',')[0] || '';
   const isLocalhost =
     hostname === 'localhost' ||
     clientIp === '127.0.0.1' ||

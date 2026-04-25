@@ -4,8 +4,8 @@ import { Sidebar } from "@/components/Sidebar";
 import { SearchModal } from "@/components/SearchModal";
 
 export const metadata: Metadata = {
-  title: "NexusGraph - Self-Organizing Knowledge Library",
-  description: "A massive, self-organizing library for your documents, papers, and ideas",
+  title: "Deliberate Ensemble - Research Archive",
+  description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
 };
 
 export default function RootLayout({

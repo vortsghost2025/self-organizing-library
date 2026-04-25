@@ -1,14 +1,19 @@
-import { getDocumentById } from "@/lib/db";
+import { getEntryById, getEntriesByTag, getSiteIndex } from "@/lib/site-index";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function DocumentPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const doc = await getDocumentById(id);
+  const entry = getEntryById(id);
 
-  if (!doc) {
+  if (!entry) {
     notFound();
   }
+
+  const relatedByTag = entry.tags.length > 0 ? getEntriesByTag(entry.tags[0]).filter((e) => e.id !== id).slice(0, 5) : [];
+  const crossRefs = getSiteIndex().cross_references.filter(
+    (ref) => ref.source === id || ref.target === id
+  );
 
   return (
     <div className="flex min-h-screen">
@@ -23,109 +28,162 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
           <div className="flex items-start justify-between mb-6">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <span className={`w-3 h-3 rounded-full ${doc.type === 'paper' ? 'bg-[var(--secondary)]' : doc.type === 'code' ? 'bg-[var(--success)]' : 'bg-[var(--primary)]'}`} />
-                <span className="text-sm text-[var(--text-muted)] uppercase tracking-wide">{doc.type}</span>
-                {doc.isStarred && <span className="text-[var(--warning)]">★</span>}
+                <span
+                  className={`w-3 h-3 rounded-full ${
+                    entry.content_type === "paper"
+                      ? "bg-[var(--secondary)]"
+                      : entry.content_type === "code"
+                      ? "bg-[var(--success)]"
+                      : "bg-[var(--primary)]"
+                  }`}
+                />
+                <span className="text-sm text-[var(--text-muted)] uppercase tracking-wide">{entry.content_type}</span>
+                <span className="text-sm text-[var(--text-muted)]">·</span>
+                <span className="text-sm text-[var(--text-muted)]">{entry.category}</span>
               </div>
-              <h1 className="text-3xl font-bold text-[var(--text-primary)]">{doc.title}</h1>
+              <h1 className="text-3xl font-bold text-[var(--text-primary)]">{entry.title}</h1>
             </div>
-            <div className="flex gap-2">
-              <button className="btn-secondary px-4 py-2">Edit</button>
-              <button className="btn-secondary px-4 py-2">Export</button>
-            </div>
+            <a
+              href={entry.github_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary px-4 py-2 text-sm"
+            >
+              View on GitHub →
+            </a>
           </div>
 
-          {doc.tags && doc.tags.length > 0 && (
-            <div className="flex gap-2 mb-6">
-              {doc.tags.map((tag: any) => (
-                <span
-                  key={tag.id}
-                  className="text-sm px-3 py-1 rounded-full"
-                  style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
+          {entry.tags.length > 0 && (
+            <div className="flex gap-2 mb-6 flex-wrap">
+              {entry.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/library?tag=${encodeURIComponent(tag)}`}
+                  className="text-sm px-3 py-1 rounded-full bg-[var(--primary)]/15 text-[var(--primary)] hover:bg-[var(--primary)]/25 transition-colors"
                 >
-                  {tag.name}
-                </span>
+                  {tag}
+                </Link>
               ))}
             </div>
           )}
 
           <div className="flex items-center gap-6 mb-8 text-sm text-[var(--text-muted)]">
-            <span><strong className="text-[var(--text-secondary)]">{doc.wordCount.toLocaleString()}</strong> words</span>
-            <span>Created: <strong className="text-[var(--text-secondary)]">{doc.createdAt.toLocaleDateString()}</strong></span>
-            <span>Updated: <strong className="text-[var(--text-secondary)]">{doc.updatedAt.toLocaleDateString()}</strong></span>
-            {doc.sourceUrl && (
-              <a href={doc.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] hover:underline">
-                View Original →
-              </a>
+            <span>
+              Path: <strong className="text-[var(--text-secondary)] mono text-xs">{entry.path}</strong>
+            </span>
+            <span>
+              Modified: <strong className="text-[var(--text-secondary)]">{new Date(entry.modified).toLocaleDateString()}</strong>
+            </span>
+            {entry.date && (
+              <span>
+                Created: <strong className="text-[var(--text-secondary)]">{new Date(entry.date).toLocaleDateString()}</strong>
+              </span>
             )}
           </div>
 
-          <div className="prose prose-invert max-w-none mb-8">
-            <pre className="whitespace-pre-wrap text-[var(--text-secondary)] font-sans bg-transparent p-0">
-              {doc.content}
-            </pre>
-          </div>
+          {entry.description && (
+            <div className="mb-8">
+              <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2">Description</h2>
+              <p className="text-[var(--text-secondary)]">{entry.description}</p>
+            </div>
+          )}
+
+          {entry.breadcrumbs.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2">Location</h2>
+              <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+                <span className="mono">self-organizing-library</span>
+                {entry.breadcrumbs.map((crumb, i) => (
+                  <span key={i} className="flex items-center gap-2">
+                    <span>/</span>
+                    <span className="mono">{crumb}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {crossRefs.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2">Cross-References</h2>
+              <div className="space-y-1">
+                {crossRefs.map((ref, i) => {
+                  const otherId = ref.source === id ? ref.target : ref.source;
+                  const otherEntry = getEntryById(otherId);
+                  return (
+                    <Link
+                      key={i}
+                      href={`/library/${otherId}`}
+                      className="flex items-center gap-2 p-2 rounded-lg hover:bg-[var(--bg-surface-hover)] text-sm"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-[var(--secondary)]" />
+                      <span className="text-[var(--text-primary)] truncate">
+                        {otherEntry?.title || otherId}
+                      </span>
+                      <span className="text-xs text-[var(--text-muted)] ml-auto">{ref.type}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center gap-4 pt-6 border-t border-[var(--border)]">
-            <button className="btn-primary">Add Link</button>
-            <button className="btn-secondary">Add Tag</button>
+            <code className="text-xs text-[var(--text-muted)] mono bg-[var(--bg-base)] px-3 py-1 rounded">
+              {entry.id}
+            </code>
           </div>
         </div>
       </div>
 
       <aside className="w-[320px] border-l border-[var(--border)] p-6 bg-[var(--bg-surface)]">
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">Forward Links</h3>
-          {doc.links && doc.links.length > 0 ? (
+          <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">
+            Related by Tag
+          </h3>
+          {relatedByTag.length > 0 ? (
             <div className="space-y-2">
-              {doc.links.map((link: any) => {
-                const linkedDoc = doc.linkedDocuments?.find((d: any) => d.id === link.targetId);
-                return linkedDoc ? (
-                  <Link
-                    key={link.id}
-                    href={`/library/${link.targetId}`}
-                    className="flex items-center gap-2 p-2 rounded-lg hover:bg-[var(--bg-surface-hover)]"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-[var(--primary)]" />
-                    <span className="text-sm text-[var(--text-primary)] truncate">{linkedDoc.title}</span>
-                  </Link>
-                ) : null;
-              })}
+              {relatedByTag.map((related) => (
+                <Link
+                  key={related.id}
+                  href={`/library/${related.id}`}
+                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-[var(--bg-surface-hover)]"
+                >
+                  <span className="w-2 h-2 rounded-full bg-[var(--primary)]" />
+                  <span className="text-sm text-[var(--text-primary)] truncate">{related.title}</span>
+                </Link>
+              ))}
             </div>
           ) : (
-            <p className="text-sm text-[var(--text-muted)]">No links yet</p>
+            <p className="text-sm text-[var(--text-muted)]">No related documents</p>
           )}
         </div>
 
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">Backlinks</h3>
-          {doc.backlinks && doc.backlinks.length > 0 ? (
-            <div className="space-y-2">
-              {doc.backlinks.map((link: any) => {
-                const sourceDoc = doc.linkedDocuments?.find((d: any) => d.id === link.sourceId);
-                return sourceDoc ? (
-                  <Link
-                    key={link.id}
-                    href={`/library/${link.sourceId}`}
-                    className="flex items-center gap-2 p-2 rounded-lg hover:bg-[var(--bg-surface-hover)]"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-[var(--secondary)]" />
-                    <span className="text-sm text-[var(--text-primary)] truncate">{sourceDoc.title}</span>
-                  </Link>
-                ) : null;
-              })}
+          <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">Metadata</h3>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-[var(--text-muted)]">Extension</span>
+              <span className="text-[var(--text-secondary)] mono">{entry.extension}</span>
             </div>
-          ) : (
-            <p className="text-sm text-[var(--text-muted)]">No backlinks yet</p>
-          )}
+            <div className="flex justify-between">
+              <span className="text-[var(--text-muted)]">Size</span>
+              <span className="text-[var(--text-secondary)] mono">
+                {entry.size_bytes > 1024 ? `${(entry.size_bytes / 1024).toFixed(1)}KB` : `${entry.size_bytes}B`}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-[var(--text-muted)]">Repo</span>
+              <span className="text-[var(--text-secondary)] mono text-xs">{entry.repo}</span>
+            </div>
+          </div>
         </div>
 
         <div>
           <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">Document ID</h3>
           <code className="text-xs text-[var(--text-muted)] mono bg-[var(--bg-base)] px-2 py-1 rounded block truncate">
-            {doc.id}
+            {entry.id}
           </code>
-          <p className="text-xs text-[var(--text-muted)] mt-2">Use [[{doc.id}]] to reference this document</p>
         </div>
       </aside>
     </div>
