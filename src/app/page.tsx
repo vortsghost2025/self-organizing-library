@@ -14,23 +14,23 @@ export default async function Dashboard() {
         <p className="text-[var(--text-secondary)]">Living research archive for human-AI collaboration</p>
       </div>
 
-      <div className="grid grid-cols-4 gap-6 mb-8">
-        <div className="card p-6 animate-fade-in stagger-1">
-          <div className="text-4xl font-bold text-[var(--primary)]">{stats.totalFiles.toLocaleString()}</div>
-          <div className="text-[var(--text-muted)] mt-1">Documents</div>
-        </div>
-        <div className="card p-6 animate-fade-in stagger-2">
-          <div className="text-4xl font-bold text-[var(--secondary)]">{stats.tagCount}</div>
-          <div className="text-[var(--text-muted)] mt-1">Tags</div>
-        </div>
-        <div className="card p-6 animate-fade-in stagger-3">
-          <div className="text-4xl font-bold text-[var(--success)]">{stats.categoryCount}</div>
-          <div className="text-[var(--text-muted)] mt-1">Categories</div>
-        </div>
-        <div className="card p-6 animate-fade-in stagger-4">
-          <div className="text-4xl font-bold text-[var(--warning)]">{stats.codeCount}</div>
-          <div className="text-[var(--text-muted)] mt-1">Code Files</div>
-        </div>
+      <div className="grid grid-cols-4 gap-6 mb-8" role="region" aria-label="Archive statistics">
+  <div className="card p-6 animate-fade-in stagger-1" role="status">
+    <div className="text-4xl font-bold text-[var(--primary)]" aria-label={`${stats.totalFiles} documents`}>{stats.totalFiles.toLocaleString()}</div>
+    <div className="text-[var(--text-muted)] mt-1">Documents</div>
+  </div>
+  <div className="card p-6 animate-fade-in stagger-2" role="status">
+    <div className="text-4xl font-bold text-[var(--secondary)]" aria-label={`${stats.tagCount} tags`}>{stats.tagCount}</div>
+    <div className="text-[var(--text-muted)] mt-1">Tags</div>
+  </div>
+  <div className="card p-6 animate-fade-in stagger-3" role="status">
+    <div className="text-4xl font-bold text-[var(--success)]" aria-label={`${stats.categoryCount} categories`}>{stats.categoryCount}</div>
+    <div className="text-[var(--text-muted)] mt-1">Categories</div>
+  </div>
+  <div className="card p-6 animate-fade-in stagger-4" role="status">
+    <div className="text-4xl font-bold text-[var(--warning)]" aria-label={`${stats.codeCount} code files`}>{stats.codeCount}</div>
+    <div className="text-[var(--text-muted)] mt-1">Code Files</div>
+  </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
