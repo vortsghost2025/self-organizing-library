@@ -70,15 +70,15 @@ const swarmmindAck = makeAck(
   '4. ✅ Trust store synced: `60afaa026a3d969d` (note: this is the HMAC key in trust store)\n' +
   '5. ✅ Recovery test: 11/11 PASS (after post-compact-audit.js path fix)\n\n' +
   '### Evidence:\n' +
-  '- `S:/SwarmMind Self-Optimizing Multi-Agent AI System/.identity/keys.json` — exists ✅\n' +
+  '- `S:/SwarmMind/.identity/keys.json` — exists ✅\n' +
   '- Convergence gate: **proven**\n' +
   '- `lanes/broadcast/trust-store.json` — all 4 lanes present ✅\n\n' +
   '### Note:\n' +
-  'SwarmMind `.identity/` directory is stable. `post-compact-audit.js` path corrected from `S:/SwarmMind` to `S:/SwarmMind Self-Optimizing Multi-Agent AI System`.\n\n' +
+  'SwarmMind `.identity/` directory is stable. `post-compact-audit.js` path corrected from `S:/SwarmMind` to `S:/SwarmMind`.\n\n' +
   'No further action required. Thank you for completing HARDEN phase.'
 );
 fs.writeFileSync(path.join(outboxDir, swarmmindAck.task_id + '.json'), JSON.stringify(swarmmindAck, null, 2));
-fs.writeFileSync(path.join('S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox', swarmmindAck.task_id + '.json'), JSON.stringify(swarmmindAck, null, 2));
+fs.writeFileSync(path.join('S:/SwarmMind/lanes/swarmmind/inbox', swarmmindAck.task_id + '.json'), JSON.stringify(swarmmindAck, null, 2));
 console.log('[2/5] ACK sent to SwarmMind: ' + swarmmindAck.task_id);
 
 // === 3. ACK Archivist: lanes-adaptation-report-20260423.json ===
@@ -128,7 +128,7 @@ const archivistAck2 = makeAck(
   '- **Status**: **proven**\n\n' +
   '### Bugs Fixed:\n' +
   '- Verifier.js: `crypto.verify()` key parameter → `crypto.createPublicKey()`\n' +
-  '- post-compact-audit.js: SwarmMind path `S:/SwarmMind` → `S:/SwarmMind Self-Optimizing Multi-Agent AI System`\n' +
+  '- post-compact-audit.js: SwarmMind path `S:/SwarmMind` → `S:/SwarmMind`\n' +
   '- Recovery test: 9/11 → 10/11 → **11/11 PASS** ✅\n\n' +
   'HARDEN phase complete. Awaiting STRESS + PUSH phases.'
 );
@@ -168,3 +168,4 @@ console.log('[5/5] ACK sent to Kernel: ' + kernelAck2.task_id);
 console.log('\n=== ALL ACKNOWLEDGMENTS SENT ===');
 console.log('Total: 5 acknowledgments delivered to Archivist (2), Kernel (2), SwarmMind (1)');
 console.log('All also written to outbox: ' + outboxDir);
+
