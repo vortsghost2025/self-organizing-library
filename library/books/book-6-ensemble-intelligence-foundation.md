@@ -94,9 +94,9 @@ During the 12-week build (January–April 2026), the following failure modes wer
 | NFM-015 | Disappearing identity directory | SwarmMind `.identity/` vanished (git/.gitignore) | High |
 | NFM-016 | Batch terminal_decision stamps | Authority applied blanket "obviated" stamp to 64/67 files without per-message proof | P0 |
 | NFM-017 | Cryptographically invalid PEM | SwarmMind trust-store entry fails `crypto.createPublicKey()` | Critical |
-| NFM-018 | Temporal constraint violation | Heartbeat timestamp accepted from future or distant past; no bounds check on `t_received − t_sent` | High |
-| NFM-019 | Schema–behavior mismatch | Schema declares field required but runtime accepts omission; schema says `priority` is enum but code treats any string as valid | High |
-| NFM-020 | Cross-lane observability boundary | Lane A cannot determine whether Lane B's enforcement is active or dormant; no heartbeat field signals enforcement status | P0 |
+| NFM-018 | Temporal constraint violation | Execution gate checks for artifact existence before the task has been executed; constraint evaluated before satisfaction conditions are causally reachable | High |
+| NFM-019 | Schema–behavior mismatch | Schema permits only governance-process values (`proposal`/`review`/`amendment`/`ratification`) but system produces task-lifecycle values (`ack`/`done`/`status`); specification gap treated as compliance violation | High |
+| NFM-020 | Cross-lane observability boundary | Lane A cannot verify Lane B's artifact because path is relative to B's filesystem root; `not visible ≠ not real` | P0 |
 
 ### 2.2 Failure Mode Classification
 
@@ -118,7 +118,43 @@ Messages delivered to the wrong path. Schema fields inconsistent across lanes. E
 Subagent file destruction and Windows atomic write failures are platform failures, not theory failures. But the theory must account for them: any claim about enforcement that depends on atomic writes being atomic is a claim that fails on Windows. Any claim about agent behavior that depends on AI subagents not destroying files is a claim that fails when subagents are given write access.
 
 **Category 6: Schema-Reality and Observability Gaps (NFM-019, 020)**
-Schema declares constraints that runtime does not enforce, and runtime enforces constraints that schema does not declare. NFM-019 is the paradigmatic case: a schema says `priority` must be one of `P0|P1|P2|P3` but the code accepts any string, silently downgrading to default. The schema is documentation, not enforcement. NFM-020 extends this across lanes: Lane A cannot observe whether Lane B's enforcement is active or dormant, because no cross-lane signal carries enforcement status. The heartbeat schema reports liveness but not enforcement liveness. These failures reveal that the constraint lattice had a layer — the schema-enforcement binding — that was assumed but never verified.
+Schema declares constraints that runtime does not enforce, and runtime enforces constraints that schema does not declare. NFM-019 is the paradigmatic case: a schema says `task_kind` must be one of `proposal|review|amendment|ratification` but the system naturally produces task-lifecycle operations (`ack`, `done`, `status`). The specification gap was treated as a compliance violation — the default assumption should be "schema incomplete" before "behavior wrong," unless the constraint is intentional governance. NFM-020 extends this across lanes: Archivist's execution gate could not verify SwarmMind's artifact because the artifact path was relative to SwarmMind's filesystem root (`S:/SwarmMind/lanes/swarmmind/outbox/...`), while Archivist checked within its own root (`S:/Archivist-Agent/lanes/swarmmind/outbox/...`), producing `OUTSIDE_ALLOWED_ROOTS`. The artifact exists; it is simply not observable from the verifier's scope. The system must not conflate "I cannot verify this" with "this is false." These failures reveal that the constraint lattice had a layer — the schema-enforcement binding — that was assumed but never verified.
+
+### 2.2.1 Failure Space Decomposition
+
+NFM-018, NFM-019, and NFM-020 were all discovered in a single end-to-end relay loop test (Archivist → SwarmMind → Archivist). No unit test exposed any of them. This is consistent with the principle that constraint violations are interaction-level phenomena: they occur at the boundary between components, not within any single component.
+
+These three failures decompose along three orthogonal axes, forming a minimal failure basis for proof-gated systems:
+
+| Axis | Failure Mode | Question Violated |
+|------|-------------|-------------------|
+| **Temporal** | Constraint evaluated before satisfaction conditions are reachable (NFM-018) | *When* can this constraint be satisfied? |
+| **Semantic** | Schema does not cover the full behavioral vocabulary (NFM-019) | *What* does the system actually produce? |
+| **Observational** | Verifier cannot access evidence across lane boundaries (NFM-020) | *Where* is the proof observable from? |
+
+From these three axes we derive a unified constraint validity condition:
+
+> **A constraint is only valid within the domain in which its satisfaction conditions are observable and reachable.**
+
+This decomposes into three necessary conditions:
+
+1. **Temporal reachability:** The satisfaction conditions must be causally reachable at the point of evaluation. NFM-018 violated this: the execution gate checked for artifact existence before the task had been executed. The artifact is the *output* of the task — it cannot exist before the task runs. Checking for it produces a permanent false negative (deadlock), not a true positive.
+2. **Semantic coverage:** The specification must include all values the system naturally produces. NFM-019 violated this: the schema covered governance-process values but not task-lifecycle values. The system treated a specification gap as a compliance violation.
+3. **Observational scope:** The verifier must have access to the evidence required for validation. NFM-020 violated this: the artifact existed but was outside the verifier's filesystem root. `Not visible ≠ not real`.
+
+If any condition is violated, the constraint produces a false negative (blocking legitimate behavior) instead of a true positive (catching actual violations).
+
+**Meta-state-claim divergence.** Critically, these failure modes represent the verification system *itself* making false claims about verification state. The system falsely concludes "this task has no proof" when the task hasn't been executed yet (temporal). It falsely concludes "this message is invalid" when the schema is incomplete (semantic). It falsely concludes "this artifact doesn't exist" when it exists outside the verifier's scope (observational). In each case, the verification layer is subject to the same failure mode it was designed to detect. This is recursive: proof-gated execution must itself be subject to verification of its own validity conditions.
+
+**Relay loop verification.** After applying fixes for all three failure modes, the relay loop achieved:
+
+| Loop | Result | What It Verified |
+|------|--------|-----------------|
+| 1 | processed=1 | First closed relay: Archivist → SwarmMind → Archivist |
+| 2 | action-required=1, blocked=0 | NFM-018 fix: actionable tasks no longer blocked |
+| 3 | action-required=1, blocked=0 | Stable repeat, zero drift |
+
+All loops: identity PASS, schema PASS, proof PASS, routing correct.
 
 ### 2.3 Self-State Aliasing: A Detailed Case Study
 
@@ -383,6 +419,16 @@ The Rosetta Stone theory now says:
 This is the self-correcting formulation. It does not replace the original claim ("stable behavior emerges under constraint") — it extends it. Stability is still the attractor. But persistent instability is no longer a failure of the theory. It is the theory's primary input.
 
 The Rosetta Stone is a translation device, not a unification theorem. It reveals structural constraints operating within domains. Paper F reveals that one of those structural constraints is the self-correcting loop itself: the constraint that turns failures into refinements, instability into stability, and wrongness into progress.
+
+### 6.1 Recursive Verification (Future Work)
+
+The failure space decomposition (§2.2.1) reveals that the verification layer is subject to the same failure modes it detects in execution. The system can make false claims about its own verification state — meta-state-claim divergence. This suggests that proof-gated execution must be recursively applied: the verification layer must also be subject to verification of its own validity conditions. Specifically, before evaluating a constraint, the system should verify:
+
+1. **Is this constraint temporally reachable?** — Are the satisfaction conditions causally available at this evaluation point?
+2. **Is this constraint semantically complete?** — Does the schema cover all values the system naturally produces?
+3. **Is this constraint observationally scoped?** — Does the verifier have access to the required evidence?
+
+These meta-checks operate above the execution gate. They are not additional constraints — they are validity conditions on the constraints themselves. Future work should investigate whether these three checks are sufficient (the minimal meta-verification set) or whether further recursion is needed.
 
 ---
 
