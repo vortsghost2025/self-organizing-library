@@ -7,18 +7,16 @@ export const dynamic = "force-static";
 
 export async function generateStaticParams() {
   const index = getSiteIndex();
-  const priorityEntries = index.entries.filter(
+  const coreEntries = index.entries.filter(
     (e) =>
-      e.content_type === "doc" ||
       e.content_type === "paper" ||
-      e.category === "root-doc" ||
       e.category === "paper" ||
       e.category === "verification" ||
       e.category === "governance" ||
       e.category === "spec" ||
-      e.tags.length > 0
+      (e.content_type === "doc" && e.tags.length >= 2)
   );
-  return priorityEntries.map((e) => ({ id: e.id }));
+  return coreEntries.map((e) => ({ id: e.id }));
 }
 
 export default async function DocumentPage({ params }: { params: Promise<{ id: string }> }) {
