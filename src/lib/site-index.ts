@@ -15,6 +15,7 @@ export interface IndexEntry {
   modified: string;
   size_bytes: number;
   description: string | null;
+  content_snippet: string | null;
 }
 
 export interface CrossRef {

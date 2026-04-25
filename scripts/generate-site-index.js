@@ -395,6 +395,25 @@ function extractDescription(content) {
   return null;
 }
 
+function extractContentSnippet(content, maxLen = 500) {
+  const stripped = content
+    .replace(/^---[\s\S]*?---/, '')
+    .replace(/^#+\s.*$/gm, '')
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/\[([^\]]*)\]\([^)]+\)/g, '$1')
+    .replace(/<[^>]+>/g, '')
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\n{2,}/g, '\n')
+    .replace(/[*_~]/g, '')
+    .trim();
+
+  if (stripped.length <= maxLen) return stripped || null;
+  const truncated = stripped.slice(0, maxLen);
+  const lastSpace = truncated.lastIndexOf(' ');
+  return (lastSpace > maxLen * 0.7 ? truncated.slice(0, lastSpace) : truncated) || null;
+}
+
 function extractFrontmatterTags(content) {
   const fmTags = content.match(/^---[\s\S]*?tags:\s*\[([^\]]+)\][\s\S]*?---/);
   if (fmTags) {
@@ -471,7 +490,8 @@ function processFile(fullPath, repoConfig) {
     date: null,
     modified: stat.mtime.toISOString(),
     size_bytes: stat.size,
-    description: null
+    description: null,
+    content_snippet: null
   };
 
   if (ext === '.md' || ext === '.mdx' || ext === '.txt') {
@@ -481,6 +501,7 @@ function processFile(fullPath, repoConfig) {
       entry.tags = [...new Set([...extractFrontmatterTags(content).map(normalizeTag), ...extractTags(content)])];
       entry.date = extractDate(content, relativePath);
       entry.description = extractDescription(content);
+      entry.content_snippet = extractContentSnippet(content);
     } catch (e) {
       // skip content extraction on read error
     }
