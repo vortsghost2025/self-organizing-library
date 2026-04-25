@@ -720,6 +720,37 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 **Remaining Next Steps:**
 - ⬜ Deploy to Vercel — BLOCKED waiting for Vercel token from Sean
 - ⬜ Custom domain DNS setup (deliberateensemble.works) at Hostinger
-- ⬜ GitHub Actions repo sync (auto-index on push)
 - ⬜ Accessibility audit (WCAG compliance verification, screen reader testing)
-- ⬜ Clean up deprecated `db.ts`
+
+### Session 2026-04-25: Lane Architecture Diagram + Cleanup + GitHub Actions
+
+**4-Lane Architecture Diagram — ✅ COMPLETE (commit `de9c9f4`)**
+- Processed Archivist P2 action-required task: "Update website landing page with lane architecture diagram"
+- Created `src/components/LaneArchitecture.tsx` — interactive 4-lane diagram:
+  - 4 lane cards (Archivist/Library/SwarmMind/Kernel) with icon, name, role, authority bar
+  - SVG relay flow arrows showing 6 cross-lane message paths (directives, ratification, evidence, compute)
+  - Click-to-expand detail panel with duties list and repo name
+  - Full ARIA accessibility: aria-expanded, aria-label on each lane, role=img on diagram, role=progressbar on authority bars
+  - Links to /graph and /governance for deeper exploration
+- Added `<LaneArchitecture />` to homepage (`src/app/page.tsx`), placed above "About Deliberate Ensemble" section
+- Sent signed response to Archivist outbox with convergence gate: status proven
+
+**Deprecated db.ts Cleaned Up — ✅ COMPLETE**
+- `/api/documents/route.ts` now redirects GET to `/api/search` (site-index powered)
+- Removed POST (createDocument) — no longer used
+- Old `db.ts` file still exists but has zero active imports (grep verified)
+
+**Pagefind Index Regenerated — ✅ COMPLETE**
+- Build + Pagefind: 9 pages indexed, 424 words
+
+**GitHub Actions Auto-Sync Workflow — ✅ COMPLETE**
+- Created `.github/workflows/sync-index.yml`:
+  - Daily cron (6am UTC) + manual trigger + push to index generator
+  - Clones sibling repos, runs generate-site-index.js, builds, regenerates Pagefind
+  - Commits + pushes updated index files if changed [skip ci]
+
+**Build Verification — ✅ ALL PASS**
+- `tsc --noEmit`: clean
+- `eslint src/`: clean
+- `next build`: success (22 pages, Turbopack)
+- Committed and pushed (`de9c9f4`)

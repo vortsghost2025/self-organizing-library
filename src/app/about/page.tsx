@@ -1,6 +1,6 @@
 export default function AboutPage() {
   return (
-    <div className="p-8">
+    <div className="p-8" data-pagefind-body>
       <div className="mb-8 animate-fade-in">
         <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">About</h1>
         <p className="text-[var(--text-secondary)]">The Deliberate Ensemble project</p>
