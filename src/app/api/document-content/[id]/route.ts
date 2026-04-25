@@ -1,9 +1,7 @@
-import { getEntryById } from "@/lib/site-index";
+import { getEntryById, getRepoRoots } from "@/lib/site-index";
 import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
-
-const REPO_ROOT = process.env.REPO_ROOT || "S:/self-organizing-library";
 
 const RENDERABLE_EXTENSIONS = new Set([
   ".md",
@@ -50,8 +48,11 @@ export async function GET(
     });
   }
 
+  const repoRoots = getRepoRoots();
+  const repoRoot = repoRoots[entry.repo] || process.env.REPO_ROOT || "S:/self-organizing-library";
+
   try {
-    const filePath = join(REPO_ROOT, entry.path);
+    const filePath = join(repoRoot, entry.path);
     const content = await readFile(filePath, "utf-8");
     return NextResponse.json({
       content,

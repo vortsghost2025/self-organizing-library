@@ -1,22 +1,24 @@
-import { getEntries, getCategories, getTopTags, getStats } from "@/lib/site-index";
+import { getEntries, getCategories, getTopTags, getStats, getRepos } from "@/lib/site-index";
 import Link from "next/link";
 
 export default async function LibraryPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; tag?: string; type?: string; q?: string }>;
+  searchParams: Promise<{ category?: string; tag?: string; type?: string; repo?: string; q?: string }>;
 }) {
   const params = await searchParams;
   const allEntries = getEntries({
     category: params.category,
     tag: params.tag,
     contentType: params.type,
+    repo: params.repo,
     search: params.q,
     limit: 100,
   });
   const categories = getCategories();
   const topTags = getTopTags(12);
   const stats = getStats();
+  const repos = getRepos();
 
   const typeCounts: Record<string, number> = {};
   const allForCounts = getEntries({ limit: 1000 });
@@ -67,6 +69,32 @@ export default async function LibraryPage({
               {type} <span className="opacity-70">{count}</span>
             </Link>
           ))}
+      </div>
+
+      <div className="flex gap-2 mb-4 animate-fade-in stagger-2 flex-wrap">
+        <Link
+          href="/library"
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
+            !params.repo
+              ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
+              : "bg-[var(--bg-surface)] text-[var(--text-muted)] hover:bg-[var(--bg-surface-hover)]"
+          }`}
+        >
+          All Repos
+        </Link>
+        {repos.map((r) => (
+          <Link
+            key={r.name}
+            href={`/library?repo=${encodeURIComponent(r.name)}`}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
+              params.repo === r.name
+                ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
+                : "bg-[var(--bg-surface)] text-[var(--text-muted)] hover:bg-[var(--bg-surface-hover)]"
+            }`}
+          >
+            {r.name.replace(/-/g, " ")} <span className="opacity-70">{r.fileCount}</span>
+          </Link>
+        ))}
       </div>
 
       <div className="grid grid-cols-4 gap-6">
