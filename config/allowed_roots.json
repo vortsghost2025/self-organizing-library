@@ -1,0 +1,16 @@
+{
+  "allowed_roots": [
+    "S:/self-organizing-library",
+    "S:/Archivist-Agent",
+    "S:/kernel-lane",
+    "S:/SwarmMind",
+    "S:\\workspace",
+    "S:\\projects"
+  ],
+  "blocked_roots": [
+    "C:\\Windows",
+    "C:\\Program Files",
+    "C:\\Users\\Sean\\AppData"
+  ],
+  "read_only_mode": true
+}
