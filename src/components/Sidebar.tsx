@@ -2,14 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getStats } from "@/lib/site-index";
+
+const stats = getStats();
 
 const navItems = [
   { href: "/", icon: "◈", label: "Dashboard" },
   { href: "/library", icon: "☰", label: "Library" },
+  { href: "/repos", icon: "⊕", label: "Repos" },
   { href: "/graph", icon: "◇", label: "Graph" },
-  { href: "/sources", icon: "⊕", label: "Sources" },
-  { href: "/collections", icon: "◉", label: "Collections" },
-  { href: '/governance', icon: '⚖', label: 'Governance' },
+  { href: "/papers", icon: "⋇", label: "Papers" },
+  { href: "/logs", icon: "▤", label: "Logs" },
+  { href: "/about", icon: "⊛", label: "About" },
+  { href: "/start-here", icon: "→", label: "Start Here" },
+  { href: "/governance", icon: "⚖", label: "Governance" },
 ];
 
 export function Sidebar() {
@@ -20,11 +26,11 @@ export function Sidebar() {
       <div className="p-6 border-b border-[var(--border)]">
         <Link href="/" className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center text-xl font-bold">
-            ⊛
+            DE
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-[var(--text-primary)]">NexusGraph</h1>
-            <p className="text-xs text-[var(--text-muted)]">Knowledge Library</p>
+            <h1 className="text-lg font-semibold text-[var(--text-primary)]">Deliberate Ensemble</h1>
+            <p className="text-xs text-[var(--text-muted)]">Research Archive</p>
           </div>
         </Link>
       </div>
@@ -53,15 +59,15 @@ export function Sidebar() {
         <div className="card p-4">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm text-[var(--text-muted)]">Documents</span>
-            <span className="tag">5,000</span>
+            <span className="tag">{stats.totalFiles}</span>
           </div>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-[var(--text-muted)]">Words</span>
-            <span className="mono text-sm text-[var(--text-secondary)]">45,000</span>
+            <span className="text-sm text-[var(--text-muted)]">Tags</span>
+            <span className="mono text-sm text-[var(--text-secondary)]">{stats.tagCount}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-[var(--text-muted)]">Links</span>
-            <span className="mono text-sm text-[var(--secondary)]">12,847</span>
+            <span className="text-sm text-[var(--text-muted)]">Categories</span>
+            <span className="mono text-sm text-[var(--secondary)]">{stats.categoryCount}</span>
           </div>
         </div>
       </div>

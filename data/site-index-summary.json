@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-04-25T14:16:20.157Z",
+  "repo": "self-organizing-library",
+  "stats": {
+    "total_files": 316,
+    "by_content_type": {
+      "doc": 86,
+      "data": 37,
+      "code": 154,
+      "config": 2,
+      "schema": 15,
+      "test-data": 22
+    },
+    "by_category": {
+      "root-doc": 40,
+      "misc": 77,
+      "config": 1,
+      "data": 3,
+      "docs": 22,
+      "schema": 11,
+      "script": 72,
+      "test": 1,
+      "verification": 14,
+      "lane-protocol": 21,
+      "paper": 2,
+      "attestation": 14,
+      "audit": 1,
+      "database": 5,
+      "identity": 2,
+      "memory": 1,
+      "queue": 1,
+      "resilience": 2,
+      "swarmmind": 1,
+      "usage": 4,
+      "governance": 2,
+      "failure-mode": 7,
+      "pending": 4,
+      "reflection": 1,
+      "spec": 7
+    },
+    "by_extension": {
+      ".md": 84,
+      ".json": 75,
+      ".js": 128,
+      ".ts": 14,
+      ".mjs": 2,
+      ".txt": 2,
+      ".yml": 1,
+      ".tsx": 10
+    },
+    "total_size_bytes": 1888383
+  },
+  "tag_count": 57,
+  "cross_ref_count": 0,
+  "top_tags": [
+    {
+      "tag": "Verification",
+      "count": 64
+    },
+    {
+      "tag": "Governance",
+      "count": 41
+    },
+    {
+      "tag": "Multi-Agent",
+      "count": 27
+    },
+    {
+      "tag": "Drift",
+      "count": 20
+    },
+    {
+      "tag": "Attestation",
+      "count": 19
+    },
+    {
+      "tag": "Phase 2",
+      "count": 19
+    },
+    {
+      "tag": "Failure Mode",
+      "count": 17
+    },
+    {
+      "tag": "Phase 3",
+      "count": 16
+    },
+    {
+      "tag": "Covenant",
+      "count": 14
+    },
+    {
+      "tag": "Phenotype",
+      "count": 13
+    },
+    {
+      "tag": "NFM-003",
+      "count": 11
+    },
+    {
+      "tag": "Convergence Gate",
+      "count": 10
+    },
+    {
+      "tag": "NFM-002",
+      "count": 10
+    },
+    {
+      "tag": "Constraint Lattice",
+      "count": 8
+    },
+    {
+      "tag": "Rosetta Stone",
+      "count": 8
+    },
+    {
+      "tag": "WE4FREE",
+      "count": 8
+    },
+    {
+      "tag": "NFM-001",
+      "count": 8
+    },
+    {
+      "tag": "Phase 2.5",
+      "count": 8
+    },
+    {
+      "tag": "NFM-020",
+      "count": 7
+    },
+    {
+      "tag": "Phase 4",
+      "count": 6
+    },
+    {
+      "tag": "NFM-018",
+      "count": 6
+    },
+    {
+      "tag": "Identity Enforcement",
+      "count": 5
+    },
+    {
+      "tag": "Ensemble",
+      "count": 5
+    },
+    {
+      "tag": "NFM-019",
+      "count": 5
+    },
+    {
+      "tag": "Lane Relay",
+      "count": 4
+    },
+    {
+      "tag": "Phase 1",
+      "count": 4
+    },
+    {
+      "tag": "Phase 5",
+      "count": 4
+    },
+    {
+      "tag": "Constitutional AI",
+      "count": 4
+    },
+    {
+      "tag": "Phase 3.1",
+      "count": 3
+    },
+    {
+      "tag": "Phase3",
+      "count": 2
+    }
+  ],
+  "category_breakdown": {
+    "root-doc": 40,
+    "misc": 77,
+    "config": 1,
+    "data": 3,
+    "docs": 22,
+    "schema": 11,
+    "script": 72,
+    "test": 1,
+    "verification": 14,
+    "lane-protocol": 21,
+    "paper": 2,
+    "attestation": 14,
+    "audit": 1,
+    "database": 5,
+    "identity": 2,
+    "memory": 1,
+    "queue": 1,
+    "resilience": 2,
+    "swarmmind": 1,
+    "usage": 4,
+    "governance": 2,
+    "failure-mode": 7,
+    "pending": 4,
+    "reflection": 1,
+    "spec": 7
+  }
+}
