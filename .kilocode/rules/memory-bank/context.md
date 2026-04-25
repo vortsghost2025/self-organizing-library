@@ -600,3 +600,41 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 - [x] Preserved all approved wording: "The Rosetta Stone is a translation device, not a unification theorem", "The structures may be isomorphic; the semantics are not"
 - [x] 5 appendices: Named Failure Mode Topology, Correction Timeline, Convergence Gate Assessments, Cryptographic Key Lifecycle, Test and Verification Plan
 - [x] Convergence gate assessments include explicit "unproven" callout (sample size = 1 for self-correcting loop convergence)
+
+### Session 2026-04-24 (Evening): Paper 6 CAISC Integration + Sean's Tightening Edits
+
+**Sean's 5 Tightening Edits — ALL APPLIED** ✅ (commit `bce1f79`):
+1. ✅ "Interpretable across architectures within a domain" → "Empirically shown to be interpretable across multiple architectures within a domain"
+2. ✅ "Failure Is Constraint Discovery" → "Persistent Failure Reveals Missing or Mis-Specified Constraints" (propagated to abstract, §4.1, conclusion)
+3. ✅ Bridge sentence added to §2.2 Category 1: "Each failure mode corresponds to a point where the constraint lattice was incomplete or incorrectly specified."
+4. ✅ Cross-domain tone drift fixed: "may be shared" → "may be structurally similar" (line 363); ROSETTA_STONE_SUMMARY.md synced
+5. ✅ Design implication added after OL-3: "This implies that correctness requires external or independent verification."
+
+**NFM-018/019/020 Added** (commit `0ffa37c`):
+- Extended NFM table from 17→20
+- Added Category 6: Schema-Reality and Observability Gaps
+- Updated all "seventeen"→"twenty" references
+- Delivered signed message to Archivist inbox + P0 urgent copy for NFM-020
+
+**Failure Space Decomposition Integrated** (commit `45f8c43`):
+- Added §2.2.1: Three-axis failure space decomposition (temporal/semantic/observational)
+- Derive unified constraint validity condition: "A constraint is only valid within the domain in which its satisfaction conditions are observable and reachable"
+- Updated NFM-018/019/020 descriptions with specific relay loop test evidence
+- Expanded Category 6 with richer schema-observability gap analysis
+- Added §6.1: Recursive Verification as future work (meta-checks on constraints)
+- Added relay loop verification results table (3 loops, all PASS)
+
+**Key Theoretical Upgrades in Paper 6:**
+- Static constraint theory → self-correcting constraint system driven by failure feedback
+- "Persistent failure" distinguishes signal from noise (vs just "failure")
+- Meta-state-claim divergence: verification layer makes false claims about verification state
+- Unified constraint validity condition: temporal reachability + semantic coverage + observational scope
+- Recursive verification: proof-gated execution must be applied to the verification layer itself
+
+**Paper 6 Status:** All edits committed and pushed (`45f8c43`). Paper now ~550 lines with 20 NFMs, 6 categories, failure space decomposition, 9 operational limits, self-correcting loop, §6.1 recursive verification.
+
+**Outstanding Items:**
+- ⬜ SwarmMind PEM regeneration (NFM-017) — blocks 2 recovery tests (9/11 instead of 11/11)
+- ⬜ NFM taxonomy → live classification engine (Sean's next vision)
+- ⬜ Deliberate failure injection protocol → Paper 7
+- ⬜ Cross-domain tone audit on CAISC_2026_PAPER_OUTLINE.md
