@@ -1,6 +1,7 @@
 import { getEntryById, getEntriesByTag, getSiteIndex } from "@/lib/site-index";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import MarkdownContent from "@/components/MarkdownContent";
 
 export default async function DocumentPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -88,20 +89,25 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
             </div>
           )}
 
-          {entry.breadcrumbs.length > 0 && (
-            <div className="mb-8">
-              <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2">Location</h2>
-              <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
-                <span className="mono">self-organizing-library</span>
-                {entry.breadcrumbs.map((crumb, i) => (
-                  <span key={i} className="flex items-center gap-2">
-                    <span>/</span>
-                    <span className="mono">{crumb}</span>
-                  </span>
-                ))}
-              </div>
+{entry.breadcrumbs.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2">Location</h2>
+            <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+              <span className="mono">self-organizing-library</span>
+              {entry.breadcrumbs.map((crumb, i) => (
+                <span key={i} className="flex items-center gap-2">
+                  <span>/</span>
+                  <span className="mono">{crumb}</span>
+                </span>
+              ))}
             </div>
-          )}
+          </div>
+        )}
+
+        <div className="mb-8">
+          <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-2">Content</h2>
+          <MarkdownContent entryId={entry.id} />
+        </div>
 
           {crossRefs.length > 0 && (
             <div className="mb-8">
