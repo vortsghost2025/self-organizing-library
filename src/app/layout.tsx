@@ -21,7 +21,7 @@ export default function RootLayout({
     <a href="#main-content" className="skip-to-content">Skip to main content</a>
     <div className="flex min-h-screen">
     <Sidebar />
-    <main id="main-content" className="flex-1 ml-[280px] min-h-screen" role="main">
+      <main id="main-content" className="flex-1 ml-[280px] min-h-screen" role="main" data-pagefind-body>
       {children}
     </main>
     </div>

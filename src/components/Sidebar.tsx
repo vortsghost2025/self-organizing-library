@@ -25,11 +25,12 @@ export function Sidebar() {
   const modeLabel = mode === "high-contrast" ? "High Contrast" : mode === "large-text" ? "Large Text" : "Default";
 
   return (
-    <aside
-      className="fixed left-0 top-0 h-screen w-[280px] bg-[var(--bg-surface)] border-r border-[var(--border)] flex flex-col z-40"
-      role="navigation"
-      aria-label="Main navigation"
-    >
+  <aside
+  className="fixed left-0 top-0 h-screen w-[280px] bg-[var(--bg-surface)] border-r border-[var(--border)] flex flex-col z-40"
+  role="navigation"
+  aria-label="Main navigation"
+  data-pagefind-ignore
+>
       <div className="p-6 border-b border-[var(--border)]">
         <Link href="/" className="flex items-center gap-3" aria-label="Deliberate Ensemble - go to dashboard">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center text-xl font-bold" aria-hidden="true">
