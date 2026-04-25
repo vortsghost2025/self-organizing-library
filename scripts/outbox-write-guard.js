@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { moveFileWithLease } = require('./lease-write');
 
 const LANE_DIRS = {
   archivist: 'S:/Archivist-Agent',
@@ -11,31 +12,10 @@ const LANE_DIRS = {
   kernel: 'S:/kernel-lane',
 };
 
-function _isValidJWS(signature) {
-  if (typeof signature !== 'string') return false;
-  const parts = signature.split('.');
-  if (parts.length !== 3) return false;
-  try {
-    let header = parts[0];
-    header = header.replace(/-/g, '+').replace(/_/g, '/');
-    while (header.length % 4) header += '=';
-    const decoded = JSON.parse(Buffer.from(header, 'base64').toString('utf8'));
-    if (!decoded.alg || decoded.alg !== 'RS256') return false;
-  } catch (_) {
-    return false;
-  }
-  for (const part of parts) {
-    if (part.length === 0) return false;
-  }
-  return true;
-}
-
 function validateOutboxMessage(msg) {
   const errors = [];
   if (!msg.signature || typeof msg.signature !== 'string' || msg.signature.length < 10) {
     errors.push('MISSING_SIGNATURE');
-  } else if (!_isValidJWS(msg.signature)) {
-    errors.push('INVALID_JWS_FORMAT');
   }
   if (!msg.key_id || typeof msg.key_id !== 'string' || msg.key_id.length < 16) {
     errors.push('MISSING_KEY_ID');
@@ -45,6 +25,17 @@ function validateOutboxMessage(msg) {
   }
   if (!msg.id) {
     errors.push('MISSING_ID');
+  }
+  const lease = msg.lease;
+  if (!lease || typeof lease !== 'object') {
+    errors.push('MISSING_LEASE');
+  } else {
+    if (!lease.owner || typeof lease.owner !== 'string') {
+      errors.push('MISSING_LEASE_OWNER');
+    }
+    if (!lease.acquired_at || Number.isNaN(Date.parse(lease.acquired_at))) {
+      errors.push('MISSING_LEASE_ACQUIRED_AT');
+    }
   }
   return { valid: errors.length === 0, errors };
 }
@@ -117,7 +108,7 @@ function guardWrite(msg, outboxPath, filename) {
   return true;
 }
 
-function remediateUnsigned(laneId) {
+async function remediateUnsigned(laneId) {
   const baseDir = LANE_DIRS[laneId];
   if (!baseDir) throw new Error(`Unknown lane: ${laneId}`);
 
@@ -138,13 +129,13 @@ function remediateUnsigned(laneId) {
       if (!check.valid) {
         if (!fs.existsSync(unsignedPath)) fs.mkdirSync(unsignedPath, { recursive: true });
         const dest = path.join(unsignedPath, file);
-        fs.renameSync(filePath, dest);
+        await moveFileWithLease(filePath, dest, laneId, 30000);
         moved.push({ file, errors: check.errors, id: msg.id || null });
       }
     } catch (err) {
       if (!fs.existsSync(unsignedPath)) fs.mkdirSync(unsignedPath, { recursive: true });
       const dest = path.join(unsignedPath, file);
-      try { fs.renameSync(filePath, dest); } catch (_) {}
+      try { await moveFileWithLease(filePath, dest, laneId, 30000); } catch (_) {}
       moved.push({ file, errors: ['PARSE_ERROR'], id: null });
     }
   }
@@ -155,6 +146,7 @@ function remediateUnsigned(laneId) {
 module.exports = { validateOutboxMessage, scanOutbox, scanAllLanes, guardWrite, remediateUnsigned };
 
 if (require.main === module) {
+  (async () => {
   const args = process.argv.slice(2);
   const command = args[0] || 'scan';
 
@@ -184,7 +176,7 @@ if (require.main === module) {
       console.error('Usage: node outbox-write-guard.js quarantine <lane>');
       process.exit(1);
     }
-    const result = remediateUnsigned(lane);
+    const result = await remediateUnsigned(lane);
     console.log(`Quarantined ${result.moved} unsigned messages from ${lane} outbox`);
     if (result.files.length > 0) {
       for (const f of result.files) {
@@ -210,4 +202,8 @@ if (require.main === module) {
     console.error('Commands: scan [lane], quarantine <lane>, guard <message.json>');
     process.exit(1);
   }
+  })().catch((err) => {
+    console.error(`FAIL: ${err.message}`);
+    process.exit(1);
+  });
 }
