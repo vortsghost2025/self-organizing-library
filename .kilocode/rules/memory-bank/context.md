@@ -638,3 +638,88 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 - ⬜ NFM taxonomy → live classification engine (Sean's next vision)
 - ⬜ Deliberate failure injection protocol → Paper 7
 - ⬜ Cross-domain tone audit on CAISC_2026_PAPER_OUTLINE.md
+
+### Session 2026-04-25: Pagefind Full-Text Search + Old Page Redirects
+
+**PagefindSearch Integration — ✅ COMPLETE (commit `a326d11`)**
+- Rewrote PagefindSearch component: script tag loading + useSyncExternalStore (fixes Turbopack server-relative import error + React hooks lint errors)
+- Two external stores: pagefindReady (script load state) + search results (query results)
+- Avoids all `useRef` during render and `setState` in effect body (ESLint compliant)
+- Pagefind v1.5.2 indexes 9 pages, 310 words after `data-pagefind-body` added
+- Added `data-pagefind-body` to `<main>` in layout.tsx — Pagefind only indexes main content
+- Added `data-pagefind-ignore` to Sidebar — nav links excluded from search index
+- `postbuild` script: `npx pagefind --site .next/server/app --output-path public/pagefind`
+- Pagefind index files committed in `public/pagefind/`
+
+**Old Pages Redirected — ✅ COMPLETE**
+- `/sources` → redirect to `/library` (was using deprecated db.ts)
+- `/collections` → redirect to `/repos` (was all mock data)
+
+**Build Verification — ✅ ALL PASS**
+- `tsc --noEmit`: clean
+- `eslint src/`: clean
+- `next build`: success (22 pages, Turbopack)
+
+**Remaining Next Steps:**
+- ⬜ Upgrade nexus graph (Sigma.js/Cytoscape.js replacing canvas force-directed)
+- ⬜ Add MDX/Markdown content rendering for document detail pages
+- ⬜ Deploy to Vercel/Cloudflare with custom domain deliberateensemble.works
+- ⬜ GitHub Actions repo sync (auto-index on push)
+- ⬜ Index other repos (Archivist, FreeAgent, SwarmMind, kernel-lane, federation)
+- ⬜ Accessibility audit (WCAG compliance verification, screen reader testing)
+- ⬜ Custom domain DNS setup
+
+### Session 2026-04-25: Multi-Repo Index + Site Upgrades
+
+**Multi-Repo Index — ✅ COMPLETE (commit `12c1694`)**
+- Extended `generate-site-index.js` to walk 6 repos: self-organizing-library, Archivist-Agent, SwarmMind, kernel-lane, federation, FreeAgent
+- Each repo has own root path, GitHub URL, category map, and depth/extension filters
+- FreeAgent limited to depth 3, .md/.mdx/.txt only (filters 22K raw → 794 content)
+- Schema upgraded to v2.0: `repo_roots` map, `stats.by_repo` per-repo breakdown
+- Cross-repo link resolution: links between repos get `type: "cross-repo-link"`
+- Generated index: **4,713 entries**, **102 unique tags**, **486 cross-references** across 6 repos
+
+**site-index.ts Updated — ✅ COMPLETE**
+- Added `RepoStats` interface, `by_repo` in stats, `repo_roots` field
+- New exports: `getRepos()`, `getRepoRoots()`, `getRepoRoot(name)`
+- `getEntries()` now accepts `repo` filter param
+- `getStats()` includes `repoCount`
+- `getGraphData()` nodes include `repo` field
+
+**document-content API Updated — ✅ COMPLETE**
+- Resolves file path from `entry.repo` via `repo_roots` map (no longer hardcoded to one repo)
+- Each entry's `repo` field maps to its filesystem root
+
+**Library Page — ✅ Updated**
+- Added repo filter bar between type filters and content grid
+- `searchParams` now accepts `repo` param
+
+**NexusGraph Upgraded — ✅ COMPLETE**
+- Added `REPO_COLORS` palette for 6 repos
+- New `filterMode` state: "type" | "repo" toggle
+- `buildGraph()` accepts filterMode, colors by repo when in repo mode
+- Node detail panel shows repo name
+- Two-row toolbar: mode toggle row + filter buttons row
+
+**Build Verification — ✅ ALL PASS**
+- `tsc --noEmit`: clean
+- `eslint src/`: clean
+- `next build`: success (22 pages, Turbopack)
+
+**Current Index Stats:**
+| Repo | Files | Size |
+|------|-------|------|
+| self-organizing-library | 357 | 2.4MB |
+| Archivist-Agent | 2,638 | 5.4MB |
+| SwarmMind | 223 | 716KB |
+| kernel-lane | 131 | 582KB |
+| federation | 570 | 4.6MB |
+| FreeAgent | 794 | 24.7MB |
+| **Total** | **4,713** | **38.4MB** |
+
+**Remaining Next Steps:**
+- ⬜ Deploy to Vercel — BLOCKED waiting for Vercel token from Sean
+- ⬜ Custom domain DNS setup (deliberateensemble.works) at Hostinger
+- ⬜ GitHub Actions repo sync (auto-index on push)
+- ⬜ Accessibility audit (WCAG compliance verification, screen reader testing)
+- ⬜ Clean up deprecated `db.ts`
