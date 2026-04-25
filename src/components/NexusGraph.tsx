@@ -12,6 +12,7 @@ type GraphNode = {
   title: string;
   type: string;
   category: string;
+  repo: string;
   connectionCount: number;
   tags: string[];
 };
@@ -32,15 +33,27 @@ const TYPE_COLORS: Record<string, string> = {
   "test-data": "#F97316",
 };
 
+const REPO_COLORS: Record<string, string> = {
+  "self-organizing-library": "#7C3AED",
+  "Archivist-Agent": "#06B6D4",
+  "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": "#10B981",
+  "kernel-lane": "#F59E0B",
+  federation: "#EC4899",
+  FreeAgent: "#8B5CF6",
+};
+
 function buildGraph(
   nodes: GraphNode[],
   edges: GraphEdge[],
-  typeFilter: string
+  filter: string,
+  filterMode: "type" | "repo"
 ): Graph {
   const filtered =
-    typeFilter === "all"
+    filter === "all"
       ? nodes
-      : nodes.filter((n) => n.type === typeFilter);
+      : filterMode === "repo"
+        ? nodes.filter((n) => n.repo === filter)
+        : nodes.filter((n) => n.type === filter);
   const ids = new Set(filtered.map((n) => n.id));
 
   const graph = new Graph({ type: "undirected", multi: false });
@@ -48,14 +61,18 @@ function buildGraph(
   for (const node of filtered) {
     const baseSize =
       node.type === "paper" ? 10 : node.type === "doc" ? 6 : 4;
+    const color = filterMode === "repo"
+      ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
+      : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
     graph.addNode(node.id, {
       label: node.title,
       x: 0,
       y: 0,
       size: Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
-      color: TYPE_COLORS[node.type] || TYPE_COLORS.doc,
+      color,
       nodeType: node.type,
       category: node.category,
+      repo: node.repo,
       connectionCount: node.connectionCount,
       tags: JSON.stringify(node.tags),
     });
@@ -91,6 +108,7 @@ export default function NexusGraph() {
   const sigmaRef = useRef<Sigma | null>(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const [stats, setStats] = useState({ nodes: 0, edges: 0 });
@@ -132,7 +150,7 @@ export default function NexusGraph() {
 
     killSigma();
 
-    const graph = buildGraph(allNodesRef.current, allEdgesRef.current, filter);
+    const graph = buildGraph(allNodesRef.current, allEdgesRef.current, filter, filterMode);
     if (graph.order === 0) return;
 
     const container = containerRef.current;
@@ -181,29 +199,31 @@ export default function NexusGraph() {
       },
     });
 
-    renderer.on("clickNode", ({ node }) => {
-      const attrs = graph.getNodeAttributes(node);
-      setSelectedNode({
-        id: node,
-        title: attrs.label || node,
-        type: attrs.nodeType || "doc",
-        category: attrs.category || "",
-        connectionCount: attrs.connectionCount || 0,
-        tags: attrs.tags ? JSON.parse(attrs.tags) : [],
-      });
+  renderer.on("clickNode", ({ node }) => {
+    const attrs = graph.getNodeAttributes(node);
+    setSelectedNode({
+      id: node,
+      title: attrs.label || node,
+      type: attrs.nodeType || "doc",
+      category: attrs.category || "",
+      repo: attrs.repo || "",
+      connectionCount: attrs.connectionCount || 0,
+      tags: attrs.tags ? JSON.parse(attrs.tags) : [],
     });
+  });
 
-    renderer.on("enterNode", ({ node }) => {
-      const attrs = graph.getNodeAttributes(node);
-      setHoveredNode({
-        id: node,
-        title: attrs.label || node,
-        type: attrs.nodeType || "doc",
-        category: attrs.category || "",
-        connectionCount: attrs.connectionCount || 0,
-        tags: attrs.tags ? JSON.parse(attrs.tags) : [],
-      });
+  renderer.on("enterNode", ({ node }) => {
+    const attrs = graph.getNodeAttributes(node);
+    setHoveredNode({
+      id: node,
+      title: attrs.label || node,
+      type: attrs.nodeType || "doc",
+      category: attrs.category || "",
+      repo: attrs.repo || "",
+      connectionCount: attrs.connectionCount || 0,
+      tags: attrs.tags ? JSON.parse(attrs.tags) : [],
     });
+  });
 
     renderer.on("leaveNode", () => {
       setHoveredNode(null);
@@ -218,7 +238,7 @@ export default function NexusGraph() {
     return () => {
       killSigma();
     };
-  }, [loading, filter, hoveredNode, selectedNode, killSigma]);
+  }, [loading, filter, filterMode, hoveredNode, selectedNode, killSigma]);
 
   useEffect(() => {
     return killSigma;
@@ -233,10 +253,23 @@ export default function NexusGraph() {
     { key: "schema", label: "Schema", color: TYPE_COLORS.schema },
   ];
 
+  const repoFilters = [
+    { key: "all", label: "All Repos", color: "#F4F4F5" },
+    ...Object.entries(REPO_COLORS).map(([key, color]) => ({
+      key,
+      label: key.replace(/-/g, " ").replace(/SwarmMind Self Optimizing Multi Agent AI System/g, "SwarmMind"),
+      color,
+    })),
+  ];
+
+  const currentFilters = filterMode === "type" ? typeFilters : repoFilters;
+
   const filteredCount =
     filter === "all"
       ? stats.nodes
-      : allNodesRef.current.filter((n) => n.type === filter).length;
+      : filterMode === "repo"
+        ? allNodesRef.current.filter((n) => n.repo === filter).length
+        : allNodesRef.current.filter((n) => n.type === filter).length;
 
   return (
     <div className="p-8" data-pagefind-ignore>
@@ -253,11 +286,43 @@ export default function NexusGraph() {
       </div>
 
       <div
-        className="card p-4 mb-6 flex gap-4 animate-fade-in stagger-1 flex-wrap"
+        className="card p-4 mb-2 flex gap-4 animate-fade-in stagger-1 flex-wrap"
         role="toolbar"
-        aria-label="Graph filters"
+        aria-label="Graph filter mode"
       >
-        {typeFilters.map((tf) => (
+        <button
+          onClick={() => { setFilterMode("type"); setFilter("all"); }}
+          aria-pressed={filterMode === "type"}
+          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            filterMode === "type"
+              ? "bg-[var(--primary)]/20 text-[var(--primary)]"
+              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          }`}
+        >
+          Filter by Type
+        </button>
+        <button
+          onClick={() => { setFilterMode("repo"); setFilter("all"); }}
+          aria-pressed={filterMode === "repo"}
+          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            filterMode === "repo"
+              ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
+              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          }`}
+        >
+          Filter by Repo
+        </button>
+        <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
+          {filteredCount} nodes &middot; {stats.edges} edges
+        </span>
+      </div>
+
+      <div
+        className="card p-4 mb-6 flex gap-4 animate-fade-in stagger-2 flex-wrap"
+        role="toolbar"
+        aria-label={`${filterMode === "type" ? "Type" : "Repo"} filters`}
+      >
+        {currentFilters.map((tf) => (
           <button
             key={tf.key}
             onClick={() => setFilter(tf.key)}
@@ -276,9 +341,6 @@ export default function NexusGraph() {
             {tf.label}
           </button>
         ))}
-        <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
-          {filteredCount} nodes &middot; {stats.edges} edges
-        </span>
       </div>
 
       <div className="card relative overflow-hidden" style={{ height: "650px" }}>
@@ -315,12 +377,20 @@ export default function NexusGraph() {
                 aria-hidden="true"
               />
               <span className="text-sm text-[var(--text-muted)] uppercase">
-                {selectedNode.type}
-              </span>
-              <span className="text-sm text-[var(--text-muted)]">&middot;</span>
-              <span className="text-sm text-[var(--text-muted)]">
-                {selectedNode.category}
-              </span>
+              {selectedNode.type}
+            </span>
+            <span className="text-sm text-[var(--text-muted)]">&middot;</span>
+            <span className="text-sm text-[var(--text-muted)]">
+              {selectedNode.category}
+            </span>
+            {selectedNode.repo && (
+              <>
+                <span className="text-sm text-[var(--text-muted)]">&middot;</span>
+                <span className="text-sm text-[var(--text-muted)]">
+                  {selectedNode.repo.replace(/-/g, " ")}
+                </span>
+              </>
+            )}
             </div>
             <h3 className="font-semibold text-[var(--text-primary)] mb-2">
               {selectedNode.title}

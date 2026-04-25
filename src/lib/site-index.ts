@@ -24,18 +24,25 @@ export interface CrossRef {
   label: string;
 }
 
+export interface RepoStats {
+  total_files: number;
+  total_size_bytes: number;
+  by_content_type: Record<string, number>;
+  by_category: Record<string, number>;
+}
+
 export interface SiteIndex {
   schema_version: string;
   generated_at: string;
-  repo: string;
   github_org: string;
-  github_url: string;
+  repo_roots: Record<string, string>;
   stats: {
     total_files: number;
     by_content_type: Record<string, number>;
     by_category: Record<string, number>;
     by_extension: Record<string, number>;
     total_size_bytes: number;
+    by_repo: Record<string, RepoStats>;
   };
   tag_index: Record<string, string[]>;
   cross_references: CrossRef[];
@@ -48,10 +55,28 @@ export function getSiteIndex(): SiteIndex {
   return index;
 }
 
+export function getRepoRoots(): Record<string, string> {
+  return index.repo_roots || {};
+}
+
+export function getRepoRoot(repoName: string): string | undefined {
+  return index.repo_roots?.[repoName];
+}
+
+export function getRepos(): { name: string; fileCount: number; sizeBytes: number }[] {
+  const byRepo = index.stats.by_repo || {};
+  return Object.entries(byRepo).map(([name, rs]) => ({
+    name,
+    fileCount: rs.total_files,
+    sizeBytes: rs.total_size_bytes,
+  })).sort((a, b) => b.fileCount - a.fileCount);
+}
+
 export function getEntries(options?: {
   category?: string;
   contentType?: string;
   tag?: string;
+  repo?: string;
   limit?: number;
   offset?: number;
   search?: string;
@@ -63,6 +88,9 @@ export function getEntries(options?: {
   }
   if (options?.contentType) {
     filtered = filtered.filter(e => e.content_type === options.contentType);
+  }
+  if (options?.repo) {
+    filtered = filtered.filter(e => e.repo === options.repo);
   }
   if (options?.tag) {
     const tagIds = index.tag_index[options.tag] || [];
@@ -119,6 +147,7 @@ export function getStats() {
     tagCount: Object.keys(index.tag_index).length,
     categoryCount: Object.keys(index.stats.by_category).length,
     crossRefCount: index.cross_references.length,
+    repoCount: Object.keys(index.stats.by_repo || {}).length,
     generatedAt: index.generated_at,
   };
 }
@@ -145,6 +174,7 @@ export function getGraphData() {
     title: e.title,
     type: e.content_type,
     category: e.category,
+    repo: e.repo,
     connectionCount: edges.filter(edge => edge.source === e.id || edge.target === e.id).length,
     tags: e.tags,
   }));

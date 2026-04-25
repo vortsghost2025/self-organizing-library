@@ -4,32 +4,155 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const REPO_ROOT = path.resolve(__dirname, '..');
-const REPO_NAME = 'self-organizing-library';
-const GITHUB_BASE = `https://github.com/vortsghost2025/${REPO_NAME}/blob/main`;
+const REPOS = [
+  {
+    name: 'self-organizing-library',
+    root: 'S:/self-organizing-library',
+    github: 'https://github.com/vortsghost2025/self-organizing-library/blob/main',
+    categoryMap: {
+      'library/books': 'paper',
+      'library/docs/papers': 'paper',
+      'library/docs/specs': 'spec',
+      'library/docs/verification': 'verification',
+      'library/docs/failure-modes': 'failure-mode',
+      'library/docs/attestation': 'attestation',
+      'library/docs/archivist': 'governance',
+      'library/docs/reflection': 'reflection',
+      'library/docs/pending': 'pending',
+      'schemas': 'schema',
+      'scripts': 'script',
+      'src/attestation': 'attestation',
+      'src/audit': 'audit',
+      'src/identity': 'identity',
+      'src/lane': 'lane-protocol',
+      'src/resilience': 'resilience',
+      'src/swarmmind': 'swarmmind',
+      'src/queue': 'queue',
+      'src/usage': 'usage',
+      'src/memory': 'memory',
+      'src/db': 'database',
+      'lanes': 'lane-protocol',
+      'docs': 'docs',
+      'tests': 'test',
+      'verification': 'verification',
+      'config': 'config',
+      'data': 'data',
+    },
+    maxDepth: Infinity,
+  },
+  {
+    name: 'Archivist-Agent',
+    root: 'S:/Archivist-Agent',
+    github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/main',
+    categoryMap: {
+      'docs': 'docs',
+      'docs/spec': 'spec',
+      'docs/verification': 'verification',
+      'lanes': 'lane-protocol',
+      'papers': 'paper',
+      'logs': 'log',
+      'config': 'config',
+      'projects': 'project',
+      'COORDINATION': 'coordination',
+      'context': 'context',
+      'schemas': 'schema',
+      'scripts': 'script',
+      'src/attestation': 'attestation',
+      'src/core': 'governance',
+      'src/lane': 'lane-protocol',
+      'src/orchestrator': 'governance',
+      'src/monitoring': 'monitoring',
+      'src/queue': 'queue',
+      'src/memory': 'memory',
+      'src/bridge': 'bridge',
+      'src/tools': 'tool',
+      'tests': 'test',
+      'verification': 'verification',
+      'data': 'data',
+      'library': 'library',
+    },
+    maxDepth: Infinity,
+  },
+  {
+    name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
+    root: 'S:/SwarmMind',
+    github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
+    categoryMap: {
+      'docs': 'docs',
+      'src': 'code',
+      'scripts': 'script',
+      'tests': 'test',
+      'config': 'config',
+      'lanes': 'lane-protocol',
+      'schemas': 'schema',
+      'data': 'data',
+    },
+    maxDepth: Infinity,
+  },
+  {
+    name: 'kernel-lane',
+    root: 'S:/kernel-lane',
+    github: 'https://github.com/vortsghost2025/kernel-lane/blob/main',
+    categoryMap: {
+      'kernels': 'kernel',
+      'docs': 'docs',
+      'schemas': 'schema',
+      'scripts': 'script',
+      'src': 'code',
+      'lanes': 'lane-protocol',
+      'benchmarks': 'benchmark',
+      'integration': 'integration',
+      'config': 'config',
+      'profiles': 'profile',
+      'baselines': 'baseline',
+    },
+    maxDepth: Infinity,
+  },
+  {
+    name: 'federation',
+    root: 'S:/federation',
+    github: 'https://github.com/vortsghost2025/federation/blob/main',
+    categoryMap: {
+      'docs': 'docs',
+      'src': 'code',
+      'scripts': 'script',
+      'schemas': 'schema',
+      'config': 'config',
+      'lanes': 'lane-protocol',
+      'data': 'data',
+    },
+    maxDepth: Infinity,
+  },
+  {
+    name: 'FreeAgent',
+    root: 'S:/FreeAgent',
+    github: 'https://github.com/vortsghost2025/FreeAgent/blob/main',
+    categoryMap: {
+      'docs': 'docs',
+      'src': 'code',
+      'scripts': 'script',
+      'config': 'config',
+      'schemas': 'schema',
+      'lanes': 'lane-protocol',
+      'tests': 'test',
+      'data': 'data',
+      'library': 'library',
+      'verification': 'verification',
+    },
+    maxDepth: 3,
+    extensionsOnly: ['.md', '.mdx', '.txt'],
+    excludeDirs: new Set(['node_modules', '.git', '.next', 'dist', 'build', 'coverage', '.cache', '.vercel',
+      'supreme-octo-computing-machine', 'context-buffer', '.identity', '.trust', '.memory', '.runtime']),
+  },
+];
 
-const EXCLUDE_DIRS = new Set([
+const DEFAULT_EXCLUDE_DIRS = new Set([
   'node_modules', '.next', '.git', '.ruff_cache', '.identity', '.trust',
   '.memory', 'context-buffer', '.runtime', 'out', 'build', 'coverage',
   '.vercel', 'dist', '.cache'
 ]);
 
-const EXCLUDE_PATTERNS = [
-  /^node_modules$/,
-  /^\.next$/,
-  /^\.git$/,
-  /^\.ruff_cache$/,
-  /^\.identity$/,
-  /^\.trust$/,
-  /^\.memory$/,
-  /^context-buffer$/,
-  /^\.runtime$/,
-  /^\.vercel$/,
-  /^dist$/,
-  /^\.cache$/,
-];
-
-const CONTENT_EXTENSIONS = new Set([
+const DEFAULT_EXTENSIONS = new Set([
   '.md', '.mdx', '.txt', '.json', '.yaml', '.yml',
   '.js', '.ts', '.tsx', '.jsx', '.py', '.mjs'
 ]);
@@ -40,46 +163,11 @@ const SKIP_FILES = new Set([
   'nul', 'test-write-permission.txt'
 ]);
 
-const SKIP_PATTERNS = [
-  /\.tsbuildinfo$/,
-  /^nul$/,
-];
-
 const CONTENT_TYPE_MAP = {
   '.md': 'doc', '.mdx': 'doc', '.txt': 'doc',
   '.json': 'data', '.yaml': 'config', '.yml': 'config',
   '.js': 'code', '.mjs': 'code', '.ts': 'code', '.tsx': 'code', '.jsx': 'code',
   '.py': 'code'
-};
-
-const CATEGORY_MAP = {
-  'library/books': 'paper',
-  'library/docs/papers': 'paper',
-  'library/docs/specs': 'spec',
-  'library/docs/verification': 'verification',
-  'library/docs/failure-modes': 'failure-mode',
-  'library/docs/attestation': 'attestation',
-  'library/docs/archivist': 'governance',
-  'library/docs/reflection': 'reflection',
-  'library/docs/pending': 'pending',
-  'schemas': 'schema',
-  'scripts': 'script',
-  'src/attestation': 'attestation',
-  'src/audit': 'audit',
-  'src/identity': 'identity',
-  'src/lane': 'lane-protocol',
-  'src/resilience': 'resilience',
-  'src/swarmmind': 'swarmmind',
-  'src/queue': 'queue',
-  'src/usage': 'usage',
-  'src/memory': 'memory',
-  'src/db': 'database',
-  'lanes': 'lane-protocol',
-  'docs': 'docs',
-  'tests': 'test',
-  'verification': 'verification',
-  'config': 'config',
-  'data': 'data',
 };
 
 const TAG_EXTRACTION_PATTERNS = [
@@ -103,29 +191,37 @@ const TAG_EXTRACTION_PATTERNS = [
   /\b(Phenotype)\b/gi,
   /\b(Basin\s+Dynamics)\b/gi,
   /\b(WE4FREE)\b/gi,
+  /\b(Kernel)\b/gi,
+  /\b(SwarmMind)\b/gi,
+  /\b(Archivist)\b/gi,
+  /\b(Library)\b/gi,
+  /\b(Federation)\b/gi,
+  /\b(FreeAgent)\b/gi,
+  /\b(Force\s+Atlas)/gi,
+  /\b(Sigma\.js)\b/gi,
+  /\b(Graphology)\b/gi,
 ];
 
-function shouldExcludeDir(dirName) {
-  return EXCLUDE_PATTERNS.some(p => p.test(dirName));
+function shouldExcludeDir(dirName, repoConfig) {
+  if (repoConfig.excludeDirs && repoConfig.excludeDirs.has(dirName)) return true;
+  return DEFAULT_EXCLUDE_DIRS.has(dirName);
 }
 
-function shouldSkipFile(filePath, fileName) {
-  if (SKIP_FILES.has(fileName)) return true;
-  if (SKIP_PATTERNS.some(p => p.test(fileName))) return true;
-  return false;
+function shouldSkipFile(fileName) {
+  return SKIP_FILES.has(fileName);
 }
 
-function getRelativePath(fullPath) {
-  return path.relative(REPO_ROOT, fullPath).replace(/\\/g, '/');
+function getRelativePath(fullPath, repoRoot) {
+  return path.relative(repoRoot, fullPath).replace(/\\/g, '/');
 }
 
 function getContentType(ext) {
   return CONTENT_TYPE_MAP[ext] || 'unknown';
 }
 
-function getCategory(relativePath) {
+function getCategory(relativePath, categoryMap) {
   const normalized = relativePath.replace(/\\/g, '/');
-  for (const [prefix, category] of Object.entries(CATEGORY_MAP)) {
+  for (const [prefix, category] of Object.entries(categoryMap)) {
     if (normalized.startsWith(prefix)) return category;
   }
   if (normalized.includes('/')) return 'misc';
@@ -205,33 +301,39 @@ function extractFrontmatterTags(content) {
   return [];
 }
 
-function computeId(relativePath) {
-  return crypto.createHash('sha256').update(relativePath).digest('hex').slice(0, 16);
+function computeId(repoName, relativePath) {
+  return crypto.createHash('sha256').update(`${repoName}:${relativePath}`).digest('hex').slice(0, 16);
 }
 
-function walkDir(dir) {
+function walkDir(repoRoot, repoConfig) {
   const entries = [];
-  const queue = [dir];
+  const queue = [{ dir: repoRoot, depth: 0 }];
+
+  const allowedExtensions = repoConfig.extensionsOnly
+    ? new Set(repoConfig.extensionsOnly)
+    : DEFAULT_EXTENSIONS;
+
+  const maxDepth = repoConfig.maxDepth || Infinity;
 
   while (queue.length > 0) {
-    const currentDir = queue.shift();
+    const { dir, depth } = queue.shift();
     let items;
     try {
-      items = fs.readdirSync(currentDir, { withFileTypes: true });
+      items = fs.readdirSync(dir, { withFileTypes: true });
     } catch (e) {
       continue;
     }
 
     for (const item of items) {
-      const fullPath = path.join(currentDir, item.name);
+      const fullPath = path.join(dir, item.name);
 
       if (item.isDirectory()) {
-        if (!shouldExcludeDir(item.name)) {
-          queue.push(fullPath);
+        if (!shouldExcludeDir(item.name, repoConfig) && depth < maxDepth) {
+          queue.push({ dir: fullPath, depth: depth + 1 });
         }
       } else if (item.isFile()) {
         const ext = path.extname(item.name).toLowerCase();
-        if (CONTENT_EXTENSIONS.has(ext) && !shouldSkipFile(fullPath, item.name)) {
+        if (allowedExtensions.has(ext) && !shouldSkipFile(item.name)) {
           entries.push(fullPath);
         }
       }
@@ -241,21 +343,21 @@ function walkDir(dir) {
   return entries;
 }
 
-function processFile(fullPath) {
-  const relativePath = getRelativePath(fullPath);
+function processFile(fullPath, repoConfig) {
+  const relativePath = getRelativePath(fullPath, repoConfig.root);
   const ext = path.extname(fullPath).toLowerCase();
   const fileName = path.basename(fullPath);
   const stat = fs.statSync(fullPath);
 
   const entry = {
-    id: computeId(relativePath),
-    repo: REPO_NAME,
+    id: computeId(repoConfig.name, relativePath),
+    repo: repoConfig.name,
     path: relativePath,
-    github_url: `${GITHUB_BASE}/${relativePath}`,
+    github_url: `${repoConfig.github}/${relativePath}`,
     title: fileName,
     extension: ext,
     content_type: getContentType(ext),
-    category: getCategory(relativePath),
+    category: getCategory(relativePath, repoConfig.categoryMap),
     breadcrumbs: getBreadcrumbs(relativePath),
     tags: [],
     date: null,
@@ -291,22 +393,35 @@ function processFile(fullPath) {
 }
 
 function buildRepoStats(entries) {
-  const stats = {
+  const byRepo = {};
+  for (const entry of entries) {
+    if (!byRepo[entry.repo]) {
+      byRepo[entry.repo] = { total_files: 0, total_size_bytes: 0, by_content_type: {}, by_category: {} };
+    }
+    const rs = byRepo[entry.repo];
+    rs.total_files++;
+    rs.total_size_bytes += entry.size_bytes;
+    rs.by_content_type[entry.content_type] = (rs.by_content_type[entry.content_type] || 0) + 1;
+    rs.by_category[entry.category] = (rs.by_category[entry.category] || 0) + 1;
+  }
+
+  const global = {
     total_files: entries.length,
     by_content_type: {},
     by_category: {},
     by_extension: {},
-    total_size_bytes: 0
+    total_size_bytes: 0,
+    by_repo: byRepo
   };
 
   for (const entry of entries) {
-    stats.total_size_bytes += entry.size_bytes;
-    stats.by_content_type[entry.content_type] = (stats.by_content_type[entry.content_type] || 0) + 1;
-    stats.by_category[entry.category] = (stats.by_category[entry.category] || 0) + 1;
-    stats.by_extension[entry.extension] = (stats.by_extension[entry.extension] || 0) + 1;
+    global.total_size_bytes += entry.size_bytes;
+    global.by_content_type[entry.content_type] = (global.by_content_type[entry.content_type] || 0) + 1;
+    global.by_category[entry.category] = (global.by_category[entry.category] || 0) + 1;
+    global.by_extension[entry.extension] = (global.by_extension[entry.extension] || 0) + 1;
   }
 
-  return stats;
+  return global;
 }
 
 function buildTagIndex(entries) {
@@ -320,15 +435,25 @@ function buildTagIndex(entries) {
   return tagIndex;
 }
 
-function buildCrossReferences(entries) {
+function buildCrossReferences(allEntries, repoConfigs) {
   const refs = [];
-  const entryMap = new Map(entries.map(e => [e.id, e]));
-  const pathMap = new Map(entries.map(e => [e.path, e]));
+  const entryMap = new Map(allEntries.map(e => [e.id, e]));
+  const pathMap = new Map();
 
-  for (const entry of entries) {
+  for (const entry of allEntries) {
+    const key = `${entry.repo}:${entry.path}`;
+    pathMap.set(key, entry);
+  }
+
+  const repoByName = new Map(repoConfigs.map(r => [r.name, r]));
+
+  for (const entry of allEntries) {
     if (entry.content_type !== 'doc') continue;
+    const repoConfig = repoByName.get(entry.repo);
+    if (!repoConfig) continue;
+
     try {
-      const fullPath = path.join(REPO_ROOT, entry.path);
+      const fullPath = path.join(repoConfig.root, entry.path);
       const content = fs.readFileSync(fullPath, 'utf-8');
 
       const linkPattern = /\[([^\]]*)\]\(([^)]+)\)/g;
@@ -341,15 +466,22 @@ function buildCrossReferences(entries) {
 
         const sourceDir = path.dirname(fullPath);
         const resolvedPath = path.resolve(sourceDir, linkTarget);
-        const relTarget = getRelativePath(resolvedPath);
-        const targetEntry = pathMap.get(relTarget);
-        if (targetEntry && targetEntry.id !== entry.id) {
-          refs.push({
-            source: entry.id,
-            target: targetEntry.id,
-            type: 'link',
-            label: match[1].slice(0, 80)
-          });
+
+        for (const rc of repoConfigs) {
+          const relTarget = getRelativePath(resolvedPath, rc.root);
+          if (relTarget && !relTarget.startsWith('..') && !relTarget.startsWith('/')) {
+            const targetKey = `${rc.name}:${relTarget}`;
+            const targetEntry = pathMap.get(targetKey);
+            if (targetEntry && targetEntry.id !== entry.id) {
+              refs.push({
+                source: entry.id,
+                target: targetEntry.id,
+                type: entry.repo === targetEntry.repo ? 'link' : 'cross-repo-link',
+                label: match[1].slice(0, 80)
+              });
+              break;
+            }
+          }
         }
       }
     } catch (e) {
@@ -361,54 +493,75 @@ function buildCrossReferences(entries) {
 }
 
 function main() {
-  console.log(`Scanning ${REPO_ROOT}...`);
-  const files = walkDir(REPO_ROOT);
-  console.log(`Found ${files.length} content files`);
+  const allEntries = [];
 
-  const entries = [];
-  for (const file of files) {
-    try {
-      entries.push(processFile(file));
-    } catch (e) {
-      console.error(`Error processing ${file}: ${e.message}`);
+  for (const repoConfig of REPOS) {
+    console.log(`\nScanning ${repoConfig.name} (${repoConfig.root})...`);
+    if (!fs.existsSync(repoConfig.root)) {
+      console.log(`  SKIP — directory not found`);
+      continue;
     }
+    const files = walkDir(repoConfig.root, repoConfig);
+    console.log(`  Found ${files.length} content files`);
+
+    let count = 0;
+    for (const file of files) {
+      try {
+        allEntries.push(processFile(file, repoConfig));
+        count++;
+      } catch (e) {
+        console.error(`  Error processing ${file}: ${e.message}`);
+      }
+    }
+    console.log(`  Processed ${count} entries`);
   }
 
-  console.log(`Processed ${entries.length} entries`);
+  console.log(`\n--- Total: ${allEntries.length} entries across ${REPOS.length} repos ---`);
+
   console.log('Building cross-references...');
-  const crossRefs = buildCrossReferences(entries);
+  const crossRefs = buildCrossReferences(allEntries, REPOS);
   console.log(`Found ${crossRefs.length} cross-references`);
 
-  const tagIndex = buildTagIndex(entries);
-  const repoStats = buildRepoStats(entries);
+  const tagIndex = buildTagIndex(allEntries);
+  const repoStats = buildRepoStats(allEntries);
+
+  const repoRoots = {};
+  for (const rc of REPOS) {
+    repoRoots[rc.name] = rc.root;
+  }
 
   const index = {
-    schema_version: '1.0',
+    schema_version: '2.0',
     generated_at: new Date().toISOString(),
-    repo: REPO_NAME,
     github_org: 'vortsghost2025',
-    github_url: `https://github.com/vortsghost2025/${REPO_NAME}`,
+    repo_roots: repoRoots,
     stats: repoStats,
     tag_index: tagIndex,
     cross_references: crossRefs,
-    entries: entries
+    entries: allEntries
   };
 
-  const outputPath = path.join(REPO_ROOT, 'data', 'site-index.json');
+  const outputPath = path.join('S:/self-organizing-library', 'data', 'site-index.json');
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(outputPath, JSON.stringify(index, null, 2));
-  console.log(`Index written to ${outputPath}`);
-  console.log(`  ${entries.length} entries`);
+  console.log(`\nIndex written to ${outputPath}`);
+  console.log(`  ${allEntries.length} entries`);
   console.log(`  ${Object.keys(tagIndex).length} unique tags`);
   console.log(`  ${crossRefs.length} cross-references`);
   console.log(`  ${repoStats.total_size_bytes.toLocaleString()} total bytes`);
 
-  const summaryPath = path.join(REPO_ROOT, 'data', 'site-index-summary.json');
+  const summaryPath = path.join('S:/self-organizing-library', 'data', 'site-index-summary.json');
   const summary = {
-    schema_version: '1.0',
+    schema_version: '2.0',
     generated_at: index.generated_at,
-    repo: REPO_NAME,
-    stats: repoStats,
+    repo_count: REPOS.length,
+    stats: {
+      total_files: repoStats.total_files,
+      total_size_bytes: repoStats.total_size_bytes,
+      by_repo: Object.fromEntries(
+        Object.entries(repoStats.by_repo).map(([name, rs]) => [name, { total_files: rs.total_files, total_size_bytes: rs.total_size_bytes }])
+      ),
+    },
     tag_count: Object.keys(tagIndex).length,
     cross_ref_count: crossRefs.length,
     top_tags: Object.entries(tagIndex)
