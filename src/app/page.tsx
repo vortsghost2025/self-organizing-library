@@ -38,18 +38,18 @@ export default async function Dashboard() {
         <div className="card p-6 animate-fade-in stagger-5">
           <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">Recent Documents</h2>
           <div className="space-y-3">
-            {recentDocs.map((doc) => (
-              <a
-                key={doc.id}
-                href={`/library/${doc.id}`}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-[var(--bg-surface-hover)] transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-2 h-2 rounded-full ${doc.content_type === 'paper' ? 'bg-[var(--secondary)]' : doc.content_type === 'code' ? 'bg-[var(--success)]' : 'bg-[var(--primary)]'}`} />
-                  <span className="text-[var(--text-primary)] truncate max-w-[280px]">{doc.title}</span>
-                </div>
-                <span className="text-xs text-[var(--text-muted)] mono">{doc.category}</span>
-              </a>
+      {recentDocs.map((doc) => (
+        <Link
+          key={doc.id}
+          href={`/library/${doc.id}`}
+          className="flex items-center justify-between p-3 rounded-lg hover:bg-[var(--bg-surface-hover)] transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <div className={`w-2 h-2 rounded-full ${doc.content_type === 'paper' ? 'bg-[var(--secondary)]' : doc.content_type === 'code' ? 'bg-[var(--success)]' : 'bg-[var(--primary)]'}`} />
+            <span className="text-[var(--text-primary)] truncate max-w-[280px]">{doc.title}</span>
+          </div>
+          <span className="text-xs text-[var(--text-muted)] mono">{doc.category}</span>
+        </Link>
             ))}
           </div>
           <Link href="/library" className="block mt-4 text-center text-[var(--primary)] text-sm hover:underline">View all documents →</Link>

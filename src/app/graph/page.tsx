@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Link from "next/link";
 
 const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
   ssr: false,
@@ -39,7 +38,7 @@ export default function GraphPage() {
             Deliberate Ensemble project.
           </p>
           <p className="text-[var(--text-muted)] mt-4">
-            Alternatively, browse the <Link href="/library" className="text-[var(--primary)] underline">Library</Link> or <Link href="/repos" className="text-[var(--primary)] underline">Repositories</Link> pages for a non-interactive view.
+            Alternatively, browse the <a href="/library" className="text-[var(--primary)] underline">Library</a> or <a href="/repos" className="text-[var(--primary)] underline">Repositories</a> pages for a non-interactive view.
           </p>
         </div>
       </noscript>
