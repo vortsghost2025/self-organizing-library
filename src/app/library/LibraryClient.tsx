@@ -87,6 +87,9 @@ export default function LibraryClient({
 
   return (
     <div className="p-8" data-pagefind-body>
+      <a href="#library-filters" className="skip-to-content">
+        Skip to filters
+      </a>
       <div className="flex items-center justify-between mb-8 animate-fade-in">
         <div>
           <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Library</h1>
@@ -169,7 +172,7 @@ export default function LibraryClient({
       </div>
 
       <div className="grid grid-cols-4 gap-6">
-        <div className="col-span-1">
+        <div className="col-span-1" id="library-filters">
           <div className="card p-4 mb-4">
             <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">Categories</h3>
             <div className="space-y-1">

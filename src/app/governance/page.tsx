@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 interface ArtifactSummary {
   total: number;
@@ -122,6 +123,19 @@ export default function GovernancePage() {
   if (loading) {
     return (
       <div className="p-8">
+        <noscript>
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Governance Dashboard</h1>
+            <p className="text-[var(--text-secondary)]">
+              The governance dashboard requires JavaScript to fetch and display real-time
+              verification data. Please enable JavaScript to view lane coordination status,
+              drill results, and artifact classification.
+            </p>
+            <p className="text-[var(--text-muted)] mt-4">
+              Alternatively, browse the <Link href="/library" className="text-[var(--primary)] underline">Library</Link> for static governance documents.
+            </p>
+          </div>
+        </noscript>
         <div className="text-[var(--text-muted)]">Loading governance data...</div>
       </div>
     );
