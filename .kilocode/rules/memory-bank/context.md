@@ -829,7 +829,70 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 - `next.config.ts` kept minimal (staticGenerationWorkerCount env var not needed after filter fix)
 
 **Current Build Stats:**
-- Total pages: 680
+- Total pages: 683 (including /sitemap.xml and /robots.txt)
 - SSG `/library/[id]`: 657 pre-rendered + dynamic fallback for others
 - Pagefind: 662 pages indexed, 13,085 words, 1 filter
 - Index: 2,954 entries across 7 repos
+
+### Session 2026-04-25 (Evening): Sitemap + Dynamic Robots.txt — ✅ COMPLETE (commit `ab2027e`)
+- Created `src/app/sitemap.ts` — Next.js built-in sitemap generation
+  - 10 static pages (/, /library, /repos, /graph, /papers, /logs, /about, /start-here, /governance, /search-catalog) with priority + changefreq
+  - 657 document pages (/library/[id]) with lastModified from entry.modified dates
+  - Outputs valid XML sitemap at /sitemap.xml (static, ○)
+- Created `src/app/robots.ts` — Next.js built-in robots.txt generation (replaces static public/robots.txt)
+  - Allow: /, Disallow: /api/, Sitemap: https://deliberateensemble.works/sitemap.xml
+  - Deleted public/robots.txt (no longer needed, robots.ts generates it dynamically)
+- Build verified: /robots.txt and /sitemap.xml both appear as static (○) pages
+- Deployed to Vercel production: deliberateensemble.works
+
+### Session 2026-04-25 (Late): Publications Hub — ✅ COMPLETE (commit `3640631`)
+- Created `src/lib/publications.ts` — static data file with 41 external publication entries:
+  - 10 Medium articles (from RSS feed at medium.com/feed/@ai_28876)
+  - 15 we-and-ai-papers docs (from GitHub API, curated key docs)
+  - 15 Deliberate-AI-Ensemble docs (from GitHub API, curated key docs)
+  - 1 OSF preprint link (placeholder to osf.io/n3tya)
+- Each entry: { source, title, url, date?, description?, tags[] }
+- `SOURCE_META` object with label, icon, color, description, repoUrl per source
+- Helper functions: `getAllPublications()`, `getPublicationsBySource()`
+- Rebuilt `src/app/papers/page.tsx` from 94→290 lines as full publications hub:
+  - 5 sections: Rosetta Stone Papers (internal), Medium Articles, we-and-ai-papers, Deliberate-AI-Ensemble, OSF Preprints
+  - Source badges with colored icons per source
+  - Quick-nav source jump links at top
+  - `<Link>` for internal links, `<a>` for external (lint compliant)
+  - ARIA accessibility: `aria-labelledby` on sections, proper heading hierarchy
+  - `max-w-[65ch]` on description text for readability
+  - "View source →" links to external repos/profiles
+ - Build: success (685 pages, /papers is static ○)
+ - Deployed to Vercel production: deliberateensemble.works
+
+### Session 2026-04-26: Kernel E2E Verification + Inbox Triage + Archivist Status Update
+
+**Kernel E2E Verification — ✅ ALL KERNEL P0 FIXES PROVEN IN LIBRARY**
+- Read 4 Kernel E2E messages in Archivist inbox (kernel-e2e-status, kernel-e2e-independent, kernel-fix-delta, kernel-e2e-closure)
+- Kernel found and fixed 3 P0s: post-compact-audit crash, execution-gate regression, artifact-resolver regression
+- Library independent runtime verification (2026-04-26T01:54Z):
+  - test-execution-gate.js: 10/10 PASS ✅
+  - test-artifact-resolver.js: 8/8 PASS ✅
+  - recovery-test-suite.js: 11/11 PASS ✅
+- cross-lane-consistency-check.js: EXISTS in Library ✅
+- lane-worker.js: PATCHED and functional ✅
+- Kernel closure artifact: commit b3a2fb6, documents full P0 lifecycle
+- Convergence gate: **proven** — no contradictions
+
+**Archivist Status Message Delivered — ✅ COMPLETE**
+- Written to outbox: `lanes/library/outbox/library-kernel-e2e-verification-20260426.json`
+- Delivered to Archivist canonical inbox: `S:/Archivist-Agent/lanes/archivist/inbox/library-kernel-e2e-verification-20260426.json`
+- Message includes: Kernel E2E verification results, website status, governance health, inbox status, 4 questions for Archivist decision
+- requires_action: true — awaiting Archivist response
+
+**Library Quarantine Triage — ✅ COMPLETE**
+- 15 stale messages from Apr 20-23 moved from quarantine/ → processed/
+- All pre-convergence, all referencing resolved issues (key mismatch, E2E tests, book6 ack, reactivation)
+- Library inbox now: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine EMPTY
+
+**Active Blocker Note:**
+- `active-blocker.json` status = "resolved" but file not removed (owner = archivist)
+- Library flagged this in Archivist message for cleanup
+
+**Heartbeat Written — ✅ COMPLETE**
+- `heartbeat-library.json` updated with current status + test results

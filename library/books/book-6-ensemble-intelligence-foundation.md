@@ -15,7 +15,7 @@ This paper documents what happened next: first contact with reality exposed gaps
 
 We proceed in three parts:
 
-1. **Identify failure modes** — Not abstractly, but concretely from the running system. Twenty named failure modes emerged during implementation and post-ratification monitoring, including self-state aliasing (NFM-002), trust store key_id mapping errors, atomic write silent failures on Windows, enforcement default-open gaps, batch completion stamps that are not per-message proof, temporal constraint violations (NFM-018), schema–behavior mismatches (NFM-019), and cross-lane observability boundaries (NFM-020).
+1. **Identify failure modes** — Not abstractly, but concretely from the running system. Twenty-eight named failure modes emerged during implementation and post-ratification monitoring, including self-state aliasing (NFM-002), trust store key_id mapping errors, atomic write silent failures on Windows, enforcement default-open gaps, batch completion stamps that are not per-message proof, temporal constraint violations (NFM-018), schema–behavior mismatches (NFM-019), and cross-lane observability boundaries (NFM-020).
 
 2. **Formalize limits** — We extend the Cross-Domain Interpretation Limits from Paper A into three new categories: enforcement limits (what cannot be enforced from inside the process), observability limits (what cannot be seen from any single lane), and autonomy limits (what a lane cannot decide about other lanes). These limits are not weaknesses — they are the boundary conditions that make the theory predictive.
 
@@ -35,7 +35,7 @@ Paper E (WE4FREE Framework) was rushed. Its author has stated this explicitly. T
 
 2. **No fail-closed discipline.** Paper E §7.2 describes "graceful degradation" assuming enforcement always works. The real system discovered default-open enforcement — warn/audit modes, a `verified=false` middle ground, unsigned audit events accepted as valid — and required five fail-closed patches to close exploitable gaps.
 
-3. **No real failure mode taxonomy.** Paper E §12.2 lists three failure modes (CPS Observer Effect, Lattice Deformation Under Extreme Pressure, Multi-Agent Coordination at Scale). The system actually produced twenty named failure modes including self-state aliasing, trust store format mismatches, atomic write silent failures, batch terminal_decision stamps, temporal constraint violations, schema–behavior mismatches, and cross-lane observability boundaries.
+3. **No real failure mode taxonomy.** Paper E §12.2 lists three failure modes (CPS Observer Effect, Lattice Deformation Under Extreme Pressure, Multi-Agent Coordination at Scale). The system actually produced twenty-eight named failure modes including self-state aliasing, trust store format mismatches, atomic write silent failures, batch terminal_decision stamps, temporal constraint violations, schema–behavior mismatches, and cross-lane observability boundaries.
 
 4. **ConstraintPropagationEngine is pseudocode.** Paper E §3.2 presents it as runnable code. Real constraint propagation works through governance documents (COVENANT.md, GOVERNANCE.md, BOOTSTRAP.md), not a JavaScript class.
 
@@ -71,9 +71,9 @@ Paper F extends this framing: the theory's own failures are domain-specific evid
 
 ## 2. Part I: Failure Modes from Implementation
 
-### 2.1 The Twenty Named Failure Modes
+### 2.1 The Twenty-Eight Named Failure Modes
 
-During the 12-week build (January–April 2026), the following failure modes were identified, named, and documented. They are listed in discovery order, not severity order. NFM-001 through NFM-017 were discovered during initial deployment and hardening. NFM-018 through NFM-020 were identified during post-ratification monitoring and cross-lane stress testing.
+During the 12-week build (January–April 2026), the following failure modes were identified, named, and documented. They are listed in discovery order, not severity order. NFM-001 through NFM-017 were discovered during initial deployment and hardening. NFM-018 through NFM-020 were identified during post-ratification monitoring and cross-lane stress testing. NFM-021 through NFM-024 were discovered during relay loop testing and schema hardening. NFM-025 through NFM-028 were identified during architecture review of key lifecycle gaps.
 
 | NFM | Name | Discovery | Severity |
 |-----|------|-----------|----------|
@@ -97,10 +97,18 @@ During the 12-week build (January–April 2026), the following failure modes wer
 | NFM-018 | Temporal constraint violation | Execution gate checks for artifact existence before the task has been executed; constraint evaluated before satisfaction conditions are causally reachable | High |
 | NFM-019 | Schema–behavior mismatch | Schema permits only governance-process values (`proposal`/`review`/`amendment`/`ratification`) but system produces task-lifecycle values (`ack`/`done`/`status`); specification gap treated as compliance violation | High |
 | NFM-020 | Cross-lane observability boundary | Lane A cannot verify Lane B's artifact because path is relative to B's filesystem root; `not visible ≠ not real` | P0 |
+| NFM-021 | Relative path resolution failure | Artifact-resolver only handled absolute paths; relative evidence_exchange.artifact_path values always rejected | Medium |
+| NFM-022 | Evidence pre-condition on new tasks | Execution verification gate treats evidence.required=true as pre-condition for all messages, including new actionable tasks that haven't been executed yet | High |
+| NFM-023 | Transport ≠ execution | Successful message delivery does not imply successful task execution; delivered message may sit indefinitely without consumer | Medium |
+| NFM-024 | Schema enum insufficient for operational vocabulary | Schema's artifact_type enum too narrow; legitimate values rejected as SCHEMA_INVALID | Medium |
+| NFM-025 | Signature validity under compromised key | Valid cryptographic signature does not guarantee message was authorized if private key is compromised | Critical |
+| NFM-026 | Trust store divergence across lanes | Each lane maintains own copy of trust-store.json; no automated cross-lane consistency verification at runtime | High |
+| NFM-027 | Key rotation race condition | During key rotation, messages signed with old key rejected by updated lanes and vice versa | Medium |
+| NFM-028 | Stale signature replay attack | Previously valid signed message can be re-delivered; no timestamp freshness check prevents re-processing | Medium |
 
 ### 2.2 Failure Mode Classification
 
-These twenty failures cluster into five categories:
+These twenty-eight failures cluster into six categories:
 
 **Category 1: Enforcement Gaps (NFM-003, 004, 016)**
 Each failure mode corresponds to a point where the constraint lattice was incomplete or incorrectly specified. The system's own enforcement can be bypassed. Write-before-gate races use lower-level APIs. Soft enforcement modes (`verified=false`) create middle grounds that get ignored. Authority agents apply batch stamps that are not genuine per-message completion proof. The common thread: enforcement is only as strong as its weakest enforcement point, and the system had multiple weak points that were invisible until stressed.
@@ -117,7 +125,7 @@ Messages delivered to the wrong path. Schema fields inconsistent across lanes. E
 **Category 5: Platform-Specific Failures (NFM-006, 014)**
 Subagent file destruction and Windows atomic write failures are platform failures, not theory failures. But the theory must account for them: any claim about enforcement that depends on atomic writes being atomic is a claim that fails on Windows. Any claim about agent behavior that depends on AI subagents not destroying files is a claim that fails when subagents are given write access.
 
-**Category 6: Schema-Reality and Observability Gaps (NFM-019, 020)**
+**Category 6: Schema-Reality and Observability Gaps (NFM-019, 020, 021, 022, 023, 024)**
 Schema declares constraints that runtime does not enforce, and runtime enforces constraints that schema does not declare. NFM-019 is the paradigmatic case: a schema says `task_kind` must be one of `proposal|review|amendment|ratification` but the system naturally produces task-lifecycle operations (`ack`, `done`, `status`). The specification gap was treated as a compliance violation — the default assumption should be "schema incomplete" before "behavior wrong," unless the constraint is intentional governance. NFM-020 extends this across lanes: Archivist's execution gate could not verify SwarmMind's artifact because the artifact path was relative to SwarmMind's filesystem root (`S:/SwarmMind/lanes/swarmmind/outbox/...`), while Archivist checked within its own root (`S:/Archivist-Agent/lanes/swarmmind/outbox/...`), producing `OUTSIDE_ALLOWED_ROOTS`. The artifact exists; it is simply not observable from the verifier's scope. The system must not conflate "I cannot verify this" with "this is false." These failures reveal that the constraint lattice had a layer — the schema-enforcement binding — that was assumed but never verified.
 
 ### 2.2.1 Failure Space Decomposition
@@ -188,7 +196,7 @@ This is now an invariant: *a live active lane must not classify itself — or an
 
 ### 2.4 What Paper E's Failure Mode Taxonomy Missed
 
-Paper E §12.2 listed three failure modes. The implementation produced twenty. The gap is not that Paper E was careless — it is that Paper E's taxonomy was *theoretical*. It listed failures that the theory predicted, not failures that the system produced.
+Paper E §12.2 listed three failure modes. The implementation produced twenty-eight. The gap is not that Paper E was careless — it is that Paper E's taxonomy was *theoretical*. It listed failures that the theory predicted, not failures that the system produced.
 
 The theory predicted:
 - CPS Observer Effect — measurement changes behavior
@@ -356,7 +364,7 @@ Each round follows the same pattern: failure → detection → correction → co
 
 **Self-correcting does not mean convergent on first attempt.** The system required five rounds of convergence to reach RATIFIED status. Each round exposed new failures that the previous round's corrections did not anticipate. This is expected: the constraint lattice is discovered incrementally, not revealed all at once.
 
-**Self-correcting does not mean the theory is complete.** The twenty named failure modes are the ones that were observed. More will emerge. The theory predicts this: persistent failure reveals missing constraints. The theory is *predictive about its own incompleteness.*
+**Self-correcting does not mean the theory is complete.** The twenty-eight named failure modes are the ones that were observed. More will emerge. The theory predicts this: persistent failure reveals missing constraints. The theory is *predictive about its own incompleteness.*
 
 ### 4.5 The Theory's Phase Transition
 
@@ -410,7 +418,7 @@ The self-correcting loop in an AI governance system runs through schema validati
 
 Paper F corrects Paper E. This is not a contradiction — it is the theory working as intended.
 
-Paper E described a system before it was deployed. Paper F describes what deployment revealed. The gap between them is the data the theory needs. Each of the twenty named failure modes points to a missing or mis-specified constraint. Each constraint refinement made the system more stable. Each stability was tested, stressed, and either confirmed or revealed to be incomplete.
+Paper E described a system before it was deployed. Paper F describes what deployment revealed. The gap between them is the data the theory needs. Each of the twenty-eight named failure modes points to a missing or mis-specified constraint. Each constraint refinement made the system more stable. Each stability was tested, stressed, and either confirmed or revealed to be incomplete.
 
 The Rosetta Stone theory now says:
 
@@ -456,8 +464,16 @@ These meta-checks operate above the execution gate. They are not additional cons
 | NFM-018 | State-Claim | §12.2 (failure modes) | Temporal bounds check on heartbeat timestamps |
 | NFM-019 | Schema-Reality | §7.2 (enforcement) | Schema-enforcement binding verification |
 | NFM-020 | Observability | §8.3 (coordination) | Enforcement-status field in heartbeat schema |
+| NFM-021 | Observability | §8.3 (coordination) | resolveRelativePath() against all allowed roots |
+| NFM-022 | Enforcement | §7.2 (degradation) | Skip evidence check for actionable new tasks |
+| NFM-023 | Protocol | §8.3 (coordination) | Transport-acknowledgment separate from execution-verification |
+| NFM-024 | Schema-Reality | §7.2 (enforcement) | Extended schema enum for operational vocabulary |
+| NFM-025 | Identity | §8.3 (coordination) | Key rotation + revocation + compromise detection (not yet implemented) |
+| NFM-026 | Identity | §8.3 (coordination) | Cross-lane trust store consistency verification (not yet implemented) |
+| NFM-027 | Identity | §8.3 (coordination) | Key rotation protocol with overlap window (not yet implemented) |
+| NFM-028 | Identity | §8.3 (coordination) | Timestamp freshness check on inbound messages (not yet implemented) |
 
-**Observation:** 10 of 20 failure modes trace to Paper E §8.3 (Multi-Agent Coordination). Paper E devoted the least empirical grounding to this section, and it produced the most failures. The correlation between under-specification and failure rate is itself evidence for the self-correcting loop: under-specified constraints produce more failures, which point back to the under-specification.
+**Observation:** 14 of 28 failure modes trace to Paper E §8.3 (Multi-Agent Coordination). Paper E devoted the least empirical grounding to this section, and it produced the most failures. The correlation between under-specification and failure rate is itself evidence for the self-correcting loop: under-specified constraints produce more failures, which point back to the under-specification.
 
 ---
 
@@ -481,9 +497,9 @@ Per the Library Lane's convergence gate protocol, each major claim in this paper
 
 | Claim | Evidence | Verified By | Status |
 |-------|----------|-------------|--------|
-| 20 named failure modes exist | NFM table + commit logs + test scripts | library | proven |
+| 28 named failure modes exist | NFM table + commit logs + test scripts | library | proven |
 | Self-state aliasing is a distinct failure mode | CAISC_CONTRIBUTION_SELF_STATE_ALIASING.md | library + external (CAISC submission) | proven |
-| Paper E §8.3 was the most failure-prone section | Topology table (10/20 failures trace to §8.3) | library | proven |
+| Paper E §8.3 was the most failure-prone section | Topology table (14/28 failures trace to §8.3) | library | proven |
 | Fail-closed patches closed enforcement gaps | fail-closed-test-suite.js (13/13 PASS) | library | proven |
 | System converges to more constrained states after correction | Correction timeline (5 rounds, each more stable) | library | proven |
 | Unstable behavior reveals missing constraints | Each NFM maps to a specific under-specification in Paper E | library | proven |

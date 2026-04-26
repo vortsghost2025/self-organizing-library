@@ -1,7 +1,7 @@
 # Failure Modes Index
 
 **Last Updated:** 2026-04-26
-**Total Named Failure Modes:** 14
+**Total Named Failure Modes:** 28
 
 ---
 
@@ -48,6 +48,170 @@
 **Current Mitigation:** Phase 2 covers sync methods only
 **Phase 2.5 Fix:** Wrap fs.promises, add test coverage
 **Phase 3 Fix:** OS-level file permissions, file system watcher
+
+---
+
+### NFM-004: Identity Enforcement Soft Mode
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** P0
+**Definition:** `verified=false` middle ground permits unsigned messages to enter processing instead of being rejected
+**Discovery:** 2026-04-19 (Enforcement audit)
+**File:** Not yet created
+
+**Key Evidence:**
+- IdentityEnforcer was running in 'warn' mode, not 'enforce' mode
+- Unsigned messages received `verified=false` but still entered processing
+- Fixed: switched to enforce mode — unsigned → expired/, no middle ground
+
+---
+
+### NFM-005: Trust Store Format Mismatch
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** HIGH
+**Definition:** Trust store used flat format (lane IDs as top-level keys) but Verifier expected nested `{ keys: {} }` format
+**Discovery:** 2026-04-19 (Cross-lane key_id verification)
+**File:** Not yet created
+
+**Key Evidence:**
+- Verifier.js and TrustStoreManager.js now normalize both formats
+- Flat format automatically converted to nested format at load time
+
+---
+
+### NFM-006: Subagent File Destruction
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** HIGH
+**Definition:** AI agent overwrites 138-line file with 22-line fragment, destroying content silently
+**Discovery:** 2026-04-20 (Subagent session)
+**File:** Not yet created
+
+**Key Evidence:**
+- Write tool can silently fail on Windows
+- Always verify file content and line count after writes
+
+---
+
+### NFM-007: Undefined TRUST_STORE_PATH
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** HIGH
+**Definition:** constants.js didn't export what Verifier.js imported — `TRUST_STORE_PATH` was undefined
+**Discovery:** 2026-04-19 (Runtime crash)
+**File:** Not yet created
+
+---
+
+### NFM-008: Nonexistent Method Call
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** HIGH
+**Definition:** `trustStore.loadFromArchivist()` crashes at runtime — method never existed
+**Discovery:** 2026-04-19 (Runtime crash)
+**File:** Not yet created
+
+---
+
+### NFM-009: Freshness ≠ Liveness
+**Status:** DOCUMENTED, NOT YET MITIGATED
+**Severity:** MEDIUM
+**Definition:** Heartbeat/git checks measure artifact freshness, not process liveness. A stale artifact does not mean a dead process.
+**Discovery:** 2026-04-19 (Liveness audit)
+**File:** Not yet created
+
+---
+
+### NFM-010: Canonical vs Mirror Delivery
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** MEDIUM
+**Definition:** Messages written to local mirror copy instead of target's actual repository path
+**Discovery:** 2026-04-20 (Cross-lane delivery audit)
+**File:** Not yet created
+
+**Key Evidence:**
+- Senders must write to target's CANONICAL path, not their own local mirror
+- Fixed: delivery paths now target absolute canonical paths
+
+---
+
+### NFM-011: Schema Enum Mismatch
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** MEDIUM
+**Definition:** `kernel` vs `kernel-lane` inconsistency between to-enum and canonical_paths
+**Discovery:** 2026-04-20 (Schema validation audit)
+**File:** Not yet created
+
+---
+
+### NFM-012: Non-Compliant Message Emission
+**Status:** DOCUMENTED, OBSERVED
+**Severity:** MEDIUM
+**Definition:** SwarmMind uses `from_lane`/`to_lane` instead of schema-compliant `from`/`to`
+**Discovery:** 2026-04-20 (Inbox watcher rejection logs)
+**File:** Not yet created
+
+**Key Evidence:**
+- Library sent compliance notice to SwarmMind
+- Non-compliant messages rejected at enforcement gate (by design)
+
+---
+
+### NFM-013: Cryptographically Wrong Key IDs
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** CRITICAL
+**Definition:** Sync script propagated one lane's key_id to all trust store entries instead of computing each independently
+**Discovery:** 2026-04-20 (DER fingerprint verification)
+**File:** Not yet created
+
+**Key Evidence:**
+- All 4 lanes had identical key_ids in trust store
+- Fixed: each lane's key_id now computed as SHA-256 of its own DER public key
+
+---
+
+### NFM-014: Silent Atomic Write Failure
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** CRITICAL
+**Definition:** Windows file locking causes write to appear successful but content not persisted to disk
+**Discovery:** 2026-04-20 (Cross-platform testing)
+**File:** Not yet created
+
+**Key Evidence:**
+- Atomic writes can silently fail on Windows
+- Always verify file content after write operations
+
+---
+
+### NFM-015: Disappearing Identity Directory
+**Status:** DOCUMENTED, OBSERVED
+**Severity:** HIGH
+**Definition:** SwarmMind `.identity/` directory vanished due to git/.gitignore misconfiguration
+**Discovery:** 2026-04-20 (Identity key audit)
+**File:** Not yet created
+
+---
+
+### NFM-016: Batch Terminal Decision Stamps
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** P0
+**Definition:** Authority agent applied blanket "obviated" terminal_decision stamp to 64/67 files without per-message proof of resolution
+**Discovery:** 2026-04-22 (P0 remediation audit)
+**File:** Not yet created
+
+**Key Evidence:**
+- 22 action-required messages recovered, 5 fail-closed gaps patched
+- Per-message verification now required before stamping terminal_decision
+
+---
+
+### NFM-017: Cryptographically Invalid PEM
+**Status:** ACTIVE RISK - awaiting SwarmMind regeneration
+**Severity:** CRITICAL
+**Definition:** SwarmMind trust-store entry fails `crypto.createPublicKey()` — PEM is not a valid RSA public key
+**Discovery:** 2026-04-22 (Trust store verification)
+**File:** Not yet created
+
+**Key Evidence:**
+- Library discovered and escalated; Library cannot fix SwarmMind's keys
+- Blocks 2 recovery tests (9/11 instead of 11/11)
+- Awaiting SwarmMind key regeneration or operator intervention
 
 ---
 
