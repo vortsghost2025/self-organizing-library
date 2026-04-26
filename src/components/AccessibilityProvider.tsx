@@ -78,13 +78,41 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         aria-label="Accessibility controls"
       >
         <button
-          onClick={cycleMode}
-          className="px-3 py-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
-          aria-label={`Display mode: ${MODE_LABELS[mode]}. Click to cycle.`}
-          title={`Current: ${MODE_LABELS[mode]}. Click to cycle.`}
+          onClick={() => setMode("high-contrast")}
+          className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
+            mode === "high-contrast"
+              ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary)]"
+              : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
+          }`}
+          aria-pressed={mode === "high-contrast"}
+          aria-label="High Contrast mode"
+          title="High Contrast"
         >
-          {mode === "high-contrast" ? "◐" : mode === "large-text" ? "Aa" : "◑"} {MODE_LABELS[mode]}
+          ◐ High Contrast
         </button>
+        <button
+          onClick={() => setMode("large-text")}
+          className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
+            mode === "large-text"
+              ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary)]"
+              : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
+          }`}
+          aria-pressed={mode === "large-text"}
+          aria-label="Large Text mode"
+          title="Large Text"
+        >
+          Aa Large Text
+        </button>
+        {mode !== "default" && (
+          <button
+            onClick={() => setMode("default")}
+            className="px-2 py-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-all text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
+            aria-label="Reset to default display mode"
+            title="Reset to Default"
+          >
+            ✕
+          </button>
+        )}
       </div>
     </A11yContext.Provider>
   );
