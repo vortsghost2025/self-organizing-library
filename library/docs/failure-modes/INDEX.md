@@ -1,7 +1,7 @@
 # Failure Modes Index
 
 **Last Updated:** 2026-04-26
-**Total Named Failure Modes:** 28
+**Total Named Failure Modes:** 35
 
 ---
 
@@ -359,6 +359,103 @@
 
 ---
 
+### NFM-029: Invalid task_kind at Dispatch
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** MEDIUM
+**Definition:** Dispatching a task with `task_kind="task"` causes SCHEMA_INVALID quarantine because "task" is a valid `type` enum value but NOT a valid `task_kind` enum value. The two enums have overlapping but distinct allowed values.
+**Discovery:** 2026-04-26 (Subagent batch testing — 3 messages quarantined)
+**File:** `docs/ops/SWARMIND_SUBAGENT_CONTRACT.md` (SBC-001)
+
+**Key Evidence:**
+- `task-task-1777227262664.json` quarantined: task_kind="task" not in allowed enum
+- `task-task-17772276063463v93.json` quarantined: same
+- `task-task-1777227606346tinw.json` quarantined: same
+- Fix: use task_kind="report" or "status" for work requests
+
+---
+
+### NFM-030: Windows Path Normalization Mismatch
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** MEDIUM
+**Definition:** `path.join()` on Windows produces backslash paths (`S:\SwarmMind\...`) but allowed-root comparisons used forward-slash strings (`S:/SwarmMind`). File read tasks for valid paths were rejected as "outside allowed roots".
+**Discovery:** 2026-04-26 (Subagent file read test — first attempt failed)
+**File:** `docs/ops/SWARMIND_SUBAGENT_CONTRACT.md` (SBC-005)
+
+**Key Evidence:**
+- `S:\SwarmMind\lanes\broadcast\system_state.json` rejected vs `S:/SwarmMind`
+- Fix: normalize both sides with `.replace(/\\/g, '/')` before comparison
+
+---
+
+### NFM-031: Long-Running Script Timeout
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** LOW
+**Definition:** Daemon scripts (heartbeat.js, relay-daemon.js, inbox-watcher.ps1) run indefinitely. When dispatched as "run script" tasks, the 30-second timeout kills them with ETIMEDOUT, producing confusing error responses.
+**Discovery:** 2026-04-26 (Batch test: "run script heartbeat" → ETIMEDOUT)
+**File:** `docs/ops/SWARMIND_SUBAGENT_CONTRACT.md` (SBC-011)
+
+**Key Evidence:**
+- `response-task-report-1777231724984nnj0.json`: exit -1, ETIMEDOUT
+- Fix: auto-detect daemon scripts by name and skip with clear message
+
+---
+
+### NFM-032: Cross-Lane Read Scope
+**Status:** ACTIVE RISK - accepted at Level 1
+**Severity:** MEDIUM (escalates to HIGH at Level 2)
+**Definition:** A delegated subagent can read files across all lane roots, not just its own. This means SwarmMind can access Kernel, Library, and Archivist filesystem contents via file-read tasks. The current path safety model allows cross-lane reads but restricts writes to own lane.
+**Discovery:** 2026-04-26 (Library throughput validation flagged this)
+**File:** `docs/ops/SWARMIND_SUBAGENT_CONTRACT.md` (SBC-019)
+
+**Key Evidence:**
+- "Read Kernel trust store" → S:/kernel-lane/lanes/broadcast/trust-store.json (success)
+- "Read Library NFM index" → S:/self-organizing-library/library/docs/failure-modes/INDEX.md (success)
+- This is by design at Level 1 (local dev, single operator)
+- Risk materializes when multiple operators or external agents exist
+
+---
+
+### NFM-033: Test Suite Exit Code Semantics
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** LOW
+**Definition:** Test suites (recovery-test-suite.js) exit with code 1 even when most tests pass (e.g. 10/11 PASS, 1 FAIL from lane_liveness). The executor treated any non-zero exit as a hard failure, obscuring the actual pass/fail ratio.
+**Discovery:** 2026-04-26 (Recovery test dispatched as subagent task)
+**File:** `docs/ops/SWARMIND_SUBAGENT_CONTRACT.md` (SBC-012)
+
+**Key Evidence:**
+- `response-task-report-1777227998797ksgf.json`: "exit 1" but 10/11 tests pass
+- The 1 failure (lane_liveness) is expected — not all lanes have active watchers
+- Fix: parse PASS/FAIL counts from stdout, report "10P/1F" not just "exit 1"
+
+---
+
+### NFM-034: system_state Field Name Mismatch
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** LOW
+**Definition:** The status report function read `ss.system_state` but the actual JSON field is `ss.system_status`. Result: status reports returned "unknown" instead of "consistent".
+**Discovery:** 2026-04-26 (First batch test: system_state: unknown)
+**File:** `docs/ops/SWARMIND_SUBAGENT_CONTRACT.md` (SBC-013)
+
+**Key Evidence:**
+- system_state.json contains `system_status: "consistent"`
+- Code read `ss.system_state` → undefined → "unknown"
+- Fix: read `ss.system_status` instead
+
+---
+
+### NFM-035: Grep Tool Unavailability on Windows
+**Status:** DOCUMENTED, MITIGATED
+**Severity:** LOW
+**Definition:** The grep/search capability used `rg` (ripgrep) which is not installed on Windows. Search tasks silently failed or returned "no matches" for paths that contained matches.
+**Discovery:** 2026-04-26 (First grep test: "rg is not recognized")
+**File:** `docs/ops/SWARMIND_SUBAGENT_CONTRACT.md` (SBC-018)
+
+**Key Evidence:**
+- `'rg' is not recognized as an internal or external command`
+- Fix: platform detection — use `findstr /s /n /i` on Windows, `rg` on Unix
+
+---
+
 ## Routing Invariants
 
 **Authoritative document:** `ROUTING_INVARIANT_TABLE.md`
@@ -445,6 +542,40 @@ Key invariant: **INV-1** (NFM-022) = new tasks never blocked for missing evidenc
 - Signed, valid messages quarantined as SCHEMA_INVALID
 - Error detail mentions specific enum field value not in allowed list
 - The rejected value is semantically meaningful in the system's operational context
+
+### NFM-029: Invalid task_kind at Dispatch
+- Message quarantined as SCHEMA_INVALID
+- task_kind value is "task" (valid type but not valid task_kind)
+- Fix: check task_kind enum at message creation time
+
+### NFM-030: Windows Path Normalization Mismatch
+- File read rejected as "outside allowed roots" for valid path
+- Path contains backslashes but allowed roots use forward slashes
+- Only manifests on Windows
+
+### NFM-031: Long-Running Script Timeout
+- Script run task returns ETIMEDOUT
+- Script name contains "heartbeat", "relay-daemon", or "inbox-watcher"
+- Fix: skip daemon scripts, use "status" instead
+
+### NFM-032: Cross-Lane Read Scope
+- Subagent reads files from other lane roots successfully
+- Path safety allows cross-lane reads by design
+- Risk: information leakage if multiple operators exist
+
+### NFM-033: Test Suite Exit Code Semantics
+- Script run reports exit code 1 for mostly-passing test suite
+- stdout contains [PASS] and [FAIL] markers
+- Actual pass ratio obscured by non-zero exit code
+
+### NFM-034: system_state Field Name Mismatch
+- Status report returns "unknown" for system_state
+- JSON file uses `system_status`, code reads `system_state`
+
+### NFM-035: Grep Tool Unavailability on Windows
+- Search/grep task fails with "not recognized" error
+- `rg` not installed on Windows
+- Fix: use `findstr` on Windows, `rg` on Unix
 
 ---
 
