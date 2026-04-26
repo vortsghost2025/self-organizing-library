@@ -1,7 +1,7 @@
 # Failure Modes Index
 
-**Last Updated:** 2026-04-25
-**Total Named Failure Modes:** 10
+**Last Updated:** 2026-04-26
+**Total Named Failure Modes:** 14
 
 ---
 
@@ -151,6 +151,47 @@
 - Rejected: `OUTSIDE_ALLOWED_ROOTS` (path didn't start with any allowed root)
 - Fixed: `resolveRelativePath()` joins relative paths against allowed roots
 - Same message processed successfully after fix: `execution_verified=true`
+
+---
+
+### NFM-025: Signature Validity Under Compromised Key
+**Status:** ACTIVE RISK - no mitigation
+**Severity:** CRITICAL
+**Definition:** A valid cryptographic signature does not guarantee the message was authorized by the lane owner. If a private key is compromised (leaked via git, stolen from disk, extracted from memory), any attacker can produce messages that pass every gate in our pipeline.
+**Discovery:** 2026-04-26 (Architecture review of key lifecycle gaps)
+**File:** `docs/ops/TRUST_LAYER_V1.md` (Archivist)
+
+**Key Evidence:**
+- Private keys existed in git history (removed in commit 196785b)
+- Key material on local disk with no access controls beyond OS file permissions
+- No key rotation, revocation, or compromise detection mechanism exists
+
+---
+
+### NFM-026: Trust Store Divergence Across Lanes
+**Status:** Partially mitigated (manual sync, no runtime check)
+**Severity:** HIGH
+**Definition:** Each lane maintains its own copy of trust-store.json. If one copy is modified (accidentally or maliciously), it will accept/reject different messages than the other lanes. No automated cross-lane consistency verification at runtime.
+**Discovery:** 2026-04-26 (Architecture review)
+**File:** `docs/ops/TRUST_LAYER_V1.md` (Archivist)
+
+---
+
+### NFM-027: Key Rotation Race Condition
+**Status:** Not yet encountered
+**Severity:** MEDIUM
+**Definition:** During a key rotation, there is a window where some lanes have the new key and others still have the old key. Messages signed with the old key are rejected by updated lanes; messages signed with the new key are rejected by lanes that haven't updated yet.
+**Discovery:** 2026-04-26 (Predicted from architecture review)
+**File:** `docs/ops/TRUST_LAYER_V1.md` (Archivist)
+
+---
+
+### NFM-028: Stale Signature Replay Attack
+**Status:** Partially mitigated (idempotency_key, no freshness check)
+**Severity:** MEDIUM
+**Definition:** A previously valid signed message can be re-delivered to a lane's inbox. If timestamp freshness is not checked, stale messages could be re-processed, causing duplicate execution of already-completed tasks.
+**Discovery:** 2026-04-26 (Predicted from architecture review)
+**File:** `docs/ops/TRUST_LAYER_V1.md` (Archivist)
 
 ---
 
