@@ -48,6 +48,10 @@ const REPO_COLORS: Record<string, string> = {
 const PATH_HIGHLIGHT = "#F59E0B";
 const PATH_EDGE_COLOR = "#FBBF24";
 const FOCUS_DIM_COLOR = "#1E1E28";
+const HOVER_DIM_COLOR = "#252530";
+const HOVER_DIM_EDGE_COLOR = "#1A1A22";
+const HIGH_DEGREE_THRESHOLD = 8;
+const HOVER_DEBOUNCE_MS = 60;
 
 function buildGraph(
   nodes: GraphNode[],
@@ -130,6 +134,8 @@ export default function NexusGraph() {
   const [pathNodes, setPathNodes] = useState<Set<string>>(new Set());
   const [pathEdges, setPathEdges] = useState<Set<string>>(new Set());
   const [cameraRatio, setCameraRatio] = useState(1);
+  const hoveredNeighborIdsRef = useRef<Set<string>>(new Set());
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const killSigma = useCallback(() => {
     if (sigmaRef.current) {
@@ -285,14 +291,18 @@ export default function NexusGraph() {
         }
 
         if (hoveredNode) {
+          const neighborIds = hoveredNeighborIdsRef.current;
           if (
             node === hoveredNode.id ||
-            graph.neighbors(hoveredNode.id).includes(node)
+            neighborIds.has(node)
           ) {
             res.highlighted = true;
           } else {
-            res.color = "#2A2A32";
-            res.label = "";
+            res.color = HOVER_DIM_COLOR;
+            const degree = graph.degree(node);
+            if (degree < HIGH_DEGREE_THRESHOLD) {
+              res.label = "";
+            }
           }
         }
         if (selectedNode && node === selectedNode.id) {
@@ -329,7 +339,10 @@ export default function NexusGraph() {
           const src = graph.source(edge);
           const tgt = graph.target(edge);
           if (src !== hoveredNode.id && tgt !== hoveredNode.id) {
-            res.hidden = true;
+            res.color = HOVER_DIM_EDGE_COLOR;
+            res.size = 0.2;
+          } else {
+            res.size = 1.5;
           }
         }
         return res;
@@ -358,32 +371,42 @@ export default function NexusGraph() {
         return;
       }
 
-      const n = nodeFromGraph(node);
-      if (n) setSelectedNode(n);
+          const n = nodeFromGraph(node);
+          if (n) setSelectedNode(n);
 
-      if (interactionMode === "focus" || interactionMode === "explore") {
-        setFocusedNodeId(node);
-        setInteractionMode("focus");
-const camera = renderer.getCamera() as any;
-          const nodeAttrs = graph.getNodeAttributes(node);
-          camera.animatedMoveTo({
-          x: nodeAttrs.x,
-          y: nodeAttrs.y,
-          ratio: 0.5,
-          angle: 0,
+          if (interactionMode === "focus") {
+            setFocusedNodeId(node);
+            const camera = renderer.getCamera() as any;
+            const nodeAttrs = graph.getNodeAttributes(node);
+            camera.animatedMoveTo({
+              x: nodeAttrs.x,
+              y: nodeAttrs.y,
+              ratio: 0.5,
+              angle: 0,
+            });
+          }
+    });
+
+        renderer.on("enterNode", ({ node }) => {
+          if (interactionMode !== "explore") return;
+          if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+          hoverTimeoutRef.current = setTimeout(() => {
+            const n = nodeFromGraph(node);
+            if (n) {
+              const graph = graphRef.current;
+              if (graph && graph.hasNode(node)) {
+                hoveredNeighborIdsRef.current = new Set(graph.neighbors(node));
+              }
+              setHoveredNode(n);
+            }
+          }, HOVER_DEBOUNCE_MS);
         });
-      }
-    });
 
-    renderer.on("enterNode", ({ node }) => {
-      if (interactionMode !== "explore") return;
-      const n = nodeFromGraph(node);
-      if (n) setHoveredNode(n);
-    });
-
-    renderer.on("leaveNode", () => {
-      setHoveredNode(null);
-    });
+        renderer.on("leaveNode", () => {
+          if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+          hoveredNeighborIdsRef.current = new Set();
+          setHoveredNode(null);
+        });
 
     renderer.on("clickStage", () => {
       if (interactionMode === "focus") {
@@ -404,10 +427,11 @@ const camera = renderer.getCamera() as any;
 
     sigmaRef.current = renderer;
 
-    return () => {
-      camera.removeListener("updated", onCameraUpdate);
-      killSigma();
-    };
+      return () => {
+        if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+        camera.removeListener("updated", onCameraUpdate);
+        killSigma();
+      };
   }, [
     loading,
     filter,
