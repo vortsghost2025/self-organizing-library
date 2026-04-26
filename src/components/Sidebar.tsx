@@ -2,10 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getStats } from "@/lib/site-index";
 import { useA11y } from "@/components/AccessibilityProvider";
 
-const stats = getStats();
+interface SidebarStats {
+  totalFiles: number;
+  tagCount: number;
+  categoryCount: number;
+}
+
+interface SidebarProps {
+  stats: SidebarStats;
+}
 
 const navItems = [
   { href: "/", icon: "◈", label: "Dashboard", ariaLabel: "Dashboard - overview and stats" },
@@ -20,7 +27,7 @@ const navItems = [
   { href: "/governance", icon: "⚖", label: "Governance", ariaLabel: "Governance - 4-lane system dashboard" },
 ];
 
-export function Sidebar() {
+export function Sidebar({ stats }: SidebarProps) {
   const pathname = usePathname();
   const { mode, cycleMode } = useA11y();
   const modeLabel = mode === "high-contrast" ? "High Contrast" : mode === "large-text" ? "Large Text" : "Default";

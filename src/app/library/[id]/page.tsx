@@ -33,8 +33,8 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
   );
 
   return (
-    <div className="flex min-h-screen">
-      <div className="flex-1 p-8" data-pagefind-body>
+    <div className="flex">
+    <div className="flex-1 p-8" data-pagefind-body>
         <div className="mb-6 animate-fade-in" data-pagefind-ignore>
           <Link href="/library" className="text-[var(--text-muted)] hover:text-[var(--primary)] text-sm">
             ← Back to Library

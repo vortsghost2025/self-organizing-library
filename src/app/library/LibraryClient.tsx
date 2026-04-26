@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import Link from "next/link";
 import type { IndexEntry } from "@/lib/site-index";
 
 interface CategoryCount {
@@ -216,12 +217,12 @@ export default function LibraryClient({
         <div className="col-span-3">
           <div className="grid grid-cols-1 gap-3">
             {filtered.length > 0 ? (
-              filtered.slice(0, 100).map((doc, i) => (
-                <a
-                  key={doc.id}
-                  href={`/library/${doc.id}`}
-                  className={`card p-5 animate-fade-in stagger-${(i % 5) + 1} hover:border-[var(--primary)] flex items-start gap-4`}
-                >
+    filtered.slice(0, 100).map((doc, i) => (
+        <Link
+          key={doc.id}
+          href={`/library/${doc.id}`}
+          className={`card p-5 animate-fade-in stagger-${(i % 5) + 1} hover:border-[var(--primary)] flex items-start gap-4`}
+        >
                   <div
                     className={`w-3 h-3 rounded-full mt-1.5 flex-shrink-0 ${
                       doc.content_type === "paper"
@@ -258,7 +259,7 @@ export default function LibraryClient({
                       {doc.content_type}
                     </span>
                   </div>
-                </a>
+                </Link>
               ))
             ) : (
               <div className="text-center py-16">
