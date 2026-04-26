@@ -10,9 +10,9 @@ export interface VideoEntry {
 export const videos: VideoEntry[] = [
   {
     youtubeId: "VjlNpj_ubNc",
-    title: "Autonomous Elasticsearch Evolution Agent",
+    title: "Autonomous Elasticsearch Evolution Agent (v2 — Mar 2026)",
     description:
-      "Autonomous agent that evolves Elasticsearch configurations — hackathon project demonstrating self-optimizing infrastructure",
+      "Autonomous agent that evolves Elasticsearch configurations — hackathon project demonstrating self-optimizing infrastructure (updated recording)",
     date: "2026-03-26",
     tags: ["elasticsearch", "autonomous-agent", "hackathon"],
     category: "hackathon",
@@ -37,7 +37,7 @@ export const videos: VideoEntry[] = [
   },
   {
     youtubeId: "DqufiPRBALY",
-    title: "Autonomous Elasticsearch Evolution Agent",
+    title: "Autonomous Elasticsearch Evolution Agent (v1 — Feb 2026)",
     description:
       "Earlier recording of the autonomous Elasticsearch evolution agent — initial hackathon demonstration",
     date: "2026-02-26",

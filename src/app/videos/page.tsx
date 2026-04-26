@@ -1,77 +1,61 @@
-import { videos, CHANNEL_META, CATEGORY_META, getVideosByCategory, type VideoEntry } from "@/lib/videos";
+import type { Metadata } from "next";
+import { videos, CHANNEL_META, CATEGORY_META, getVideosByCategory } from "@/lib/videos";
+import { VideoCard } from "./VideoCard";
 
-function VideoEmbed({ video }: { video: VideoEntry }) {
-  const embedUrl = `https://www.youtube.com/embed/${video.youtubeId}`;
-  const watchUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
-  const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`;
+export const metadata: Metadata = {
+  title: "Videos — Deliberate Ensemble",
+  description:
+    "Hackathon project demos and system recordings — watch the Deliberate Ensemble architecture in action, from autonomous agents to multi-lane coordination.",
+  alternates: { canonical: "https://deliberateensemble.works/videos" },
+  openGraph: {
+    title: "Videos — Deliberate Ensemble",
+    description:
+      "Hackathon project demos and system recordings — watch the Deliberate Ensemble architecture in action.",
+    url: "https://deliberateensemble.works/videos",
+    type: "website",
+    images: [
+      { url: "https://img.youtube.com/vi/R0-judyIpJk/hqdefault.jpg", width: 480, height: 360, alt: "SwarmMind system demo thumbnail" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Videos — Deliberate Ensemble",
+    description:
+      "Hackathon project demos and system recordings — watch the Deliberate Ensemble architecture in action.",
+    images: ["https://img.youtube.com/vi/R0-judyIpJk/hqdefault.jpg"],
+  },
+};
+
+function VideoObjectJsonLd() {
+  const schema = videos.map((v) => ({
+    "@type": "VideoObject",
+    name: v.title,
+    description: v.description,
+    uploadDate: v.date,
+    embedUrl: `https://www.youtube.com/embed/${v.youtubeId}`,
+    thumbnailUrl: `https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg`,
+    publisher: {
+      "@type": "Organization",
+      name: CHANNEL_META.channelName,
+      url: CHANNEL_META.channelUrl,
+    },
+  }));
 
   return (
-    <article className="card p-5 hover:border-[var(--secondary)] animate-fade-in">
-      <div className="mb-4">
-        <div
-          className="relative w-full overflow-hidden rounded-lg"
-          style={{ aspectRatio: "16 / 9" }}
-        >
-          <iframe
-            src={embedUrl}
-            title={video.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            loading="lazy"
-            className="absolute inset-0 w-full h-full border-0"
-          />
-        </div>
-      </div>
-      <div className="flex items-center gap-2 mb-2">
-        <span
-          className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
-          style={{
-            background: `${CHANNEL_META.color}20`,
-            color: CHANNEL_META.color,
-          }}
-        >
-          <span
-            className="w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold"
-            style={{ background: CHANNEL_META.color, color: "#fff" }}
-            aria-hidden="true"
-          >
-            {CHANNEL_META.icon}
-          </span>
-          {CHANNEL_META.label}
-        </span>
-        <span className="text-xs text-[var(--text-muted)]">
-          {new Date(video.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
-        </span>
-      </div>
-      <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">
-        {video.title}
-      </h3>
-      <p className="text-sm text-[var(--text-muted)] mb-3 max-w-[65ch]">
-        {video.description}
-      </p>
-      <div className="flex items-center gap-3 flex-wrap">
-        {video.tags.map((tag) => (
-          <span
-            key={tag}
-            className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"
-          >
-            {tag}
-          </span>
-        ))}
-        <a
-          href={watchUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-medium text-[var(--secondary)] hover:underline ml-auto"
-        >
-          Watch on YouTube &rarr;
-        </a>
-      </div>
-    </article>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: schema.map((item, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item,
+          })),
+        }),
+      }}
+    />
   );
 }
 
@@ -105,7 +89,7 @@ function CategorySection({
       </div>
       <div className="grid grid-cols-1 gap-6">
         {categoryVideos.map((video) => (
-          <VideoEmbed key={video.youtubeId} video={video} />
+          <VideoCard key={video.youtubeId} video={video} />
         ))}
       </div>
     </section>
@@ -128,6 +112,8 @@ export default function VideosPage() {
           multi-lane coordination.
         </p>
       </div>
+
+      <VideoObjectJsonLd />
 
       <div className="mb-8 flex gap-3 flex-wrap">
         <a
