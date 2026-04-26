@@ -121,12 +121,12 @@ export default function NexusGraph() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
-  const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const [stats, setStats] = useState({ nodes: 0, edges: 0 });
   const allNodesRef = useRef<GraphNode[]>([]);
   const allEdgesRef = useRef<GraphEdge[]>([]);
 
+  const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
+  const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
   const [interactionMode, setInteractionMode] = useState<InteractionMode>("explore");
   const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null);
   const [pathSource, setPathSource] = useState<string | null>(null);
@@ -134,15 +134,46 @@ export default function NexusGraph() {
   const [pathNodes, setPathNodes] = useState<Set<string>>(new Set());
   const [pathEdges, setPathEdges] = useState<Set<string>>(new Set());
   const [cameraRatio, setCameraRatio] = useState(1);
+
+  const hoveredNodeRef = useRef<GraphNode | null>(null);
+  const selectedNodeRef = useRef<GraphNode | null>(null);
+  const interactionModeRef = useRef<InteractionMode>("explore");
+  const focusedNodeIdRef = useRef<string | null>(null);
+  const pathSourceRef = useRef<string | null>(null);
+  const pathTargetRef = useRef<string | null>(null);
+  const pathNodesRef = useRef<Set<string>>(new Set());
+  const pathEdgesRef = useRef<Set<string>>(new Set());
+  const cameraRatioRef = useRef(1);
+
   const hoveredNeighborIdsRef = useRef<Set<string>>(new Set());
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const graphVersionRef = useRef(0);
 
-  const killSigma = useCallback(() => {
-    if (sigmaRef.current) {
-      sigmaRef.current.kill();
-      sigmaRef.current = null;
-    }
-  }, []);
+  useEffect(() => { selectedNodeRef.current = selectedNode; }, [selectedNode]);
+  useEffect(() => { hoveredNodeRef.current = hoveredNode; }, [hoveredNode]);
+  useEffect(() => { interactionModeRef.current = interactionMode; }, [interactionMode]);
+  useEffect(() => { focusedNodeIdRef.current = focusedNodeId; }, [focusedNodeId]);
+  useEffect(() => { pathSourceRef.current = pathSource; }, [pathSource]);
+  useEffect(() => { pathTargetRef.current = pathTarget; }, [pathTarget]);
+  useEffect(() => { pathNodesRef.current = pathNodes; }, [pathNodes]);
+  useEffect(() => { pathEdgesRef.current = pathEdges; }, [pathEdges]);
+  useEffect(() => { cameraRatioRef.current = cameraRatio; }, [cameraRatio]);
+
+  useEffect(() => {
+    if (!sigmaRef.current) return;
+    sigmaRef.current.setSetting("labelRenderedSizeThreshold", (() => {
+      const r = cameraRatioRef.current;
+      if (r < 0.3) return 3;
+      if (r < 0.6) return 5;
+      if (r < 1.2) return 8;
+      if (r < 3) return 14;
+      return 25;
+    })());
+  }, [cameraRatio]);
+
+  useEffect(() => {
+    if (sigmaRef.current) sigmaRef.current.refresh();
+  }, [hoveredNode, selectedNode, interactionMode, focusedNodeId, pathNodes, pathEdges, pathSource, pathTarget]);
 
   const nodeFromGraph = useCallback(
     (nodeId: string): GraphNode | null => {
@@ -225,22 +256,22 @@ export default function NexusGraph() {
     if (loading || !containerRef.current || allNodesRef.current.length === 0)
       return;
 
-    killSigma();
+    if (sigmaRef.current) {
+      sigmaRef.current.kill();
+      sigmaRef.current = null;
+    }
 
     const graph = buildGraph(allNodesRef.current, allEdgesRef.current, filter, filterMode);
     if (graph.order === 0) return;
     graphRef.current = graph;
-
-    const neighborSet =
-      interactionMode === "focus" && focusedNodeId
-        ? getNeighborSet(focusedNodeId)
-        : null;
+    graphVersionRef.current += 1;
 
     const labelThreshold = (() => {
-      if (cameraRatio < 0.3) return 3;
-      if (cameraRatio < 0.6) return 5;
-      if (cameraRatio < 1.2) return 8;
-      if (cameraRatio < 3) return 14;
+      const r = cameraRatioRef.current;
+      if (r < 0.3) return 3;
+      if (r < 0.6) return 5;
+      if (r < 1.2) return 8;
+      if (r < 3) return 14;
       return 25;
     })();
 
@@ -260,12 +291,19 @@ export default function NexusGraph() {
       stagePadding: 20,
       nodeReducer: (node, data) => {
         const res = { ...data };
+        const mode = interactionModeRef.current;
+        const hovered = hoveredNodeRef.current;
+        const selected = selectedNodeRef.current;
+        const focused = focusedNodeIdRef.current;
+        const pNodes = pathNodesRef.current;
+        const pSource = pathSourceRef.current;
+        const pTarget = pathTargetRef.current;
 
-        if (interactionMode === "path" && pathNodes.size > 0) {
-          if (pathNodes.has(node)) {
+        if (mode === "path" && pNodes.size > 0) {
+          if (pNodes.has(node)) {
             res.highlighted = true;
             res.zIndex = 10;
-            if (node === pathSource || node === pathTarget) {
+            if (node === pSource || node === pTarget) {
               res.color = PATH_HIGHLIGHT;
               res.size = (res.size || 6) * 1.5;
             }
@@ -276,9 +314,10 @@ export default function NexusGraph() {
           return res;
         }
 
-        if (interactionMode === "focus" && neighborSet) {
-          if (neighborSet.has(node)) {
-            if (node === focusedNodeId) {
+        if (mode === "focus" && focused) {
+          const neighbors = getNeighborSet(focused);
+          if (neighbors.has(node)) {
+            if (node === focused) {
               res.highlighted = true;
               res.zIndex = 10;
               res.size = (res.size || 6) * 1.3;
@@ -290,10 +329,10 @@ export default function NexusGraph() {
           return res;
         }
 
-        if (hoveredNode) {
+        if (hovered) {
           const neighborIds = hoveredNeighborIdsRef.current;
           if (
-            node === hoveredNode.id ||
+            node === hovered.id ||
             neighborIds.has(node)
           ) {
             res.highlighted = true;
@@ -305,7 +344,7 @@ export default function NexusGraph() {
             }
           }
         }
-        if (selectedNode && node === selectedNode.id) {
+        if (selected && node === selected.id) {
           res.highlighted = true;
           res.zIndex = 10;
         }
@@ -313,9 +352,13 @@ export default function NexusGraph() {
       },
       edgeReducer: (edge, data) => {
         const res = { ...data };
+        const mode = interactionModeRef.current;
+        const hovered = hoveredNodeRef.current;
+        const focused = focusedNodeIdRef.current;
+        const pEdges = pathEdgesRef.current;
 
-        if (interactionMode === "path" && pathEdges.size > 0) {
-          if (pathEdges.has(edge)) {
+        if (mode === "path" && pEdges.size > 0) {
+          if (pEdges.has(edge)) {
             res.color = PATH_EDGE_COLOR;
             res.size = 2.5;
           } else {
@@ -324,10 +367,11 @@ export default function NexusGraph() {
           return res;
         }
 
-        if (interactionMode === "focus" && neighborSet) {
+        if (mode === "focus" && focused) {
+          const neighbors = getNeighborSet(focused);
           const src = graph.source(edge);
           const tgt = graph.target(edge);
-          if (!neighborSet.has(src) || !neighborSet.has(tgt)) {
+          if (!neighbors.has(src) || !neighbors.has(tgt)) {
             res.hidden = true;
           } else {
             res.size = 1.2;
@@ -335,10 +379,10 @@ export default function NexusGraph() {
           return res;
         }
 
-        if (hoveredNode) {
+        if (hovered) {
           const src = graph.source(edge);
           const tgt = graph.target(edge);
-          if (src !== hoveredNode.id && tgt !== hoveredNode.id) {
+          if (src !== hovered.id && tgt !== hovered.id) {
             res.color = HOVER_DIM_EDGE_COLOR;
             res.size = 0.2;
           } else {
@@ -350,14 +394,17 @@ export default function NexusGraph() {
     });
 
     renderer.on("clickNode", ({ node }) => {
-      if (interactionMode === "path") {
-        if (!pathSource) {
+      const mode = interactionModeRef.current;
+      const pSource = pathSourceRef.current;
+
+      if (mode === "path") {
+        if (!pSource) {
           setPathSource(node);
           const n = nodeFromGraph(node);
           if (n) setSelectedNode(n);
-        } else if (node !== pathSource) {
+        } else if (node !== pSource) {
           setPathTarget(node);
-          const path = bidirectional(graph, pathSource, node);
+          const path = bidirectional(graph, pSource, node);
           if (path) {
             setPathNodes(new Set(path));
             setPathEdges(computePathEdges(path));
@@ -371,48 +418,50 @@ export default function NexusGraph() {
         return;
       }
 
-          const n = nodeFromGraph(node);
-          if (n) setSelectedNode(n);
+      const n = nodeFromGraph(node);
+      if (n) setSelectedNode(n);
 
-          if (interactionMode === "focus") {
-            setFocusedNodeId(node);
-            const camera = renderer.getCamera() as any;
-            const nodeAttrs = graph.getNodeAttributes(node);
-            camera.animatedMoveTo({
-              x: nodeAttrs.x,
-              y: nodeAttrs.y,
-              ratio: 0.5,
-              angle: 0,
-            });
-          }
+      if (mode === "focus") {
+        setFocusedNodeId(node);
+        const camera = renderer.getCamera() as any;
+        const nodeAttrs = graph.getNodeAttributes(node);
+        camera.animatedMoveTo({
+          x: nodeAttrs.x,
+          y: nodeAttrs.y,
+          ratio: 0.5,
+          angle: 0,
+        });
+      }
     });
 
-        renderer.on("enterNode", ({ node }) => {
-          if (interactionMode !== "explore") return;
-          if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-          hoverTimeoutRef.current = setTimeout(() => {
-            const n = nodeFromGraph(node);
-            if (n) {
-              const graph = graphRef.current;
-              if (graph && graph.hasNode(node)) {
-                hoveredNeighborIdsRef.current = new Set(graph.neighbors(node));
-              }
-              setHoveredNode(n);
-            }
-          }, HOVER_DEBOUNCE_MS);
-        });
+    renderer.on("enterNode", ({ node }) => {
+      const mode = interactionModeRef.current;
+      if (mode !== "explore") return;
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = setTimeout(() => {
+        const n = nodeFromGraph(node);
+        if (n) {
+          const g = graphRef.current;
+          if (g && g.hasNode(node)) {
+            hoveredNeighborIdsRef.current = new Set(g.neighbors(node));
+          }
+          setHoveredNode(n);
+        }
+      }, HOVER_DEBOUNCE_MS);
+    });
 
-        renderer.on("leaveNode", () => {
-          if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-          hoveredNeighborIdsRef.current = new Set();
-          setHoveredNode(null);
-        });
+    renderer.on("leaveNode", () => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      hoveredNeighborIdsRef.current = new Set();
+      setHoveredNode(null);
+    });
 
     renderer.on("clickStage", () => {
-      if (interactionMode === "focus") {
+      const mode = interactionModeRef.current;
+      if (mode === "focus") {
         exitFocus();
         (renderer.getCamera() as any).animatedReset();
-      } else if (interactionMode === "path") {
+      } else if (mode === "path") {
         exitPath();
       } else {
         setSelectedNode(null);
@@ -427,35 +476,15 @@ export default function NexusGraph() {
 
     sigmaRef.current = renderer;
 
-      return () => {
-        if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-        camera.removeListener("updated", onCameraUpdate);
-        killSigma();
-      };
-  }, [
-    loading,
-    filter,
-    filterMode,
-    hoveredNode,
-    selectedNode,
-    killSigma,
-    interactionMode,
-    focusedNodeId,
-    pathNodes,
-    pathEdges,
-    pathSource,
-    pathTarget,
-    cameraRatio,
-    getNeighborSet,
-    computePathEdges,
-    nodeFromGraph,
-    exitFocus,
-    exitPath,
-  ]);
-
-  useEffect(() => {
-    return killSigma;
-  }, [killSigma]);
+    return () => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      camera.removeListener("updated", onCameraUpdate);
+      if (sigmaRef.current) {
+        sigmaRef.current.kill();
+        sigmaRef.current = null;
+      }
+    };
+  }, [loading, filter, filterMode]);
 
   const typeFilters = [
     { key: "all", label: "All", color: "#F4F4F5" },
