@@ -21,6 +21,7 @@ const navItems = [
   { href: "/repos", icon: "⊕", label: "Repos", ariaLabel: "Repositories - browse by repo" },
   { href: "/graph", icon: "◇", label: "Graph", ariaLabel: "Nexus graph - interactive document map" },
   { href: "/papers", icon: "⋇", label: "Papers", ariaLabel: "Papers - Rosetta Stone series and CAISC" },
+  { href: "/videos", icon: "▶", label: "Videos", ariaLabel: "Videos - hackathon demos and system recordings" },
   { href: "/logs", icon: "▤", label: "Logs", ariaLabel: "Logs - session and verification logs" },
   { href: "/about", icon: "⊛", label: "About", ariaLabel: "About - project description" },
   { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour" },
