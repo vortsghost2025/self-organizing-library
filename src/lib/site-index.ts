@@ -1,4 +1,5 @@
 import siteIndex from '../../data/site-index.json';
+import { computeAuthorityEdges, computeNodeStatuses } from '@/lib/truth-routing';
 
 export interface IndexEntry {
   id: string;
@@ -154,14 +155,18 @@ export function getStats() {
 }
 
 export function getGraphData() {
-  const tagIndex = index.tag_index;
-  const edges: { source: string; target: string; type: string }[] = [];
+  const authorityEdges = computeAuthorityEdges(index.entries, index.cross_references, index.tag_index);
+  const nodeStatuses = computeNodeStatuses(index.entries, authorityEdges);
+
+  const statusMap = new Map(nodeStatuses.map((s: { id: string; status: string; verificationCount: number; contradictionCount: number }) => [s.id, s]));
+
+  const edges: { source: string; target: string; type: string; authority?: string }[] = [];
 
   for (const refs of index.cross_references) {
     edges.push({ source: refs.source, target: refs.target, type: refs.type });
   }
 
-  for (const [tag, ids] of Object.entries(tagIndex)) {
+  for (const [tag, ids] of Object.entries(index.tag_index)) {
     if (ids.length < 2) continue;
     for (let i = 0; i < ids.length - 1; i++) {
       for (let j = i + 1; j < Math.min(ids.length, i + 4); j++) {
@@ -170,15 +175,29 @@ export function getGraphData() {
     }
   }
 
-  const nodes = index.entries.map(e => ({
-    id: e.id,
-    title: e.title,
-    type: e.content_type,
-    category: e.category,
-    repo: e.repo,
-    connectionCount: edges.filter(edge => edge.source === e.id || edge.target === e.id).length,
-    tags: e.tags,
-  }));
+  const authEdgeSet = new Set<string>();
+  for (const ae of authorityEdges) {
+    const key = `${ae.source}:${ae.target}:${ae.authority}`;
+    if (authEdgeSet.has(key)) continue;
+    authEdgeSet.add(key);
+    edges.push({ source: ae.source, target: ae.target, type: 'authority', authority: ae.authority });
+  }
+
+const nodes = index.entries.map(e => {
+  const status: { status: string; verificationCount: number; contradictionCount: number } | undefined = statusMap.get(e.id);
+  return {
+      id: e.id,
+      title: e.title,
+      type: e.content_type,
+      category: e.category,
+      repo: e.repo,
+      connectionCount: edges.filter(edge => edge.source === e.id || edge.target === e.id).length,
+      tags: e.tags,
+      status: status?.status || 'UNVERIFIED',
+      verificationCount: status?.verificationCount || 0,
+      contradictionCount: status?.contradictionCount || 0,
+    };
+  });
 
   return { nodes, edges };
 }

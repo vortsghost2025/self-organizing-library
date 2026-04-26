@@ -16,12 +16,16 @@ type GraphNode = {
   repo: string;
   connectionCount: number;
   tags: string[];
+  status: string;
+  verificationCount: number;
+  contradictionCount: number;
 };
 
 type GraphEdge = {
   source: string;
   target: string;
   type: string;
+  authority?: string;
 };
 
 type InteractionMode = "explore" | "focus" | "path";
@@ -52,6 +56,33 @@ const HOVER_DIM_COLOR = "#252530";
 const HOVER_DIM_EDGE_COLOR = "#1A1A22";
 const HIGH_DEGREE_THRESHOLD = 8;
 const HOVER_DEBOUNCE_MS = 60;
+
+const STATUS_COLORS: Record<string, string> = {
+  VERIFIED: "#22C55E",
+  UNVERIFIED: "#6B7280",
+  CONFLICTED: "#EF4444",
+  QUARANTINED: "#A855F7",
+};
+
+const STATUS_RING_WIDTH = 3;
+
+const AUTHORITY_EDGE_COLORS: Record<string, string> = {
+  VERIFIES: "#22C55E",
+  DERIVES_FROM: "#3B82F6",
+  CONTRADICTS: "#EF4444",
+  SIGNED_BY: "#A855F7",
+  EXECUTES: "#F59E0B",
+  DEPENDS_ON: "#6B7280",
+};
+
+const AUTHORITY_EDGE_SIZE: Record<string, number> = {
+  VERIFIES: 1.8,
+  DERIVES_FROM: 1.2,
+  CONTRADICTS: 1.5,
+  SIGNED_BY: 1.8,
+  EXECUTES: 1.4,
+  DEPENDS_ON: 0.5,
+};
 
 function buildGraph(
   nodes: GraphNode[],
@@ -86,6 +117,9 @@ function buildGraph(
       repo: node.repo,
       connectionCount: node.connectionCount,
       tags: JSON.stringify(node.tags),
+      nodeStatus: node.status || "UNVERIFIED",
+      verificationCount: node.verificationCount || 0,
+      contradictionCount: node.contradictionCount || 0,
     });
   }
 
@@ -93,9 +127,20 @@ function buildGraph(
     if (!ids.has(edge.source) || !ids.has(edge.target)) continue;
     if (graph.hasNode(edge.source) && graph.hasNode(edge.target)) {
       if (!graph.hasEdge(edge.source, edge.target)) {
+        const auth = edge.authority;
+        const edgeColor = auth
+          ? AUTHORITY_EDGE_COLORS[auth] || "#1E1E24"
+          : edge.type === "shared-tag"
+            ? "#1E1E24"
+            : "#2A2A32";
+        const edgeSize = auth
+          ? AUTHORITY_EDGE_SIZE[auth] || 0.5
+          : 0.5;
         graph.addEdge(edge.source, edge.target, {
-          color: edge.type === "shared-tag" ? "#1E1E24" : "#2A2A32",
-          size: 0.5,
+          color: edgeColor,
+          size: edgeSize,
+          edgeType: edge.type,
+          authority: auth || null,
         });
       }
     }
@@ -188,6 +233,9 @@ export default function NexusGraph() {
         repo: attrs.repo || "",
         connectionCount: attrs.connectionCount || 0,
         tags: attrs.tags ? JSON.parse(attrs.tags) : [],
+        status: (attrs as any).nodeStatus || "UNVERIFIED",
+        verificationCount: (attrs as any).verificationCount || 0,
+        contradictionCount: (attrs as any).contradictionCount || 0,
       };
     },
     []
@@ -298,6 +346,7 @@ export default function NexusGraph() {
         const pNodes = pathNodesRef.current;
         const pSource = pathSourceRef.current;
         const pTarget = pathTargetRef.current;
+        const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
 
         if (mode === "path" && pNodes.size > 0) {
           if (pNodes.has(node)) {
@@ -343,6 +392,12 @@ export default function NexusGraph() {
               res.label = "";
             }
           }
+        } else if (nodeStatus === "CONFLICTED") {
+          res.color = STATUS_COLORS.CONFLICTED;
+          res.zIndex = 5;
+        } else if (nodeStatus === "QUARANTINED") {
+          res.color = STATUS_COLORS.QUARANTINED;
+          res.zIndex = 5;
         }
         if (selected && node === selected.id) {
           res.highlighted = true;
@@ -356,6 +411,7 @@ export default function NexusGraph() {
         const hovered = hoveredNodeRef.current;
         const focused = focusedNodeIdRef.current;
         const pEdges = pathEdgesRef.current;
+        const authority = (data as any).authority as string | null;
 
         if (mode === "path" && pEdges.size > 0) {
           if (pEdges.has(edge)) {
@@ -374,7 +430,12 @@ export default function NexusGraph() {
           if (!neighbors.has(src) || !neighbors.has(tgt)) {
             res.hidden = true;
           } else {
-            res.size = 1.2;
+            if (authority && AUTHORITY_EDGE_COLORS[authority]) {
+              res.color = AUTHORITY_EDGE_COLORS[authority];
+              res.size = AUTHORITY_EDGE_SIZE[authority] || 1.2;
+            } else {
+              res.size = 1.2;
+            }
           }
           return res;
         }
@@ -386,9 +447,33 @@ export default function NexusGraph() {
             res.color = HOVER_DIM_EDGE_COLOR;
             res.size = 0.2;
           } else {
-            res.size = 1.5;
+            if (authority && AUTHORITY_EDGE_COLORS[authority]) {
+              res.color = AUTHORITY_EDGE_COLORS[authority];
+              res.size = AUTHORITY_EDGE_SIZE[authority] || 1.5;
+            } else {
+              res.size = 1.5;
+            }
           }
+          return res;
         }
+
+        if (authority === "VERIFIES") {
+          res.color = AUTHORITY_EDGE_COLORS.VERIFIES;
+          res.size = AUTHORITY_EDGE_SIZE.VERIFIES;
+        } else if (authority === "CONTRADICTS") {
+          res.color = AUTHORITY_EDGE_COLORS.CONTRADICTS;
+          res.size = AUTHORITY_EDGE_SIZE.CONTRADICTS;
+        } else if (authority === "SIGNED_BY") {
+          res.color = AUTHORITY_EDGE_COLORS.SIGNED_BY;
+          res.size = AUTHORITY_EDGE_SIZE.SIGNED_BY;
+        } else if (authority === "EXECUTES") {
+          res.color = AUTHORITY_EDGE_COLORS.EXECUTES;
+          res.size = AUTHORITY_EDGE_SIZE.EXECUTES;
+        } else if (authority === "DERIVES_FROM") {
+          res.color = AUTHORITY_EDGE_COLORS.DERIVES_FROM;
+          res.size = AUTHORITY_EDGE_SIZE.DERIVES_FROM;
+        }
+
         return res;
       },
     });
@@ -513,6 +598,12 @@ export default function NexusGraph() {
         ? allNodesRef.current.filter((n) => n.repo === filter).length
         : allNodesRef.current.filter((n) => n.type === filter).length;
 
+  const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
+  for (const n of allNodesRef.current) {
+    const s = (n as any).status || "UNVERIFIED";
+    if (statusCounts[s] !== undefined) statusCounts[s]++;
+  }
+
   const neighborCount =
     focusedNodeId && graphRef.current?.hasNode(focusedNodeId)
       ? graphRef.current.neighbors(focusedNodeId).length
@@ -617,10 +708,20 @@ export default function NexusGraph() {
           Filter by Repo
         </button>
 
-        <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
-          {filteredCount} nodes &middot; {stats.edges} edges
-        </span>
-      </div>
+    <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
+      {filteredCount} nodes &middot; {stats.edges} edges
+    </span>
+  </div>
+
+  <div className="card p-3 mb-2 flex gap-3 items-center text-xs animate-fade-in stagger-1" role="status" aria-label="Node status summary">
+    {Object.entries(statusCounts).filter(([, c]) => c > 0).map(([status, count]) => (
+      <span key={status} className="flex items-center gap-1">
+        <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: STATUS_COLORS[status] }} aria-hidden="true" />
+        <span style={{ color: STATUS_COLORS[status] }}>{count}</span>
+      </span>
+    ))}
+    <span className="text-[var(--text-muted)]">node status</span>
+  </div>
 
       <div
         className="card p-4 mb-2 flex gap-4 animate-fade-in stagger-2 flex-wrap"
@@ -748,9 +849,18 @@ export default function NexusGraph() {
                   style={{ backgroundColor: TYPE_COLORS[selectedNode.type] || TYPE_COLORS.doc }}
                   aria-hidden="true"
                 />
-                <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
-                  {selectedNode.type}
-                </span>
+        <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
+          {selectedNode.type}
+        </span>
+        <span
+          className="text-xs px-1.5 py-0.5 rounded font-medium"
+          style={{
+            backgroundColor: (STATUS_COLORS[selectedNode.status] || STATUS_COLORS.UNVERIFIED) + "22",
+            color: STATUS_COLORS[selectedNode.status] || STATUS_COLORS.UNVERIFIED,
+          }}
+        >
+          {selectedNode.status}
+        </span>
                 {interactionMode === "focus" && selectedNode.id === focusedNodeId && (
                   <span className="text-xs px-1.5 py-0.5 rounded bg-[var(--primary)]/20 text-[var(--primary)]">Focused</span>
                 )}
@@ -774,10 +884,20 @@ export default function NexusGraph() {
                   <span className="text-[var(--text-muted)]">Repo</span>
                   <span className="text-[var(--text-secondary)]">{selectedNode.repo.replace(/-/g, " ") || "—"}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-[var(--text-muted)]">Connections</span>
-                  <span className="text-[var(--text-secondary)]">{selectedNode.connectionCount}</span>
-                </div>
+          <div className="flex justify-between">
+            <span className="text-[var(--text-muted)]">Connections</span>
+            <span className="text-[var(--text-secondary)]">{selectedNode.connectionCount}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-[var(--text-muted)]">Verifications</span>
+            <span className="text-[var(--text-secondary)]" style={{ color: selectedNode.verificationCount > 0 ? STATUS_COLORS.VERIFIED : undefined }}>{selectedNode.verificationCount}</span>
+          </div>
+          {selectedNode.contradictionCount > 0 && (
+            <div className="flex justify-between">
+              <span className="text-[var(--text-muted)]">Contradictions</span>
+              <span style={{ color: STATUS_COLORS.CONFLICTED }}>{selectedNode.contradictionCount}</span>
+            </div>
+          )}
               </div>
 
               {selectedNode.tags.length > 0 && (
@@ -873,12 +993,39 @@ export default function NexusGraph() {
         )}
       </div>
 
-      <p className="mt-4 text-xs text-[var(--text-muted)] text-center animate-fade-in stagger-4">
-        {interactionMode === "explore" && "Explore mode: hover to highlight neighbors, click to select. Scroll to zoom, drag to pan."}
-        {interactionMode === "focus" && "Focus mode: click any node to isolate its neighborhood. Click background to exit."}
-        {interactionMode === "path" && "Path trace: click two nodes to find the shortest path between them. Click background to reset."}
-        {" "}Zoom in for labels, out for clusters.
-      </p>
+  <p className="mt-4 text-xs text-[var(--text-muted)] text-center animate-fade-in stagger-4">
+    {interactionMode === "explore" && "Explore mode: hover to highlight neighbors, click to select. Scroll to zoom, drag to pan."}
+    {interactionMode === "focus" && "Focus mode: click any node to isolate its neighborhood. Click background to exit."}
+    {interactionMode === "path" && "Path trace: click two nodes to find the shortest path between them. Click background to reset."}
+    {" "}Zoom in for labels, out for clusters.
+  </p>
+
+  <div className="mt-4 card p-4 animate-fade-in stagger-5" role="region" aria-label="Truth routing legend">
+    <div className="flex flex-wrap gap-x-6 gap-y-2 items-start">
+      <div>
+        <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)] block mb-1">Node Status</span>
+        <div className="flex gap-3 text-xs">
+          {Object.entries(STATUS_COLORS).map(([status, color]) => (
+            <span key={status} className="flex items-center gap-1">
+              <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: color }} aria-hidden="true" />
+              <span style={{ color }}>{status}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+      <div>
+        <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)] block mb-1">Authority Edges</span>
+        <div className="flex gap-3 text-xs flex-wrap">
+          {Object.entries(AUTHORITY_EDGE_COLORS).map(([type, color]) => (
+            <span key={type} className="flex items-center gap-1">
+              <span className="w-4 h-0.5 inline-block rounded" style={{ backgroundColor: color }} aria-hidden="true" />
+              <span style={{ color }}>{type.replace(/_/g, " ")}</span>
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
+  </div>
+  </div>
   );
 }
