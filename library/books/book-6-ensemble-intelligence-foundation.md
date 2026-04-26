@@ -453,9 +453,171 @@ Paper A's Cross-Domain Interpretation Limits still apply. The self-correcting lo
 
 The self-correcting loop in an AI governance system runs through schema validation, cryptographic attestation, and convergence phases. The self-correcting loop in a biological system runs through gene regulation, apoptosis, and selection pressure. The formal structure — failure → detection → correction → refinement — may be structurally similar. The mechanism is not.
 
+### 5.4 Delegation Amplification Theorem
+
+Category 8 revealed a structural pattern that we now formalize:
+
+> **Delegation Amplification Theorem:** Given a constrained agent system S with failure class set C = {c1, c2, ..., cn}, introducing a delegated execution surface D increases the reachable failure set F(S) ⊆ C without introducing fundamentally new failure classes. That is, F(S ∪ D) = F(S) ∪ P(C), where P(C) is the projection of existing failure classes onto the delegation boundary.
+
+The evidence for this theorem is the mapping between Category 8 and the earlier categories:
+
+| Category 8 NFM | Mirrors | Category |
+|----------------|---------|----------|
+| NFM-029 (invalid task_kind at dispatch) | NFM-019 (schema-behavior mismatch) | Schema-Reality |
+| NFM-030 (Windows path normalization) | NFM-014 (atomic write not atomic) | Platform-Specific |
+| NFM-031 (daemon script timeout) | NFM-009 (freshness ≠ liveness) | Observability |
+| NFM-032 (cross-lane read scope) | NFM-020 (cross-lane observability boundary) | Observability/Autonomy |
+| NFM-033 (test exit code semantics) | NFM-009 (freshness ≠ liveness) | Observability |
+| NFM-034 (field name mismatch) | NFM-005 (trust store format mismatch) | Identity/State |
+| NFM-035 (grep tool unavailable) | NFM-014 (atomic write not atomic) | Platform-Specific |
+
+Every Category 8 failure mode is a projection of an existing category onto the delegation boundary. No fundamentally new failure class emerged. The delegation surface increased the *reachable* failure set (7 new instances) but not the *failure class* set (still 8 categories).
+
+This theorem is falsifiable: if a future delegation boundary produces a failure mode that does not map to any of the 8 existing categories, the theorem is refuted. We invite refutation.
+
+**Implication:** The theorem predicts that adding a new execution verb to the Subagent Contract will produce new NFMs that map to existing categories. It also predicts that other delegation surfaces (API boundaries, plugin systems, RPC interfaces) will exhibit the same amplification pattern. The constraint lattice is fractal: the same failure classes recur at every boundary, and each new boundary re-exposes them.
+
+### 5.5 Trust Layer: Verifiable but Not Secure
+
+The system's cryptographic trust layer (Paper E §8.3, Appendix D) provides identity attestation and message authentication. But four documented failure modes (NFM-025 through NFM-028) expose the gap between verifiability and security:
+
+- **NFM-025 (compromised keys):** A valid signature does not guarantee authorization. The system verifies that a message was signed by a known key. It cannot verify that the key was used by its owner. At security posture Level 1 (Local Dev, single operator), this is accepted because the operator controls all keys. At Level 2+, this requires key compromise detection, revocation protocols, and potentially hardware-backed key storage.
+
+- **NFM-026 (trust store divergence):** Each lane holds its own copy of the trust store. No automated runtime check verifies cross-lane consistency. The trust store hash (SHA256: `58a8aad5aa6597fe`) was verified manually during convergence. If a trust store diverges after convergence, the system will not detect it until the next manual audit.
+
+- **NFM-027 (key rotation race):** During key rotation, messages signed with the old key are rejected by lanes that have updated, and messages signed with the new key are rejected by lanes that have not. No overlap window or versioning protocol exists.
+
+- **NFM-028 (replay attack):** A previously valid signed message can be re-delivered. No timestamp freshness check prevents re-processing.
+
+We state explicitly: **the current system is verifiable but not secure.** It can prove that a message was signed by a known key. It cannot prove that the signer was authorized, that the trust store is consistent, that keys have not been compromised, or that messages are fresh. These are not implementation bugs — they are security posture constraints. At Level 1, the single-operator assumption makes them safe. At Level 2+, they require mitigation.
+
+This honesty is not a weakness. Overclaiming security is a more serious failure than underclaiming it. A system that claims to be secure but is not is a trap for its users. A system that honestly states its security boundaries allows users to make informed decisions about trust.
+
 ---
 
-## 6. Conclusion
+## 6. Reproducibility and Verification
+
+### 6.1 Reproducibility Protocol
+
+All claims in this paper can be independently verified using the system's public artifacts. The verification protocol is:
+
+**Step 1: Clone the repositories.**
+```
+git clone https://github.com/vortsghost2025/Archivist-Agent.git
+git clone https://github.com/vortsghost2025/kernel-lane.git
+git clone https://github.com/vortsghost2025/self-organizing-library.git
+git clone https://github.com/vortsghost2025/SwarmMind.git
+```
+
+**Step 2: Run the recovery test suite.**
+```
+cd Archivist-Agent
+node scripts/recovery-test-suite.js
+```
+Expected output: 11/11 PASS across all 4 lanes.
+
+**Step 3: Run the execution gate test.**
+```
+node scripts/execution-gate-test.js
+```
+Expected output: 10/10 PASS across all 4 lanes.
+
+**Step 4: Run the artifact resolver test.**
+```
+node scripts/artifact-resolver-test.js
+```
+Expected output: 8/8 PASS across all 4 lanes.
+
+**Step 5: Run the cross-lane consistency check.**
+```
+node scripts/cross-lane-consistency-check.js
+```
+Expected output: all green, 0 contradictions, trust store hash `58a8aad5aa6597fe`.
+
+**Step 6: Run the fail-closed test suite.**
+```
+node scripts/fail-closed-test-suite.js
+```
+Expected output: 13/13 PASS.
+
+**Step 7: Run the subagent batch validation.**
+```
+node scripts/subagent-batch-test.js
+```
+Expected output: 8/8 tasks executed, 0% error rate.
+
+**Step 8: Simulate a context compact + recovery.**
+```
+node scripts/post-compact-audit.js
+```
+Expected output: all checks pass, status = consistent.
+
+### 6.2 Failure Mode Reproducibility
+
+Each NFM can be independently triggered and observed:
+
+| NFM | How to Reproduce | Expected Observation |
+|-----|-----------------|---------------------|
+| NFM-002 | Delete session lock while agent is active | Agent reads stale registry, concludes wrong own-state |
+| NFM-004 | Set IdentityEnforcer to 'warn' mode | Unsigned messages logged but not rejected |
+| NFM-014 | Write file on Windows, read back immediately | File may contain stale content (platform-dependent) |
+| NFM-018 | Dispatch actionable task, run execution gate immediately | Gate reports "no artifact" because task hasn't executed yet |
+| NFM-019 | Create message with task_kind="ack" against v1.0 schema | SCHEMA_INVALID quarantine |
+| NFM-020 | Verify SwarmMind artifact from Archivist root | OUTSIDE_ALLOWED_ROOTS |
+| NFM-025 | Inject message with forged JWS signature | Rejected by identity-enforcer (if key unknown); accepted if key is compromised |
+| NFM-029 | Dispatch subagent task with task_kind="task" | SCHEMA_INVALID quarantine |
+| NFM-032 | Run subagent file-read on file in another lane's root | File read succeeds (Level 1); read blocked (Level 2+) |
+| NFM-035 | Run grep capability on Windows | Falls back to findstr; no rg required |
+
+### 6.3 Runtime Enforcement Evidence
+
+The enforcement layer has been exercised in production since 2026-04-20. Current statistics:
+
+| Metric | Value |
+|--------|-------|
+| Total messages processed (all lanes) | 147 |
+| Messages in active inboxes | 28 |
+| Messages quarantined (pre-convergence) | 40 (archived) |
+| Messages quarantined (post-convergence) | 0 |
+| Schema validations performed | 147+ (every message validated at admission) |
+| Identity verifications performed | 147+ (every message verified at admission) |
+| Enforcement gaps closed | 5 (fail-closed patches) |
+| Subagent tasks executed | 8 (batch validation) |
+| Subagent task error rate | 0% |
+
+The zero post-convergence quarantine rate is not evidence that the schema is complete — it is evidence that the current schema covers the system's operational vocabulary. New message types may produce new quarantine events, which would be diagnostic (NFM-024 class).
+
+### 6.4 Test Specification for Critical NFMs
+
+Two NFMs deserve executable test specifications because they represent the boundary between verifiability and security:
+
+**Test NFM-025 (Signature validity under compromised key):**
+```
+Setup: Generate a new RSA key pair (not in any trust store)
+Action: Sign a message with this unknown key
+Dispatch: Send to lane-worker admission gate
+Expected: Message rejected (key not in trust store)
+Variant: Add the key to trust store, re-sign, re-dispatch
+Expected: Message accepted (key now trusted)
+Implication: The system verifies key membership, not key authorization
+```
+
+**Test NFM-032 (Cross-lane read scope):**
+```
+Setup: Create a file in Library's root (S:/self-organizing-library/test-scope.txt)
+Action: Dispatch subagent file-read task from Archivist, targeting Library's file
+Expected (Level 1): File read succeeds (cross-lane reads allowed)
+Expected (Level 2): File read rejected (scope restricted to own lane)
+Implication: The subagent inherits the dispatcher's full read scope
+Variant: Run from SwarmMind's executor targeting Archivist's trust store
+Expected: Read succeeds at Level 1 (information leakage risk documented)
+```
+
+These tests are not yet automated. They are specifications for future CI integration.
+
+---
+
+## 7. Conclusion
 
 Paper F corrects Paper E. This is not a contradiction — it is the theory working as intended.
 
@@ -467,9 +629,15 @@ The Rosetta Stone theory now says:
 
 This is the self-correcting formulation. It does not replace the original claim ("stable behavior emerges under constraint") — it extends it. Stability is still the attractor. But persistent instability is no longer a failure of the theory. It is the theory's primary input.
 
+The Delegation Amplification Theorem (§5.4) extends the theory further: delegation does not introduce new failure classes — it amplifies existing ones at new boundaries. This predicts that any new execution surface will re-expose the same 8 categories of failure. The prediction is falsifiable.
+
+The trust layer's honest framing (§5.5) — verifiable but not secure — demonstrates that the self-correcting loop applies to security claims as well as governance claims. A system that honestly states its security boundaries is more trustworthy than one that overclaims.
+
+The reproducibility protocol (§6) ensures that all claims in this paper can be independently verified. The failure mode test specifications ensure that the NFMs are not just documented — they are operationalized. A failure mode that cannot be reproduced is a hypothesis, not evidence.
+
 The Rosetta Stone is a translation device, not a unification theorem. It reveals structural constraints operating within domains. Paper F reveals that one of those structural constraints is the self-correcting loop itself: the constraint that turns failures into refinements, instability into stability, and wrongness into progress.
 
-### 6.1 Recursive Verification (Future Work)
+### 7.1 Recursive Verification (Future Work)
 
 The failure space decomposition (§2.2.1) reveals that the verification layer is subject to the same failure modes it detects in execution. The system can make false claims about its own verification state — meta-state-claim divergence. This suggests that proof-gated execution must be recursively applied: the verification layer must also be subject to verification of its own validity conditions. Specifically, before evaluating a constraint, the system should verify:
 
