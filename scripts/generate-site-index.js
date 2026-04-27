@@ -176,6 +176,28 @@ const REPOS = [
       '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.cline',
     ]),
   },
+  {
+    name: 'Deliberate-AI-Ensemble',
+    root: 'S:/April152026mainreferencepoint',
+    github: 'https://github.com/vortsghost2025/Deliberate-AI-Ensemble/blob/main',
+    categoryMap: {
+      'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents/architecture': 'architecture',
+      'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents': 'agent',
+      'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main': 'governance',
+      'we4free_aws_iac_bundles': 'iac',
+      'WE4FREE_Sean_Infra_Replay_Constraints_Drift_Bundle': 'drift',
+      'WE4FREE_Sean_Resilience_Code_Bundle': 'resilience',
+      'resilience_bundle_preview': 'resilience',
+      'papers-20260416T223833Z-3-001': 'paper',
+      'git-20260416T223826Z-3-001': 'git-history',
+    },
+    maxDepth: 5,
+    extensionsOnly: ['.md', '.mdx', '.txt', '.py', '.json', '.yaml', '.yml', '.js', '.ts', '.html'],
+    excludeDirs: new Set([
+      '__pycache__', '.git', 'node_modules', '.vscode', 'we4free_website',
+      'connection_bridge', 'medical_data_poc', 'consensus_checker',
+    ]),
+  },
 ];
 
 const DEFAULT_EXCLUDE_DIRS = new Set([

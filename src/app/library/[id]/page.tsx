@@ -16,7 +16,7 @@ export async function generateStaticParams() {
       e.category === "spec" ||
       (e.content_type === "doc" && e.tags.length >= 2)
   );
-  return coreEntries.map((e) => ({ id: e.id }));
+  return coreEntries.slice(0, 650).map((e) => ({ id: e.id }));
 }
 
 export default async function DocumentPage({ params }: { params: Promise<{ id: string }> }) {
