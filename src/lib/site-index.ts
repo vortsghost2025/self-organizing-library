@@ -183,15 +183,21 @@ export function getGraphData() {
     edges.push({ source: ae.source, target: ae.target, type: 'authority', authority: ae.authority });
   }
 
-const nodes = index.entries.map(e => {
-  const status: { status: string; verificationCount: number; contradictionCount: number } | undefined = statusMap.get(e.id);
-  return {
+  const connectionCountMap = new Map<string, number>();
+  for (const edge of edges) {
+    connectionCountMap.set(edge.source, (connectionCountMap.get(edge.source) || 0) + 1);
+    connectionCountMap.set(edge.target, (connectionCountMap.get(edge.target) || 0) + 1);
+  }
+
+  const nodes = index.entries.map(e => {
+    const status: { status: string; verificationCount: number; contradictionCount: number } | undefined = statusMap.get(e.id);
+    return {
       id: e.id,
       title: e.title,
       type: e.content_type,
       category: e.category,
       repo: e.repo,
-      connectionCount: edges.filter(edge => edge.source === e.id || edge.target === e.id).length,
+      connectionCount: connectionCountMap.get(e.id) || 0,
       tags: e.tags,
       status: status?.status || 'UNVERIFIED',
       verificationCount: status?.verificationCount || 0,
@@ -199,5 +205,5 @@ const nodes = index.entries.map(e => {
     };
   });
 
-  return { nodes, edges };
+  return { nodes, edges, authorityEdges };
 }
