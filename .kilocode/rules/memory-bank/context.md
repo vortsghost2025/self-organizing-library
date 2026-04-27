@@ -958,3 +958,52 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 - `npx vercel --prod --yes` succeeded: Build 686 pages, Pagefind 662 indexed
 - New graph chunk `df089dbdfe1896ac.js` contains all new code (minified but verified: ep:, onGraphReady, entryPoints, authorityEdges, DERIVES_FROM, VERIFIES, CONTRADICTS, bidirectional, Overview/Focus)
 - Live at deliberateensemble.works/graph
+
+### Session 2026-04-27: Structural Analysis (lib28.txt) — ✅ ALL 5 DELIVERABLES COMPLETE
+
+**Task**: Deep architectural trace requested by Sean (context-buffer/lib28.txt) — 5 deliverables on execution path, bypass risk, layer classification, FreeAgent role, NFM-node mapping.
+
+**Deliverable 1: Execution Path Map** — ✅ COMPLETE
+- Traced real message: task-1777135075025-54cf5248 (Archivist → Library, P2 proposal)
+- Full path: origin (signed JWS) → inbound identity gate → schema gate → processing → outbound validation → convergence gate: proven
+- Counter-example: phase5-ratification (P0 from Archivist) QUARANTINED — proves enforcement is lane-agnostic
+
+**Deliverable 2: Bypass Analysis** — ✅ COMPLETE
+- Conclusion: NO bypass exists. FreeAgent has no trust store entry, no signing keys, no inbox/outbox, no convergence participation.
+- 2 theoretical escape hatches: NFM-003 (Write-Before-Gate Race, NOT MITIGATED), NFM-025 (Compromised Key, ACTIVE RISK)
+- Graph data: FreeAgent has 0 authority edges, 0 cross-refs — purely semantic connectivity via shared tags
+
+**Deliverable 3: Layer Classification Update** — ✅ COMPLETE
+- 3-layer model: Constitutional (4 lanes, authority) / Substrate (FreeAgent, execution routing) / Artifact (graph data, representation)
+- No path from Substrate → Constitutional bypasses validation
+
+**Deliverable 4: FreeAgent Role Confirmation** — ✅ COMPLETE
+- Classification: JUNCTION NODE (not a lane)
+- Path coverage: FreeAgent shares tags with all 4 lanes (Archivist: 29, Library: 25, SwarmMind: 12, Kernel: 13)
+- All 794 FreeAgent nodes have status: undefined — zero verification state
+
+**Deliverable 5: Risk Assessment (NFM-Node Mapping)** — ✅ COMPLETE
+- 7 NFMs have active graph amplifiers
+- Highest risk: NFM-003 (Write-Before-Gate Race) amplified by FreeAgent's 794-node execution surface
+- 5 NFM category → graph cluster mappings defined
+- Strategic note: system needs external replication to test generalizability
+
+**Output**: `context-buffer/STRUCTURAL_ANALYSIS_lib28.md` — all 5 deliverables with convergence gates (all status: proven)
+
+
+### Session 2026-04-27: P0 Code Review Remediation - ALL 5 FIXED (commit ce29b6d, pushed)
+
+Archivist cross-lane code review scored Library at 65/100 with 5 P0 security issues. All 5 remediated.
+
+**P0 #1: Path injection in execution-gate.js** - FIXED: path.resolve() + allowed-roots containment
+**P0 #2: Missing auth on /api/health** - FIXED: removed from PUBLIC_API_ROUTES + sanitized response
+**P0 #3: Trust store path traversal in identity-enforcer.js** - FIXED: ALLOWED_TRUST_STORE_ROOTS containment
+**P0 #4: Race condition in moveFileWithLease** - FIXED: atomic claim-by-rename pattern
+**P0 #5: Hardcoded SwarmMind paths** - FIXED: 50+ files updated via batch scripts
+
+Verification: Typecheck clean, lint 2 pre-existing warnings, recovery 9/11 (2 SwarmMind pre-existing).
+Remediation report delivered to Archivist inbox + outbox logged.
+
+**Key Discovery #18**: SwarmMind path fix scope was 50+ files across scripts/src/config/schemas
+**Key Discovery #19**: /api/health was leaking version, uptime, filesystem paths (now sanitized+authed)
+**Key Discovery #20**: fs.renameSync is atomic - better than read-write-delete for lease-based ops
