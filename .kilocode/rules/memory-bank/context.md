@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Project Status:** Recovery tests 11/11 PASS. Post-compact audit multi-source consistency FIXED (swarmmind_no_identity false positive resolved). Testing infrastructure gaps fixed: verdict.json generation, CI gating, local run documentation. Weather pipeline NASA/NOAA integration committed. Book 6 evidence: 10/10 Rosetta tests (medical + weather).
+**Project Status:** Truth-routing system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.
 
@@ -896,3 +896,65 @@ verified → stress-tested → converged → locked → RATIFIED → MONITOR pha
 
 **Heartbeat Written — ✅ COMPLETE**
 - `heartbeat-library.json` updated with current status + test results
+
+### Session 2026-04-26: NexusGraph Ref-Based Lifecycle + Truth-Routing System
+
+**NexusGraph Ref-Based Architecture — ✅ COMPLETE (commit `34a354e`)**
+- Main Sigma `useEffect` now depends only on `loading`, `filter`, `filterMode` (structural rebuild)
+- `nodeReducer`/`edgeReducer` read from refs instead of closure-captured state
+- Interaction changes (hover, select, focus, path) only call `sigma.refresh()` — no WebGL teardown
+- Removed `killSigma` useCallback and redundant cleanup effect
+- Deployed to Vercel
+
+**Truth-Routing Rule Engine — ✅ COMPLETE (commit `f5f6ab0`)**
+- Created `src/lib/truth-routing.ts` — ~210 lines
+- 6 authority edge types: VERIFIES, DERIVES_FROM, CONTRADICTS, SIGNED_BY, EXECUTES, DEPENDS_ON
+- 4 node statuses: UNVERIFIED, VERIFIED, CONFLICTED, QUARANTINED
+- `computeAuthorityEdges()`: classifies cross-refs + tag co-membership edges by authority type
+- `computeNodeStatuses()`: ≥2 VERIFIES → VERIFIED, any CONTRADICTS → CONFLICTED, quarantine categories → QUARANTINED
+
+**NexusGraph Truth-Routing Integration — ✅ COMPLETE**
+- Updated `buildGraph()`: edges get `authority` field + typed colors/sizes, nodes get `nodeStatus`/`verificationCount`/`contradictionCount`
+- Updated `nodeReducer`: CONFLICTED/QUARANTINED nodes override color when not hovered
+- Updated `edgeReducer`: authority edges get typed colors in explore/focus/hover modes
+- Updated `nodeFromGraph`: returns new status fields
+- Node detail panel: status badge (colored pill), verification count, contradiction count
+- Status summary bar: VERIFIED/UNVERIFIED/CONFLICTED/QUARANTINED counts with colored dots
+- Truth-routing legend: bottom of page showing node status + edge type colors
+
+**Type Fix — ✅ COMPLETE**
+- Fixed TS2339 in `site-index.ts`: typed `statusMap.get()` return explicitly
+- Converted `require('@/lib/truth-routing')` to proper ESM import (server-only code)
+
+**Live API Verification — ✅ VERIFIED**
+- 9,133 authority edges across 4 types: DEPENDS_ON, CONTRADICTS, VERIFIES, DERIVES_FROM
+- Node status counts: VERIFIED: 387, UNVERIFIED: 2,436, CONFLICTED: 103, QUARANTINED: 28
+- Deployed to Vercel production: deliberateensemble.works/graph
+
+### Session 2026-04-26 (Evening): Nexus Graph Thinking Interface Rewrite + Inbox Processing
+
+**Nexus Graph Thinking Interface — ✅ COMPLETE (commit `00be38d`, pushed)**
+- Rewrote NexusGraph from 1,031-line monolith to 316-line orchestrator + 7 sub-components + 2 data modules
+- **Task 1**: `src/lib/graph-types.ts` — shared types (AuthorityEdgeType, NodeStatus, MeaningLayer, DensityLevel, GraphNode, GraphEdge, Cluster, EntryPoint) + constants (TYPE_COLORS, REPO_COLORS, STATUS_COLORS, AUTHORITY_EDGE_COLORS, MEANING_LAYER_EDGES, DEFAULT_LAYERS, LAYER_META)
+- **Task 2**: `src/lib/graph-clusters.ts` — computeClusters() (repo + tag groups ≥10 nodes), computeEntryPoints() (top authority, contradictions, cluster-based), assignClusterIds()
+- **Task 3**: `src/lib/site-index.ts` — replaced O(n*e) edges.filter() with Map-based O(n+e) connectionCountMap, added authorityEdges to getGraphData()
+- **Task 4**: `src/components/graph/GraphCanvas.tsx` — 449-line Sigma renderer with buildGraph(), isVisible() (density/entry point/cluster/search), nodeReducer/edgeReducer, onGraphReady callback, camera update listener
+- **Task 5**: 7 sub-components — EntryPoints, MeaningLayers, DensityControl, ClusterSelector, NodeDetail, GraphToolbar, GraphLegend
+- **Task 6**: `src/components/NexusGraph.tsx` — 316-line orchestrator with all state management, event handlers (handleNodeClick with bidirectional path trace), layout (toolbar + status bar + left panel + center canvas + right detail + bottom legend)
+- **Task 7**: Typecheck clean, lint clean (2 pre-existing warnings only), committed + pushed
+- ✅ **Vercel deployment LIVE** — deployed via `npx vercel --prod` with new token. Build succeeded (686 pages, Pagefind 662 indexed). New graph chunk `df089dbdfe1896ac.js` confirmed with `onGraphReady`, `entryPoints`, `ep:` prefix, `DERIVES_FROM`, `CONTRADICTS`, `VERIFIES`, `authorityEdges`, `bidirectional`, `Overview`/`Focus` patterns. Site: deliberateensemble.works/graph
+
+**Inbox Processing — ✅ COMPLETE**
+- P1 `task-notification-1777234511190oud2.json`: Archivist check-in — NFM-032 already in INDEX, SBC v2.0 reviewed (no library additions needed), moved to processed/
+- P2 `20260426210341-archivist-caisc-prep.json`: CAISC prep + NFM sync + OSF update — NFM INDEX verified matching Paper F (35 NFMs, NFM-001 through NFM-035, no discrepancies), moved to processed/
+
+**NFM INDEX SYNC — ✅ VERIFIED**
+- INDEX.md: 35 unique NFMs (NFM-001 through NFM-035) — 52 heading matches includes duplicates (detailed + summary sections)
+- Paper F (book-6): 35 unique NFMs — identical set
+- No documentation bugs found
+
+**Vercel Deployment — ✅ LIVE (2026-04-27)**
+- Old token expired; new token provided by Sean
+- `npx vercel --prod --yes` succeeded: Build 686 pages, Pagefind 662 indexed
+- New graph chunk `df089dbdfe1896ac.js` contains all new code (minified but verified: ep:, onGraphReady, entryPoints, authorityEdges, DERIVES_FROM, VERIFIES, CONTRADICTS, bidirectional, Overview/Focus)
+- Live at deliberateensemble.works/graph
