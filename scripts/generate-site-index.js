@@ -83,7 +83,7 @@ const REPOS = [
   },
   {
     name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
-    root: 'S:/SwarmMind',
+    root: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
     github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
     categoryMap: {
       'docs': 'docs',

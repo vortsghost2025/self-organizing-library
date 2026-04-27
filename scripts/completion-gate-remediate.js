@@ -8,7 +8,7 @@ const LANES = {
   archivist: { actionRequired: 'S:/Archivist-Agent/lanes/archivist/inbox/action-required' },
   kernel: { actionRequired: 'S:/kernel-lane/lanes/kernel/inbox/action-required' },
   library: { actionRequired: 'S:/self-organizing-library/lanes/library/inbox/action-required' },
-  swarmmind: { actionRequired: 'S:/SwarmMind/lanes/swarmmind/inbox/action-required' },
+  swarmmind: { actionRequired: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/action-required' },
 };
 
 function safeReadJson(filePath) {

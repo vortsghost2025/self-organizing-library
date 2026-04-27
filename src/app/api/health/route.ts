@@ -13,20 +13,16 @@ export async function GET() {
       indexStatus = 'unhealthy';
     }
 
-    // Check file system access
     const repoRoot = path.join(process.cwd());
     const lanesDir = path.join(repoRoot, 'lanes');
     const fsStatus = fs.existsSync(lanesDir) ? 'healthy' : 'unhealthy';
 
-    // Check inbox watcher status
     const inboxPath = path.join(lanesDir, 'library', 'inbox');
     const watcherStatus = fs.existsSync(inboxPath) ? 'healthy' : 'unhealthy';
 
-    // Check identity status
     const identityPath = path.join(repoRoot, '.identity', 'snapshot.json');
     const identityStatus = fs.existsSync(identityPath) ? 'healthy' : 'unhealthy';
 
-    // Check trust store
     const trustStorePath = path.join(lanesDir, 'broadcast', 'trust-store.json');
     let trustStoreStatus = 'unhealthy';
     if (fs.existsSync(trustStorePath)) {
@@ -42,8 +38,6 @@ export async function GET() {
     const health = {
       status: 'healthy',
       timestamp: new Date().toISOString(),
-      version: process.env.npm_package_version || 'unknown',
-      uptime: process.uptime(),
       checks: {
         site_index: indexStatus,
         filesystem: fsStatus,
@@ -53,7 +47,6 @@ export async function GET() {
       }
     };
 
-    // Overall status is healthy only if all checks pass
     const allHealthy = Object.values(health.checks).every(status => status === 'healthy');
     health.status = allHealthy ? 'healthy' : 'degraded';
 
@@ -61,8 +54,7 @@ export async function GET() {
   } catch (error) {
     return NextResponse.json({
       status: 'unhealthy',
-      timestamp: new Date().toISOString(),
-      error: error instanceof Error ? error.message : 'Unknown error'
+      timestamp: new Date().toISOString()
     }, { status: 500 });
   }
 }

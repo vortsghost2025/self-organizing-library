@@ -4,7 +4,6 @@ import type { NextRequest } from 'next/server';
 const PUBLIC_API_ROUTES = [
   '/api/graph-data',
   '/api/document-content/',
-  '/api/health',
 ];
 
 export function middleware(request: NextRequest) {

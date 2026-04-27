@@ -85,7 +85,7 @@ var LANES = {
   archivist: { processed: "S:/Archivist-Agent/lanes/archivist/inbox/processed" },
   kernel: { processed: "S:/kernel-lane/lanes/kernel/inbox/processed" },
   library: { processed: "S:/self-organizing-library/lanes/library/inbox/processed" },
-  swarmmind: { processed: "S:/SwarmMind/lanes/swarmmind/inbox/processed" },
+  swarmmind: { processed: "S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/processed" },
 };
 
 function safeReadJson(filePath) {

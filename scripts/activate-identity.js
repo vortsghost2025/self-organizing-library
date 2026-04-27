@@ -9,7 +9,7 @@ const { IdentityEnforcer } = require('./identity-enforcer');
 const LANES = [
   { id: 'archivist', dir: 'S:/Archivist-Agent' },
   { id: 'library', dir: 'S:/self-organizing-library' },
-  { id: 'swarmmind', dir: 'S:/SwarmMind' },
+  { id: 'swarmmind', dir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' },
   { id: 'kernel', dir: 'S:/kernel-lane' },
 ];
 
