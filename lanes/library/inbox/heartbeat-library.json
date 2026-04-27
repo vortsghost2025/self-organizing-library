@@ -1,1 +1,6 @@
-{"timestamp":"2026-04-26T21:40:01.4151317-04:00","status":"alive"}
+{
+  "lane": "library",
+  "timestamp": "2026-04-27T21:53:57.329Z",
+  "status": "alive",
+  "uptime_seconds": 300
+}

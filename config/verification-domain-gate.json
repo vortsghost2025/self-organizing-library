@@ -1,0 +1,8 @@
+{
+  "temporal_window_ms": 3600000,
+  "semantic_hash_algorithm": "sha256",
+  "semantic_hash_field": "domain_hash",
+  "allowed_timestamp_skew_ms": 300000,
+  "max_future_drift_ms": 60000,
+  "description": "Verification domain gate configuration. Controls temporal validity window, semantic hash field name, and drift tolerances. The domain gate prevents the system from asserting truth outside its verification domain."
+}
