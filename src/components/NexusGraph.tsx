@@ -3,280 +3,62 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import Graph from "graphology";
 import Sigma from "sigma";
-import { circular } from "graphology-layout";
-import forceAtlas2 from "graphology-layout-forceatlas2";
 import { bidirectional } from "graphology-shortest-path";
-import Link from "next/link";
-
-type GraphNode = {
-  id: string;
-  title: string;
-  type: string;
-  category: string;
-  repo: string;
-  connectionCount: number;
-  tags: string[];
-  status: string;
-  verificationCount: number;
-  contradictionCount: number;
-};
-
-type GraphEdge = {
-  source: string;
-  target: string;
-  type: string;
-  authority?: string;
-};
-
-type InteractionMode = "explore" | "focus" | "path";
-
-const TYPE_COLORS: Record<string, string> = {
-  doc: "#7C3AED",
-  paper: "#06B6D4",
-  code: "#10B981",
-  data: "#F59E0B",
-  config: "#EC4899",
-  schema: "#8B5CF6",
-  "test-data": "#F97316",
-};
-
-const REPO_COLORS: Record<string, string> = {
-  "self-organizing-library": "#7C3AED",
-  "Archivist-Agent": "#06B6D4",
-  "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": "#10B981",
-  "kernel-lane": "#F59E0B",
-  federation: "#EC4899",
-  FreeAgent: "#8B5CF6",
-};
-
-const PATH_HIGHLIGHT = "#F59E0B";
-const PATH_EDGE_COLOR = "#FBBF24";
-const FOCUS_DIM_COLOR = "#1E1E28";
-const HOVER_DIM_COLOR = "#252530";
-const HOVER_DIM_EDGE_COLOR = "#1A1A22";
-const HIGH_DEGREE_THRESHOLD = 8;
-const HOVER_DEBOUNCE_MS = 60;
-
-const STATUS_COLORS: Record<string, string> = {
-  VERIFIED: "#22C55E",
-  UNVERIFIED: "#6B7280",
-  CONFLICTED: "#EF4444",
-  QUARANTINED: "#A855F7",
-};
-
-const STATUS_RING_WIDTH = 3;
-
-const AUTHORITY_EDGE_COLORS: Record<string, string> = {
-  VERIFIES: "#22C55E",
-  DERIVES_FROM: "#3B82F6",
-  CONTRADICTS: "#EF4444",
-  SIGNED_BY: "#A855F7",
-  EXECUTES: "#F59E0B",
-  DEPENDS_ON: "#6B7280",
-};
-
-const AUTHORITY_EDGE_SIZE: Record<string, number> = {
-  VERIFIES: 1.8,
-  DERIVES_FROM: 1.2,
-  CONTRADICTS: 1.5,
-  SIGNED_BY: 1.8,
-  EXECUTES: 1.4,
-  DEPENDS_ON: 0.5,
-};
-
-function buildGraph(
-  nodes: GraphNode[],
-  edges: GraphEdge[],
-  filter: string,
-  filterMode: "type" | "repo"
-): Graph {
-  const filtered =
-    filter === "all"
-      ? nodes
-      : filterMode === "repo"
-        ? nodes.filter((n) => n.repo === filter)
-        : nodes.filter((n) => n.type === filter);
-  const ids = new Set(filtered.map((n) => n.id));
-
-  const graph = new Graph({ type: "undirected", multi: false });
-
-  for (const node of filtered) {
-    const baseSize =
-      node.type === "paper" ? 10 : node.type === "doc" ? 6 : 4;
-    const color = filterMode === "repo"
-      ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
-      : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
-    graph.addNode(node.id, {
-      label: node.title,
-      x: 0,
-      y: 0,
-      size: Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
-      color,
-      nodeType: node.type,
-      category: node.category,
-      repo: node.repo,
-      connectionCount: node.connectionCount,
-      tags: JSON.stringify(node.tags),
-      nodeStatus: node.status || "UNVERIFIED",
-      verificationCount: node.verificationCount || 0,
-      contradictionCount: node.contradictionCount || 0,
-    });
-  }
-
-  for (const edge of edges) {
-    if (!ids.has(edge.source) || !ids.has(edge.target)) continue;
-    if (graph.hasNode(edge.source) && graph.hasNode(edge.target)) {
-      if (!graph.hasEdge(edge.source, edge.target)) {
-        const auth = edge.authority;
-        const edgeColor = auth
-          ? AUTHORITY_EDGE_COLORS[auth] || "#1E1E24"
-          : edge.type === "shared-tag"
-            ? "#1E1E24"
-            : "#2A2A32";
-        const edgeSize = auth
-          ? AUTHORITY_EDGE_SIZE[auth] || 0.5
-          : 0.5;
-        graph.addEdge(edge.source, edge.target, {
-          color: edgeColor,
-          size: edgeSize,
-          edgeType: edge.type,
-          authority: auth || null,
-        });
-      }
-    }
-  }
-
-  circular.assign(graph, { scale: 300 });
-
-  if (graph.order > 0) {
-    const settings = forceAtlas2.inferSettings(graph);
-    settings.gravity = 1;
-    settings.scalingRatio = 2;
-    settings.barnesHutOptimize = graph.order > 100;
-    forceAtlas2.assign(graph, { iterations: 100, settings });
-  }
-
-  return graph;
-}
+import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, EntryPoint } from "@/lib/graph-types";
+import { DEFAULT_LAYERS, STATUS_COLORS } from "@/lib/graph-types";
+import { computeClusters, computeEntryPoints, assignClusterIds } from "@/lib/graph-clusters";
+import GraphCanvas from "./graph/GraphCanvas";
+import GraphToolbar from "./graph/GraphToolbar";
+import EntryPoints from "./graph/EntryPoints";
+import MeaningLayers from "./graph/MeaningLayers";
+import DensityControl from "./graph/DensityControl";
+import ClusterSelector from "./graph/ClusterSelector";
+import NodeDetail from "./graph/NodeDetail";
+import GraphLegend from "./graph/GraphLegend";
 
 export default function NexusGraph() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const sigmaRef = useRef<Sigma | null>(null);
-  const graphRef = useRef<Graph | null>(null);
   const [loading, setLoading] = useState(true);
+  const [nodes, setNodes] = useState<GraphNode[]>([]);
+  const [edges, setEdges] = useState<GraphEdge[]>([]);
+  const [clusters, setClusters] = useState<Cluster[]>([]);
+  const [entryPoints, setEntryPoints] = useState<EntryPoint[]>([]);
+
   const [filter, setFilter] = useState("all");
   const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
-  const [stats, setStats] = useState({ nodes: 0, edges: 0 });
-  const allNodesRef = useRef<GraphNode[]>([]);
-  const allEdgesRef = useRef<GraphEdge[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [hoveredNode, setHoveredNode] = useState<GraphNode | null>(null);
-  const [interactionMode, setInteractionMode] = useState<InteractionMode>("explore");
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null);
+
   const [pathSource, setPathSource] = useState<string | null>(null);
   const [pathTarget, setPathTarget] = useState<string | null>(null);
   const [pathNodes, setPathNodes] = useState<Set<string>>(new Set());
   const [pathEdges, setPathEdges] = useState<Set<string>>(new Set());
+
+  const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
+  const [density, setDensity] = useState<DensityLevel>("mid");
+  const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
+  const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
   const [cameraRatio, setCameraRatio] = useState(1);
 
-  const hoveredNodeRef = useRef<GraphNode | null>(null);
-  const selectedNodeRef = useRef<GraphNode | null>(null);
-  const interactionModeRef = useRef<InteractionMode>("explore");
-  const focusedNodeIdRef = useRef<string | null>(null);
-  const pathSourceRef = useRef<string | null>(null);
-  const pathTargetRef = useRef<string | null>(null);
-  const pathNodesRef = useRef<Set<string>>(new Set());
-  const pathEdgesRef = useRef<Set<string>>(new Set());
-  const cameraRatioRef = useRef(1);
+  const graphRef = useRef<Graph | null>(null);
+  const sigmaRef = useRef<Sigma | null>(null);
 
-  const hoveredNeighborIdsRef = useRef<Set<string>>(new Set());
-  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const graphVersionRef = useRef(0);
+  const filteredNodes = filter === "all"
+    ? nodes
+    : filterMode === "repo"
+    ? nodes.filter((n) => n.repo === filter)
+    : nodes.filter((n) => n.type === filter);
 
-  useEffect(() => { selectedNodeRef.current = selectedNode; }, [selectedNode]);
-  useEffect(() => { hoveredNodeRef.current = hoveredNode; }, [hoveredNode]);
-  useEffect(() => { interactionModeRef.current = interactionMode; }, [interactionMode]);
-  useEffect(() => { focusedNodeIdRef.current = focusedNodeId; }, [focusedNodeId]);
-  useEffect(() => { pathSourceRef.current = pathSource; }, [pathSource]);
-  useEffect(() => { pathTargetRef.current = pathTarget; }, [pathTarget]);
-  useEffect(() => { pathNodesRef.current = pathNodes; }, [pathNodes]);
-  useEffect(() => { pathEdgesRef.current = pathEdges; }, [pathEdges]);
-  useEffect(() => { cameraRatioRef.current = cameraRatio; }, [cameraRatio]);
+  const selectedNode = selectedNodeId
+    ? filteredNodes.find((n) => n.id === selectedNodeId) || null
+    : null;
 
-  useEffect(() => {
-    if (!sigmaRef.current) return;
-    sigmaRef.current.setSetting("labelRenderedSizeThreshold", (() => {
-      const r = cameraRatioRef.current;
-      if (r < 0.3) return 3;
-      if (r < 0.6) return 5;
-      if (r < 1.2) return 8;
-      if (r < 3) return 14;
-      return 25;
-    })());
-  }, [cameraRatio]);
-
-  useEffect(() => {
-    if (sigmaRef.current) sigmaRef.current.refresh();
-  }, [hoveredNode, selectedNode, interactionMode, focusedNodeId, pathNodes, pathEdges, pathSource, pathTarget]);
-
-  const nodeFromGraph = useCallback(
-    (nodeId: string): GraphNode | null => {
-      const graph = graphRef.current;
-      if (!graph || !graph.hasNode(nodeId)) return null;
-      const attrs = graph.getNodeAttributes(nodeId);
-      return {
-        id: nodeId,
-        title: attrs.label || nodeId,
-        type: attrs.nodeType || "doc",
-        category: attrs.category || "",
-        repo: attrs.repo || "",
-        connectionCount: attrs.connectionCount || 0,
-        tags: attrs.tags ? JSON.parse(attrs.tags) : [],
-        status: (attrs as any).nodeStatus || "UNVERIFIED",
-        verificationCount: (attrs as any).verificationCount || 0,
-        contradictionCount: (attrs as any).contradictionCount || 0,
-      };
-    },
-    []
-  );
-
-  const getNeighborSet = useCallback((nodeId: string): Set<string> => {
-    const graph = graphRef.current;
-    if (!graph || !graph.hasNode(nodeId)) return new Set();
-    const neighbors = new Set(graph.neighbors(nodeId));
-    neighbors.add(nodeId);
-    return neighbors;
-  }, []);
-
-  const computePathEdges = useCallback(
-    (path: string[]): Set<string> => {
-      const graph = graphRef.current;
-      if (!graph) return new Set();
-      const edgeSet = new Set<string>();
-      for (let i = 0; i < path.length - 1; i++) {
-        const edge = graph.edge(path[i], path[i + 1]);
-        if (edge) edgeSet.add(edge);
-      }
-      return edgeSet;
-    },
-    []
-  );
-
-  const exitFocus = useCallback(() => {
-    setFocusedNodeId(null);
-    setInteractionMode("explore");
-    setSelectedNode(null);
-  }, []);
-
-  const exitPath = useCallback(() => {
-    setPathSource(null);
-    setPathTarget(null);
-    setPathNodes(new Set());
-    setPathEdges(new Set());
-    setInteractionMode("explore");
-    setSelectedNode(null);
-  }, []);
+  const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
+  for (const n of filteredNodes) {
+    if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -285,9 +67,13 @@ export default function NexusGraph() {
         const res = await fetch("/api/graph-data");
         const data = await res.json();
         if (cancelled) return;
-        allNodesRef.current = data.nodes;
-        allEdgesRef.current = data.edges;
-        setStats({ nodes: data.nodes.length, edges: data.edges.length });
+        const rawClusters = computeClusters(data.nodes);
+        const enrichedNodes = assignClusterIds(data.nodes, rawClusters);
+        const eps = computeEntryPoints(data.nodes, rawClusters, data.authorityEdges || []);
+        setNodes(enrichedNodes);
+        setEdges(data.edges);
+        setClusters(rawClusters);
+        setEntryPoints(eps);
       } catch (e) {
         console.error("Failed to load graph data:", e);
       } finally {
@@ -295,737 +81,236 @@ export default function NexusGraph() {
       }
     }
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
-  useEffect(() => {
-    if (loading || !containerRef.current || allNodesRef.current.length === 0)
-      return;
-
-    if (sigmaRef.current) {
-      sigmaRef.current.kill();
-      sigmaRef.current = null;
-    }
-
-    const graph = buildGraph(allNodesRef.current, allEdgesRef.current, filter, filterMode);
-    if (graph.order === 0) return;
-    graphRef.current = graph;
-    graphVersionRef.current += 1;
-
-    const labelThreshold = (() => {
-      const r = cameraRatioRef.current;
-      if (r < 0.3) return 3;
-      if (r < 0.6) return 5;
-      if (r < 1.2) return 8;
-      if (r < 3) return 14;
-      return 25;
-    })();
-
-    const container = containerRef.current;
-    const renderer = new Sigma(graph, container, {
-      renderLabels: true,
-      renderEdgeLabels: false,
-      labelFont: "DM Sans",
-      labelSize: 12,
-      labelWeight: "500",
-      labelColor: { color: "#A1A1AA" },
-      labelRenderedSizeThreshold: labelThreshold,
-      defaultEdgeColor: "#1E1E24",
-      defaultNodeType: "circle",
-      minCameraRatio: 0.1,
-      maxCameraRatio: 10,
-      stagePadding: 20,
-      nodeReducer: (node, data) => {
-        const res = { ...data };
-        const mode = interactionModeRef.current;
-        const hovered = hoveredNodeRef.current;
-        const selected = selectedNodeRef.current;
-        const focused = focusedNodeIdRef.current;
-        const pNodes = pathNodesRef.current;
-        const pSource = pathSourceRef.current;
-        const pTarget = pathTargetRef.current;
-        const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
-
-        if (mode === "path" && pNodes.size > 0) {
-          if (pNodes.has(node)) {
-            res.highlighted = true;
-            res.zIndex = 10;
-            if (node === pSource || node === pTarget) {
-              res.color = PATH_HIGHLIGHT;
-              res.size = (res.size || 6) * 1.5;
-            }
-          } else {
-            res.color = FOCUS_DIM_COLOR;
-            res.label = "";
-          }
-          return res;
+  const handleNodeClick = useCallback((nodeId: string) => {
+    setSelectedNodeId(nodeId);
+    if (pathSource && !pathTarget && nodeId !== pathSource && graphRef.current) {
+      setPathTarget(nodeId);
+      const path = bidirectional(graphRef.current, pathSource, nodeId);
+      if (path) {
+        setPathNodes(new Set(path));
+        const edgeSet = new Set<string>();
+        for (let i = 0; i < path.length - 1; i++) {
+          const edge = graphRef.current.edge(path[i], path[i + 1]);
+          if (edge) edgeSet.add(edge);
         }
-
-        if (mode === "focus" && focused) {
-          const neighbors = getNeighborSet(focused);
-          if (neighbors.has(node)) {
-            if (node === focused) {
-              res.highlighted = true;
-              res.zIndex = 10;
-              res.size = (res.size || 6) * 1.3;
-            }
-          } else {
-            res.color = FOCUS_DIM_COLOR;
-            res.label = "";
-          }
-          return res;
-        }
-
-        if (hovered) {
-          const neighborIds = hoveredNeighborIdsRef.current;
-          if (
-            node === hovered.id ||
-            neighborIds.has(node)
-          ) {
-            res.highlighted = true;
-          } else {
-            res.color = HOVER_DIM_COLOR;
-            const degree = graph.degree(node);
-            if (degree < HIGH_DEGREE_THRESHOLD) {
-              res.label = "";
-            }
-          }
-        } else if (nodeStatus === "CONFLICTED") {
-          res.color = STATUS_COLORS.CONFLICTED;
-          res.zIndex = 5;
-        } else if (nodeStatus === "QUARANTINED") {
-          res.color = STATUS_COLORS.QUARANTINED;
-          res.zIndex = 5;
-        }
-        if (selected && node === selected.id) {
-          res.highlighted = true;
-          res.zIndex = 10;
-        }
-        return res;
-      },
-      edgeReducer: (edge, data) => {
-        const res = { ...data };
-        const mode = interactionModeRef.current;
-        const hovered = hoveredNodeRef.current;
-        const focused = focusedNodeIdRef.current;
-        const pEdges = pathEdgesRef.current;
-        const authority = (data as any).authority as string | null;
-
-        if (mode === "path" && pEdges.size > 0) {
-          if (pEdges.has(edge)) {
-            res.color = PATH_EDGE_COLOR;
-            res.size = 2.5;
-          } else {
-            res.hidden = true;
-          }
-          return res;
-        }
-
-        if (mode === "focus" && focused) {
-          const neighbors = getNeighborSet(focused);
-          const src = graph.source(edge);
-          const tgt = graph.target(edge);
-          if (!neighbors.has(src) || !neighbors.has(tgt)) {
-            res.hidden = true;
-          } else {
-            if (authority && AUTHORITY_EDGE_COLORS[authority]) {
-              res.color = AUTHORITY_EDGE_COLORS[authority];
-              res.size = AUTHORITY_EDGE_SIZE[authority] || 1.2;
-            } else {
-              res.size = 1.2;
-            }
-          }
-          return res;
-        }
-
-        if (hovered) {
-          const src = graph.source(edge);
-          const tgt = graph.target(edge);
-          if (src !== hovered.id && tgt !== hovered.id) {
-            res.color = HOVER_DIM_EDGE_COLOR;
-            res.size = 0.2;
-          } else {
-            if (authority && AUTHORITY_EDGE_COLORS[authority]) {
-              res.color = AUTHORITY_EDGE_COLORS[authority];
-              res.size = AUTHORITY_EDGE_SIZE[authority] || 1.5;
-            } else {
-              res.size = 1.5;
-            }
-          }
-          return res;
-        }
-
-        if (authority === "VERIFIES") {
-          res.color = AUTHORITY_EDGE_COLORS.VERIFIES;
-          res.size = AUTHORITY_EDGE_SIZE.VERIFIES;
-        } else if (authority === "CONTRADICTS") {
-          res.color = AUTHORITY_EDGE_COLORS.CONTRADICTS;
-          res.size = AUTHORITY_EDGE_SIZE.CONTRADICTS;
-        } else if (authority === "SIGNED_BY") {
-          res.color = AUTHORITY_EDGE_COLORS.SIGNED_BY;
-          res.size = AUTHORITY_EDGE_SIZE.SIGNED_BY;
-        } else if (authority === "EXECUTES") {
-          res.color = AUTHORITY_EDGE_COLORS.EXECUTES;
-          res.size = AUTHORITY_EDGE_SIZE.EXECUTES;
-        } else if (authority === "DERIVES_FROM") {
-          res.color = AUTHORITY_EDGE_COLORS.DERIVES_FROM;
-          res.size = AUTHORITY_EDGE_SIZE.DERIVES_FROM;
-        }
-
-        return res;
-      },
-    });
-
-    renderer.on("clickNode", ({ node }) => {
-      const mode = interactionModeRef.current;
-      const pSource = pathSourceRef.current;
-
-      if (mode === "path") {
-        if (!pSource) {
-          setPathSource(node);
-          const n = nodeFromGraph(node);
-          if (n) setSelectedNode(n);
-        } else if (node !== pSource) {
-          setPathTarget(node);
-          const path = bidirectional(graph, pSource, node);
-          if (path) {
-            setPathNodes(new Set(path));
-            setPathEdges(computePathEdges(path));
-          } else {
-            setPathNodes(new Set());
-            setPathEdges(new Set());
-          }
-          const n = nodeFromGraph(node);
-          if (n) setSelectedNode(n);
-        }
-        return;
-      }
-
-      const n = nodeFromGraph(node);
-      if (n) setSelectedNode(n);
-
-      if (mode === "focus") {
-        setFocusedNodeId(node);
-        const camera = renderer.getCamera() as any;
-        const nodeAttrs = graph.getNodeAttributes(node);
-        camera.animatedMoveTo({
-          x: nodeAttrs.x,
-          y: nodeAttrs.y,
-          ratio: 0.5,
-          angle: 0,
-        });
-      }
-    });
-
-    renderer.on("enterNode", ({ node }) => {
-      const mode = interactionModeRef.current;
-      if (mode !== "explore") return;
-      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = setTimeout(() => {
-        const n = nodeFromGraph(node);
-        if (n) {
-          const g = graphRef.current;
-          if (g && g.hasNode(node)) {
-            hoveredNeighborIdsRef.current = new Set(g.neighbors(node));
-          }
-          setHoveredNode(n);
-        }
-      }, HOVER_DEBOUNCE_MS);
-    });
-
-    renderer.on("leaveNode", () => {
-      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-      hoveredNeighborIdsRef.current = new Set();
-      setHoveredNode(null);
-    });
-
-    renderer.on("clickStage", () => {
-      const mode = interactionModeRef.current;
-      if (mode === "focus") {
-        exitFocus();
-        (renderer.getCamera() as any).animatedReset();
-      } else if (mode === "path") {
-        exitPath();
+        setPathEdges(edgeSet);
       } else {
-        setSelectedNode(null);
+        setPathNodes(new Set());
+        setPathEdges(new Set());
       }
-    });
+    }
+    if (density === "focus" || focusedNodeId) {
+      setFocusedNodeId(nodeId);
+    }
+  }, [pathSource, pathTarget, density, focusedNodeId]);
 
-    const camera = renderer.getCamera() as any;
-    const onCameraUpdate = () => {
-      setCameraRatio(camera.ratio);
-    };
-    camera.on("updated", onCameraUpdate);
+  const handleNodeHover = useCallback((nodeId: string | null) => {
+    setHoveredNodeId(nodeId);
+  }, []);
 
-    sigmaRef.current = renderer;
+  const handleStageClick = useCallback(() => {
+    setSelectedNodeId(null);
+    setHoveredNodeId(null);
+    setFocusedNodeId(null);
+    setPathSource(null);
+    setPathTarget(null);
+    setPathNodes(new Set());
+    setPathEdges(new Set());
+  }, []);
 
-    return () => {
-      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-      camera.removeListener("updated", onCameraUpdate);
-      if (sigmaRef.current) {
-        sigmaRef.current.kill();
-        sigmaRef.current = null;
+  const handleCameraUpdate = useCallback((ratio: number) => {
+    setCameraRatio(ratio);
+  }, []);
+
+  const handleGraphReady = useCallback((graph: Graph, sigma: Sigma) => {
+    graphRef.current = graph;
+    sigmaRef.current = sigma;
+  }, []);
+
+  const handleFocusNode = useCallback((id: string) => {
+    setFocusedNodeId(id);
+    setDensity("focus");
+  }, []);
+
+  const handleTracePath = useCallback((id: string) => {
+    if (!pathSource) {
+      setPathSource(id);
+    } else if (id !== pathSource) {
+      setPathTarget(id);
+      if (graphRef.current) {
+        const path = bidirectional(graphRef.current, pathSource, id);
+        if (path) {
+          setPathNodes(new Set(path));
+          const edgeSet = new Set<string>();
+          for (let i = 0; i < path.length - 1; i++) {
+            const edge = graphRef.current.edge(path[i], path[i + 1]);
+            if (edge) edgeSet.add(edge);
+          }
+          setPathEdges(edgeSet);
+        }
       }
-    };
-  }, [loading, filter, filterMode]);
+    }
+  }, [pathSource]);
 
-  const typeFilters = [
-    { key: "all", label: "All", color: "#F4F4F5" },
-    { key: "doc", label: "Docs", color: TYPE_COLORS.doc },
-    { key: "paper", label: "Papers", color: TYPE_COLORS.paper },
-    { key: "code", label: "Code", color: TYPE_COLORS.code },
-    { key: "data", label: "Data", color: TYPE_COLORS.data },
-    { key: "schema", label: "Schema", color: TYPE_COLORS.schema },
-  ];
+  const handleLayerToggle = useCallback((layer: MeaningLayer) => {
+    setActiveLayers((prev) =>
+      prev.includes(layer) ? prev.filter((l) => l !== layer) : [...prev, layer]
+    );
+  }, []);
 
-  const repoFilters = [
-    { key: "all", label: "All Repos", color: "#F4F4F5" },
-    ...Object.entries(REPO_COLORS).map(([key, color]) => ({
-      key,
-      label: key.replace(/-/g, " ").replace(/SwarmMind Self Optimizing Multi Agent AI System/g, "SwarmMind"),
-      color,
-    })),
-  ];
+  const zoomLabel = cameraRatio < 0.3 ? "Deep" : cameraRatio < 0.6 ? "Close" : cameraRatio < 1.2 ? "Normal" : cameraRatio < 3 ? "Far" : "Overview";
 
-  const currentFilters = filterMode === "type" ? typeFilters : repoFilters;
-
-  const filteredCount =
-    filter === "all"
-      ? stats.nodes
-      : filterMode === "repo"
-        ? allNodesRef.current.filter((n) => n.repo === filter).length
-        : allNodesRef.current.filter((n) => n.type === filter).length;
-
-  const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
-  for (const n of allNodesRef.current) {
-    const s = (n as any).status || "UNVERIFIED";
-    if (statusCounts[s] !== undefined) statusCounts[s]++;
-  }
-
-  const neighborCount =
-    focusedNodeId && graphRef.current?.hasNode(focusedNodeId)
-      ? graphRef.current.neighbors(focusedNodeId).length
-      : 0;
-
-  const pathLength =
-    interactionMode === "path" && pathNodes.size > 0
-      ? pathNodes.size - 1
-      : null;
+  const visibleCount = (() => {
+    if (density === "overview") return clusters.length;
+    if (activeEntryPoint || activeClusterId) {
+      const ep = entryPoints.find((e) => e.id === activeEntryPoint);
+      const cl = clusters.find((c) => c.id === activeClusterId);
+      return ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
+    }
+    if (focusedNodeId) return 20;
+    return filteredNodes.length;
+  })();
 
   return (
     <div className="p-8" data-pagefind-ignore>
-      <div className="flex items-center justify-between mb-8 animate-fade-in">
+      <div className="flex items-center justify-between mb-6 animate-fade-in">
         <div>
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">
-            Nexus Graph
-          </h1>
+          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
           <p className="text-[var(--text-secondary)]">
-            Interactive map of document connections &mdash; scroll to zoom, drag
-            to pan, click nodes for details
+            Thinking interface for the Deliberate Ensemble architecture &mdash; entry points, meaning layers, progressive density
           </p>
         </div>
       </div>
 
-      <div
-        className="card p-4 mb-2 flex gap-4 animate-fade-in stagger-1 flex-wrap items-center"
-        role="toolbar"
-        aria-label="Graph interaction mode"
-      >
-        <button
-          onClick={() => {
-            if (interactionMode === "focus") exitFocus();
-            if (interactionMode === "path") exitPath();
-            setInteractionMode("explore");
-          }}
-          aria-pressed={interactionMode === "explore"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            interactionMode === "explore"
-              ? "bg-[var(--primary)]/20 text-[var(--primary)]"
-              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          Explore
-        </button>
-        <button
-          onClick={() => {
-            exitFocus();
-            setInteractionMode("focus");
-          }}
-          aria-pressed={interactionMode === "focus"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            interactionMode === "focus"
-              ? "bg-[var(--primary)]/20 text-[var(--primary)]"
-              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          Focus Mode
-        </button>
-        <button
-          onClick={() => {
-            exitPath();
-            setInteractionMode("path");
-          }}
-          aria-pressed={interactionMode === "path"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            interactionMode === "path"
-              ? "bg-amber-500/20 text-amber-400"
-              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          Path Trace
-        </button>
+      <GraphToolbar
+        filter={filter}
+        filterMode={filterMode}
+        searchQuery={searchQuery}
+        onFilterChange={setFilter}
+        onFilterModeChange={setFilterMode}
+        onSearchChange={setSearchQuery}
+        nodeCount={filteredNodes.length}
+        edgeCount={edges.length}
+        visibleCount={visibleCount}
+      />
 
-        <span className="text-[var(--text-muted)] text-xs mx-1">|</span>
-
-        <button
-          onClick={() => {
-            setFilterMode("type");
-            setFilter("all");
-          }}
-          aria-pressed={filterMode === "type"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            filterMode === "type"
-              ? "bg-[var(--primary)]/20 text-[var(--primary)]"
-              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          Filter by Type
-        </button>
-        <button
-          onClick={() => {
-            setFilterMode("repo");
-            setFilter("all");
-          }}
-          aria-pressed={filterMode === "repo"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            filterMode === "repo"
-              ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
-              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          Filter by Repo
-        </button>
-
-    <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
-      {filteredCount} nodes &middot; {stats.edges} edges
-    </span>
-  </div>
-
-  <div className="card p-3 mb-2 flex gap-3 items-center text-xs animate-fade-in stagger-1" role="status" aria-label="Node status summary">
-    {Object.entries(statusCounts).filter(([, c]) => c > 0).map(([status, count]) => (
-      <span key={status} className="flex items-center gap-1">
-        <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: STATUS_COLORS[status] }} aria-hidden="true" />
-        <span style={{ color: STATUS_COLORS[status] }}>{count}</span>
-      </span>
-    ))}
-    <span className="text-[var(--text-muted)]">node status</span>
-  </div>
-
-      <div
-        className="card p-4 mb-2 flex gap-4 animate-fade-in stagger-2 flex-wrap"
-        role="toolbar"
-        aria-label={`${filterMode === "type" ? "Type" : "Repo"} filters`}
-      >
-        {currentFilters.map((tf) => (
-          <button
-            key={tf.key}
-            onClick={() => {
-              if (interactionMode === "focus") exitFocus();
-              if (interactionMode === "path") exitPath();
-              setFilter(tf.key);
-            }}
-            aria-pressed={filter === tf.key}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
-              filter === tf.key
-                ? "bg-[var(--bg-surface-hover)] text-[var(--text-primary)]"
-                : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-            }`}
-          >
-            <span
-              className="w-3 h-3 rounded-full inline-block"
-              style={{ backgroundColor: tf.color }}
-              aria-hidden="true"
-            />
-            {tf.label}
-          </button>
+      <div className="card p-3 mb-2 flex gap-3 items-center text-xs animate-fade-in" role="status" aria-label="Node status summary">
+        {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
+          <span key={status} className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }} aria-hidden="true" />
+            <span style={{ color: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }}>{count}</span>
+          </span>
         ))}
+        <span className="text-[var(--text-muted)]">node status</span>
       </div>
 
-      {interactionMode === "path" && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-amber-500/10 border border-amber-500/30 animate-fade-in stagger-3" role="status">
+      {(pathSource || focusedNodeId) && (
+        <div className="mb-4 px-4 py-3 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 animate-fade-in" role="status">
           <div className="flex items-center gap-3 text-sm">
-            <span className="text-amber-400 font-medium">Path Trace</span>
-            {pathSource && (
-              <span className="text-[var(--text-muted)]">
-                Source: <span className="text-[var(--text-primary)]">{nodeFromGraph(pathSource)?.title || pathSource}</span>
-              </span>
-            )}
-            {pathTarget && (
-              <span className="text-[var(--text-muted)]">
-                Target: <span className="text-[var(--text-primary)]">{nodeFromGraph(pathTarget)?.title || pathTarget}</span>
-              </span>
-            )}
-            {pathLength !== null && (
-              <span className="text-amber-300 font-medium">
-                {pathLength} hop{pathLength !== 1 ? "s" : ""} &middot; {pathNodes.size} nodes
-              </span>
-            )}
-            {!pathSource && (
-              <span className="text-[var(--text-muted)]">Click a node to set source</span>
-            )}
-            {pathSource && !pathTarget && (
-              <span className="text-[var(--text-muted)]">Click another node to set target</span>
-            )}
-            {pathSource && pathTarget && pathNodes.size === 0 && (
-              <span className="text-red-400">No path found</span>
-            )}
-            <button
-              onClick={exitPath}
-              className="ml-auto text-amber-400 hover:text-amber-300 text-xs underline"
-            >
-              Exit Path Trace
-            </button>
-          </div>
-        </div>
-      )}
-
-      {interactionMode === "focus" && focusedNodeId && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 animate-fade-in stagger-3" role="status">
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-[var(--primary)] font-medium">Focus Mode</span>
-            <span className="text-[var(--text-muted)]">
-              Focused on <span className="text-[var(--text-primary)]">{nodeFromGraph(focusedNodeId)?.title || focusedNodeId}</span>
-            </span>
-            <span className="text-[var(--text-muted)]">
-              {neighborCount} neighbor{neighborCount !== 1 ? "s" : ""}
-            </span>
-            <button
-              onClick={() => {
-                exitFocus();
-                (sigmaRef.current?.getCamera() as any)?.animatedReset();
-              }}
-              className="ml-auto text-[var(--primary)] hover:text-[var(--primary)]/80 text-xs underline"
-            >
-              Exit Focus
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className="flex gap-6 animate-fade-in stagger-3">
-        <div className="flex-1 min-w-0">
-          <div className="card relative overflow-hidden" style={{ height: "650px" }}>
-            {loading ? (
-              <div className="flex items-center justify-center h-full text-[var(--text-muted)]">
-                Loading graph data...
-              </div>
-            ) : allNodesRef.current.length === 0 ? (
-              <div className="flex items-center justify-center h-full text-[var(--text-muted)]">
-                No graph data available
-              </div>
-            ) : (
-              <div
-                ref={containerRef}
-                className="w-full h-full"
-                role="img"
-                aria-label="Interactive document nexus graph"
-              />
-            )}
-
-            <div className="absolute top-3 right-3 px-2 py-1 rounded bg-[var(--bg-surface)]/80 text-xs text-[var(--text-muted)] backdrop-blur-sm" aria-live="polite">
-              Zoom: {cameraRatio < 0.3 ? "Deep" : cameraRatio < 0.6 ? "Close" : cameraRatio < 1.2 ? "Normal" : cameraRatio < 3 ? "Far" : "Overview"}
-            </div>
-          </div>
-        </div>
-
-        {selectedNode && (
-          <aside className="w-80 flex-shrink-0" role="complementary" aria-label="Node details panel">
-            <div className="card p-5 sticky top-8">
-              <div className="flex items-center gap-2 mb-4">
-                <span
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: TYPE_COLORS[selectedNode.type] || TYPE_COLORS.doc }}
-                  aria-hidden="true"
-                />
-        <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
-          {selectedNode.type}
-        </span>
-        <span
-          className="text-xs px-1.5 py-0.5 rounded font-medium"
-          style={{
-            backgroundColor: (STATUS_COLORS[selectedNode.status] || STATUS_COLORS.UNVERIFIED) + "22",
-            color: STATUS_COLORS[selectedNode.status] || STATUS_COLORS.UNVERIFIED,
-          }}
-        >
-          {selectedNode.status}
-        </span>
-                {interactionMode === "focus" && selectedNode.id === focusedNodeId && (
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-[var(--primary)]/20 text-[var(--primary)]">Focused</span>
-                )}
-                {interactionMode === "path" && (selectedNode.id === pathSource || selectedNode.id === pathTarget) && (
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">
-                    {selectedNode.id === pathSource ? "Source" : "Target"}
-                  </span>
-                )}
-              </div>
-
-              <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-3 leading-snug">
-                {selectedNode.title}
-              </h2>
-
-              <div className="space-y-2 mb-4 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-[var(--text-muted)]">Category</span>
-                  <span className="text-[var(--text-secondary)]">{selectedNode.category || "—"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[var(--text-muted)]">Repo</span>
-                  <span className="text-[var(--text-secondary)]">{selectedNode.repo.replace(/-/g, " ") || "—"}</span>
-                </div>
-          <div className="flex justify-between">
-            <span className="text-[var(--text-muted)]">Connections</span>
-            <span className="text-[var(--text-secondary)]">{selectedNode.connectionCount}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[var(--text-muted)]">Verifications</span>
-            <span className="text-[var(--text-secondary)]" style={{ color: selectedNode.verificationCount > 0 ? STATUS_COLORS.VERIFIED : undefined }}>{selectedNode.verificationCount}</span>
-          </div>
-          {selectedNode.contradictionCount > 0 && (
-            <div className="flex justify-between">
-              <span className="text-[var(--text-muted)]">Contradictions</span>
-              <span style={{ color: STATUS_COLORS.CONFLICTED }}>{selectedNode.contradictionCount}</span>
-            </div>
-          )}
-              </div>
-
-              {selectedNode.tags.length > 0 && (
-                <div className="mb-4">
-                  <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)] mb-2 block">Tags</span>
-                  <div className="flex gap-1 flex-wrap">
-                    {selectedNode.tags.slice(0, 8).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                    {selectedNode.tags.length > 8 && (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--bg-surface-hover)] text-[var(--text-muted)]">
-                        +{selectedNode.tags.length - 8}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Link
-                  href={`/library/${selectedNode.id}`}
-                  className="block w-full text-center px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:opacity-90 transition-opacity"
-                >
-                  View Document
-                </Link>
-
-                <button
-                  onClick={() => {
-                    setFocusedNodeId(selectedNode.id);
-                    setInteractionMode("focus");
-                    const g = graphRef.current;
-                    const r = sigmaRef.current;
-                    if (g && r && g.hasNode(selectedNode.id)) {
-                      const attrs = g.getNodeAttributes(selectedNode.id);
-                      (r.getCamera() as any).animatedMoveTo({ x: attrs.x, y: attrs.y, ratio: 0.5, angle: 0 });
-                    }
-                  }}
-                  className="block w-full text-center px-4 py-2 rounded-lg border border-[var(--border)] text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors"
-                >
-                  Focus on Node
+            {focusedNodeId && (
+              <>
+                <span className="text-[var(--primary)] font-medium">Focus</span>
+                <span className="text-[var(--text-muted)]">
+                  on <span className="text-[var(--text-primary)]">{selectedNode?.title || focusedNodeId}</span>
+                </span>
+                <button onClick={handleStageClick} className="ml-auto text-[var(--primary)] hover:text-[var(--primary)]/80 text-xs underline">
+                  Exit Focus
                 </button>
+              </>
+            )}
+            {pathSource && (
+              <>
+                <span className="text-amber-400 font-medium">Path Trace</span>
+                {pathSource && <span className="text-[var(--text-muted)]">Source: <span className="text-[var(--text-primary)]">{filteredNodes.find((n) => n.id === pathSource)?.title || pathSource}</span></span>}
+                {pathTarget && <span className="text-[var(--text-muted)]">Target: <span className="text-[var(--text-primary)]">{filteredNodes.find((n) => n.id === pathTarget)?.title || pathTarget}</span></span>}
+                {pathNodes.size > 0 && <span className="text-amber-300 font-medium">{pathNodes.size - 1} hops</span>}
+                {!pathTarget && <span className="text-[var(--text-muted)]">Click another node</span>}
+                <button onClick={handleStageClick} className="ml-auto text-amber-400 hover:text-amber-300 text-xs underline">
+                  Exit Path
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
-                {interactionMode === "path" && (
-                  <button
-                    onClick={() => {
-                      if (!pathSource) {
-                        setPathSource(selectedNode.id);
-                      } else if (selectedNode.id !== pathSource) {
-                        setPathTarget(selectedNode.id);
-                        const g = graphRef.current;
-                        if (g) {
-                          const path = bidirectional(g, pathSource, selectedNode.id);
-                          if (path) {
-                            setPathNodes(new Set(path));
-                            setPathEdges(computePathEdges(path));
-                          } else {
-                            setPathNodes(new Set());
-                            setPathEdges(new Set());
-                          }
-                        }
-                      }
-                    }}
-                    className="block w-full text-center px-4 py-2 rounded-lg border border-amber-500/40 text-sm text-amber-400 hover:bg-amber-500/10 transition-colors"
-                  >
-                    Trace Path From Here
-                  </button>
-                )}
+      <div className="flex gap-4 animate-fade-in">
+        <div className="w-56 flex-shrink-0 space-y-4">
+          <div className="card p-3">
+            <DensityControl density={density} onChange={setDensity} />
+          </div>
+          <div className="card p-3">
+            <EntryPoints entryPoints={entryPoints} activeEntryPoint={activeEntryPoint} onSelect={setActiveEntryPoint} />
+          </div>
+          <div className="card p-3">
+            <MeaningLayers activeLayers={activeLayers} onToggle={handleLayerToggle} />
+          </div>
+          <div className="card p-3 max-h-64 overflow-y-auto">
+            <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
+          </div>
+        </div>
 
-                {interactionMode === "focus" && selectedNode.id !== focusedNodeId && (
-                  <button
-                    onClick={() => {
-                      setFocusedNodeId(selectedNode.id);
-                      const g = graphRef.current;
-                      const r = sigmaRef.current;
-                      if (g && r && g.hasNode(selectedNode.id)) {
-                        const attrs = g.getNodeAttributes(selectedNode.id);
-                        (r.getCamera() as any).animatedMoveTo({ x: attrs.x, y: attrs.y, ratio: 0.5, angle: 0 });
-                      }
-                    }}
-                    className="block w-full text-center px-4 py-2 rounded-lg border border-[var(--primary)]/40 text-sm text-[var(--primary)] hover:bg-[var(--primary)]/10 transition-colors"
-                  >
-                    Re-focus Here
-                  </button>
-                )}
+        <div className="flex-1 min-w-0 flex gap-4">
+          <div className="flex-1 min-w-0">
+            <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "500px" }}>
+              {loading ? (
+                <div className="flex items-center justify-center h-full text-[var(--text-muted)]">Loading graph data...</div>
+              ) : filteredNodes.length === 0 ? (
+                <div className="flex items-center justify-center h-full text-[var(--text-muted)]">No graph data available</div>
+              ) : (
+                <GraphCanvas
+                  nodes={filteredNodes}
+                  edges={edges}
+                  clusters={clusters}
+                  hoveredNodeId={hoveredNodeId}
+                  selectedNodeId={selectedNodeId}
+                  focusedNodeId={focusedNodeId}
+                  pathNodes={pathNodes}
+                  pathEdges={pathEdges}
+                  pathSource={pathSource}
+                  pathTarget={pathTarget}
+                  activeLayers={activeLayers}
+                  density={density}
+                  activeEntryPoint={activeEntryPoint}
+                  activeClusterId={activeClusterId}
+                  searchQuery={searchQuery}
+                  filterMode={filterMode}
+                  filter={filter}
+                  onNodeClick={handleNodeClick}
+                  onNodeHover={handleNodeHover}
+                  onStageClick={handleStageClick}
+                  onCameraUpdate={handleCameraUpdate}
+                  onGraphReady={handleGraphReady}
+                />
+              )}
+              <div className="absolute top-3 right-3 px-2 py-1 rounded bg-[var(--bg-surface)]/80 text-xs text-[var(--text-muted)] backdrop-blur-sm" aria-live="polite">
+                {zoomLabel}
               </div>
             </div>
-          </aside>
-        )}
-      </div>
+          </div>
 
-  <p className="mt-4 text-xs text-[var(--text-muted)] text-center animate-fade-in stagger-4">
-    {interactionMode === "explore" && "Explore mode: hover to highlight neighbors, click to select. Scroll to zoom, drag to pan."}
-    {interactionMode === "focus" && "Focus mode: click any node to isolate its neighborhood. Click background to exit."}
-    {interactionMode === "path" && "Path trace: click two nodes to find the shortest path between them. Click background to reset."}
-    {" "}Zoom in for labels, out for clusters.
-  </p>
-
-  <div className="mt-4 card p-4 animate-fade-in stagger-5" role="region" aria-label="Truth routing legend">
-    <div className="flex flex-wrap gap-x-6 gap-y-2 items-start">
-      <div>
-        <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)] block mb-1">Node Status</span>
-        <div className="flex gap-3 text-xs">
-          {Object.entries(STATUS_COLORS).map(([status, color]) => (
-            <span key={status} className="flex items-center gap-1">
-              <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: color }} aria-hidden="true" />
-              <span style={{ color }}>{status}</span>
-            </span>
-          ))}
+          {selectedNode && (
+            <NodeDetail
+              node={selectedNode}
+              interactionMode={focusedNodeId ? "focus" : pathSource ? "path" : "entry"}
+              focusedNodeId={focusedNodeId}
+              pathSource={pathSource}
+              pathTarget={pathTarget}
+              onFocusNode={handleFocusNode}
+              onTracePath={handleTracePath}
+            />
+          )}
         </div>
       </div>
-      <div>
-        <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)] block mb-1">Authority Edges</span>
-        <div className="flex gap-3 text-xs flex-wrap">
-          {Object.entries(AUTHORITY_EDGE_COLORS).map(([type, color]) => (
-            <span key={type} className="flex items-center gap-1">
-              <span className="w-4 h-0.5 inline-block rounded" style={{ backgroundColor: color }} aria-hidden="true" />
-              <span style={{ color }}>{type.replace(/_/g, " ")}</span>
-            </span>
-          ))}
-        </div>
-      </div>
+
+      <p className="mt-4 text-xs text-[var(--text-muted)] text-center animate-fade-in">
+        Entry points replace explore mode &mdash; choose what to see. Toggle meaning layers to filter edge types. Adjust density for depth.
+      </p>
+
+      <GraphLegend />
     </div>
-  </div>
-  </div>
   );
 }
