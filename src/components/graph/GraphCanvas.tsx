@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import Graph from "graphology";
 import Sigma from "sigma";
 import { circular } from "graphology-layout";
@@ -26,6 +26,7 @@ interface GraphCanvasProps {
   searchQuery: string;
   filterMode: "type" | "repo";
   filter: string;
+  visibleCount: number;
   onNodeClick: (nodeId: string) => void;
   onNodeHover: (nodeId: string | null) => void;
   onStageClick: () => void;
@@ -33,9 +34,9 @@ interface GraphCanvasProps {
   onGraphReady: (graph: Graph, sigma: Sigma) => void;
 }
 
-const DIM_COLOR = "#1E1E28";
-const HOVER_DIM_COLOR = "#252530";
-const HOVER_DIM_EDGE = "#1A1A22";
+const DIM_COLOR = "#2A2A38";
+const HOVER_DIM_COLOR = "#353540";
+const HOVER_DIM_EDGE = "#252530";
 const PATH_HIGHLIGHT = "#F59E0B";
 const PATH_EDGE_COLOR = "#FBBF24";
 
@@ -117,7 +118,7 @@ export default function GraphCanvas({
   nodes, edges, clusters, hoveredNodeId, selectedNodeId, focusedNodeId,
   pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
   activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
-  onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
+  visibleCount, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
 }: GraphCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sigmaRef = useRef<Sigma | null>(null);
@@ -157,6 +158,43 @@ export default function GraphCanvas({
   useEffect(() => {
     if (sigmaRef.current) sigmaRef.current.refresh();
   }, [hoveredNodeId, selectedNodeId, focusedNodeId, pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density, activeEntryPoint, activeClusterId, searchQuery]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    const sigma = sigmaRef.current;
+    const graph = graphRef.current;
+    if (!sigma || !graph) return;
+    const camera = sigma.getCamera() as any;
+    if (e.key === "Escape") {
+      onStageClick();
+      (e.target as HTMLElement).blur();
+    } else if (e.key === "+" || e.key === "=") {
+      e.preventDefault();
+      camera.animatedZoom({ duration: 200 });
+    } else if (e.key === "-" || e.key === "_") {
+      e.preventDefault();
+      camera.animatedUnzoom({ duration: 200 });
+    } else if (e.key === "ArrowUp" || e.key === "w") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, y: state.y - 50 / camera.ratio }, { duration: 150 });
+    } else if (e.key === "ArrowDown" || e.key === "s") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, y: state.y + 50 / camera.ratio }, { duration: 150 });
+    } else if (e.key === "ArrowLeft" || e.key === "a") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, x: state.x - 50 / camera.ratio }, { duration: 150 });
+    } else if (e.key === "ArrowRight" || e.key === "d") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, x: state.x + 50 / camera.ratio }, { duration: 150 });
+    } else if (e.key === "ArrowRight" || e.key === "d") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, x: state.x + 50 / camera.ratio }, { duration: 150 });
+    }
+  }, [onStageClick]);
 
   useEffect(() => {
     if (!containerRef.current || nodes.length === 0) return;
@@ -438,12 +476,23 @@ export default function GraphCanvas({
     };
   }, [nodes, edges, clusters, filter, filterMode, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady]);
 
+  const ariaLabel = [
+    "Interactive nexus graph",
+    density + " density",
+    visibleCount + " visible nodes",
+    focusedNodeId ? "focused on node" : "",
+    pathSource ? "path trace active" : "",
+    searchQuery ? "searching: " + searchQuery : "",
+  ].filter(Boolean).join(", ");
+
   return (
     <div
       ref={containerRef}
-      className="w-full h-full"
-      role="img"
-      aria-label="Interactive document nexus graph"
+      className="w-full h-full outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-inset"
+      role="application"
+      tabIndex={0}
+      aria-label={ariaLabel}
+      onKeyDown={handleKeyDown}
     />
   );
 }

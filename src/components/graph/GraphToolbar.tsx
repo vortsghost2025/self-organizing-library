@@ -65,26 +65,26 @@ export default function GraphToolbar({
           />
         </div>
 
-        <span className="text-[var(--text-muted)] text-xs mx-1">|</span>
+      <span className="text-[var(--text-muted)] text-xs mx-1" aria-hidden="true">|</span>
 
-        <button
-          onClick={() => { onFilterModeChange("type"); onFilterChange("all"); }}
-          aria-pressed={filterMode === "type"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            filterMode === "type" ? "bg-[var(--primary)]/20 text-[var(--primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          By Type
-        </button>
-        <button
-          onClick={() => { onFilterModeChange("repo"); onFilterChange("all"); }}
-          aria-pressed={filterMode === "repo"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-            filterMode === "repo" ? "bg-[var(--secondary)]/20 text-[var(--secondary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          By Repo
-        </button>
+      <button
+        onClick={() => { onFilterModeChange("type"); onFilterChange("all"); }}
+        aria-pressed={filterMode === "type"}
+        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
+          filterMode === "type" ? "bg-[var(--primary)]/20 text-[var(--primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+        }`}
+      >
+        By Type
+      </button>
+      <button
+        onClick={() => { onFilterModeChange("repo"); onFilterChange("all"); }}
+        aria-pressed={filterMode === "repo"}
+        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--secondary)]/50 focus:ring-offset-1 ${
+          filterMode === "repo" ? "bg-[var(--secondary)]/20 text-[var(--secondary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+        }`}
+      >
+        By Repo
+      </button>
 
         <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
           {visibleCount}/{nodeCount} nodes &middot; {edgeCount} edges
@@ -96,15 +96,15 @@ export default function GraphToolbar({
         role="toolbar"
         aria-label={`${filterMode === "type" ? "Type" : "Repo"} filters`}
       >
-        {currentFilters.map((tf) => (
-          <button
-            key={tf.key}
-            onClick={() => onFilterChange(tf.key)}
-            aria-pressed={filter === tf.key}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
-              filter === tf.key ? "bg-[var(--bg-surface-hover)] text-[var(--text-primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-            }`}
-          >
+      {currentFilters.map((tf) => (
+        <button
+          key={tf.key}
+          onClick={() => onFilterChange(tf.key)}
+          aria-pressed={filter === tf.key}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
+            filter === tf.key ? "bg-[var(--bg-surface-hover)] text-[var(--text-primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          }`}
+        >
             <span className="w-3 h-3 rounded-full inline-block" style={{ backgroundColor: tf.color }} aria-hidden="true" />
             {tf.label}
           </button>

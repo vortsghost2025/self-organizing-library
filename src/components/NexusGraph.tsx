@@ -161,8 +161,6 @@ export default function NexusGraph() {
     );
   }, []);
 
-  const zoomLabel = cameraRatio < 0.3 ? "Deep" : cameraRatio < 0.6 ? "Close" : cameraRatio < 1.2 ? "Normal" : cameraRatio < 3 ? "Far" : "Overview";
-
   const visibleCount = (() => {
     if (density === "overview") return clusters.length;
     if (activeEntryPoint || activeClusterId) {
@@ -174,8 +172,27 @@ export default function NexusGraph() {
     return filteredNodes.length;
   })();
 
+  const zoomLabel = cameraRatio < 0.3
+    ? "Zoom: Deep — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
+    : cameraRatio < 0.6
+    ? "Zoom: Close — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
+    : cameraRatio < 1.2
+    ? "Zoom: Normal — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
+    : cameraRatio < 3
+    ? "Zoom: Far — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
+    : "Zoom: Overview — showing " + visibleCount + " of " + filteredNodes.length + " nodes";
+
   return (
     <div className="p-8" data-pagefind-ignore>
+      <a href="#nexus-graph-canvas" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--primary)] focus:text-white focus:rounded">
+        Skip to graph canvas
+      </a>
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {loading ? "Loading graph data" : ""}
+        {focusedNodeId ? "Focused on " + (selectedNode?.title || focusedNodeId) : ""}
+        {pathSource && !pathTarget ? "Path trace: select target node" : ""}
+        {pathSource && pathTarget ? "Path trace: " + (pathNodes.size - 1) + " hops" : ""}
+      </div>
       <div className="flex items-center justify-between mb-6 animate-fade-in">
         <div>
           <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
@@ -201,14 +218,13 @@ export default function NexusGraph() {
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
           <span key={status} className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }} aria-hidden="true" />
-            <span style={{ color: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }}>{count}</span>
+            <span className="text-[var(--text-secondary)]">{status}: {count}</span>
           </span>
         ))}
-        <span className="text-[var(--text-muted)]">node status</span>
       </div>
 
       {(pathSource || focusedNodeId) && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 animate-fade-in" role="status">
+        <div className="mb-4 px-4 py-3 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 animate-fade-in" role="status" aria-live="polite">
           <div className="flex items-center gap-3 text-sm">
             {focusedNodeId && (
               <>
@@ -216,7 +232,7 @@ export default function NexusGraph() {
                 <span className="text-[var(--text-muted)]">
                   on <span className="text-[var(--text-primary)]">{selectedNode?.title || focusedNodeId}</span>
                 </span>
-                <button onClick={handleStageClick} className="ml-auto text-[var(--primary)] hover:text-[var(--primary)]/80 text-xs underline">
+                <button onClick={handleStageClick} className="ml-auto text-[var(--primary)] hover:text-[var(--primary)]/80 text-xs underline focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 rounded">
                   Exit Focus
                 </button>
               </>
@@ -228,7 +244,7 @@ export default function NexusGraph() {
                 {pathTarget && <span className="text-[var(--text-muted)]">Target: <span className="text-[var(--text-primary)]">{filteredNodes.find((n) => n.id === pathTarget)?.title || pathTarget}</span></span>}
                 {pathNodes.size > 0 && <span className="text-amber-300 font-medium">{pathNodes.size - 1} hops</span>}
                 {!pathTarget && <span className="text-[var(--text-muted)]">Click another node</span>}
-                <button onClick={handleStageClick} className="ml-auto text-amber-400 hover:text-amber-300 text-xs underline">
+                <button onClick={handleStageClick} className="ml-auto text-amber-400 hover:text-amber-300 text-xs underline focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:ring-offset-1 rounded">
                   Exit Path
                 </button>
               </>
@@ -238,7 +254,7 @@ export default function NexusGraph() {
       )}
 
       <div className="flex gap-4 animate-fade-in">
-        <div className="w-56 flex-shrink-0 space-y-4">
+        <nav aria-label="Graph sidebar controls" className="w-56 flex-shrink-0 space-y-4">
           <div className="card p-3">
             <DensityControl density={density} onChange={setDensity} />
           </div>
@@ -251,15 +267,15 @@ export default function NexusGraph() {
           <div className="card p-3 max-h-64 overflow-y-auto">
             <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
           </div>
-        </div>
+        </nav>
 
-        <div className="flex-1 min-w-0 flex gap-4">
+        <main className="flex-1 min-w-0 flex gap-4" id="nexus-graph-canvas">
           <div className="flex-1 min-w-0">
             <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "500px" }}>
               {loading ? (
-                <div className="flex items-center justify-center h-full text-[var(--text-muted)]">Loading graph data...</div>
+                <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status" aria-live="polite">Loading graph data...</div>
               ) : filteredNodes.length === 0 ? (
-                <div className="flex items-center justify-center h-full text-[var(--text-muted)]">No graph data available</div>
+                <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
                 <GraphCanvas
                   nodes={filteredNodes}
@@ -279,6 +295,7 @@ export default function NexusGraph() {
                   searchQuery={searchQuery}
                   filterMode={filterMode}
                   filter={filter}
+                  visibleCount={visibleCount}
                   onNodeClick={handleNodeClick}
                   onNodeHover={handleNodeHover}
                   onStageClick={handleStageClick}
@@ -301,13 +318,14 @@ export default function NexusGraph() {
               pathTarget={pathTarget}
               onFocusNode={handleFocusNode}
               onTracePath={handleTracePath}
+              onClose={handleStageClick}
             />
           )}
-        </div>
+        </main>
       </div>
 
       <p className="mt-4 text-xs text-[var(--text-muted)] text-center animate-fade-in">
-        Entry points replace explore mode &mdash; choose what to see. Toggle meaning layers to filter edge types. Adjust density for depth.
+        Entry points replace explore mode &mdash; choose what to see. Toggle meaning layers to filter edge types. Adjust density for depth. Use Tab to focus the graph, arrow keys or WASD to pan, +/- to zoom, Escape to clear.
       </p>
 
       <GraphLegend />

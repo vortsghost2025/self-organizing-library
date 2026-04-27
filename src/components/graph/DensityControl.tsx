@@ -15,15 +15,15 @@ const DENSITIES: { level: DensityLevel; label: string; icon: string; description
 
 export default function DensityControl({ density, onChange }: DensityControlProps) {
   return (
-    <div className="space-y-1">
-      <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)] block mb-2">Density</span>
+    <div className="space-y-1" role="radiogroup" aria-label="Density level">
+      <h3 className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Density</h3>
       {DENSITIES.map((d) => (
         <button
           key={d.level}
           onClick={() => onChange(d.level)}
-          aria-pressed={density === d.level}
-          title={d.description}
-          className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+          role="radio"
+          aria-checked={density === d.level}
+          className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
             density === d.level
               ? "bg-[var(--primary)]/20 text-[var(--primary)]"
               : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
@@ -31,6 +31,7 @@ export default function DensityControl({ density, onChange }: DensityControlProp
         >
           <span className="w-5 text-center" aria-hidden="true">{d.icon}</span>
           <span className="flex-1">{d.label}</span>
+          <span className="text-xs text-[var(--text-muted)]">{d.description}</span>
         </button>
       ))}
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import type { GraphNode } from "@/lib/graph-types";
 import { TYPE_COLORS, STATUS_COLORS } from "@/lib/graph-types";
@@ -12,6 +13,7 @@ interface NodeDetailProps {
   pathTarget: string | null;
   onFocusNode: (id: string) => void;
   onTracePath: (id: string) => void;
+  onClose: () => void;
 }
 
 export default function NodeDetail({
@@ -22,17 +24,56 @@ export default function NodeDetail({
   pathTarget,
   onFocusNode,
   onTracePath,
+  onClose,
 }: NodeDetailProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement as HTMLElement;
+    const panel = panelRef.current;
+    if (panel) {
+      const first = panel.querySelector<HTMLElement>('button, [href], input, [tabindex]:not([tabindex="-1"])');
+      if (first) first.focus();
+    }
+    return () => {
+      if (previousFocusRef.current && previousFocusRef.current.focus) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, [node.id]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      onClose();
+    }
+    if (e.key === "Tab" && panelRef.current) {
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, [tabindex]:not([tabindex="-1"])'
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last?.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
+    }
+  };
+
   return (
     <aside className="w-80 flex-shrink-0" role="complementary" aria-label="Node details panel">
-      <div className="card p-5 sticky top-8">
+      <div className="card p-5 sticky top-8" ref={panelRef} onKeyDown={handleKeyDown}>
         <div className="flex items-center gap-2 mb-4">
           <span
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: TYPE_COLORS[node.type] || TYPE_COLORS.doc }}
             aria-hidden="true"
           />
-          <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
+          <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)]">
             {node.type}
           </span>
           <span
@@ -101,27 +142,27 @@ export default function NodeDetail({
           </div>
         )}
 
-        <div className="space-y-2">
-          <Link
-            href={`/library/${node.id}`}
-            className="block w-full text-center px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            View Document
-          </Link>
+      <div className="space-y-2">
+        <Link
+          href={"/library/" + node.id}
+          className="block w-full text-center px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1"
+        >
+          View Document
+        </Link>
+        <button
+          onClick={() => onFocusNode(node.id)}
+          className="block w-full text-center px-4 py-2 rounded-lg border border-[var(--border)] text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1"
+        >
+          Focus on Node
+        </button>
+        {interactionMode === "path" && (
           <button
-            onClick={() => onFocusNode(node.id)}
-            className="block w-full text-center px-4 py-2 rounded-lg border border-[var(--border)] text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors"
+            onClick={() => onTracePath(node.id)}
+            className="block w-full text-center px-4 py-2 rounded-lg border border-amber-500/40 text-sm text-amber-400 hover:bg-amber-500/10 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:ring-offset-1"
           >
-            Focus on Node
+            Trace Path From Here
           </button>
-          {interactionMode === "path" && (
-            <button
-              onClick={() => onTracePath(node.id)}
-              className="block w-full text-center px-4 py-2 rounded-lg border border-amber-500/40 text-sm text-amber-400 hover:bg-amber-500/10 transition-colors"
-            >
-              Trace Path From Here
-            </button>
-          )}
+        )}
         </div>
       </div>
     </aside>
