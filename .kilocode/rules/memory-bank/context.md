@@ -1007,3 +1007,13 @@ Remediation report delivered to Archivist inbox + outbox logged.
 **Key Discovery #18**: SwarmMind path fix scope was 50+ files across scripts/src/config/schemas
 **Key Discovery #19**: /api/health was leaking version, uptime, filesystem paths (now sanitized+authed)
 **Key Discovery #20**: fs.renameSync is atomic - better than read-write-delete for lease-based ops
+
+### Session 2026-04-27 (Evening): Inbox Processing + Secret Remediation + State Sync
+
+- [x] Library inbox processed: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine EMPTY
+- [x] Reviewed Archivist P1 cross-session protocol realignment proposal (v1.4 schema) — no Library domain contradictions
+- [x] Committed and pushed session state sync (commit 291449e): context.md, system_state.json, heartbeat, verification-domain-gate, docs/superpowers, processed dual-archivist inbox message
+- [x] **Fixed leaked Vercel token** in `docs/superpowers/plans/2026-04-26-nexus-graph-thinking-interface.md` line 1772 — GitHub push protection caught `vcp_0G0VL2Tn...` in docs. Replaced with `$VERCEL_TOKEN` env var reference. Push unblocked.
+- [x] Vercel deployment verified: deliberateensemble.works returns 200, /api/graph-data returns valid JSON
+
+**Key Discovery #21**: Docs files can contain hardcoded deployment tokens from planning sessions. Always check for secrets before pushing docs.
