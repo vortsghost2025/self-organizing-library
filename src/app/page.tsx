@@ -1,6 +1,7 @@
 import { getStats, getEntries, getCategories, getTopTags } from "@/lib/site-index";
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
+import { UnderstandingTheSystem } from "@/components/UnderstandingTheSystem";
 
 export default async function Dashboard() {
   const stats = getStats();
@@ -88,6 +89,8 @@ export default async function Dashboard() {
       </div>
 
       <LaneArchitecture />
+
+      <UnderstandingTheSystem />
 
       <div className="card p-6 mt-6 animate-fade-in">
         <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
