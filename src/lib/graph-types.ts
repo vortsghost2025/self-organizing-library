@@ -81,18 +81,18 @@ export const REPO_COLORS: Record<string, string> = {
 
 export const STATUS_COLORS: Record<NodeStatus, string> = {
   VERIFIED: "#22C55E",
-  UNVERIFIED: "#6B7280",
+  UNVERIFIED: "#9CA3AF",
   CONFLICTED: "#EF4444",
-  QUARANTINED: "#A855F7",
+  QUARANTINED: "#C084FC",
 };
 
 export const AUTHORITY_EDGE_COLORS: Record<AuthorityEdgeType, string> = {
   VERIFIES: "#22C55E",
-  DERIVES_FROM: "#3B82F6",
+  DERIVES_FROM: "#60A5FA",
   CONTRADICTS: "#EF4444",
-  SIGNED_BY: "#A855F7",
+  SIGNED_BY: "#C084FC",
   EXECUTES: "#F59E0B",
-  DEPENDS_ON: "#6B7280",
+  DEPENDS_ON: "#9CA3AF",
 };
 
 export const AUTHORITY_EDGE_SIZE: Record<AuthorityEdgeType, number> = {
