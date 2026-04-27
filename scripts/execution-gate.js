@@ -11,10 +11,10 @@ const _discovery = new LaneDiscovery();
 const _validLanes = new Set(_discovery.listLanes());
 
 const DEFAULT_ALLOWED_ROOTS = [
-  'S:/Archivist-Agent',
-  'S:/kernel-lane',
-  'S:/self-organizing-library',
-  'S:/SwarmMind',
+'S:/Archivist-Agent',
+'S:/kernel-lane',
+'S:/self-organizing-library',
+'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
 ];
 
 const COMPLETION_WINDOW_MS = 5 * 60 * 1000;
@@ -169,10 +169,18 @@ class ExecutionGate {
       throw new Error(`Invalid lane identifier in message 'from' field: '${fromLane}'. Valid lanes: ${[..._validLanes].join(', ')}`);
     }
     const root = _discovery.getLocalPath(fromLane);
+    const resolvedRoot = path.resolve(root);
+    const isAllowed = DEFAULT_ALLOWED_ROOTS.some(allowedRoot => {
+      const resolvedAllowed = path.resolve(allowedRoot);
+      return resolvedRoot === resolvedAllowed || resolvedRoot.startsWith(resolvedAllowed + path.sep);
+    });
+    if (!isAllowed) {
+      throw new Error(`SECURITY: resolved path '${resolvedRoot}' for lane '${fromLane}' is outside allowed roots`);
+    }
     return [
-      path.join(root, 'lanes', fromLane, 'inbox', 'processed'),
-      path.join(root, 'lanes', fromLane, 'outbox'),
-      path.join(root, 'lanes', fromLane, 'inbox'),
+      path.join(resolvedRoot, 'lanes', fromLane, 'inbox', 'processed'),
+      path.join(resolvedRoot, 'lanes', fromLane, 'outbox'),
+      path.join(resolvedRoot, 'lanes', fromLane, 'inbox'),
     ];
   }
 

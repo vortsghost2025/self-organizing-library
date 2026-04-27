@@ -18,7 +18,7 @@ const path = require('path');
 
 const ARCHIVIST_ROOT = 'S:/Archivist-Agent';
 const LIBRARY_ROOT = 'S:/self-organizing-library';
-const SWARMIND_ROOT = 'S:/SwarmMind';
+const SWARMIND_ROOT = 'S:/SwarmMind Self-Optimizing Multi-Agent AI System';
 
 function syntaxCheck(filePath) {
   try {

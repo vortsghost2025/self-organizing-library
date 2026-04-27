@@ -365,7 +365,7 @@
         },
         "swarmmind": {
           "type": "string",
-          "default": "S:/SwarmMind/lanes/swarmmind/inbox/"
+          "default": "S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/"
         },
         "kernel": {
           "type": "string",

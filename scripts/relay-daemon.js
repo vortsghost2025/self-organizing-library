@@ -7,14 +7,14 @@ const path = require('path');
 const CANONICAL_INBOX = {
   archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
   library:   'S:/self-organizing-library/lanes/library/inbox/',
-  swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
+  swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/',
   kernel:    'S:/kernel-lane/lanes/kernel/inbox/',
 };
 
 const LANE_ROOTS = {
   archivist: 'S:/Archivist-Agent',
   library:   'S:/self-organizing-library',
-  swarmmind: 'S:/SwarmMind',
+  swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
   kernel:    'S:/kernel-lane',
 };
 

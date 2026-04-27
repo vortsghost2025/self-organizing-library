@@ -9,7 +9,7 @@ const archInbox = 'S:/Archivist-Agent/lanes/archivist/inbox';
 
 const lanes = [
   { name: 'library', dir: 'S:/self-organizing-library' },
-  { name: 'swarmmind', dir: 'S:/SwarmMind' },
+  { name: 'swarmmind', dir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' },
   { name: 'kernel', dir: 'S:/kernel-lane' }
 ];
 

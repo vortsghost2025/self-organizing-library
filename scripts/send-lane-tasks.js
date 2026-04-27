@@ -115,7 +115,7 @@ const swarmmindBody = "## Library Task for SwarmMind\n\n" +
 
 const swarmmindMsg = makeMsg('library-task-swarmmind-harden-push', 'swarmmind', 'P0: Complete HARDEN Phase + Prepare for PUSH', swarmmindBody);
 fs.writeFileSync(path.join(outboxDir, swarmmindMsg.task_id + '.json'), JSON.stringify(swarmmindMsg, null, 2));
-fs.writeFileSync(path.join('S:/SwarmMind/lanes/swarmmind/inbox', swarmmindMsg.task_id + '.json'), JSON.stringify(swarmmindMsg, null, 2));
+fs.writeFileSync(path.join('S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox', swarmmindMsg.task_id + '.json'), JSON.stringify(swarmmindMsg, null, 2));
 console.log('Sent to SwarmMind: ' + swarmmindMsg.task_id);
 
 console.log('\nAll task messages delivered to outbox + target inboxes.');

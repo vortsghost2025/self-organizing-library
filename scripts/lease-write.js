@@ -31,10 +31,27 @@ async function moveFileWithLease(sourcePath, destPath, laneId, timeoutMs = 30000
     return { moved: false, reason: 'DEST_EXISTS_SOURCE_DROPPED', sourcePath, destPath };
   }
 
-  const content = fs.readFileSync(sourcePath, 'utf8');
-  await writeWithLease(destPath, content, laneId, timeoutMs);
-  fs.unlinkSync(sourcePath);
-  return { moved: true, sourcePath, destPath };
+  const claimPath = sourcePath + '.processing';
+  try {
+    fs.renameSync(sourcePath, claimPath);
+  } catch (e) {
+    if (e.code === 'ENOENT' || e.code === 'EPERM') {
+      return { moved: false, reason: 'CLAIM_FAILED', sourcePath, destPath };
+    }
+    throw e;
+  }
+
+  try {
+    const content = fs.readFileSync(claimPath, 'utf8');
+    await writeWithLease(destPath, content, laneId, timeoutMs);
+    fs.unlinkSync(claimPath);
+    return { moved: true, sourcePath, destPath };
+  } catch (e) {
+    try {
+      fs.renameSync(claimPath, sourcePath);
+    } catch (_) {}
+    throw e;
+  }
 }
 
 module.exports = {

@@ -51,7 +51,7 @@ class SessionMemory {
     _getDefaultMemoryPath() {
         const laneRoots = {
             'archivist': 'S:/Archivist-Agent',
-            'swarmmind': 'S:/SwarmMind',
+            'swarmmind': 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
             'library': 'S:/self-organizing-library'
         };
         const root = laneRoots[this.laneId] || process.cwd();

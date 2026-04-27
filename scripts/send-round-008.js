@@ -14,7 +14,7 @@ const { atomicWriteJson, atomicWriteWithLease, atomicWriteOutbox } = require(pat
 
 const CANONICAL_PATHS = {
   archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
-   swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
+   swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/',
   kernel: 'S:/kernel-lane/lanes/kernel/inbox/',
 };
 

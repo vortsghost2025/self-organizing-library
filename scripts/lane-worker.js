@@ -8,6 +8,7 @@ const cp = require('./completion-proof');
 const { ArtifactResolver } = require('./artifact-resolver');
 const { ExecutionGate } = require('./execution-gate');
 const { evaluateVerificationDomain } = require('./verification-domain-gate');
+const { getCodeVersionHash } = require('./code-version-hash');
 
 const ACTIONABLE_TYPES = new Set(['task', 'escalation', 'request']);
 const NON_ASCII_PATTERN = /[^\x00-\x7F]/;
@@ -281,6 +282,7 @@ class LaneWorker {
       dryRun: this.dryRun,
       resolver: this.artifactResolver,
     });
+    this.codeVersionHash = getCodeVersionHash(this.repoRoot);
     this.lastRun = null;
   }
 
@@ -446,7 +448,11 @@ class LaneWorker {
   // Artifact resolution check: any message claiming completion proof MUST verify.
   // Fail-closed: if proof exists but cannot be verified, route to blocked.
   if (gate.pass && cp.hasCompletionProof(msg)) {
-    const domain = evaluateVerificationDomain(msg, { resolver: this.artifactResolver });
+    const domain = evaluateVerificationDomain(msg, {
+      resolver: this.artifactResolver,
+      localCodeVersionHash: this.codeVersionHash,
+      repoRoot: this.repoRoot,
+    });
     if (!domain.domain_valid) {
       if (domain.phase === 'post_execution') {
         return {
@@ -459,6 +465,7 @@ class LaneWorker {
           verification_outcome: 'INVALID_DOMAIN',
           execution_preserved: true,
           domain_validation: domain,
+          verification_path: ['domain_gate', 'execution_check', 'response_validation'],
           ownership,
           ownership_notes: ownershipNotes,
         };
@@ -473,6 +480,7 @@ class LaneWorker {
         verification_outcome: domain.verification_outcome,
         execution_preserved: false,
         domain_validation: domain,
+        verification_path: ['domain_gate', 'execution_check', 'response_validation'],
         ownership,
         ownership_notes: ownershipNotes,
       };
@@ -487,6 +495,7 @@ class LaneWorker {
         execution_would_verify: executionResult.would_verify === true,
         domain_gate_executed: true,
         verification_outcome: 'FAIL',
+        verification_path: ['domain_gate', 'execution_check', 'response_validation'],
         ownership,
         ownership_notes: ownershipNotes,
       };
@@ -494,7 +503,11 @@ class LaneWorker {
   }
   // Non-actionable messages claiming completion without verifiable artifact = blocked
   if (gate.pass && !isActionable(msg) && cp.hasCompletionProof(msg)) {
-    const domain = evaluateVerificationDomain(msg, { resolver: this.artifactResolver });
+    const domain = evaluateVerificationDomain(msg, {
+      resolver: this.artifactResolver,
+      localCodeVersionHash: this.codeVersionHash,
+      repoRoot: this.repoRoot,
+    });
     if (!domain.domain_valid) {
       if (domain.phase === 'post_execution') {
         return {
@@ -507,6 +520,7 @@ class LaneWorker {
           verification_outcome: 'INVALID_DOMAIN',
           execution_preserved: true,
           domain_validation: domain,
+          verification_path: ['domain_gate', 'execution_check', 'response_validation'],
           ownership,
           ownership_notes: ownershipNotes,
         };
@@ -521,6 +535,7 @@ class LaneWorker {
         verification_outcome: domain.verification_outcome,
         execution_preserved: false,
         domain_validation: domain,
+        verification_path: ['domain_gate', 'execution_check', 'response_validation'],
         ownership,
         ownership_notes: ownershipNotes,
       };
@@ -535,6 +550,7 @@ class LaneWorker {
           execution_would_verify: executionResult.would_verify === true,
           domain_gate_executed: true,
           verification_outcome: 'FAIL',
+          verification_path: ['domain_gate', 'execution_check', 'response_validation'],
           ownership,
           ownership_notes: ownershipNotes,
         };
@@ -549,6 +565,7 @@ class LaneWorker {
       execution_would_verify: cp.hasCompletionProof(msg),
       domain_gate_executed: true,
       verification_outcome: 'PASS',
+      verification_path: ['domain_gate', 'execution_check', 'response_validation'],
       ownership,
       ownership_notes: ownershipNotes
     };
@@ -568,7 +585,7 @@ class LaneWorker {
         detail: decision.detail || null,
         schema_valid: !!schemaResult.valid,
         signature_valid: !!signatureResult.valid,
-        remediation: remediation,
+        schema_remediation: remediation,
         english_only: isEnglishOnly(msg),
         execution_verified: decision.execution_verified !== undefined ? decision.execution_verified : false,
         would_verify: decision.execution_would_verify === true,
@@ -579,6 +596,7 @@ class LaneWorker {
         domain_gate_executed: decision.domain_gate_executed === true,
         verification_outcome: decision.verification_outcome || null,
         domain_validation: decision.domain_validation || null,
+        verification_path: decision.verification_path || null,
       },
     };
     if (decision.reason === 'FORMAT_VIOLATION_NON_ASCII') {
@@ -640,8 +658,10 @@ class LaneWorker {
       verification_outcome: decision.verification_outcome || null,
       domain_validation: decision.domain_validation || null,
       domain_gate_executed: decision.domain_gate_executed === true,
-      dry_run: this.dryRun,
-    };
+  verification_path: decision.verification_path || null,
+  schema_remediation: remediation || null,
+  dry_run: this.dryRun,
+};
 
     if (!this.dryRun) {
       this._writeWithMetadata(targetPath, msg, decision, schemaResult, signatureResult, remediation);

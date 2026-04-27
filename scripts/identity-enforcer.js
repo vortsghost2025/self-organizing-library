@@ -7,11 +7,18 @@ const crypto = require('crypto');
 
 const LOCAL_TRUST_STORE = path.join(__dirname, '..', 'lanes', 'broadcast', 'trust-store.json');
 const TRUST_STORE_SEARCH_PATHS = [
-  LOCAL_TRUST_STORE,
-  'S:/Archivist-Agent/lanes/broadcast/trust-store.json',
-  'S:/kernel-lane/lanes/broadcast/trust-store.json',
-  'S:/self-organizing-library/lanes/broadcast/trust-store.json',
-  'S:/SwarmMind/lanes/broadcast/trust-store.json',
+LOCAL_TRUST_STORE,
+'S:/Archivist-Agent/lanes/broadcast/trust-store.json',
+'S:/kernel-lane/lanes/broadcast/trust-store.json',
+'S:/self-organizing-library/lanes/broadcast/trust-store.json',
+'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/broadcast/trust-store.json',
+];
+
+const ALLOWED_TRUST_STORE_ROOTS = [
+'S:/Archivist-Agent',
+'S:/kernel-lane',
+'S:/self-organizing-library',
+'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
 ];
 
 const TRUST_STORE_PRECOMMIT_CHECKS = [
@@ -22,13 +29,23 @@ const TRUST_STORE_PRECOMMIT_CHECKS = [
 const CONVERGED_STATUSES = new Set(['proven', 'approved', 'ratified', 'accept', 'accepted']);
 
 class IdentityEnforcer {
-  constructor(options = {}) {
-    this.trustStore = null;
-    this.trustStorePath = options.trustStorePath || this._findTrustStore();
-    this.enforcementMode = options.enforcementMode || 'enforce'; // 'enforce' | 'warn' | 'audit'
-    this.verificationLog = [];
-    this._loadTrustStore();
-  }
+constructor(options = {}) {
+this.trustStore = null;
+this.trustStorePath = options.trustStorePath || this._findTrustStore();
+if (options.trustStorePath) {
+const resolved = path.resolve(options.trustStorePath);
+const isAllowed = ALLOWED_TRUST_STORE_ROOTS.some(allowedRoot => {
+const resolvedAllowed = path.resolve(allowedRoot);
+return resolved === resolvedAllowed || resolved.startsWith(resolvedAllowed + path.sep);
+});
+if (!isAllowed) {
+throw new Error('SECURITY: trustStorePath outside allowed roots: ' + resolved);
+}
+}
+this.enforcementMode = options.enforcementMode || 'enforce';
+this.verificationLog = [];
+this._loadTrustStore();
+}
 
   _findTrustStore() {
     for (const p of TRUST_STORE_SEARCH_PATHS) {
@@ -243,12 +260,12 @@ class IdentityEnforcer {
 
   static signMessage(msg, privateKey, keyId) {
 const { stableStringify } = require(path.join(
-  fs.existsSync('S:/SwarmMind/src/attestation/stableStringify.js')
-  ? 'S:/SwarmMind/src/attestation'
-  : fs.existsSync('S:/self-organizing-library/src/attestation/stableStringify.js')
-  ? 'S:/self-organizing-library/src/attestation'
-  : 'S:/kernel-lane/src/attestation',
-  'stableStringify.js'
+fs.existsSync('S:/SwarmMind Self-Optimizing Multi-Agent AI System/src/attestation/stableStringify.js')
+? 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/src/attestation'
+: fs.existsSync('S:/self-organizing-library/src/attestation/stableStringify.js')
+? 'S:/self-organizing-library/src/attestation'
+: 'S:/kernel-lane/src/attestation',
+'stableStringify.js'
 ));
 
     const header = { alg: 'RS256', typ: 'JWT', kid: keyId };

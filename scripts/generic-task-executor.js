@@ -18,7 +18,7 @@ const LANE_REGISTRY = {
   archivist: { root: 'S:/Archivist-Agent', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
   kernel: { root: 'S:/kernel-lane', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
   library: { root: 'S:/self-organizing-library', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
-  swarmmind: { root: 'S:/SwarmMind', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
+  swarmmind: { root: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
 };
 
 function nowIso() { return new Date().toISOString(); }

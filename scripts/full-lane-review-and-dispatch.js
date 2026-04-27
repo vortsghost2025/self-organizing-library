@@ -59,7 +59,7 @@ function buildEvidence() {
     archivist: 'S:/Archivist-Agent',
     library: 'S:/self-organizing-library',
     kernel: 'S:/kernel-lane',
-    swarmmind: 'S:/SwarmMind',
+    swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
   };
 
   const git = {};

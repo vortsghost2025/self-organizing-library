@@ -8,7 +8,7 @@ const crypto = require('crypto');
 const LANE_ROOTS = {
   archivist: 'S:/Archivist-Agent',
   library: 'S:/self-organizing-library',
-  swarmmind: 'S:/SwarmMind',
+  swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
   kernel: 'S:/kernel-lane',
 };
 
