@@ -7,7 +7,7 @@ const TRUST_PATH = `${ROOT}/lanes/broadcast/trust-store.json`;
 const LANE_CONFIGS = {
   archivist: `${ROOT}`,
   library: 'S:/self-organizing-library',
-  swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
+  swarmmind: 'S:/SwarmMind',
   kernel: 'S:/kernel-lane'
 };
 

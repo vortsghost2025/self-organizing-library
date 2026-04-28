@@ -8,7 +8,7 @@ const archPriv = fs.readFileSync('S:/Archivist-Agent/.identity/private.pem', 'ut
 
 const targets = [
   { name: 'library', inbox: 'S:/self-organizing-library/lanes/library/inbox' },
-  { name: 'swarmmind', inbox: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox' },
+  { name: 'swarmmind', inbox: 'S:/SwarmMind/lanes/swarmmind/inbox' },
   { name: 'kernel', inbox: 'S:/kernel-lane/lanes/kernel/inbox' }
 ];
 

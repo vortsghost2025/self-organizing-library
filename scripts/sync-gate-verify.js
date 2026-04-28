@@ -26,7 +26,7 @@ const LANE_SNAPSHOT_CANDIDATES = {
     path.resolve('S:/kernel-lane/.identity/snapshot.json'),
   ],
   swarmmind: [
-    path.resolve('S:/SwarmMind Self-Optimizing Multi-Agent AI System/.identity/snapshot.json'),
+    path.resolve('S:/SwarmMind/.identity/snapshot.json'),
   ],
 };
 

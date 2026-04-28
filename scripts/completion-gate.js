@@ -20,8 +20,8 @@ const LANES = {
     actionRequired: 'S:/self-organizing-library/lanes/library/inbox/action-required',
   },
 swarmmind: {
-processed: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/processed',
-actionRequired: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/action-required',
+processed: 'S:/SwarmMind/lanes/swarmmind/inbox/processed',
+actionRequired: 'S:/SwarmMind/lanes/swarmmind/inbox/action-required',
 },
 };
 

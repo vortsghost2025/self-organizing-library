@@ -7,7 +7,7 @@ const LANES = [
   { name: 'archivist', dir: 'S:/Archivist-Agent' },
   { name: 'kernel', dir: 'S:/kernel-lane' },
   { name: 'library', dir: 'S:/self-organizing-library' },
-  { name: 'swarmmind', dir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' }
+  { name: 'swarmmind', dir: 'S:/SwarmMind' }
 ];
 
 const SUBDIRS_TO_REMOVE = ['processed', 'expired', 'quarantine', 'invalid-schema', 'pending', 'duplicates', 'unsigned', 'unsigned-archive'];

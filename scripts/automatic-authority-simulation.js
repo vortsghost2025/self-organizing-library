@@ -12,7 +12,7 @@ const LANE_ROOTS = {
   archivist: 'S:/Archivist-Agent',
   kernel: 'S:/kernel-lane',
   library: 'S:/self-organizing-library',
-  swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System'
+  swarmmind: 'S:/SwarmMind'
 };
 
 function loadJson(filePath) {

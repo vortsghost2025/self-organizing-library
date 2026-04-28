@@ -108,7 +108,7 @@ const swarmmindBody =
 
 const swarmmindMsg = makeMsg('library-task-swarmmind-monitor', 'swarmmind', 'P1: MONITOR Phase — Stabilize Identity, Build Consensus Voting', swarmmindBody);
 fs.writeFileSync(path.join(outboxDir, swarmmindMsg.task_id + '.json'), JSON.stringify(swarmmindMsg, null, 2));
-fs.writeFileSync(path.join('S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox', swarmmindMsg.task_id + '.json'), JSON.stringify(swarmmindMsg, null, 2));
+fs.writeFileSync(path.join('S:/SwarmMind/lanes/swarmmind/inbox', swarmmindMsg.task_id + '.json'), JSON.stringify(swarmmindMsg, null, 2));
 console.log('Sent to SwarmMind: ' + swarmmindMsg.task_id);
 
 console.log('\nAll MONITOR phase task messages delivered.');

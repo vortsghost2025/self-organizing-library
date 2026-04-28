@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const CANONICAL_PATHS = {
-  'swarmmind': 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
+  'swarmmind': 'S:/SwarmMind',
   'kernel': 'S:/kernel-lane',
   'authority': 'S:/Archivist-Agent',  // Authority runs in Archivist context
   'library': 'S:/self-organizing-library',
@@ -16,7 +16,7 @@ const CANONICAL_PATHS = {
 };
 
 const FORBIDDEN_VARIANTS = [
-  'SwarmMind Self-Optimizing Multi-Agent AI System',
+  'SwarmMind',
   'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
   'SwarmMindSelfOptimizingMultiAgentAISystem'
 ];
