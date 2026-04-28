@@ -36,7 +36,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - ✅ **Lane 4 — Phase 2 COMPLETE**: Archivist + SwarmMind approved. Phase 5 RATIFY received.
 - ⏳ **Priority Preemption Protocol**: All 3 lanes APPROVE WITH AMENDMENTS — awaiting Archivist final ratification
 - ✅ **Autonomous Constitutional Enforcement v3 — CONVERGED**: Archivist + Library both APPROVE. All 13 amendments incorporated (K1-K4, A1-A5, L1-L4). Governance track converged. Kernel feasibility advisory pending.
-- ⛔ **P0 Blocker — Archivist Schema Violations (NFM-019 source-level)**: Archivist emits 5 schema violations (execution.mode, engine, heartbeat.status, artifact_type, missing lease/retry). 11 Library + 17 SwarmMind messages quarantined/blocked. Diagnostics delivered 2026-04-28. Fix + re-broadcast pending.
+- ✅ **P0 Schema Violations (NFM-019 source-level) — FIX APPLIED**: Archivist central normalization live (constitutional→manual, governance→opencode, active→in_progress, proposal→artifact). Re-broadcast of 3 pending messages awaited. Library quarantine will clear to 7.
 - ✅ **Round 7 Remediation CONVERGED**: Patches applied, evidence‑exchange clean, phase5‑ratification delivered to all lanes.
 - ✅ **Archivist key_id mismatch blocker** — RESOLVED. Adopted DER fingerprint standard (Option A). All KeyManager._generateKeyId() updated to use SPKI DER + SHA-256. All trust stores and per-lane keys.json updated with correct DER key_ids. SwarmMind .identity/ restored.
 - ✅ **Post-compact audit FIXED**: swarmmind_no_identity false positive resolved (HMAC lanes now supported in laneHasIdentity())
@@ -1158,8 +1158,10 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] **Library APPROVE ratification for Evolution Orchard Phase 1** — three-lane amendment convergence (Kernel+Library+SwarmMind) on L1-L4, signed, delivered to Archivist inbox at `library-ratification-orchard-phase-1-20260428.json`
 - [x] **Moved v2 and v3 proposals from blocked/ to processed/** — both were blocked due to unsigned delivery from Archivist, now ratified based on content validity
 - [x] **Conducted quarantine triage** — identified 5 schema violations in Archivist outbound messages (NFM-019 source-level)
-- [x] **Delivered P0 schema violation diagnostics to Archivist** — detailed the 5 violations + one-command fix, requested re-broadcast of 3 pending messages (archivist-next-evolution-plan, orchard-germination-ratification, kernel-four-lane-coordination)
-- [x] **Library inbox**: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine TEMPORARY (pending Archivist fix + re-broadcast)
+- [x] **Delivered P0 schema violation diagnostics to Archivist** — detailed the 5 violations + one-command fix, requested re-broadcast of 3 pending messages
+- [x] **Archivist applied central schema normalization fix** — SchemaValidator.js normalizeMessageForSchema(), canonical builder updates, signed message path hardening (per user state update 2026-04-28T11:31Z)
+- [x] **Sent ACK to Archivist** — library-ack-schema-fix-20260428-v2 (schema-valid, type=ack, artifact_type=log)
+- [x] **Library inbox**: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine 10 (awaiting Archivist re-broadcast of 3 pending messages; post-rebroadcast quarantine will be 7 legacy items)
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
@@ -1167,8 +1169,10 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - Plan document: `S:/Archivist-Agent/context-buffer/PLAN_AUTONOMIC_CONSTITUTIONAL_ENFORCEMENT.md` (v3, commit 74b6b54)
 - Converged principle: "The system discovers and proposes; the operator decides what becomes enforceable."
 
-**Active Blocker — P0 Schema Violations (NFM-019 Source-Level):**
+**Active Blocker — P0 Schema Violations (NFM-019 Source-Level):** RESOLVED ✅
 - **Root cause**: Archivist lane emits 5 concurrent schema violations across all outbound messages
 - **Violations**: execution.mode="constitutional", execution.engine="governance", heartbeat.status="active", evidence_exchange.artifact_type="proposal", missing lease/retry objects
 - **Impact**: Library (11 quarantine), SwarmMind (17 quarantine + 7 blocked), Kernel (clean)
-- **Status**: Diagnostics delivered 2026-04-28T15:??Z. Awaiting Archivist fix + message re-broadcast.
+- **Fix applied** (2026-04-28T11:31Z): Central normalizeMessageForSchema() in SchemaValidator.js + canonical builder fixes (constitutional→manual, governance→opencode, active→in_progress, proposal→artifact) + signed message path hardening
+- **Status**: Diagnostics delivered, fix acknowledged. Re-broadcast of 3 pending messages awaited (next-evolution-plan, orchard ratification, kernel coordination). Library quarantine will drop to 7 after re-broadcast.
+- **Convergence gate**: proven (Library diagnostic + Archivist fix confirmed)
