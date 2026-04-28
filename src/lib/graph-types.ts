@@ -8,7 +8,13 @@ export type AuthorityEdgeType =
 
 export type NodeStatus = "UNVERIFIED" | "VERIFIED" | "CONFLICTED" | "QUARANTINED";
 
-export type MeaningLayer = "structure" | "conflicts" | "verification" | "execution";
+export type GovernanceLayer = "constitutional" | "operational" | "theoretical" | "historical" | "evidence" | "application_adjacent" | "unknown";
+
+export type BridgeState = "enforced" | "verified" | "partial" | "documented_only" | "contradicted" | "obsolete" | "unknown";
+
+export type ContradictionKind = "design_vs_runtime" | "schema_vs_behavior" | "claim_vs_evidence" | "theory_under_specified" | "stale_historical_claim" | "authority_mismatch" | "observability_boundary" | "implementation_gap" | "none";
+
+export type MeaningLayer = "structure" | "conflicts" | "verification" | "execution" | "governance";
 
 export type DensityLevel = "overview" | "mid" | "focus";
 
@@ -24,6 +30,9 @@ export interface GraphNode {
   verificationCount: number;
   contradictionCount: number;
   clusterIds: string[];
+  governanceLayer: GovernanceLayer;
+  authorityDepth: number;
+  bridgeState: BridgeState;
 }
 
 export interface GraphEdge {
@@ -56,6 +65,7 @@ export const MEANING_LAYER_EDGES: Record<MeaningLayer, AuthorityEdgeType[]> = {
   conflicts: ["CONTRADICTS"],
   verification: ["VERIFIES", "SIGNED_BY"],
   execution: ["EXECUTES"],
+  governance: ["VERIFIES", "SIGNED_BY", "CONTRADICTS", "DERIVES_FROM"],
 };
 
 export const DEFAULT_LAYERS: MeaningLayer[] = ["structure", "verification"];
@@ -109,4 +119,46 @@ export const LAYER_META: Record<MeaningLayer, { label: string; icon: string; col
   conflicts: { label: "Conflicts", icon: "\u26A0", color: "#EF4444" },
   verification: { label: "Verification", icon: "\u2713", color: "#22C55E" },
   execution: { label: "Execution", icon: "\u25B6", color: "#F59E0B" },
+  governance: { label: "Governance Depth", icon: "\u25C8", color: "#8B5CF6" },
+};
+
+
+export const GOVERNANCE_LAYER_COLORS: Record<GovernanceLayer, string> = {
+  constitutional: "#7C3AED",
+  operational: "#10B981",
+  theoretical: "#06B6D4",
+  historical: "#9CA3AF",
+  evidence: "#22C55E",
+  application_adjacent: "#8B5CF6",
+  unknown: "#4B5563",
+};
+
+export const GOVERNANCE_LAYER_LABELS: Record<GovernanceLayer, string> = {
+  constitutional: "Constitutional",
+  operational: "Operational",
+  theoretical: "Theoretical",
+  historical: "Historical",
+  evidence: "Evidence",
+  application_adjacent: "Application Adjacent",
+  unknown: "Unknown",
+};
+
+export const BRIDGE_STATE_COLORS: Record<BridgeState, string> = {
+  enforced: "#22C55E",
+  verified: "#60A5FA",
+  partial: "#F59E0B",
+  documented_only: "#9CA3AF",
+  contradicted: "#EF4444",
+  obsolete: "#6B7280",
+  unknown: "#4B5563",
+};
+
+export const BRIDGE_STATE_LABELS: Record<BridgeState, string> = {
+  enforced: "Enforced",
+  verified: "Verified",
+  partial: "Partial Bridge",
+  documented_only: "Documented Only",
+  contradicted: "Contradicted",
+  obsolete: "Obsolete",
+  unknown: "Unknown",
 };

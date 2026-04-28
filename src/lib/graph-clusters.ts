@@ -1,4 +1,4 @@
-import type { GraphNode, Cluster, EntryPoint, AuthorityEdgeType } from "./graph-types";
+import type { GraphNode, Cluster, EntryPoint, AuthorityEdgeType, GovernanceLayer, BridgeState } from "./graph-types";
 
 const REPO_COLORS: Record<string, string> = {
   "self-organizing-library": "#7C3AED",
@@ -86,6 +86,96 @@ export function computeEntryPoints(
     nodeIds: conflicted.map((n) => n.id),
     icon: "\u26A0",
     kind: "contradictions",
+  });
+
+  const unenforced = nodes.filter((n) =>
+    (n.governanceLayer === "theoretical" || n.governanceLayer === "historical") &&
+    (n.bridgeState === "documented_only" || n.bridgeState === "unknown")
+  );
+  entryPoints.push({
+    id: "ep:gov-unenforced",
+    label: "Unenforced Claims",
+    description: `${unenforced.length} theoretical/historical with no bridge to core`,
+    nodeIds: unenforced.map((n) => n.id),
+    icon: "\u25C8",
+    kind: "authority",
+  });
+
+  const core = nodes.filter((n) =>
+    n.governanceLayer === "constitutional" || n.governanceLayer === "operational"
+  );
+  entryPoints.push({
+    id: "ep:gov-core",
+    label: "Governance Core",
+    description: `${core.length} constitutional + operational nodes`,
+    nodeIds: core.map((n) => n.id),
+    icon: "\u25C9",
+    kind: "authority",
+  });
+
+  const bridges = nodes.filter((n) =>
+    n.bridgeState === "enforced" || n.bridgeState === "verified" || n.bridgeState === "partial"
+  );
+  entryPoints.push({
+    id: "ep:gov-bridges",
+    label: "Active Bridges",
+    description: `${bridges.length} nodes with enforced/verified/partial bridges`,
+    nodeIds: bridges.map((n) => n.id),
+    icon: "\u2194",
+    kind: "authority",
+  });
+
+  const contradicted = nodes.filter((n) => n.bridgeState === "contradicted");
+  entryPoints.push({
+    id: "ep:gov-contradicted",
+    label: "Contradicted Claims",
+    description: `${contradicted.length} nodes with contradicted bridge state`,
+    nodeIds: contradicted.map((n) => n.id),
+    icon: "\u2717",
+    kind: "contradictions",
+  });
+
+  const authorityMismatch = nodes.filter((n) =>
+    (n.governanceLayer === "theoretical" || n.governanceLayer === "historical") &&
+    n.authorityDepth >= 75
+  );
+  entryPoints.push({
+    id: "ep:gov-authority-mismatch",
+    label: "Authority Mismatches",
+    description: `${authorityMismatch.length} theoretical/historical with high authority depth`,
+    nodeIds: authorityMismatch.map((n) => n.id),
+    icon: "?",
+    kind: "contradictions",
+  });
+
+  const evidence = nodes.filter((n) => n.governanceLayer === "evidence");
+  entryPoints.push({
+    id: "ep:gov-evidence",
+    label: "Evidence Layer",
+    description: `${evidence.length} evidence nodes`,
+    nodeIds: evidence.map((n) => n.id),
+    icon: "\u2713",
+    kind: "authority",
+  });
+
+  const adjacent = nodes.filter((n) => n.governanceLayer === "application_adjacent");
+  entryPoints.push({
+    id: "ep:gov-adjacent",
+    label: "Application Adjacent",
+    description: `${adjacent.length} non-lane workspace nodes`,
+    nodeIds: adjacent.map((n) => n.id),
+    icon: "\u25BD",
+    kind: "cluster",
+  });
+
+  const historical = nodes.filter((n) => n.governanceLayer === "historical");
+  entryPoints.push({
+    id: "ep:gov-historical",
+    label: "Historical Layer",
+    description: `${historical.length} historical/stale nodes`,
+    nodeIds: historical.map((n) => n.id),
+    icon: "\u25CB",
+    kind: "cluster",
   });
 
   for (const cluster of clusters) {

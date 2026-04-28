@@ -12,6 +12,24 @@ export type NodeStatus =
   | "CONFLICTED"
   | "QUARANTINED";
 
+export type GovernanceLayer =
+  | "constitutional"
+  | "operational"
+  | "theoretical"
+  | "historical"
+  | "evidence"
+  | "application_adjacent"
+  | "unknown";
+
+export type BridgeState =
+  | "enforced"
+  | "verified"
+  | "partial"
+  | "documented_only"
+  | "contradicted"
+  | "obsolete"
+  | "unknown";
+
 export interface AuthorityEdge {
   source: string;
   target: string;
@@ -24,6 +42,13 @@ export interface NodeStatusEntry {
   verificationCount: number;
   contradictionCount: number;
   authorityEdges: AuthorityEdgeType[];
+}
+
+export interface GovernanceDepthEntry {
+  id: string;
+  governanceLayer: GovernanceLayer;
+  authorityDepth: number;
+  bridgeState: BridgeState;
 }
 
 const VERIFICATION_TAGS = new Set([
@@ -78,12 +103,60 @@ const QUARANTINE_CATEGORIES = new Set([
 
 const CODE_TYPES = new Set(["code", "config"]);
 
+const LANE_REPOS = new Set([
+  "self-organizing-library",
+  "Archivist-Agent",
+  "SwarmMind",
+  "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+  "kernel-lane",
+]);
+
+const CONSTITUTIONAL_CATEGORIES = new Set([
+  "governance",
+  "verification",
+  "attestation",
+  "spec",
+]);
+
+const OPERATIONAL_CATEGORIES = new Set([
+  "code",
+  "scripts",
+  "config",
+]);
+
+const THEORETICAL_TAGS = new Set([
+  "Rosetta Stone",
+  "CAISC",
+  "Constraint Lattice",
+  "paper",
+]);
+
+const EVIDENCE_CATEGORIES = new Set([
+  "verification",
+  "audit",
+  "test-data",
+]);
+
+const HISTORICAL_CATEGORIES = new Set([
+  "scratch",
+  "pending",
+]);
+
+const REPO_AUTHORITY_DEPTH: Record<string, number> = {
+  "Archivist-Agent": 95,
+  "self-organizing-library": 90,
+  "SwarmMind": 80,
+  "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 80,
+  "kernel-lane": 75,
+};
+
 interface Entry {
   id: string;
   repo: string;
   category: string;
   content_type: string;
   tags: string[];
+  date: string | null;
 }
 
 interface CrossRef {
@@ -251,6 +324,103 @@ export function computeNodeStatuses(
       verificationCount: vCount,
       contradictionCount: cCount,
       authorityEdges: authTypes,
+    };
+  });
+}
+
+
+export function computeGovernanceLayer(entry: Entry): GovernanceLayer {
+  if (LANE_REPOS.has(entry.repo) && CONSTITUTIONAL_CATEGORIES.has(entry.category)) return "constitutional";
+  if (LANE_REPOS.has(entry.repo) && OPERATIONAL_CATEGORIES.has(entry.category)) return "operational";
+  if (entry.category === "paper" || hasAnyTag(entry.tags, THEORETICAL_TAGS)) return "theoretical";
+  if (EVIDENCE_CATEGORIES.has(entry.category)) return "evidence";
+  if (HISTORICAL_CATEGORIES.has(entry.category)) return "historical";
+  if (entry.date) {
+    const age = Date.now() - new Date(entry.date).getTime();
+    if (age > 180 * 86400000) return "historical";
+  }
+  if (entry.repo === "FreeAgent") return "application_adjacent";
+  return "unknown";
+}
+
+export function computeAuthorityDepth(repo: string): number {
+  return REPO_AUTHORITY_DEPTH[repo] ?? 0;
+}
+
+export function computeGovernanceDepths(
+  entries: Entry[],
+  authorityEdges: AuthorityEdge[],
+  nodeStatuses: NodeStatusEntry[]
+): GovernanceDepthEntry[] {
+  const entryMap = new Map<string, Entry>();
+  for (const e of entries) entryMap.set(e.id, e);
+
+  const statusMap = new Map<string, NodeStatusEntry>();
+  for (const s of nodeStatuses) statusMap.set(s.id, s);
+
+  const outgoingByNode = new Map<string, AuthorityEdge[]>();
+  const incomingByNode = new Map<string, AuthorityEdge[]>();
+  for (const edge of authorityEdges) {
+    if (!outgoingByNode.has(edge.source)) outgoingByNode.set(edge.source, []);
+    outgoingByNode.get(edge.source)!.push(edge);
+    if (!incomingByNode.has(edge.target)) incomingByNode.set(edge.target, []);
+    incomingByNode.get(edge.target)!.push(edge);
+  }
+
+  const govLayerCache = new Map<string, GovernanceLayer>();
+  const getGovLayer = (id: string): GovernanceLayer => {
+    if (govLayerCache.has(id)) return govLayerCache.get(id)!;
+    const e = entryMap.get(id);
+    const layer = e ? computeGovernanceLayer(e) : "unknown";
+    govLayerCache.set(id, layer);
+    return layer;
+  };
+
+  return entries.map((entry) => {
+    const governanceLayer = computeGovernanceLayer(entry);
+    const authorityDepth = computeAuthorityDepth(entry.repo);
+    const status = statusMap.get(entry.id);
+    const outgoing = outgoingByNode.get(entry.id) || [];
+    const incoming = incomingByNode.get(entry.id) || [];
+
+    let bridgeState: BridgeState = "unknown";
+
+    if (outgoing.some((e) => e.authority === "CONTRADICTS") || incoming.some((e) => e.authority === "CONTRADICTS")) {
+      bridgeState = "contradicted";
+    } else if (
+      outgoing.some((e) => (e.authority === "VERIFIES" || e.authority === "SIGNED_BY") &&
+        (getGovLayer(e.target) === "constitutional" || getGovLayer(e.target) === "operational")) ||
+      incoming.some((e) => (e.authority === "VERIFIES" || e.authority === "SIGNED_BY") &&
+        (getGovLayer(e.source) === "constitutional" || getGovLayer(e.source) === "operational"))
+    ) {
+      bridgeState = "enforced";
+    } else if (
+      status && status.status === "VERIFIED" &&
+      [...outgoing, ...incoming].some((e) => {
+        const otherId = e.source === entry.id ? e.target : e.source;
+        return entryMap.has(otherId) && entryMap.get(otherId)!.repo !== entry.repo;
+      })
+    ) {
+      bridgeState = "verified";
+    } else if (
+      (governanceLayer === "theoretical" || governanceLayer === "historical") &&
+      [...outgoing, ...incoming].some((e) => e.authority === "DERIVES_FROM")
+    ) {
+      bridgeState = "partial";
+    } else if (
+      (governanceLayer === "theoretical" || governanceLayer === "historical") &&
+      outgoing.length === 0 && incoming.length === 0
+    ) {
+      bridgeState = "obsolete";
+    } else if (governanceLayer === "theoretical" || governanceLayer === "historical") {
+      bridgeState = "documented_only";
+    }
+
+    return {
+      id: entry.id,
+      governanceLayer,
+      authorityDepth,
+      bridgeState,
     };
   });
 }

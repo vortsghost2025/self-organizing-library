@@ -1,6 +1,6 @@
 "use client";
 
-import { STATUS_COLORS, AUTHORITY_EDGE_COLORS } from "@/lib/graph-types";
+import { STATUS_COLORS, AUTHORITY_EDGE_COLORS, GOVERNANCE_LAYER_COLORS, GOVERNANCE_LAYER_LABELS, BRIDGE_STATE_COLORS, BRIDGE_STATE_LABELS } from "@/lib/graph-types";
 
 export default function GraphLegend() {
   return (
@@ -24,6 +24,28 @@ export default function GraphLegend() {
               <span key={type} className="flex items-center gap-1">
                 <span className="w-4 h-0.5 inline-block rounded" style={{ backgroundColor: color }} aria-hidden="true" />
                 <span className="text-[var(--text-secondary)]">{type.replace(/_/g, " ")}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-1">Governance Layer</h3>
+          <div className="flex gap-3 text-xs flex-wrap">
+            {Object.entries(GOVERNANCE_LAYER_COLORS).map(([layer, color]) => (
+              <span key={layer} className="flex items-center gap-1">
+                <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: color }} aria-hidden="true" />
+                <span className="text-[var(--text-secondary)]">{GOVERNANCE_LAYER_LABELS[layer as keyof typeof GOVERNANCE_LAYER_LABELS]}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-1">Bridge State</h3>
+          <div className="flex gap-3 text-xs flex-wrap">
+            {Object.entries(BRIDGE_STATE_COLORS).map(([state, color]) => (
+              <span key={state} className="flex items-center gap-1">
+                <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: color }} aria-hidden="true" />
+                <span className="text-[var(--text-secondary)]">{BRIDGE_STATE_LABELS[state as keyof typeof BRIDGE_STATE_LABELS]}</span>
               </span>
             ))}
           </div>
