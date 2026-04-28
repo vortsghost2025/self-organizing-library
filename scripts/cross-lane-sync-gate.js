@@ -9,14 +9,14 @@ const LANE_ROOTS = {
   archivist: 'S:/Archivist-Agent',
   kernel: 'S:/kernel-lane',
   library: 'S:/self-organizing-library',
-swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System'
+swarmmind: 'S:/SwarmMind'
 };
 
 const TRUST_STORE_PATHS = [
 'S:/Archivist-Agent/lanes/broadcast/trust-store.json',
 'S:/kernel-lane/lanes/broadcast/trust-store.json',
 'S:/self-organizing-library/lanes/broadcast/trust-store.json',
-'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/broadcast/trust-store.json'
+'S:/SwarmMind/lanes/broadcast/trust-store.json'
 ];
 
 function findTrustStore() {

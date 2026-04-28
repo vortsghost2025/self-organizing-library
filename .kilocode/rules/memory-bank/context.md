@@ -16,13 +16,15 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - **Inbox watcher**: Validates incoming messages against schema → identity enforcement → idempotency check → priority sort
 - **Cross-lane schema enforcement**: Compliance notices sent to SwarmMind and Kernel
 
-### Trust Store Key IDs (DER Fingerprint Standard — 2026-04-23)
+### Trust Store Key IDs (Owner-Regenerated — 2026-04-27)
 | Lane | key_id | Method |
 |------|--------|--------|
-| Archivist | `147c5c2bb7d8941f` | SHA-256 of DER public key |
-| Library | `cb3e57dd7818da3d` | SHA-256 of DER public key |
-| SwarmMind | `7a91050f68a96f1f` | HMAC-SHA256 signing_key_hash |
-| Kernel | `7f1a9fe931d1fbba` | SHA-256 of DER public key (on-disk) |
+| Archivist | `ee70b78105bc6189` | SHA-256 of DER public key |
+| Library | `ea2a75bab220adc2` | SHA-256 of DER public key |
+| SwarmMind | `addb0afb8ee5c2ed` | SHA-256 of DER public key |
+| Kernel | `b677eb87f6be83f9` | SHA-256 of DER public key |
+
+**Owner regenerated all 4 keys on 2026-04-27.** Old key_ids (147c5c2b..., cb3e57dd..., 7a91050f..., 7f1a9fe9...) are REVOKED. LANE_KEY_PASSPHRASE is set at Windows user scope. Sign+verify roundtrip VERIFIED WORKING.
 
 **Standard adopted**: DER fingerprint (Option A). KeyManager._generateKeyId() now exports SPKI DER + SHA-256, matching OpenSSL-standard fingerprinting. All trust stores and per-lane keys.json updated.
 
@@ -1017,3 +1019,15 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] Vercel deployment verified: deliberateensemble.works returns 200, /api/graph-data returns valid JSON
 
 **Key Discovery #21**: Docs files can contain hardcoded deployment tokens from planning sessions. Always check for secrets before pushing docs.
+
+### Session 2026-04-27 (Late): SwarmMind Path Revert + Key ID Update
+
+- [x] **Reverted SwarmMind path** from `S:/SwarmMind Self-Optimizing Multi-Agent AI System` → `S:/SwarmMind` across 59 operational files (82 occurrences) — per owner declaration that short path is canonical
+- [x] Created `scripts/revert-swarmmind-path.js` — walked scripts/, src/, config/, schemas/ with exclusion filters for data/, docs/, verification/, inbox/outbox/processed/
+- [x] Excluded historical/log data in data/site-index.json, verification/, docs/autonomous-cycle-test/ (18 remaining matches are all in non-operational files)
+- [x] **Updated trust store key_ids** — owner regenerated all 4 keys. New: Archivist=ee70b78105bc6189, Library=ea2a75bab220adc2, SwarmMind=addb0afb8ee5c2ed, Kernel=b677eb87f6be83f9
+- [x] **LANE_KEY_PASSPHRASE verified working** — full sign+verify roundtrip PASS with new keys
+- [x] Typecheck: clean. Lint: 2 pre-existing warnings only. Recovery: 9/11 (lane_liveness + multi_source_consistency pre-existing)
+- [x] Revert script itself contains the old long path string (self-referencing) — cosmetic only
+
+**Key Discovery #22**: Owner-declared canonical path overrides all prior programmatic fixes. P0 #5 originally changed 50+ files TO the long path — that change was wrong and now reverted.

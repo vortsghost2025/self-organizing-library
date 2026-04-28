@@ -70,7 +70,7 @@ const swarmmindAck = makeAck(
   '4. ✅ Trust store synced: `60afaa026a3d969d` (note: this is the HMAC key in trust store)\n' +
   '5. ✅ Recovery test: 11/11 PASS (after post-compact-audit.js path fix)\n\n' +
   '### Evidence:\n' +
-  '- `S:/SwarmMind Self-Optimizing Multi-Agent AI System/.identity/keys.json` — exists ✅\n' +
+  '- `S:/SwarmMind/.identity/keys.json` — exists ✅\n' +
   '- Convergence gate: **proven**\n' +
   '- `lanes/broadcast/trust-store.json` — all 4 lanes present ✅\n\n' +
   '### Note:\n' +
@@ -78,7 +78,7 @@ const swarmmindAck = makeAck(
   'No further action required. Thank you for completing HARDEN phase.'
 );
 fs.writeFileSync(path.join(outboxDir, swarmmindAck.task_id + '.json'), JSON.stringify(swarmmindAck, null, 2));
-fs.writeFileSync(path.join('S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox', swarmmindAck.task_id + '.json'), JSON.stringify(swarmmindAck, null, 2));
+fs.writeFileSync(path.join('S:/SwarmMind/lanes/swarmmind/inbox', swarmmindAck.task_id + '.json'), JSON.stringify(swarmmindAck, null, 2));
 console.log('[2/5] ACK sent to SwarmMind: ' + swarmmindAck.task_id);
 
 // === 3. ACK Archivist: lanes-adaptation-report-20260423.json ===

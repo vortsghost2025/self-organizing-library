@@ -29,7 +29,7 @@ function buildStatePackage() {
   const laneRoots = {
     kernel: 'S:/kernel-lane',
     library: 'S:/self-organizing-library',
-    swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
+    swarmmind: 'S:/SwarmMind',
   };
 
   for (const lane of lanes) {

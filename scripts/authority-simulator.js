@@ -60,7 +60,7 @@ class AuthoritySimulator {
         lane === 'library' ? path.join(__dirname, '../lanes/library/outbox') :
         lane === 'archivist' ? path.join('S:/Archivist-Agent/lanes/archivist/outbox') :
         lane === 'kernel' ? path.join('S:/kernel-lane/lanes/kernel/outbox') :
-        path.join('S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/outbox'),
+        path.join('S:/SwarmMind/lanes/swarmmind/outbox'),
         reportFile
       );
 
@@ -217,7 +217,7 @@ class AuthoritySimulator {
       { name: 'library', inbox: path.join(__dirname, '../lanes/library/inbox') },
       { name: 'archivist', inbox: 'S:/Archivist-Agent/lanes/archivist/inbox' },
       { name: 'kernel', inbox: 'S:/kernel-lane/lanes/kernel/inbox' },
-      { name: 'swarmmind', inbox: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox' }
+      { name: 'swarmmind', inbox: 'S:/SwarmMind/lanes/swarmmind/inbox' }
     ];
 
     lanes.forEach(l => {

@@ -38,12 +38,12 @@ const LANE_CONFIG = {
     actDocsDir: 'S:/Archivist-Agent/docs/autonomous-cycle-test',
   },
    swarmmind: {
-     projectDir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System',
-     inboxDir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox',
-     processedDir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/processed',
-     expiredDir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/expired',
-     outboxDir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/outbox',
-     actDocsDir: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/docs/autonomous-cycle-test',
+     projectDir: 'S:/SwarmMind',
+     inboxDir: 'S:/SwarmMind/lanes/swarmmind/inbox',
+     processedDir: 'S:/SwarmMind/lanes/swarmmind/inbox/processed',
+     expiredDir: 'S:/SwarmMind/lanes/swarmmind/inbox/expired',
+     outboxDir: 'S:/SwarmMind/lanes/swarmmind/outbox',
+     actDocsDir: 'S:/SwarmMind/docs/autonomous-cycle-test',
    },
   kernel: {
     projectDir: 'S:/kernel-lane',
@@ -192,7 +192,7 @@ function buildPrompt(laneId, message) {
   const canonicalPaths = {
     archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
     library: 'S:/self-organizing-library/lanes/library/inbox/',
-    swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/',
+    swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
     kernel: 'S:/kernel-lane/lanes/kernel/inbox/',
   };
 

@@ -35,10 +35,10 @@ const LANES = {
     qInv: 'S:/self-organizing-library/lanes/library/inbox/quarantine/invalid-schema',
   },
   swarmmind: {
-    ar: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/action-required',
-    pr: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/processed',
-    qDup: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/quarantine/duplicates',
-    qInv: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox/quarantine/invalid-schema',
+    ar: 'S:/SwarmMind/lanes/swarmmind/inbox/action-required',
+    pr: 'S:/SwarmMind/lanes/swarmmind/inbox/processed',
+    qDup: 'S:/SwarmMind/lanes/swarmmind/inbox/quarantine/duplicates',
+    qInv: 'S:/SwarmMind/lanes/swarmmind/inbox/quarantine/invalid-schema',
   },
 };
 

@@ -13,7 +13,7 @@ const LANES = {
   archivist: 'S:/Archivist-Agent/lanes/archivist',
   kernel: 'S:/kernel-lane/lanes/kernel',
   library: 'S:/self-organizing-library/lanes/library',
-  swarmmind: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind'
+  swarmmind: 'S:/SwarmMind/lanes/swarmmind'
 };
 
 const COMPLETION_PROOF_FIELDS = [

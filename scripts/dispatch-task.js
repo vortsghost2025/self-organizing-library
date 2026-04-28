@@ -11,7 +11,7 @@ const LANE_REGISTRY = {
   archivist: { inbox: 'S:/Archivist-Agent/lanes/archivist/inbox', root: 'S:/Archivist-Agent' },
   kernel: { inbox: 'S:/kernel-lane/lanes/kernel/inbox', root: 'S:/kernel-lane' },
   library: { inbox: 'S:/self-organizing-library/lanes/library/inbox', root: 'S:/self-organizing-library' },
-  swarmmind: { inbox: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes/swarmmind/inbox', root: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' },
+  swarmmind: { inbox: 'S:/SwarmMind/lanes/swarmmind/inbox', root: 'S:/SwarmMind' },
 };
 
 function generateId() {

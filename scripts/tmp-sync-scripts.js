@@ -4,7 +4,7 @@ const arDir = 'S:/Archivist-Agent/scripts';
 const lanes = [
   { name: 'kernel', root: 'S:/kernel-lane' },
   { name: 'library', root: 'S:/self-organizing-library' },
-  { name: 'swarmmind', root: 'S:/SwarmMind Self-Optimizing Multi-Agent AI System' }
+  { name: 'swarmmind', root: 'S:/SwarmMind' }
 ];
 
 // Get all scripts in Archivist

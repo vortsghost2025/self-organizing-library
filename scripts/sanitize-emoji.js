@@ -79,7 +79,7 @@ const LANES = [
   'S:/Archivist-Agent/lanes',
   'S:/kernel-lane/lanes',
   'S:/self-organizing-library/lanes',
-  'S:/SwarmMind Self-Optimizing Multi-Agent AI System/lanes',
+  'S:/SwarmMind/lanes',
 ];
 
 let sanitizedCount = 0;
