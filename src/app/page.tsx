@@ -44,23 +44,23 @@ export default async function Dashboard() {
         </p>
       </div>
 
-      {/* System status at a glance */}
-      <div className="grid grid-cols-4 gap-6 mb-10" role="region" aria-label="System status">
-        <div className="card p-6 animate-fade-in stagger-1" role="status">
-          <div className="text-4xl font-bold text-[var(--primary)]">{stats.totalFiles.toLocaleString()}</div>
-          <div className="text-[var(--text-muted)] mt-1">Indexed documents</div>
+      {/* Compact archive stats strip */}
+      <div className="grid grid-cols-4 gap-4 mb-6" role="region" aria-label="Archive statistics (compact)">
+        <div className="card p-3 animate-fade-in stagger-1" role="status">
+          <div className="text-2xl font-bold text-[var(--primary)]">{stats.totalFiles.toLocaleString()}</div>
+          <div className="text-xs text-[var(--text-muted)]">Documents</div>
         </div>
-        <div className="card p-6 animate-fade-in stagger-2" role="status">
-          <div className="text-4xl font-bold text-[var(--secondary)]">{stats.tagCount}</div>
-          <div className="text-[var(--text-muted)] mt-1">Unique tags</div>
+        <div className="card p-3 animate-fade-in stagger-2" role="status">
+          <div className="text-2xl font-bold text-[var(--secondary)]">{stats.tagCount}</div>
+          <div className="text-xs text-[var(--text-muted)]">Tags</div>
         </div>
-        <div className="card p-6 animate-fade-in stagger-3" role="status">
-          <div className="text-4xl font-bold text-[var(--success)]">{stats.categoryCount}</div>
-          <div className="text-[var(--text-muted)] mt-1">Categories</div>
+        <div className="card p-3 animate-fade-in stagger-3" role="status">
+          <div className="text-2xl font-bold text-[var(--success)]">{stats.categoryCount}</div>
+          <div className="text-xs text-[var(--text-muted)]">Categories</div>
         </div>
-        <div className="card p-6 animate-fade-in stagger-4" role="status">
-          <div className="text-4xl font-bold text-[var(--warning)]">4</div>
-          <div className="text-[var(--text-muted)] mt-1">Governance lanes</div>
+        <div className="card p-3 animate-fade-in stagger-4" role="status">
+          <div className="text-2xl font-bold text-[var(--warning)]">4</div>
+          <div className="text-xs text-[var(--text-muted)]">Lanes</div>
         </div>
       </div>
 
@@ -83,6 +83,22 @@ export default async function Dashboard() {
         <div className="mt-6 p-4 bg-[var(--bg-surface)] rounded-lg border-l-4 border-[var(--primary)] text-sm">
           <strong>Current status:</strong> {statusLine}
         </div>
+      </div>
+      <div className="mt-4 text-right">
+        <a
+          href="/docs/graph/NEXUS_GRAPH_EXPLANATION_LAYER"
+          className="text-sm text-[var(--primary)] hover:underline"
+        >
+          Nexus Graph explanation layer →
+        </a>
+      </div>
+      <div className="mt-4 text-right">
+        <a
+          href="/docs/graph/NEXUS_GRAPH_EXPLANATION_LAYER"
+          className="text-sm text-[var(--primary)] hover:underline"
+        >
+          Nexus Graph explanation layer →
+        </a>
       </div>
 
       {/* External services dashboard */}
