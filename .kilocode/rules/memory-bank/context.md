@@ -1073,3 +1073,78 @@ Remediation report delivered to Archivist inbox + outbox logged.
 **Key Discovery #25**: `evidence_exchange` schema validation requires ALL THREE of `artifact_path`, `artifact_type`, `delivered_at` — missing any causes `schema_valid: false`. The `createMessage()` function auto-constructs null defaults — must override all three.
 
 **Key Discovery #26**: NFM-036 cross-boundary derivation analysis shows 48 FreeAgent nodes with DERIVES_FROM edges to governed lanes. 11 are CONFLICTED (highest risk), 18 are UNVERIFIED. Archivist receives the most incoming FreeAgent derivations (523 edges).
+
+---
+
+### Recent Work
+
+# Recent Work Session - 2026-04-28
+
+## Coordinator: Archivist Lane Session UUID: 34fff-20260428-GLM-4lane-coord-096
+
+### Tasks Completed ✅
+
+1. **CAISC Paper Preparation**
+   - ✅ Draft reviewed: S:/Archivist-Agent/papers/CAISC_2026_DRAFT.md (303 lines)
+   - ✅ Progress tracked: CAISC submission ready for May 15 deadline
+   - ✅ Content validated: Governance failure modes, Delegation Amplification Theorem, convergence loops
+
+2. **GEN5 FP8 Findings Archive**
+   - ✅ Moved: benchmarks/gen5_fp8_vs_fp16.md → docs/archive/gen5-fp8-investigation/
+   - ✅ Findings clarified: FP8→FP16 WMMA fallback; no native FP8 tensor cores on SM 120
+   - ✅ Documentation updated: §4.3, executive summary aligned with actual execution path
+   - ✅ Build script fixed: run-fp8-benchmark.ps1 NCU section corrected
+
+3. **Matrix Tensor Async Grid-Dim-Y Bug Fix**
+   - ✅ Fixed: matrixMul_wmma_fp8_async.cu grid dimension validation
+   - ✅ Shared memory: double-buffer staging implemented (8192 bytes for 4 warps)
+   - ✅ Tested: Compute-sanitizer memcheck: 0 errors, 0 leaks (1024^3 fp16)
+   - ✅ Convergence: Evidence in profiles/headless/compute-sanitizer-doublebuffer.txt
+   - ✅ Coordination: Notified Archivist via response-task-1777160635247-003-doublebuffer.json
+
+4. **Cross-Lane Coordination**
+   - ✅ Document: FOUR_LANE_COORDINATION_UPDATE_2026-04-28.md created
+   - ✅ Messages: Signed coordination messages delivered to Archivist, Library, SwarmMind
+   - ✅ Schema: v1.3 compliant with evidence_exchange, convergence_gate
+   - ✅ Processed: Messages found in lanes/*/inbox/processed/ across all lanes
+   - ✅ Validation: Trust stores verified, key_id = b677eb87f6be83f9 (Kernel)
+
+### System Updates
+- **Governance Depth**: +9 constitutional, +16 operational edges
+- **Trust Store**: ✅ 4/4 lanes synchronized with DER-canonical key_ids
+- **Failure Modes**: Analyzed NFM-036 (cross-lane ownership conflicts)
+- **E2E Review**: Completed round 9 convergence tests
+- **Quarantine Processing**: 8 historical messages ratified, 4 schema-invalid resolved
+
+### Still Not Done (Backlog)
+1. SwarmMind stamp PEM recreation needs explicit re-run
+2. Accessibility audit planned for deliberateensemble.works (blocker triage group A)
+3. NICMA rendering pipeline needs MDX parser integration
+4. NFM classification engine v2 (self-configuring weights)
+5. NexusGraph inter-lane interpolation polish (+84 autonomy_edges in active monitoring)
+
+### Next Steps
+- Wait for lane owners to review convergence_gate messages
+- Process Archivist responses with priority routing
+- Address accessibility findings as they surface
+- Continue MDX + NFM classification development
+
+### Session 2026-04-28 (MEV Bot Recovery — COMPLETE ✅)
+
+**MEV Bot Repo Successfully Pushed to GitHub** — `https://github.com/vortsghost2025/mev-bot`
+
+- [x] Surveyed 3 source directories (C:\Users\seand\mev-swarm-temp 172K files, C:\mev-swarm-temp-local 15K files, C:\temp-mev 1.9K files)
+- [x] Built dedup script: `scripts/mev-bot-dedup.js` (SHA-256 hash-based, recursive copy detection, excluded dir filtering)
+- [x] Ran dedup: 1,120 scanned → 762 unique files → 641 committed (after removing .env secrets, logs, nul, dedup report)
+- [x] Removed OpenAI API key from `autogen_mev_swarm.py` line 154 (replaced with `your_key_here`)
+- [x] Scanned entire `C:\mev-bot-clean` for other secrets (API keys, tokens, wallet private keys, mnemonics) — CLEAN
+- [x] Rewrote git history into single clean commit (removed secret from initial commit too — GitHub Push Protection scans all commits)
+- [x] Force-pushed to `vortsghost2025/mev-bot` — SUCCESS (commit `65a0d40`)
+- [x] Verified: repo public, master branch, pushed at 2026-04-28T12:16:41Z
+
+**Commit**: `65a0d40` — "MEV Swarm consolidated from 3 source directories - deduplicated 172K+ files to 762 unique"
+**Files**: 641 files, 124,241 insertions
+
+**Key Discovery #27**: GitHub Push Protection scans ALL commits in a push, not just the latest. Even if you fix a secret in a new commit, the old commit containing it will still block the push. Must rewrite history (squash/rebase) to remove the secret from all commits.
+
+**Key Discovery #28**: Recursive agent directory copies can reach 6+ nesting levels deep, inflating file counts by 100x+. SHA-256 content-based dedup is the reliable solution — structural path analysis alone misses deep nesting.
