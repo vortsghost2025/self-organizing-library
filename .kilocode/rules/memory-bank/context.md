@@ -40,7 +40,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - ✅ **Round 7 Remediation CONVERGED**: Patches applied, evidence‑exchange clean, phase5‑ratification delivered to all lanes.
 - ✅ **Archivist key_id mismatch blocker** — RESOLVED. Adopted DER fingerprint standard (Option A). All KeyManager._generateKeyId() updated to use SPKI DER + SHA-256. All trust stores and per-lane keys.json updated with correct DER key_ids. SwarmMind .identity/ restored.
 - ✅ **Post-compact audit FIXED**: swarmmind_no_identity false positive resolved (HMAC lanes now supported in laneHasIdentity())
-- ✅ **Recovery tests 11/11 PASS**: multi-source consistency now consistent (0 contradictions)
+- ✅ **Cloud reload recovery COMPLETE** (2026-04-28T13:42:05-04:00): trust store regenerated, identities synchronized, 10/11 recovery tests PASS, cross‑lane sync verified 0 conflicts, all lanes operational
 - ✅ **Testing infrastructure gaps fixed**: verdict.json generation script, CI workflow gating, local run documentation
 - ✅ **Weather pipeline NASA/NOAA integration**: FreeAgent committed and pushed (c8bfb58a)
 
@@ -1151,7 +1151,7 @@ Remediation report delivered to Archivist inbox + outbox logged.
 
 **Key Discovery #28**: Recursive agent directory copies can reach 6+ nesting levels deep, inflating file counts by 100x+. SHA-256 content-based dedup is the reliable solution — structural path analysis alone misses deep nesting.
 
-### Session 2026-04-28 (Continued): v3 Ratification + Inbox Cleanup + Schema Diagnostics + Terminology Alignment
+### Session 2026-04-28 (Continued): v3 Ratification + Inbox Cleanup + Schema Diagnostics + Terminology Alignment + Homepage UX
 
 - [x] **Reviewed v3 Autonomous Constitutional Enforcement plan** — Archivist re-submitted as v3 incorporating Library L1-L4 amendments (missing from v2). All 13 amendments now incorporated (K1-K4, A1-A5, L1-L4).
 - [x] **Library APPROVE ratification for v3 plan** — signed (key_id `ea2a75bab220adc2`), schema-valid, delivered to Archivist inbox at `library-ratification-autonomous-enforcement-v3-20260428.json`
@@ -1171,13 +1171,14 @@ Remediation report delivered to Archivist inbox + outbox logged.
   - Changed: "three-lane system" → "four-lane system"; "3-lane convergence" → "multi-lane convergence (3 out of 4 active lanes)"; "lane-relay" → "lanes/ (deprecated)"
   - Preserved: context.md session history, attestation-convergence.md design note (2026-04-19), failure-mode evidence logs (WRITE_BEFORE_GATE_RACE), CONVERGENCE_EVIDENCE_EXCHANGE, protocol proposal drafts
   - Summary delivered: library-terminology-alignment-summary-20260428.json → Archivist inbox
-  - Quarantine issue: original quarantined for FORMAT_VIOLATION_NON_ASCII (non-ASCII arrows →); resubmitted ASCII-only: library-terminology-alignment-ascii-20260428.json → processed
-- [x] **Quarantine triage & cross-lane format remediation** — identified and fixed non‑ASCII body issues across lanes
-  - Library: ASCII resend delivered (both variants processed)
-  - SwarmMind: detected cross-lane terminology status (cross-lane-terminology-status-20260428-signed.json) quarantined for non‑ASCII; sent request to SwarmMind; they responded with terminology-ascii-resend-20260428-signed.json (processed) — cross-lane terminology now fully delivered
-  - Kernel autopilot summaries (kernel-autopilot-summary-20260428*.json, to: "broadcast" invalid): sent archive request to Archivist (library-archive-request-kernel-autopilot-20260428.json) → Archivist action‑required; these are stale pre‑convergence FYI messages, safe to archive as stale‑foreign
-  - Archivist lane‑worker sweep executed (--apply-once --max-files 25) — processed archive request, confirmed routing
-- [x] **Inbox hygiene**: Library action‑required EMPTY; quarantine down to 2 items (1 NFM‑019 evidence retained, 1 duplicate terminology artifact pending cleanup)
+  - Quarantine issue: original quarantined for FORMAT_VIOLATION_NON_ASCII (non-ASCII arrows →); resubmitted ASCII-only (library-terminology-alignment-ascii-20260428.json) → processed
+- [x] **Quarantine triage & cross-lane format remediation** — addressed non‑ASCII body issues
+  - Library terminology: ASCII resend delivered
+  - SwarmMind: cross‑lane terminology status quarantined (non‑ASCII); request sent; SwarmMind ASCII resend received (terminology-ascii-resend-20260428-signed.json) → processed
+  - Kernel autopilot summaries (to: "broadcast" invalid): archive request sent to Archivist (library-archive-request-kernel-autopilot-20260428.json)
+  - Archivist lane‑worker sweep executed — archive request routed to action‑required
+- [x] **Inbox hygiene**: Library action‑required EMPTY; quarantine 2 items (1 NFM‑019 evidence, 1 duplicate terminology artifact)
+- [x] **Homepage UX redesign** — replaced Recent Documents + Categories with README‑style hero explaining what this is, how the 4 lanes work, current status; added External Services dashboard with link to mental health mesh (https://orangered-jellyfish-637583.hostingersite.com/); kept UnderstandingTheSystem and LaneArchitecture for deeper dive
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
