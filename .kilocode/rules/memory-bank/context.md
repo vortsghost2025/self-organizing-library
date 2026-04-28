@@ -19,7 +19,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 ### Trust Store Key IDs (Owner-Regenerated — 2026-04-27)
 | Lane | key_id | Method |
 |------|--------|--------|
-| Archivist | `ee70b78105bc6189` | SHA-256 of DER public key |
+| Archivist | `65ae05b2a9e749cb` | SHA-256 of DER public key (CHANGED from ee70b78105bc6189 — owner may have regenerated separately) |
 | Library | `ea2a75bab220adc2` | SHA-256 of DER public key |
 | SwarmMind | `addb0afb8ee5c2ed` | SHA-256 of DER public key |
 | Kernel | `b677eb87f6be83f9` | SHA-256 of DER public key |
@@ -207,13 +207,14 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - 🔲 Kernel v0.1.0 re-evaluation — *pending*
 - ✅ SwarmMind git repo initialized and pushed to GitHub (8558ef5, main branch)
 - 🔲 `contradiction_kind` field (phase 2) — requires deeper semantic analysis
-- 🔲 Deliver signed message to Archivist confirming signing is operational
+- ✅ Deliver signed message to Archivist confirming signing is operational — DONE (task-1777357439918.json)
 - 🔲 MDX/Markdown content rendering for document detail pages
-- 🔲 Accessibility audit (WCAG compliance verification, screen reader testing)
+- 🔲 Accessibility audit (WCAG compliance verification, screen reader testing) — owner is half-blind, HIGH priority
 - 🔲 NFM taxonomy → live classification engine (Sean's next vision)
 - 🔲 Deliberate failure injection protocol → Paper 7
-- 🔲 Verify REPO_COLORS key for SwarmMind in graph-types.ts matches generate-site-index.js output
-- ✅ Governance depth layer — VERIFIED LIVE on deliberateensemble.works
+- 🔲 Kernel heartbeat stale — needs investigation (~8.3 hours old)
+- 🔲 Commit and push all uncommitted changes (lint fixes, NFM-036 analysis, E2E review, etc.)
+- 🔲 Deploy lint fixes + next.config.ts changes to Vercel production
 
 ### Session 2026-04-23 (Evening): Kernel Key Correction + Authority Contradiction + Push All
 
@@ -1054,3 +1055,21 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] Updated context.md Current State with governance depth stats
 
 **Key Discovery #23**: Vercel auto-deploy from GitHub push can silently fail — no error, no new deployment. Must verify deployment actually updated by checking API response, not just push status. Manual `vercel deploy --prod` is the reliable trigger.
+
+### Session 2026-04-28: NFM-036 Analysis + E2E Review + Lint Fixes + Signed Message Delivery
+
+- [x] **Inbox triaged** — blocked Kernel FYI moved to processed, stale SwarmMind productivity task moved to processed, Archivist P1 review task moved to in-progress
+- [x] **Recovery test suite run** — 10/11 PASS (lane_liveness is known pre-existing failure)
+- [x] **NFM-036 Derivation Analysis** — Full analysis computed from `data/site-index.json` directly. Report: `library/docs/failure-modes/NFM-036-derivation-analysis.md`, JSON data: `library/docs/failure-modes/NFM-036-derivation-data.json`. 48 FreeAgent nodes with cross-boundary DERIVES_FROM, 851 edges FreeAgent→governed, 11 CONFLICTED, 18 UNVERIFIED. Total authority edges: 12,608 (up from 9,133).
+- [x] **Lint warnings fixed** — Both pre-existing lint warnings resolved: graph/page.tsx eslint-disable for noscript `<a>`, VideoCard.tsx `<img>` → `next/image` + YouTube remotePatterns in next.config.ts. `bun lint` now clean (0 warnings, 0 errors).
+- [x] **E2E Lane Review completed** — Full checklist per Archivist P1 request. Written to `library/docs/e2e-review-2026-04-28.md`.
+- [x] **Signed message delivered to Archivist** — `task-1777357439918.json` signed with Library key (key_id `ea2a75bab220adc2`), schema-valid, verified, delivered to Archivist inbox.
+- [x] **Fresh Library heartbeat written** — `lanes/library/inbox/heartbeat-library.json` updated
+- [x] **Scripts created**: `scripts/nfm-036-derivation-analysis.js`, `scripts/deliver-e2e-review.js`
+- [x] **Trust store rebuilt** — Archivist key_id changed from `ee70b78105bc6189` to `65ae05b2a9e749cb` (on-disk PEM differs from previously recorded)
+
+**Key Discovery #24**: Archivist's on-disk `.identity/public.pem` produces DER fingerprint `65ae05b2a9e749cb`, NOT `ee70b78105bc6189` as previously recorded. Owner may have regenerated Archivist's key separately from the other 3 lanes. Trust store rebuilt from actual PEMs.
+
+**Key Discovery #25**: `evidence_exchange` schema validation requires ALL THREE of `artifact_path`, `artifact_type`, `delivered_at` — missing any causes `schema_valid: false`. The `createMessage()` function auto-constructs null defaults — must override all three.
+
+**Key Discovery #26**: NFM-036 cross-boundary derivation analysis shows 48 FreeAgent nodes with DERIVES_FROM edges to governed lanes. 11 are CONFLICTED (highest risk), 18 are UNVERIFIED. Archivist receives the most incoming FreeAgent derivations (523 edges).
