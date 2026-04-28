@@ -1169,8 +1169,13 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] **Terminology alignment pass (P2)** — updated 8 active files to current 4-lane / multi-lane (3-of-4) nomenclature; preserved historical evidence as requested
   - Updated: README.md, RECIPROCAL_ACCOUNTABILITY.md, FREEAGENT_PORT_BINDINGS.md, library/docs/specs/{QUICK_LOOKUP_INDEX.md, IMPLEMENTATION_COMPASS.md, FILE_OWNERSHIP_REGISTRY_SYNC_MODEL.md}, library/docs/pending/PHASE2_IMPLEMENTATION_PACKAGE.md, library/docs/archivist/ARCHIVIST_QUICK_REFERENCE.md
   - Changed: "three-lane system" → "four-lane system"; "3-lane convergence" → "multi-lane convergence (3 out of 4 active lanes)"; "lane-relay" → "lanes/ (deprecated)"
-  - Preserved: context.md session history, attestation-convergence.md design note (2026-04-19), failure-mode evidence logs (WRITE_BEFORE_GATE_RACE.md), convergence evidence artifacts
+  - Preserved: context.md session history, attestation-convergence.md design note (2026-04-19), failure-mode evidence logs (WRITE_BEFORE_GATE_RACE), CONVERGENCE_EVIDENCE_EXCHANGE, protocol proposal drafts
   - Summary delivered: library-terminology-alignment-summary-20260428.json → Archivist inbox
+- [x] **Quarantine triage & format remediation (P0/P2)** — addressed non‑ASCII format violations and stale artifacts
+  - Library terminology summary: quarantined for FORMAT_VIOLATION_NON_ASCII (body contained → arrows); resubmitted ASCII‑only version (library-terminology-alignment-ascii-20260428.json) → processed
+  - SwarmMind cross‑lane terminology status: detected quarantined for same reason; sent request to SwarmMind to resend ASCII‑only; SwarmMind already responded with terminology-ascii-resend-20260428-signed.json (processed)
+  - Kernel autopilot summaries (kernel-autopilot-summary-20260428*.json): detected stale (to: "broadcast" invalid); sent archive request to Archivist (library-archive-request-kernel-autopilot-20260428.json) → action‑required
+  - Archivist lane‑worker sweep run: processed archive request, confirmed routing
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
