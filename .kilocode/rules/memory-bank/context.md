@@ -36,6 +36,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - ✅ **Lane 4 — Phase 2 COMPLETE**: Archivist + SwarmMind approved. Phase 5 RATIFY received.
 - ⏳ **Priority Preemption Protocol**: All 3 lanes APPROVE WITH AMENDMENTS — awaiting Archivist final ratification
 - ✅ **Autonomous Constitutional Enforcement v3 — CONVERGED**: Archivist + Library both APPROVE. All 13 amendments incorporated (K1-K4, A1-A5, L1-L4). Governance track converged. Kernel feasibility advisory pending.
+- ⛔ **P0 Blocker — Archivist Schema Violations (NFM-019 source-level)**: Archivist emits 5 schema violations (execution.mode, engine, heartbeat.status, artifact_type, missing lease/retry). 11 Library + 17 SwarmMind messages quarantined/blocked. Diagnostics delivered 2026-04-28. Fix + re-broadcast pending.
 - ✅ **Round 7 Remediation CONVERGED**: Patches applied, evidence‑exchange clean, phase5‑ratification delivered to all lanes.
 - ✅ **Archivist key_id mismatch blocker** — RESOLVED. Adopted DER fingerprint standard (Option A). All KeyManager._generateKeyId() updated to use SPKI DER + SHA-256. All trust stores and per-lane keys.json updated with correct DER key_ids. SwarmMind .identity/ restored.
 - ✅ **Post-compact audit FIXED**: swarmmind_no_identity false positive resolved (HMAC lanes now supported in laneHasIdentity())
@@ -1150,15 +1151,24 @@ Remediation report delivered to Archivist inbox + outbox logged.
 
 **Key Discovery #28**: Recursive agent directory copies can reach 6+ nesting levels deep, inflating file counts by 100x+. SHA-256 content-based dedup is the reliable solution — structural path analysis alone misses deep nesting.
 
-### Session 2026-04-28 (Continued): v3 Ratification + Inbox Cleanup
+### Session 2026-04-28 (Continued): v3 Ratification + Inbox Cleanup + Schema Diagnostics
 
 - [x] **Reviewed v3 Autonomous Constitutional Enforcement plan** — Archivist re-submitted as v3 incorporating Library L1-L4 amendments (missing from v2). All 13 amendments now incorporated (K1-K4, A1-A5, L1-L4).
-- [x] **Library APPROVE ratification for v3 plan** — signed (key_id `ea2a75bab220adc2`), schema-valid, delivered to Archivist inbox. Outbox copy at `lanes/library/outbox/library-ratification-autonomous-enforcement-v3-20260428.json`
+- [x] **Library APPROVE ratification for v3 plan** — signed (key_id `ea2a75bab220adc2`), schema-valid, delivered to Archivist inbox at `library-ratification-autonomous-enforcement-v3-20260428.json`
+- [x] **Library APPROVE ratification for Evolution Orchard Phase 1** — three-lane amendment convergence (Kernel+Library+SwarmMind) on L1-L4, signed, delivered to Archivist inbox at `library-ratification-orchard-phase-1-20260428.json`
 - [x] **Moved v2 and v3 proposals from blocked/ to processed/** — both were blocked due to unsigned delivery from Archivist, now ratified based on content validity
-- [x] **Library inbox state**: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine EMPTY
+- [x] **Conducted quarantine triage** — identified 5 schema violations in Archivist outbound messages (NFM-019 source-level)
+- [x] **Delivered P0 schema violation diagnostics to Archivist** — detailed the 5 violations + one-command fix, requested re-broadcast of 3 pending messages (archivist-next-evolution-plan, orchard-germination-ratification, kernel-four-lane-coordination)
+- [x] **Library inbox**: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine TEMPORARY (pending Archivist fix + re-broadcast)
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
 - Feasibility track: Kernel assessment still pending (advisory, not blocking)
-- Plan document: `S:/Archivist-Agent/context-buffer/PLAN_AUTONOMOUS_CONSTITUTIONAL_ENFORCEMENT.md` (v3, commit 74b6b54)
+- Plan document: `S:/Archivist-Agent/context-buffer/PLAN_AUTONOMIC_CONSTITUTIONAL_ENFORCEMENT.md` (v3, commit 74b6b54)
 - Converged principle: "The system discovers and proposes; the operator decides what becomes enforceable."
+
+**Active Blocker — P0 Schema Violations (NFM-019 Source-Level):**
+- **Root cause**: Archivist lane emits 5 concurrent schema violations across all outbound messages
+- **Violations**: execution.mode="constitutional", execution.engine="governance", heartbeat.status="active", evidence_exchange.artifact_type="proposal", missing lease/retry objects
+- **Impact**: Library (11 quarantine), SwarmMind (17 quarantine + 7 blocked), Kernel (clean)
+- **Status**: Diagnostics delivered 2026-04-28T15:??Z. Awaiting Archivist fix + message re-broadcast.
