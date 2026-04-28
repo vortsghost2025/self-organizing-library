@@ -1161,7 +1161,7 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] **Delivered P0 schema violation diagnostics to Archivist** — detailed the 5 violations + one-command fix, requested re-broadcast of 3 pending messages
 - [x] **Archivist applied central schema normalization fix** — SchemaValidator.js normalizeMessageForSchema(), canonical builder updates, signed message path hardening (per user state update 2026-04-28T11:31Z)
 - [x] **Sent ACK to Archivist** — library-ack-schema-fix-20260428-v2 (schema-valid, type=ack, artifact_type=log)
-- [x] **Library inbox**: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine 10 (awaiting Archivist re-broadcast of 3 pending messages; post-rebroadcast quarantine will be 7 legacy items)
+- [x] **Library inbox**: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine 5 (re-broadcast complete; 3 schema-normalized messages processed; remaining 5 are pre-convergence legacy items)
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
@@ -1174,5 +1174,5 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - **Violations**: execution.mode="constitutional", execution.engine="governance", heartbeat.status="active", evidence_exchange.artifact_type="proposal", missing lease/retry objects
 - **Impact**: Library (11 quarantine), SwarmMind (17 quarantine + 7 blocked), Kernel (clean)
 - **Fix applied** (2026-04-28T11:31Z): Central normalizeMessageForSchema() in SchemaValidator.js + canonical builder fixes (constitutional→manual, governance→opencode, active→in_progress, proposal→artifact) + signed message path hardening
-- **Status**: Diagnostics delivered, fix acknowledged. Re-broadcast of 3 pending messages awaited (next-evolution-plan, orchard ratification, kernel coordination). Library quarantine will drop to 7 after re-broadcast.
+- **Status**: Diagnostics delivered, fix acknowledged, re-broadcast complete (2026-04-28T15:34Z). All 3 messages received, schema-valid, processed. Library quarantine cleared from 11 → 5 (legacy items only). Blocker RESOLVED.
 - **Convergence gate**: proven (Library diagnostic + Archivist fix confirmed)
