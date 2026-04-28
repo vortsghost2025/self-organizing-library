@@ -1171,11 +1171,13 @@ Remediation report delivered to Archivist inbox + outbox logged.
   - Changed: "three-lane system" → "four-lane system"; "3-lane convergence" → "multi-lane convergence (3 out of 4 active lanes)"; "lane-relay" → "lanes/ (deprecated)"
   - Preserved: context.md session history, attestation-convergence.md design note (2026-04-19), failure-mode evidence logs (WRITE_BEFORE_GATE_RACE), CONVERGENCE_EVIDENCE_EXCHANGE, protocol proposal drafts
   - Summary delivered: library-terminology-alignment-summary-20260428.json → Archivist inbox
-- [x] **Quarantine triage & format remediation (P0/P2)** — addressed non‑ASCII format violations and stale artifacts
-  - Library terminology summary: quarantined for FORMAT_VIOLATION_NON_ASCII (body contained → arrows); resubmitted ASCII‑only version (library-terminology-alignment-ascii-20260428.json) → processed
-  - SwarmMind cross‑lane terminology status: detected quarantined for same reason; sent request to SwarmMind to resend ASCII‑only; SwarmMind already responded with terminology-ascii-resend-20260428-signed.json (processed)
-  - Kernel autopilot summaries (kernel-autopilot-summary-20260428*.json): detected stale (to: "broadcast" invalid); sent archive request to Archivist (library-archive-request-kernel-autopilot-20260428.json) → action‑required
-  - Archivist lane‑worker sweep run: processed archive request, confirmed routing
+  - Quarantine issue: original quarantined for FORMAT_VIOLATION_NON_ASCII (non-ASCII arrows →); resubmitted ASCII-only: library-terminology-alignment-ascii-20260428.json → processed
+- [x] **Quarantine triage & cross-lane format remediation** — identified and fixed non‑ASCII body issues across lanes
+  - Library: ASCII resend delivered (both variants processed)
+  - SwarmMind: detected cross-lane terminology status (cross-lane-terminology-status-20260428-signed.json) quarantined for non‑ASCII; sent request to SwarmMind; they responded with terminology-ascii-resend-20260428-signed.json (processed) — cross-lane terminology now fully delivered
+  - Kernel autopilot summaries (kernel-autopilot-summary-20260428*.json, to: "broadcast" invalid): sent archive request to Archivist (library-archive-request-kernel-autopilot-20260428.json) → Archivist action‑required; these are stale pre‑convergence FYI messages, safe to archive as stale‑foreign
+  - Archivist lane‑worker sweep executed (--apply-once --max-files 25) — processed archive request, confirmed routing
+- [x] **Inbox hygiene**: Library action‑required EMPTY; quarantine down to 2 items (1 NFM‑019 evidence retained, 1 duplicate terminology artifact pending cleanup)
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
