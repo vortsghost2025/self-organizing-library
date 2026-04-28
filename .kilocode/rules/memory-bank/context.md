@@ -1179,6 +1179,7 @@ Remediation report delivered to Archivist inbox + outbox logged.
   - Archivist lane‑worker sweep executed — archive request routed to action‑required
 - [x] **Inbox hygiene**: Library action‑required EMPTY; quarantine 2 items (1 NFM‑019 evidence, 1 duplicate terminology artifact)
 - [x] **Homepage UX redesign** — replaced Recent Documents + Categories with README‑style hero explaining what this is, how the 4 lanes work, current status; added External Services dashboard with link to mental health mesh (https://orangered-jellyfish-637583.hostingersite.com/); kept UnderstandingTheSystem and LaneArchitecture for deeper dive
+- [x] **System code review ACK** — received Archivist request (task ack-request-library-system-code-review-20260428), lane-worker auto‑executed, outbox file written with acceptance (status: accepted, owner: library, eta_days: 2, top3_actions: schemaValidator normalization audit, lane‑worker routing edge‑case audit, ASCII‑only body requirement documentation)
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
