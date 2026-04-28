@@ -258,6 +258,32 @@ interface NodeDetail {
 
 ---
 
+## Follow-Up UI Enhancements (from user feedback 2026-04-28)
+
+### Tagline for meaning-layer controls
+Place beside the toggles:
+> Meaning layers do not change the data. They change the question being asked of the graph.
+
+### Tooltips for each toggle (plain language)
+- **Contradictions:** show unresolved mismatches, conflicts, and claims needing review.
+- **Verification:** show evidence and proof relationships.
+- **Structure:** show architecture and containment relationships.
+- **Execution:** show runtime or implementation relationships.
+- **Governance Depth:** show how close an artifact is to authority.
+- **Active Bridges:** show cross-boundary connections.
+- **Application Adjacent:** show useful but not constitutional items.
+
+### Safety line (visible near controls)
+> A bright cluster is not automatically true, authoritative, or enforced. It means the graph has many relationships there. Authority still comes from ratified artifacts and live enforcement paths.
+
+### Current Lens Summary box
+A dynamic text block that updates when toggles change, e.g.:
+> Current lens: Contradictions + Verification
+> Showing: unresolved mismatches with supporting evidence relationships
+> Use this to find claims that need review before they become authority.
+
+---
+
 ## Change Summary
 
 | Artifact | Type | Description |
