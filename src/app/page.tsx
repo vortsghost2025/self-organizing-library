@@ -11,7 +11,7 @@ function loadHomepagePreview() {
   if (fs.existsSync(draftPath)) {
     try {
       return JSON.parse(fs.readFileSync(draftPath, "utf8"));
-    } catch (e) {
+    } catch (e: any) {
       console.warn("Failed to parse homepage preview:", e.message);
     }
   }
@@ -92,41 +92,86 @@ export default async function Dashboard() {
           Federated dashboards and mesh-connected services outside the core 4-lane governance system.
         </p>
         <div className="grid md:grid-cols-2 gap-4">
-          {preview?.externalServices?.map((svc: any) => (
-            <a
-              key={svc.id}
-              href={svc.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-4 rounded-lg border border-[var(--border)] hover:bg-[var(--bg-surface-hover)] transition-colors"
-            >
-              <div className="w-10 h-10 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-xl">
-                {svc.icon}
+          {/* Mental Health Mesh — live service */}
+          <a
+            href="https://orangered-jellyfish-637583.hostingersite.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-4 rounded-lg border border-[var(--border)] hover:bg-[var(--bg-surface-hover)] transition-colors"
+          >
+            <div className="w-10 h-10 rounded-full bg-[var(--success)]/20 flex items-center justify-center text-xl">
+              🧠
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-[var(--text-primary)]">Mental Health Mesh</span>
+                <span className="px-1.5 py-0.5 rounded text-xs bg-[var(--success)]/20 text-[var(--success)] border border-[var(--success)]/30">
+                  LIVE
+                </span>
               </div>
-              <div>
-                <div className="font-medium text-[var(--text-primary)]">{svc.title}</div>
-                <div className="text-xs text-[var(--text-muted)]">{svc.description}</div>
+              <div className="text-xs text-[var(--text-muted)] mt-1">
+                Canada-based offline-first mesh network for mental health support. Operates independently
+                via local p2p when connectivity drops. Integrated via GitHub bridge.
               </div>
+              <div className="flex items-center gap-3 mt-2 text-xs text-[var(--text-muted)]">
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-[var(--success)]" />
+                  Hostinger (online)
+                </span>
+                <span>•</span>
+                <span>Region: Canada</span>
+                <span>•</span>
+                <span>Bridge: FreeAgent</span>
+              </div>
+            </div>
+          </a>
+
+          {/* Federation Simulation — historical/archive mode */}
+          <a
+            href="https://steelblue-elephant-526729.hostingersite.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-4 rounded-lg border border-[var(--border)] hover:bg-[var(--bg-surface-hover)] transition-colors opacity-75"
+          >
+            <div className="w-10 h-10 rounded-full bg-[var(--warning)]/20 flex items-center justify-center text-xl">
+              🌐
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-[var(--text-primary)]">Federation Simulation</span>
+                <span className="px-1.5 py-0.5 rounded text-xs bg-[var(--warning)]/20 text-[var(--warning)] border border-[var(--warning)]/30">
+                  ARCHIVED
+                </span>
+              </div>
+              <div className="text-xs text-[var(--text-muted)] mt-1">
+                Persistent multi-agent federation game from pre-system papers. Environment state
+                scattered across legacy repositories; preserved as historical artifact.
+              </div>
+              <div className="flex items-center gap-3 mt-2 text-xs text-[var(--text-muted)]">
+                <span>Hostinger</span>
+                <span>•</span>
+                <span>Origin: WE4FREE Paper 3</span>
+                <span>•</span>
+                <span>Status: Readonly archive</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        {/* Quick links */}
+        <div className="mt-4 flex items-center justify-between text-sm text-[var(--text-muted)]">
+          <div>
+            Federated services connected via FreeAgent bridge.{' '}
+            <a href="/services" className="text-[var(--primary)] hover:underline">
+              View all services →
             </a>
-          )) || (
-            // Fallback: hardcoded mental health mesh if no preview data
-            <a
-              href="https://orangered-jellyfish-637583.hostingersite.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-4 rounded-lg border border-[var(--border)] hover:bg-[var(--bg-surface-hover)] transition-colors"
-            >
-              <div className="w-10 h-10 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-xl">
-                🧠
-              </div>
-              <div>
-                <div className="font-medium text-[var(--text-primary)]">Mental Health Mesh</div>
-                <div className="text-xs text-[var(--text-muted)]">
-                  Canada-based offline mesh service, bridged via GitHub integration
-                </div>
-              </div>
+          </div>
+          <div>
+            Want your service listed?{' '}
+            <a href="mailto:deliberateensemble@gmail.com" className="text-[var(--primary)] hover:underline">
+              Get in touch
             </a>
-          )}
+          </div>
         </div>
       </div>
 
