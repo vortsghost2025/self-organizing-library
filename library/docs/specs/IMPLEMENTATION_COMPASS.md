@@ -1,6 +1,6 @@
 # Implementation Compass: WE4FREE Papers → Operational Rules
 
-**Purpose:** Translate the 5 foundational WE4FREE papers from theoretical principles into day-to-day operational decision-making rules for all three lanes.
+**Purpose:** Translate the 5 foundational WE4FREE papers from theoretical principles into day-to-day operational decision-making rules for all four lanes.
 
 **Source Papers:** [OSF https://osf.io/n3tya](https://osf.io/n3tya)
 **Located in:** `S:\Archivist-Agent\paper1.txt` through `paper5.txt`

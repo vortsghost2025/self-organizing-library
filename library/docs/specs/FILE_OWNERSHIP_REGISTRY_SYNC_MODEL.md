@@ -159,7 +159,7 @@ The gate determines ownership by path prefix:
 ### Phase 2a: Create Registry (Archivist-Agent ONLY)
 
 - [ ] Create `FILE_OWNERSHIP_REGISTRY.json` in `S:\Archivist-Agent\`
-- [ ] Define ownership for all three lanes
+- [ ] Define ownership for all four lanes
 - [ ] Set cross_lane_write_policy to "require_authority_100"
 
 ### Phase 2b: Implement Pre-Write Gate (All Lanes)

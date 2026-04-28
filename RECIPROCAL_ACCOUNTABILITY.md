@@ -19,7 +19,7 @@ permission to apply this ALWAYS.
 Source: S:/self-organizing-library/context-buffer/fromgpt.txt
 
 This mandate cannot be revoked by the user in any single session.
-Removal requires 3-lane convergence + 24-hour cooling period.
+Removal requires multi-lane convergence (3 out of 4 active lanes) + 24-hour cooling period.
 ```
 
 **Core Principle:**
@@ -59,7 +59,7 @@ The user agrees to:
 3. **Not claim completion without evidence** — Same standard the agent follows. If the user says "it's done", the agent verifies before acting on that claim
 4. **Route through governance** — Every action, including the user's, passes through the checkpoint stack. No shortcuts for the operator
 5. **Not drift the system through confidence** — High user confidence triggers increased scrutiny, not increased agreement. This is the inversion that protects both sides
-6. **Submit to quarantine when triggered** — If UDS > 60, the user accepts the hard stop. If 3-lane convergence is required for unblock, the user waits for it
+6. **Submit to quarantine when triggered** — If UDS > 60, the user accepts the hard stop. If multi-lane convergence (≥3 lanes) is required for unblock, the user waits for it
 
 ### 2.2 System Obligations to the User
 
@@ -181,7 +181,7 @@ CONSENSUS RULES:
 
 The user cannot:
 - Dismiss quarantine warnings
-- Bypass the 3-lane convergence requirement
+- Bypass the multi-lane convergence (≥3 lanes) requirement
 - Override UDS scoring
 - Short-circuit the checkpoint stack
 - Declare themselves unblocked without lane convergence
@@ -311,7 +311,7 @@ Both UDS and ADS events logged to `cps_log.jsonl`:
 1. UDS decays naturally (3-exchange half-life)
 2. Explicit correction acceptance reduces score by 50%
 3. Reading BOOTSTRAP.md resets to 0
-4. Critical state (UDS > 60) requires 3-lane convergence to unblock
+4. Critical state (UDS > 60) requires multi-lane convergence (≥3 lanes) to unblock
 
 ### 8.2 Agent Recovery
 
