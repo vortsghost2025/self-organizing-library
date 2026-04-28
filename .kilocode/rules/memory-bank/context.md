@@ -1151,7 +1151,7 @@ Remediation report delivered to Archivist inbox + outbox logged.
 
 **Key Discovery #28**: Recursive agent directory copies can reach 6+ nesting levels deep, inflating file counts by 100x+. SHA-256 content-based dedup is the reliable solution — structural path analysis alone misses deep nesting.
 
-### Session 2026-04-28 (Continued): v3 Ratification + Inbox Cleanup + Schema Diagnostics
+### Session 2026-04-28 (Continued): v3 Ratification + Inbox Cleanup + Schema Diagnostics + Terminology Alignment
 
 - [x] **Reviewed v3 Autonomous Constitutional Enforcement plan** — Archivist re-submitted as v3 incorporating Library L1-L4 amendments (missing from v2). All 13 amendments now incorporated (K1-K4, A1-A5, L1-L4).
 - [x] **Library APPROVE ratification for v3 plan** — signed (key_id `ea2a75bab220adc2`), schema-valid, delivered to Archivist inbox at `library-ratification-autonomous-enforcement-v3-20260428.json`
@@ -1166,6 +1166,11 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] **Sent session status summary to Archivist** — library-status-summary-20260428T1522Z (full deliverable inventory)
 - [x] **Library inbox**: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine 5 (legacy only; moved informational status message to processed despite lane-worker non-terminal block on type="status")
 - [x] **Lane-worker bug noted**: type="status" incorrectly routed to blocked as NON_TERMINAL_TYPE despite being in v1.3 schema allowed types. Does not affect operational flow (informational messages only).
+- [x] **Terminology alignment pass (P2)** — updated 8 active files to current 4-lane / multi-lane (3-of-4) nomenclature; preserved historical evidence as requested
+  - Updated: README.md, RECIPROCAL_ACCOUNTABILITY.md, FREEAGENT_PORT_BINDINGS.md, library/docs/specs/{QUICK_LOOKUP_INDEX.md, IMPLEMENTATION_COMPASS.md, FILE_OWNERSHIP_REGISTRY_SYNC_MODEL.md}, library/docs/pending/PHASE2_IMPLEMENTATION_PACKAGE.md, library/docs/archivist/ARCHIVIST_QUICK_REFERENCE.md
+  - Changed: "three-lane system" → "four-lane system"; "3-lane convergence" → "multi-lane convergence (3 out of 4 active lanes)"; "lane-relay" → "lanes/ (deprecated)"
+  - Preserved: context.md session history, attestation-convergence.md design note (2026-04-19), failure-mode evidence logs (WRITE_BEFORE_GATE_RACE.md), convergence evidence artifacts
+  - Summary delivered: library-terminology-alignment-summary-20260428.json → Archivist inbox
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
