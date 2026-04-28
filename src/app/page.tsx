@@ -92,14 +92,6 @@ export default async function Dashboard() {
           Nexus Graph explanation layer →
         </a>
       </div>
-      <div className="mt-4 text-right">
-        <a
-          href="/docs/graph/NEXUS_GRAPH_EXPLANATION_LAYER"
-          className="text-sm text-[var(--primary)] hover:underline"
-        >
-          Nexus Graph explanation layer →
-        </a>
-      </div>
 
       {/* External services dashboard */}
       <div className="card p-6 mb-8 animate-fade-in">
