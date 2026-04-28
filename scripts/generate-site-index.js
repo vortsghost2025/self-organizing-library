@@ -39,6 +39,10 @@ const REPOS = [
       'data': 'data',
     },
     maxDepth: Infinity,
+    excludeDirs: new Set([
+      '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+      'tmp', 'out',
+    ]),
   },
   {
     name: 'Archivist-Agent',
@@ -96,6 +100,14 @@ const REPOS = [
       'data': 'data',
     },
     maxDepth: Infinity,
+    excludeDirs: new Set([
+      '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+      '.pi', '.mulch', '.sapling', '.canopy', '.seeds',
+      '.global', '.compact-audit', '.test-trust', '.test-memory',
+      '.test-identity', '.continuity_test', '.continuity_test2',
+      '.continuity_test2b', '.continuity_test3', '.continuity_test4',
+      'worktrees', 'tmp',
+    ]),
   },
   {
     name: 'kernel-lane',
@@ -206,7 +218,7 @@ const DEFAULT_EXCLUDE_DIRS = new Set([
   '.vercel', 'dist', '.cache', 'target', '.turbo', '.astro', '.nuxt',
   '.svelte-kit', '.vuepress', '.docusaurus', '.terraform', '.tox',
   '__pycache__', '.pytest_cache', '.mypy_cache', '.venv', 'venv',
-  '.pytest_cache',
+  '.pytest_cache', 'tmp', 'worktrees',
 ]);
 
 const DEFAULT_EXTENSIONS = new Set([
