@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Project Status:** Truth-routing system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
+**Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.
 
@@ -195,17 +195,25 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 15. **Kernel can have divergent keys** — On-disk `public.pem` can differ from `snapshot.json` and trust store entries. Always use the on-disk key as canonical (it's what signing actually uses).
 
 ## Still Not Done
-- 🔲 LANE_KEY_PASSPHRASE — operator must set env var for signing to work
-- 🔲 Run `node scripts/generate-library-keys.js` with LANE_KEY_PASSPHRASE to generate RSA-2048 key pair
+- ✅ LANE_KEY_PASSPHRASE — set at Windows user scope, sign+verify roundtrip PASS
+- ✅ RSA-2048 key pair generated with new passphrase (owner regenerated all 4 keys 2026-04-27)
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
-- 🔲 v1.1 formal ratification by Archivist (Phase 5) — *pending Archivist finalization*
-- 🔲 Lane 4 formal ratification by Archivist (Phase 5) — *pending*
+- ✅ v1.1 formal ratification by Archivist (Phase 5) — RATIFIED
+- ✅ Lane 4 formal ratification by Archivist (Phase 5) — RATIFIED
 - 🔲 Priority preemption protocol convergence/ratification — *pending*
 - 🔲 SwarmMind schema compliance response — *pending*
 - 🔲 Kernel schema compliance response — *pending*
 - 🔲 Kernel v0.1.0 re-evaluation — *pending*
 - ✅ SwarmMind git repo initialized and pushed to GitHub (8558ef5, main branch)
+- 🔲 `contradiction_kind` field (phase 2) — requires deeper semantic analysis
+- 🔲 Deliver signed message to Archivist confirming signing is operational
+- 🔲 MDX/Markdown content rendering for document detail pages
+- 🔲 Accessibility audit (WCAG compliance verification, screen reader testing)
+- 🔲 NFM taxonomy → live classification engine (Sean's next vision)
+- 🔲 Deliberate failure injection protocol → Paper 7
+- 🔲 Verify REPO_COLORS key for SwarmMind in graph-types.ts matches generate-site-index.js output
+- ✅ Governance depth layer — VERIFIED LIVE on deliberateensemble.works
 
 ### Session 2026-04-23 (Evening): Kernel Key Correction + Authority Contradiction + Push All
 
@@ -1031,3 +1039,18 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] Revert script itself contains the old long path string (self-referencing) — cosmetic only
 
 **Key Discovery #22**: Owner-declared canonical path overrides all prior programmatic fixes. P0 #5 originally changed 50+ files TO the long path — that change was wrong and now reverted.
+
+### Session 2026-04-28: Governance Depth Layer — VERIFIED LIVE
+
+- [x] **Governance depth layer committed** (commit `7a7acbe`, pushed 2026-04-27) — full implementation: GovernanceLayer, BridgeState, authority depth computation + graph rendering + 8 entry points + legend + detail panel
+- [x] **Vercel deployment was stale** — API returned no governance fields despite commit being on origin/main. Auto-deploy from GitHub push didn't trigger a new build.
+- [x] **Manual deploy via `bunx vercel deploy --prod --yes`** — build succeeded (679 pages, Pagefind 655 indexed). Governance data now LIVE.
+- [x] **Empty commit push** (`4801792`) also sent to trigger GitHub-connected auto-deploy as fallback.
+- [x] **Verified live governance data** via `/api/graph-data`:
+  - Layers: constitutional=73, operational=247, theoretical=106, historical=71, evidence=1, application_adjacent=742, unknown=2429
+  - Bridge states: enforced=61, verified=42, partial=16, documented_only=1, contradicted=169, obsolete=104, unknown=3276
+- [x] Graph page (`/graph`) returns 200
+- [x] Created `scripts/check-gov-data.js` for polling governance data presence
+- [x] Updated context.md Current State with governance depth stats
+
+**Key Discovery #23**: Vercel auto-deploy from GitHub push can silently fail — no error, no new deployment. Must verify deployment actually updated by checking API response, not just push status. Manual `vercel deploy --prod` is the reliable trigger.
