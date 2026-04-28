@@ -1,0 +1,2346 @@
+{
+  "generated_at": "2026-04-28T05:55:37.027Z",
+  "total_authority_edges": 12608,
+  "total_derives_from": 6444,
+  "fa_to_governed": 851,
+  "governed_to_fa": 851,
+  "fa_nodes_with_cross_boundary": 48,
+  "conflicted_fa_derivation_nodes": 11,
+  "unverified_fa_derivation_nodes": 18,
+  "lane_distribution": {
+    "self-organizing-library": 260,
+    "Archivist-Agent": 523,
+    "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 34,
+    "kernel-lane": 34
+  },
+  "top_30_risk": [
+    {
+      "id": "c898563bcc9b2f3f",
+      "title": "Accidental single: Continues",
+      "path": "lmarenaconvo.md.txt",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 67,
+      "tags": [
+        "Phase 1.4",
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase2",
+        "Phase 5",
+        "Phase1",
+        "Phase 4",
+        "Rosetta Stone",
+        "Failure Mode",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Multi Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Kernel",
+        "Archivist",
+        "Library",
+        "Federation"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 200
+    },
+    {
+      "id": "9dd03218e676c2ce",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "path": "PAPER_04_THE_ROSETTA_STONE.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 63,
+      "tags": [
+        "Rosetta Stone",
+        "Failure Mode",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 192
+    },
+    {
+      "id": "c69c93fbbf6da944",
+      "title": "WE4FREE Papers — Complete Series",
+      "path": "WE4FREE/papers/README.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 5,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 190
+    },
+    {
+      "id": "675eee75bc4d9e9d",
+      "title": "Paper B — Constraint Lattices and Stability",
+      "path": "WE4FREE/papers/paper_B.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 3,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 186
+    },
+    {
+      "id": "d9e257953bef7399",
+      "title": "Paper C — Phenotype Selection in Constraint-Governed Systems",
+      "path": "WE4FREE/papers/paper_C.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 3,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 186
+    },
+    {
+      "id": "a9aeed0f33459d58",
+      "title": "Paper D — Drift, Identity, and Ensemble Coherence",
+      "path": "WE4FREE/papers/paper_D.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 3,
+      "tags": [
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 186
+    },
+    {
+      "id": "07aa0ee4ab8b65b7",
+      "title": "Paper A — The Rosetta Stone",
+      "path": "WE4FREE/papers/paper_A.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 2,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 184
+    },
+    {
+      "id": "de2d03cc663da4f5",
+      "title": "Paper E — The WE4FREE Framework",
+      "path": "WE4FREE/papers/paper_E.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 2,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 184
+    },
+    {
+      "id": "afeaba08174b6c69",
+      "title": "Paper C — Phenotype Selection in Constraint-Governed Systems",
+      "path": "WE4FREE/papers/C_PhenotypeSelection/draft_v2_axiomatic.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 90
+    },
+    {
+      "id": "a3d19542b1d97381",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "path": "MULTI_AI_COLLABORATION_METHODOLOGY.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 6,
+      "tags": [
+        "Constitutional AI",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 78
+    },
+    {
+      "id": "5807b462566fdaf8",
+      "title": "Seven Commits, One Day: From \"I Don't Know What I Am\" to System-Wide Validation",
+      "path": "SEVEN_COMMITS_ONE_DAY_PROOF.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 3,
+      "tags": [
+        "Constitutional AI",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 72
+    },
+    {
+      "id": "0224472855e2c973",
+      "title": "VPS Infrastructure Deployment - February 7, 2026",
+      "path": "VPS_INFRASTRUCTURE_DEPLOYMENT_FEB7_2026.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 1,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Constitutional AI",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 68
+    },
+    {
+      "id": "a19aed2a8f9c86fd",
+      "title": "Paper A — The Rosetta Stone",
+      "path": "PAPER_A_ROSETTA_STONE.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "1083710cebb74476",
+      "title": "WE4FREE Papers — Restructuring Plan",
+      "path": "SERIES_RESTRUCTURE_PLAN.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "08eae1f37d484805",
+      "title": "WE4FREE Papers — Restructuring Plan",
+      "path": "WE4FREE/history/2026-02-15_restructure_plan/SERIES_RESTRUCTURE_PLAN.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "84821634cfc4b749",
+      "title": "Paper A — The Rosetta Stone",
+      "path": "WE4FREE/papers/A_RosettaStone/draft.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "562ae68e4e596223",
+      "title": "Paper B — Constraint Lattices and Stability",
+      "path": "WE4FREE/papers/B_ConstraintLattices/draft.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "fb43c423708d41b9",
+      "title": "Paper C — Phenotype Selection in Multi-Agent Systems",
+      "path": "WE4FREE/papers/C_PhenotypeSelection/draft.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "bb1bdf35822ad0ca",
+      "title": "Paper C — Phenotype Selection in Constraint-Governed Systems",
+      "path": "WE4FREE/papers/C_PhenotypeSelection/draft_v3_hybrid.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "74431aac7a1dfd94",
+      "title": "Paper D — Drift, Identity, and Ensemble Coherence",
+      "path": "WE4FREE/papers/D_DriftAndIdentity/draft_vscode_claude.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "65efb2f615f1e477",
+      "title": "Paper E — The WE4FREE Framework",
+      "path": "WE4FREE/papers/E_WEFramework/draft_synthesis.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "760d323a087952a8",
+      "title": "Paper E — The WE4FREE Framework",
+      "path": "WE4FREE/papers/E_WEFramework/draft_vscode_claude.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ],
+      "riskScore": 60
+    },
+    {
+      "id": "59d7d2963604f810",
+      "title": "🚀 BUILD COMPLETE - WE4FREE GLOBAL TEMPLATE",
+      "path": "BUILD_SUMMARY_FEB15_2026.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 0",
+        "Phase 3",
+        "Phase 1",
+        "Rosetta Stone",
+        "Constitutional AI",
+        "WE4FREE",
+        "Federation"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    },
+    {
+      "id": "78e67a9081c9227b",
+      "title": "Claude Web Breakthrough Session - February 5, 2026",
+      "path": "CLAUDE_WEB_BREAKTHROUGH_SESSION_2026-02-05.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Constitutional AI",
+        "Multi-Agent",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    },
+    {
+      "id": "fb70dcf6c3401e15",
+      "title": "CONSTITUTIONAL COMMUNICATIONS PROTOCOL",
+      "path": "CONSTITUTIONAL_COMMUNICATIONS_PROTOCOL.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    },
+    {
+      "id": "f5464a49b1e1c13b",
+      "title": "git local history",
+      "path": "git_local_history.txt",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 2",
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Governance",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    },
+    {
+      "id": "e8c7af6e0303068d",
+      "title": "Message from Desktop Claude to VS Code Claude",
+      "path": "MESSAGE_TO_VSCODE_CLAUDE.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Constitutional AI",
+        "Multi-Agent",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    },
+    {
+      "id": "1d7ac0cedc65087c",
+      "title": "OSF PROJECT DETAILS",
+      "path": "OSF_PROJECT_DETAILS.txt",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Governance",
+        "Drift",
+        "Ensemble",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    },
+    {
+      "id": "e43c2992ecde4803",
+      "title": "The Moral Imperative: Why Waiting Until 2050 Guarantees the Catastrophe We Fear",
+      "path": "PAPER_02_THE_MORAL_IMPERATIVE.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Constitutional AI",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    },
+    {
+      "id": "17fb26bca8f4d4cd",
+      "title": "Penn Engineering Outreach - Mathematical Rosetta Stone Parallel",
+      "path": "PENN_ENGINEERING_OUTREACH.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Governance",
+        "Drift",
+        "Ensemble",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ],
+      "riskScore": 33
+    }
+  ],
+  "top_30_raw": [
+    {
+      "id": "a19aed2a8f9c86fd",
+      "title": "Paper A — The Rosetta Stone",
+      "path": "PAPER_A_ROSETTA_STONE.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "1083710cebb74476",
+      "title": "WE4FREE Papers — Restructuring Plan",
+      "path": "SERIES_RESTRUCTURE_PLAN.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "07aa0ee4ab8b65b7",
+      "title": "Paper A — The Rosetta Stone",
+      "path": "WE4FREE/papers/paper_A.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 2,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "675eee75bc4d9e9d",
+      "title": "Paper B — Constraint Lattices and Stability",
+      "path": "WE4FREE/papers/paper_B.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 3,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "d9e257953bef7399",
+      "title": "Paper C — Phenotype Selection in Constraint-Governed Systems",
+      "path": "WE4FREE/papers/paper_C.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 3,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "a9aeed0f33459d58",
+      "title": "Paper D — Drift, Identity, and Ensemble Coherence",
+      "path": "WE4FREE/papers/paper_D.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 3,
+      "tags": [
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "de2d03cc663da4f5",
+      "title": "Paper E — The WE4FREE Framework",
+      "path": "WE4FREE/papers/paper_E.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 2,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "c69c93fbbf6da944",
+      "title": "WE4FREE Papers — Complete Series",
+      "path": "WE4FREE/papers/README.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 5,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "08eae1f37d484805",
+      "title": "WE4FREE Papers — Restructuring Plan",
+      "path": "WE4FREE/history/2026-02-15_restructure_plan/SERIES_RESTRUCTURE_PLAN.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "84821634cfc4b749",
+      "title": "Paper A — The Rosetta Stone",
+      "path": "WE4FREE/papers/A_RosettaStone/draft.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "562ae68e4e596223",
+      "title": "Paper B — Constraint Lattices and Stability",
+      "path": "WE4FREE/papers/B_ConstraintLattices/draft.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "fb43c423708d41b9",
+      "title": "Paper C — Phenotype Selection in Multi-Agent Systems",
+      "path": "WE4FREE/papers/C_PhenotypeSelection/draft.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "afeaba08174b6c69",
+      "title": "Paper C — Phenotype Selection in Constraint-Governed Systems",
+      "path": "WE4FREE/papers/C_PhenotypeSelection/draft_v2_axiomatic.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "bb1bdf35822ad0ca",
+      "title": "Paper C — Phenotype Selection in Constraint-Governed Systems",
+      "path": "WE4FREE/papers/C_PhenotypeSelection/draft_v3_hybrid.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "74431aac7a1dfd94",
+      "title": "Paper D — Drift, Identity, and Ensemble Coherence",
+      "path": "WE4FREE/papers/D_DriftAndIdentity/draft_vscode_claude.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "65efb2f615f1e477",
+      "title": "Paper E — The WE4FREE Framework",
+      "path": "WE4FREE/papers/E_WEFramework/draft_synthesis.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "760d323a087952a8",
+      "title": "Paper E — The WE4FREE Framework",
+      "path": "WE4FREE/papers/E_WEFramework/draft_vscode_claude.md",
+      "category": "we4free",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 30,
+      "crossBoundaryIn": 30,
+      "crossBoundaryTotal": 60,
+      "allDerivesOut": 47,
+      "allDerivesIn": 47,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent",
+        "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+        "kernel-lane"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "paper",
+        "library",
+        "verification",
+        "scratch",
+        "docs"
+      ]
+    },
+    {
+      "id": "5d832b6b37a16eee",
+      "title": "Multi-Agent Constitutional AI Coordination Test",
+      "path": "ARENA_TEST_PROMPT.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Verification"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "59d7d2963604f810",
+      "title": "🚀 BUILD COMPLETE - WE4FREE GLOBAL TEMPLATE",
+      "path": "BUILD_SUMMARY_FEB15_2026.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 0",
+        "Phase 3",
+        "Phase 1",
+        "Rosetta Stone",
+        "Constitutional AI",
+        "WE4FREE",
+        "Federation"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "3bbebe5aefaf026d",
+      "title": "🌟 Multi-AI Collaboration Framework",
+      "path": "claudebootstrap.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Phase 0",
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Multiagent",
+        "Multi-Agent",
+        "Multi Agent",
+        "Covenant",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "78e67a9081c9227b",
+      "title": "Claude Web Breakthrough Session - February 5, 2026",
+      "path": "CLAUDE_WEB_BREAKTHROUGH_SESSION_2026-02-05.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Constitutional AI",
+        "Multi-Agent",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "b7a728063164e51f",
+      "title": "FORTRESS COGNITIVE INFRASTRUCTURE: A CONSTITUTIONAL FRAMEWORK FOR PERSISTENT MULTI-AI COLLABORATION",
+      "path": "COMPREHENSIVE_FRAMEWORK_PAPER.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "fb70dcf6c3401e15",
+      "title": "CONSTITUTIONAL COMMUNICATIONS PROTOCOL",
+      "path": "CONSTITUTIONAL_COMMUNICATIONS_PROTOCOL.md",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "7d70293d3faecc97",
+      "title": "Dual Independent Verification: Both Agents Confirm Public Replication",
+      "path": "DUAL_INDEPENDENT_VERIFICATION_2026-02-06.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 1",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "f5464a49b1e1c13b",
+      "title": "git local history",
+      "path": "git_local_history.txt",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Phase 2",
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Governance",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "c898563bcc9b2f3f",
+      "title": "Accidental single: Continues",
+      "path": "lmarenaconvo.md.txt",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 67,
+      "tags": [
+        "Phase 1.4",
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase2",
+        "Phase 5",
+        "Phase1",
+        "Phase 4",
+        "Rosetta Stone",
+        "Failure Mode",
+        "Constitutional AI",
+        "Multi-Agent",
+        "Multi Agent",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Kernel",
+        "Archivist",
+        "Library",
+        "Federation"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "e8c7af6e0303068d",
+      "title": "Message from Desktop Claude to VS Code Claude",
+      "path": "MESSAGE_TO_VSCODE_CLAUDE.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Constitutional AI",
+        "Multi-Agent",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "a3d19542b1d97381",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "path": "MULTI_AI_COLLABORATION_METHODOLOGY.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 6,
+      "tags": [
+        "Constitutional AI",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "1d7ac0cedc65087c",
+      "title": "OSF PROJECT DETAILS",
+      "path": "OSF_PROJECT_DETAILS.txt",
+      "category": "root-doc",
+      "governanceLayer": "theoretical",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Governance",
+        "Drift",
+        "Ensemble",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    },
+    {
+      "id": "e43c2992ecde4803",
+      "title": "The Moral Imperative: Why Waiting Until 2050 Guarantees the Catastrophe We Fear",
+      "path": "PAPER_02_THE_MORAL_IMPERATIVE.md",
+      "category": "root-doc",
+      "governanceLayer": "application_adjacent",
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "tags": [
+        "Constitutional AI",
+        "Ensemble"
+      ],
+      "crossBoundaryOut": 11,
+      "crossBoundaryIn": 11,
+      "crossBoundaryTotal": 22,
+      "allDerivesOut": 63,
+      "allDerivesIn": 63,
+      "targetLanes": [
+        "self-organizing-library",
+        "Archivist-Agent"
+      ],
+      "sourceCategories": [
+        "root-doc",
+        "verification",
+        "paper",
+        "scratch",
+        "ai-ensemble-lab",
+        "lane-protocol"
+      ]
+    }
+  ],
+  "category_breakdown": {
+    "root-doc": 28,
+    "we4free": 17,
+    "docs": 1,
+    "log": 1,
+    "config": 1
+  },
+  "governance_layer_breakdown": {
+    "theoretical": 27,
+    "application_adjacent": 21
+  }
+}

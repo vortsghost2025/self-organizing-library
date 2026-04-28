@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Image from "next/image";
 import type { VideoEntry } from "@/lib/videos";
 import { CHANNEL_META } from "@/lib/videos";
 
@@ -40,14 +41,15 @@ export function VideoCard({ video }: VideoCardProps) {
               aria-label={`Play video: ${video.title}`}
               className="absolute inset-0 w-full h-full cursor-pointer border-0 p-0 bg-transparent group"
             >
-              <img
-                src={thumbnailUrl}
-                alt={`Thumbnail for: ${video.title}`}
-                width={480}
-                height={360}
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
+                <Image
+                  src={thumbnailUrl}
+                  alt={"Thumbnail for: " + video.title}
+                  width={480}
+                  height={360}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                  unoptimized
+                />
               <span
                 className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors"
                 aria-hidden="true"

@@ -30,6 +30,7 @@ export default function GraphPage() {
   return (
     <>
       <noscript>
+        {/* eslint-disable @next/next/no-html-link-for-pages -- <a> required inside <noscript> where next/link cannot function (JS disabled) */}
         <div className="p-8">
           <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
           <p className="text-[var(--text-secondary)]">
@@ -41,6 +42,7 @@ export default function GraphPage() {
             Alternatively, browse the <a href="/library" className="text-[var(--primary)] underline">Library</a> or <a href="/repos" className="text-[var(--primary)] underline">Repositories</a> pages for a non-interactive view.
           </p>
         </div>
+        {/* eslint-enable @next/next/no-html-link-for-pages */}
       </noscript>
       <NexusGraph />
     </>
