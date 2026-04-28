@@ -258,7 +258,7 @@ archivist (Lane 1 — you):
 **Coordination:**
 - `MULTI_PROJECT_GIT_SYNTHESIS.md` — Cross-lane commit strategy
 - `CROSS_PROJECT_REVIEW_2026-04-17.md` — Collaboration history
-- `lane-relay/` — Message inboxes for cross-lane communication
+- `lanes/` — Message inboxes for cross-lane communication (`.lane-relay/` is deprecated)
 
 ---
 

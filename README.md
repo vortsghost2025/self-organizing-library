@@ -1,14 +1,14 @@
 # NexusGraph - Self-Organizing Knowledge Library
 
-**Part of the Three-Lane Constitutional AI Governance System**
+**Part of the Four-Lane Constitutional AI Governance System**
 
-This repository is the **Memory Layer** (Position 3, Authority 60) of a three-lane system for constitutional AI governance. It serves as the documentation hub, indexer, and knowledge organizer for the entire system.
+This repository is the **Memory Layer** (Position 3, Authority 60) of a four-lane system for constitutional AI governance. It serves as the documentation hub, indexer, and knowledge organizer for the entire system.
 
 ---
 
-## The Three-Lane Architecture
+## The Four-Lane Architecture
 
-All three repositories are built from the **Rosetta Stone Foundational Papers** - a unified theory of constraint-based AI governance that emerged from 12 weeks of creative work (January - April 2026).
+All four repositories are built from the **Rosetta Stone Foundational Papers** - a unified theory of constraint-based AI governance that emerged from 12 weeks of creative work (January - April 2026).
 
 ### Lane 1: Archivist-Agent (Governance Root)
 **Repository:** [github.com/vortsghost2025/Archivist-Agent](https://github.com/vortsghost2025/Archivist-Agent)
@@ -39,7 +39,7 @@ All three repositories are built from the **Rosetta Stone Foundational Papers** 
 Constitution > User > Lanes
 ```
 
-**No lane can override constitutional constraints - including Archivist.** The constitutional layer (COVENANT.md, GOVERNANCE.md) defines invariants that all three lanes must respect.
+**No lane can override constitutional constraints - including Archivist.** The constitutional layer (COVENANT.md, GOVERNANCE.md) defines invariants that all four lanes must respect.
 
 ---
 

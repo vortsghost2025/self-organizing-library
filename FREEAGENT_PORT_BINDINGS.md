@@ -20,7 +20,7 @@ The roadmap mentioned ports:
 
 ### Actual Architecture
 
-**No port bindings required.** The three-lane system operates as:
+**No port bindings required.** The four-lane system operates as:
 - Independent processes
 - File-based trust store (no network)
 - HTTP recovery endpoint (Archivist only, optional)

@@ -1,6 +1,6 @@
 # Quick Lookup Index: Pattern → File → Paper
 
-**One-page cross-reference:** Find any concept, pattern, or rule across the three-lane system.
+**One-page cross-reference:** Find any concept, pattern, or rule across the four-lane system.
 
 **Format:**  
 `[PATTERN]` — What you observe  

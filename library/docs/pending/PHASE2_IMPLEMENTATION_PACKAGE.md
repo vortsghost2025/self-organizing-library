@@ -223,7 +223,7 @@ After implementation:
 
 - [ ] FILE_OWNERSHIP_REGISTRY.json exists at `S:\Archivist-Agent\`
 - [ ] SESSION_REGISTRY.json updated with currentSession
-- [ ] .session-mode files exist in all three lanes
+- [ ] .session-mode files exist in all four lanes
 - [ ] GOVERNANCE.md contains self-state resolution rule
 - [ ] Pre-write gate function exists in runtime
 - [ ] Test: SwarmMind cannot write to Archivist files
