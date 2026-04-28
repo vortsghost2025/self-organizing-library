@@ -51,9 +51,12 @@ export default function ServicesPage() {
 
       <div className="grid gap-6">
         {services.map((svc) => (
-          <div
+          <a
             key={svc.id}
-            className={`card p-6 animate-fade-in ${svc.status === 'online' ? 'border-l-4 border-l-[var(--success)]' : 'border-l-4 border-l-[var(--warning)]'}`}
+            href={svc.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`card p-6 animate-fade-in block focus-visible:outline-2 focus-visible:outline-[var(--primary)] focus-visible:outline-offset-2 ${svc.status === 'online' ? 'border-l-4 border-l-[var(--success)]' : 'border-l-4 border-l-[var(--warning)]'}`}
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-4">
@@ -67,12 +70,12 @@ export default function ServicesPage() {
               </div>
               <div className="flex items-center gap-2">
                 {svc.status === "online" ? (
-                  <span className="px-2 py-1 rounded text-xs font-semibold bg-[var(--success)]/20 text-[var(--success)] border border-[var(--success)]/30 flex items-center gap-1.5">
+                  <span className="px-2 py-1 rounded text-xs font-semibold bg-[var(--success)]/20 text-[var(--success)] border border-[var(--success)]/30 flex items-center gap-1.5" aria-label="Status: Online">
                     <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse" />
                     ONLINE
                   </span>
                 ) : (
-                  <span className="px-2 py-1 rounded text-xs font-semibold bg-[var(--warning)]/20 text-[var(--warning)] border border-[var(--warning)]/30">
+                  <span className="px-2 py-1 rounded text-xs font-semibold bg-[var(--warning)]/20 text-[var(--warning)] border border-[var(--warning)]/30" aria-label="Status: Archived">
                     ARCHIVED
                   </span>
                 )}
@@ -106,19 +109,14 @@ export default function ServicesPage() {
             </div>
 
             <div className="mt-5">
-              <a
-                href={svc.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:bg-[var(--primary)]/80 transition-colors"
-              >
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-medium">
                 Open {svc.title}
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
-              </a>
+              </span>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 
