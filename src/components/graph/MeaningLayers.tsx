@@ -8,7 +8,7 @@ interface MeaningLayersProps {
   onToggle: (layer: MeaningLayer) => void;
 }
 
-const ALL_LAYERS: MeaningLayer[] = ["structure", "conflicts", "verification", "execution"];
+const ALL_LAYERS: MeaningLayer[] = ["structure", "conflicts", "verification", "execution", "governance"];
 
 export default function MeaningLayers({ activeLayers, onToggle }: MeaningLayersProps) {
   return (

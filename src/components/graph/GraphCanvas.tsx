@@ -5,8 +5,8 @@ import Graph from "graphology";
 import Sigma from "sigma";
 import { circular } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
-import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType } from "@/lib/graph-types";
-import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS } from "@/lib/graph-types";
+import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState } from "@/lib/graph-types";
+import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS } from "@/lib/graph-types";
 
 interface GraphCanvasProps {
   nodes: GraphNode[];
@@ -75,6 +75,9 @@ function buildGraph(
       verificationCount: node.verificationCount || 0,
       contradictionCount: node.contradictionCount || 0,
       clusterIds: JSON.stringify(node.clusterIds || []),
+      governanceLayer: node.governanceLayer || "unknown",
+      authorityDepth: node.authorityDepth || 0,
+      bridgeState: node.bridgeState || "unknown",
     });
   }
 
@@ -213,37 +216,72 @@ export default function GraphCanvas({
       clusterNodeIds.set(cl.id, new Set(cl.nodeIds));
     }
 
-    const isVisible = (nodeId: string): boolean => {
-      const d = densityRef.current;
-      const ep = activeEntryPointRef.current;
-      const ac = activeClusterIdRef.current;
-      const sq = searchQueryRef.current.toLowerCase();
-      const focused = focusedNodeIdRef.current;
-      const selected = selectedNodeIdRef.current;
-      const g = graphRef.current;
-      if (!g || !g.hasNode(nodeId)) return false;
+  const isVisible = (nodeId: string): boolean => {
+    const d = densityRef.current;
+    const ep = activeEntryPointRef.current;
+    const ac = activeClusterIdRef.current;
+    const sq = searchQueryRef.current.toLowerCase();
+    const focused = focusedNodeIdRef.current;
+    const selected = selectedNodeIdRef.current;
+    const g = graphRef.current;
+    if (!g || !g.hasNode(nodeId)) return false;
 
-      if (sq && g.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
-      if (pathNodesRef.current.size > 0 && pathNodesRef.current.has(nodeId)) return true;
-      if (focused && g.hasNode(focused)) {
-        const neighbors = new Set(g.neighbors(focused));
-        if (neighbors.has(nodeId) || nodeId === focused) return true;
-      }
-      if (selected && nodeId === selected) return true;
+    if (sq && g.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
+    if (pathNodesRef.current.size > 0 && pathNodesRef.current.has(nodeId)) return true;
+    if (focused && g.hasNode(focused)) {
+      const neighbors = new Set(g.neighbors(focused));
+      if (neighbors.has(nodeId) || nodeId === focused) return true;
+    }
+    if (selected && nodeId === selected) return true;
 
-      if (ep) {
-        for (const cl of clustersRef.current) {
-          if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
-        }
-        if (ep === "ep:authority") {
-          const attrs = g.getNodeAttributes(nodeId);
-          if ((attrs as any).verificationCount >= 3) return true;
-        }
-        if (ep === "ep:contradictions") {
-          const ns = (g.getNodeAttributes(nodeId) as any).nodeStatus;
-          if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
-        }
+    if (ep) {
+      for (const cl of clustersRef.current) {
+        if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
       }
+      if (ep === "ep:authority") {
+        const attrs = g.getNodeAttributes(nodeId);
+        if ((attrs as any).verificationCount >= 3) return true;
+      }
+      if (ep === "ep:contradictions") {
+        const ns = (g.getNodeAttributes(nodeId) as any).nodeStatus;
+        if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
+      }
+      if (ep === "ep:gov-unenforced") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+        if ((gl === "theoretical" || gl === "historical") && (bs === "documented_only" || bs === "unknown")) return true;
+      }
+      if (ep === "ep:gov-core") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "constitutional" || gl === "operational") return true;
+      }
+      if (ep === "ep:gov-bridges") {
+        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+        if (bs === "enforced" || bs === "verified" || bs === "partial") return true;
+      }
+      if (ep === "ep:gov-contradicted") {
+        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+        if (bs === "contradicted") return true;
+      }
+      if (ep === "ep:gov-authority-mismatch") {
+        const attrs = g.getNodeAttributes(nodeId) as any;
+        const gl = attrs.governanceLayer;
+        const ad = attrs.authorityDepth;
+        if ((gl === "theoretical" || gl === "historical") && ad >= 75) return true;
+      }
+      if (ep === "ep:gov-evidence") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "evidence") return true;
+      }
+      if (ep === "ep:gov-adjacent") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "application_adjacent") return true;
+      }
+      if (ep === "ep:gov-historical") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "historical") return true;
+      }
+    }
 
       if (ac && clusterNodeIds.get(ac)?.has(nodeId)) return true;
 
@@ -345,13 +383,30 @@ export default function GraphCanvas({
           return res;
         }
 
-        if (nodeStatus === "CONFLICTED") {
-          res.color = STATUS_COLORS.CONFLICTED;
-          res.zIndex = 5;
-        } else if (nodeStatus === "QUARANTINED") {
-          res.color = STATUS_COLORS.QUARANTINED;
-          res.zIndex = 5;
+      if (nodeStatus === "CONFLICTED") {
+        res.color = STATUS_COLORS.CONFLICTED;
+        res.zIndex = 5;
+      } else if (nodeStatus === "QUARANTINED") {
+        res.color = STATUS_COLORS.QUARANTINED;
+        res.zIndex = 5;
+      }
+
+      if (activeLayersRef.current.includes("governance")) {
+        const gl = (data as any).governanceLayer as GovernanceLayer;
+        const bs = (data as any).bridgeState as BridgeState;
+        if (bs === "contradicted") {
+          res.color = BRIDGE_STATE_COLORS.contradicted;
+          res.zIndex = 6;
+        } else if (bs === "enforced") {
+          res.color = BRIDGE_STATE_COLORS.enforced;
+          res.zIndex = 4;
+        } else if (bs === "documented_only" || bs === "obsolete") {
+          res.color = BRIDGE_STATE_COLORS[bs] || GOVERNANCE_LAYER_COLORS[gl] || res.color;
+          res.zIndex = 1;
+        } else if (gl && GOVERNANCE_LAYER_COLORS[gl]) {
+          res.color = GOVERNANCE_LAYER_COLORS[gl];
         }
+      }
 
         if (selected && node === selected) {
           res.highlighted = true;

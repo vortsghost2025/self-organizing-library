@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import type { GraphNode } from "@/lib/graph-types";
-import { TYPE_COLORS, STATUS_COLORS } from "@/lib/graph-types";
+import { TYPE_COLORS, STATUS_COLORS, GOVERNANCE_LAYER_COLORS, GOVERNANCE_LAYER_LABELS, BRIDGE_STATE_COLORS, BRIDGE_STATE_LABELS } from "@/lib/graph-types";
 
 interface NodeDetailProps {
   node: GraphNode;
@@ -116,12 +116,30 @@ export default function NodeDetail({
             <span className="text-[var(--text-muted)]">Verifications</span>
             <span className="text-[var(--text-secondary)]" style={{ color: node.verificationCount > 0 ? STATUS_COLORS.VERIFIED : undefined }}>{node.verificationCount}</span>
           </div>
-          {node.contradictionCount > 0 && (
-            <div className="flex justify-between">
-              <span className="text-[var(--text-muted)]">Contradictions</span>
-              <span style={{ color: STATUS_COLORS.CONFLICTED }}>{node.contradictionCount}</span>
-            </div>
-          )}
+        {node.contradictionCount > 0 && (
+          <div className="flex justify-between">
+            <span className="text-[var(--text-muted)]">Contradictions</span>
+            <span style={{ color: STATUS_COLORS.CONFLICTED }}>{node.contradictionCount}</span>
+          </div>
+        )}
+        <div className="flex justify-between">
+          <span className="text-[var(--text-muted)]">Governance Layer</span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: GOVERNANCE_LAYER_COLORS[node.governanceLayer] || GOVERNANCE_LAYER_COLORS.unknown }} aria-hidden="true" />
+            <span className="text-[var(--text-secondary)]">{GOVERNANCE_LAYER_LABELS[node.governanceLayer] || "Unknown"}</span>
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-[var(--text-muted)]">Bridge State</span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: BRIDGE_STATE_COLORS[node.bridgeState] || BRIDGE_STATE_COLORS.unknown }} aria-hidden="true" />
+            <span className="text-[var(--text-secondary)]">{BRIDGE_STATE_LABELS[node.bridgeState] || "Unknown"}</span>
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-[var(--text-muted)]">Authority Depth</span>
+          <span className="text-[var(--text-secondary)]">{node.authorityDepth}</span>
+        </div>
         </div>
 
         {node.tags.length > 0 && (

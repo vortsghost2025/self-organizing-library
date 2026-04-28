@@ -1,5 +1,5 @@
 import siteIndex from '../../data/site-index.json';
-import { computeAuthorityEdges, computeNodeStatuses } from '@/lib/truth-routing';
+import { computeAuthorityEdges, computeNodeStatuses, computeGovernanceDepths } from '@/lib/truth-routing';
 
 export interface IndexEntry {
   id: string;
@@ -157,8 +157,10 @@ export function getStats() {
 export function getGraphData() {
   const authorityEdges = computeAuthorityEdges(index.entries, index.cross_references, index.tag_index);
   const nodeStatuses = computeNodeStatuses(index.entries, authorityEdges);
+  const governanceDepths = computeGovernanceDepths(index.entries, authorityEdges, nodeStatuses);
 
   const statusMap = new Map(nodeStatuses.map((s: { id: string; status: string; verificationCount: number; contradictionCount: number }) => [s.id, s]));
+  const govMap = new Map(governanceDepths.map((g: { id: string; governanceLayer: string; authorityDepth: number; bridgeState: string }) => [g.id, g]));
 
   const edges: { source: string; target: string; type: string; authority?: string }[] = [];
 
@@ -191,6 +193,7 @@ export function getGraphData() {
 
   const nodes = index.entries.map(e => {
     const status: { status: string; verificationCount: number; contradictionCount: number } | undefined = statusMap.get(e.id);
+    const gov: { governanceLayer: string; authorityDepth: number; bridgeState: string } | undefined = govMap.get(e.id);
     return {
       id: e.id,
       title: e.title,
@@ -202,6 +205,9 @@ export function getGraphData() {
       status: status?.status || 'UNVERIFIED',
       verificationCount: status?.verificationCount || 0,
       contradictionCount: status?.contradictionCount || 0,
+      governanceLayer: gov?.governanceLayer || 'unknown',
+      authorityDepth: gov?.authorityDepth || 0,
+      bridgeState: gov?.bridgeState || 'unknown',
     };
   });
 
