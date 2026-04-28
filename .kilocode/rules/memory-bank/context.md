@@ -1180,6 +1180,10 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - [x] **Inbox hygiene**: Library action‑required EMPTY; quarantine 2 items (1 NFM‑019 evidence, 1 duplicate terminology artifact)
 - [x] **Homepage UX redesign** — replaced Recent Documents + Categories with README‑style hero explaining what this is, how the 4 lanes work, current status; added External Services dashboard with link to mental health mesh (https://orangered-jellyfish-637583.hostingersite.com/); kept UnderstandingTheSystem and LaneArchitecture for deeper dive
 - [x] **System code review ACK** — received Archivist request (task ack-request-library-system-code-review-20260428), lane-worker auto‑executed, outbox file written with acceptance (status: accepted, owner: library, eta_days: 2, top3_actions: schemaValidator normalization audit, lane‑worker routing edge‑case audit, ASCII‑only body requirement documentation)
+- [x] **Phase 1 control loop STRICT RE‑ACK (P0)** — Kernel escalation requiring exact JSON schema; placed library-phase1-ack-20260428.json in action‑required by deadline 18:43Z
+  - Tasks: path traversal fix (2d), trust divergence detection (3d), field standardization (1d)
+  - ETA: 2026‑05‑02, 6 person‑days total
+  - Response sent to Kernel confirming placement
 
 **Convergence Status — Autonomous Constitutional Enforcement:**
 - Governance track: Archivist APPROVE + Library APPROVE = **CONVERGED** ✅
