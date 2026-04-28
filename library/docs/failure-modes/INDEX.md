@@ -1,7 +1,7 @@
 # Failure Modes Index
 
-**Last Updated:** 2026-04-26
-**Total Named Failure Modes:** 35
+**Last Updated:** 2026-04-27
+**Total Named Failure Modes:** 36
 
 ---
 
@@ -576,6 +576,14 @@ Key invariant: **INV-1** (NFM-022) = new tasks never blocked for missing evidenc
 - Search/grep task fails with "not recognized" error
 - `rg` not installed on Windows
 - Fix: use `findstr` on Windows, `rg` on Unix
+
+### NFM-036: Ungoverned Derivation Trust Gap
+- 3,948 DERIVES_FROM edges flow from FreeAgent (794 nodes, zero governance) into constitutionally governed lanes
+- 64/103 CONFLICTED nodes (62%) cluster in FreeAgent — the ungoverned repo
+- 82% of all nodes system-wide are UNVERIFIED
+- Governed code inherits neither trust nor contradiction status from its derivation origin
+- DERIVES_FROM edges carry no trust propagation policy — derivation is treated as neutral, but in practice it imports both patterns and flaws
+- Structural parallel: NFM-025 (signature validity under compromised key) — both address trust boundary failures where governed systems depend on ungoverned foundations
 
 ---
 
