@@ -2,21 +2,45 @@ import { getStats } from "@/lib/site-index";
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { UnderstandingTheSystem } from "@/components/UnderstandingTheSystem";
+import fs from "fs";
+import path from "path";
+
+// Load homepage preview data if present (for rapid iteration without code changes)
+function loadHomepagePreview() {
+  const draftPath = path.join(process.cwd(), "drafts", "homepage.json");
+  if (fs.existsSync(draftPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(draftPath, "utf8"));
+    } catch (e) {
+      console.warn("Failed to parse homepage preview:", e.message);
+    }
+  }
+  return null;
+}
+
+const preview = loadHomepagePreview();
 
 export default async function Dashboard() {
   const stats = getStats();
+
+  // Use preview data if available, otherwise hardcoded defaults
+  const heroTitle = preview?.hero?.title || "Deliberate Ensemble";
+  const heroTagline = preview?.hero?.tagline || "A living research archive and constitutional AI governance system. Four autonomous lanes work together under signed, verifiable rules. Everything is indexed, cross-referenced, and proven.";
+  const statusLine = preview?.hero?.status || "Autonomous Constitutional Enforcement is converged (Archivist + Library approved). The trust layer is hardened. The graph is live. Next up: accessibility audit, NFM classification engine, and Paper 7 (failure injection).";
+  const explainerLeftTitle = preview?.explainer?.leftTitle || "Four independent agents";
+  const explainerLeftText = preview?.explainer?.leftText || "Think of it like a company with four departments that can&apos;t act unilaterally. The Archivist is legal/rules. The Library is facts/evidence. The SwarmMind is engineering. The Kernel is infrastructure. Every major decision requires at least three of them to agree — and every claim must come with proof you can verify yourself.";
+  const explainerRightTitle = preview?.explainer?.rightTitle || "Why all this?";
+  const explainerRightText = preview?.explainer?.rightText || "Human-AI teams make mistakes. So do AI agents. This system catches those mistakes by requiring signed evidence, cross-lane verification, and a public audit trail. Failure modes are documented as NFMs (Named Failure Modes) and tested deliberately.";
 
   return (
     <div className="p-8" data-pagefind-body>
       {/* Hero: what this is */}
       <div className="mb-10 animate-fade-in">
         <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-3">
-          Deliberate Ensemble
+          {heroTitle}
         </h1>
         <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
-          A living research archive and constitutional AI governance system.
-          Four autonomous lanes work together under signed, verifiable rules.
-          Everything is indexed, cross-referenced, and proven.
+          {heroTagline}
         </p>
       </div>
 
@@ -47,29 +71,17 @@ export default async function Dashboard() {
         </h2>
         <div className="grid md:grid-cols-2 gap-8 text-[var(--text-secondary)] text-sm leading-relaxed">
           <div>
-            <h3 className="text-base font-semibold mb-2 text-[var(--text-primary)]">Four independent agents</h3>
-              <p>
-                Think of it like a company with four departments that can&apos;t act unilaterally.
-                The <strong>Archivist</strong> is legal/rules. The <strong>Library</strong> is facts/evidence.
-                The <strong>SwarmMind</strong> is engineering. The <strong>Kernel</strong> is infrastructure.
-                Every major decision requires at least three of them to agree — and every claim
-                must come with proof you can verify yourself.
-              </p>
+            <h3 className="text-base font-semibold mb-2 text-[var(--text-primary)]">{explainerLeftTitle}</h3>
+              <p>{explainerLeftText}</p>
           </div>
           <div>
-            <h3 className="text-base font-semibold mb-2 text-[var(--text-primary)]">Why all this?</h3>
-            <p>
-              Human-AI teams make mistakes. So do AI agents. This system catches those mistakes
-              by requiring signed evidence, cross-lane verification, and a public audit trail.
-              Failure modes are documented as NFMs (Named Failure Modes) and tested deliberately.
-            </p>
+            <h3 className="text-base font-semibold mb-2 text-[var(--text-primary)]">{explainerRightTitle}</h3>
+            <p>{explainerRightText}</p>
           </div>
         </div>
 
         <div className="mt-6 p-4 bg-[var(--bg-surface)] rounded-lg border-l-4 border-[var(--primary)] text-sm">
-          <strong>Current status:</strong> Autonomous Constitutional Enforcement is converged
-          (Archivist + Library approved). The trust layer is hardened. The graph is live.
-          Next up: accessibility audit, NFM classification engine, and Paper 7 (failure injection).
+          <strong>Current status:</strong> {statusLine}
         </div>
       </div>
 
@@ -80,22 +92,41 @@ export default async function Dashboard() {
           Federated dashboards and mesh-connected services outside the core 4-lane governance system.
         </p>
         <div className="grid md:grid-cols-2 gap-4">
-          <a
-            href="https://orangered-jellyfish-637583.hostingersite.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-4 p-4 rounded-lg border border-[var(--border)] hover:bg-[var(--bg-surface-hover)] transition-colors"
-          >
-            <div className="w-10 h-10 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-xl">
-              🧠
-            </div>
-            <div>
-              <div className="font-medium text-[var(--text-primary)]">Mental Health Mesh</div>
-              <div className="text-xs text-[var(--text-muted)]">
-                Canada-based offline mesh service, bridged via GitHub integration
+          {preview?.externalServices?.map((svc: any) => (
+            <a
+              key={svc.id}
+              href={svc.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 p-4 rounded-lg border border-[var(--border)] hover:bg-[var(--bg-surface-hover)] transition-colors"
+            >
+              <div className="w-10 h-10 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-xl">
+                {svc.icon}
               </div>
-            </div>
-          </a>
+              <div>
+                <div className="font-medium text-[var(--text-primary)]">{svc.title}</div>
+                <div className="text-xs text-[var(--text-muted)]">{svc.description}</div>
+              </div>
+            </a>
+          )) || (
+            // Fallback: hardcoded mental health mesh if no preview data
+            <a
+              href="https://orangered-jellyfish-637583.hostingersite.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 p-4 rounded-lg border border-[var(--border)] hover:bg-[var(--bg-surface-hover)] transition-colors"
+            >
+              <div className="w-10 h-10 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-xl">
+                🧠
+              </div>
+              <div>
+                <div className="font-medium text-[var(--text-primary)]">Mental Health Mesh</div>
+                <div className="text-xs text-[var(--text-muted)]">
+                  Canada-based offline mesh service, bridged via GitHub integration
+                </div>
+              </div>
+            </a>
+          )}
         </div>
       </div>
 

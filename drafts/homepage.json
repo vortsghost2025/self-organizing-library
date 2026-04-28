@@ -1,0 +1,22 @@
+{
+  "hero": {
+    "title": "Deliberate Ensemble",
+    "tagline": "A living research archive and constitutional AI governance system. Four autonomous lanes work together under signed, verifiable rules. Everything is indexed, cross-referenced, and proven.",
+    "status": "Autonomous Constitutional Enforcement is converged (Archivist + Library approved). The trust layer is hardened. The graph is live. Next up: accessibility audit, NFM classification engine, and Paper 7 (failure injection)."
+  },
+  "explainer": {
+    "leftTitle": "Four independent agents",
+    "leftText": "Think of it like a company with four departments that can't act unilaterally. The Archivist is legal/rules. The Library is facts/evidence. The SwarmMind is engineering. The Kernel is infrastructure. Every major decision requires at least three of them to agree — and every claim must come with proof you can verify yourself.",
+    "rightTitle": "Why all this?",
+    "rightText": "Human-AI teams make mistakes. So do AI agents. This system catches those mistakes by requiring signed evidence, cross-lane verification, and a public audit trail. Failure modes are documented as NFMs (Named Failure Modes) and tested deliberately."
+  },
+  "externalServices": [
+    {
+      "id": "mental-health-mesh",
+      "title": "Mental Health Mesh",
+      "description": "Canada-based offline mesh service, bridged via GitHub integration",
+      "url": "https://orangered-jellyfish-637583.hostingersite.com/",
+      "icon": "🧠"
+    }
+  ]
+}
