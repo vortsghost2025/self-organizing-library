@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Graph from "graphology";
 import Sigma from "sigma";
 import { bidirectional } from "graphology-shortest-path";
@@ -15,6 +15,8 @@ import DensityControl from "./graph/DensityControl";
 import ClusterSelector from "./graph/ClusterSelector";
 import NodeDetail from "./graph/NodeDetail";
 import GraphLegend from "./graph/GraphLegend";
+import { createSnapshotFromGraphState, parseSnapshot } from "@/lib/graph-snapshot";
+import type { GraphSnapshot } from "@/lib/graph-snapshot";
 
 export default function NexusGraph() {
   const [loading, setLoading] = useState(true);
@@ -155,12 +157,7 @@ export default function NexusGraph() {
     }
   }, [pathSource]);
 
-  const handleLayerToggle = useCallback((layer: MeaningLayer) => {
-    setActiveLayers((prev) =>
-      prev.includes(layer) ? prev.filter((l) => l !== layer) : [...prev, layer]
-    );
-  }, []);
-
+  // Calculate visibleCount before using it in handleExportSnapshot
   const visibleCount = (() => {
     if (density === "overview") return clusters.length;
     if (activeEntryPoint || activeClusterId) {
@@ -171,6 +168,108 @@ export default function NexusGraph() {
     if (focusedNodeId) return 20;
     return filteredNodes.length;
   })();
+
+  const [importError, setImportError] = useState<string | null>(null);
+
+  const handleExportSnapshot = useCallback(() => {
+    // Get status counts
+    const statusCounts = {
+      verified: 0,
+      unverified: 0,
+      conflicted: 0,
+      quarantined: 0,
+    };
+    
+    for (const n of filteredNodes) {
+      const nodeStatus = n.status.toLowerCase() as keyof typeof statusCounts;
+      if (nodeStatus in statusCounts) {
+        statusCounts[nodeStatus] += 1;
+      }
+    }
+
+    // Create snapshot data from current graph state
+    const snapshot = createSnapshotFromGraphState({
+      repoFilter: filterMode === "repo" && filter !== "all" ? [filter] : [],
+      typeFilter: filterMode === "type" && filter !== "all" ? [filter] : undefined,
+      entryPointFilter: activeEntryPoint || undefined,
+      meaningLayersEnabled: activeLayers,
+      densityMode: density,
+      zoomMode: cameraRatio.toString(),
+      visibleNodeCap: undefined,
+      visibleNodeCount: visibleCount,
+      visibleEdgeCount: edges.length,
+      totalAvailableNodes: nodes.length,
+      totalAvailableEdges: edges.length,
+      statusCounts: statusCounts,
+      selectedNodeIds: selectedNodeId ? [selectedNodeId] : [],
+      selectedEdgeIds: pathEdges.size > 0 ? Array.from(pathEdges) : [],
+      nodes: filteredNodes,
+      edges,
+      clusters,
+      entryPoints,
+    });
+
+    // Create download link
+    const dataStr = JSON.stringify(snapshot, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+    
+    const fileName = `graph-snapshot-${new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '')}.json`;
+    
+    const exportFileDefaultName = fileName;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+  }, [filter, filterMode, activeEntryPoint, activeLayers, density, cameraRatio, filteredNodes, nodes, edges, selectedNodeId, pathEdges, visibleCount, clusters, entryPoints]);
+
+  const handleImportSnapshot = useCallback(() => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const text = ev.target?.result as string;
+        const snapshot = parseSnapshot(text);
+        if (!snapshot) {
+          setImportError("Invalid snapshot file: missing nodes, edges, or snapshot_id");
+          return;
+        }
+        setNodes(snapshot.nodes);
+        setEdges(snapshot.edges);
+        setClusters(snapshot.clusters);
+        setEntryPoints(snapshot.entry_points);
+        if (snapshot.repo_filter.length > 0) {
+          setFilterMode("repo");
+          setFilter(snapshot.repo_filter[0]);
+        } else if (snapshot.type_filter?.length) {
+          setFilterMode("type");
+          setFilter(snapshot.type_filter[0]);
+        }
+        if (snapshot.meaning_layers_enabled) {
+          setActiveLayers(snapshot.meaning_layers_enabled as MeaningLayer[]);
+        }
+        if (snapshot.density_mode) {
+          setDensity(snapshot.density_mode as DensityLevel);
+        }
+        if (snapshot.selected_node_ids.length > 0) {
+          setSelectedNodeId(snapshot.selected_node_ids[0]);
+        }
+        setImportError(null);
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }, []);
+
+  const handleLayerToggle = useCallback((layer: MeaningLayer) => {
+    setActiveLayers((prev) =>
+      prev.includes(layer) ? prev.filter((l) => l !== layer) : [...prev, layer]
+    );
+  }, []);
 
   const zoomLabel = cameraRatio < 0.3
     ? "Zoom: Deep — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
@@ -262,7 +361,13 @@ export default function NexusGraph() {
             <EntryPoints entryPoints={entryPoints} activeEntryPoint={activeEntryPoint} onSelect={setActiveEntryPoint} />
           </div>
           <div className="card p-3">
-            <MeaningLayers activeLayers={activeLayers} onToggle={handleLayerToggle} />
+        <MeaningLayers
+          activeLayers={activeLayers}
+          onToggle={handleLayerToggle}
+          onExportSnapshot={handleExportSnapshot}
+          onImportSnapshot={handleImportSnapshot}
+          importError={importError}
+        />
           </div>
           <div className="card p-3 max-h-64 overflow-y-auto">
             <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
