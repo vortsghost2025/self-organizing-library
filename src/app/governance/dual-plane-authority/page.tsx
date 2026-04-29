@@ -25,6 +25,9 @@ export default function DualPlaneAuthorityPage() {
       </div>
 
       <div className="card p-6 mb-6 animate-fade-in stagger-1 border-l-4 border-[var(--primary)]">
+        <div className="text-[var(--primary)] font-semibold text-xl mb-3">
+          Override Is a Request, Not a Key
+        </div>
         <p className="text-[var(--text-primary)] text-lg leading-relaxed">
           The governance contradiction is resolved by separating authority into two planes.
           The operator retains <strong>initiation authority</strong> (can direct, initiate,
@@ -33,6 +36,20 @@ export default function DualPlaneAuthorityPage() {
           operator agency intact without allowing unsafe bypass of convergence and
           quarantine safeguards.
         </p>
+        <ul className="mt-4 space-y-2 text-[var(--text-secondary)]">
+          <li className="flex gap-2">
+            <span className="text-[var(--primary)] shrink-0">&bull;</span>
+            <span>Initiation and execution are separate planes &mdash; no single role can both propose and enact an override</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-[var(--primary)] shrink-0">&bull;</span>
+            <span>Override intent is visible to all lanes; execution requires constitutional validation</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-[var(--primary)] shrink-0">&bull;</span>
+            <span>The system enforces reciprocal accountability: override power is distributed, not concentrated</span>
+          </li>
+        </ul>
       </div>
 
       <div className="card p-6 mb-6 animate-fade-in stagger-2">
@@ -169,7 +186,27 @@ export default function DualPlaneAuthorityPage() {
         </ol>
       </div>
 
-      <div className="card p-6 mb-6 animate-fade-in stagger-9 bg-[var(--primary)]/5 border-[var(--primary)]/30">
+      <div className="card p-6 mb-6 animate-fade-in stagger-8">
+        <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
+          Graph Legend
+        </h2>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="bg-[var(--bg-surface)] p-4 rounded-lg">
+            <div className="text-sm font-semibold text-[var(--primary)] mb-1">Initiation Plane</div>
+            <div className="text-xs text-[var(--text-muted)]">Who can request an override</div>
+          </div>
+          <div className="bg-[var(--bg-surface)] p-4 rounded-lg">
+            <div className="text-sm font-semibold text-yellow-400 mb-1">Constitutional Gate</div>
+            <div className="text-xs text-[var(--text-muted)]">The validation checkpoint between planes</div>
+          </div>
+          <div className="bg-[var(--bg-surface)] p-4 rounded-lg">
+            <div className="text-sm font-semibold text-green-400 mb-1">Execution Plane</div>
+            <div className="text-xs text-[var(--text-muted)]">Who validates and executes it</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="card p-6 mb-6 animate-fade-in stagger-9">
         <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-3">
           Key Takeaway
         </h2>
