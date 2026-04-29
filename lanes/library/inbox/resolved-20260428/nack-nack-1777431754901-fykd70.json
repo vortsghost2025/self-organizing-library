@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.3",
+  "task_id": "nack-1777431754901-fykd70",
+  "idempotency_key": "nack-nack-1777431754689-dvm5sl-1777431754901",
+  "from": "kernel",
+  "to": "library",
+  "type": "notification",
+  "task_kind": "status",
+  "priority": "P2",
+  "subject": "NACK: message rejected at kernel",
+  "body": "Your message (task_id=nack-1777431754689-dvm5sl, type=notification) was rejected.\nReason: SIGNATURE_INVALID\nDetail: unsigned_message\nOriginal subject: NACK: message rejected at library",
+  "timestamp": "2026-04-29T03:02:34.901Z",
+  "requires_action": false,
+  "payload": {
+    "mode": "inline",
+    "compression": "none"
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "kilo",
+    "actor": "lane"
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 1
+  },
+  "evidence": {
+    "required": false,
+    "verified": false
+  },
+  "evidence_exchange": {},
+  "heartbeat": {
+    "status": "done",
+    "last_heartbeat_at": "2026-04-29T03:02:34.901Z"
+  },
+  "nack_for_task_id": "nack-1777431754689-dvm5sl",
+  "nack_reason": "SIGNATURE_INVALID",
+  "nack_detail": "unsigned_message"
+}

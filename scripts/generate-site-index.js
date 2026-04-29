@@ -24,15 +24,14 @@ const REPOS = [
       'src/attestation': 'attestation',
       'src/audit': 'audit',
       'src/identity': 'identity',
-      'src/lane': 'lane-protocol',
-      'src/resilience': 'resilience',
-      'src/swarmmind': 'swarmmind',
-      'src/queue': 'queue',
-      'src/usage': 'usage',
-      'src/memory': 'memory',
-      'src/db': 'database',
-      'lanes': 'lane-protocol',
-      'docs': 'docs',
+  'src/lane': 'lane-protocol',
+  'src/resilience': 'resilience',
+  'src/swarmmind': 'swarmmind',
+  'src/queue': 'queue',
+  'src/usage': 'usage',
+  'src/memory': 'memory',
+  'src/db': 'database',
+  'docs': 'docs',
       'tests': 'test',
       'verification': 'verification',
       'config': 'config',
@@ -51,9 +50,8 @@ const REPOS = [
     categoryMap: {
       'docs': 'docs',
       'docs/spec': 'spec',
-      'docs/verification': 'verification',
-      'lanes': 'lane-protocol',
-      'papers': 'paper',
+    'docs/verification': 'verification',
+    'papers': 'paper',
       'logs': 'log',
       'config': 'config',
       'projects': 'project',
@@ -94,20 +92,19 @@ const REPOS = [
       'src': 'code',
       'scripts': 'script',
       'tests': 'test',
-      'config': 'config',
-      'lanes': 'lane-protocol',
-      'schemas': 'schema',
-      'data': 'data',
-    },
-    maxDepth: Infinity,
-    excludeDirs: new Set([
-      '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-      '.pi', '.mulch', '.sapling', '.canopy', '.seeds',
-      '.global', '.compact-audit', '.test-trust', '.test-memory',
-      '.test-identity', '.continuity_test', '.continuity_test2',
-      '.continuity_test2b', '.continuity_test3', '.continuity_test4',
-      'worktrees', 'tmp',
-    ]),
+    'config': 'config',
+    'schemas': 'schema',
+    'data': 'data',
+  },
+  maxDepth: Infinity,
+  excludeDirs: new Set([
+    '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+    '.pi', '.mulch', '.sapling', '.canopy', '.seeds',
+    '.global', '.compact-audit', '.test-trust', '.test-memory',
+    '.test-identity', '.continuity_test', '.continuity_test2',
+    '.continuity_test2b', '.continuity_test3', '.continuity_test4',
+    'worktrees', 'tmp',
+  ]),
   },
   {
     name: 'kernel-lane',
@@ -118,9 +115,8 @@ const REPOS = [
       'docs': 'docs',
       'schemas': 'schema',
       'scripts': 'script',
-      'src': 'code',
-      'lanes': 'lane-protocol',
-      'benchmarks': 'benchmark',
+    'src': 'code',
+    'benchmarks': 'benchmark',
       'integration': 'integration',
       'config': 'config',
       'profiles': 'profile',
@@ -137,12 +133,11 @@ const REPOS = [
       'src': 'code',
       'scripts': 'script',
       'schemas': 'schema',
-      'config': 'config',
-      'lanes': 'lane-protocol',
-      'data': 'data',
-    },
-    maxDepth: Infinity,
+    'config': 'config',
+    'data': 'data',
   },
+  maxDepth: Infinity,
+},
   {
     name: 'FreeAgent',
     root: 'S:/FreeAgent',
@@ -152,9 +147,8 @@ const REPOS = [
       'src': 'code',
       'scripts': 'script',
       'config': 'config',
-      'schemas': 'schema',
-      'lanes': 'lane-protocol',
-      'tests': 'test',
+    'schemas': 'schema',
+    'tests': 'test',
       'data': 'data',
       'library': 'library',
       'verification': 'verification',
@@ -162,7 +156,18 @@ const REPOS = [
     maxDepth: 3,
     extensionsOnly: ['.md', '.mdx', '.txt'],
     excludeDirs: new Set(['node_modules', '.git', '.next', 'dist', 'build', 'coverage', '.cache', '.vercel',
-      'supreme-octo-computing-machine', 'context-buffer', '.identity', '.trust', '.memory', '.runtime']),
+    'supreme-octo-computing-machine', 'context-buffer', '.identity', '.trust', '.memory', '.runtime']),
+  },
+  {
+    name: 'papers',
+    root: 'S:/papers',
+    github: 'https://github.com/vortsghost2025/papers/blob/main',
+    categoryMap: {
+      'papers': 'paper',
+    },
+    maxDepth: 1,
+    extensionsOnly: ['.pdf'],
+    excludeDirs: new Set(['.git']),
   },
   {
     name: 'storytime',
@@ -175,9 +180,8 @@ const REPOS = [
       'tests': 'test',
       'test': 'test',
       'config': 'config',
-      'data': 'data',
-      'lanes': 'lane-protocol',
-      'schemas': 'schema',
+    'data': 'data',
+    'schemas': 'schema',
       'logs': 'log',
       'agents': 'agent',
       'templates': 'template',
@@ -219,11 +223,12 @@ const DEFAULT_EXCLUDE_DIRS = new Set([
   '.svelte-kit', '.vuepress', '.docusaurus', '.terraform', '.tox',
   '__pycache__', '.pytest_cache', '.mypy_cache', '.venv', 'venv',
   '.pytest_cache', 'tmp', 'worktrees',
+  'lanes', '.tmp',
 ]);
 
 const DEFAULT_EXTENSIONS = new Set([
   '.md', '.mdx', '.txt', '.json', '.yaml', '.yml',
-  '.js', '.ts', '.tsx', '.jsx', '.py', '.mjs'
+  '.js', '.ts', '.tsx', '.jsx', '.py', '.mjs', '.pdf'
 ]);
 
 const SKIP_FILES = new Set([
@@ -236,7 +241,7 @@ const CONTENT_TYPE_MAP = {
   '.md': 'doc', '.mdx': 'doc', '.txt': 'doc',
   '.json': 'data', '.yaml': 'config', '.yml': 'config',
   '.js': 'code', '.mjs': 'code', '.ts': 'code', '.tsx': 'code', '.jsx': 'code',
-  '.py': 'code'
+  '.py': 'code', '.pdf': 'paper'
 };
 
 const TAG_EXTRACTION_PATTERNS = [
@@ -301,9 +306,8 @@ function getCategory(relativePath, categoryMap) {
       'docs': 'docs',
       'scripts': 'script',
       'tests': 'test',
-      'lanes': 'lane-protocol',
-      'schemas': 'schema',
-      'config': 'config',
+    'schemas': 'schema',
+    'config': 'config',
       'data': 'data',
       'library': 'library',
       'papers': 'paper',
@@ -539,6 +543,17 @@ function processFile(fullPath, repoConfig) {
     } catch (e) {
       // skip content extraction on read error
     }
+  }
+
+  if (ext === '.pdf') {
+    const nameNoExt = fileName.replace(/\.pdf\.pdf$/i, '').replace(/\.pdf$/i, '');
+    const numPrefix = nameNoExt.match(/^(\d+)_/);
+    const titlePart = numPrefix ? nameNoExt.slice(numPrefix[0].length) : nameNoExt;
+    entry.title = titlePart.replace(/_/g, ' ').replace(/[-]/g, ' ').trim();
+    entry.tags = extractTags(entry.title);
+    entry.date = extractDate(entry.title, relativePath);
+    entry.description = `PDF paper: ${entry.title}`;
+    entry.content_snippet = null;
   }
 
   if (ext === '.json' && fileName !== 'package.json' && fileName !== 'tsconfig.json') {
