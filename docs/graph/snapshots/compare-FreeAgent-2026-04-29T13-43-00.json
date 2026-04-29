@@ -1,0 +1,254 @@
+{
+  "snapshot_a_id": "snapshot-FreeAgent-2026-04-29T13-20-45-171Z",
+  "snapshot_b_id": "snapshot-FreeAgent-2026-04-29T13-43-01-026Z",
+  "compared_at": "2026-04-29T13:43:01.142Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "FreeAgent"
+  ],
+  "repo_filter_b": [
+    "FreeAgent"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.171Z",
+  "created_at_b": "2026-04-29T13:43:01.026Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "bfcfc95ede211094",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "FreeAgent",
+      "contradictionCount": 79,
+      "connectionCount": 334,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "c898563bcc9b2f3f",
+      "title": "Accidental single: Continues",
+      "repo": "FreeAgent",
+      "contradictionCount": 70,
+      "connectionCount": 396,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "cff9421396c74fbd",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 167,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "9dd03218e676c2ce",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 302,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "816dbcccad5ac3e6",
+      "title": "Dual Verification Protocol",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 197,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b585750139e20b54",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 195,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "6c283edeb4dd8a14",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 162,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b9bbfe924417f645",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 142,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "233d7de9b6009064",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "2f090c17b3a3ab05",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "bfcfc95ede211094",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "FreeAgent",
+      "contradictionCount": 79,
+      "connectionCount": 334,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "c898563bcc9b2f3f",
+      "title": "Accidental single: Continues",
+      "repo": "FreeAgent",
+      "contradictionCount": 70,
+      "connectionCount": 396,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "cff9421396c74fbd",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 167,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "9dd03218e676c2ce",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 302,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "816dbcccad5ac3e6",
+      "title": "Dual Verification Protocol",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 197,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b585750139e20b54",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 195,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "6c283edeb4dd8a14",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 162,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b9bbfe924417f645",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 142,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "233d7de9b6009064",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "2f090c17b3a3ab05",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "FreeAgent",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}

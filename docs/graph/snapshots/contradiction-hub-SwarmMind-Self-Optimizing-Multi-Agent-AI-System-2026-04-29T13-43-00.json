@@ -1,0 +1,26 @@
+[
+  {
+    "id": "741647f97fe642ae",
+    "title": "THE SINGLE ENTRY POINT",
+    "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+    "connectionCount": 250,
+    "contradictionCount": 65,
+    "governanceLayer": "unknown",
+    "authorityDepth": 80,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  },
+  {
+    "id": "63b6f69104edd6ca",
+    "title": "WE4FREE Publication Roadmap",
+    "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+    "connectionCount": 429,
+    "contradictionCount": 65,
+    "governanceLayer": "theoretical",
+    "authorityDepth": 80,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  }
+]

@@ -1220,3 +1220,36 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - **Fix applied** (2026-04-28T11:31Z): Central normalizeMessageForSchema() in SchemaValidator.js + canonical builder fixes (constitutional→manual, governance→opencode, active→in_progress, proposal→artifact) + signed message path hardening
 - **Status**: Diagnostics delivered, fix acknowledged, re-broadcast complete (2026-04-28T15:34Z). All 3 messages received, schema-valid, processed. Library quarantine cleared from 11 → 5 (legacy items only). Blocker RESOLVED.
 - **Convergence gate**: proven (Library diagnostic + Archivist fix confirmed)
+
+### Session 2026-04-29: Snapshot Compare Utility + Baseline/Second Run + Compare Reports
+
+- [x] **Created `graph-snapshot-compare.ts`** — Pure TypeScript utility with `compareSnapshots(a, b)` function computing: repo_filter, created_at, node/edge count deltas, status_counts deltas, added/removed node IDs, changed statuses/governanceLayer/bridgeState/authorityDepth, top contradiction hubs per snapshot, new/resolved contradictions. All results tagged `interpretation_status: "observation"`.
+- [x] **Wired `onCompareSnapshots` to MeaningLayers** — Cyan-styled "Compare Snapshots" button in UI; two sequential file pickers (A then B) → parseSnapshot() → compareSnapshots() → JSON download
+- [x] **Typecheck + lint: PASS** (0 errors, 0 warnings)
+- [x] **Commit + push**: `1805a60` — "feat: add snapshot compare utility and wire onCompareSnapshots to MeaningLayers"
+- [x] **Deployed to Vercel**: deliberateensemble.works (with `--archive=tgz`)
+- [x] **Created `scripts/generate-snapshot-reports.js`** — Server-side script that fetches graph data from live API, generates per-repo + full snapshots, per-repo + full contradiction hub reports, and compares against previous snapshots
+- [x] **Ran baseline snapshot generation** (13:20:45 UTC) — 9 per-repo + 1 full + 10 contradiction hub reports
+- [x] **Wrote audit doc**: `docs/graph/GRAPH_SNAPSHOT_SET_AUDIT_2026-04-29.md`
+- [x] **Re-ran snapshot generation** (13:43:00 UTC) — produced second snapshot set + 10 compare reports (one per repo + full)
+- [x] **Compare results**: All deltas = 0 between the two runs (22-minute gap, no index changes). Federation and SwarmMind snapshots are stable. Top contradiction hubs unchanged.
+- [x] **Federation compare**: 5 contradiction hubs, all with contradictionCount ≤ 4. Top hub: "Federation" (4 contradictions). All hubs: governanceLayer=unknown, bridgeState=contradicted, authorityDepth=0.
+- [x] **SwarmMind compare**: 2 contradiction hubs — "THE SINGLE ENTRY POINT" and "WE4FREE Publication Roadmap" (both contradictionCount=65, authorityDepth=80). Cross-lane shared-template false positive confirmed (same title, same count across 4 repos).
+- [x] **Full graph compare**: Top hub "🎊 PROJECT COMPLETION SUMMARY" (Deliberate-AI-Ensemble, contradictionCount=91). 10 hubs all CONFLICTED, all bridgeState=contradicted.
+- [x] **Kernel-lane feedback** (`context-buffer/The.txt`): Papers mapping too shallow, Federation under-classified, FreeAgent classification-heavy, cross-lane contradiction hubs need sorting (true contradiction vs stale historical vs duplicate-title false positive vs unverified authority claim vs mapper classification failure)
+
+**Files Created:**
+- `src/lib/graph-snapshot-compare.ts` — SnapshotCompareResult interface + compareSnapshots()
+- `scripts/generate-snapshot-reports.js` — server-side snapshot generation + comparison
+- `docs/graph/GRAPH_SNAPSHOT_SET_AUDIT_2026-04-29.md` — comprehensive audit
+- `docs/graph/snapshots/` — 40 files: 20 snapshots + 10 compare reports + 10 contradiction hub reports (2 timestamps)
+
+**Files Modified:**
+- `src/components/NexusGraph.tsx` — handleCompareSnapshots callback, wired onCompareSnapshots prop
+- `src/components/graph/MeaningLayers.tsx` — onCompareSnapshots prop, Compare Snapshots button
+
+**Still To Do:**
+- Verify duplicate-title hypothesis for "THE SINGLE ENTRY POINT" across repos (inspect actual content)
+- Audit Federation classification rules (551/572 UNVERIFIED, governanceLayer=unknown)
+- Improve papers mapping (5 shallow nodes → section-level first-class nodes)
+- Do not change mapper yet — all findings are observation → hypothesis → verification

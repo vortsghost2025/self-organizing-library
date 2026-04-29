@@ -1,0 +1,26 @@
+[
+  {
+    "id": "5ef61dc0b569b587",
+    "title": "Changelog",
+    "repo": "storytime",
+    "connectionCount": 202,
+    "contradictionCount": 65,
+    "governanceLayer": "unknown",
+    "authorityDepth": 0,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  },
+  {
+    "id": "36c9547e1c6a0f6e",
+    "title": "Steelman Arguments Against Agent Swarms",
+    "repo": "storytime",
+    "connectionCount": 160,
+    "contradictionCount": 65,
+    "governanceLayer": "unknown",
+    "authorityDepth": 0,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  }
+]
