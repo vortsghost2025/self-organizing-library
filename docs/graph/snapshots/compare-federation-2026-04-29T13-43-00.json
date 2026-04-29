@@ -1,0 +1,144 @@
+{
+  "snapshot_a_id": "snapshot-federation-2026-04-29T13-20-45-164Z",
+  "snapshot_b_id": "snapshot-federation-2026-04-29T13-43-01-022Z",
+  "compared_at": "2026-04-29T13:43:01.123Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "federation"
+  ],
+  "repo_filter_b": [
+    "federation"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.164Z",
+  "created_at_b": "2026-04-29T13:43:01.022Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "6f54cd4a19f0274a",
+      "title": "Federation",
+      "repo": "federation",
+      "contradictionCount": 4,
+      "connectionCount": 83,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "35215daf8ea91e09",
+      "title": "THE COVENANT",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 32,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "ea991d9525510480",
+      "title": "DESIGN PHILOSOPHY",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 14,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "88f7abb820a9b920",
+      "title": "Layer 0: The Unifying Philosophy - The Gift",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 14,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b1a6924c08ccf6bc",
+      "title": "The Vision: Persistent Multi-AI Collaboration Environment",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 181,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "6f54cd4a19f0274a",
+      "title": "Federation",
+      "repo": "federation",
+      "contradictionCount": 4,
+      "connectionCount": 83,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "35215daf8ea91e09",
+      "title": "THE COVENANT",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 32,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "ea991d9525510480",
+      "title": "DESIGN PHILOSOPHY",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 14,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "88f7abb820a9b920",
+      "title": "Layer 0: The Unifying Philosophy - The Gift",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 14,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b1a6924c08ccf6bc",
+      "title": "The Vision: Persistent Multi-AI Collaboration Environment",
+      "repo": "federation",
+      "contradictionCount": 1,
+      "connectionCount": 181,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}

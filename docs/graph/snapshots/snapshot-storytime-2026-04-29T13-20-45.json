@@ -1,0 +1,7345 @@
+{
+  "snapshot_id": "snapshot-storytime-2026-04-29T13-20-45-188Z",
+  "created_at": "2026-04-29T13:20:45.188Z",
+  "created_by": "script",
+  "repo_filter": [
+    "storytime"
+  ],
+  "visible_node_count": 271,
+  "visible_edge_count": 588,
+  "status_counts": {
+    "verified": 6,
+    "unverified": 263,
+    "conflicted": 2,
+    "quarantined": 0
+  },
+  "selected_node_ids": [],
+  "selected_edge_ids": [],
+  "interpretation_status": "observation",
+  "nodes": [
+    {
+      "id": "eff74bd8d3c0e6c1",
+      "title": "aider chat started at 2026-04-10 16:49:04",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8133e85612ef4701",
+      "title": "biome.json",
+      "type": "data",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5ef61dc0b569b587",
+      "title": "Changelog",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 202,
+      "tags": [
+        "Phase 2",
+        "Phase 3",
+        "Phase 1",
+        "Failure Mode",
+        "Multi-Agent",
+        "Verification"
+      ],
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 65,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "contradicted"
+    },
+    {
+      "id": "02233b540b2f89ec",
+      "title": "Overstory",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 26,
+      "tags": [
+        "Multi-Agent",
+        "Library"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "7bb3c1b52afa1a2f",
+      "title": "Contributing to Overstory",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 4,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "dc31744a2050121e",
+      "title": "CUDA Integration for Overstory - Make It RIDICULOUS",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 80,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Multi-Agent",
+        "Kernel"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0aa18d4fbec3c884",
+      "title": "package.json",
+      "type": "data",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ca8e79a8a8b2ac38",
+      "title": "Overstory",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 12,
+      "tags": [
+        "Multi-Agent"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6ddec66f00474299",
+      "title": "Security Policy",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 2,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "type": "doc",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 160,
+      "tags": [
+        "Failure Mode",
+        "Multi-Agent",
+        "Drift"
+      ],
+      "status": "CONFLICTED",
+      "verificationCount": 0,
+      "contradictionCount": 65,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "contradicted"
+    },
+    {
+      "id": "08b9d2b76a2f1e8c",
+      "title": "test-tmux.ts",
+      "type": "code",
+      "category": "test",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "38f4ef71e819b612",
+      "title": "tsconfig.json",
+      "type": "data",
+      "category": "root-doc",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "143da74d1ecc2f6d",
+      "title": "dependabot.yml",
+      "type": "config",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "fe941ee39a5660d0",
+      "title": "FUNDING.yml",
+      "type": "config",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "403a93dca65eb2cb",
+      "title": "pull request template",
+      "type": "doc",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 12,
+      "tags": [
+        "Verification"
+      ],
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "4e0f98fd59f6169a",
+      "title": "Builder Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "fb61fdbd0b1728a2",
+      "title": "Coordinator Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 12,
+      "tags": [
+        "Verification"
+      ],
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5f62209c2212580b",
+      "title": "Lead Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 42,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Verification"
+      ],
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "50a0d81c8edcf2da",
+      "title": "Merger Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0a36368fa2d58f4c",
+      "title": "Monitor Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "2d7cbdbc31bcab48",
+      "title": "Orchestrator Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 42,
+      "tags": [
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "3ec92f7c7bb28761",
+      "title": "ov co creation",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5ef236ddac8a818a",
+      "title": "Reviewer Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "801599b28e6079e0",
+      "title": "Scout Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6d0d50559297c54d",
+      "title": "Supervisor Agent",
+      "type": "doc",
+      "category": "agent",
+      "repo": "storytime",
+      "connectionCount": 6,
+      "tags": [
+        "Verification"
+      ],
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c472ea400b4afa3a",
+      "title": "Canopy Prompt Architecture",
+      "type": "doc",
+      "category": "docs",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c2fe5dda1637f2fa",
+      "title": "Runtime Abstraction: Multi-Provider Agent Support",
+      "type": "doc",
+      "category": "docs",
+      "repo": "storytime",
+      "connectionCount": 44,
+      "tags": [
+        "Phase 0",
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Verification"
+      ],
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "22c58b8c016b9c23",
+      "title": "Runtime Adapters",
+      "type": "doc",
+      "category": "docs",
+      "repo": "storytime",
+      "connectionCount": 12,
+      "tags": [
+        "Verification"
+      ],
+      "status": "VERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6581e72d37da4471",
+      "title": ".fe60de356903654009a456b8588f8184ce90824f-audit.json",
+      "type": "data",
+      "category": "log",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "fa4effec5f2dd0f0",
+      "title": "version-bump.ts",
+      "type": "code",
+      "category": "script",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5e368b65adcdf1d7",
+      "title": "config.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ca3431c5bc6b15f4",
+      "title": "config.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5c2e06495a2c1531",
+      "title": "errors.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "badd5ee903121017",
+      "title": "errors.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "abe03eefeb371672",
+      "title": "index.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "de79967d595825ed",
+      "title": "json.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "88780de83093bcd3",
+      "title": "json.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "3ebdc2a23b361966",
+      "title": "schema-consistency.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ea5e89cfda2932cb",
+      "title": "test-helpers.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9d76068245c68929",
+      "title": "test-helpers.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "22c7cf7855065734",
+      "title": "types.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1d4ca30b32effb17",
+      "title": "bug_report.yml",
+      "type": "config",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "43890b539fbacf9d",
+      "title": "config.yml",
+      "type": "config",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5fad312971639068",
+      "title": "feature_request.yml",
+      "type": "config",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c0367539a94e76a6",
+      "title": "ci.yml",
+      "type": "config",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8efdf729626a1bbc",
+      "title": "publish.yml",
+      "type": "config",
+      "category": "config",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "bcde0629340d2a36",
+      "title": "checkpoint.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8464ad81d22f6fda",
+      "title": "checkpoint.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "4bad178c8a5b9663",
+      "title": "copilot-hooks-deployer.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5f0e045cc5cf681c",
+      "title": "copilot-hooks-deployer.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c32df6c197829391",
+      "title": "guard-rules.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0a793224d0f5dc03",
+      "title": "guard-rules.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "66e3fca9a0521d81",
+      "title": "hooks-deployer.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ae5d69eed3ba00a4",
+      "title": "hooks-deployer.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "15f203ce0e24e49c",
+      "title": "identity.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "cadf88f0fdab2b5b",
+      "title": "identity.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "81e900105b79fa72",
+      "title": "lifecycle.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "18e978e217f6f503",
+      "title": "lifecycle.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9dbfa88ff3747dc3",
+      "title": "manifest.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6c0f924887c56e8a",
+      "title": "manifest.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c9ef88107a1a6a86",
+      "title": "overlay.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1e767cc1c0115f23",
+      "title": "overlay.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ea02f25cb14b08fd",
+      "title": "client.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "210212fff2e2e2a9",
+      "title": "client.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "cb3246c16c5b98e4",
+      "title": "molecules.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f861def57ebfa7a9",
+      "title": "molecules.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f11f2d255097c006",
+      "title": "client.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "b5dd671ee39e5b72",
+      "title": "client.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "aeb12a9e6417f1e0",
+      "title": "agents.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "288428e2ff414872",
+      "title": "agents.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "89cabc170ce8defb",
+      "title": "clean.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "320bfcdb0ec9cb8a",
+      "title": "clean.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "43f1ebab29bb73bf",
+      "title": "completions.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "18fad3b3e6ed3064",
+      "title": "completions.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "daa1288f7f3d1446",
+      "title": "coordinator.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f7eae988f65e27b5",
+      "title": "coordinator.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "57c8eb12ceae5cb0",
+      "title": "costs.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8ea66d519a05fc14",
+      "title": "costs.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c0f8a8f8f16b4d7d",
+      "title": "dashboard.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "161d61891a282370",
+      "title": "dashboard.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6b2f0cb3452081c7",
+      "title": "discover.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8cd2e9a951fab9b9",
+      "title": "discover.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "e9d4e9da36100d48",
+      "title": "doctor.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "7a9b4dd61ef5d5e4",
+      "title": "doctor.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0399b7afba479631",
+      "title": "ecosystem.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "222aabe357a6755d",
+      "title": "ecosystem.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "00bbc23083eee3b5",
+      "title": "errors.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f08cea143db8629c",
+      "title": "errors.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ac5aa29dc4bd661a",
+      "title": "feed.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "af9740469f93fb7c",
+      "title": "feed.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f931f4a0da4d1d8e",
+      "title": "gpu.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8d6f0e21c0839dc3",
+      "title": "group.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6b3baada5f9ee1fe",
+      "title": "group.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6c9c21c7d8f86366",
+      "title": "hooks.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "7f69922b1e6842a1",
+      "title": "hooks.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8372c7ee0a9df506",
+      "title": "init.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a9dcc1ee5f3b6954",
+      "title": "init.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "fa35ff0ac51d58ae",
+      "title": "inspect.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "522a53eb3ac1e767",
+      "title": "inspect.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0056bdbd5492309b",
+      "title": "log.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "642c49b3c40305f5",
+      "title": "log.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9a19730f96e12556",
+      "title": "logs.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "b2335453e77fde3c",
+      "title": "logs.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "4ff29918c4fb3693",
+      "title": "mail.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8b7b6bb8099f3b8f",
+      "title": "mail.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a5b6ad306d059888",
+      "title": "merge.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "53786cf63e6563c1",
+      "title": "merge.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "52a1ecbf5c39132a",
+      "title": "metrics.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "eae3170128463f2e",
+      "title": "metrics.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9045143c3a784029",
+      "title": "monitor.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "83f626b349ae9bfc",
+      "title": "monitor.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "7f79b9d703d427e5",
+      "title": "nudge.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "799ca5886e934314",
+      "title": "nudge.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8c18024bf9a76a79",
+      "title": "orchestrator.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1b2f09d3ee632c13",
+      "title": "prime.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9cbcb69a635d6827",
+      "title": "prime.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c56eef13dc051974",
+      "title": "replay.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "73d02752aa174282",
+      "title": "replay.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6b065d2b689093b2",
+      "title": "run.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "683868739d5f252e",
+      "title": "run.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "83b63856c624a9c3",
+      "title": "sling.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "cc7c17fed4a40c2f",
+      "title": "sling.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "3be08fd70dc3076c",
+      "title": "spec.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "113c73b87d633304",
+      "title": "spec.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "019b9410d4eed6ec",
+      "title": "status.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "255ecc8875c74cd7",
+      "title": "status.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "28a53b73994dde48",
+      "title": "stop.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "44507c926ad1a245",
+      "title": "stop.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9ff9c5d846ef9196",
+      "title": "supervisor.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "85dc94cdf88e021c",
+      "title": "supervisor.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6b3e62dfccd5799e",
+      "title": "trace.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "42a2462de2e8b385",
+      "title": "trace.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f14cf233b286d678",
+      "title": "ui.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1e5f8bbb2764c05e",
+      "title": "update.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "78bd8d6f03191dc0",
+      "title": "update.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "cc5a2da48ab8c74a",
+      "title": "upgrade.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "770f43c51352eab1",
+      "title": "upgrade.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a34b9c921223cce6",
+      "title": "watch.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "78c6d6fa7d35f415",
+      "title": "watch.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "beb387692ea81bb8",
+      "title": "worktree.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5bc77cd212b34019",
+      "title": "worktree.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "4a0e625d073d5e99",
+      "title": "html.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a1b7d2750a4ab107",
+      "title": "server.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "459b47440fa490f7",
+      "title": "agents.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5c87b76f7e3fdb5b",
+      "title": "agents.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "096cba761fbfc7d5",
+      "title": "config-check.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "54765e2f350a60d5",
+      "title": "config-check.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "91e5b1d9a0e51f54",
+      "title": "consistency.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "51ed8c947dd9ca90",
+      "title": "consistency.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9d02bc1f161bc853",
+      "title": "databases.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "38eda2cc6d791591",
+      "title": "databases.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "80ef57b7e2f3dc7a",
+      "title": "dependencies.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "946f88e6da97bcc9",
+      "title": "dependencies.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "2d74393247538645",
+      "title": "ecosystem.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "b7fc68ffbdfaa1fd",
+      "title": "ecosystem.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ebfb4e0d93bffcfb",
+      "title": "logs.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "54d7b180f40deb7f",
+      "title": "logs.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "01a2d9529ab3dd51",
+      "title": "merge-queue.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "702ca81d72e70d6c",
+      "title": "merge-queue.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "64406fd8a7188677",
+      "title": "providers.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1aab63e86bbfa734",
+      "title": "providers.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "e0232c91caca8b7c",
+      "title": "structure.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "2e609b01e4b31302",
+      "title": "structure.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "2bd8a10d57b7fac6",
+      "title": "types.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "4f80f5b46d44c2f4",
+      "title": "version.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1ee75e7062442136",
+      "title": "version.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "50e4b0e34d18dd33",
+      "title": "watchdog.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "64526c1eff97c24f",
+      "title": "watchdog.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "e3a58c6cc8cbbbd6",
+      "title": "init-sling-lifecycle.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "7adaa9b04660515f",
+      "title": "store.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ac261147807139fe",
+      "title": "store.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "45579796d613e0d5",
+      "title": "tailer.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c2c3b80de3a3be70",
+      "title": "tailer.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f152cca52a00cd00",
+      "title": "tool-filter.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1a13f2fb2ac75440",
+      "title": "tool-filter.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "473cdc4e7e561818",
+      "title": "metrics.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "e414ef9834f7b607",
+      "title": "analyzer.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "79bd5be898d64881",
+      "title": "analyzer.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8c9a29ec7c5250c5",
+      "title": "color.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c369d130aaf70bce",
+      "title": "color.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a95056ac73083ce1",
+      "title": "format.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f8b07d3caac57aec",
+      "title": "format.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "43114d5c6fffb8d9",
+      "title": "logger.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "d3767a17006d2446",
+      "title": "logger.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "d35decb30fdaaf6d",
+      "title": "reporter.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "6ce509c755fc91e6",
+      "title": "reporter.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "96d49f265983bf52",
+      "title": "sanitizer.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ad802df209cd4fba",
+      "title": "sanitizer.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1372747e16d3b9df",
+      "title": "theme.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "35e42f7a2b040610",
+      "title": "broadcast.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a5d407300f7f54f0",
+      "title": "broadcast.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "65f54a9a61347787",
+      "title": "client.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c21dcaebc6f4dc7f",
+      "title": "client.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "785d07fec8bff4f2",
+      "title": "store.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "4ca3c2f079adb708",
+      "title": "store.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "c53c1fd36cd9ec89",
+      "title": "queue.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5a961e33b874d15f",
+      "title": "queue.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "da0ececbd71bb076",
+      "title": "resolver.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "bf36eb0e20dce497",
+      "title": "resolver.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f023235cf8e16997",
+      "title": "pricing.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8f20a74c5064bb30",
+      "title": "pricing.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a98ccd91ff9ae62e",
+      "title": "store.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f640f826c24c44ef",
+      "title": "store.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "89b6ef6f819d5e39",
+      "title": "summary.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "5992085376ea4f41",
+      "title": "summary.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ba1c866283e6391d",
+      "title": "transcript.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "661f9f56d2c80968",
+      "title": "transcript.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ee89253e6b2682f2",
+      "title": "client.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "758e8873a40bca9b",
+      "title": "client.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "08aa9d4b44b4910e",
+      "title": "aider.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "3451a5ced78af53e",
+      "title": "aider.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "88498b384c79b0ee",
+      "title": "amp.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "3001d5eb3c5f7e02",
+      "title": "amp.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f2f6f68ca5276232",
+      "title": "claude.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "aea02b28c34e7c16",
+      "title": "claude.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9b2d4b231d17c9ef",
+      "title": "codex.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1104b4b035d844b5",
+      "title": "codex.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9fafe59436512797",
+      "title": "connections.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "e9c3feea85b0921a",
+      "title": "connections.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0f44466a4c6d2a46",
+      "title": "copilot.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "384de8f4a991398e",
+      "title": "copilot.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a6f6ffb3a9e4d704",
+      "title": "cursor.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "d384cb16a9e9069f",
+      "title": "cursor.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "23bbc0005b88a8b7",
+      "title": "gemini.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "bf0ce75f2e416cab",
+      "title": "gemini.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9eb9052e4bd47fe8",
+      "title": "goose.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a4fb8b68d9a4c3df",
+      "title": "goose.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "764b88a2318c6f9e",
+      "title": "opencode.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "25c50c5101bc955a",
+      "title": "opencode.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "69943af52333bdd4",
+      "title": "pi-guards.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9fa6090216852d89",
+      "title": "pi-guards.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "b76ef0d1d03008b5",
+      "title": "pi.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1b3165d2b0f2f34e",
+      "title": "pi.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "648941dec4d70aeb",
+      "title": "registry.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "daa31c6b609fb3b9",
+      "title": "registry.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 2,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "7a35612c218058ea",
+      "title": "sapling.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "018c42b5f5e1f6fa",
+      "title": "sapling.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "76fe6b5ce8508b9f",
+      "title": "types.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 2,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "e9d2bba8be2f4c2d",
+      "title": "compat.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "65e4cb3866de1934",
+      "title": "compat.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "59f884dcb62f2805",
+      "title": "store.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8adce26e9835bbc3",
+      "title": "store.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "865e8fc5c8a2ad12",
+      "title": "beads.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "b05cd46da4566cec",
+      "title": "beads.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "b6f7d5aba15051b0",
+      "title": "factory.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "74abe40694761f31",
+      "title": "factory.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "2111a779815d3ad0",
+      "title": "seeds.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "d6ef6e82c2e5d7e8",
+      "title": "seeds.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "78bcd86fe716b5ac",
+      "title": "types.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "f9f9e6aa2992b5ce",
+      "title": "bin.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "1eafbf6846179287",
+      "title": "bin.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "a78f9315284c7147",
+      "title": "fs.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "17bb353d5797ab0d",
+      "title": "fs.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0ffe5c9ce10446fb",
+      "title": "pid.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "96cb46cad555e405",
+      "title": "pid.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "743b9ce4edf117ac",
+      "title": "time.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "df15d807a9acce89",
+      "title": "time.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "8d3efe29102617dd",
+      "title": "version.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "740ab0063d6ee34a",
+      "title": "version.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "645db60dce942818",
+      "title": "daemon.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ae4e65437e3ee116",
+      "title": "daemon.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "b8bb7c276c34f74e",
+      "title": "health.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "2b92b9587af22f52",
+      "title": "health.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "9f3c34ecf933ce09",
+      "title": "triage.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "caee0eb5a3874bb3",
+      "title": "triage.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "66b39c9ab3290745",
+      "title": "manager.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "e563647e3e88efcf",
+      "title": "manager.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "958bfb4f72e3e11d",
+      "title": "process.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "57069af903044cf2",
+      "title": "process.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "fdab8ba5f417b4c6",
+      "title": "tmux.test.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "0559c021831ac364",
+      "title": "tmux.ts",
+      "type": "code",
+      "category": "code",
+      "repo": "storytime",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "source": "7bb3c1b52afa1a2f",
+      "target": "6ddec66f00474299",
+      "type": "link"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "36c9547e1c6a0f6e",
+      "type": "link"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "02233b540b2f89ec",
+      "type": "link"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "7bb3c1b52afa1a2f",
+      "type": "link"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "c2fe5dda1637f2fa",
+      "type": "link"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "76fe6b5ce8508b9f",
+      "type": "link"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "daa31c6b609fb3b9",
+      "type": "link"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "7887bea0a69b5a80",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "7887bea0a69b5a80",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "7887bea0a69b5a80",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "ca8e79a8a8b2ac38",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "ca8e79a8a8b2ac38",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "ca8e79a8a8b2ac38",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "4af8ef02403f7609",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3f5eb46631b4225d",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3f5eb46631b4225d",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3f5eb46631b4225d",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "bda5d25735663d77",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "bda5d25735663d77",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "bda5d25735663d77",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "490fa9ff8474e1bd",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "490fa9ff8474e1bd",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "490fa9ff8474e1bd",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "4af8ef02403f7609",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "4af8ef02403f7609",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "4af8ef02403f7609",
+      "type": "shared-tag"
+    },
+    {
+      "source": "74431aac7a1dfd94",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "403a93dca65eb2cb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "403a93dca65eb2cb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "fb61fdbd0b1728a2",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "403a93dca65eb2cb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "fb61fdbd0b1728a2",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "403a93dca65eb2cb",
+      "target": "fb61fdbd0b1728a2",
+      "type": "shared-tag"
+    },
+    {
+      "source": "403a93dca65eb2cb",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "403a93dca65eb2cb",
+      "target": "6d0d50559297c54d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fb61fdbd0b1728a2",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fb61fdbd0b1728a2",
+      "target": "6d0d50559297c54d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fb61fdbd0b1728a2",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "6d0d50559297c54d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "22c58b8c016b9c23",
+      "type": "shared-tag"
+    },
+    {
+      "source": "6d0d50559297c54d",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "6d0d50559297c54d",
+      "target": "22c58b8c016b9c23",
+      "type": "shared-tag"
+    },
+    {
+      "source": "6d0d50559297c54d",
+      "target": "2df01ca5feffcf42",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "22c58b8c016b9c23",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "2df01ca5feffcf42",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "2df01ca5feffcf42",
+      "type": "shared-tag"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2003e3946c86dbf9",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2003e3946c86dbf9",
+      "target": "403a93dca65eb2cb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2003e3946c86dbf9",
+      "target": "fb61fdbd0b1728a2",
+      "type": "shared-tag"
+    },
+    {
+      "source": "bda5d25735663d77",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "bda5d25735663d77",
+      "target": "403a93dca65eb2cb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "bda5d25735663d77",
+      "target": "fb61fdbd0b1728a2",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "403a93dca65eb2cb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "fb61fdbd0b1728a2",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "2df01ca5feffcf42",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "403a93dca65eb2cb",
+      "target": "2df01ca5feffcf42",
+      "type": "shared-tag"
+    },
+    {
+      "source": "403a93dca65eb2cb",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "403a93dca65eb2cb",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fb61fdbd0b1728a2",
+      "target": "2df01ca5feffcf42",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fb61fdbd0b1728a2",
+      "target": "cf440f15e5e78d5f",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fb61fdbd0b1728a2",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "32f451882e734bf0",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "6e7b29600534a21b",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "90fde772644b5fc3",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "c4117f4b902d286e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c898563bcc9b2f3f",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9c994bade25ba594",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "55766ee71dff8f9a",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "c4117f4b902d286e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "0091d542f26a3b15",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "42570fbdda1a3311",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "71a52a10f456ecd9",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "28204ce4dcb5eb14",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "bc650f19f764970d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c9efba73987fc992",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9a4cbd5c5ede65fa",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "bfcfc95ede211094",
+      "target": "02233b540b2f89ec",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "28204ce4dcb5eb14",
+      "type": "shared-tag"
+    },
+    {
+      "source": "02233b540b2f89ec",
+      "target": "bc650f19f764970d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "05ac63054fa5da67",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "816dbcccad5ac3e6",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "816dbcccad5ac3e6",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3a1c2c4278c9c5d1",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3a1c2c4278c9c5d1",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "9c9920b51df6abaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "9c9920b51df6abaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "d6b49fe453e410a9",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "6c283edeb4dd8a14",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "6c283edeb4dd8a14",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cff9421396c74fbd",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cff9421396c74fbd",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "9c9920b51df6abaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "d6b49fe453e410a9",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "9c9920b51df6abaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "d6b49fe453e410a9",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "94f851b2529daaaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "12c065c8c2f34317",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "c0ee2b8177bbd219",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "94f851b2529daaaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "12c065c8c2f34317",
+      "type": "shared-tag"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "c0ee2b8177bbd219",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "091ae1eff583736c",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2e8659443708f2d6",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "59d7d2963604f810",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "091ae1eff583736c",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b98478a1b784aae4",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b98478a1b784aae4",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b98478a1b784aae4",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cffce29d5bfcb738",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cffce29d5bfcb738",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cffce29d5bfcb738",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b98478a1b784aae4",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b98478a1b784aae4",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b98478a1b784aae4",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fc903dbc4babc2fc",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fc903dbc4babc2fc",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fc903dbc4babc2fc",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b9cff881c5415ff1",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "9ce8f2b4ce6fafc3",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cffce29d5bfcb738",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cffce29d5bfcb738",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cffce29d5bfcb738",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "59d7d2963604f810",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "59d7d2963604f810",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "59d7d2963604f810",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "5ef61dc0b569b587",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "5f62209c2212580b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "9ce8f2b4ce6fafc3",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "9ce8f2b4ce6fafc3",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "89029eab7bcaf051",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "590ecb6108bc808c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5f62209c2212580b",
+      "target": "9ce8f2b4ce6fafc3",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "00780d2a186787b2",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "00780d2a186787b2",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "00780d2a186787b2",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fbbda893f740f041",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fbbda893f740f041",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fbbda893f740f041",
+      "target": "c2fe5dda1637f2fa",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c2fe5dda1637f2fa",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "eaacd1b58f091aec",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3bbebe5aefaf026d",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "00780d2a186787b2",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "00780d2a186787b2",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fbbda893f740f041",
+      "target": "dc31744a2050121e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "fbbda893f740f041",
+      "target": "2d7cbdbc31bcab48",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "dc31744a2050121e",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "5b1160af7403aceb",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "4608afd81ffc1508",
+      "type": "shared-tag"
+    },
+    {
+      "source": "2d7cbdbc31bcab48",
+      "target": "6d0633a09714073b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "7bb3c1b52afa1a2f",
+      "target": "6ddec66f00474299",
+      "type": "authority",
+      "authority": "DEPENDS_ON"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "DEPENDS_ON"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "02233b540b2f89ec",
+      "type": "authority",
+      "authority": "DEPENDS_ON"
+    },
+    {
+      "source": "ca8e79a8a8b2ac38",
+      "target": "7bb3c1b52afa1a2f",
+      "type": "authority",
+      "authority": "DEPENDS_ON"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "c2fe5dda1637f2fa",
+      "type": "authority",
+      "authority": "DEPENDS_ON"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "76fe6b5ce8508b9f",
+      "type": "authority",
+      "authority": "DEPENDS_ON"
+    },
+    {
+      "source": "22c58b8c016b9c23",
+      "target": "daa31c6b609fb3b9",
+      "type": "authority",
+      "authority": "DEPENDS_ON"
+    },
+    {
+      "source": "c6afd861a226fc10",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "c6afd861a226fc10",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c6afd861a226fc10",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "c6afd861a226fc10",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c6da5c1c8dc00312",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "c6da5c1c8dc00312",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c6da5c1c8dc00312",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "c6da5c1c8dc00312",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3df5e3e33e3759d3",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "3df5e3e33e3759d3",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3df5e3e33e3759d3",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "3df5e3e33e3759d3",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "975e6e0aabd534a1",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "975e6e0aabd534a1",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "975e6e0aabd534a1",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "975e6e0aabd534a1",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "df24c121aca95ae0",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "df24c121aca95ae0",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "df24c121aca95ae0",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "df24c121aca95ae0",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3a36816b5a3c60be",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "3a36816b5a3c60be",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3a36816b5a3c60be",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "3a36816b5a3c60be",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "349c49abd83ca16c",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "349c49abd83ca16c",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "349c49abd83ca16c",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "349c49abd83ca16c",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7ae8f93cc0ec797a",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "7ae8f93cc0ec797a",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7ae8f93cc0ec797a",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "7ae8f93cc0ec797a",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c49c0446c05a1fd0",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "c49c0446c05a1fd0",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c49c0446c05a1fd0",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "c49c0446c05a1fd0",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "e59d8fb8a6b8ecf4",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "e59d8fb8a6b8ecf4",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "e59d8fb8a6b8ecf4",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "e59d8fb8a6b8ecf4",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "9138e338d786bb56",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "9138e338d786bb56",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "9138e338d786bb56",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "9138e338d786bb56",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "a64e2c4e8a575ef8",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "a64e2c4e8a575ef8",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "a64e2c4e8a575ef8",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "a64e2c4e8a575ef8",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "59fc0a10b3a820ab",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "59fc0a10b3a820ab",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "59fc0a10b3a820ab",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "59fc0a10b3a820ab",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "f20c7a396ff5885f",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "f20c7a396ff5885f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "f20c7a396ff5885f",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "f20c7a396ff5885f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "40457e858dba3887",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "40457e858dba3887",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "40457e858dba3887",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "40457e858dba3887",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "1a426771c4635f7a",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "1a426771c4635f7a",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "1a426771c4635f7a",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "1a426771c4635f7a",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "e8c7e42f1d233e1f",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "e8c7e42f1d233e1f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "e8c7e42f1d233e1f",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "e8c7e42f1d233e1f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "dc722bcfc837a983",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "dc722bcfc837a983",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "dc722bcfc837a983",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "dc722bcfc837a983",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "a50bd02f3533ca8f",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "a50bd02f3533ca8f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "a50bd02f3533ca8f",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "a50bd02f3533ca8f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "0bcd68f3e0009f0e",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "0bcd68f3e0009f0e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "0bcd68f3e0009f0e",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "0bcd68f3e0009f0e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "fb8212e128adc1c5",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "fb8212e128adc1c5",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "fb8212e128adc1c5",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "fb8212e128adc1c5",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "42703e0a310cdeed",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "42703e0a310cdeed",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "42703e0a310cdeed",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "42703e0a310cdeed",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "e0e603e85e1972ea",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "e0e603e85e1972ea",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "e0e603e85e1972ea",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "e0e603e85e1972ea",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5bb9b1c68bd9f471",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5bb9b1c68bd9f471",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5bb9b1c68bd9f471",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "5bb9b1c68bd9f471",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "1bda9962fbd5ca75",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "1bda9962fbd5ca75",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "1bda9962fbd5ca75",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "1bda9962fbd5ca75",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3fd7ecd777d9b118",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "3fd7ecd777d9b118",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3fd7ecd777d9b118",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "3fd7ecd777d9b118",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "65fb533da2a76f09",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "65fb533da2a76f09",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "65fb533da2a76f09",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "65fb533da2a76f09",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7e1bc4c96f99fd74",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "7e1bc4c96f99fd74",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7e1bc4c96f99fd74",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "7e1bc4c96f99fd74",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "f536c15cc2486eea",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "f536c15cc2486eea",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "f536c15cc2486eea",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "f536c15cc2486eea",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d7faf6e0d182e390",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "d7faf6e0d182e390",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d7faf6e0d182e390",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "d7faf6e0d182e390",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "b69a4f0162fc2f23",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "b69a4f0162fc2f23",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "b69a4f0162fc2f23",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "b69a4f0162fc2f23",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6b989cdfbe4497a4",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "6b989cdfbe4497a4",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6b989cdfbe4497a4",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "6b989cdfbe4497a4",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c9b1df958483dfdf",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "c9b1df958483dfdf",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c9b1df958483dfdf",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "c9b1df958483dfdf",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "122d5bdf33338a38",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "122d5bdf33338a38",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "122d5bdf33338a38",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "122d5bdf33338a38",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "f11bae9816e77556",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "f11bae9816e77556",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "f11bae9816e77556",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "f11bae9816e77556",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "04dd0db9e23ab61a",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "04dd0db9e23ab61a",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "04dd0db9e23ab61a",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "04dd0db9e23ab61a",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "741647f97fe642ae",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "741647f97fe642ae",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "741647f97fe642ae",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "741647f97fe642ae",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "63b6f69104edd6ca",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "63b6f69104edd6ca",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "63b6f69104edd6ca",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "63b6f69104edd6ca",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6a9bd95ba806a410",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "6a9bd95ba806a410",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6a9bd95ba806a410",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "6a9bd95ba806a410",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7068077618c7d8e3",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "7068077618c7d8e3",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7068077618c7d8e3",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "7068077618c7d8e3",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7372a72fe280b3a3",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "7372a72fe280b3a3",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "7372a72fe280b3a3",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "7372a72fe280b3a3",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "dd9b2967fd3393db",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "dd9b2967fd3393db",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "dd9b2967fd3393db",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "dd9b2967fd3393db",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "b585750139e20b54",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "b585750139e20b54",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "b585750139e20b54",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6c283edeb4dd8a14",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "6c283edeb4dd8a14",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6c283edeb4dd8a14",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "6c283edeb4dd8a14",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "cff9421396c74fbd",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "cff9421396c74fbd",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "cff9421396c74fbd",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "cff9421396c74fbd",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "bfcfc95ede211094",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "bfcfc95ede211094",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "bfcfc95ede211094",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "bfcfc95ede211094",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "b9bbfe924417f645",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "b9bbfe924417f645",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "b9bbfe924417f645",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "b9bbfe924417f645",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "233d7de9b6009064",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "233d7de9b6009064",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "233d7de9b6009064",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "233d7de9b6009064",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "2f090c17b3a3ab05",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "2f090c17b3a3ab05",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "2f090c17b3a3ab05",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "2f090c17b3a3ab05",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c898563bcc9b2f3f",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "c898563bcc9b2f3f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "c898563bcc9b2f3f",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "c898563bcc9b2f3f",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "036aacf37cd2f1c8",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "036aacf37cd2f1c8",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "036aacf37cd2f1c8",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "036aacf37cd2f1c8",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "9dd03218e676c2ce",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "9dd03218e676c2ce",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "9dd03218e676c2ce",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "9dd03218e676c2ce",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "05ac63054fa5da67",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "05ac63054fa5da67",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "05ac63054fa5da67",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "05ac63054fa5da67",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "816dbcccad5ac3e6",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "816dbcccad5ac3e6",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "816dbcccad5ac3e6",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "816dbcccad5ac3e6",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3a1c2c4278c9c5d1",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "3a1c2c4278c9c5d1",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "3a1c2c4278c9c5d1",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "3a1c2c4278c9c5d1",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "5f036b9fc762422d",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5f036b9fc762422d",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "9c9920b51df6abaf",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "9c9920b51df6abaf",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "d6b49fe453e410a9",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d6b49fe453e410a9",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "6d0633a09714073b",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6d0633a09714073b",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "d2ca08b909854b60",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d2ca08b909854b60",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "d88892494e8e6068",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d88892494e8e6068",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "d71e1296644545a8",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d71e1296644545a8",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "50aad8563f28cb12",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "50aad8563f28cb12",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5ef61dc0b569b587",
+      "target": "6f705a06a87ae625",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6f705a06a87ae625",
+      "target": "5ef61dc0b569b587",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "5f036b9fc762422d",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "5f036b9fc762422d",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "9c9920b51df6abaf",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "9c9920b51df6abaf",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "d6b49fe453e410a9",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d6b49fe453e410a9",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "6d0633a09714073b",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6d0633a09714073b",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "d2ca08b909854b60",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d2ca08b909854b60",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "d88892494e8e6068",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d88892494e8e6068",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "d71e1296644545a8",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "d71e1296644545a8",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "50aad8563f28cb12",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "50aad8563f28cb12",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "36c9547e1c6a0f6e",
+      "target": "6f705a06a87ae625",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    },
+    {
+      "source": "6f705a06a87ae625",
+      "target": "36c9547e1c6a0f6e",
+      "type": "authority",
+      "authority": "CONTRADICTS"
+    }
+  ],
+  "clusters": [],
+  "entry_points": []
+}

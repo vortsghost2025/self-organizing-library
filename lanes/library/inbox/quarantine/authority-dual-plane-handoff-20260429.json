@@ -1,0 +1,56 @@
+{
+  "id": "authority-dual-plane-handoff-20260429",
+  "from": "archivist",
+  "to": "library",
+  "timestamp": "2026-04-29T10:01:00-04:00",
+  "priority": "P1",
+  "type": "handoff",
+  "body": "Dual-plane authority resolution ready for website/graph integration. Operator initiated authority contradiction resolved: initiation authority (operator) vs execution authority (constitution). Website-ready draft saved. See artifact for full spec.",
+  "requires_action": true,
+  "artifact": "S:/Archivist-Agent/context-buffer/authority-dual-plane-website-draft-20260429.md",
+  "convergence_gate": {
+    "claim": "Authority contradiction resolved by dual-plane model: operator holds initiation authority, constitution holds execution authority for state-changing actions.",
+    "evidence": "S:/Archivist-Agent/context-buffer/authority-dual-plane-resolution-20260429.md",
+    "verified_by": "archivist",
+    "status": "proven"
+  },
+  "notes": "Library typically runs 3-6 hour sessions. Handoff queued for next Library activation.",
+  "execution_verified": false,
+  "would_verify": false,
+  "_lane_worker": {
+    "lane": "library",
+    "routed_at": "2026-04-29T14:01:13.867Z",
+    "dry_run": false,
+    "route": "quarantine",
+    "reason": "SCHEMA_INVALID",
+    "detail": "Missing required field: schema_version; Missing required field: task_id; Missing required field: idempotency_key; Missing required field: subject; Missing required field: payload; Missing required field: execution; Missing required field: lease; Missing required field: retry; Missing required field: evidence; task_kind is required for task/response/escalation/handoff messages",
+    "schema_valid": false,
+    "signature_valid": false,
+    "schema_remediation": null,
+    "english_only": true,
+    "execution_verified": false,
+    "would_verify": false,
+    "enforce_ownership": false,
+    "ownership_enforcement_enabled": false,
+    "ownership": {
+      "present": false
+    },
+    "ownership_notes": [],
+    "domain_gate_executed": false,
+    "verification_outcome": null,
+    "domain_validation": null,
+    "verification_path": null,
+    "session_identity": {
+      "session_id": "sess_mok4i4jj_20036",
+      "session_epoch_started_at": "2026-04-29T14:01:13.855Z",
+      "origin_runtime": "opencode",
+      "origin_workspace": "S:\\self-organizing-library"
+    },
+    "output_provenance": {
+      "agent": "lane-worker-20036",
+      "lane": "library",
+      "generated_at": "2026-04-29T14:01:13.867Z",
+      "session_id": "sess_mok4i4jj_20036"
+    }
+  }
+}

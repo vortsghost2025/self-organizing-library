@@ -1,0 +1,62 @@
+[
+  {
+    "id": "6f54cd4a19f0274a",
+    "title": "Federation",
+    "repo": "federation",
+    "connectionCount": 83,
+    "contradictionCount": 4,
+    "governanceLayer": "unknown",
+    "authorityDepth": 0,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  },
+  {
+    "id": "35215daf8ea91e09",
+    "title": "THE COVENANT",
+    "repo": "federation",
+    "connectionCount": 32,
+    "contradictionCount": 1,
+    "governanceLayer": "unknown",
+    "authorityDepth": 0,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  },
+  {
+    "id": "ea991d9525510480",
+    "title": "DESIGN PHILOSOPHY",
+    "repo": "federation",
+    "connectionCount": 14,
+    "contradictionCount": 1,
+    "governanceLayer": "unknown",
+    "authorityDepth": 0,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  },
+  {
+    "id": "88f7abb820a9b920",
+    "title": "Layer 0: The Unifying Philosophy - The Gift",
+    "repo": "federation",
+    "connectionCount": 14,
+    "contradictionCount": 1,
+    "governanceLayer": "unknown",
+    "authorityDepth": 0,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  },
+  {
+    "id": "b1a6924c08ccf6bc",
+    "title": "The Vision: Persistent Multi-AI Collaboration Environment",
+    "repo": "federation",
+    "connectionCount": 181,
+    "contradictionCount": 1,
+    "governanceLayer": "unknown",
+    "authorityDepth": 0,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  }
+]
