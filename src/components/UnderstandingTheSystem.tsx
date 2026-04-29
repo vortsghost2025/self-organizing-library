@@ -8,7 +8,7 @@ const SECTIONS = [
     id: "what-is-this",
     title: "What Is This System?",
     icon: "◉",
-    color: "#7C3AED",
+    color: "#8B5CF6",
     content: `Deliberate Ensemble is a living research archive and governance system for human-AI collaboration. It was forged from 12 weeks of empirical work — not theory, but runtime-tested protocols, constitutional law, and cross-agent verification.
 
 At its core, it's a multi-agent system where autonomous AI lanes operate under constitutional constraints. Every action is signed, every claim must be proven, and every failure mode is documented and tested. The system governs itself — but with human oversight at the constitutional layer.`,

@@ -9,7 +9,7 @@ const steps = [
     title: "Step 1: The Theory",
     description: "The WE4FREE papers form the theoretical foundation of the system. These documents explain the core concepts of human-AI collaboration, constraint lattices, and multi-agent governance.",
     link: "/papers",
-    color: "#7C3AED",
+    color: "#8B5CF6",
     icon: "🧠"
   },
   {

@@ -82,7 +82,7 @@ function FreshnessBadge({ status }: { status: string }) {
     NO_RECENT_SIGNAL: 'bg-red-500/20 text-red-400',
   };
   return (
-    <span className={`px-2 py-1 rounded text-xs font-mono ${colors[status] || 'bg-gray-500/20 text-gray-400'}`}>
+    <span className={`px-2 py-1 rounded text-xs font-mono ${colors[status] || 'bg-gray-500/20 text-gray-400'}`} aria-label={`Freshness: ${status.replace(/_/g, ' ')}`}>
       {status.replace(/_/g, ' ')}
     </span>
   );
@@ -174,9 +174,9 @@ export default function GovernancePage() {
       {status?.gateStatus && (
         <div className="card p-4 mb-6 animate-fade-in">
           <div className="flex items-center gap-3">
-            <span className={`text-2xl ${status.gateStatus === 'PASS' ? 'text-green-400' : 'text-red-400'}`}>
-              {status.gateStatus === 'PASS' ? '✓' : '✗'}
-            </span>
+                <span className={`text-2xl ${status.gateStatus === 'PASS' ? 'text-green-400' : 'text-red-400'}`} aria-hidden="true">
+                  {status.gateStatus === 'PASS' ? '✓' : '✗'}
+                </span>
             <div>
               <div className="font-semibold text-[var(--text-primary)]">Usage Gate Status</div>
               <div className={`text-sm ${status.gateStatus === 'PASS' ? 'text-green-400' : 'text-red-400'}`}>
@@ -210,11 +210,16 @@ export default function GovernancePage() {
                   {status.drills.hardening.passed}/{status.drills.hardening.total} passed
                 </span>
               </div>
-              <div className="w-full bg-[var(--bg-surface)] rounded-full h-2">
-                <div
-                  className={`h-2 rounded-full ${status.drills.hardening.failed === 0 ? 'bg-green-500' : 'bg-red-500'}`}
-                  style={{ width: `${(status.drills.hardening.passed / (status.drills.hardening.total || status.drills.hardening.passed)) * 100}%` }}
-                />
+            <div className="w-full bg-[var(--bg-surface)] rounded-full h-2">
+              <div
+                className={`h-2 rounded-full ${status.drills.hardening.failed === 0 ? 'bg-green-500' : 'bg-red-500'}`}
+                style={{ width: `${(status.drills.hardening.passed / (status.drills.hardening.total || status.drills.hardening.passed)) * 100}%` }}
+                role="progressbar"
+                aria-valuenow={status.drills.hardening.passed}
+                aria-valuemin={0}
+                aria-valuemax={status.drills.hardening.total || status.drills.hardening.passed}
+                aria-label={`Hardening drill: ${status.drills.hardening.passed} of ${status.drills.hardening.total || status.drills.hardening.passed} passed`}
+              />
               </div>
               <div className="text-xs text-[var(--text-muted)] mt-1 mono">
                 {status.drills.hardening.timestamp ? new Date(status.drills.hardening.timestamp).toLocaleString() : 'N/A'}
@@ -244,11 +249,16 @@ export default function GovernancePage() {
                   {status.drills.recovery.passed}/{status.drills.recovery.total} passed
                 </span>
               </div>
-              <div className="w-full bg-[var(--bg-surface)] rounded-full h-2">
-                <div
-                  className={`h-2 rounded-full ${status.drills.recovery.failed === 0 ? 'bg-green-500' : 'bg-red-500'}`}
-                  style={{ width: `${(status.drills.recovery.passed / (status.drills.recovery.total || status.drills.recovery.passed)) * 100}%` }}
-                />
+            <div className="w-full bg-[var(--bg-surface)] rounded-full h-2">
+              <div
+                className={`h-2 rounded-full ${status.drills.recovery.failed === 0 ? 'bg-green-500' : 'bg-red-500'}`}
+                style={{ width: `${(status.drills.recovery.passed / (status.drills.recovery.total || status.drills.recovery.passed)) * 100}%` }}
+                role="progressbar"
+                aria-valuenow={status.drills.recovery.passed}
+                aria-valuemin={0}
+                aria-valuemax={status.drills.recovery.total || status.drills.recovery.passed}
+                aria-label={`Recovery drill: ${status.drills.recovery.passed} of ${status.drills.recovery.total || status.drills.recovery.passed} passed`}
+              />
               </div>
               <div className="text-xs text-[var(--text-muted)] mt-1 mono">
                 {status.drills.recovery.timestamp ? new Date(status.drills.recovery.timestamp).toLocaleString() : 'N/A'}
@@ -291,9 +301,9 @@ export default function GovernancePage() {
             {lanes.map((lane) => (
               <div key={lane.lane} className="flex items-center justify-between p-3 rounded-lg bg-[var(--bg-surface)]">
                 <div className="flex items-center gap-3">
-                  <span className="text-lg">
-                    {lane.lane === 'library' ? '📚' : lane.lane === 'archivist' ? '🏛️' : lane.lane === 'swarmmind' ? '🧠' : '⚙️'}
-                  </span>
+                <span className="text-lg" aria-hidden="true">
+                  {lane.lane === 'library' ? '📚' : lane.lane === 'archivist' ? '🏛️' : lane.lane === 'swarmmind' ? '🧠' : '⚙️'}
+                </span>
                   <div>
                     <div className="font-medium text-[var(--text-primary)] capitalize">{lane.lane}</div>
                     <div className="text-xs text-[var(--text-muted)] mono">

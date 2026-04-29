@@ -94,7 +94,7 @@ export default function LibraryClient({
       <div className="flex items-center justify-between mb-8 animate-fade-in">
         <div>
           <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Library</h1>
-          <p className="text-[var(--text-secondary)]">
+          <p className="text-[var(--text-secondary)]" aria-live="polite">
             {filtered.length} documents
             {activeCategory && ` in "${activeCategory}"`}
             {activeTag && ` tagged "${activeTag}"`}
@@ -110,16 +110,17 @@ export default function LibraryClient({
             aria-label="Filter documents"
           />
           {hasFilters && (
-            <button onClick={clearFilters} className="btn-secondary text-sm">
-              Clear Filters
-            </button>
+          <button onClick={clearFilters} className="btn-secondary text-sm" aria-label="Clear all filters">
+            Clear Filters
+          </button>
           )}
         </div>
       </div>
 
-      <div className="flex gap-3 mb-6 animate-fade-in stagger-1 flex-wrap">
+      <div className="flex gap-3 mb-6 animate-fade-in stagger-1 flex-wrap" role="group" aria-label="Filter by content type">
         <button
           onClick={() => setActiveType(null)}
+          aria-pressed={!activeType}
           className={`px-4 py-2 rounded-lg text-sm font-medium ${
             !activeType
               ? "bg-[var(--primary)]/20 text-[var(--primary)]"
@@ -132,23 +133,25 @@ export default function LibraryClient({
           .sort((a, b) => b.count - a.count)
           .slice(0, 5)
           .map(({ type, count }) => (
-            <button
-              key={type}
-              onClick={() => setActiveType(activeType === type ? null : type)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium capitalize ${
-                activeType === type
-                  ? "bg-[var(--primary)]/20 text-[var(--primary)]"
-                  : "bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
-              }`}
-            >
+          <button
+            key={type}
+            onClick={() => setActiveType(activeType === type ? null : type)}
+            aria-pressed={activeType === type}
+            className={`px-4 py-2 rounded-lg text-sm font-medium capitalize ${
+              activeType === type
+                ? "bg-[var(--primary)]/20 text-[var(--primary)]"
+                : "bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
+            }`}
+          >
               {type} <span className="opacity-70">{count}</span>
             </button>
           ))}
       </div>
 
-      <div className="flex gap-2 mb-4 animate-fade-in stagger-2 flex-wrap">
+      <div className="flex gap-2 mb-4 animate-fade-in stagger-2 flex-wrap" role="group" aria-label="Filter by repository">
         <button
           onClick={() => setActiveRepo(null)}
+          aria-pressed={!activeRepo}
           className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
             !activeRepo
               ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
@@ -161,6 +164,7 @@ export default function LibraryClient({
           <button
             key={r.name}
             onClick={() => setActiveRepo(activeRepo === r.name ? null : r.name)}
+            aria-pressed={activeRepo === r.name}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
               activeRepo === r.name
                 ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
@@ -174,19 +178,20 @@ export default function LibraryClient({
 
       <div className="grid grid-cols-4 gap-6">
         <div className="col-span-1" id="library-filters">
-          <div className="card p-4 mb-4">
-            <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">Categories</h3>
-            <div className="space-y-1">
+        <div className="card p-4 mb-4">
+          <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3" id="category-filter-heading">Categories</h3>
+          <div className="space-y-1" role="group" aria-labelledby="category-filter-heading">
               {categories.map((cat) => (
-                <button
-                  key={cat.category}
-                  onClick={() => setActiveCategory(activeCategory === cat.category ? null : cat.category)}
-                  className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm transition-colors text-left ${
-                    activeCategory === cat.category
-                      ? "bg-[var(--primary)]/15 text-[var(--primary)]"
-                      : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
-                  }`}
-                >
+          <button
+            key={cat.category}
+            onClick={() => setActiveCategory(activeCategory === cat.category ? null : cat.category)}
+            aria-pressed={activeCategory === cat.category}
+            className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm transition-colors text-left ${
+              activeCategory === cat.category
+                ? "bg-[var(--primary)]/15 text-[var(--primary)]"
+                : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
+            }`}
+          >
                   <span className="truncate">{cat.category}</span>
                   <span className="text-xs opacity-60 ml-2">{cat.count}</span>
                 </button>
@@ -194,19 +199,20 @@ export default function LibraryClient({
             </div>
           </div>
 
-          <div className="card p-4">
-            <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">Tags</h3>
-            <div className="flex flex-wrap gap-1.5">
+        <div className="card p-4">
+          <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3" id="tag-filter-heading">Tags</h3>
+          <div className="flex flex-wrap gap-1.5" role="group" aria-labelledby="tag-filter-heading">
               {topTags.map((t) => (
-                <button
-                  key={t.tag}
-                  onClick={() => setActiveTag(activeTag === t.tag ? null : t.tag)}
-                  className={`px-2 py-1 rounded text-xs transition-colors ${
-                    activeTag === t.tag
-                      ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
-                      : "bg-[var(--bg-surface-hover)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-                  }`}
-                >
+          <button
+            key={t.tag}
+            onClick={() => setActiveTag(activeTag === t.tag ? null : t.tag)}
+            aria-pressed={activeTag === t.tag}
+            className={`px-2 py-1 rounded text-xs transition-colors ${
+              activeTag === t.tag
+                ? "bg-[var(--secondary)]/20 text-[var(--secondary)]"
+                : "bg-[var(--bg-surface-hover)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+            }`}
+          >
                   {t.tag}
                 </button>
               ))}
@@ -223,17 +229,18 @@ export default function LibraryClient({
           href={`/library/${doc.id}`}
           className={`card p-5 animate-fade-in stagger-${(i % 5) + 1} hover:border-[var(--primary)] flex items-start gap-4`}
         >
-                  <div
-                    className={`w-3 h-3 rounded-full mt-1.5 flex-shrink-0 ${
-                      doc.content_type === "paper"
-                        ? "bg-[var(--secondary)]"
-                        : doc.content_type === "code"
-                        ? "bg-[var(--success)]"
-                        : doc.content_type === "data"
-                        ? "bg-[var(--warning)]"
-                        : "bg-[var(--primary)]"
-                    }`}
-                  />
+                <div
+                  className={`w-3 h-3 rounded-full mt-1.5 flex-shrink-0 ${
+                    doc.content_type === "paper"
+                      ? "bg-[var(--secondary)]"
+                      : doc.content_type === "code"
+                      ? "bg-[var(--success)]"
+                      : doc.content_type === "data"
+                      ? "bg-[var(--warning)]"
+                      : "bg-[var(--primary)]"
+                  }`}
+                  aria-hidden="true"
+                />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-[var(--text-primary)] mb-1 truncate">{doc.title}</h3>
                     <p className="text-sm text-[var(--text-muted)] mb-2 line-clamp-1">
