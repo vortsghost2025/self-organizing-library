@@ -111,6 +111,36 @@ const LANE_REPOS = new Set([
   "kernel-lane",
 ]);
 
+const GAME_CATEGORIES = new Set([
+  "game",
+  "uss-chaosbringer",
+  "uss_chaosbringer",
+]);
+
+const FREEAGENT_SUBCATEGORY_MAP: Record<string, GovernanceLayer> = {
+  "medical": "application_adjacent",
+  "we4free": "application_adjacent",
+  "we": "application_adjacent",
+  "distributed": "operational",
+  "infrastructure": "operational",
+  "shared-infra": "operational",
+  "connection-bridge": "operational",
+  "ui": "application_adjacent",
+  "data": "evidence",
+  "docs": "theoretical",
+  "agent": "operational",
+  "coordination": "operational",
+  "project": "operational",
+  "game": "application_adjacent",
+  "phase-6": "theoretical",
+  "scratch": "historical",
+  "config": "operational",
+  "public_html": "application_adjacent",
+  "log": "historical",
+  "script": "operational",
+  "orchestrator": "operational",
+};
+
 const CONSTITUTIONAL_CATEGORIES = new Set([
   "governance",
   "verification",
@@ -148,6 +178,11 @@ const REPO_AUTHORITY_DEPTH: Record<string, number> = {
   "SwarmMind": 80,
   "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 80,
   "kernel-lane": 75,
+  "federation": 50,
+  "FreeAgent": 40,
+  "Deliberate-AI-Ensemble": 60,
+  "storytime": 30,
+  "papers": 70,
 };
 
 interface Entry {
@@ -213,10 +248,25 @@ export function computeAuthorityEdges(
     }
   }
 
+const TAG_GROUP_CAP = 80;
+const TAG_GROUP_LARGE_SAMPLE = 40;
+
   const tagPairs: [string, Set<string>][] = [];
   for (const [tag, ids] of Object.entries(tagIndex)) {
-    if (ids.length < 2 || ids.length > 80) continue;
-    const idSet = new Set(ids.filter((id) => entryMap.has(id)));
+    let filteredIds = ids.filter((id) => entryMap.has(id));
+    if (filteredIds.length < 2) continue;
+
+    if (filteredIds.length > TAG_GROUP_CAP) {
+      const stride = Math.max(1, Math.floor(filteredIds.length / TAG_GROUP_LARGE_SAMPLE));
+      const sampled: string[] = [];
+      for (let i = 0; i < filteredIds.length; i += stride) {
+        sampled.push(filteredIds[i]);
+        if (sampled.length >= TAG_GROUP_LARGE_SAMPLE) break;
+      }
+      filteredIds = sampled;
+    }
+
+    const idSet = new Set(filteredIds);
     if (idSet.size < 2) continue;
     tagPairs.push([tag, idSet]);
   }
@@ -339,7 +389,23 @@ export function computeGovernanceLayer(entry: Entry): GovernanceLayer {
     const age = Date.now() - new Date(entry.date).getTime();
     if (age > 180 * 86400000) return "historical";
   }
-  if (entry.repo === "FreeAgent") return "application_adjacent";
+  if (GAME_CATEGORIES.has(entry.category)) return "application_adjacent";
+  if (entry.repo === "FreeAgent") {
+    return FREEAGENT_SUBCATEGORY_MAP[entry.category] || "application_adjacent";
+  }
+  if (entry.repo === "federation") {
+    if (OPERATIONAL_CATEGORIES.has(entry.category) || entry.category === "code" || entry.category === "script") return "operational";
+    if (entry.category === "docs" || entry.category === "root-doc") return "theoretical";
+    if (GAME_CATEGORIES.has(entry.category)) return "application_adjacent";
+    return "operational";
+  }
+  if (entry.repo === "Deliberate-AI-Ensemble") {
+    if (entry.category === "governance" || entry.category === "architecture") return "constitutional";
+    if (entry.category === "paper" || entry.category === "drift" || entry.category === "resilience") return "theoretical";
+    return "operational";
+  }
+  if (entry.repo === "storytime") return "application_adjacent";
+  if (entry.repo === "papers") return "theoretical";
   return "unknown";
 }
 
