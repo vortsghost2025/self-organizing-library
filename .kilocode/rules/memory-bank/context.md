@@ -1131,7 +1131,25 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - Address accessibility findings as they surface
 - Continue MDX + NFM classification development
 
-### Session 2026-04-28 (MEV Bot Recovery — COMPLETE ✅)
+### Session 2026-04-28 (Evening): Snapshot Export Full Data + Import Button + Federation Graph Connectivity
+
+- [x] **Enhanced GraphSnapshot to include full node/edge/clusters/entryPoints data** — `graph-snapshot.ts` now exports `nodes: GraphNode[]`, `edges: GraphEdge[]`, `clusters: Cluster[]`, `entry_points: EntryPoint[]` alongside existing metadata. AI can now analyze the actual graph structure, not just counts.
+- [x] **Updated handleExportSnapshot in NexusGraph.tsx** — passes `filteredNodes`, `edges`, `clusters`, `entryPoints` to `createSnapshotFromGraphState()`. Dependency array updated to include full arrays.
+- [x] **Added Import Snapshot button** — `MeaningLayers.tsx` now has `onImportSnapshot` + `importError` props. New button opens file picker, reads JSON, validates with `parseSnapshot()`, restores graph state (nodes, edges, clusters, entry points, filters, layers, density, selection).
+- [x] **Added `parseSnapshot()` function** — validates JSON has required fields (snapshot_id, nodes, edges), returns typed `GraphSnapshot | null`.
+- [x] **Deleted corrupted `graph-snapshot-schema.ts`** — was a 1-line broken JS object with no imports anywhere.
+- [x] **Fixed federation graph disconnect** — Root cause: tag-edge algorithm only created sequential edges within tag arrays, which were sorted by repo. Tags shared across repos (23 tags, including Verification/508, Multi-Agent/322, Governance/310) never got cross-repo edges. Fix: added explicit cross-repo sampling in `getGraphData()` — for each tag with entries in 2+ repos, creates edges between up to 3 nodes from each adjacent repo pair.
+- [x] **Lint fix** — `useCallback` deps for `handleExportSnapshot` now reference `nodes`/`edges` (not `.length`), resolving exhaustive-deps warning.
+- [x] **Typecheck clean, lint clean (0 errors, 0 warnings), build success** (680 pages, Pagefind 656 indexed)
+
+**Files Modified:**
+- `src/lib/graph-snapshot.ts` — expanded GraphSnapshot interface + createSnapshotFromGraphState params + added parseSnapshot()
+- `src/components/NexusGraph.tsx` — import parseSnapshot/GraphSnapshot, added importError state, handleImportSnapshot callback, updated handleExportSnapshot with full data, wired import props to MeaningLayers
+- `src/components/graph/MeaningLayers.tsx` — added onImportSnapshot + importError props, Import Snapshot JSON button + error display
+- `src/lib/site-index.ts` — cross-repo tag edge sampling in getGraphData()
+
+**Files Deleted:**
+- `src/lib/graph-snapshot-schema.ts` — corrupted draft file with no consumers
 
 **MEV Bot Repo Successfully Pushed to GitHub** — `https://github.com/vortsghost2025/mev-bot`
 

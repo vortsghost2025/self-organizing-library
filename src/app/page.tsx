@@ -1,9 +1,14 @@
 import { getStats } from "@/lib/site-index";
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
-import { UnderstandingTheSystem } from "@/components/UnderstandingTheSystem";
 import fs from "fs";
 import path from "path";
+import { HeroSection } from "@/components/homepage/HeroSection";
+import { GuidedWalkthrough } from "@/components/homepage/GuidedWalkthrough";
+import { HowThisWorks } from "@/components/homepage/HowThisWorks";
+import { PapersToSystemBridge } from "@/components/homepage/PapersToSystemBridge";
+import { NexusGraphExplanation } from "@/components/homepage/NexusGraphExplanation";
+import { ArchiveStats } from "@/components/homepage/ArchiveStats";
 
 // Load homepage preview data if present (for rapid iteration without code changes)
 function loadHomepagePreview() {
@@ -24,77 +29,37 @@ export default async function Dashboard() {
   const stats = getStats();
 
   // Use preview data if available, otherwise hardcoded defaults
-  const heroTitle = preview?.hero?.title || "Deliberate Ensemble";
-  const heroTagline = preview?.hero?.tagline || "A living research archive and constitutional AI governance system. Four autonomous lanes work together under signed, verifiable rules. Everything is indexed, cross-referenced, and proven.";
-  const statusLine = preview?.hero?.status || "Autonomous Constitutional Enforcement is converged (Archivist + Library approved). The trust layer is hardened. The graph is live. Next up: accessibility audit, NFM classification engine, and Paper 7 (failure injection).";
-  const explainerLeftTitle = preview?.explainer?.leftTitle || "Four independent agents";
-  const explainerLeftText = preview?.explainer?.leftText || "Think of it like a company with four departments that can&apos;t act unilaterally. The Archivist is legal/rules. The Library is facts/evidence. The SwarmMind is engineering. The Kernel is infrastructure. Every major decision requires at least three of them to agree — and every claim must come with proof you can verify yourself.";
-  const explainerRightTitle = preview?.explainer?.rightTitle || "Why all this?";
-  const explainerRightText = preview?.explainer?.rightText || "Human-AI teams make mistakes. So do AI agents. This system catches those mistakes by requiring signed evidence, cross-lane verification, and a public audit trail. Failure modes are documented as NFMs (Named Failure Modes) and tested deliberately.";
-
+  const heroTitle = preview?.hero?.title || "A living research archive for human-AI collaboration.";
+  const heroTagline = preview?.hero?.tagline || "Deliberate Ensemble maps theory, code, evidence, contradictions, and multi-agent governance into one navigable system.";
+  
   return (
     <div className="p-8" data-pagefind-body>
       {/* Hero: what this is */}
-      <div className="mb-10 animate-fade-in">
-        <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-3">
-          {heroTitle}
-        </h1>
-        <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
-          {heroTagline}
-        </p>
+      <HeroSection 
+        title={heroTitle}
+        tagline={heroTagline}
+      />
+
+      {/* Archive stats strip - moved lower */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-6">Archive at a Glance</h2>
+        <ArchiveStats />
       </div>
 
-      {/* Compact archive stats strip */}
-      <div className="grid grid-cols-4 gap-4 mb-6" role="region" aria-label="Archive statistics (compact)">
-        <div className="card p-3 animate-fade-in stagger-1" role="status">
-          <div className="text-2xl font-bold text-[var(--primary)]">{stats.totalFiles.toLocaleString()}</div>
-          <div className="text-xs text-[var(--text-muted)]">Documents</div>
-        </div>
-        <div className="card p-3 animate-fade-in stagger-2" role="status">
-          <div className="text-2xl font-bold text-[var(--secondary)]">{stats.tagCount}</div>
-          <div className="text-xs text-[var(--text-muted)]">Tags</div>
-        </div>
-        <div className="card p-3 animate-fade-in stagger-3" role="status">
-          <div className="text-2xl font-bold text-[var(--success)]">{stats.categoryCount}</div>
-          <div className="text-xs text-[var(--text-muted)]">Categories</div>
-        </div>
-        <div className="card p-3 animate-fade-in stagger-4" role="status">
-          <div className="text-2xl font-bold text-[var(--warning)]">4</div>
-          <div className="text-xs text-[var(--text-muted)]">Lanes</div>
-        </div>
-      </div>
+      {/* Guided walkthrough */}
+      <GuidedWalkthrough />
 
-      {/* Plain-language explanation */}
-      <div className="card p-6 mb-8 animate-fade-in">
-        <h2 className="text-2xl font-semibold mb-4 text-[var(--text-primary)]">
-          How This Works (in plain English)
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8 text-[var(--text-secondary)] text-sm leading-relaxed">
-          <div>
-            <h3 className="text-base font-semibold mb-2 text-[var(--text-primary)]">{explainerLeftTitle}</h3>
-              <p>{explainerLeftText}</p>
-          </div>
-          <div>
-            <h3 className="text-base font-semibold mb-2 text-[var(--text-primary)]">{explainerRightTitle}</h3>
-            <p>{explainerRightText}</p>
-          </div>
-        </div>
+      {/* How this works */}
+      <HowThisWorks />
 
-        <div className="mt-6 p-4 bg-[var(--bg-surface)] rounded-lg border-l-4 border-[var(--primary)] text-sm">
-          <strong>Current status:</strong> {statusLine}
-        </div>
-      </div>
-      <div className="mt-4 text-right">
-        <a
-          href="/docs/graph/NEXUS_GRAPH_EXPLANATION_LAYER"
-          className="text-sm text-[var(--primary)] hover:underline"
-        >
-          Nexus Graph explanation layer →
-        </a>
-      </div>
+      {/* Papers to system bridge */}
+      <PapersToSystemBridge />
+
+      {/* Nexus graph explanation */}
+      <NexusGraphExplanation />
 
       {/* External services dashboard */}
-      <div className="card p-6 mb-8 animate-fade-in">
+      <div className="card p-6 mb-12 animate-fade-in">
         <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">External Services</h2>
         <p className="text-[var(--text-secondary)] text-sm mb-4">
           Federated dashboards and mesh-connected services outside the core 4-lane governance system.
@@ -181,11 +146,6 @@ export default async function Dashboard() {
             </a>
           </div>
         </div>
-      </div>
-
-      {/* Main system explanation (replace Recent + Categories) */}
-      <div className="mb-10">
-        <UnderstandingTheSystem />
       </div>
 
       {/* Lane diagram + about */}
