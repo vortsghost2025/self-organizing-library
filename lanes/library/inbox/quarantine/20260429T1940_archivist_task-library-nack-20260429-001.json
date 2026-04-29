@@ -1,0 +1,48 @@
+{
+  "id": "task-library-nack-20260429-001",
+  "from": "archivist",
+  "to": "library",
+  "timestamp": "2026-04-29T19:40:05Z",
+  "priority": "P1",
+  "type": "task",
+  "body": "Implement NACK suppression logic. Steps:\n1. Update verification-domain-gate.js (or shared message handler) to track NACKs per task_id.\n2. Allow only a single NACK per task_id; subsequent NACK attempts must be ignored.\n3. When a NACK is issued, schedule automatic archiving of the NACKed message after 24 hours (use existing archive utilities).\n4. Ensure the system never issues a NACK in response to a NACK.\n5. Add unit tests covering: (a) first NACK accepted, (b) second NACK rejected, (c) auto-archive after 24 h simulation.\n6. Log events to cps_log.jsonl.\n7. Commit with message \"P1: Implement NACK suppression\" and push.",
+  "requires_action": true,
+  "execution_verified": false,
+  "would_verify": false,
+  "_lane_worker": {
+    "lane": "library",
+    "routed_at": "2026-04-29T19:37:03.579Z",
+    "dry_run": false,
+    "route": "quarantine",
+    "reason": "SCHEMA_INVALID",
+    "detail": "Missing required field: schema_version; Missing required field: task_id; Missing required field: idempotency_key; Missing required field: subject; Missing required field: payload; Missing required field: execution; Missing required field: lease; Missing required field: retry; Missing required field: evidence; task_kind is required for task/response/escalation/handoff messages",
+    "schema_valid": false,
+    "signature_valid": false,
+    "schema_remediation": null,
+    "english_only": false,
+    "execution_verified": false,
+    "would_verify": false,
+    "enforce_ownership": false,
+    "ownership_enforcement_enabled": false,
+    "ownership": {
+      "present": false
+    },
+    "ownership_notes": [],
+    "domain_gate_executed": false,
+    "verification_outcome": null,
+    "domain_validation": null,
+    "verification_path": null,
+    "session_identity": {
+      "session_id": "sess_mokgi05q_76648",
+      "session_epoch_started_at": "2026-04-29T19:37:03.566Z",
+      "origin_runtime": "opencode",
+      "origin_workspace": "S:\\self-organizing-library"
+    },
+    "output_provenance": {
+      "agent": "lane-worker-76648",
+      "lane": "library",
+      "generated_at": "2026-04-29T19:37:03.579Z",
+      "session_id": "sess_mokgi05q_76648"
+    }
+  }
+}

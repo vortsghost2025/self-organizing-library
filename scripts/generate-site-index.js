@@ -164,10 +164,12 @@ const REPOS = [
     github: 'https://github.com/vortsghost2025/papers/blob/main',
     categoryMap: {
       'papers': 'paper',
+      '.papers-meta': 'paper-section',
     },
-    maxDepth: 1,
-    extensionsOnly: ['.pdf'],
+    maxDepth: 2,
+    extensionsOnly: ['.pdf', '.md', '.json'],
     excludeDirs: new Set(['.git']),
+    isPapersRepo: true,
   },
   {
     name: 'storytime',
@@ -554,6 +556,52 @@ function processFile(fullPath, repoConfig) {
     entry.date = extractDate(entry.title, relativePath);
     entry.description = `PDF paper: ${entry.title}`;
     entry.content_snippet = null;
+    entry.paper_id = null;
+    entry.parent_paper = null;
+    entry.section_index = null;
+  }
+
+  if (ext === '.json' && repoConfig.isPapersRepo && relativePath.includes('.papers-meta') && !fileName.includes('index.json')) {
+    try {
+      const paperData = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
+      const sectionEntries = [];
+      for (let i = 0; i < paperData.sections.length; i++) {
+        const section = paperData.sections[i];
+        const sectionId = computeId(repoConfig.name, `.papers-meta/${paperData.paper_id}::${section.id}`);
+        sectionEntries.push({
+          id: sectionId,
+          repo: repoConfig.name,
+          path: `.papers-meta/${paperData.paper_id}.json`,
+          github_url: `${repoConfig.github}/.papers-meta/${paperData.paper_id}.json`,
+          title: `${paperData.title} — ${section.title}`,
+          extension: '.json',
+          content_type: 'paper-section',
+          category: 'paper-section',
+          breadcrumbs: [paperData.title, section.title],
+          tags: section.tags,
+          date: null,
+          modified: stat.mtime.toISOString(),
+          size_bytes: stat.size,
+          description: `Section ${section.level > 2 ? 'subsection' : 'section'}: ${section.title} (from ${paperData.title})`,
+          content_snippet: `Paper: ${paperData.title}. Section: ${section.title}. Tags: ${section.tags.join(', ')}`,
+          paper_id: paperData.paper_id,
+          parent_paper: entry.id,
+          section_index: i,
+        });
+      }
+
+      entry.title = `${paperData.title} (Structure Index)`;
+      entry.tags = paperData.sections.flatMap(s => s.tags);
+      entry.tags = [...new Set(entry.tags)];
+      entry.description = `Structure index for ${paperData.title}: ${paperData.sections.length} sections`;
+      entry.content_snippet = `Sections: ${paperData.sections.map(s => s.title).join(', ')}`;
+      entry.paper_id = paperData.paper_id;
+      entry.parent_paper = null;
+      entry.section_index = null;
+      entry._childSections = sectionEntries;
+    } catch (e) {
+      // skip JSON parse errors
+    }
   }
 
   if (ext === '.json' && fileName !== 'package.json' && fileName !== 'tsconfig.json') {
@@ -670,6 +718,70 @@ function buildCrossReferences(allEntries, repoConfigs) {
   return refs;
 }
 
+function buildPaperSectionRefs(allEntries) {
+  const refs = [];
+  const entryMap = new Map(allEntries.map(e => [e.id, e]));
+
+  const paperSections = allEntries.filter(e => e.content_type === 'paper-section');
+  const paperPdfs = allEntries.filter(e => e.content_type === 'paper' && e.repo === 'papers');
+
+  for (const section of paperSections) {
+    if (section.parent_paper) {
+      refs.push({
+        source: section.id,
+        target: section.parent_paper,
+        type: 'paper-section-of',
+        label: `section of`,
+      });
+    }
+
+    for (const tag of section.tags) {
+      const matchingPapers = paperPdfs.filter(p => p.tags.includes(tag));
+      for (const paper of matchingPapers) {
+        if (paper.id !== section.parent_paper) {
+          refs.push({
+            source: section.id,
+            target: paper.id,
+            type: 'cross-paper-tag',
+            label: `shared tag: ${tag}`,
+          });
+        }
+      }
+    }
+  }
+
+  const paperDeps = [
+    ['constraint-lattices', ['rosetta-stone']],
+    ['phenotype-selection', ['rosetta-stone', 'constraint-lattices']],
+    ['drift-identity', ['rosetta-stone', 'constraint-lattices', 'phenotype-selection']],
+    ['we4free-framework', ['rosetta-stone', 'constraint-lattices', 'phenotype-selection', 'drift-identity']],
+  ];
+
+  const paperIdMap = {};
+  for (const entry of allEntries) {
+    if (entry.paper_id && entry.content_type === 'paper-section') continue;
+    if (entry.paper_id) paperIdMap[entry.paper_id] = entry.id;
+  }
+
+  for (const [childId, parentIds] of paperDeps) {
+    const childEntry = allEntries.find(e => e.paper_id === childId && e.content_type !== 'paper-section');
+    if (!childEntry) continue;
+    for (const parentId of parentIds) {
+      const parentEntry = allEntries.find(e => e.paper_id === parentId && e.content_type !== 'paper-section');
+      if (parentEntry) {
+        refs.push({
+          source: childEntry.id,
+          target: parentEntry.id,
+          type: 'cross-paper-dependency',
+          label: `derives from`,
+        });
+      }
+    }
+  }
+
+  return refs;
+}
+
 function main() {
   const allEntries = [];
 
@@ -682,14 +794,22 @@ function main() {
     const files = walkDir(repoConfig.root, repoConfig);
     console.log(`  Found ${files.length} content files`);
 
-    let count = 0;
-    for (const file of files) {
-      try {
-        allEntries.push(processFile(file, repoConfig));
-        count++;
-      } catch (e) {
-        console.error(`  Error processing ${file}: ${e.message}`);
+  let count = 0;
+  for (const file of files) {
+    try {
+      const entry = processFile(file, repoConfig);
+      allEntries.push(entry);
+      count++;
+      if (entry._childSections) {
+        for (const child of entry._childSections) {
+          allEntries.push(child);
+          count++;
+        }
+        delete entry._childSections;
       }
+        } catch (e) {
+            console.error(`  Error processing ${file}: ${e.message}`);
+        }
     }
     console.log(`  Processed ${count} entries`);
   }
@@ -699,6 +819,10 @@ function main() {
   console.log('Building cross-references...');
   const crossRefs = buildCrossReferences(allEntries, REPOS);
   console.log(`Found ${crossRefs.length} cross-references`);
+
+  const paperSectionRefs = buildPaperSectionRefs(allEntries);
+  crossRefs.push(...paperSectionRefs);
+  console.log(`Added ${paperSectionRefs.length} paper structure cross-references`);
 
   const tagIndex = buildTagIndex(allEntries);
   const repoStats = buildRepoStats(allEntries);

@@ -1,0 +1,32 @@
+{
+  "snapshot_a_id": "snapshot-papers-2026-04-29T13-20-45-187Z",
+  "snapshot_b_id": "snapshot-papers-2026-04-29T20-06-00-922Z",
+  "compared_at": "2026-04-29T20:06:01.063Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "papers"
+  ],
+  "repo_filter_b": [
+    "papers"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.187Z",
+  "created_at_b": "2026-04-29T20:06:00.922Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [],
+  "top_contradiction_hubs_b": [],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}

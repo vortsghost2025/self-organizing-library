@@ -1,0 +1,369 @@
+{
+  "snapshot_id": "snapshot-papers-2026-04-29T20-06-00-922Z",
+  "created_at": "2026-04-29T20:06:00.922Z",
+  "created_by": "script",
+  "repo_filter": [
+    "papers"
+  ],
+  "visible_node_count": 5,
+  "visible_edge_count": 52,
+  "status_counts": {
+    "verified": 0,
+    "unverified": 5,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "selected_node_ids": [],
+  "selected_edge_ids": [],
+  "interpretation_status": "observation",
+  "nodes": [
+    {
+      "id": "9a57cc0ec0be4e0b",
+      "title": "The Rosetta Stone",
+      "type": "paper",
+      "category": "root-doc",
+      "repo": "papers",
+      "connectionCount": 12,
+      "tags": [
+        "Rosetta Stone"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "theoretical",
+      "authorityDepth": 0,
+      "bridgeState": "obsolete"
+    },
+    {
+      "id": "3c0bb6c9ce48e7db",
+      "title": "Constraint Lattices and Stability",
+      "type": "paper",
+      "category": "root-doc",
+      "repo": "papers",
+      "connectionCount": 0,
+      "tags": [],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "976cf49342e20090",
+      "title": "Phenotype Selection in Constraint Governed Systems",
+      "type": "paper",
+      "category": "root-doc",
+      "repo": "papers",
+      "connectionCount": 6,
+      "tags": [
+        "Phenotype"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "ec498514c4ad3f3c",
+      "title": "Drift Identity and Ensemble Coherence",
+      "type": "paper",
+      "category": "root-doc",
+      "repo": "papers",
+      "connectionCount": 22,
+      "tags": [
+        "Drift",
+        "Ensemble"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    },
+    {
+      "id": "207060cf44b220bf",
+      "title": "The WE4FREE Framework",
+      "type": "paper",
+      "category": "root-doc",
+      "repo": "papers",
+      "connectionCount": 12,
+      "tags": [
+        "WE4FREE"
+      ],
+      "status": "UNVERIFIED",
+      "verificationCount": 0,
+      "contradictionCount": 0,
+      "governanceLayer": "unknown",
+      "authorityDepth": 0,
+      "bridgeState": "unknown"
+    }
+  ],
+  "edges": [
+    {
+      "source": "74431aac7a1dfd94",
+      "target": "976cf49342e20090",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "976cf49342e20090",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "976cf49342e20090",
+      "type": "shared-tag"
+    },
+    {
+      "source": "83a161a6bbca6e7e",
+      "target": "976cf49342e20090",
+      "type": "shared-tag"
+    },
+    {
+      "source": "a23cb8dc41d84138",
+      "target": "976cf49342e20090",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b98478a1b784aae4",
+      "target": "976cf49342e20090",
+      "type": "shared-tag"
+    },
+    {
+      "source": "74431aac7a1dfd94",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "94f851b2529daaaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "12c065c8c2f34317",
+      "type": "shared-tag"
+    },
+    {
+      "source": "74267b948e2ec900",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "46f72116106c6d55",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "b052528d337b7ab4",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "36c9547e1c6a0f6e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "08eae1f37d484805",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "84821634cfc4b749",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "61e9d4dad2bcc54d",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9a57cc0ec0be4e0b",
+      "target": "d6b49fe453e410a9",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9a57cc0ec0be4e0b",
+      "target": "9b07f18e70e20e76",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9a57cc0ec0be4e0b",
+      "target": "4aeb12ebc23d7117",
+      "type": "shared-tag"
+    },
+    {
+      "source": "83a161a6bbca6e7e",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "cff9421396c74fbd",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "5d832b6b37a16eee",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9a57cc0ec0be4e0b",
+      "target": "d6b49fe453e410a9",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9a57cc0ec0be4e0b",
+      "target": "9b07f18e70e20e76",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9a57cc0ec0be4e0b",
+      "target": "4aeb12ebc23d7117",
+      "type": "shared-tag"
+    },
+    {
+      "source": "74431aac7a1dfd94",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "4262cbbec7fb7acf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "3f5eb46631b4225d",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c9efba73987fc992",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "f48f54fe4f783df8",
+      "target": "ec498514c4ad3f3c",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "bda39a57db888773",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "4262cbbec7fb7acf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "ec498514c4ad3f3c",
+      "target": "5f036b9fc762422d",
+      "type": "shared-tag"
+    },
+    {
+      "source": "65efb2f615f1e477",
+      "target": "207060cf44b220bf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "760d323a087952a8",
+      "target": "207060cf44b220bf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "9ab82b608119c4f6",
+      "target": "207060cf44b220bf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "207060cf44b220bf",
+      "target": "94f851b2529daaaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "207060cf44b220bf",
+      "target": "8801d3cc3a3a0f91",
+      "type": "shared-tag"
+    },
+    {
+      "source": "207060cf44b220bf",
+      "target": "c7dc61c37b8e0e3e",
+      "type": "shared-tag"
+    },
+    {
+      "source": "c9efba73987fc992",
+      "target": "207060cf44b220bf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "83a161a6bbca6e7e",
+      "target": "207060cf44b220bf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "a23cb8dc41d84138",
+      "target": "207060cf44b220bf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "207060cf44b220bf",
+      "target": "94f851b2529daaaf",
+      "type": "shared-tag"
+    },
+    {
+      "source": "207060cf44b220bf",
+      "target": "8801d3cc3a3a0f91",
+      "type": "shared-tag"
+    },
+    {
+      "source": "207060cf44b220bf",
+      "target": "c7dc61c37b8e0e3e",
+      "type": "shared-tag"
+    }
+  ],
+  "clusters": [],
+  "entry_points": []
+}

@@ -1,0 +1,254 @@
+{
+  "snapshot_a_id": "snapshot-Deliberate-AI-Ensemble-2026-04-29T13-20-45-191Z",
+  "snapshot_b_id": "snapshot-Deliberate-AI-Ensemble-2026-04-29T20-06-00-927Z",
+  "compared_at": "2026-04-29T20:06:01.083Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "Deliberate-AI-Ensemble"
+  ],
+  "repo_filter_b": [
+    "Deliberate-AI-Ensemble"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.191Z",
+  "created_at_b": "2026-04-29T20:06:00.927Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 91,
+      "connectionCount": 400,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d6b49fe453e410a9",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 161,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "6f705a06a87ae625",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 299,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "5f036b9fc762422d",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 162,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 142,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 135,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 134,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b79b4e273f15f915",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 7,
+      "connectionCount": 176,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 91,
+      "connectionCount": 400,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d6b49fe453e410a9",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 161,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "6f705a06a87ae625",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 299,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "5f036b9fc762422d",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 162,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 142,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 135,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 134,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b79b4e273f15f915",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 7,
+      "connectionCount": 176,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}

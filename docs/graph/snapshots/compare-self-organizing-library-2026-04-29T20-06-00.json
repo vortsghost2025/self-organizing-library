@@ -1,0 +1,254 @@
+{
+  "snapshot_a_id": "snapshot-self-organizing-library-2026-04-29T13-20-45-124Z",
+  "snapshot_b_id": "snapshot-self-organizing-library-2026-04-29T20-06-00-875Z",
+  "compared_at": "2026-04-29T20:06:00.989Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "self-organizing-library"
+  ],
+  "repo_filter_b": [
+    "self-organizing-library"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.124Z",
+  "created_at_b": "2026-04-29T20:06:00.875Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "c6afd861a226fc10",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 198,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 577,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3df5e3e33e3759d3",
+      "title": "Paper F: Failure Modes, Formal Limits, and the Self-Correcting Loop",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 579,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "975e6e0aabd534a1",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 360,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "df24c121aca95ae0",
+      "title": "Named Failure Mode: Cross-Lane Observability Boundary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 196,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3a36816b5a3c60be",
+      "title": "Failure Modes Index",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 371,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "349c49abd83ca16c",
+      "title": "NFM-036 Derivation Analysis: FreeAgent-to-Governed Edge Computation",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 672,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "7ae8f93cc0ec797a",
+      "title": "Routing Invariant Table",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 189,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c49c0446c05a1fd0",
+      "title": "Named Failure Mode: Schema-Behavior Mismatch",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "e59d8fb8a6b8ecf4",
+      "title": "Self-State Aliasing: A Named Failure Mode",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "c6afd861a226fc10",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 198,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 577,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3df5e3e33e3759d3",
+      "title": "Paper F: Failure Modes, Formal Limits, and the Self-Correcting Loop",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 579,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "975e6e0aabd534a1",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 360,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "df24c121aca95ae0",
+      "title": "Named Failure Mode: Cross-Lane Observability Boundary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 196,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3a36816b5a3c60be",
+      "title": "Failure Modes Index",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 371,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "349c49abd83ca16c",
+      "title": "NFM-036 Derivation Analysis: FreeAgent-to-Governed Edge Computation",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 672,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "7ae8f93cc0ec797a",
+      "title": "Routing Invariant Table",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 189,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c49c0446c05a1fd0",
+      "title": "Named Failure Mode: Schema-Behavior Mismatch",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "e59d8fb8a6b8ecf4",
+      "title": "Self-State Aliasing: A Named Failure Mode",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}

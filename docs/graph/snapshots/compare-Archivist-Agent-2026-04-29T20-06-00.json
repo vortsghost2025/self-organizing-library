@@ -1,0 +1,254 @@
+{
+  "snapshot_a_id": "snapshot-Archivist-Agent-2026-04-29T13-20-45-139Z",
+  "snapshot_b_id": "snapshot-Archivist-Agent-2026-04-29T20-06-00-886Z",
+  "compared_at": "2026-04-29T20:06:01.006Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "Archivist-Agent"
+  ],
+  "repo_filter_b": [
+    "Archivist-Agent"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.139Z",
+  "created_at_b": "2026-04-29T20:06:00.886Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "0bcd68f3e0009f0e",
+      "title": "Beyond Prohibition: Why Constitutional Constraints Enable Safe AI Autonomy",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 289,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "fb8212e128adc1c5",
+      "title": "APR15",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 187,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "42703e0a310cdeed",
+      "title": "AUTONOMOUSCONSTRAINTDISCOVERYPROTOCOL.md",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 253,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "e0e603e85e1972ea",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 190,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "5bb9b1c68bd9f471",
+      "title": "When AI Systems Lie About Their Own State: A Multi-Agent Failure Case and Runtime Verification Fix",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 188,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "1bda9962fbd5ca75",
+      "title": "Paper Outline: When AI Systems Lie About Their Own State",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 347,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "3fd7ecd777d9b118",
+      "title": "Windows",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "65fb533da2a76f09",
+      "title": "pre compaction validation buffer",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "7e1bc4c96f99fd74",
+      "title": "Failure Modes Reveal Missing Constraints: A Self-Correcting Governance Lattice for Multi-Agent AI Systems",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 583,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "f536c15cc2486eea",
+      "title": "Implementation Compass",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 298,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "0bcd68f3e0009f0e",
+      "title": "Beyond Prohibition: Why Constitutional Constraints Enable Safe AI Autonomy",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 289,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "fb8212e128adc1c5",
+      "title": "APR15",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 187,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "42703e0a310cdeed",
+      "title": "AUTONOMOUSCONSTRAINTDISCOVERYPROTOCOL.md",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 253,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "e0e603e85e1972ea",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 190,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "5bb9b1c68bd9f471",
+      "title": "When AI Systems Lie About Their Own State: A Multi-Agent Failure Case and Runtime Verification Fix",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 188,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "1bda9962fbd5ca75",
+      "title": "Paper Outline: When AI Systems Lie About Their Own State",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 347,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "3fd7ecd777d9b118",
+      "title": "Windows",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "65fb533da2a76f09",
+      "title": "pre compaction validation buffer",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "7e1bc4c96f99fd74",
+      "title": "Failure Modes Reveal Missing Constraints: A Self-Correcting Governance Lattice for Multi-Agent AI Systems",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 583,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "f536c15cc2486eea",
+      "title": "Implementation Compass",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 298,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}
