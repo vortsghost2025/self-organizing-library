@@ -17,6 +17,7 @@ import NodeDetail from "./graph/NodeDetail";
 import GraphLegend from "./graph/GraphLegend";
 import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
 import type { GraphSnapshot } from "@/lib/graph-snapshot";
+import { compareSnapshots } from "@/lib/graph-snapshot-compare";
 
 export default function NexusGraph() {
   const [loading, setLoading] = useState(true);
@@ -275,11 +276,66 @@ export default function NexusGraph() {
     }
   }, [nodes, edges, clusters, entryPoints]);
 
-  const handleExportContradictionHub = useCallback(() => {
-    const report = generateContradictionHubReport(nodes);
-    const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
-    downloadJson(report, `contradiction-hub-report-${ts}.json`);
-  }, [nodes]);
+const handleExportContradictionHub = useCallback(() => {
+ const report = generateContradictionHubReport(nodes);
+ const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
+ downloadJson(report, `contradiction-hub-report-${ts}.json`);
+}, [nodes]);
+
+const handleCompareSnapshots = useCallback(() => {
+ let snapshotA: GraphSnapshot | null = null;
+
+ const loadFileB = () => {
+   const inputB = document.createElement("input");
+   inputB.type = "file";
+   inputB.accept = ".json";
+   inputB.onchange = (e) => {
+     const file = (e.target as HTMLInputElement).files?.[0];
+     if (!file) return;
+     const reader = new FileReader();
+     reader.onload = (ev) => {
+       const text = ev.target?.result as string;
+       const snapshotB = parseSnapshot(text);
+       if (!snapshotB) {
+         setImportError("Snapshot B is invalid: missing nodes, edges, or snapshot_id");
+         return;
+       }
+       if (!snapshotA) return;
+       const result = compareSnapshots(snapshotA, snapshotB);
+       const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
+       downloadJson(result, `snapshot-compare-${ts}.json`);
+       setImportError(null);
+     };
+     reader.readAsText(file);
+   };
+   document.body.appendChild(inputB);
+   inputB.click();
+   document.body.removeChild(inputB);
+ };
+
+ const inputA = document.createElement("input");
+ inputA.type = "file";
+ inputA.accept = ".json";
+ inputA.onchange = (e) => {
+   const file = (e.target as HTMLInputElement).files?.[0];
+   if (!file) return;
+   const reader = new FileReader();
+   reader.onload = (ev) => {
+     const text = ev.target?.result as string;
+     const parsed = parseSnapshot(text);
+     if (!parsed) {
+       setImportError("Snapshot A is invalid: missing nodes, edges, or snapshot_id");
+       return;
+     }
+     snapshotA = parsed;
+     loadFileB();
+   };
+   reader.readAsText(file);
+ };
+ document.body.appendChild(inputA);
+ inputA.click();
+ document.body.removeChild(inputA);
+}, []);
 
   const handleLayerToggle = useCallback((layer: MeaningLayer) => {
     setActiveLayers((prev) =>
@@ -383,9 +439,10 @@ export default function NexusGraph() {
         onExportSnapshot={handleExportSnapshot}
         onImportSnapshot={handleImportSnapshot}
         onExportAllRepos={handleExportAllRepos}
-        onExportContradictionHub={handleExportContradictionHub}
-        importError={importError}
-      />
+      onExportContradictionHub={handleExportContradictionHub}
+      onCompareSnapshots={handleCompareSnapshots}
+      importError={importError}
+    />
           </div>
           <div className="card p-3 max-h-64 overflow-y-auto">
             <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
