@@ -10,7 +10,7 @@ const LANES = [
     authority: 100,
     role: "Governance Root",
     description: "Constitutional authority. Ratifies proposals, manages policy, holds the single active blocker.",
-    color: "#7C3AED",
+    color: "#8B5CF6",
     icon: "⚖",
     repo: "Archivist-Agent",
     duties: ["Proposal ratification", "Policy enforcement", "Blocker management", "Convergence gate"],

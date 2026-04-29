@@ -6,13 +6,13 @@
   --bg-base: #0D0D0F;
   --bg-surface: #16161A;
   --bg-surface-hover: #1E1E24;
-  --border: #2A2A32;
-  --primary: #7C3AED;
-  --primary-hover: #8B5CF6;
+  --border: #4A4A52;
+  --primary: #8B5CF6;
+  --primary-hover: #A78BFA;
   --secondary: #06B6D4;
   --text-primary: #F4F4F5;
   --text-secondary: #A1A1AA;
-  --text-muted: #71717A;
+  --text-muted: #949494;
   --success: #10B981;
   --warning: #F59E0B;
   --error: #EF4444;
@@ -94,7 +94,7 @@ button {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+  background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
