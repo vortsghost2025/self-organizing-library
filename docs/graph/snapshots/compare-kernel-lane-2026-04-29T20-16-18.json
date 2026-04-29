@@ -1,0 +1,208 @@
+{
+  "snapshot_a_id": "snapshot-kernel-lane-2026-04-29T13-20-45-158Z",
+  "snapshot_b_id": "snapshot-kernel-lane-2026-04-29T20-16-18-062Z",
+  "compared_at": "2026-04-29T20:16:18.198Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "kernel-lane"
+  ],
+  "repo_filter_b": [
+    "kernel-lane"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.158Z",
+  "created_at_b": "2026-04-29T20:16:18.062Z",
+  "visible_node_count_delta": 3,
+  "visible_edge_count_delta": 1837,
+  "status_counts_delta": {
+    "verified": 1,
+    "unverified": 2,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [
+    "5ed19fb5acaea667",
+    "2c0897786bced6d8",
+    "c3b79e966f17570d"
+  ],
+  "removed_node_ids": [],
+  "changed_node_statuses": [
+    {
+      "id": "d9ccbb98728d5f78",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "kernel-lane",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "7068077618c7d8e3",
+      "title": "CUDA Kernel Optimization - Verified Results",
+      "repo": "kernel-lane",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    }
+  ],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [
+    {
+      "id": "d9ccbb98728d5f78",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "kernel-lane",
+      "field": "bridgeState",
+      "from": "verified",
+      "to": "contradicted"
+    },
+    {
+      "id": "7068077618c7d8e3",
+      "title": "CUDA Kernel Optimization - Verified Results",
+      "repo": "kernel-lane",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "verified"
+    },
+    {
+      "id": "6d571e7cd343a393",
+      "title": "Phase 1 Completion Dashboard",
+      "repo": "kernel-lane",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "ae199f251609d734",
+      "title": "Lattice Autopilot — One-Click Starter",
+      "repo": "kernel-lane",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "0b71c576d22f3c68",
+      "title": "Kernel Lane Integration Changes — Session 2026-04-20",
+      "repo": "kernel-lane",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    }
+  ],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "6a9bd95ba806a410",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "kernel-lane",
+      "contradictionCount": 65,
+      "connectionCount": 244,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    },
+    {
+      "id": "7068077618c7d8e3",
+      "title": "CUDA Kernel Optimization - Verified Results",
+      "repo": "kernel-lane",
+      "contradictionCount": 65,
+      "connectionCount": 169,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    },
+    {
+      "id": "7372a72fe280b3a3",
+      "title": "CAISC 2026 Draft Paper Review Report",
+      "repo": "kernel-lane",
+      "contradictionCount": 65,
+      "connectionCount": 172,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    },
+    {
+      "id": "dd9b2967fd3393db",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "kernel-lane",
+      "contradictionCount": 65,
+      "connectionCount": 377,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "6a9bd95ba806a410",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "kernel-lane",
+      "contradictionCount": 39,
+      "connectionCount": 270,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    },
+    {
+      "id": "d9ccbb98728d5f78",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "kernel-lane",
+      "contradictionCount": 39,
+      "connectionCount": 413,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    },
+    {
+      "id": "7372a72fe280b3a3",
+      "title": "CAISC 2026 Draft Paper Review Report",
+      "repo": "kernel-lane",
+      "contradictionCount": 39,
+      "connectionCount": 121,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    },
+    {
+      "id": "dd9b2967fd3393db",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "kernel-lane",
+      "contradictionCount": 39,
+      "connectionCount": 397,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    }
+  ],
+  "top_new_contradictions": [
+    {
+      "id": "d9ccbb98728d5f78",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "kernel-lane",
+      "contradictionCount": 39,
+      "connectionCount": 413,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    }
+  ],
+  "top_resolved_contradictions": [
+    {
+      "id": "7068077618c7d8e3",
+      "title": "CUDA Kernel Optimization - Verified Results",
+      "repo": "kernel-lane",
+      "contradictionCount": 65,
+      "connectionCount": 169,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 75
+    }
+  ]
+}

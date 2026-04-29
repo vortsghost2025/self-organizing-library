@@ -1,26 +1,26 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-04-29T04:17:21.526Z",
+  "generated_at": "2026-04-29T20:03:45.461Z",
   "repo_count": 9,
   "stats": {
-    "total_files": 3451,
-    "total_size_bytes": 70679983,
+    "total_files": 3589,
+    "total_size_bytes": 81380606,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 415,
-        "total_size_bytes": 20466829
+        "total_files": 472,
+        "total_size_bytes": 30950955
       },
       "Archivist-Agent": {
-        "total_files": 512,
-        "total_size_bytes": 4053743
+        "total_files": 517,
+        "total_size_bytes": 4073073
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 224,
-        "total_size_bytes": 1133187
+        "total_files": 226,
+        "total_size_bytes": 1139044
       },
       "kernel-lane": {
-        "total_files": 212,
-        "total_size_bytes": 1218414
+        "total_files": 215,
+        "total_size_bytes": 1239839
       },
       "federation": {
         "total_files": 572,
@@ -31,8 +31,8 @@
         "total_size_bytes": 24753872
       },
       "papers": {
-        "total_files": 5,
-        "total_size_bytes": 494613
+        "total_files": 76,
+        "total_size_bytes": 664498
       },
       "storytime": {
         "total_files": 271,
@@ -45,139 +45,139 @@
     }
   },
   "tag_count": 118,
-  "cross_ref_count": 964,
+  "cross_ref_count": 1100,
   "top_tags": [
     {
       "tag": "Verification",
-      "count": 530
+      "count": 549
     },
     {
       "tag": "Governance",
-      "count": 353
+      "count": 366
     },
     {
       "tag": "Multi-Agent",
-      "count": 329
+      "count": 344
     },
     {
       "tag": "Ensemble",
-      "count": 287
+      "count": 301
     },
     {
       "tag": "Drift",
-      "count": 258
+      "count": 286
     },
     {
       "tag": "Archivist",
-      "count": 249
+      "count": 254
     },
     {
       "tag": "Library",
-      "count": 231
-    },
-    {
-      "tag": "Phase 2",
-      "count": 193
-    },
-    {
-      "tag": "Swarmmind",
-      "count": 192
+      "count": 235
     },
     {
       "tag": "WE4FREE",
-      "count": 177
+      "count": 206
+    },
+    {
+      "tag": "Swarmmind",
+      "count": 196
+    },
+    {
+      "tag": "Phase 2",
+      "count": 194
     },
     {
       "tag": "Phase 1",
-      "count": 169
+      "count": 170
+    },
+    {
+      "tag": "Federation",
+      "count": 163
     },
     {
       "tag": "Phase 3",
       "count": 160
     },
     {
-      "tag": "Federation",
-      "count": 156
+      "tag": "Kernel",
+      "count": 121
     },
     {
-      "tag": "Kernel",
-      "count": 117
+      "tag": "Phenotype",
+      "count": 116
     },
     {
       "tag": "Covenant",
-      "count": 105
+      "count": 113
+    },
+    {
+      "tag": "Rosetta Stone",
+      "count": 109
     },
     {
       "tag": "Phase 4",
       "count": 103
     },
     {
-      "tag": "Phenotype",
-      "count": 93
-    },
-    {
-      "tag": "Rosetta Stone",
-      "count": 90
+      "tag": "Failure Mode",
+      "count": 85
     },
     {
       "tag": "Freeagent",
-      "count": 81
-    },
-    {
-      "tag": "Failure Mode",
-      "count": 66
+      "count": 83
     },
     {
       "tag": "Constitutional AI",
-      "count": 64
-    },
-    {
-      "tag": "Phase 5",
-      "count": 63
+      "count": 78
     },
     {
       "tag": "Constraint Lattice",
-      "count": 49
+      "count": 74
+    },
+    {
+      "tag": "Phase 5",
+      "count": 64
     },
     {
       "tag": "Attestation",
-      "count": 43
+      "count": 46
     },
     {
       "tag": "Convergence Gate",
-      "count": 28
+      "count": 34
     },
     {
       "tag": "Phase 6",
       "count": 26
     },
     {
-      "tag": "NFM-002",
-      "count": 16
+      "tag": "CAISC 2026",
+      "count": 25
     },
     {
       "tag": "Identity Enforcement",
+      "count": 21
+    },
+    {
+      "tag": "NFM-002",
       "count": 15
     },
     {
-      "tag": "NFM-032",
-      "count": 12
-    },
-    {
-      "tag": "NFM-020",
-      "count": 12
+      "tag": "Phase 8",
+      "count": 13
     }
   ],
   "category_breakdown": {
     "root-doc": 804,
-    "config": 47,
+    "config": 50,
     "data": 28,
-    "docs": 338,
+    "docs": 394,
     "drafts": 1,
     "log": 8,
     "schema": 38,
-    "script": 452,
-    "code": 339,
+    "script": 458,
+    "code": 341,
     "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
     "test": 10,
     "verification": 14,
@@ -232,6 +232,7 @@
     "project": 3,
     "phase-6": 5,
     "we": 2,
+    "paper-section": 71,
     "drift": 18,
     "iac": 2,
     "architecture": 52

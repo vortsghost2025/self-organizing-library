@@ -1,0 +1,1012 @@
+{
+  "snapshot_a_id": "snapshot-Archivist-Agent-2026-04-29T13-20-45-139Z",
+  "snapshot_b_id": "snapshot-Archivist-Agent-2026-04-29T20-16-18-045Z",
+  "compared_at": "2026-04-29T20:16:18.186Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "Archivist-Agent"
+  ],
+  "repo_filter_b": [
+    "Archivist-Agent"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.139Z",
+  "created_at_b": "2026-04-29T20:16:18.045Z",
+  "visible_node_count_delta": 5,
+  "visible_edge_count_delta": 5493,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 3,
+    "conflicted": 2,
+    "quarantined": 0
+  },
+  "added_node_ids": [
+    "47490229c28c5fbe",
+    "29262f6f640d8e40",
+    "761666fc7f6aad6d",
+    "f1adcf221391a803",
+    "42e91616ef652889"
+  ],
+  "removed_node_ids": [],
+  "changed_node_statuses": [
+    {
+      "id": "0bcd68f3e0009f0e",
+      "title": "Beyond Prohibition: Why Constitutional Constraints Enable Safe AI Autonomy",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "UNVERIFIED"
+    },
+    {
+      "id": "044d760a04bbfa30",
+      "title": "🧠 What the Previous Reviewer Got WRONG (The “Lies”)",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "UNVERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "42703e0a310cdeed",
+      "title": "AUTONOMOUSCONSTRAINTDISCOVERYPROTOCOL.md",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "5bb9b1c68bd9f471",
+      "title": "When AI Systems Lie About Their Own State: A Multi-Agent Failure Case and Runtime Verification Fix",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "d52d670ab9d41169",
+      "title": "VERIFICATION CHECKPOINT SYSTEM",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "a88504c97e8f2e4f",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "45d50e60309ef11c",
+      "title": "LIBRARY MAP EXTRACTION: RECOVERY ASSUMPTIONS",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "8f11fb5f4a3a5efc",
+      "title": "LIBRARY MAP ANALYSIS: COMPLETE AUTHORITY CHAIN",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "3fd7ecd777d9b118",
+      "title": "Windows",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "1d846649979dcec1",
+      "title": "USERDRIFTSCORING.md",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "7e1bc4c96f99fd74",
+      "title": "Failure Modes Reveal Missing Constraints: A Self-Correcting Governance Lattice for Multi-Agent AI Systems",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "3023460d99160a03",
+      "title": "paper1",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "d7faf6e0d182e390",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "e2d590843468dbe7",
+      "title": "Quick Lookup Index",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "122d5bdf33338a38",
+      "title": "FAILURE TOPOLOGY DIAGRAM",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "b6a19d32a8604205",
+      "title": "Paper F Continuation Draft: Dual-Agent Overlap Guardrail",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "UNVERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "477f6d60614778ea",
+      "title": "Green State Runbook",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "UNVERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "04dd0db9e23ab61a",
+      "title": "Trust & Identity Hardening Layer — V1 Spec",
+      "repo": "Archivist-Agent",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    }
+  ],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [
+    {
+      "id": "0bcd68f3e0009f0e",
+      "title": "Beyond Prohibition: Why Constitutional Constraints Enable Safe AI Autonomy",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "f328b044eb310650",
+      "title": "USERDRIFTSCORING.md",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "enforced"
+    },
+    {
+      "id": "044d760a04bbfa30",
+      "title": "🧠 What the Previous Reviewer Got WRONG (The “Lies”)",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "2abc406c3496acfd",
+      "title": "ARCHIVISTINTERNALSTRUCTURE.md",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "42703e0a310cdeed",
+      "title": "AUTONOMOUSCONSTRAINTDISCOVERYPROTOCOL.md",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "enforced"
+    },
+    {
+      "id": "5bb9b1c68bd9f471",
+      "title": "When AI Systems Lie About Their Own State: A Multi-Agent Failure Case and Runtime Verification Fix",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "d52d670ab9d41169",
+      "title": "VERIFICATION CHECKPOINT SYSTEM",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "0054b7e3e395b9c5",
+      "title": "COCKPIT ARCHITECTURE — Canonical Registry & Truth Layer",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "partial"
+    },
+    {
+      "id": "b19bcf5fa4f5bc47",
+      "title": "codereview11",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "189736a49fd80564",
+      "title": "COLD-START DEATH-AND-REPLACEMENT DRILL REPORT",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "enforced"
+    },
+    {
+      "id": "a54fb152f30890f3",
+      "title": "Continuity Specification",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "a88504c97e8f2e4f",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "verified",
+      "to": "contradicted"
+    },
+    {
+      "id": "553c01007ff77f6c",
+      "title": "New session - 2026-04-17T02:10:54.292Z",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "verified"
+    },
+    {
+      "id": "655aebe31068d8ec",
+      "title": "CRITICAL FIX LOG: Recovery Verification",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "c6e25cf1e3db51a0",
+      "title": "LIBRARY MAP EXTRACTION: AUTHORITY LINKS",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "45d50e60309ef11c",
+      "title": "LIBRARY MAP EXTRACTION: RECOVERY ASSUMPTIONS",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "71d447740309bf78",
+      "title": "FreeAgent Boot Sequence",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "06d8abcc2c3d268f",
+      "title": "FreeAgent Recovery Policy",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "e9409890cecc8002",
+      "title": "Grokassesmentaoril142026",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "8f11fb5f4a3a5efc",
+      "title": "LIBRARY MAP ANALYSIS: COMPLETE AUTHORITY CHAIN",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "contradicted"
+    },
+    {
+      "id": "4f7ef6b70cabdc77",
+      "title": "MULTIAGENTTHEORYEXTRACTION.md",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "enforced"
+    },
+    {
+      "id": "3fd7ecd777d9b118",
+      "title": "Windows",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "verified"
+    },
+    {
+      "id": "13d0e052d02f5897",
+      "title": "Archivist-Agent",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "1d846649979dcec1",
+      "title": "USERDRIFTSCORING.md",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "da10bfe26c0a4e07",
+      "title": "User Drift Scoring System v0",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "enforced"
+    },
+    {
+      "id": "7e1bc4c96f99fd74",
+      "title": "Failure Modes Reveal Missing Constraints: A Self-Correcting Governance Lattice for Multi-Agent AI Systems",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "enforced"
+    },
+    {
+      "id": "ba4e663e8f652046",
+      "title": "Devpost",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "verified"
+    },
+    {
+      "id": "3023460d99160a03",
+      "title": "paper1",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "verified",
+      "to": "contradicted"
+    },
+    {
+      "id": "92e2fb1e3f5a6aaa",
+      "title": "List of inviolable constraints",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "verified",
+      "to": "enforced"
+    },
+    {
+      "id": "bbcb1a6048628381",
+      "title": "Pattern Decision Tree",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "verified"
+    },
+    {
+      "id": "d7faf6e0d182e390",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "verified"
+    },
+    {
+      "id": "e2d590843468dbe7",
+      "title": "Quick Lookup Index",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "verified",
+      "to": "contradicted"
+    },
+    {
+      "id": "a2ca0053390c8148",
+      "title": "DERIVATION MAP",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "partial"
+    },
+    {
+      "id": "c3de8a98ae126ade",
+      "title": "PROJECT REGISTRY",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "partial"
+    },
+    {
+      "id": "6b989cdfbe4497a4",
+      "title": "The critical pivot in your paste",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "obsolete"
+    },
+    {
+      "id": "b5d23c09f9a858fc",
+      "title": "🧠 What you said (cleaned up)",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "partial",
+      "to": "contradicted"
+    },
+    {
+      "id": "f4d82e759deab217",
+      "title": "Check if phenotype P respects constitution",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "partial",
+      "to": "enforced"
+    },
+    {
+      "id": "abb1f5c1db316f97",
+      "title": "sync-all-lanes.js Robustness Audit",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "be1fb8755e4aedc1",
+      "title": "Technical Brief: AI Ensemble Intelligence System",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "122d5bdf33338a38",
+      "title": "FAILURE TOPOLOGY DIAGRAM",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "b6a19d32a8604205",
+      "title": "Paper F Continuation Draft: Dual-Agent Overlap Guardrail",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "e1d180419b6a79fb",
+      "title": "Dual-Agent Concurrency Guardrail",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "enforced"
+    },
+    {
+      "id": "477f6d60614778ea",
+      "title": "Green State Runbook",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "3b43dd69cb1fa157",
+      "title": "Last recovery broadcast (lanes/broadcast/last-recovery.json)",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "19ab836f12274ac9",
+      "title": "Release Notes",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "2c970425f47066f6",
+      "title": "Golden Replay Reference Case",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "04dd0db9e23ab61a",
+      "title": "Trust & Identity Hardening Layer — V1 Spec",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "enforced"
+    },
+    {
+      "id": "156e702e7b7c00ac",
+      "title": "e2e strict review closure 2026 04 26",
+      "repo": "Archivist-Agent",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    }
+  ],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "0bcd68f3e0009f0e",
+      "title": "Beyond Prohibition: Why Constitutional Constraints Enable Safe AI Autonomy",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 289,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "fb8212e128adc1c5",
+      "title": "APR15",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 187,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "42703e0a310cdeed",
+      "title": "AUTONOMOUSCONSTRAINTDISCOVERYPROTOCOL.md",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 253,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "e0e603e85e1972ea",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 190,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "5bb9b1c68bd9f471",
+      "title": "When AI Systems Lie About Their Own State: A Multi-Agent Failure Case and Runtime Verification Fix",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 188,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "1bda9962fbd5ca75",
+      "title": "Paper Outline: When AI Systems Lie About Their Own State",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 347,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "3fd7ecd777d9b118",
+      "title": "Windows",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "65fb533da2a76f09",
+      "title": "pre compaction validation buffer",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "7e1bc4c96f99fd74",
+      "title": "Failure Modes Reveal Missing Constraints: A Self-Correcting Governance Lattice for Multi-Agent AI Systems",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 583,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "f536c15cc2486eea",
+      "title": "Implementation Compass",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 298,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "044d760a04bbfa30",
+      "title": "🧠 What the Previous Reviewer Got WRONG (The “Lies”)",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 94,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "fb8212e128adc1c5",
+      "title": "APR15",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 135,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "e0e603e85e1972ea",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 356,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "1bda9962fbd5ca75",
+      "title": "Paper Outline: When AI Systems Lie About Their Own State",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 323,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "d52d670ab9d41169",
+      "title": "VERIFICATION CHECKPOINT SYSTEM",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 180,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "a88504c97e8f2e4f",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 321,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "45d50e60309ef11c",
+      "title": "LIBRARY MAP EXTRACTION: RECOVERY ASSUMPTIONS",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 222,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "8f11fb5f4a3a5efc",
+      "title": "LIBRARY MAP ANALYSIS: COMPLETE AUTHORITY CHAIN",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 294,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "1d846649979dcec1",
+      "title": "USERDRIFTSCORING.md",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 96,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "65fb533da2a76f09",
+      "title": "pre compaction validation buffer",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 108,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    }
+  ],
+  "top_new_contradictions": [
+    {
+      "id": "044d760a04bbfa30",
+      "title": "🧠 What the Previous Reviewer Got WRONG (The “Lies”)",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 94,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "d52d670ab9d41169",
+      "title": "VERIFICATION CHECKPOINT SYSTEM",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 180,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "a88504c97e8f2e4f",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 321,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "45d50e60309ef11c",
+      "title": "LIBRARY MAP EXTRACTION: RECOVERY ASSUMPTIONS",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 222,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "8f11fb5f4a3a5efc",
+      "title": "LIBRARY MAP ANALYSIS: COMPLETE AUTHORITY CHAIN",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 294,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "1d846649979dcec1",
+      "title": "USERDRIFTSCORING.md",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 96,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "3023460d99160a03",
+      "title": "paper1",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 278,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "e2d590843468dbe7",
+      "title": "Quick Lookup Index",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 364,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "b5d23c09f9a858fc",
+      "title": "🧠 What you said (cleaned up)",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 254,
+      "status": "QUARANTINED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "b6a19d32a8604205",
+      "title": "Paper F Continuation Draft: Dual-Agent Overlap Guardrail",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 96,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "477f6d60614778ea",
+      "title": "Green State Runbook",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 39,
+      "connectionCount": 186,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    }
+  ],
+  "top_resolved_contradictions": [
+    {
+      "id": "0bcd68f3e0009f0e",
+      "title": "Beyond Prohibition: Why Constitutional Constraints Enable Safe AI Autonomy",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 289,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "42703e0a310cdeed",
+      "title": "AUTONOMOUSCONSTRAINTDISCOVERYPROTOCOL.md",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 253,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "5bb9b1c68bd9f471",
+      "title": "When AI Systems Lie About Their Own State: A Multi-Agent Failure Case and Runtime Verification Fix",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 188,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "3fd7ecd777d9b118",
+      "title": "Windows",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "7e1bc4c96f99fd74",
+      "title": "Failure Modes Reveal Missing Constraints: A Self-Correcting Governance Lattice for Multi-Agent AI Systems",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 583,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "d7faf6e0d182e390",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 375,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "6b989cdfbe4497a4",
+      "title": "The critical pivot in your paste",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "QUARANTINED",
+      "governanceLayer": "historical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "122d5bdf33338a38",
+      "title": "FAILURE TOPOLOGY DIAGRAM",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 172,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    },
+    {
+      "id": "04dd0db9e23ab61a",
+      "title": "Trust & Identity Hardening Layer — V1 Spec",
+      "repo": "Archivist-Agent",
+      "contradictionCount": 65,
+      "connectionCount": 236,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 95
+    }
+  ]
+}

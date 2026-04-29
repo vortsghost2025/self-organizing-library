@@ -1,0 +1,250 @@
+{
+  "snapshot_a_id": "snapshot-full-2026-04-29T13-20-45-201Z",
+  "snapshot_b_id": "snapshot-full-2026-04-29T20-06-00-933Z",
+  "compared_at": "2026-04-29T20:06:01.170Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [],
+  "repo_filter_b": [],
+  "created_at_a": "2026-04-29T13:20:45.201Z",
+  "created_at_b": "2026-04-29T20:06:00.933Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 91,
+      "connectionCount": 400,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "bfcfc95ede211094",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "FreeAgent",
+      "contradictionCount": 79,
+      "connectionCount": 334,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "c898563bcc9b2f3f",
+      "title": "Accidental single: Continues",
+      "repo": "FreeAgent",
+      "contradictionCount": 70,
+      "connectionCount": 396,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "cff9421396c74fbd",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 167,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "9dd03218e676c2ce",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 302,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "816dbcccad5ac3e6",
+      "title": "Dual Verification Protocol",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 197,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d6b49fe453e410a9",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 161,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "6f705a06a87ae625",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 299,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "c6afd861a226fc10",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 198,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 577,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 91,
+      "connectionCount": 400,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "bfcfc95ede211094",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "FreeAgent",
+      "contradictionCount": 79,
+      "connectionCount": 334,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "c898563bcc9b2f3f",
+      "title": "Accidental single: Continues",
+      "repo": "FreeAgent",
+      "contradictionCount": 70,
+      "connectionCount": 396,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "cff9421396c74fbd",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 167,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "9dd03218e676c2ce",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 302,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "816dbcccad5ac3e6",
+      "title": "Dual Verification Protocol",
+      "repo": "FreeAgent",
+      "contradictionCount": 66,
+      "connectionCount": 197,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d6b49fe453e410a9",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 161,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "6f705a06a87ae625",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 299,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "c6afd861a226fc10",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 198,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 577,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}

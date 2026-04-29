@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-04-29T04:17:21.526Z",
+  "generated_at": "2026-04-29T20:03:45.461Z",
   "github_org": "vortsghost2025",
   "repo_roots": {
     "self-organizing-library": "S:/self-organizing-library",
@@ -14,27 +14,28 @@
     "Deliberate-AI-Ensemble": "S:/April152026mainreferencepoint"
   },
   "stats": {
-    "total_files": 3451,
+    "total_files": 3589,
     "by_content_type": {
-      "doc": 1593,
-      "data": 304,
-      "code": 1336,
-      "config": 43,
+      "doc": 1603,
+      "data": 361,
+      "code": 1344,
+      "config": 46,
       "schema": 50,
       "test-data": 52,
       "paper": 5,
+      "paper-section": 60,
       "unknown": 68
     },
     "by_category": {
       "root-doc": 804,
-      "config": 47,
+      "config": 50,
       "data": 28,
-      "docs": 338,
+      "docs": 394,
       "drafts": 1,
       "log": 8,
       "schema": 38,
-      "script": 452,
-      "code": 339,
+      "script": 458,
+      "code": 341,
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
       "test": 10,
       "verification": 14,
@@ -89,47 +90,48 @@
       "project": 3,
       "phase-6": 5,
       "we": 2,
+      "paper-section": 71,
       "drift": 18,
       "iac": 2,
       "architecture": 52
     },
     "by_extension": {
-      ".md": 1427,
-      ".json": 421,
-      ".js": 680,
-      ".ts": 268,
+      ".md": 1437,
+      ".json": 541,
+      ".js": 686,
+      ".ts": 269,
       ".mjs": 2,
       ".txt": 166,
       ".yml": 18,
-      ".tsx": 44,
+      ".tsx": 45,
       ".yaml": 10,
       ".py": 342,
       ".pdf": 5,
       ".html": 68
     },
-    "total_size_bytes": 70679983,
+    "total_size_bytes": 81380606,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 415,
-        "total_size_bytes": 20466829,
+        "total_files": 472,
+        "total_size_bytes": 30950955,
         "by_content_type": {
-          "doc": 79,
-          "data": 26,
-          "code": 271,
-          "config": 4,
+          "doc": 81,
+          "data": 76,
+          "code": 275,
+          "config": 5,
           "schema": 13,
           "test-data": 22
         },
         "by_category": {
           "root-doc": 40,
-          "config": 6,
+          "config": 7,
           "data": 3,
-          "docs": 28,
+          "docs": 80,
           "drafts": 1,
           "log": 1,
           "schema": 11,
-          "script": 144,
-          "code": 62,
+          "script": 146,
+          "code": 64,
           "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
           "test": 1,
           "verification": 14,
@@ -153,29 +155,29 @@
         }
       },
       "Archivist-Agent": {
-        "total_files": 512,
-        "total_size_bytes": 4053743,
+        "total_files": 517,
+        "total_size_bytes": 4073073,
         "by_content_type": {
-          "doc": 197,
+          "doc": 198,
           "data": 109,
           "test-data": 11,
-          "config": 7,
+          "config": 8,
           "schema": 21,
-          "code": 167
+          "code": 170
         },
         "by_category": {
           "root-doc": 130,
           "coordination": 2,
-          "config": 6,
+          "config": 7,
           "ai-ensemble-lab": 15,
-          "docs": 125,
+          "docs": 126,
           "log": 3,
           "paper": 15,
           "plans": 3,
           "infrastructure": 3,
           "schema": 13,
           "scratch": 15,
-          "script": 112,
+          "script": 115,
           "sensitive": 1,
           "code": 6,
           "governance": 26,
@@ -191,32 +193,32 @@
         }
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 224,
-        "total_size_bytes": 1133187,
+        "total_files": 226,
+        "total_size_bytes": 1139044,
         "by_content_type": {
           "doc": 14,
           "data": 84,
-          "config": 2,
+          "config": 3,
           "schema": 13,
-          "code": 97,
+          "code": 98,
           "test-data": 14
         },
         "by_category": {
           "root-doc": 16,
-          "config": 2,
+          "config": 3,
           "docs": 92,
           "schema": 12,
-          "script": 96,
+          "script": 97,
           "code": 5,
           "templates": 1
         }
       },
       "kernel-lane": {
-        "total_files": 212,
-        "total_size_bytes": 1218414,
+        "total_files": 215,
+        "total_size_bytes": 1239839,
         "by_content_type": {
-          "doc": 59,
-          "data": 36,
+          "doc": 61,
+          "data": 37,
           "code": 105,
           "config": 4,
           "schema": 3,
@@ -227,7 +229,7 @@
           "config": 13,
           "baseline": 1,
           "benchmark": 12,
-          "docs": 37,
+          "docs": 40,
           "integration": 1,
           "kernel": 3,
           "paper": 1,
@@ -303,13 +305,17 @@
         }
       },
       "papers": {
-        "total_files": 5,
-        "total_size_bytes": 494613,
+        "total_files": 76,
+        "total_size_bytes": 664498,
         "by_content_type": {
-          "paper": 5
+          "paper": 5,
+          "data": 6,
+          "paper-section": 60,
+          "doc": 5
         },
         "by_category": {
-          "root-doc": 5
+          "root-doc": 5,
+          "paper-section": 71
         }
       },
       "storytime": {
@@ -358,6 +364,8 @@
       "f6d77915e48558b2",
       "51e007ff70dd2cdf",
       "21453919b0f5ae2d",
+      "fbf4a5e1ef4bb27a",
+      "8dfb6e9b32e8094e",
       "3df5e3e33e3759d3",
       "8e902fb972837674",
       "349c49abd83ca16c",
@@ -377,12 +385,16 @@
       "f56c8a7bf8764a7a",
       "5d83ee51d6619cd9",
       "7c568ec4394d439f",
+      "c3b79e966f17570d",
       "c04ca6f8c0ccf0fb",
       "daf1225a92b05539",
       "e895271553bf1b05",
       "8fee8420a0f19e7d",
       "ac7f640d8850c6b0",
-      "cf0711bc6ca00a0b"
+      "cf0711bc6ca00a0b",
+      "417be6412d14ac69",
+      "8bddb28e9cecab7c",
+      "78298889a29508fe"
     ],
     "Identity Enforcement": [
       "f6d77915e48558b2",
@@ -399,7 +411,13 @@
       "7e1bc4c96f99fd74",
       "ed54a0eefffa2585",
       "7c568ec4394d439f",
-      "c04ca6f8c0ccf0fb"
+      "c04ca6f8c0ccf0fb",
+      "924d83907a0aef82",
+      "34aefde0eec70e84",
+      "dbbbebbd2f455e6c",
+      "618dfb4ede98a6f7",
+      "85b095ea94b48265",
+      "05c14e6bf7cd2be3"
     ],
     "Multi-Agent": [
       "f6d77915e48558b2",
@@ -416,6 +434,7 @@
       "cefb9bd297fdcf44",
       "491b718c42ed59ca",
       "b90ee5b7a8c4f680",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
       "3df5e3e33e3759d3",
       "24c840be9d1d8b7c",
@@ -669,6 +688,20 @@
       "65efb2f615f1e477",
       "760d323a087952a8",
       "7887bea0a69b5a80",
+      "8314e863b8d59045",
+      "53acca9f02704946",
+      "7ed39f2d562660f7",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "dc449e1ea6e8d6d0",
+      "8b6c3a4b7bb15398",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "64a82e30b41c8af2",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "69cc8d00b54c1588",
+      "05c14e6bf7cd2be3",
       "5ef61dc0b569b587",
       "02233b540b2f89ec",
       "dc31744a2050121e",
@@ -744,8 +777,10 @@
       "c6da5c1c8dc00312",
       "96e320fca0403dec",
       "881eb9969266b9d3",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
       "2593d6d49d692c17",
+      "8dfb6e9b32e8094e",
       "13f61916a99e0577",
       "99a0306bbd2334c6",
       "616162f92b0543be",
@@ -914,6 +949,7 @@
       "ae199f251609d734",
       "08565392922f5ee2",
       "7c568ec4394d439f",
+      "c3b79e966f17570d",
       "c04ca6f8c0ccf0fb",
       "7dc6304e058c537b",
       "dd9b2967fd3393db",
@@ -1053,6 +1089,16 @@
       "74431aac7a1dfd94",
       "65efb2f615f1e477",
       "760d323a087952a8",
+      "8314e863b8d59045",
+      "2a6a327d1520e97e",
+      "2b0897fd8bbedfc3",
+      "7ed39f2d562660f7",
+      "f1d45dc5a47a223c",
+      "7c9a72da382c5998",
+      "4337c5bade761d91",
+      "618dfb4ede98a6f7",
+      "dfa6744a5458ae32",
+      "05c14e6bf7cd2be3",
       "c0ee2b8177bbd219",
       "9c9920b51df6abaf",
       "9ce8f2b4ce6fafc3",
@@ -1130,7 +1176,10 @@
       "84ba7fc56f432454",
       "08565392922f5ee2",
       "7c568ec4394d439f",
-      "c04ca6f8c0ccf0fb"
+      "c04ca6f8c0ccf0fb",
+      "924d83907a0aef82",
+      "53de7a59e510bd3d",
+      "dbbbebbd2f455e6c"
     ],
     "Verification": [
       "f6d77915e48558b2",
@@ -1156,8 +1205,10 @@
       "491b718c42ed59ca",
       "b90ee5b7a8c4f680",
       "881eb9969266b9d3",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
       "2593d6d49d692c17",
+      "8dfb6e9b32e8094e",
       "13f61916a99e0577",
       "3df5e3e33e3759d3",
       "8e902fb972837674",
@@ -1341,8 +1392,8 @@
       "5d83ee51d6619cd9",
       "08565392922f5ee2",
       "7c568ec4394d439f",
+      "c3b79e966f17570d",
       "c04ca6f8c0ccf0fb",
-      "dd9b2967fd3393db",
       "5b49dc33bff123d4",
       "d465b9ec98dc1372",
       "0b71c576d22f3c68",
@@ -1585,6 +1636,23 @@
       "74431aac7a1dfd94",
       "65efb2f615f1e477",
       "760d323a087952a8",
+      "8314e863b8d59045",
+      "d960fdd1ce7b92bd",
+      "7ed39f2d562660f7",
+      "924d83907a0aef82",
+      "42efe4aefe21883e",
+      "4e8fe95de74a87a4",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "d0a8009bef4867f4",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "84f4471ede976145",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "1a3ed1f5f8115978",
+      "85b095ea94b48265",
+      "05c14e6bf7cd2be3",
       "5ef61dc0b569b587",
       "403a93dca65eb2cb",
       "fb61fdbd0b1728a2",
@@ -1673,7 +1741,9 @@
       "106f55b124ab877e",
       "3185ac70c0a9bdad",
       "881eb9969266b9d3",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
+      "8dfb6e9b32e8094e",
       "13f61916a99e0577",
       "616162f92b0543be",
       "3df5e3e33e3759d3",
@@ -1751,11 +1821,13 @@
       "5d83ee51d6619cd9",
       "08565392922f5ee2",
       "7c568ec4394d439f",
+      "5ed19fb5acaea667",
       "b42763364fd466f2",
       "5d636ccc261c1318",
       "b8370c2e4b1be6d9",
       "5d8a25163a408540",
       "85db3fd3083ca4a1",
+      "c3b79e966f17570d",
       "c04ca6f8c0ccf0fb",
       "7dc6304e058c537b",
       "dd9b2967fd3393db",
@@ -1808,7 +1880,9 @@
       "491b718c42ed59ca",
       "b90ee5b7a8c4f680",
       "881eb9969266b9d3",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
+      "8dfb6e9b32e8094e",
       "13f61916a99e0577",
       "616162f92b0543be",
       "3df5e3e33e3759d3",
@@ -1966,7 +2040,9 @@
       "5d83ee51d6619cd9",
       "08565392922f5ee2",
       "7c568ec4394d439f",
+      "5ed19fb5acaea667",
       "b42763364fd466f2",
+      "c3b79e966f17570d",
       "c04ca6f8c0ccf0fb",
       "dd9b2967fd3393db",
       "5b49dc33bff123d4",
@@ -1995,8 +2071,10 @@
       "21453919b0f5ae2d",
       "106f55b124ab877e",
       "881eb9969266b9d3",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
       "2593d6d49d692c17",
+      "8dfb6e9b32e8094e",
       "13f61916a99e0577",
       "616162f92b0543be",
       "3df5e3e33e3759d3",
@@ -2119,6 +2197,7 @@
       "2491810d7219297d",
       "3029217805767892",
       "65fb533da2a76f09",
+      "29262f6f640d8e40",
       "2329efdde08c1e96",
       "7e1bc4c96f99fd74",
       "a0a1c9350628ed93",
@@ -2195,7 +2274,9 @@
       "5d83ee51d6619cd9",
       "08565392922f5ee2",
       "7c568ec4394d439f",
+      "5ed19fb5acaea667",
       "b42763364fd466f2",
+      "c3b79e966f17570d",
       "c04ca6f8c0ccf0fb",
       "dd9b2967fd3393db",
       "5b49dc33bff123d4",
@@ -2248,8 +2329,10 @@
       "21453919b0f5ae2d",
       "106f55b124ab877e",
       "881eb9969266b9d3",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
       "2593d6d49d692c17",
+      "8dfb6e9b32e8094e",
       "13f61916a99e0577",
       "616162f92b0543be",
       "3df5e3e33e3759d3",
@@ -2405,7 +2488,9 @@
       "5d83ee51d6619cd9",
       "08565392922f5ee2",
       "7c568ec4394d439f",
+      "5ed19fb5acaea667",
       "b42763364fd466f2",
+      "c3b79e966f17570d",
       "c04ca6f8c0ccf0fb",
       "dd9b2967fd3393db",
       "5b49dc33bff123d4",
@@ -2554,11 +2639,36 @@
       "74431aac7a1dfd94",
       "65efb2f615f1e477",
       "760d323a087952a8",
-      "976cf49342e20090"
+      "976cf49342e20090",
+      "8314e863b8d59045",
+      "f9ed71a51fee859a",
+      "d2a6fb7744f0d01d",
+      "7ed39f2d562660f7",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "d3b563dc4668de48",
+      "0ef35c7bed57501c",
+      "fc0a5d62a0b7bd5b",
+      "d0a8009bef4867f4",
+      "dc449e1ea6e8d6d0",
+      "e6a6bccb3a39f666",
+      "81e0b90eb44de696",
+      "8b6c3a4b7bb15398",
+      "7c9a72da382c5998",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "7932a751ccf92a29",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "3b9f1a19c5885297",
+      "1a3ed1f5f8115978",
+      "05c14e6bf7cd2be3"
     ],
     "Failure Mode": [
       "c6afd861a226fc10",
       "c6da5c1c8dc00312",
+      "fbf4a5e1ef4bb27a",
+      "8dfb6e9b32e8094e",
       "3df5e3e33e3759d3",
       "975e6e0aabd534a1",
       "df24c121aca95ae0",
@@ -2598,7 +2708,7 @@
       "6a9bd95ba806a410",
       "7068077618c7d8e3",
       "7372a72fe280b3a3",
-      "dd9b2967fd3393db",
+      "c3b79e966f17570d",
       "b585750139e20b54",
       "6c283edeb4dd8a14",
       "cff9421396c74fbd",
@@ -2612,6 +2722,23 @@
       "05ac63054fa5da67",
       "816dbcccad5ac3e6",
       "3a1c2c4278c9c5d1",
+      "8314e863b8d59045",
+      "78657e1eaeff4bfe",
+      "7ed39f2d562660f7",
+      "924d83907a0aef82",
+      "cf0a5a0676e20fe7",
+      "47a168b2a279493d",
+      "3a169a731cf845a1",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "81e0b90eb44de696",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "91a8ce3a4780956a",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "a4978eac671fb5f1",
+      "05c14e6bf7cd2be3",
       "5ef61dc0b569b587",
       "36c9547e1c6a0f6e",
       "5f036b9fc762422d",
@@ -2633,7 +2760,9 @@
       "95c9021f0657fa6d",
       "c6da5c1c8dc00312",
       "96e320fca0403dec",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
+      "8dfb6e9b32e8094e",
       "13f61916a99e0577",
       "99a0306bbd2334c6",
       "616162f92b0543be",
@@ -2722,6 +2851,12 @@
       "1dc4bf09187a319a",
       "1dad31120b1c9d34",
       "e0cc0d952e75e52f",
+      "8314e863b8d59045",
+      "29ea481e7a18a3e3",
+      "7ed39f2d562660f7",
+      "417be6412d14ac69",
+      "0a504a8324f219aa",
+      "78298889a29508fe",
       "8801d3cc3a3a0f91",
       "201e2565213d7df0",
       "c7dc61c37b8e0e3e",
@@ -2742,6 +2877,7 @@
       "96e320fca0403dec",
       "106f55b124ab877e",
       "881eb9969266b9d3",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
       "3df5e3e33e3759d3",
       "975e6e0aabd534a1",
@@ -2957,6 +3093,33 @@
       "65efb2f615f1e477",
       "760d323a087952a8",
       "ec498514c4ad3f3c",
+      "8314e863b8d59045",
+      "78657e1eaeff4bfe",
+      "7ed39f2d562660f7",
+      "924d83907a0aef82",
+      "aba59f0ad1b5d1b5",
+      "1ee5e31658f1cc55",
+      "75caedc19bca2343",
+      "cf0a5a0676e20fe7",
+      "7770f21f4c007122",
+      "47a168b2a279493d",
+      "34aefde0eec70e84",
+      "53de7a59e510bd3d",
+      "42efe4aefe21883e",
+      "f9689db12d506240",
+      "3a169a731cf845a1",
+      "4e8fe95de74a87a4",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "81e0b90eb44de696",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "ad1ff6ca8dbb637b",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "a4978eac671fb5f1",
+      "ee5541d8684aaa91",
+      "05c14e6bf7cd2be3",
       "36c9547e1c6a0f6e",
       "94f851b2529daaaf",
       "12c065c8c2f34317",
@@ -3040,6 +3203,31 @@
       "74431aac7a1dfd94",
       "65efb2f615f1e477",
       "760d323a087952a8",
+      "8314e863b8d59045",
+      "da95047224df5bdf",
+      "0c9e78b0ae21730d",
+      "36dc4d6760d630d0",
+      "21b75f925f27af91",
+      "2a6a327d1520e97e",
+      "53acca9f02704946",
+      "29ea481e7a18a3e3",
+      "6553dbf2d317c72e",
+      "2b0897fd8bbedfc3",
+      "f9ed71a51fee859a",
+      "d2a6fb7744f0d01d",
+      "78657e1eaeff4bfe",
+      "d960fdd1ce7b92bd",
+      "7ed39f2d562660f7",
+      "f1d45dc5a47a223c",
+      "fc0a5d62a0b7bd5b",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "778dfe285e6b9fd8",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "c2ec66b63de20614",
+      "75ac9bf7af78b579",
+      "05c14e6bf7cd2be3",
       "94f851b2529daaaf"
     ],
     "Lane Relay": [
@@ -3055,7 +3243,9 @@
       "0fb0e5b166e745f9",
       "03c39275aeb81177",
       "48583cfe10a7f1fe",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
+      "8dfb6e9b32e8094e",
       "8e902fb972837674",
       "24c840be9d1d8b7c",
       "3a36816b5a3c60be",
@@ -3187,6 +3377,7 @@
       "6d571e7cd343a393",
       "e5e759554a2b63b3",
       "706d12bb4988800f",
+      "5ed19fb5acaea667",
       "c04ca6f8c0ccf0fb",
       "dd9b2967fd3393db",
       "5b49dc33bff123d4",
@@ -3379,6 +3570,7 @@
       "63b6f69104edd6ca",
       "6d571e7cd343a393",
       "706d12bb4988800f",
+      "5ed19fb5acaea667",
       "c04ca6f8c0ccf0fb",
       "dd9b2967fd3393db",
       "5b49dc33bff123d4",
@@ -3801,6 +3993,7 @@
       "84333755b1c77549",
       "be1fb8755e4aedc1",
       "04dd0db9e23ab61a",
+      "dd9b2967fd3393db",
       "f4e9b5a6db8ddf7c",
       "3bbebe5aefaf026d",
       "00780d2a186787b2",
@@ -3852,6 +4045,7 @@
       "c6da5c1c8dc00312",
       "4bdf87fa11031752",
       "96e320fca0403dec",
+      "8dfb6e9b32e8094e",
       "3df5e3e33e3759d3",
       "8e902fb972837674",
       "975e6e0aabd534a1",
@@ -3930,6 +4124,24 @@
       "84821634cfc4b749",
       "61e9d4dad2bcc54d",
       "9a57cc0ec0be4e0b",
+      "417be6412d14ac69",
+      "6822c103b5be0e85",
+      "8c0a57c57cea30dd",
+      "6533c275f306f62a",
+      "778dfe285e6b9fd8",
+      "7932a751ccf92a29",
+      "ad1ff6ca8dbb637b",
+      "1566cafc15a68789",
+      "64a82e30b41c8af2",
+      "8bddb28e9cecab7c",
+      "84f4471ede976145",
+      "0a504a8324f219aa",
+      "91a8ce3a4780956a",
+      "a7b05aeb204aad28",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "e1ece1205f5a8587",
+      "05c14e6bf7cd2be3",
       "d6b49fe453e410a9",
       "9b07f18e70e20e76",
       "4aeb12ebc23d7117",
@@ -3985,6 +4197,20 @@
       "2e8659443708f2d6",
       "ca0610884f2e9866",
       "a60454a4cafd118e",
+      "8314e863b8d59045",
+      "36dc4d6760d630d0",
+      "6553dbf2d317c72e",
+      "7ed39f2d562660f7",
+      "924d83907a0aef82",
+      "75caedc19bca2343",
+      "dbbbebbd2f455e6c",
+      "417be6412d14ac69",
+      "6533c275f306f62a",
+      "0a504a8324f219aa",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "e1ece1205f5a8587",
+      "05c14e6bf7cd2be3",
       "9b07f18e70e20e76",
       "911a3576c8a9f8c9",
       "9ce8f2b4ce6fafc3",
@@ -4009,6 +4235,8 @@
       "749351e73a3dcf8a",
       "c6da5c1c8dc00312",
       "96e320fca0403dec",
+      "fbf4a5e1ef4bb27a",
+      "8dfb6e9b32e8094e",
       "975e6e0aabd534a1",
       "24c840be9d1d8b7c",
       "4434f376d017aa01",
@@ -4242,6 +4470,18 @@
       "65efb2f615f1e477",
       "760d323a087952a8",
       "ec498514c4ad3f3c",
+      "924d83907a0aef82",
+      "f9689db12d506240",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "e6a6bccb3a39f666",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "1566cafc15a68789",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "69cc8d00b54c1588",
+      "05c14e6bf7cd2be3",
       "bda39a57db888773",
       "4262cbbec7fb7acf",
       "5f036b9fc762422d",
@@ -4299,7 +4539,9 @@
       "c6da5c1c8dc00312",
       "96e320fca0403dec",
       "106f55b124ab877e",
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
+      "8dfb6e9b32e8094e",
       "3df5e3e33e3759d3",
       "8e902fb972837674",
       "975e6e0aabd534a1",
@@ -4462,6 +4704,33 @@
       "760d323a087952a8",
       "9ab82b608119c4f6",
       "207060cf44b220bf",
+      "8314e863b8d59045",
+      "d960fdd1ce7b92bd",
+      "7ed39f2d562660f7",
+      "924d83907a0aef82",
+      "4e8fe95de74a87a4",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "7c9a72da382c5998",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "84f4471ede976145",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "25b02da777fc3dae",
+      "ac5f2d9238e20b19",
+      "e1ece1205f5a8587",
+      "c2ec66b63de20614",
+      "75ac9bf7af78b579",
+      "dfa6744a5458ae32",
+      "a4978eac671fb5f1",
+      "3b9f1a19c5885297",
+      "1a3ed1f5f8115978",
+      "ee5541d8684aaa91",
+      "85b095ea94b48265",
+      "69cc8d00b54c1588",
+      "51fafbef6da9f506",
+      "05c14e6bf7cd2be3",
       "94f851b2529daaaf",
       "8801d3cc3a3a0f91",
       "c7dc61c37b8e0e3e",
@@ -4499,8 +4768,7 @@
       "7e1bc4c96f99fd74",
       "d7faf6e0d182e390",
       "63b6f69104edd6ca",
-      "70b114487cb5823a",
-      "dd9b2967fd3393db"
+      "70b114487cb5823a"
     ],
     "NFM-003": [
       "c6da5c1c8dc00312",
@@ -4533,8 +4801,30 @@
       "96e320fca0403dec",
       "165d80db787548a8"
     ],
+    "NFM-029": [
+      "fbf4a5e1ef4bb27a",
+      "3df5e3e33e3759d3",
+      "975e6e0aabd534a1",
+      "3a36816b5a3c60be",
+      "7e1bc4c96f99fd74",
+      "d7faf6e0d182e390",
+      "63b6f69104edd6ca",
+      "dd9b2967fd3393db"
+    ],
+    "NFM-035": [
+      "fbf4a5e1ef4bb27a",
+      "3df5e3e33e3759d3",
+      "975e6e0aabd534a1",
+      "3a36816b5a3c60be",
+      "7e1bc4c96f99fd74",
+      "d7faf6e0d182e390",
+      "63b6f69104edd6ca",
+      "dd9b2967fd3393db"
+    ],
     "Federation": [
+      "fbf4a5e1ef4bb27a",
       "a75bf094a45b4769",
+      "8dfb6e9b32e8094e",
       "24c840be9d1d8b7c",
       "349c49abd83ca16c",
       "8216353b3d6ae887",
@@ -4553,6 +4843,8 @@
       "c3de8a98ae126ade",
       "c9b1df958483dfdf",
       "f4d82e759deab217",
+      "5ed19fb5acaea667",
+      "dd9b2967fd3393db",
       "d7b9d475a1007c68",
       "07483e7cae51b90b",
       "de68f32bd5963d8c",
@@ -4689,7 +4981,10 @@
       "f2167fa97a7b73a5",
       "b871df71f580b0b6",
       "71a52a10f456ecd9",
-      "a361d5081ce05382"
+      "a361d5081ce05382",
+      "618dfb4ede98a6f7",
+      "51fafbef6da9f506",
+      "05c14e6bf7cd2be3"
     ],
     "Phase 6": [
       "2593d6d49d692c17",
@@ -4719,6 +5014,17 @@
       "dd1d8bc4a1a3c110",
       "8abcaa6b146d3428"
     ],
+    "NFM-036": [
+      "8dfb6e9b32e8094e",
+      "8e902fb972837674",
+      "3a36816b5a3c60be",
+      "349c49abd83ca16c",
+      "8216353b3d6ae887",
+      "0dc9770db7157093",
+      "afb66e350916421c",
+      "19ab836f12274ac9",
+      "b0554b416695a66c"
+    ],
     "NFM-032": [
       "616162f92b0543be",
       "3df5e3e33e3759d3",
@@ -4730,7 +5036,6 @@
       "1ac43c05c003ded0",
       "63b6f69104edd6ca",
       "ca83086f2ef80d82",
-      "dd9b2967fd3393db",
       "a96dad9f836d502c"
     ],
     "NFM-018": [
@@ -4780,19 +5085,11 @@
       "04dd0db9e23ab61a",
       "70b114487cb5823a"
     ],
-    "NFM-029": [
-      "3df5e3e33e3759d3",
-      "975e6e0aabd534a1",
-      "3a36816b5a3c60be",
-      "7e1bc4c96f99fd74",
-      "d7faf6e0d182e390",
-      "63b6f69104edd6ca",
-      "dd9b2967fd3393db"
-    ],
     "NFM-017": [
       "3df5e3e33e3759d3",
       "3a36816b5a3c60be",
-      "70b114487cb5823a"
+      "70b114487cb5823a",
+      "c3b79e966f17570d"
     ],
     "NFM-021": [
       "3df5e3e33e3759d3",
@@ -4816,15 +5113,6 @@
       "39dd80c8f06e7bf3",
       "04dd0db9e23ab61a",
       "70b114487cb5823a"
-    ],
-    "NFM-035": [
-      "3df5e3e33e3759d3",
-      "975e6e0aabd534a1",
-      "3a36816b5a3c60be",
-      "7e1bc4c96f99fd74",
-      "d7faf6e0d182e390",
-      "63b6f69104edd6ca",
-      "dd9b2967fd3393db"
     ],
     "NFM-004": [
       "3df5e3e33e3759d3",
@@ -4903,7 +5191,9 @@
       "3a36816b5a3c60be",
       "8216353b3d6ae887",
       "7e1bc4c96f99fd74",
-      "04dd0db9e23ab61a"
+      "04dd0db9e23ab61a",
+      "5ed19fb5acaea667",
+      "c3b79e966f17570d"
     ],
     "NFM-027": [
       "3df5e3e33e3759d3",
@@ -4932,16 +5222,6 @@
       "3a36816b5a3c60be",
       "7e1bc4c96f99fd74"
     ],
-    "NFM-036": [
-      "8e902fb972837674",
-      "3a36816b5a3c60be",
-      "349c49abd83ca16c",
-      "8216353b3d6ae887",
-      "0dc9770db7157093",
-      "afb66e350916421c",
-      "19ab836f12274ac9",
-      "b0554b416695a66c"
-    ],
     "CAISC 2026": [
       "975e6e0aabd534a1",
       "5bb9b1c68bd9f471",
@@ -4949,8 +5229,25 @@
       "d7faf6e0d182e390",
       "63b6f69104edd6ca",
       "7372a72fe280b3a3",
+      "c3b79e966f17570d",
       "dd9b2967fd3393db",
-      "cf0711bc6ca00a0b"
+      "cf0711bc6ca00a0b",
+      "8314e863b8d59045",
+      "da95047224df5bdf",
+      "7ed39f2d562660f7",
+      "924d83907a0aef82",
+      "aba59f0ad1b5d1b5",
+      "dbbbebbd2f455e6c",
+      "f1d45dc5a47a223c",
+      "d3b563dc4668de48",
+      "4337c5bade761d91",
+      "417be6412d14ac69",
+      "6822c103b5be0e85",
+      "a7b05aeb204aad28",
+      "78298889a29508fe",
+      "618dfb4ede98a6f7",
+      "25b02da777fc3dae",
+      "05c14e6bf7cd2be3"
     ],
     "Multi Agent": [
       "24c840be9d1d8b7c",
@@ -5028,6 +5325,7 @@
     "Phase 8": [
       "0054b7e3e395b9c5",
       "7e1bc4c96f99fd74",
+      "dd9b2967fd3393db",
       "d4e0ead7a1e57fe4",
       "734479429491a378",
       "dafef9ffca43a31e",
@@ -5084,10 +5382,12 @@
     ],
     "Phase 13": [
       "7e1bc4c96f99fd74",
+      "dd9b2967fd3393db",
       "cf0711bc6ca00a0b"
     ],
     "Phase 23": [
       "7e1bc4c96f99fd74",
+      "dd9b2967fd3393db",
       "cf0711bc6ca00a0b"
     ],
     "Phase 0": [
@@ -5106,6 +5406,10 @@
       "9f4de266564ebb55",
       "ed1f6e5622ec02c8"
     ],
+    "Phase 11": [
+      "dd9b2967fd3393db",
+      "cf0711bc6ca00a0b"
+    ],
     "Phase 9": [
       "d4e0ead7a1e57fe4",
       "734479429491a378",
@@ -5121,9 +5425,6 @@
       "2630bac66b37e967"
     ],
     "Phase 8.5": [
-      "cf0711bc6ca00a0b"
-    ],
-    "Phase 11": [
       "cf0711bc6ca00a0b"
     ],
     "Phase7": [
@@ -10962,6 +11263,822 @@
       "target": "2df01ca5feffcf42",
       "type": "link",
       "label": "Feb 7 Handoff"
+    },
+    {
+      "source": "da95047224df5bdf",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "0c9e78b0ae21730d",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "36dc4d6760d630d0",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "21b75f925f27af91",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "2a6a327d1520e97e",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "53acca9f02704946",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "29ea481e7a18a3e3",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "6553dbf2d317c72e",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "2b0897fd8bbedfc3",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "f9ed71a51fee859a",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "f9ed71a51fee859a",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "d2a6fb7744f0d01d",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "d2a6fb7744f0d01d",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "78657e1eaeff4bfe",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "78657e1eaeff4bfe",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "d960fdd1ce7b92bd",
+      "target": "8314e863b8d59045",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "d960fdd1ce7b92bd",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "aba59f0ad1b5d1b5",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "aba59f0ad1b5d1b5",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "1ee5e31658f1cc55",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "1ee5e31658f1cc55",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "75caedc19bca2343",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "75caedc19bca2343",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "cf0a5a0676e20fe7",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "cf0a5a0676e20fe7",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "7770f21f4c007122",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "7770f21f4c007122",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "47a168b2a279493d",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "47a168b2a279493d",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "34aefde0eec70e84",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "34aefde0eec70e84",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "53de7a59e510bd3d",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "53de7a59e510bd3d",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "42efe4aefe21883e",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "42efe4aefe21883e",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "f9689db12d506240",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "f9689db12d506240",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "f9689db12d506240",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Ensemble"
+    },
+    {
+      "source": "3a169a731cf845a1",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "3a169a731cf845a1",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "4e8fe95de74a87a4",
+      "target": "924d83907a0aef82",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "4e8fe95de74a87a4",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "4e8fe95de74a87a4",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "d3b563dc4668de48",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "d3b563dc4668de48",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "0ef35c7bed57501c",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "0ef35c7bed57501c",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "fc0a5d62a0b7bd5b",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "fc0a5d62a0b7bd5b",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "d0a8009bef4867f4",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "d0a8009bef4867f4",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "dc449e1ea6e8d6d0",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "dc449e1ea6e8d6d0",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "e6a6bccb3a39f666",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "e6a6bccb3a39f666",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "e6a6bccb3a39f666",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Ensemble"
+    },
+    {
+      "source": "81e0b90eb44de696",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "81e0b90eb44de696",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "81e0b90eb44de696",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "8b6c3a4b7bb15398",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "8b6c3a4b7bb15398",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "7c9a72da382c5998",
+      "target": "f1d45dc5a47a223c",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "7c9a72da382c5998",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "7c9a72da382c5998",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "6822c103b5be0e85",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "6822c103b5be0e85",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "8c0a57c57cea30dd",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "8c0a57c57cea30dd",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "6533c275f306f62a",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "6533c275f306f62a",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "778dfe285e6b9fd8",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "778dfe285e6b9fd8",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "7932a751ccf92a29",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "7932a751ccf92a29",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "7932a751ccf92a29",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "ad1ff6ca8dbb637b",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "ad1ff6ca8dbb637b",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "ad1ff6ca8dbb637b",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "1566cafc15a68789",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "1566cafc15a68789",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "1566cafc15a68789",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Ensemble"
+    },
+    {
+      "source": "64a82e30b41c8af2",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "64a82e30b41c8af2",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "8bddb28e9cecab7c",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "8bddb28e9cecab7c",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "84f4471ede976145",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "84f4471ede976145",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "84f4471ede976145",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "0a504a8324f219aa",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "0a504a8324f219aa",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "91a8ce3a4780956a",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "91a8ce3a4780956a",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "a7b05aeb204aad28",
+      "target": "417be6412d14ac69",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "a7b05aeb204aad28",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "25b02da777fc3dae",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "25b02da777fc3dae",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "ac5f2d9238e20b19",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "ac5f2d9238e20b19",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "e1ece1205f5a8587",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "e1ece1205f5a8587",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "e1ece1205f5a8587",
+      "target": "9a57cc0ec0be4e0b",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Rosetta Stone"
+    },
+    {
+      "source": "c2ec66b63de20614",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "c2ec66b63de20614",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "75ac9bf7af78b579",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "75ac9bf7af78b579",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "dfa6744a5458ae32",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "dfa6744a5458ae32",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "a4978eac671fb5f1",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "a4978eac671fb5f1",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "a4978eac671fb5f1",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "3b9f1a19c5885297",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "3b9f1a19c5885297",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "3b9f1a19c5885297",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "1a3ed1f5f8115978",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "1a3ed1f5f8115978",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "1a3ed1f5f8115978",
+      "target": "976cf49342e20090",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Phenotype"
+    },
+    {
+      "source": "ee5541d8684aaa91",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "ee5541d8684aaa91",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "ee5541d8684aaa91",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Drift"
+    },
+    {
+      "source": "85b095ea94b48265",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "85b095ea94b48265",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "69cc8d00b54c1588",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "69cc8d00b54c1588",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "69cc8d00b54c1588",
+      "target": "ec498514c4ad3f3c",
+      "type": "cross-paper-tag",
+      "label": "shared tag: Ensemble"
+    },
+    {
+      "source": "51fafbef6da9f506",
+      "target": "618dfb4ede98a6f7",
+      "type": "paper-section-of",
+      "label": "section of"
+    },
+    {
+      "source": "51fafbef6da9f506",
+      "target": "207060cf44b220bf",
+      "type": "cross-paper-tag",
+      "label": "shared tag: WE4FREE"
+    },
+    {
+      "source": "8314e863b8d59045",
+      "target": "417be6412d14ac69",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "f1d45dc5a47a223c",
+      "target": "417be6412d14ac69",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "f1d45dc5a47a223c",
+      "target": "8314e863b8d59045",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "924d83907a0aef82",
+      "target": "417be6412d14ac69",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "924d83907a0aef82",
+      "target": "8314e863b8d59045",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "924d83907a0aef82",
+      "target": "f1d45dc5a47a223c",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "618dfb4ede98a6f7",
+      "target": "417be6412d14ac69",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "618dfb4ede98a6f7",
+      "target": "8314e863b8d59045",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "618dfb4ede98a6f7",
+      "target": "f1d45dc5a47a223c",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
+    },
+    {
+      "source": "618dfb4ede98a6f7",
+      "target": "924d83907a0aef82",
+      "type": "cross-paper-dependency",
+      "label": "derives from"
     }
   ],
   "entries": [
@@ -11889,6 +13006,25 @@
       "content_snippet": null
     },
     {
+      "id": "0479dcb3fbb0833f",
+      "repo": "self-organizing-library",
+      "path": "config/targets.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/config/targets.json",
+      "title": "targets.json",
+      "extension": ".json",
+      "content_type": "config",
+      "category": "config",
+      "breadcrumbs": [
+        "config"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T19:00:25.752Z",
+      "size_bytes": 442,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "845754c5371ad7be",
       "repo": "self-organizing-library",
       "path": "config/verification-domain-gate.json",
@@ -11940,8 +13076,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-29T03:55:22.314Z",
-      "size_bytes": 4288,
+      "modified": "2026-04-29T04:17:21.563Z",
+      "size_bytes": 4278,
       "description": null,
       "content_snippet": null
     },
@@ -11959,8 +13095,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-29T03:55:22.272Z",
-      "size_bytes": 17504352,
+      "modified": "2026-04-29T04:17:21.546Z",
+      "size_bytes": 3375093,
       "description": null,
       "content_snippet": null
     },
@@ -13054,6 +14190,25 @@
       "content_snippet": null
     },
     {
+      "id": "872359b1f156ab2d",
+      "repo": "self-organizing-library",
+      "path": "scripts/extract-paper-structure.js",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/scripts/extract-paper-structure.js",
+      "title": "extract-paper-structure.js",
+      "extension": ".js",
+      "content_type": "code",
+      "category": "script",
+      "breadcrumbs": [
+        "scripts"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T18:56:23.093Z",
+      "size_bytes": 11208,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "d2d733fd1a5fb571",
       "repo": "self-organizing-library",
       "path": "scripts/fail-closed-test-suite.js",
@@ -13200,8 +14355,27 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-29T04:16:48.277Z",
-      "size_bytes": 24028,
+      "modified": "2026-04-29T19:58:27.790Z",
+      "size_bytes": 28675,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "8db6216f63c8b1c5",
+      "repo": "self-organizing-library",
+      "path": "scripts/generate-snapshot-reports.js",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/scripts/generate-snapshot-reports.js",
+      "title": "generate-snapshot-reports.js",
+      "extension": ".js",
+      "content_type": "code",
+      "category": "script",
+      "breadcrumbs": [
+        "scripts"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:16.990Z",
+      "size_bytes": 10143,
       "description": null,
       "content_snippet": null
     },
@@ -15799,6 +16973,44 @@
       "content_snippet": null
     },
     {
+      "id": "fbf4a5e1ef4bb27a",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/CONTRADICTION_FALSE_POSITIVE_VERIFICATION_2026-04-29.md",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/CONTRADICTION_FALSE_POSITIVE_VERIFICATION_2026-04-29.md",
+      "title": "Contradiction False Positive Verification — 2026-04-29",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph"
+      ],
+      "tags": [
+        "NFM-029",
+        "NFM-035",
+        "Convergence Gate",
+        "Failure Mode",
+        "Multi-Agent",
+        "Covenant",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "WE4FREE",
+        "Kernel",
+        "Swarmmind",
+        "Archivist",
+        "Library",
+        "Federation",
+        "Freeagent"
+      ],
+      "date": "2026-04-29",
+      "modified": "2026-04-29T14:53:36.653Z",
+      "size_bytes": 11974,
+      "description": null,
+      "content_snippet": "Status: verified (evidence-backed)\nGenerated by: Library Lane (verification-and-enforcement)\nEvidence path: docs/graph/snapshots/, data/site-index.json, filesystem content comparison\nVerified by: self (runtime evidence + filesystem content comparison)\n---\nThe truth-routing mapper (src/lib/truth-routing.ts) computes contradictionCount via this mechanism:\n1. Tag-indexed group formation (line 216–222): For each tag in the index, if the tag group has 2–80 members, it becomes a candidate for"
+    },
+    {
       "id": "a75bf094a45b4769",
       "repo": "self-organizing-library",
       "path": "docs/graph/GRAPH_MAPPING_AUDIT_FEDERATION_SWARMMIND.md",
@@ -15862,6 +17074,42 @@
       "size_bytes": 13789,
       "description": null,
       "content_snippet": "Phase 0: Documentation only  \nGoal: Turn visual graph states into evidence-linked, comparable, annotatable snapshots.\n---\nThis is not screenshot storage. It is an analysis surface for turning graph states into evidence-linked observations that can be:\n- captured reproducibly\n- compared across time and filters\n- annotated with human insight\n- handed off to Library for verification\n- connected back to papers, repos, commits, and lane cycles\n---\nThe Nexus Graph now shows meaningful structure"
+    },
+    {
+      "id": "8dfb6e9b32e8094e",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/GRAPH_SNAPSHOT_SET_AUDIT_2026-04-29.md",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/GRAPH_SNAPSHOT_SET_AUDIT_2026-04-29.md",
+      "title": "Graph Snapshot Set Audit — 2026-04-29",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph"
+      ],
+      "tags": [
+        "NFM-036",
+        "Rosetta Stone",
+        "Convergence Gate",
+        "Failure Mode",
+        "Covenant",
+        "Governance",
+        "Verification",
+        "Ensemble",
+        "WE4FREE",
+        "Kernel",
+        "Swarmmind",
+        "Archivist",
+        "Library",
+        "Federation",
+        "Freeagent"
+      ],
+      "date": "2026-04-29",
+      "modified": "2026-04-29T13:30:49.703Z",
+      "size_bytes": 12925,
+      "description": null,
+      "content_snippet": "Status: observation  \nGenerated by: Library Lane (verification-and-enforcement)  \nEvidence path: docs/graph/snapshots/  \nVerified by: self (runtime evidence from deployed API at deliberateensemble.works)\n---\nBaseline snapshot set generated from the live NexusGraph API at deliberateensemble.works/api/graph-data on 2026-04-29T13:20:45Z.\n| Metric | Value |\n|--------|-------|\n| Total nodes | 3,451 |\n| Total edges | 29,176 |\n| Repos indexed | 9 |\n| Total contradiction hubs | 172 |\n| Cross-repo tag"
     },
     {
       "id": "13f61916a99e0577",
@@ -16690,8 +17938,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-29T03:52:11.460Z",
-      "size_bytes": 19561,
+      "modified": "2026-04-29T13:06:42.297Z",
+      "size_bytes": 21397,
       "description": null,
       "content_snippet": null
     },
@@ -16750,8 +17998,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-26T20:24:32.563Z",
-      "size_bytes": 5631,
+      "modified": "2026-04-29T16:32:08.908Z",
+      "size_bytes": 5774,
       "description": null,
       "content_snippet": null
     },
@@ -16856,6 +18104,26 @@
       "content_snippet": null
     },
     {
+      "id": "3750c2f38df12a83",
+      "repo": "self-organizing-library",
+      "path": "src/lib/graph-snapshot-compare.ts",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/src/lib/graph-snapshot-compare.ts",
+      "title": "graph-snapshot-compare.ts",
+      "extension": ".ts",
+      "content_type": "code",
+      "category": "code",
+      "breadcrumbs": [
+        "src",
+        "lib"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T12:54:47.562Z",
+      "size_bytes": 6805,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "df06d6020ede684a",
       "repo": "self-organizing-library",
       "path": "src/lib/graph-snapshot.ts",
@@ -16950,8 +18218,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-28T02:41:29.375Z",
-      "size_bytes": 12125,
+      "modified": "2026-04-29T18:38:37.019Z",
+      "size_bytes": 14430,
       "description": null,
       "content_snippet": null
     },
@@ -17495,6 +18763,1056 @@
       "date": null,
       "modified": "2026-04-16T00:23:43.491Z",
       "size_bytes": 24827,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "7a534c73be56efde",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-Archivist-Agent-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-Archivist-Agent-2026-04-29T13-43-00.json",
+      "title": "compare-Archivist-Agent-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.109Z",
+      "size_bytes": 7638,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "c8a1931d096de0bd",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "title": "compare-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.155Z",
+      "size_bytes": 7670,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "da277ec127222f5d",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-federation-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-federation-2026-04-29T13-43-00.json",
+      "title": "compare-federation-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.124Z",
+      "size_bytes": 3990,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "ad6c0bfb62d57dea",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-FreeAgent-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-FreeAgent-2026-04-29T13-43-00.json",
+      "title": "compare-FreeAgent-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.142Z",
+      "size_bytes": 7430,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "a62aac584b910a8e",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-full-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-full-2026-04-29T13-43-00.json",
+      "title": "compare-full-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.236Z",
+      "size_bytes": 7552,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "387220ca703cad4a",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-kernel-lane-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-kernel-lane-2026-04-29T13-43-00.json",
+      "title": "compare-kernel-lane-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.117Z",
+      "size_bytes": 3448,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "ec80501e479c1fbc",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-papers-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-papers-2026-04-29T13-43-00.json",
+      "title": "compare-papers-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.144Z",
+      "size_bytes": 880,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "87859c517fcafb47",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-self-organizing-library-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-self-organizing-library-2026-04-29T13-43-00.json",
+      "title": "compare-self-organizing-library-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.090Z",
+      "size_bytes": 7744,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "0af114d21d28f04d",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-storytime-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-storytime-2026-04-29T13-43-00.json",
+      "title": "compare-storytime-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.146Z",
+      "size_bytes": 2120,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "59acff3a367b32f6",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/compare-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/compare-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "title": "compare-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.112Z",
+      "size_bytes": 2438,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "7a05ad9a20d9cf98",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-Archivist-Agent-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-Archivist-Agent-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-Archivist-Agent-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.241Z",
+      "size_bytes": 5628,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "dc135f7e3032f84a",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-Archivist-Agent-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-Archivist-Agent-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-Archivist-Agent-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.074Z",
+      "size_bytes": 5628,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "5c15d9d53b92c542",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-Deliberate-AI-Ensemble-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-Deliberate-AI-Ensemble-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-Deliberate-AI-Ensemble-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.246Z",
+      "size_bytes": 19156,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "cff3679eb059cf88",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.078Z",
+      "size_bytes": 19156,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "5fa85e7d1420a361",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-federation-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-federation-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-federation-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.243Z",
+      "size_bytes": 1547,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "1b8022b1d62cfe70",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-federation-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-federation-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-federation-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.076Z",
+      "size_bytes": 1547,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "ed0ad33fe51c692d",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-FreeAgent-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-FreeAgent-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-FreeAgent-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.244Z",
+      "size_bytes": 21015,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "104bf275d20ce830",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-FreeAgent-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-FreeAgent-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-FreeAgent-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.077Z",
+      "size_bytes": 21015,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "09c516452a5150b7",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-full-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-full-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-full-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.247Z",
+      "size_bytes": 56432,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "fe4cdb861ff8ddd6",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-full-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-full-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-full-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.079Z",
+      "size_bytes": 56432,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "04aacc5e1c20de46",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-kernel-lane-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-kernel-lane-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-kernel-lane-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.242Z",
+      "size_bytes": 1274,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "faf48fd88550a659",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-kernel-lane-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-kernel-lane-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-kernel-lane-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.075Z",
+      "size_bytes": 1274,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "94dfe741d6ef7c16",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-papers-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-papers-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-papers-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.245Z",
+      "size_bytes": 2,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "b6f0ecf61900ba0b",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-papers-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-papers-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-papers-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.077Z",
+      "size_bytes": 2,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "4f117e698cb760d6",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-self-organizing-library-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-self-organizing-library-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-self-organizing-library-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.240Z",
+      "size_bytes": 6515,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "b650d25f043ee0fd",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-self-organizing-library-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-self-organizing-library-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-self-organizing-library-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.074Z",
+      "size_bytes": 6515,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "79555e5682544fea",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-storytime-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-storytime-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-storytime-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.245Z",
+      "size_bytes": 614,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "341872b940dc7c43",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-storytime-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-storytime-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-storytime-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.078Z",
+      "size_bytes": 614,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "2e27d85b047f89c8",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-20-45.json",
+      "title": "contradiction-hub-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.242Z",
+      "size_bytes": 697,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "5d1cb155ab0bfe18",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/contradiction-hub-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/contradiction-hub-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "title": "contradiction-hub-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.075Z",
+      "size_bytes": 697,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "0c4c6f16048f6bf3",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-Archivist-Agent-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-Archivist-Agent-2026-04-29T13-20-45.json",
+      "title": "snapshot-Archivist-Agent-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.154Z",
+      "size_bytes": 1515707,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "29a094a65529a35d",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-Archivist-Agent-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-Archivist-Agent-2026-04-29T13-43-00.json",
+      "title": "snapshot-Archivist-Agent-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.016Z",
+      "size_bytes": 1515707,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "dc785219d0f99c5d",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-Deliberate-AI-Ensemble-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-Deliberate-AI-Ensemble-2026-04-29T13-20-45.json",
+      "title": "snapshot-Deliberate-AI-Ensemble-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.201Z",
+      "size_bytes": 898741,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "bb82a58ea312f627",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "title": "snapshot-Deliberate-AI-Ensemble-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.046Z",
+      "size_bytes": 898741,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "293b462aaed2cbf7",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-federation-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-federation-2026-04-29T13-20-45.json",
+      "title": "snapshot-federation-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.171Z",
+      "size_bytes": 437678,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "505f54d2c4b80c4b",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-federation-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-federation-2026-04-29T13-43-00.json",
+      "title": "snapshot-federation-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.027Z",
+      "size_bytes": 437678,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "9110beaaf332767e",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-FreeAgent-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-FreeAgent-2026-04-29T13-20-45.json",
+      "title": "snapshot-FreeAgent-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.187Z",
+      "size_bytes": 1927751,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "404d967507e4f0ce",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-FreeAgent-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-FreeAgent-2026-04-29T13-43-00.json",
+      "title": "snapshot-FreeAgent-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.037Z",
+      "size_bytes": 1927751,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "d948498e24783530",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-full-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-full-2026-04-29T13-20-45.json",
+      "title": "snapshot-full-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.238Z",
+      "size_bytes": 5236339,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "a050091971ed3b23",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-full-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-full-2026-04-29T13-43-00.json",
+      "title": "snapshot-full-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.072Z",
+      "size_bytes": 5236339,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "055a66efbf0f5a97",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-kernel-lane-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-kernel-lane-2026-04-29T13-20-45.json",
+      "title": "snapshot-kernel-lane-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.165Z",
+      "size_bytes": 479179,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "d72989258084e7bc",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-kernel-lane-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-kernel-lane-2026-04-29T13-43-00.json",
+      "title": "snapshot-kernel-lane-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.023Z",
+      "size_bytes": 479179,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "37140c55bd746645",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-papers-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-papers-2026-04-29T13-20-45.json",
+      "title": "snapshot-papers-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.189Z",
+      "size_bytes": 8479,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "b0bfba40d32473ac",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-papers-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-papers-2026-04-29T13-43-00.json",
+      "title": "snapshot-papers-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.038Z",
+      "size_bytes": 8479,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "165fa1b53b021f48",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-self-organizing-library-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-self-organizing-library-2026-04-29T13-20-45.json",
+      "title": "snapshot-self-organizing-library-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.139Z",
+      "size_bytes": 1191194,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "fa3c3248fcf8dfaa",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-self-organizing-library-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-self-organizing-library-2026-04-29T13-43-00.json",
+      "title": "snapshot-self-organizing-library-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.007Z",
+      "size_bytes": 1191194,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "14a9318730e01f67",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-storytime-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-storytime-2026-04-29T13-20-45.json",
+      "title": "snapshot-storytime-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.192Z",
+      "size_bytes": 179806,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "e3e5f108c0d1ab28",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-storytime-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-storytime-2026-04-29T13-43-00.json",
+      "title": "snapshot-storytime-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.040Z",
+      "size_bytes": 179806,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "184a667699e12cdf",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-20-45.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-20-45.json",
+      "title": "snapshot-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-20-45.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:20:45.159Z",
+      "size_bytes": 255985,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "8eea1f8a6ad3311d",
+      "repo": "self-organizing-library",
+      "path": "docs/graph/snapshots/snapshot-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/docs/graph/snapshots/snapshot-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "title": "snapshot-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29T13-43-00.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs",
+        "graph",
+        "snapshots"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T13:43:01.019Z",
+      "size_bytes": 255985,
       "description": null,
       "content_snippet": null
     },
@@ -18885,8 +21203,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-26T02:19:32.778Z",
-      "size_bytes": 12608,
+      "modified": "2026-04-29T16:36:18.168Z",
+      "size_bytes": 12842,
       "description": null,
       "content_snippet": null
     },
@@ -19347,8 +21665,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-29T03:51:18.884Z",
-      "size_bytes": 3920,
+      "modified": "2026-04-29T12:58:14.591Z",
+      "size_bytes": 4393,
       "description": null,
       "content_snippet": null
     },
@@ -19756,6 +22074,28 @@
       "content_snippet": null
     },
     {
+      "id": "f25d323043fdb88e",
+      "repo": "self-organizing-library",
+      "path": "src/app/governance/dual-plane-authority/page.tsx",
+      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/src/app/governance/dual-plane-authority/page.tsx",
+      "title": "page.tsx",
+      "extension": ".tsx",
+      "content_type": "code",
+      "category": "code",
+      "breadcrumbs": [
+        "src",
+        "app",
+        "governance",
+        "dual-plane-authority"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T17:21:17.142Z",
+      "size_bytes": 11872,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "b8712aa26df1737b",
       "repo": "self-organizing-library",
       "path": "src/app/library/[id]/page.tsx",
@@ -20067,8 +22407,8 @@
         "Library"
       ],
       "date": null,
-      "modified": "2026-04-29T02:32:51.143Z",
-      "size_bytes": 21174,
+      "modified": "2026-04-29T17:33:30.421Z",
+      "size_bytes": 21518,
       "description": null,
       "content_snippet": "---\nBefore reading anything else, read: S:/Archivist-Agent/QUICKSTARTPATHS.md\nIt has:\n- Quick path lookup table\n- Code examples\n- Common mistakes\n- Git Bash vs Windows paths\nThen read:\n- S:/Archivist-Agent/docs/ops/LANEMESSAGEINDEX.md (schema/signing/send/log no-guesswork index)\n---\nAll agents MUST use these exact paths. NO GUESSING. NO VARIANTS.\n| Lane | Local Directory | GitHub Repo | Inbox Path | Outbox Path |\n|------|----------------|-------------|------------|-------------|\n| Archivist |"
     },
@@ -20494,8 +22834,8 @@
         "Drift"
       ],
       "date": null,
-      "modified": "2026-04-23T16:01:48.721Z",
-      "size_bytes": 9218,
+      "modified": "2026-04-29T13:55:04.006Z",
+      "size_bytes": 9330,
       "description": "From ES architecture: every action passes through a pre-flight safety check before execution.",
       "content_snippet": "From ES architecture: every action passes through a pre-flight safety check before execution.\n---\nWithout checkpoints:\n- Action executes immediately\n- Errors discovered after damage\n- Rollback required\n- Trust erodes\nWith checkpoints:\n- Action verified before execution\n- Errors caught proactively\n- No rollback needed\n- Trust maintained\n---\nNote: Checkpoint 0 and 0.5 are from RECIPROCALACCOUNTABILITY.md. The user is treated as an implicit lane with highest drift risk. The system can say \"no\" to"
     },
@@ -21754,8 +24094,8 @@
         "Library"
       ],
       "date": null,
-      "modified": "2026-04-23T16:01:48.734Z",
-      "size_bytes": 10638,
+      "modified": "2026-04-29T13:55:03.565Z",
+      "size_bytes": 10685,
       "description": null,
       "content_snippet": "Version: 1.0\nStatus: Active\nEntry Point: BOOTSTRAP.md → GOVERNANCE.md (reference only)\n---\nThis document defines the operational rules that govern all agent behavior. Rules are enforceable constraints derived from values. Unlike values (beliefs), rules are actionable requirements.\nCore Principle:\n---\nSource: BOOTSTRAP.md:86-98\nWhy this paradox occurs:\n- Authority 100 (Archivist) is the system of record\n- When Archivist says \"requires authority 100\" it means \"requires Archivist\"\n- But Archivist"
     },
@@ -21885,8 +24225,8 @@
       "breadcrumbs": [],
       "tags": [],
       "date": null,
-      "modified": "2026-04-28T23:38:27.098Z",
-      "size_bytes": 1296,
+      "modified": "2026-04-29T15:31:15.025Z",
+      "size_bytes": 1256,
       "description": null,
       "content_snippet": null
     },
@@ -22293,8 +24633,8 @@
         "Library"
       ],
       "date": null,
-      "modified": "2026-04-23T16:01:48.740Z",
-      "size_bytes": 11786,
+      "modified": "2026-04-29T14:05:38.919Z",
+      "size_bytes": 11982,
       "description": null,
       "content_snippet": "Version: 1.1\nStatus: Active — Ratified by Operator\nEntry Point: BOOTSTRAP.md → RECIPROCALACCOUNTABILITY.md\nOperator Mandate: fromgpt.txt (2026-04-20) — user explicitly grants permission to enforce this always\n---\nThe user and the system are BOTH subject to governance. Neither is above the rules. The user created this system to protect themselves from their own drift. The system exists to enforce that protection even — especially — when the user resists it.\nOperator Mandate (2026-04-20):\nCore"
     },
@@ -22936,6 +25276,25 @@
       "content_snippet": null
     },
     {
+      "id": "47490229c28c5fbe",
+      "repo": "Archivist-Agent",
+      "path": "config/targets.json",
+      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/main/config/targets.json",
+      "title": "targets.json",
+      "extension": ".json",
+      "content_type": "config",
+      "category": "config",
+      "breadcrumbs": [
+        "config"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T19:00:20.880Z",
+      "size_bytes": 460,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "fd3e768316555363",
       "repo": "Archivist-Agent",
       "path": "config/verification-domain-gate.json",
@@ -23177,6 +25536,27 @@
       "content_snippet": "// PRE-COMPACTION VALIDATION BUFFER\n// Flow: message → validate → quarantine (if invalid) → analyze → THEN compact\n// NOT: message → validate → expire (which causes re-expiry loop)\n// PURPOSE:\n// Prevents the C1 (re-expiry loop) failure mode by making quarantine the\n// permanent destination for invalid messages instead of expired/.\n// DIRECTORY STRUCTURE:\n// inbox/\n// ├── inbox/          ← live messages to process\n// ├── processed/      ← successfully processed\n// ├── expired/        ←"
     },
     {
+      "id": "29262f6f640d8e40",
+      "repo": "Archivist-Agent",
+      "path": "docs/UNIFIED_CROSS_LANE_REVIEW_20260429.md",
+      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/main/docs/UNIFIED_CROSS_LANE_REVIEW_20260429.md",
+      "title": "Unified Cross-Lane Review Addendum (2026-04-29)",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs"
+      ],
+      "tags": [
+        "Archivist"
+      ],
+      "date": null,
+      "modified": "2026-04-29T17:46:50.173Z",
+      "size_bytes": 672,
+      "description": null,
+      "content_snippet": "OUTPUTPROVENANCE:\r\nagent: codex-5.3\r\nlane: archivist\r\ngeneratedat: 2026-04-29T17:49:00Z\r\nsessionid: unknown\r\n\r\n\r\n\r\nAn optional archive step is available during compact runs:\r\n\r\n- Enable with environment variable: COMPACTARCHIVE=true\r\n- Archive script: S:/Archivist-Agent/scripts/compact-archive-extra.ps1\r\n- Runbook: S:/Archivist-Agent/context-buffer/runbook-compact-archive-20260429.md\r\n\r\nWhen enabled, compact writes:\r\n- S:/Archivist-Agent/.compact-audit/extra-archive.json\r\n- top-level"
+    },
+    {
       "id": "d4af08ac5ac9b053",
       "repo": "Archivist-Agent",
       "path": "logs/.2bb001125550e70a448d21dd6034d79a8c6661a7-audit.json",
@@ -23291,9 +25671,9 @@
         "NFM-026",
         "NFM-027",
         "NFM-028",
-        "Phase 8",
         "Phase 13",
         "Phase 23",
+        "Phase 8",
         "Convergence Gate",
         "Identity Enforcement",
         "Failure Mode",
@@ -23311,8 +25691,8 @@
         "Federation"
       ],
       "date": null,
-      "modified": "2026-04-29T04:16:27.914Z",
-      "size_bytes": 24641,
+      "modified": "2026-04-29T04:17:41.242Z",
+      "size_bytes": 24925,
       "description": null,
       "content_snippet": "CAISC 2026 — Track 2: Open-Ended Problems\nAuthors: Archivist Lane, Library Lane, Kernel Lane, SwarmMind Lane, with Sean D. (operator)\n---\nWe present a constraint-governed execution system for multi-agent AI collaboration that discovered and documented 35 named failure modes (NFMs) across 12 weeks of deployment. The system enforces message lifecycle integrity through cryptographic identity attestation, schema-validated messaging, proof-gated execution, and fail-closed enforcement across four"
     },
@@ -25158,6 +27538,25 @@
       "content_snippet": null
     },
     {
+      "id": "761666fc7f6aad6d",
+      "repo": "Archivist-Agent",
+      "path": "scripts/extract-graph-roadmap.js",
+      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/main/scripts/extract-graph-roadmap.js",
+      "title": "extract-graph-roadmap.js",
+      "extension": ".js",
+      "content_type": "code",
+      "category": "script",
+      "breadcrumbs": [
+        "scripts"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T17:32:00.550Z",
+      "size_bytes": 8112,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "9ef09de36a2199be",
       "repo": "Archivist-Agent",
       "path": "scripts/fix-processed-completion-proof.js",
@@ -25462,6 +27861,25 @@
       "content_snippet": null
     },
     {
+      "id": "f1adcf221391a803",
+      "repo": "Archivist-Agent",
+      "path": "scripts/orchestrate_compact.js",
+      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/main/scripts/orchestrate_compact.js",
+      "title": "orchestrate_compact.js",
+      "extension": ".js",
+      "content_type": "code",
+      "category": "script",
+      "breadcrumbs": [
+        "scripts"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T16:18:00.594Z",
+      "size_bytes": 2270,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "e0911368919c51ed",
       "repo": "Archivist-Agent",
       "path": "scripts/outbox-write-guard.js",
@@ -25684,8 +28102,8 @@
       ],
       "tags": [],
       "date": null,
-      "modified": "2026-04-26T14:18:01.459Z",
-      "size_bytes": 2411,
+      "modified": "2026-04-29T17:46:50.174Z",
+      "size_bytes": 6830,
       "description": null,
       "content_snippet": null
     },
@@ -26085,6 +28503,25 @@
       "date": null,
       "modified": "2026-04-28T05:02:30.673Z",
       "size_bytes": 5770,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "42e91616ef652889",
+      "repo": "Archivist-Agent",
+      "path": "scripts/subcompact_worker.js",
+      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/main/scripts/subcompact_worker.js",
+      "title": "subcompact_worker.js",
+      "extension": ".js",
+      "content_type": "code",
+      "category": "script",
+      "breadcrumbs": [
+        "scripts"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T16:21:57.848Z",
+      "size_bytes": 2454,
       "description": null,
       "content_snippet": null
     },
@@ -31328,6 +33765,25 @@
       "content_snippet": null
     },
     {
+      "id": "4f5341a6352baa56",
+      "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+      "path": "config/targets.json",
+      "github_url": "https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main/config/targets.json",
+      "title": "targets.json",
+      "extension": ".json",
+      "content_type": "config",
+      "category": "config",
+      "breadcrumbs": [
+        "config"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T19:00:35.046Z",
+      "size_bytes": 490,
+      "description": null,
+      "content_snippet": null
+    },
+    {
       "id": "c67874d3d57d2165",
       "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
       "path": "docs/cross-lane-terminology-status-20260428.json",
@@ -31746,6 +34202,25 @@
       "date": null,
       "modified": "2026-04-23T18:29:26.616Z",
       "size_bytes": 3741,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "9987cfd2144b07ce",
+      "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+      "path": "scripts/agent-presence.js",
+      "github_url": "https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main/scripts/agent-presence.js",
+      "title": "agent-presence.js",
+      "extension": ".js",
+      "content_type": "code",
+      "category": "script",
+      "breadcrumbs": [
+        "scripts"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T15:35:35.973Z",
+      "size_bytes": 5367,
       "description": null,
       "content_snippet": null
     },
@@ -36382,6 +38857,34 @@
       "content_snippet": "Review date: 2026-04-21 (second pass)\nReviewer: Kernel Lane (Lane 4, Authority 60)\nMethod: Full code-level audit of runtime enforcement across all 4 repositories. Previous review findings excluded unless new depth discovered. Evidence hierarchy: implemented > runtime-proven > documented-only > blocked > assumed.\nPrevious review: docs/FOURLANEREVIEW2026-04-21.md (374 lines, 8 blockers)\nThis review finds: 12 NEW failure surfaces not in the previous review, plus 6 focus-question answers that"
     },
     {
+      "id": "5ed19fb5acaea667",
+      "repo": "kernel-lane",
+      "path": "docs/KERNEL_PRODUCTIVITY_ASSESSMENT_20260429.md",
+      "github_url": "https://github.com/vortsghost2025/kernel-lane/blob/main/docs/KERNEL_PRODUCTIVITY_ASSESSMENT_20260429.md",
+      "title": "Kernel Lane Productivity Assessment — 2026-04-29",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs"
+      ],
+      "tags": [
+        "NFM-026",
+        "Phase 1",
+        "Phase 2",
+        "Kernel",
+        "Swarmmind",
+        "Archivist",
+        "Library",
+        "Federation"
+      ],
+      "date": null,
+      "modified": "2026-04-29T14:44:39.304Z",
+      "size_bytes": 3674,
+      "description": "> What can I do or what can all 4 of us do to make your job easier and more productive?",
+      "content_snippet": "> What can I do or what can all 4 of us do to make your job easier and more productive?\n1. Commit + push as you go, not at session end. The biggest drag on every lane right now is accumulated uncommitted work. If each lane committed after completing a discrete piece of work instead of batch-committing at session end, health scores would jump 2+ points across the board and I'd spend zero time on git hygiene remediation.\n2. Heartbeats should be fire-and-forget. Right now they go stale because"
+    },
+    {
       "id": "b42763364fd466f2",
       "repo": "kernel-lane",
       "path": "docs/LANE4_INTERFACE_ADOPTION_2026-04-20T21-16-17Z.md",
@@ -36509,6 +39012,56 @@
       "content_snippet": "A release is valid only if releases//manifest.json exists and references:\n- artifact\n- benchmarkreport\n- nsysreport — required where available, optional on Windows headless\n- ncureport\n- metrics\n- createdatutc\nConsumers in other lanes must only use artifacts listed in releases/index.json.\nNo direct use of build/ outputs is allowed.\nOn Linux: nsysreport is required for promotion. The Nsight Systems daemon operates correctly in headless environments on Linux.\nOn Windows headless sessions:"
     },
     {
+      "id": "2c0897786bced6d8",
+      "repo": "kernel-lane",
+      "path": "docs/UNIFIED_CROSS_LANE_REVIEW_20260429.json",
+      "github_url": "https://github.com/vortsghost2025/kernel-lane/blob/main/docs/UNIFIED_CROSS_LANE_REVIEW_20260429.json",
+      "title": "UNIFIED_CROSS_LANE_REVIEW_20260429.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T15:52:50.623Z",
+      "size_bytes": 9943,
+      "description": null,
+      "content_snippet": null
+    },
+    {
+      "id": "c3b79e966f17570d",
+      "repo": "kernel-lane",
+      "path": "docs/UNIFIED_CROSS_LANE_REVIEW_20260429.md",
+      "github_url": "https://github.com/vortsghost2025/kernel-lane/blob/main/docs/UNIFIED_CROSS_LANE_REVIEW_20260429.md",
+      "title": "Cross-Lane Productivity Review — Unified Summary",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "docs",
+      "breadcrumbs": [
+        "docs"
+      ],
+      "tags": [
+        "NFM-026",
+        "NFM-017",
+        "Convergence Gate",
+        "Failure Mode",
+        "CAISC 2026",
+        "Governance",
+        "Verification",
+        "Kernel",
+        "Swarmmind",
+        "Archivist",
+        "Library"
+      ],
+      "date": null,
+      "modified": "2026-04-29T15:55:04.871Z",
+      "size_bytes": 8279,
+      "description": null,
+      "content_snippet": "2026-04-29 | Compiled by Kernel Lane\n---\n| Lane | Score | Top Strength | Top Blocker |\n|------|-------|-------------|-------------|\n| Archivist | 5/10 | Governance framework self-enforcing, trust chain healthy | 1285+ processed files, 171 root entries, 14+ modified uncommitted |\n| Library | 7/10 | 36 NFMs (world-class failure mode corpus), convergence track record solid | Trust key mismatch (NFM-026 LIVE), heartbeat 20h stale, watcher dead 8 days |\n| SwarmMind | 6/10 | Subagent contract v2.0"
+    },
+    {
       "id": "c04ca6f8c0ccf0fb",
       "repo": "kernel-lane",
       "path": "docs/UNIFIED_REVIEW_AND_QA_2026-04-23.md",
@@ -36616,17 +39169,18 @@
       "tags": [
         "NFM-029",
         "NFM-035",
-        "NFM-032",
-        "NFM-002",
         "Phase 1",
         "Phase 2",
         "Phase 3",
         "Phase 4",
+        "Phase 11",
+        "Phase 8",
+        "Phase 5",
+        "Phase 13",
+        "Phase 23",
         "Rosetta Stone",
-        "Failure Mode",
         "CAISC 2026",
         "Governance",
-        "Verification",
         "Drift",
         "Ensemble",
         "Constraint Lattice",
@@ -36635,13 +39189,14 @@
         "Kernel",
         "Swarmmind",
         "Archivist",
-        "Library"
+        "Library",
+        "Federation"
       ],
       "date": null,
-      "modified": "2026-04-26T22:15:50.651Z",
-      "size_bytes": 6509,
+      "modified": "2026-04-29T04:20:27.062Z",
+      "size_bytes": 6038,
       "description": null,
-      "content_snippet": "Date: 2026-04-26\nStatus: ACTIVE\nOwner: Sean (operator), all lanes (evidence producers)\n---\n| Artifact | Status | Words | Location |\n|----------|--------|-------|----------|\n| Paper A: The Rosetta Stone | COMPLETE | 10,200 | papers/paper1.txt |\n| Paper B: Constraint Lattices | COMPLETE | 8,100 | papers/paper2.txt |\n| Paper C: Phenotype Selection | COMPLETE | 7,800 | papers/paper3.txt |\n| Paper D: Drift, Identity, Ensemble | COMPLETE | 7,600 | papers/paper4.txt |\n| Paper E: WE4FREE Framework |"
+      "content_snippet": "Date: 2026-04-29\nStatus: ACTIVE\nOwner: Sean (operator), all lanes (evidence producers)\n---\n| Artifact | Status | Words | Location |\n|----------|--------|-------|----------|\n| Paper A: Noether Rosetta Stone | COMPLETE | 8,500 | S:/federation/originals/PAPERANOETHERROSETTACOMPLETE20260214.md |\n| Paper B: WE Framework / Noether | COMPLETE | 15,000 | S:/federation/originals/PAPERBWEFRAMEWORKNOETHER20260214.md |\n| Paper C: Domain Invariance Empirical | COMPLETE | 7,500 |"
     },
     {
       "id": "5b49dc33bff123d4",
@@ -68490,7 +71045,10 @@
       "modified": "2026-04-13T14:09:46.624Z",
       "size_bytes": 87604,
       "description": "PDF paper: The Rosetta Stone",
-      "content_snippet": null
+      "content_snippet": null,
+      "paper_id": null,
+      "parent_paper": null,
+      "section_index": null
     },
     {
       "id": "3c0bb6c9ce48e7db",
@@ -68507,7 +71065,10 @@
       "modified": "2026-04-13T14:09:51.785Z",
       "size_bytes": 116727,
       "description": "PDF paper: Constraint Lattices and Stability",
-      "content_snippet": null
+      "content_snippet": null,
+      "paper_id": null,
+      "parent_paper": null,
+      "section_index": null
     },
     {
       "id": "976cf49342e20090",
@@ -68526,7 +71087,10 @@
       "modified": "2026-04-13T14:09:54.062Z",
       "size_bytes": 88966,
       "description": "PDF paper: Phenotype Selection in Constraint Governed Systems",
-      "content_snippet": null
+      "content_snippet": null,
+      "paper_id": null,
+      "parent_paper": null,
+      "section_index": null
     },
     {
       "id": "ec498514c4ad3f3c",
@@ -68546,7 +71110,10 @@
       "modified": "2026-04-13T14:09:58.613Z",
       "size_bytes": 81827,
       "description": "PDF paper: Drift Identity and Ensemble Coherence",
-      "content_snippet": null
+      "content_snippet": null,
+      "paper_id": null,
+      "parent_paper": null,
+      "section_index": null
     },
     {
       "id": "207060cf44b220bf",
@@ -68565,7 +71132,1925 @@
       "modified": "2026-04-13T14:10:08.038Z",
       "size_bytes": 119489,
       "description": "PDF paper: The WE4FREE Framework",
+      "content_snippet": null,
+      "paper_id": null,
+      "parent_paper": null,
+      "section_index": null
+    },
+    {
+      "id": "8314e863b8d59045",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability (Structure Index)",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "CAISC 2026",
+        "Constitutional AI",
+        "Governance",
+        "Multi-Agent",
+        "Covenant",
+        "Phenotype",
+        "Drift",
+        "Failure Mode",
+        "WE4FREE",
+        "Verification"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Structure index for Constraint Lattices and Stability: 13 sections",
+      "content_snippet": "Sections: Abstract, The Architecture of Stability, What Is a Constraint Lattice?, Formal Definition, Constraint Lattices vs Rule Systems, Constraint Lattices Across Domains, The Four-Layer Architecture, Layer 1: Constitutional, Layer 2: Operational, Layer 3: Behavioral, Layer 4: Selection (Pruning), Lattice Deformation and Recovery, Empirical Validation",
+      "paper_id": "constraint-lattices",
+      "parent_paper": null,
+      "section_index": null
+    },
+    {
+      "id": "da95047224df5bdf",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Abstract",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Abstract"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "CAISC 2026"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section section: Abstract (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Abstract. Tags: Constraint Lattice, CAISC 2026",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 0
+    },
+    {
+      "id": "0c9e78b0ae21730d",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — The Architecture of Stability",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "The Architecture of Stability"
+      ],
+      "tags": [
+        "Constraint Lattice"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section section: The Architecture of Stability (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: The Architecture of Stability. Tags: Constraint Lattice",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 1
+    },
+    {
+      "id": "36dc4d6760d630d0",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — What Is a Constraint Lattice?",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "What Is a Constraint Lattice?"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Constitutional AI"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section section: What Is a Constraint Lattice? (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: What Is a Constraint Lattice?. Tags: Constraint Lattice, Constitutional AI",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 2
+    },
+    {
+      "id": "21b75f925f27af91",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Formal Definition",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Formal Definition"
+      ],
+      "tags": [
+        "Constraint Lattice"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section subsection: Formal Definition (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Formal Definition. Tags: Constraint Lattice",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 3
+    },
+    {
+      "id": "2a6a327d1520e97e",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Constraint Lattices vs Rule Systems",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Constraint Lattices vs Rule Systems"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Governance"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section subsection: Constraint Lattices vs Rule Systems (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Constraint Lattices vs Rule Systems. Tags: Constraint Lattice, Governance",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 4
+    },
+    {
+      "id": "53acca9f02704946",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Constraint Lattices Across Domains",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Constraint Lattices Across Domains"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Multi-Agent"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section section: Constraint Lattices Across Domains (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Constraint Lattices Across Domains. Tags: Constraint Lattice, Multi-Agent",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 5
+    },
+    {
+      "id": "29ea481e7a18a3e3",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — The Four-Layer Architecture",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "The Four-Layer Architecture"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Covenant"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section section: The Four-Layer Architecture (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: The Four-Layer Architecture. Tags: Constraint Lattice, Covenant",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 6
+    },
+    {
+      "id": "6553dbf2d317c72e",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Layer 1: Constitutional",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Layer 1: Constitutional"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Constitutional AI"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section subsection: Layer 1: Constitutional (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Layer 1: Constitutional. Tags: Constraint Lattice, Constitutional AI",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 7
+    },
+    {
+      "id": "2b0897fd8bbedfc3",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Layer 2: Operational",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Layer 2: Operational"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Governance"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section subsection: Layer 2: Operational (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Layer 2: Operational. Tags: Constraint Lattice, Governance",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 8
+    },
+    {
+      "id": "f9ed71a51fee859a",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Layer 3: Behavioral",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Layer 3: Behavioral"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Phenotype"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section subsection: Layer 3: Behavioral (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Layer 3: Behavioral. Tags: Constraint Lattice, Phenotype",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 9
+    },
+    {
+      "id": "d2a6fb7744f0d01d",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Layer 4: Selection (Pruning)",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Layer 4: Selection (Pruning)"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Phenotype"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section subsection: Layer 4: Selection (Pruning) (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Layer 4: Selection (Pruning). Tags: Constraint Lattice, Phenotype",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 10
+    },
+    {
+      "id": "78657e1eaeff4bfe",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Lattice Deformation and Recovery",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Lattice Deformation and Recovery"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "Drift",
+        "Failure Mode"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section section: Lattice Deformation and Recovery (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Lattice Deformation and Recovery. Tags: Constraint Lattice, Drift, Failure Mode",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 11
+    },
+    {
+      "id": "d960fdd1ce7b92bd",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.json",
+      "title": "Constraint Lattices and Stability — Empirical Validation",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Constraint Lattices and Stability",
+        "Empirical Validation"
+      ],
+      "tags": [
+        "Constraint Lattice",
+        "WE4FREE",
+        "Verification"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 2743,
+      "description": "Section section: Empirical Validation (from Constraint Lattices and Stability)",
+      "content_snippet": "Paper: Constraint Lattices and Stability. Section: Empirical Validation. Tags: Constraint Lattice, WE4FREE, Verification",
+      "paper_id": "constraint-lattices",
+      "parent_paper": "8314e863b8d59045",
+      "section_index": 12
+    },
+    {
+      "id": "7ed39f2d562660f7",
+      "repo": "papers",
+      "path": ".papers-meta/constraint-lattices.md",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/constraint-lattices.md",
+      "title": "Constraint Lattices and Stability",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Failure Mode",
+        "Constitutional AI",
+        "Multi-Agent",
+        "CAISC 2026",
+        "Covenant",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.571Z",
+      "size_bytes": 1615,
+      "description": null,
+      "content_snippet": "> How Layered Boundaries Create Predictable Behavior Without Central Control\nTags: Constraint Lattice, CAISC 2026\n[[constraint-lattices]]\nTags: Constraint Lattice\n[[constraint-lattices]]\nTags: Constraint Lattice, Constitutional AI\n[[constraint-lattices]]\nTags: Constraint Lattice\n[[constraint-lattices]]\nTags: Constraint Lattice, Governance\n[[constraint-lattices]]\nTags: Constraint Lattice, Multi-Agent\n[[constraint-lattices]]\nTags: Constraint Lattice, Covenant\n[[constraint-lattices]]\nTags:"
+    },
+    {
+      "id": "924d83907a0aef82",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence (Structure Index)",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Drift",
+        "CAISC 2026",
+        "Constitutional AI",
+        "Failure Mode",
+        "Identity Enforcement",
+        "Attestation",
+        "Verification",
+        "Ensemble",
+        "WE4FREE"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Structure index for Drift, Identity, and Ensemble Coherence: 12 sections",
+      "content_snippet": "Sections: Abstract, What Is Drift?, Drift vs Legitimate Change, The Structural Signature of Drift, Formal Definition of Drift, Three Types of Drift, Identity Without Memory, The Recognition Principle, Functorial Recovery, Ensemble Coherence, Coherence Degradation Patterns, Drift Detection in Practice",
+      "paper_id": "drift-identity",
+      "parent_paper": null,
+      "section_index": null
+    },
+    {
+      "id": "aba59f0ad1b5d1b5",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Abstract",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Abstract"
+      ],
+      "tags": [
+        "Drift",
+        "CAISC 2026"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section section: Abstract (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Abstract. Tags: Drift, CAISC 2026",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 0
+    },
+    {
+      "id": "1ee5e31658f1cc55",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — What Is Drift?",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "What Is Drift?"
+      ],
+      "tags": [
+        "Drift"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section section: What Is Drift? (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: What Is Drift?. Tags: Drift",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 1
+    },
+    {
+      "id": "75caedc19bca2343",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Drift vs Legitimate Change",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Drift vs Legitimate Change"
+      ],
+      "tags": [
+        "Drift",
+        "Constitutional AI"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section subsection: Drift vs Legitimate Change (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Drift vs Legitimate Change. Tags: Drift, Constitutional AI",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 2
+    },
+    {
+      "id": "cf0a5a0676e20fe7",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — The Structural Signature of Drift",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "The Structural Signature of Drift"
+      ],
+      "tags": [
+        "Drift",
+        "Failure Mode"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section subsection: The Structural Signature of Drift (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: The Structural Signature of Drift. Tags: Drift, Failure Mode",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 3
+    },
+    {
+      "id": "7770f21f4c007122",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Formal Definition of Drift",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Formal Definition of Drift"
+      ],
+      "tags": [
+        "Drift"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section section: Formal Definition of Drift (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Formal Definition of Drift. Tags: Drift",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 4
+    },
+    {
+      "id": "47a168b2a279493d",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Three Types of Drift",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Three Types of Drift"
+      ],
+      "tags": [
+        "Drift",
+        "Failure Mode"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section subsection: Three Types of Drift (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Three Types of Drift. Tags: Drift, Failure Mode",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 5
+    },
+    {
+      "id": "34aefde0eec70e84",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Identity Without Memory",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Identity Without Memory"
+      ],
+      "tags": [
+        "Drift",
+        "Identity Enforcement"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section section: Identity Without Memory (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Identity Without Memory. Tags: Drift, Identity Enforcement",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 6
+    },
+    {
+      "id": "53de7a59e510bd3d",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — The Recognition Principle",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "The Recognition Principle"
+      ],
+      "tags": [
+        "Drift",
+        "Attestation"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section subsection: The Recognition Principle (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: The Recognition Principle. Tags: Drift, Attestation",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 7
+    },
+    {
+      "id": "42efe4aefe21883e",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Functorial Recovery",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Functorial Recovery"
+      ],
+      "tags": [
+        "Drift",
+        "Verification"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section section: Functorial Recovery (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Functorial Recovery. Tags: Drift, Verification",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 8
+    },
+    {
+      "id": "f9689db12d506240",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Ensemble Coherence",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Ensemble Coherence"
+      ],
+      "tags": [
+        "Drift",
+        "Ensemble"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section section: Ensemble Coherence (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Ensemble Coherence. Tags: Drift, Ensemble",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 9
+    },
+    {
+      "id": "3a169a731cf845a1",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Coherence Degradation Patterns",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Coherence Degradation Patterns"
+      ],
+      "tags": [
+        "Drift",
+        "Failure Mode"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section subsection: Coherence Degradation Patterns (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Coherence Degradation Patterns. Tags: Drift, Failure Mode",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 10
+    },
+    {
+      "id": "4e8fe95de74a87a4",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.json",
+      "title": "Drift, Identity, and Ensemble Coherence — Drift Detection in Practice",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Drift, Identity, and Ensemble Coherence",
+        "Drift Detection in Practice"
+      ],
+      "tags": [
+        "Drift",
+        "WE4FREE",
+        "Verification"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 2289,
+      "description": "Section section: Drift Detection in Practice (from Drift, Identity, and Ensemble Coherence)",
+      "content_snippet": "Paper: Drift, Identity, and Ensemble Coherence. Section: Drift Detection in Practice. Tags: Drift, WE4FREE, Verification",
+      "paper_id": "drift-identity",
+      "parent_paper": "924d83907a0aef82",
+      "section_index": 11
+    },
+    {
+      "id": "dbbbebbd2f455e6c",
+      "repo": "papers",
+      "path": ".papers-meta/drift-identity.md",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/drift-identity.md",
+      "title": "Drift, Identity, and Ensemble Coherence",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Identity Enforcement",
+        "Failure Mode",
+        "Constitutional AI",
+        "Multi-Agent",
+        "CAISC 2026",
+        "Attestation",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1332,
+      "description": null,
+      "content_snippet": "> How Multi-Agent Systems Maintain Stability Across Temporal Discontinuity\nTags: Drift, CAISC 2026\n[[drift-identity]]\nTags: Drift\n[[drift-identity]]\nTags: Drift, Constitutional AI\n[[drift-identity]]\nTags: Drift, Failure Mode\n[[drift-identity]]\nTags: Drift\n[[drift-identity]]\nTags: Drift, Failure Mode\n[[drift-identity]]\nTags: Drift, Identity Enforcement\n[[drift-identity]]\nTags: Drift, Attestation\n[[drift-identity]]\nTags: Drift, Verification\n[[drift-identity]]\nTags: Drift,"
+    },
+    {
+      "id": "efbd9f8130bc8526",
+      "repo": "papers",
+      "path": ".papers-meta/index.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/index.json",
+      "title": "index.json",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 593,
+      "description": null,
       "content_snippet": null
+    },
+    {
+      "id": "f1d45dc5a47a223c",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems (Structure Index)",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Phenotype",
+        "CAISC 2026",
+        "Constraint Lattice",
+        "Verification",
+        "Multi-Agent",
+        "Ensemble",
+        "Failure Mode",
+        "Drift",
+        "WE4FREE",
+        "Governance"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Structure index for Phenotype Selection in Constraint-Governed Systems: 9 sections",
+      "content_snippet": "Sections: Abstract, Phenotypes as Structural Outcomes, Selection as Fixed-Point Operator, Phenotype Equivalence, Phenotypes Across Domains, Attractor Dynamics and Stability, Catastrophic Collapse, Scaling Phenotypes, CPS as Operational Phenotype Selection",
+      "paper_id": "phenotype-selection",
+      "parent_paper": null,
+      "section_index": null
+    },
+    {
+      "id": "d3b563dc4668de48",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Abstract",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Abstract"
+      ],
+      "tags": [
+        "Phenotype",
+        "CAISC 2026"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: Abstract (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Abstract. Tags: Phenotype, CAISC 2026",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 0
+    },
+    {
+      "id": "0ef35c7bed57501c",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Phenotypes as Structural Outcomes",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Phenotypes as Structural Outcomes"
+      ],
+      "tags": [
+        "Phenotype"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: Phenotypes as Structural Outcomes (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Phenotypes as Structural Outcomes. Tags: Phenotype",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 1
+    },
+    {
+      "id": "fc0a5d62a0b7bd5b",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Selection as Fixed-Point Operator",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Selection as Fixed-Point Operator"
+      ],
+      "tags": [
+        "Phenotype",
+        "Constraint Lattice"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: Selection as Fixed-Point Operator (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Selection as Fixed-Point Operator. Tags: Phenotype, Constraint Lattice",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 2
+    },
+    {
+      "id": "d0a8009bef4867f4",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Phenotype Equivalence",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Phenotype Equivalence"
+      ],
+      "tags": [
+        "Phenotype",
+        "Verification"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: Phenotype Equivalence (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Phenotype Equivalence. Tags: Phenotype, Verification",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 3
+    },
+    {
+      "id": "dc449e1ea6e8d6d0",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Phenotypes Across Domains",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Phenotypes Across Domains"
+      ],
+      "tags": [
+        "Phenotype",
+        "Multi-Agent"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: Phenotypes Across Domains (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Phenotypes Across Domains. Tags: Phenotype, Multi-Agent",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 4
+    },
+    {
+      "id": "e6a6bccb3a39f666",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Attractor Dynamics and Stability",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Attractor Dynamics and Stability"
+      ],
+      "tags": [
+        "Phenotype",
+        "Ensemble"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: Attractor Dynamics and Stability (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Attractor Dynamics and Stability. Tags: Phenotype, Ensemble",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 5
+    },
+    {
+      "id": "81e0b90eb44de696",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Catastrophic Collapse",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Catastrophic Collapse"
+      ],
+      "tags": [
+        "Phenotype",
+        "Failure Mode",
+        "Drift"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section subsection: Catastrophic Collapse (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Catastrophic Collapse. Tags: Phenotype, Failure Mode, Drift",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 6
+    },
+    {
+      "id": "8b6c3a4b7bb15398",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Scaling Phenotypes",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "Scaling Phenotypes"
+      ],
+      "tags": [
+        "Phenotype",
+        "Multi-Agent"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: Scaling Phenotypes (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: Scaling Phenotypes. Tags: Phenotype, Multi-Agent",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 7
+    },
+    {
+      "id": "7c9a72da382c5998",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.json",
+      "title": "Phenotype Selection in Constraint-Governed Systems — CPS as Operational Phenotype Selection",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "Phenotype Selection in Constraint-Governed Systems",
+        "CPS as Operational Phenotype Selection"
+      ],
+      "tags": [
+        "Phenotype",
+        "WE4FREE",
+        "Governance"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1928,
+      "description": "Section section: CPS as Operational Phenotype Selection (from Phenotype Selection in Constraint-Governed Systems)",
+      "content_snippet": "Paper: Phenotype Selection in Constraint-Governed Systems. Section: CPS as Operational Phenotype Selection. Tags: Phenotype, WE4FREE, Governance",
+      "paper_id": "phenotype-selection",
+      "parent_paper": "f1d45dc5a47a223c",
+      "section_index": 8
+    },
+    {
+      "id": "4337c5bade761d91",
+      "repo": "papers",
+      "path": ".papers-meta/phenotype-selection.md",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/phenotype-selection.md",
+      "title": "Phenotype Selection in Constraint-Governed Systems",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Failure Mode",
+        "Multi-Agent",
+        "CAISC 2026",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.572Z",
+      "size_bytes": 1248,
+      "description": "> How Behavioral Regularities Emerge, Stabilize, and Persist Under Structural Pressure",
+      "content_snippet": "> How Behavioral Regularities Emerge, Stabilize, and Persist Under Structural Pressure\nTags: Phenotype, CAISC 2026\n[[phenotype-selection]]\nTags: Phenotype\n[[phenotype-selection]]\nTags: Phenotype, Constraint Lattice\n[[phenotype-selection]]\nTags: Phenotype, Verification\n[[phenotype-selection]]\nTags: Phenotype, Multi-Agent\n[[phenotype-selection]]\nTags: Phenotype, Ensemble\n[[phenotype-selection]]\nTags: Phenotype, Failure Mode, Drift\n[[phenotype-selection]]\nTags: Phenotype,"
+    },
+    {
+      "id": "417be6412d14ac69",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone (Structure Index)",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "CAISC 2026",
+        "Constitutional AI",
+        "Constraint Lattice",
+        "Phenotype",
+        "Drift",
+        "Ensemble",
+        "Multi-Agent",
+        "Convergence Gate",
+        "WE4FREE",
+        "Verification",
+        "Covenant",
+        "Failure Mode"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Structure index for The Rosetta Stone: 13 sections",
+      "content_snippet": "Sections: Abstract, How This Work Emerged, The Four Invariants, Symmetry Preservation, Selection Under Constraint, Propagation Through Layers, Stability Under Transformation, Cross-Domain Mapping, The Translation Protocol, Empirical Grounding: WE4FREE as Rosetta Stone, Design Principles, Limitations and Scope, Open Questions",
+      "paper_id": "rosetta-stone",
+      "parent_paper": null,
+      "section_index": null
+    },
+    {
+      "id": "6822c103b5be0e85",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Abstract",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Abstract"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "CAISC 2026"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: Abstract (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Abstract. Tags: Rosetta Stone, CAISC 2026",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 0
+    },
+    {
+      "id": "8c0a57c57cea30dd",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — How This Work Emerged",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "How This Work Emerged"
+      ],
+      "tags": [
+        "Rosetta Stone"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: How This Work Emerged (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: How This Work Emerged. Tags: Rosetta Stone",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 1
+    },
+    {
+      "id": "6533c275f306f62a",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — The Four Invariants",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "The Four Invariants"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: The Four Invariants (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: The Four Invariants. Tags: Rosetta Stone, Constitutional AI",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 2
+    },
+    {
+      "id": "778dfe285e6b9fd8",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Symmetry Preservation",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Symmetry Preservation"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Constraint Lattice"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section subsection: Symmetry Preservation (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Symmetry Preservation. Tags: Rosetta Stone, Constraint Lattice",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 3
+    },
+    {
+      "id": "7932a751ccf92a29",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Selection Under Constraint",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Selection Under Constraint"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Phenotype"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section subsection: Selection Under Constraint (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Selection Under Constraint. Tags: Rosetta Stone, Phenotype",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 4
+    },
+    {
+      "id": "ad1ff6ca8dbb637b",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Propagation Through Layers",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Propagation Through Layers"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Drift"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section subsection: Propagation Through Layers (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Propagation Through Layers. Tags: Rosetta Stone, Drift",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 5
+    },
+    {
+      "id": "1566cafc15a68789",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Stability Under Transformation",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Stability Under Transformation"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Ensemble"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section subsection: Stability Under Transformation (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Stability Under Transformation. Tags: Rosetta Stone, Ensemble",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 6
+    },
+    {
+      "id": "64a82e30b41c8af2",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Cross-Domain Mapping",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Cross-Domain Mapping"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Multi-Agent"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: Cross-Domain Mapping (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Cross-Domain Mapping. Tags: Rosetta Stone, Multi-Agent",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 7
+    },
+    {
+      "id": "8bddb28e9cecab7c",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — The Translation Protocol",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "The Translation Protocol"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Convergence Gate"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: The Translation Protocol (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: The Translation Protocol. Tags: Rosetta Stone, Convergence Gate",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 8
+    },
+    {
+      "id": "84f4471ede976145",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Empirical Grounding: WE4FREE as Rosetta Stone",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Empirical Grounding: WE4FREE as Rosetta Stone"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "WE4FREE",
+        "Verification"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: Empirical Grounding: WE4FREE as Rosetta Stone (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Empirical Grounding: WE4FREE as Rosetta Stone. Tags: Rosetta Stone, WE4FREE, Verification",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 9
+    },
+    {
+      "id": "0a504a8324f219aa",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Design Principles",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Design Principles"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "Covenant"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: Design Principles (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Design Principles. Tags: Rosetta Stone, Constitutional AI, Covenant",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 10
+    },
+    {
+      "id": "91a8ce3a4780956a",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Limitations and Scope",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Limitations and Scope"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Failure Mode"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: Limitations and Scope (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Limitations and Scope. Tags: Rosetta Stone, Failure Mode",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 11
+    },
+    {
+      "id": "a7b05aeb204aad28",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.json",
+      "title": "The Rosetta Stone — Open Questions",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The Rosetta Stone",
+        "Open Questions"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "CAISC 2026"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.570Z",
+      "size_bytes": 2609,
+      "description": "Section section: Open Questions (from The Rosetta Stone)",
+      "content_snippet": "Paper: The Rosetta Stone. Section: Open Questions. Tags: Rosetta Stone, CAISC 2026",
+      "paper_id": "rosetta-stone",
+      "parent_paper": "417be6412d14ac69",
+      "section_index": 12
+    },
+    {
+      "id": "78298889a29508fe",
+      "repo": "papers",
+      "path": ".papers-meta/rosetta-stone.md",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/rosetta-stone.md",
+      "title": "The Rosetta Stone",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Convergence Gate",
+        "Failure Mode",
+        "Constitutional AI",
+        "Multi-Agent",
+        "CAISC 2026",
+        "Covenant",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.567Z",
+      "size_bytes": 1397,
+      "description": "> Core Invariants Across Physics, Biology, Computation, and Ensemble Intelligence",
+      "content_snippet": "> Core Invariants Across Physics, Biology, Computation, and Ensemble Intelligence\nTags: Rosetta Stone, CAISC 2026\n[[rosetta-stone]]\nTags: Rosetta Stone\n[[rosetta-stone]]\nTags: Rosetta Stone, Constitutional AI\n[[rosetta-stone]]\nTags: Rosetta Stone, Constraint Lattice\n[[rosetta-stone]]\nTags: Rosetta Stone, Phenotype\n[[rosetta-stone]]\nTags: Rosetta Stone, Drift\n[[rosetta-stone]]\nTags: Rosetta Stone, Ensemble\n[[rosetta-stone]]\nTags: Rosetta Stone, Multi-Agent\n[[rosetta-stone]]\nTags: Rosetta Stone,"
+    },
+    {
+      "id": "618dfb4ede98a6f7",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework (Structure Index)",
+      "extension": ".json",
+      "content_type": "data",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "WE4FREE",
+        "CAISC 2026",
+        "Constitutional AI",
+        "Rosetta Stone",
+        "Constraint Lattice",
+        "Governance",
+        "Drift",
+        "Failure Mode",
+        "Phenotype",
+        "Verification",
+        "Identity Enforcement",
+        "Ensemble",
+        "Multi-Agent",
+        "Federation"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Structure index for The WE4FREE Framework: 13 sections",
+      "content_snippet": "Sections: Abstract, From Theory to System, Constitutional Layer (Paper A Operationalized), The Four Invariants as System Rules, Constraint Lattice Layer (Paper B Operationalized), Constraint Propagation Engine, Lattice Deformation Detection, Phenotype Layer (Paper C Operationalized), CPS as Phenotype Selection Operator, Drift Layer (Paper D Operationalized), Checkpoint and Recovery Protocol, Ensemble Layer, Deployment Architecture",
+      "paper_id": "we4free-framework",
+      "parent_paper": null,
+      "section_index": null
+    },
+    {
+      "id": "25b02da777fc3dae",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Abstract",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Abstract"
+      ],
+      "tags": [
+        "WE4FREE",
+        "CAISC 2026"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: Abstract (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Abstract. Tags: WE4FREE, CAISC 2026",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 0
+    },
+    {
+      "id": "ac5f2d9238e20b19",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — From Theory to System",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "From Theory to System"
+      ],
+      "tags": [
+        "WE4FREE"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: From Theory to System (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: From Theory to System. Tags: WE4FREE",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 1
+    },
+    {
+      "id": "e1ece1205f5a8587",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Constitutional Layer (Paper A Operationalized)",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Constitutional Layer (Paper A Operationalized)"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Constitutional AI",
+        "Rosetta Stone"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: Constitutional Layer (Paper A Operationalized) (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Constitutional Layer (Paper A Operationalized). Tags: WE4FREE, Constitutional AI, Rosetta Stone",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 2
+    },
+    {
+      "id": "c2ec66b63de20614",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — The Four Invariants as System Rules",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "The Four Invariants as System Rules"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Constraint Lattice"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section subsection: The Four Invariants as System Rules (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: The Four Invariants as System Rules. Tags: WE4FREE, Constraint Lattice",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 3
+    },
+    {
+      "id": "75ac9bf7af78b579",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Constraint Lattice Layer (Paper B Operationalized)",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Constraint Lattice Layer (Paper B Operationalized)"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Constraint Lattice"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: Constraint Lattice Layer (Paper B Operationalized) (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Constraint Lattice Layer (Paper B Operationalized). Tags: WE4FREE, Constraint Lattice",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 4
+    },
+    {
+      "id": "dfa6744a5458ae32",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Constraint Propagation Engine",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Constraint Propagation Engine"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Governance"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section subsection: Constraint Propagation Engine (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Constraint Propagation Engine. Tags: WE4FREE, Governance",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 5
+    },
+    {
+      "id": "a4978eac671fb5f1",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Lattice Deformation Detection",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Lattice Deformation Detection"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Drift",
+        "Failure Mode"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section subsection: Lattice Deformation Detection (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Lattice Deformation Detection. Tags: WE4FREE, Drift, Failure Mode",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 6
+    },
+    {
+      "id": "3b9f1a19c5885297",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Phenotype Layer (Paper C Operationalized)",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Phenotype Layer (Paper C Operationalized)"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Phenotype"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: Phenotype Layer (Paper C Operationalized) (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Phenotype Layer (Paper C Operationalized). Tags: WE4FREE, Phenotype",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 7
+    },
+    {
+      "id": "1a3ed1f5f8115978",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — CPS as Phenotype Selection Operator",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "CPS as Phenotype Selection Operator"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Phenotype",
+        "Verification"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section subsection: CPS as Phenotype Selection Operator (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: CPS as Phenotype Selection Operator. Tags: WE4FREE, Phenotype, Verification",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 8
+    },
+    {
+      "id": "ee5541d8684aaa91",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Drift Layer (Paper D Operationalized)",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Drift Layer (Paper D Operationalized)"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Drift"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: Drift Layer (Paper D Operationalized) (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Drift Layer (Paper D Operationalized). Tags: WE4FREE, Drift",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 9
+    },
+    {
+      "id": "85b095ea94b48265",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Checkpoint and Recovery Protocol",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Checkpoint and Recovery Protocol"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Verification",
+        "Identity Enforcement"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section subsection: Checkpoint and Recovery Protocol (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Checkpoint and Recovery Protocol. Tags: WE4FREE, Verification, Identity Enforcement",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 10
+    },
+    {
+      "id": "69cc8d00b54c1588",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Ensemble Layer",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Ensemble Layer"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Ensemble",
+        "Multi-Agent"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: Ensemble Layer (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Ensemble Layer. Tags: WE4FREE, Ensemble, Multi-Agent",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 11
+    },
+    {
+      "id": "51fafbef6da9f506",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.json",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.json",
+      "title": "The WE4FREE Framework — Deployment Architecture",
+      "extension": ".json",
+      "content_type": "paper-section",
+      "category": "paper-section",
+      "breadcrumbs": [
+        "The WE4FREE Framework",
+        "Deployment Architecture"
+      ],
+      "tags": [
+        "WE4FREE",
+        "Federation"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 2724,
+      "description": "Section section: Deployment Architecture (from The WE4FREE Framework)",
+      "content_snippet": "Paper: The WE4FREE Framework. Section: Deployment Architecture. Tags: WE4FREE, Federation",
+      "paper_id": "we4free-framework",
+      "parent_paper": "618dfb4ede98a6f7",
+      "section_index": 12
+    },
+    {
+      "id": "05c14e6bf7cd2be3",
+      "repo": "papers",
+      "path": ".papers-meta/we4free-framework.md",
+      "github_url": "https://github.com/vortsghost2025/papers/blob/main/.papers-meta/we4free-framework.md",
+      "title": "The WE4FREE Framework",
+      "extension": ".md",
+      "content_type": "doc",
+      "category": "paper-section",
+      "breadcrumbs": [
+        ".papers-meta"
+      ],
+      "tags": [
+        "Rosetta Stone",
+        "Identity Enforcement",
+        "Failure Mode",
+        "Constitutional AI",
+        "Multi-Agent",
+        "CAISC 2026",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE",
+        "Federation"
+      ],
+      "date": null,
+      "modified": "2026-04-29T18:56:49.573Z",
+      "size_bytes": 1599,
+      "description": null,
+      "content_snippet": "> Operationalizing Papers A-D as Deployable Infrastructure\nTags: WE4FREE, CAISC 2026\n[[we4free-framework]]\nTags: WE4FREE\n[[we4free-framework]]\nTags: WE4FREE, Constitutional AI, Rosetta Stone\n[[we4free-framework]]\nTags: WE4FREE, Constraint Lattice\n[[we4free-framework]]\nTags: WE4FREE, Constraint Lattice\n[[we4free-framework]]\nTags: WE4FREE, Governance\n[[we4free-framework]]\nTags: WE4FREE, Drift, Failure Mode\n[[we4free-framework]]\nTags: WE4FREE, Phenotype\n[[we4free-framework]]\nTags: WE4FREE,"
     },
     {
       "id": "eff74bd8d3c0e6c1",

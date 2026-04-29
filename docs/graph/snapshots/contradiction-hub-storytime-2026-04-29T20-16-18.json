@@ -1,0 +1,14 @@
+[
+  {
+    "id": "5ef61dc0b569b587",
+    "title": "Changelog",
+    "repo": "storytime",
+    "connectionCount": 150,
+    "contradictionCount": 39,
+    "governanceLayer": "application_adjacent",
+    "authorityDepth": 30,
+    "bridgeState": "contradicted",
+    "status": "CONFLICTED",
+    "clusterIds": []
+  }
+]

@@ -1,0 +1,4435 @@
+{
+  "snapshot_a_id": "snapshot-storytime-2026-04-29T13-20-45-188Z",
+  "snapshot_b_id": "snapshot-storytime-2026-04-29T20-16-18-093Z",
+  "compared_at": "2026-04-29T20:16:18.235Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "storytime"
+  ],
+  "repo_filter_b": [
+    "storytime"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.188Z",
+  "created_at_b": "2026-04-29T20:16:18.093Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": -178,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 1,
+    "conflicted": -1,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "UNVERIFIED"
+    }
+  ],
+  "changed_governance_layer": [
+    {
+      "id": "eff74bd8d3c0e6c1",
+      "title": "aider chat started at 2026-04-10 16:49:04",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8133e85612ef4701",
+      "title": "biome.json",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5ef61dc0b569b587",
+      "title": "Changelog",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "02233b540b2f89ec",
+      "title": "Overstory",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "7bb3c1b52afa1a2f",
+      "title": "Contributing to Overstory",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "dc31744a2050121e",
+      "title": "CUDA Integration for Overstory - Make It RIDICULOUS",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0aa18d4fbec3c884",
+      "title": "package.json",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ca8e79a8a8b2ac38",
+      "title": "Overstory",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6ddec66f00474299",
+      "title": "Security Policy",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "08b9d2b76a2f1e8c",
+      "title": "test-tmux.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "38f4ef71e819b612",
+      "title": "tsconfig.json",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "143da74d1ecc2f6d",
+      "title": "dependabot.yml",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "fe941ee39a5660d0",
+      "title": "FUNDING.yml",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "403a93dca65eb2cb",
+      "title": "pull request template",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "4e0f98fd59f6169a",
+      "title": "Builder Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "fb61fdbd0b1728a2",
+      "title": "Coordinator Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5f62209c2212580b",
+      "title": "Lead Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "50a0d81c8edcf2da",
+      "title": "Merger Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0a36368fa2d58f4c",
+      "title": "Monitor Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "2d7cbdbc31bcab48",
+      "title": "Orchestrator Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "3ec92f7c7bb28761",
+      "title": "ov co creation",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5ef236ddac8a818a",
+      "title": "Reviewer Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "801599b28e6079e0",
+      "title": "Scout Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6d0d50559297c54d",
+      "title": "Supervisor Agent",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c472ea400b4afa3a",
+      "title": "Canopy Prompt Architecture",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c2fe5dda1637f2fa",
+      "title": "Runtime Abstraction: Multi-Provider Agent Support",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "22c58b8c016b9c23",
+      "title": "Runtime Adapters",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6581e72d37da4471",
+      "title": ".fe60de356903654009a456b8588f8184ce90824f-audit.json",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "fa4effec5f2dd0f0",
+      "title": "version-bump.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5e368b65adcdf1d7",
+      "title": "config.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ca3431c5bc6b15f4",
+      "title": "config.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5c2e06495a2c1531",
+      "title": "errors.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "badd5ee903121017",
+      "title": "errors.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "abe03eefeb371672",
+      "title": "index.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "de79967d595825ed",
+      "title": "json.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "88780de83093bcd3",
+      "title": "json.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "3ebdc2a23b361966",
+      "title": "schema-consistency.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ea5e89cfda2932cb",
+      "title": "test-helpers.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9d76068245c68929",
+      "title": "test-helpers.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "22c7cf7855065734",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1d4ca30b32effb17",
+      "title": "bug_report.yml",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "43890b539fbacf9d",
+      "title": "config.yml",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5fad312971639068",
+      "title": "feature_request.yml",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c0367539a94e76a6",
+      "title": "ci.yml",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8efdf729626a1bbc",
+      "title": "publish.yml",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "bcde0629340d2a36",
+      "title": "checkpoint.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8464ad81d22f6fda",
+      "title": "checkpoint.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "4bad178c8a5b9663",
+      "title": "copilot-hooks-deployer.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5f0e045cc5cf681c",
+      "title": "copilot-hooks-deployer.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c32df6c197829391",
+      "title": "guard-rules.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0a793224d0f5dc03",
+      "title": "guard-rules.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "66e3fca9a0521d81",
+      "title": "hooks-deployer.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ae5d69eed3ba00a4",
+      "title": "hooks-deployer.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "15f203ce0e24e49c",
+      "title": "identity.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "cadf88f0fdab2b5b",
+      "title": "identity.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "81e900105b79fa72",
+      "title": "lifecycle.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "18e978e217f6f503",
+      "title": "lifecycle.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9dbfa88ff3747dc3",
+      "title": "manifest.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6c0f924887c56e8a",
+      "title": "manifest.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c9ef88107a1a6a86",
+      "title": "overlay.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1e767cc1c0115f23",
+      "title": "overlay.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ea02f25cb14b08fd",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "210212fff2e2e2a9",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "cb3246c16c5b98e4",
+      "title": "molecules.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f861def57ebfa7a9",
+      "title": "molecules.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f11f2d255097c006",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "b5dd671ee39e5b72",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "aeb12a9e6417f1e0",
+      "title": "agents.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "288428e2ff414872",
+      "title": "agents.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "89cabc170ce8defb",
+      "title": "clean.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "320bfcdb0ec9cb8a",
+      "title": "clean.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "43f1ebab29bb73bf",
+      "title": "completions.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "18fad3b3e6ed3064",
+      "title": "completions.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "daa1288f7f3d1446",
+      "title": "coordinator.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f7eae988f65e27b5",
+      "title": "coordinator.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "57c8eb12ceae5cb0",
+      "title": "costs.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8ea66d519a05fc14",
+      "title": "costs.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c0f8a8f8f16b4d7d",
+      "title": "dashboard.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "161d61891a282370",
+      "title": "dashboard.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6b2f0cb3452081c7",
+      "title": "discover.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8cd2e9a951fab9b9",
+      "title": "discover.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "e9d4e9da36100d48",
+      "title": "doctor.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "7a9b4dd61ef5d5e4",
+      "title": "doctor.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0399b7afba479631",
+      "title": "ecosystem.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "222aabe357a6755d",
+      "title": "ecosystem.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "00bbc23083eee3b5",
+      "title": "errors.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f08cea143db8629c",
+      "title": "errors.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ac5aa29dc4bd661a",
+      "title": "feed.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "af9740469f93fb7c",
+      "title": "feed.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f931f4a0da4d1d8e",
+      "title": "gpu.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8d6f0e21c0839dc3",
+      "title": "group.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6b3baada5f9ee1fe",
+      "title": "group.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6c9c21c7d8f86366",
+      "title": "hooks.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "7f69922b1e6842a1",
+      "title": "hooks.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8372c7ee0a9df506",
+      "title": "init.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a9dcc1ee5f3b6954",
+      "title": "init.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "fa35ff0ac51d58ae",
+      "title": "inspect.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "522a53eb3ac1e767",
+      "title": "inspect.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0056bdbd5492309b",
+      "title": "log.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "642c49b3c40305f5",
+      "title": "log.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9a19730f96e12556",
+      "title": "logs.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "b2335453e77fde3c",
+      "title": "logs.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "4ff29918c4fb3693",
+      "title": "mail.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8b7b6bb8099f3b8f",
+      "title": "mail.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a5b6ad306d059888",
+      "title": "merge.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "53786cf63e6563c1",
+      "title": "merge.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "52a1ecbf5c39132a",
+      "title": "metrics.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "eae3170128463f2e",
+      "title": "metrics.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9045143c3a784029",
+      "title": "monitor.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "83f626b349ae9bfc",
+      "title": "monitor.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "7f79b9d703d427e5",
+      "title": "nudge.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "799ca5886e934314",
+      "title": "nudge.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8c18024bf9a76a79",
+      "title": "orchestrator.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1b2f09d3ee632c13",
+      "title": "prime.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9cbcb69a635d6827",
+      "title": "prime.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c56eef13dc051974",
+      "title": "replay.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "73d02752aa174282",
+      "title": "replay.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6b065d2b689093b2",
+      "title": "run.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "683868739d5f252e",
+      "title": "run.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "83b63856c624a9c3",
+      "title": "sling.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "cc7c17fed4a40c2f",
+      "title": "sling.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "3be08fd70dc3076c",
+      "title": "spec.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "113c73b87d633304",
+      "title": "spec.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "019b9410d4eed6ec",
+      "title": "status.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "255ecc8875c74cd7",
+      "title": "status.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "28a53b73994dde48",
+      "title": "stop.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "44507c926ad1a245",
+      "title": "stop.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9ff9c5d846ef9196",
+      "title": "supervisor.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "85dc94cdf88e021c",
+      "title": "supervisor.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6b3e62dfccd5799e",
+      "title": "trace.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "42a2462de2e8b385",
+      "title": "trace.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f14cf233b286d678",
+      "title": "ui.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1e5f8bbb2764c05e",
+      "title": "update.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "78bd8d6f03191dc0",
+      "title": "update.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "cc5a2da48ab8c74a",
+      "title": "upgrade.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "770f43c51352eab1",
+      "title": "upgrade.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a34b9c921223cce6",
+      "title": "watch.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "78c6d6fa7d35f415",
+      "title": "watch.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "beb387692ea81bb8",
+      "title": "worktree.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5bc77cd212b34019",
+      "title": "worktree.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "4a0e625d073d5e99",
+      "title": "html.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a1b7d2750a4ab107",
+      "title": "server.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "459b47440fa490f7",
+      "title": "agents.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5c87b76f7e3fdb5b",
+      "title": "agents.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "096cba761fbfc7d5",
+      "title": "config-check.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "54765e2f350a60d5",
+      "title": "config-check.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "91e5b1d9a0e51f54",
+      "title": "consistency.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "51ed8c947dd9ca90",
+      "title": "consistency.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9d02bc1f161bc853",
+      "title": "databases.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "38eda2cc6d791591",
+      "title": "databases.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "80ef57b7e2f3dc7a",
+      "title": "dependencies.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "946f88e6da97bcc9",
+      "title": "dependencies.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "2d74393247538645",
+      "title": "ecosystem.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "b7fc68ffbdfaa1fd",
+      "title": "ecosystem.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ebfb4e0d93bffcfb",
+      "title": "logs.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "54d7b180f40deb7f",
+      "title": "logs.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "01a2d9529ab3dd51",
+      "title": "merge-queue.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "702ca81d72e70d6c",
+      "title": "merge-queue.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "64406fd8a7188677",
+      "title": "providers.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1aab63e86bbfa734",
+      "title": "providers.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "e0232c91caca8b7c",
+      "title": "structure.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "2e609b01e4b31302",
+      "title": "structure.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "2bd8a10d57b7fac6",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "4f80f5b46d44c2f4",
+      "title": "version.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1ee75e7062442136",
+      "title": "version.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "50e4b0e34d18dd33",
+      "title": "watchdog.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "64526c1eff97c24f",
+      "title": "watchdog.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "e3a58c6cc8cbbbd6",
+      "title": "init-sling-lifecycle.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "7adaa9b04660515f",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ac261147807139fe",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "45579796d613e0d5",
+      "title": "tailer.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c2c3b80de3a3be70",
+      "title": "tailer.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f152cca52a00cd00",
+      "title": "tool-filter.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1a13f2fb2ac75440",
+      "title": "tool-filter.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "473cdc4e7e561818",
+      "title": "metrics.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "e414ef9834f7b607",
+      "title": "analyzer.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "79bd5be898d64881",
+      "title": "analyzer.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8c9a29ec7c5250c5",
+      "title": "color.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c369d130aaf70bce",
+      "title": "color.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a95056ac73083ce1",
+      "title": "format.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f8b07d3caac57aec",
+      "title": "format.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "43114d5c6fffb8d9",
+      "title": "logger.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "d3767a17006d2446",
+      "title": "logger.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "d35decb30fdaaf6d",
+      "title": "reporter.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "6ce509c755fc91e6",
+      "title": "reporter.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "96d49f265983bf52",
+      "title": "sanitizer.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ad802df209cd4fba",
+      "title": "sanitizer.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1372747e16d3b9df",
+      "title": "theme.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "35e42f7a2b040610",
+      "title": "broadcast.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a5d407300f7f54f0",
+      "title": "broadcast.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "65f54a9a61347787",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c21dcaebc6f4dc7f",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "785d07fec8bff4f2",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "4ca3c2f079adb708",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "c53c1fd36cd9ec89",
+      "title": "queue.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5a961e33b874d15f",
+      "title": "queue.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "da0ececbd71bb076",
+      "title": "resolver.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "bf36eb0e20dce497",
+      "title": "resolver.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f023235cf8e16997",
+      "title": "pricing.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8f20a74c5064bb30",
+      "title": "pricing.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a98ccd91ff9ae62e",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f640f826c24c44ef",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "89b6ef6f819d5e39",
+      "title": "summary.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "5992085376ea4f41",
+      "title": "summary.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ba1c866283e6391d",
+      "title": "transcript.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "661f9f56d2c80968",
+      "title": "transcript.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ee89253e6b2682f2",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "758e8873a40bca9b",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "08aa9d4b44b4910e",
+      "title": "aider.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "3451a5ced78af53e",
+      "title": "aider.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "88498b384c79b0ee",
+      "title": "amp.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "3001d5eb3c5f7e02",
+      "title": "amp.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f2f6f68ca5276232",
+      "title": "claude.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "aea02b28c34e7c16",
+      "title": "claude.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9b2d4b231d17c9ef",
+      "title": "codex.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1104b4b035d844b5",
+      "title": "codex.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9fafe59436512797",
+      "title": "connections.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "e9c3feea85b0921a",
+      "title": "connections.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0f44466a4c6d2a46",
+      "title": "copilot.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "384de8f4a991398e",
+      "title": "copilot.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a6f6ffb3a9e4d704",
+      "title": "cursor.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "d384cb16a9e9069f",
+      "title": "cursor.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "23bbc0005b88a8b7",
+      "title": "gemini.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "bf0ce75f2e416cab",
+      "title": "gemini.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9eb9052e4bd47fe8",
+      "title": "goose.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a4fb8b68d9a4c3df",
+      "title": "goose.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "764b88a2318c6f9e",
+      "title": "opencode.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "25c50c5101bc955a",
+      "title": "opencode.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "69943af52333bdd4",
+      "title": "pi-guards.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9fa6090216852d89",
+      "title": "pi-guards.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "b76ef0d1d03008b5",
+      "title": "pi.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1b3165d2b0f2f34e",
+      "title": "pi.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "648941dec4d70aeb",
+      "title": "registry.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "daa31c6b609fb3b9",
+      "title": "registry.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "7a35612c218058ea",
+      "title": "sapling.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "018c42b5f5e1f6fa",
+      "title": "sapling.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "76fe6b5ce8508b9f",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "e9d2bba8be2f4c2d",
+      "title": "compat.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "65e4cb3866de1934",
+      "title": "compat.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "59f884dcb62f2805",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8adce26e9835bbc3",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "865e8fc5c8a2ad12",
+      "title": "beads.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "b05cd46da4566cec",
+      "title": "beads.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "b6f7d5aba15051b0",
+      "title": "factory.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "74abe40694761f31",
+      "title": "factory.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "2111a779815d3ad0",
+      "title": "seeds.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "d6ef6e82c2e5d7e8",
+      "title": "seeds.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "78bcd86fe716b5ac",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "f9f9e6aa2992b5ce",
+      "title": "bin.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "1eafbf6846179287",
+      "title": "bin.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "a78f9315284c7147",
+      "title": "fs.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "17bb353d5797ab0d",
+      "title": "fs.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0ffe5c9ce10446fb",
+      "title": "pid.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "96cb46cad555e405",
+      "title": "pid.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "743b9ce4edf117ac",
+      "title": "time.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "df15d807a9acce89",
+      "title": "time.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "8d3efe29102617dd",
+      "title": "version.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "740ab0063d6ee34a",
+      "title": "version.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "645db60dce942818",
+      "title": "daemon.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "ae4e65437e3ee116",
+      "title": "daemon.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "b8bb7c276c34f74e",
+      "title": "health.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "2b92b9587af22f52",
+      "title": "health.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "9f3c34ecf933ce09",
+      "title": "triage.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "caee0eb5a3874bb3",
+      "title": "triage.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "66b39c9ab3290745",
+      "title": "manager.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "e563647e3e88efcf",
+      "title": "manager.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "958bfb4f72e3e11d",
+      "title": "process.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "57069af903044cf2",
+      "title": "process.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "fdab8ba5f417b4c6",
+      "title": "tmux.test.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    },
+    {
+      "id": "0559c021831ac364",
+      "title": "tmux.ts",
+      "repo": "storytime",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "application_adjacent"
+    }
+  ],
+  "changed_bridge_state": [
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    }
+  ],
+  "changed_authority_depth": [
+    {
+      "id": "eff74bd8d3c0e6c1",
+      "title": "aider chat started at 2026-04-10 16:49:04",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8133e85612ef4701",
+      "title": "biome.json",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5ef61dc0b569b587",
+      "title": "Changelog",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "02233b540b2f89ec",
+      "title": "Overstory",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "7bb3c1b52afa1a2f",
+      "title": "Contributing to Overstory",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "dc31744a2050121e",
+      "title": "CUDA Integration for Overstory - Make It RIDICULOUS",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0aa18d4fbec3c884",
+      "title": "package.json",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ca8e79a8a8b2ac38",
+      "title": "Overstory",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6ddec66f00474299",
+      "title": "Security Policy",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "08b9d2b76a2f1e8c",
+      "title": "test-tmux.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "38f4ef71e819b612",
+      "title": "tsconfig.json",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "143da74d1ecc2f6d",
+      "title": "dependabot.yml",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "fe941ee39a5660d0",
+      "title": "FUNDING.yml",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "403a93dca65eb2cb",
+      "title": "pull request template",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "4e0f98fd59f6169a",
+      "title": "Builder Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "fb61fdbd0b1728a2",
+      "title": "Coordinator Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5f62209c2212580b",
+      "title": "Lead Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "50a0d81c8edcf2da",
+      "title": "Merger Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0a36368fa2d58f4c",
+      "title": "Monitor Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "2d7cbdbc31bcab48",
+      "title": "Orchestrator Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "3ec92f7c7bb28761",
+      "title": "ov co creation",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5ef236ddac8a818a",
+      "title": "Reviewer Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "801599b28e6079e0",
+      "title": "Scout Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6d0d50559297c54d",
+      "title": "Supervisor Agent",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c472ea400b4afa3a",
+      "title": "Canopy Prompt Architecture",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c2fe5dda1637f2fa",
+      "title": "Runtime Abstraction: Multi-Provider Agent Support",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "22c58b8c016b9c23",
+      "title": "Runtime Adapters",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6581e72d37da4471",
+      "title": ".fe60de356903654009a456b8588f8184ce90824f-audit.json",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "fa4effec5f2dd0f0",
+      "title": "version-bump.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5e368b65adcdf1d7",
+      "title": "config.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ca3431c5bc6b15f4",
+      "title": "config.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5c2e06495a2c1531",
+      "title": "errors.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "badd5ee903121017",
+      "title": "errors.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "abe03eefeb371672",
+      "title": "index.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "de79967d595825ed",
+      "title": "json.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "88780de83093bcd3",
+      "title": "json.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "3ebdc2a23b361966",
+      "title": "schema-consistency.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ea5e89cfda2932cb",
+      "title": "test-helpers.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9d76068245c68929",
+      "title": "test-helpers.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "22c7cf7855065734",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1d4ca30b32effb17",
+      "title": "bug_report.yml",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "43890b539fbacf9d",
+      "title": "config.yml",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5fad312971639068",
+      "title": "feature_request.yml",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c0367539a94e76a6",
+      "title": "ci.yml",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8efdf729626a1bbc",
+      "title": "publish.yml",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "bcde0629340d2a36",
+      "title": "checkpoint.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8464ad81d22f6fda",
+      "title": "checkpoint.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "4bad178c8a5b9663",
+      "title": "copilot-hooks-deployer.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5f0e045cc5cf681c",
+      "title": "copilot-hooks-deployer.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c32df6c197829391",
+      "title": "guard-rules.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0a793224d0f5dc03",
+      "title": "guard-rules.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "66e3fca9a0521d81",
+      "title": "hooks-deployer.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ae5d69eed3ba00a4",
+      "title": "hooks-deployer.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "15f203ce0e24e49c",
+      "title": "identity.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "cadf88f0fdab2b5b",
+      "title": "identity.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "81e900105b79fa72",
+      "title": "lifecycle.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "18e978e217f6f503",
+      "title": "lifecycle.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9dbfa88ff3747dc3",
+      "title": "manifest.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6c0f924887c56e8a",
+      "title": "manifest.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c9ef88107a1a6a86",
+      "title": "overlay.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1e767cc1c0115f23",
+      "title": "overlay.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ea02f25cb14b08fd",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "210212fff2e2e2a9",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "cb3246c16c5b98e4",
+      "title": "molecules.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f861def57ebfa7a9",
+      "title": "molecules.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f11f2d255097c006",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "b5dd671ee39e5b72",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "aeb12a9e6417f1e0",
+      "title": "agents.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "288428e2ff414872",
+      "title": "agents.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "89cabc170ce8defb",
+      "title": "clean.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "320bfcdb0ec9cb8a",
+      "title": "clean.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "43f1ebab29bb73bf",
+      "title": "completions.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "18fad3b3e6ed3064",
+      "title": "completions.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "daa1288f7f3d1446",
+      "title": "coordinator.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f7eae988f65e27b5",
+      "title": "coordinator.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "57c8eb12ceae5cb0",
+      "title": "costs.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8ea66d519a05fc14",
+      "title": "costs.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c0f8a8f8f16b4d7d",
+      "title": "dashboard.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "161d61891a282370",
+      "title": "dashboard.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6b2f0cb3452081c7",
+      "title": "discover.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8cd2e9a951fab9b9",
+      "title": "discover.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "e9d4e9da36100d48",
+      "title": "doctor.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "7a9b4dd61ef5d5e4",
+      "title": "doctor.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0399b7afba479631",
+      "title": "ecosystem.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "222aabe357a6755d",
+      "title": "ecosystem.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "00bbc23083eee3b5",
+      "title": "errors.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f08cea143db8629c",
+      "title": "errors.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ac5aa29dc4bd661a",
+      "title": "feed.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "af9740469f93fb7c",
+      "title": "feed.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f931f4a0da4d1d8e",
+      "title": "gpu.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8d6f0e21c0839dc3",
+      "title": "group.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6b3baada5f9ee1fe",
+      "title": "group.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6c9c21c7d8f86366",
+      "title": "hooks.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "7f69922b1e6842a1",
+      "title": "hooks.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8372c7ee0a9df506",
+      "title": "init.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a9dcc1ee5f3b6954",
+      "title": "init.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "fa35ff0ac51d58ae",
+      "title": "inspect.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "522a53eb3ac1e767",
+      "title": "inspect.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0056bdbd5492309b",
+      "title": "log.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "642c49b3c40305f5",
+      "title": "log.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9a19730f96e12556",
+      "title": "logs.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "b2335453e77fde3c",
+      "title": "logs.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "4ff29918c4fb3693",
+      "title": "mail.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8b7b6bb8099f3b8f",
+      "title": "mail.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a5b6ad306d059888",
+      "title": "merge.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "53786cf63e6563c1",
+      "title": "merge.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "52a1ecbf5c39132a",
+      "title": "metrics.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "eae3170128463f2e",
+      "title": "metrics.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9045143c3a784029",
+      "title": "monitor.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "83f626b349ae9bfc",
+      "title": "monitor.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "7f79b9d703d427e5",
+      "title": "nudge.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "799ca5886e934314",
+      "title": "nudge.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8c18024bf9a76a79",
+      "title": "orchestrator.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1b2f09d3ee632c13",
+      "title": "prime.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9cbcb69a635d6827",
+      "title": "prime.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c56eef13dc051974",
+      "title": "replay.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "73d02752aa174282",
+      "title": "replay.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6b065d2b689093b2",
+      "title": "run.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "683868739d5f252e",
+      "title": "run.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "83b63856c624a9c3",
+      "title": "sling.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "cc7c17fed4a40c2f",
+      "title": "sling.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "3be08fd70dc3076c",
+      "title": "spec.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "113c73b87d633304",
+      "title": "spec.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "019b9410d4eed6ec",
+      "title": "status.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "255ecc8875c74cd7",
+      "title": "status.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "28a53b73994dde48",
+      "title": "stop.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "44507c926ad1a245",
+      "title": "stop.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9ff9c5d846ef9196",
+      "title": "supervisor.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "85dc94cdf88e021c",
+      "title": "supervisor.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6b3e62dfccd5799e",
+      "title": "trace.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "42a2462de2e8b385",
+      "title": "trace.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f14cf233b286d678",
+      "title": "ui.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1e5f8bbb2764c05e",
+      "title": "update.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "78bd8d6f03191dc0",
+      "title": "update.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "cc5a2da48ab8c74a",
+      "title": "upgrade.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "770f43c51352eab1",
+      "title": "upgrade.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a34b9c921223cce6",
+      "title": "watch.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "78c6d6fa7d35f415",
+      "title": "watch.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "beb387692ea81bb8",
+      "title": "worktree.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5bc77cd212b34019",
+      "title": "worktree.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "4a0e625d073d5e99",
+      "title": "html.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a1b7d2750a4ab107",
+      "title": "server.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "459b47440fa490f7",
+      "title": "agents.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5c87b76f7e3fdb5b",
+      "title": "agents.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "096cba761fbfc7d5",
+      "title": "config-check.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "54765e2f350a60d5",
+      "title": "config-check.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "91e5b1d9a0e51f54",
+      "title": "consistency.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "51ed8c947dd9ca90",
+      "title": "consistency.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9d02bc1f161bc853",
+      "title": "databases.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "38eda2cc6d791591",
+      "title": "databases.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "80ef57b7e2f3dc7a",
+      "title": "dependencies.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "946f88e6da97bcc9",
+      "title": "dependencies.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "2d74393247538645",
+      "title": "ecosystem.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "b7fc68ffbdfaa1fd",
+      "title": "ecosystem.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ebfb4e0d93bffcfb",
+      "title": "logs.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "54d7b180f40deb7f",
+      "title": "logs.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "01a2d9529ab3dd51",
+      "title": "merge-queue.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "702ca81d72e70d6c",
+      "title": "merge-queue.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "64406fd8a7188677",
+      "title": "providers.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1aab63e86bbfa734",
+      "title": "providers.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "e0232c91caca8b7c",
+      "title": "structure.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "2e609b01e4b31302",
+      "title": "structure.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "2bd8a10d57b7fac6",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "4f80f5b46d44c2f4",
+      "title": "version.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1ee75e7062442136",
+      "title": "version.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "50e4b0e34d18dd33",
+      "title": "watchdog.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "64526c1eff97c24f",
+      "title": "watchdog.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "e3a58c6cc8cbbbd6",
+      "title": "init-sling-lifecycle.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "7adaa9b04660515f",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ac261147807139fe",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "45579796d613e0d5",
+      "title": "tailer.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c2c3b80de3a3be70",
+      "title": "tailer.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f152cca52a00cd00",
+      "title": "tool-filter.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1a13f2fb2ac75440",
+      "title": "tool-filter.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "473cdc4e7e561818",
+      "title": "metrics.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "e414ef9834f7b607",
+      "title": "analyzer.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "79bd5be898d64881",
+      "title": "analyzer.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8c9a29ec7c5250c5",
+      "title": "color.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c369d130aaf70bce",
+      "title": "color.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a95056ac73083ce1",
+      "title": "format.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f8b07d3caac57aec",
+      "title": "format.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "43114d5c6fffb8d9",
+      "title": "logger.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "d3767a17006d2446",
+      "title": "logger.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "d35decb30fdaaf6d",
+      "title": "reporter.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "6ce509c755fc91e6",
+      "title": "reporter.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "96d49f265983bf52",
+      "title": "sanitizer.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ad802df209cd4fba",
+      "title": "sanitizer.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1372747e16d3b9df",
+      "title": "theme.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "35e42f7a2b040610",
+      "title": "broadcast.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a5d407300f7f54f0",
+      "title": "broadcast.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "65f54a9a61347787",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c21dcaebc6f4dc7f",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "785d07fec8bff4f2",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "4ca3c2f079adb708",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "c53c1fd36cd9ec89",
+      "title": "queue.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5a961e33b874d15f",
+      "title": "queue.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "da0ececbd71bb076",
+      "title": "resolver.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "bf36eb0e20dce497",
+      "title": "resolver.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f023235cf8e16997",
+      "title": "pricing.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8f20a74c5064bb30",
+      "title": "pricing.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a98ccd91ff9ae62e",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f640f826c24c44ef",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "89b6ef6f819d5e39",
+      "title": "summary.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "5992085376ea4f41",
+      "title": "summary.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ba1c866283e6391d",
+      "title": "transcript.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "661f9f56d2c80968",
+      "title": "transcript.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ee89253e6b2682f2",
+      "title": "client.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "758e8873a40bca9b",
+      "title": "client.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "08aa9d4b44b4910e",
+      "title": "aider.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "3451a5ced78af53e",
+      "title": "aider.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "88498b384c79b0ee",
+      "title": "amp.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "3001d5eb3c5f7e02",
+      "title": "amp.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f2f6f68ca5276232",
+      "title": "claude.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "aea02b28c34e7c16",
+      "title": "claude.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9b2d4b231d17c9ef",
+      "title": "codex.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1104b4b035d844b5",
+      "title": "codex.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9fafe59436512797",
+      "title": "connections.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "e9c3feea85b0921a",
+      "title": "connections.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0f44466a4c6d2a46",
+      "title": "copilot.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "384de8f4a991398e",
+      "title": "copilot.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a6f6ffb3a9e4d704",
+      "title": "cursor.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "d384cb16a9e9069f",
+      "title": "cursor.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "23bbc0005b88a8b7",
+      "title": "gemini.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "bf0ce75f2e416cab",
+      "title": "gemini.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9eb9052e4bd47fe8",
+      "title": "goose.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a4fb8b68d9a4c3df",
+      "title": "goose.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "764b88a2318c6f9e",
+      "title": "opencode.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "25c50c5101bc955a",
+      "title": "opencode.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "69943af52333bdd4",
+      "title": "pi-guards.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9fa6090216852d89",
+      "title": "pi-guards.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "b76ef0d1d03008b5",
+      "title": "pi.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1b3165d2b0f2f34e",
+      "title": "pi.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "648941dec4d70aeb",
+      "title": "registry.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "daa31c6b609fb3b9",
+      "title": "registry.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "7a35612c218058ea",
+      "title": "sapling.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "018c42b5f5e1f6fa",
+      "title": "sapling.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "76fe6b5ce8508b9f",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "e9d2bba8be2f4c2d",
+      "title": "compat.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "65e4cb3866de1934",
+      "title": "compat.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "59f884dcb62f2805",
+      "title": "store.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8adce26e9835bbc3",
+      "title": "store.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "865e8fc5c8a2ad12",
+      "title": "beads.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "b05cd46da4566cec",
+      "title": "beads.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "b6f7d5aba15051b0",
+      "title": "factory.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "74abe40694761f31",
+      "title": "factory.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "2111a779815d3ad0",
+      "title": "seeds.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "d6ef6e82c2e5d7e8",
+      "title": "seeds.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "78bcd86fe716b5ac",
+      "title": "types.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "f9f9e6aa2992b5ce",
+      "title": "bin.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "1eafbf6846179287",
+      "title": "bin.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "a78f9315284c7147",
+      "title": "fs.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "17bb353d5797ab0d",
+      "title": "fs.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0ffe5c9ce10446fb",
+      "title": "pid.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "96cb46cad555e405",
+      "title": "pid.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "743b9ce4edf117ac",
+      "title": "time.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "df15d807a9acce89",
+      "title": "time.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "8d3efe29102617dd",
+      "title": "version.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "740ab0063d6ee34a",
+      "title": "version.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "645db60dce942818",
+      "title": "daemon.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "ae4e65437e3ee116",
+      "title": "daemon.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "b8bb7c276c34f74e",
+      "title": "health.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "2b92b9587af22f52",
+      "title": "health.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "9f3c34ecf933ce09",
+      "title": "triage.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "caee0eb5a3874bb3",
+      "title": "triage.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "66b39c9ab3290745",
+      "title": "manager.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "e563647e3e88efcf",
+      "title": "manager.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "958bfb4f72e3e11d",
+      "title": "process.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "57069af903044cf2",
+      "title": "process.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "fdab8ba5f417b4c6",
+      "title": "tmux.test.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    },
+    {
+      "id": "0559c021831ac364",
+      "title": "tmux.ts",
+      "repo": "storytime",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 30
+    }
+  ],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "5ef61dc0b569b587",
+      "title": "Changelog",
+      "repo": "storytime",
+      "contradictionCount": 65,
+      "connectionCount": 202,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "5ef61dc0b569b587",
+      "title": "Changelog",
+      "repo": "storytime",
+      "contradictionCount": 39,
+      "connectionCount": 150,
+      "status": "CONFLICTED",
+      "governanceLayer": "application_adjacent",
+      "bridgeState": "contradicted",
+      "authorityDepth": 30
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": [
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ]
+}

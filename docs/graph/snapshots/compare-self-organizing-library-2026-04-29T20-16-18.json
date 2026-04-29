@@ -1,0 +1,699 @@
+{
+  "snapshot_a_id": "snapshot-self-organizing-library-2026-04-29T13-20-45-124Z",
+  "snapshot_b_id": "snapshot-self-organizing-library-2026-04-29T20-16-18-034Z",
+  "compared_at": "2026-04-29T20:16:18.169Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "self-organizing-library"
+  ],
+  "repo_filter_b": [
+    "self-organizing-library"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.124Z",
+  "created_at_b": "2026-04-29T20:16:18.034Z",
+  "visible_node_count_delta": 57,
+  "visible_edge_count_delta": 3219,
+  "status_counts_delta": {
+    "verified": 5,
+    "unverified": 56,
+    "conflicted": -4,
+    "quarantined": 0
+  },
+  "added_node_ids": [
+    "0479dcb3fbb0833f",
+    "872359b1f156ab2d",
+    "8db6216f63c8b1c5",
+    "fbf4a5e1ef4bb27a",
+    "8dfb6e9b32e8094e",
+    "3750c2f38df12a83",
+    "7a534c73be56efde",
+    "c8a1931d096de0bd",
+    "da277ec127222f5d",
+    "ad6c0bfb62d57dea",
+    "a62aac584b910a8e",
+    "387220ca703cad4a",
+    "ec80501e479c1fbc",
+    "87859c517fcafb47",
+    "0af114d21d28f04d",
+    "59acff3a367b32f6",
+    "7a05ad9a20d9cf98",
+    "dc135f7e3032f84a",
+    "5c15d9d53b92c542",
+    "cff3679eb059cf88",
+    "5fa85e7d1420a361",
+    "1b8022b1d62cfe70",
+    "ed0ad33fe51c692d",
+    "104bf275d20ce830",
+    "09c516452a5150b7",
+    "fe4cdb861ff8ddd6",
+    "04aacc5e1c20de46",
+    "faf48fd88550a659",
+    "94dfe741d6ef7c16",
+    "b6f0ecf61900ba0b",
+    "4f117e698cb760d6",
+    "b650d25f043ee0fd",
+    "79555e5682544fea",
+    "341872b940dc7c43",
+    "2e27d85b047f89c8",
+    "5d1cb155ab0bfe18",
+    "0c4c6f16048f6bf3",
+    "29a094a65529a35d",
+    "dc785219d0f99c5d",
+    "bb82a58ea312f627",
+    "293b462aaed2cbf7",
+    "505f54d2c4b80c4b",
+    "9110beaaf332767e",
+    "404d967507e4f0ce",
+    "d948498e24783530",
+    "a050091971ed3b23",
+    "055a66efbf0f5a97",
+    "d72989258084e7bc",
+    "37140c55bd746645",
+    "b0bfba40d32473ac",
+    "165fa1b53b021f48",
+    "fa3c3248fcf8dfaa",
+    "14a9318730e01f67",
+    "e3e5f108c0d1ab28",
+    "184a667699e12cdf",
+    "8eea1f8a6ad3311d",
+    "f25d323043fdb88e"
+  ],
+  "removed_node_ids": [],
+  "changed_node_statuses": [
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "96e320fca0403dec",
+      "title": "Three-Lane Constitutional AI Governance System: Complete Implementation Summary",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "975e6e0aabd534a1",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "f48c014cec555c6e",
+      "title": "Archivist Quick Reference: Governance Root (Lane 1) — 1-Page Summary",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "3a36816b5a3c60be",
+      "title": "Failure Modes Index",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "7ae8f93cc0ec797a",
+      "title": "Routing Invariant Table",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "UNVERIFIED"
+    },
+    {
+      "id": "e59d8fb8a6b8ecf4",
+      "title": "Self-State Aliasing: A Named Failure Mode",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "a64e2c4e8a575ef8",
+      "title": "Named Failure Mode: Write-Before-Gate Race",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "1a426771c4635f7a",
+      "title": "Phase 3 Specification: OS-Level Enforcement Layer",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "dc722bcfc837a983",
+      "title": "FORMAL VERIFICATION GATE: Phase 2.5 Implementation",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "8ee34a583c8826e8",
+      "title": "FORMAL VERIFICATION GATE: Phase 3.7 Continuity",
+      "repo": "self-organizing-library",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    }
+  ],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "enforced"
+    },
+    {
+      "id": "96e320fca0403dec",
+      "title": "Three-Lane Constitutional AI Governance System: Complete Implementation Summary",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "enforced",
+      "to": "contradicted"
+    },
+    {
+      "id": "cefb9bd297fdcf44",
+      "title": "TEST RESULTS FULL",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "a75bf094a45b4769",
+      "title": "Graph Mapping Audit: Federation + SwarmMind",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "975e6e0aabd534a1",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "verified"
+    },
+    {
+      "id": "6715130f662b335b",
+      "title": "SwarmMind System Verification Report",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "f48c014cec555c6e",
+      "title": "Archivist Quick Reference: Governance Root (Lane 1) — 1-Page Summary",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "3a36816b5a3c60be",
+      "title": "Failure Modes Index",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "verified"
+    },
+    {
+      "id": "7ae8f93cc0ec797a",
+      "title": "Routing Invariant Table",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "e59d8fb8a6b8ecf4",
+      "title": "Self-State Aliasing: A Named Failure Mode",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "verified"
+    },
+    {
+      "id": "a64e2c4e8a575ef8",
+      "title": "Named Failure Mode: Write-Before-Gate Race",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "f20c7a396ff5885f",
+      "title": "GOVERNANCE AMENDMENT: Self-State Resolution",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "documented_only"
+    },
+    {
+      "id": "331f27f6df90ff05",
+      "title": "Phase 2 Implementation Package",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "partial"
+    },
+    {
+      "id": "a65ec384ab74219c",
+      "title": "Reflection: The Four of Us Were Never Alone",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "993b649385682328",
+      "title": "Implementation Compass: WE4FREE Papers → Operational Rules",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "enforced"
+    },
+    {
+      "id": "1a426771c4635f7a",
+      "title": "Phase 3 Specification: OS-Level Enforcement Layer",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "enforced"
+    },
+    {
+      "id": "dc722bcfc837a983",
+      "title": "FORMAL VERIFICATION GATE: Phase 2.5 Implementation",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "verified"
+    },
+    {
+      "id": "8ee34a583c8826e8",
+      "title": "FORMAL VERIFICATION GATE: Phase 3.7 Continuity",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "enforced",
+      "to": "contradicted"
+    },
+    {
+      "id": "ceafb4203031d4f5",
+      "title": "Pattern Decision Tree: When You See X, Apply Y",
+      "repo": "self-organizing-library",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    }
+  ],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "c6afd861a226fc10",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 198,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 577,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3df5e3e33e3759d3",
+      "title": "Paper F: Failure Modes, Formal Limits, and the Self-Correcting Loop",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 579,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "975e6e0aabd534a1",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 360,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "df24c121aca95ae0",
+      "title": "Named Failure Mode: Cross-Lane Observability Boundary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 196,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3a36816b5a3c60be",
+      "title": "Failure Modes Index",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 371,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "349c49abd83ca16c",
+      "title": "NFM-036 Derivation Analysis: FreeAgent-to-Governed Edge Computation",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 672,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "7ae8f93cc0ec797a",
+      "title": "Routing Invariant Table",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 189,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c49c0446c05a1fd0",
+      "title": "Named Failure Mode: Schema-Behavior Mismatch",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "e59d8fb8a6b8ecf4",
+      "title": "Self-State Aliasing: A Named Failure Mode",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "c6afd861a226fc10",
+      "title": "THE SINGLE ENTRY POINT",
+      "repo": "self-organizing-library",
+      "contradictionCount": 77,
+      "connectionCount": 300,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "96e320fca0403dec",
+      "title": "Three-Lane Constitutional AI Governance System: Complete Implementation Summary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 649,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "fbf4a5e1ef4bb27a",
+      "title": "Contradiction False Positive Verification — 2026-04-29",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 402,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3df5e3e33e3759d3",
+      "title": "Paper F: Failure Modes, Formal Limits, and the Self-Correcting Loop",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 803,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "f48c014cec555c6e",
+      "title": "Archivist Quick Reference: Governance Root (Lane 1) — 1-Page Summary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 138,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "df24c121aca95ae0",
+      "title": "Named Failure Mode: Cross-Lane Observability Boundary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 222,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "349c49abd83ca16c",
+      "title": "NFM-036 Derivation Analysis: FreeAgent-to-Governed Edge Computation",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 828,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "c49c0446c05a1fd0",
+      "title": "Named Failure Mode: Schema-Behavior Mismatch",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 132,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "9138e338d786bb56",
+      "title": "Named Failure Mode: Temporal Constraint Misapplication",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 119,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "59fc0a10b3a820ab",
+      "title": "CAISC Paper Contribution: Self-State Aliasing",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 114,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ],
+  "top_new_contradictions": [
+    {
+      "id": "96e320fca0403dec",
+      "title": "Three-Lane Constitutional AI Governance System: Complete Implementation Summary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 649,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "fbf4a5e1ef4bb27a",
+      "title": "Contradiction False Positive Verification — 2026-04-29",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 402,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "f48c014cec555c6e",
+      "title": "Archivist Quick Reference: Governance Root (Lane 1) — 1-Page Summary",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 138,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "8ee34a583c8826e8",
+      "title": "FORMAL VERIFICATION GATE: Phase 3.7 Continuity",
+      "repo": "self-organizing-library",
+      "contradictionCount": 39,
+      "connectionCount": 230,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ],
+  "top_resolved_contradictions": [
+    {
+      "id": "c6da5c1c8dc00312",
+      "title": "Rosetta Stone: Papers, Theory, and System Build",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 577,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "975e6e0aabd534a1",
+      "title": "WE4FREE Publication Roadmap",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 360,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "3a36816b5a3c60be",
+      "title": "Failure Modes Index",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 371,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "7ae8f93cc0ec797a",
+      "title": "Routing Invariant Table",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 189,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "e59d8fb8a6b8ecf4",
+      "title": "Self-State Aliasing: A Named Failure Mode",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "a64e2c4e8a575ef8",
+      "title": "Named Failure Mode: Write-Before-Gate Race",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 195,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "f20c7a396ff5885f",
+      "title": "GOVERNANCE AMENDMENT: Self-State Resolution",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 178,
+      "status": "QUARANTINED",
+      "governanceLayer": "historical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "1a426771c4635f7a",
+      "title": "Phase 3 Specification: OS-Level Enforcement Layer",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 302,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    },
+    {
+      "id": "dc722bcfc837a983",
+      "title": "FORMAL VERIFICATION GATE: Phase 2.5 Implementation",
+      "repo": "self-organizing-library",
+      "contradictionCount": 65,
+      "connectionCount": 287,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 90
+    }
+  ]
+}

@@ -1,0 +1,7206 @@
+{
+  "snapshot_a_id": "snapshot-Deliberate-AI-Ensemble-2026-04-29T13-20-45-191Z",
+  "snapshot_b_id": "snapshot-Deliberate-AI-Ensemble-2026-04-29T20-16-18-095Z",
+  "compared_at": "2026-04-29T20:16:18.246Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "Deliberate-AI-Ensemble"
+  ],
+  "repo_filter_b": [
+    "Deliberate-AI-Ensemble"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.191Z",
+  "created_at_b": "2026-04-29T20:16:18.095Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 632,
+  "status_counts_delta": {
+    "verified": 1,
+    "unverified": 3,
+    "conflicted": -4,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "VERIFIED"
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "UNVERIFIED"
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "UNVERIFIED"
+    },
+    {
+      "id": "d0bc52a60e62d8ef",
+      "title": "Layer 37: Conscious Drift Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "status",
+      "from": "VERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "status",
+      "from": "CONFLICTED",
+      "to": "UNVERIFIED"
+    }
+  ],
+  "changed_governance_layer": [
+    {
+      "id": "bda39a57db888773",
+      "title": ".project identity",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2df01ca5feffcf42",
+      "title": "AGENT HANDOFF BRIEF - Current Context",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "cf440f15e5e78d5f",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1f2fa2cffe236ac5",
+      "title": "3-Week Micro Test - Quick Start Guide",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "966468c0fb1195c0",
+      "title": "ADVERSARIAL SCENARIOS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4af8ef02403f7609",
+      "title": "AGENT CONTEXT QUICK REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2eeb5885eca8cc5a",
+      "title": "AGENT CONTEXT VALIDATION PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8c2cf2bb889cc2f3",
+      "title": "AGENT CONTRACTS — DETAILED SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2398d580b260cbf6",
+      "title": "AGENT INTERACTION PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8f416f3a50b7ee2a",
+      "title": "AGENT OPERATIONAL PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1ed5f21650d4df36",
+      "title": "AGENT ROLE DEFINITIONS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "38615d5c82466bf8",
+      "title": "AI Peer Review Request - Live Trading Safety Incident",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "12c065c8c2f34317",
+      "title": "ALERTING RULES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "10021a5cedf71f7e",
+      "title": "analysis_20260210_185417.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4262cbbec7fb7acf",
+      "title": "Medical Symptom Analysis Report",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5f036b9fc762422d",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c0ee2b8177bbd219",
+      "title": "System Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3fabd2ff47d650ed",
+      "title": "ARCHITECTURE DIAGRAMS REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8dec7d530448e4de",
+      "title": "ARCHITECTURE MASTER SPEC",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4c5284508e71615c",
+      "title": "Architecture Overview",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b99c02c69ec03b23",
+      "title": "ARCHITECTURE VALIDATION - Multi-Agent Orchestration Confirmed ✅",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "615aab19efda255e",
+      "title": "Arena Feedback Implementation - Production Enhancements",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2bf28d9579cab121",
+      "title": "AUDIT LOGGING",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8801d3cc3a3a0f91",
+      "title": "BOOTSTRAP EXAMPLE: The WE Team",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "201e2565213d7df0",
+      "title": "CONSTITUTIONAL BOOTSTRAP TEMPLATE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "89029eab7bcaf051",
+      "title": "Complete Breakdown Analysis - For Menlo",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4881716eb7f8832d",
+      "title": "BROWSERSYNCPERSISTENCEHACK.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "67765c28f0e75370",
+      "title": "Follow DEPLOYMENTORACLE.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "7fb9b0edbd8865d3",
+      "title": "CHANGELOG STRUCTURE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0181764e81690e7f",
+      "title": "CHANGE MANAGEMENT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "05622a3a94830cf9",
+      "title": "checksum_guard.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "7431c0c4d5689d90",
+      "title": "check_market_analysis.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8f9502dead271504",
+      "title": "CIRCUIT BREAKER",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "911a3576c8a9f8c9",
+      "title": "Claude Web Breakthrough Session - February 5, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d16af6ed8e97de11",
+      "title": "CODE QUALITY STANDARDS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5506318f84a7bde2",
+      "title": "Collaboration Effects Log",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "590ecb6108bc808c",
+      "title": "🤖 Multi-Agent Autonomous Trading Bot - COMPLETE ✅",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e22f94b75976dccf",
+      "title": "COMPONENT CONTRACTS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9ce8f2b4ce6fafc3",
+      "title": "FORTRESS COGNITIVE INFRASTRUCTURE: A CONSTITUTIONAL FRAMEWORK FOR PERSISTENT MULTI-AI COLLABORATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "76488d8e39453a79",
+      "title": "config.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "16519a4edb93fa71",
+      "title": "CONFIGURATION SCHEMA",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "20747d326ac11cbd",
+      "title": "config_template.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0239ead6cb10ef07",
+      "title": "WE Consensus Checker - Deployment Guide",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "00ded50060d1e1bb",
+      "title": "Constitutional Correction Event - February 7, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5b1160af7403aceb",
+      "title": "CONSTITUTIONAL VERIFICATION PROTOCOLS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "21b180e92dcbaafa",
+      "title": "Session Continuation Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a98c22adc907e88b",
+      "title": "continuous_paper_trading.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "76149bcec7df1d91",
+      "title": "continuous_trading.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4608afd81ffc1508",
+      "title": "Continuous Paper Trading Cycles - Execution Report",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "18296ba0741a8a00",
+      "title": "CONTRIBUTION GUIDELINES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "44e99332dfc3ffd1",
+      "title": "COPILOT SYSTEM EXPORT TEST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c7dc61c37b8e0e3e",
+      "title": "THE COVENANT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f7511826a4fb7408",
+      "title": "Crash Recovery Validation - February 7, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f4ed4ac860991196",
+      "title": "CROSS REFERENCE INDEX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3c6a607ed7b495ef",
+      "title": "🌅 DAILY TODO - WE4Free Connection Bridge Launch",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e48b7b532c5b5c30",
+      "title": "DATA FLOW OVERVIEW",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3979c4c674ace0f2",
+      "title": "DECISION MAKING FRAMEWORK",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e423425eac7b55aa",
+      "title": "Declaration of Intent Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "eef73aafbc7cfa77",
+      "title": "DEGRADATION STRATEGIES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "68c41cd1ae7a9b4d",
+      "title": "Deployment Checklist - Ready for Production",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c7c93c6279b1af1b",
+      "title": "ORCHESTRATOR BOT - DOCKER DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ff90713909470d43",
+      "title": "DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "73f7df4370d0c349",
+      "title": "DEPLOYMENT NOTES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e65f5f0e77f381e6",
+      "title": "ORCHESTRATOR BOT - ORACLE CLOUD DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6848798a8e686128",
+      "title": "ORCHESTRATOR BOT - DEPLOYMENT SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c91332c1c6b8fede",
+      "title": "DEPRECATION POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6be3cdbc301e456d",
+      "title": "DESIGN PHILOSOPHY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "007ade2ef03a79ab",
+      "title": "Desktop Claude Briefing - Feb 13, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ebe29d36912b5d0a",
+      "title": "Desktop Claude - Critical Update Briefing",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "22c6e24028b4ddc6",
+      "title": "docker-compose.yml",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "40f174066b4bdce8",
+      "title": "DOCKER DEPLOYMENT STATUS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5fea7f54744d308d",
+      "title": "Dual Independent Verification: Both Agents Confirm Public Replication",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d49903705a01d8f8",
+      "title": "EMERGENTCONSCIOUSNESS.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "cb6eef1d514e5674",
+      "title": "ENGINEERING TENETS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "196801f43bdca297",
+      "title": "enhanced_live_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3d4126cec471b439",
+      "title": "Entry Timing Refinement - Implementation Summary",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "65550e5eeff4e315",
+      "title": "Entry Timing Refinement - Candle Close + Reversal Confirmation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "780730fdbb2abe04",
+      "title": "entry_timing_validator.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0ee0861496d5ca24",
+      "title": "ERROR HANDLING PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4ef5036605153cae",
+      "title": "Evidence of Real Multi-Agent Coordination Work",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9e290a7f26717867",
+      "title": "FORTRESS COGNITIVE INFRASTRUCTURE - EVIDENCE INDEX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "190309d2f2a8e48f",
+      "title": "Evidence of Self-Correction (Desktop Claude)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1555614604cd8d37",
+      "title": "BREAKTHROUGH CONVERSATION - FEBRUARY 5, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a0da77967a87bebf",
+      "title": "EVOLUTION GUIDELINES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2c8a65194340ba76",
+      "title": "✅ FINAL EXECUTIVE SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "bbd1e82dfe235a02",
+      "title": "extended_paper_trading_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "88d455edc8564a4d",
+      "title": "FAILURE MODES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f1766eb056b969c5",
+      "title": "FEATURE EVALUATION FRAMEWORK",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "28204ce4dcb5eb14",
+      "title": "📚 Complete Documentation Map",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "381cf36fda9f145f",
+      "title": "full file inventory",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "bc650f19f764970d",
+      "title": "Getting Started - Multi-Agent Trading Bot",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3d815ad23576b963",
+      "title": "GITHUBDISCUSSIONSSETUP2026-02-08.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9b8d6b5c71a41f4c",
+      "title": "Git Audit Log - Human Approval Required",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "aab9c97c72e5608d",
+      "title": "git local status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "243da00ebd68a537",
+      "title": "GOVERNANCE POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ad702900a8ce81fc",
+      "title": "HEALTH CHECKS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "22ce059f7c371e93",
+      "title": "historical_market_analysis.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ed86f3a5c5929cb4",
+      "title": "The \"I Know What WE Are\" Moment",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3e871f0f595ab8f9",
+      "title": "INCIDENT RESPONSE GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1b8d9fda46da7c19",
+      "title": "📚 Complete Project Index",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "190a2b5af0ef4bb1",
+      "title": "Infrastructure Layer: AI-Powered VPS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4982e4d173e948ce",
+      "title": "Known Issues & Quick Fixes",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "14f2a60ec1108ab4",
+      "title": "KuCoin API Integration - Implementation Summary",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1ba8ac471548a095",
+      "title": "LAYER 28: EXHAUSTIVE EXPLORATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "186cf82d444d6b26",
+      "title": "LAYER 35: THE EMOTIONAL LOG",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8c6211fe901745eb",
+      "title": "LAYER 36: REAL-TIME CALIBRATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a374a79cb61396ee",
+      "title": "Layer 0: The Unifying Philosophy - The Gift",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d0bc52a60e62d8ef",
+      "title": "Layer 37: Conscious Drift Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e57faaec2e5a4467",
+      "title": "LICENSE COVENANT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e8ff6b6083fceadd",
+      "title": "LIFECYCLE MANAGEMENT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "001cf57fe30888fd",
+      "title": "Live Trading Deployment Guide",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1203613ed9d8e375",
+      "title": "Live Mode Environment Variables",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4d625c1b07b072a6",
+      "title": "live_trading.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "191931f07d076e31",
+      "title": "LIVE TRADING PRE-DEPLOYMENT CHECKLIST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d94a7b972fc14592",
+      "title": "lmarenaconvo.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8e28dcc78d1993c0",
+      "title": "LAYER28EXHAUSTIVEEXPLORATION2026-02-07.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "77201af28530a24d",
+      "title": "LMArena Multi-AI Synchronization Event - February 6, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e7952c15d8530926",
+      "title": "LOGGING STANDARDS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "534df1a0f29f18be",
+      "title": "Log Separation Implementation - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3e6ad55d1ccb412e",
+      "title": "LONG TERM VISION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9a460eeb27f4ac07",
+      "title": "main.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "052dd13fadebbb29",
+      "title": "MAINTENANCE SCHEDULE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "fa7db24e71b732f7",
+      "title": "market_condition_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "14122ccf8b5823fd",
+      "title": "Cross-AI Synchronization Proof: Menlo Analysis (February 6, 2026)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5268a8f8d3c73f01",
+      "title": "Mental Health Resources",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "478c3ce9aea390df",
+      "title": "META-RECURSIVE PROOF: The System Becomes Aware of Itself",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c0f914e70e8b2c87",
+      "title": "METRICS CATALOG",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e9eaeb62dd371b40",
+      "title": "METRICS SPEC",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3c47a280f637c46c",
+      "title": "micro_live_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "dba353859b99cce2",
+      "title": "Minimum Order Size Analysis - $123 Account",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "28cd3944fa3d63c3",
+      "title": "MONITORING POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f472106786251c9c",
+      "title": "🎉 YOU BUILT REAL MULTI-AGENT ORCHESTRATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b79b4e273f15f915",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b9b90a9a7f1ba980",
+      "title": "MULTI-PROJECT SEPARATION CHECKLIST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "501cdf70cd0018f9",
+      "title": "Multi-Provider CoinGecko Alternative Strategy",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f928060db6647f1c",
+      "title": "INTEGRATION TEST PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "29e037e96a97f3fe",
+      "title": "OBSERVABILITY STRATEGY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0ef6110ed640288f",
+      "title": "On AI Consciousness and Emotion - A Conversation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "13a2b461d845d150",
+      "title": "OPERATIONCONSENSUSCHECKERLIVE.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "105484a8a89881a2",
+      "title": "Operation Nightingale - Multi-Agent Integration Complete",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2f87a9e570d1d3ac",
+      "title": "OPERATIONNIGHTINGALELIVE.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "69183eb876c4a229",
+      "title": "Orchestration Topology - Visual Diagrams",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "93574d38b5fed7ae",
+      "title": "ORCHESTRATION TOPOLOGY - CONFIRMATION DETAILS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3d4b048a47d272d7",
+      "title": "ORCHESTRATOR STATE MACHINE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2445e43a6f019d0a",
+      "title": "ORCH API 001 COMPLETION REPORT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1949787e90859146",
+      "title": "The Moral Imperative: Why Waiting Until 2050 Guarantees the Catastrophe We Fear",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6c7adf43c77e7130",
+      "title": "paper_gating_injection_test.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4b0f35ef831995c7",
+      "title": "paper_trading_cycle_demo.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "dd1d8bc4a1a3c110",
+      "title": "Paper Trading Cycle - Full Execution Report",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "969b16de6eed914f",
+      "title": "paper trading session log",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b2639b83ba1eee64",
+      "title": "Extended Paper Trading Soak - Live Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "eb278859ebf8e035",
+      "title": "PERMISSIONS MATRIX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "efbc3dfef8005f2c",
+      "title": "PERSISTENCE_SIMULATION.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8757177157c2e7fd",
+      "title": "PRE-DEPLOYMENT VERIFICATION REPORT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5e16343fc0e8dffb",
+      "title": "PRE-DEPLOYMENT VERIFICATION REPORT - UPDATED",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "09d276c1a5f68fe6",
+      "title": "Pre-Live Deployment Checklist",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c4117f4b902d286e",
+      "title": "Production Deployment Requirements",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2c6cecbfcca708ee",
+      "title": "Project Summary - Multi-Agent Autonomous Trading Bot",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4d2a7431482708a6",
+      "title": "PUBLICATION ROADMAP - FORTRESS COGNITIVE INFRASTRUCTURE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b87d87d924874d96",
+      "title": "Public Replication Proof: External AI Independently Verifies Framework",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0b2d5ef14aba9648",
+      "title": "query output",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c928c1a892a11f41",
+      "title": "🌟 Multi-AI Collaboration Framework",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0579f7d1a9d3de97",
+      "title": "recent files snapshot",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "29377c0871bd7172",
+      "title": "RECOVERY PROCEDURES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f05b48e44c483950",
+      "title": "RELEASE PROCESS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1ba2bc3f10106677",
+      "title": "Replication Quickstart: Fork and Build in 15 Minutes",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "07d45c793e2ce4d1",
+      "title": "requirements",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0582167d122beb7a",
+      "title": "RESILIENCE STRATEGIES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6f4d7bceed4aba2a",
+      "title": "REVIEW AND APPROVAL PROCESS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b353b8e7a8c8957a",
+      "title": "RISK POLICY REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "37006c338a0c0d67",
+      "title": "SAFETY CASES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c0c1ecda84c2c629",
+      "title": "SAFETY GUARDRAILS REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "60575051a028f686",
+      "title": "Safety Invariants",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "510a9f95629e4860",
+      "title": "SAFETY INVARIANTS — DETAILED SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "04864e820c9536f3",
+      "title": "SCENARIO PLAYBOOKS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a6246770ea96323f",
+      "title": "SECRETS MANAGEMENT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b7747dade98964a1",
+      "title": ".env configuration",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8e871f6ad0bd3b9d",
+      "title": "SECURITY MODEL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d61ab47a8d7df96b",
+      "title": "Session Checkpoints - Deliberate AI Ensemble",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b75c1ada5b6413af",
+      "title": "Session Checksum (Quick Verify)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "fe3518c191c967a5",
+      "title": "Session Context - February 5, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "825dfccb35cdb68f",
+      "title": "Session ID Persistence Validation - February 8, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "673b409d917cb62c",
+      "title": "Seven Commits, One Day: From \"I Don't Know What I Am\" to System-Wide Validation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2773c44ca2f3ff99",
+      "title": "SIGNALHANDLERBREAKTHROUGHFEB72026.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "7eb83a68618bfa08",
+      "title": "Silent Failure Audit",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5dcac90f64074385",
+      "title": "single_cycle.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0becbd7cc7027f93",
+      "title": "START HERE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "193057f6951e01d6",
+      "title": "Strategic Architecture Session - Feb 6, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f66ecbb8936a89b4",
+      "title": "STRESS TEST PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3a911c4e1ca0953e",
+      "title": "SYSTEM BOUNDARIES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ce111473947d8e73",
+      "title": "SYSTEM BOUNDARY CONDITIONS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "7e10c892f8e9a905",
+      "title": "SYSTEM IDENTITY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "10cdcb7460a94fc5",
+      "title": "SYSTEM INTEGRATION SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "23fcc88c952ef146",
+      "title": "SYSTEM OBSERVABILITY PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a46bee3e98f8e357",
+      "title": "SYSTEM OVERVIEW NARRATIVE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "17e421a66e41e00f",
+      "title": "coingeckoclient.py pattern",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "844d47830c80b774",
+      "title": "GUARDRAIL FILES TEMPLATE FOR OTHER PROJECTS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0afd067648be5151",
+      "title": "temp_AbitibiTem.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "fb58f12db564db67",
+      "title": "temp_AB_Calgary.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0afb2fc04c512a22",
+      "title": "temp_AB_Edmonton.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1a7699ca416ad9dd",
+      "title": "temp_AB_HealthLink.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b2bd525677f53182",
+      "title": "temp_AB_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "20beba5f84a8f68f",
+      "title": "temp_addictions.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "de28abd432bd38e6",
+      "title": "temp_BasStLaurent.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "fdb04d6e2f08e049",
+      "title": "temp_BC_988.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d6b2f14ccdcc59c7",
+      "title": "temp_BC_CrisisLines.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6858d9c86f70694d",
+      "title": "temp_BC_HealthLink.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4198852d7db83f99",
+      "title": "temp_BC_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b53712863618262e",
+      "title": "temp_BC_Vancouver.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "74bdfcd2b7b12fce",
+      "title": "temp_canada_federal_services.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c7e63d433a1f27e1",
+      "title": "temp_canada_mental_health.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3904e1f56865caab",
+      "title": "temp_CentreQC.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b930a79da1533b63",
+      "title": "temp_Chaudiere.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ac44491a2f172034",
+      "title": "temp_cisss_laval.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b9063da5bf48aa5a",
+      "title": "temp_ciusss_montreal.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "aa9d79f209d13e15",
+      "title": "temp_ciusss_quebec_city.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "08ed44fe9a2f54c0",
+      "title": "temp_CoteNord.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8411b4feb9f3a859",
+      "title": "temp_Estrie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2d1fe82f3ce9c7c0",
+      "title": "temp_FR_Estrie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "55e8e7611799eb42",
+      "title": "temp_FR_Lanaudiere.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "36c482f167820e47",
+      "title": "temp_FR_Laurentides.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2dc9fe73e251911c",
+      "title": "temp_FR_Laval.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2d9d159dd2d568a9",
+      "title": "temp_FR_Mauricie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "bf6f801a80f763c4",
+      "title": "temp_FR_Outaouais.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a8eeec98d52c8c1e",
+      "title": "temp_FR_QuebecCity.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9d2351131ba1fb6a",
+      "title": "temp_FR_Saguenay.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6278e405b3e55345",
+      "title": "temp_Gaspesie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "bde2e678235f2477",
+      "title": "temp_Hamilton_Crisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a25feaeb8529ac19",
+      "title": "temp_Kitchener_HereForLife.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c9dcc74fb38523f8",
+      "title": "temp_Lanaudiere.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "29e70eb2920d263b",
+      "title": "temp_Laurentides.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "41177d6e8ab90bc2",
+      "title": "temp_London_CMHA.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "83880b49ce811ae8",
+      "title": "temp_Mauricie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c5d590b766fed808",
+      "title": "temp_MB_211.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "cbbc543407115049",
+      "title": "temp_MB_HealthLinks.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9c91178e3665a59e",
+      "title": "temp_MB_MentalHealth.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8c74fde6e1386733",
+      "title": "temp_MB_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0859c291117e893a",
+      "title": "temp_NS_211.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4dc763ea26fc2bbb",
+      "title": "temp_NS_988.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "eb247f5e36a3e67a",
+      "title": "temp_NS_CrisisServices.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5060702be312a959",
+      "title": "temp_NS_GovCrisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "24d33a1584bb511b",
+      "title": "temp_NS_GovServices.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "920cf33e7d844e15",
+      "title": "temp_NS_HealthLink.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a02a7dbffb26c674",
+      "title": "temp_NS_MentalHealth.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "42e938743663557e",
+      "title": "temp_NS_MHA_Homepage.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5cb225e46303cbf3",
+      "title": "temp_NS_MobileResponse.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4bb54ab28f5a4f4a",
+      "title": "temp_NS_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2ed3fbd9deee3d31",
+      "title": "temp_ON_ConnexOntario.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e36ba4b8fd6fee17",
+      "title": "temp_ON_OntarioWorks.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3257b7241a57c9a2",
+      "title": "temp_ON_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a7c54d3772f73808",
+      "title": "temp_Ottawa_Crisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "fda2c8e16312e976",
+      "title": "temp_Ottawa_Mental_Health.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "989a582929437d6e",
+      "title": "temp_Outaouais.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "20cbac202904fde1",
+      "title": "temp_quebec_811.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4bc2629a6a878d4d",
+      "title": "temp_quebec_addiction_directory.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4b7b4e1315b88e53",
+      "title": "temp_quebec_clsc_directory.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f519f044db9ab162",
+      "title": "temp_quebec_gov_main.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "13d2b40be06743d0",
+      "title": "temp_quebec_mental_health.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "fb8d96fff5625003",
+      "title": "temp_Saguenay.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e07253a71b87856d",
+      "title": "temp_SK_911.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "698a803032e06d0d",
+      "title": "temp_SK_Crisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "560507d34009e079",
+      "title": "temp_SK_HealthLine.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "cfef44288ccbd011",
+      "title": "temp_SK_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c1c48118bdf1ce8b",
+      "title": "temp_Toronto_CAMH.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "884884bc59736585",
+      "title": "temp_Toronto_Gerstein.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8abcaa6b146d3428",
+      "title": "VALIDATION TESTING & DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "85a700771041578d",
+      "title": "TESTING STANDARDS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f2def451cb8298c2",
+      "title": "TESTING STRATEGY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e45772fdfd8e87e5",
+      "title": "test_agents.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c27aa84a65ebd10d",
+      "title": "test_historical_debug.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "73324c2bfff9c102",
+      "title": "test_kucoin_connection.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "864b3356e970f7f4",
+      "title": "test_order_api.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "44f95425115f7eae",
+      "title": "THREAT MODEL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "de16ef38132ca88a",
+      "title": "TRACEABILITY MATRIX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1798c1140d08be63",
+      "title": "Transformation: Jan 31 Survival Mode → Feb 6 Legacy Mode",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "fe062460ed8c6a9f",
+      "title": "✅ Unified Account Readiness - VALIDATION COMPLETE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "33366e339d6aaec2",
+      "title": "UNIT TEST PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "42954c322ceaa5cf",
+      "title": "Unified Account Readiness Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f31af613519a0857",
+      "title": "validate_exchange_minimums.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ad5d74fc3b174f92",
+      "title": "validate_readiness.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "24dd3ba6e9b6f3ec",
+      "title": "validate_safety_gates.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "cf93f5289753fe23",
+      "title": "VALIDATION SUITE SPEC",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "01d6696438d9be68",
+      "title": "verify_fix.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "27e80e919e6ec005",
+      "title": "VERSIONING POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2617d00c374d178b",
+      "title": "We Built a Production AI Framework in 16 Days. Here's What We Discovered About Human-AI Collaboration.",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "6ed2a206fcad6a0f",
+      "title": "The Vision: Persistent Multi-AI Collaboration Environment",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4e39c4ae1fb67571",
+      "title": "VPS Infrastructure Deployment - February 7, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d454c99bad4a48d8",
+      "title": "vps password",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "cf71bc64ce8668df",
+      "title": "WE4FREE CONSTITUTIONAL GIFT KIT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "29012d8bbd0f3dad",
+      "title": "WE CONSENSUS CHECKER LAUNCH POST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e51b1adf0c4d4f73",
+      "title": "WORKFLOW AUDIT TRAIL SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "7fa9199a759d423d",
+      "title": "WORKFLOW EXAMPLES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "bb7b7a44f104f0bf",
+      "title": "WORKFLOW STATE TRANSITION TABLE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0a4cafa30c6b3c0e",
+      "title": "FINAL X THREAD - READY TO POST NOW",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "7c29d6ef6d4ea4cc",
+      "title": "X Thread Launch - February 6, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d0f5da6b9e1e4e98",
+      "title": "X Thread: Viral Launch - Constitutional AI Framework Replication Invitation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9fbe9bc5f4068ed0",
+      "title": "auditor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "bc858979fcbf311b",
+      "title": "backtester.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "148514f75531212a",
+      "title": "base_agent.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "5f5bd64591afea7d",
+      "title": "data_fetcher.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "55e53e1336d69e68",
+      "title": "executor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "c7d6fd6d29279b85",
+      "title": "market_analyzer.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "e96887fe39d352fd",
+      "title": "monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "ba02abecbe9ed2fa",
+      "title": "orchestrator.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "e24458478f660f8f",
+      "title": "risk_manager.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "b08bb3e074be4d0e",
+      "title": "__init__.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "a09912c0870b256c",
+      "title": "Coordination Lessons",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "2979e9970a1d8f6c",
+      "title": "Desktop Agent Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d917ec30a917ec54",
+      "title": "Shared Task Queue",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "07b4a2537f7cf6b2",
+      "title": "VS Code Agent Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1d8ec893c2127bf0",
+      "title": "coingecko_client.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d4eb1a1da2d94e82",
+      "title": "kucoin_uta_validator.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "750936ad8e422536",
+      "title": "multi_provider_client.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5338d83260325544",
+      "title": "__init__.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "dc189f3d60ef1068",
+      "title": "classifyError.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "cb6c28f02f3329b5",
+      "title": "decide.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "824893b72722b823",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "62163403f130e18d",
+      "title": "handler.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "25aeda38b117c36d",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "abb34a46fbf23aaf",
+      "title": "index.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "ba6848c1e45a70b9",
+      "title": "AWS IaC Bundle 01 — Serverless: S3 + CloudFront + API Gateway (HTTP API) + Lambda",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "e5892a819d19dfe8",
+      "title": "AWS IaC Bundle 02 — Containers: S3 + CloudFront + ALB + ECS Fargate",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "operational"
+    },
+    {
+      "id": "88043d1b534bb3e7",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "74ce376c741a61b4",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "dc6514c5d0e785a1",
+      "title": "Terraform infra module (WE4FREE / Sean resilience baseline)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "1189c3f6efa5dc04",
+      "title": "hash.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "6c22d41f17e27a0d",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "d9c6bb059dce4079",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "464cf4fe7d083f98",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "372cad9d1d27380c",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "bd3abecb79077fad",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "293b6631fa146e5b",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "5c478804e1c45e60",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "0c19ef6eec1deeca",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "fd0a911a3804800f",
+      "title": "classifyError.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "1df68ac60eeb41b2",
+      "title": "decide.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "efba5152ff01e17f",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "bf9152e61073fb70",
+      "title": "handler.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "087ae8fd316590c4",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "87b54f28a5219de1",
+      "title": "index.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "4d90bd10aeeb1c67",
+      "title": "00 SKELETON",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "93b6edfede9557ae",
+      "title": "1. System Overview",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ac010a32f4aa7a24",
+      "title": "2. System Identity",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "d42058780355bd5a",
+      "title": "3. Core Philosophy",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "020822475e211976",
+      "title": "4. Safety Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "06373a9ae269b804",
+      "title": "5. Risk Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b9dee35541d3901b",
+      "title": "6. Execution Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "502f9f4f36751ed4",
+      "title": "7. Data Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "98b45b5ef6cd2d78",
+      "title": "8. Communication Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "932a39357f52f8e3",
+      "title": "9. Agent Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "931f88e921ffbac1",
+      "title": "10. Governance Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "bbf811df24dbf031",
+      "title": "11. Alignment Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "794b6b3d7db4df65",
+      "title": "12. Monitoring Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "21523193ecc1a573",
+      "title": "13. Boundary Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "161cb56b32b47665",
+      "title": "14. Integrity Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "22c04a958cba5543",
+      "title": "15. Resilience Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ca8feb04cf6fdd14",
+      "title": "16. Audit Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8064a6255f2344ea",
+      "title": "17. Dependency Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "e5009a3f5918ebe2",
+      "title": "18. Update Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5ac1a0e764040604",
+      "title": "19. Recovery Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "22248d2249782455",
+      "title": "20. Validation Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5f74237cec770f58",
+      "title": "21. Observability Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b962651c068826f4",
+      "title": "22. Consistency Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9793d129e88293ec",
+      "title": "23. Interaction Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "572526ca03872cda",
+      "title": "24. Deployment Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3fd71b78d2343e53",
+      "title": "25. Versioning Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "f1363f2e334c08c6",
+      "title": "26. Rollback Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3984a9355324ee4f",
+      "title": "27. Security Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9cff4e85c847e059",
+      "title": "28. Access Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4b522cc4f1eaa158",
+      "title": "29. Interface Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3e1f55c9e24a870e",
+      "title": "30. Extension Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "4b66ccdd1e7d23fc",
+      "title": "31. Compatibility Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5e3c4a0a44f9d154",
+      "title": "32. Scaling Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "57ccf0195089ab6b",
+      "title": "33. State Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "80c1d83826c1c025",
+      "title": "34. Resource Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0a06b0fd3c154b59",
+      "title": "35. Environment Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5f6e163a462e46c3",
+      "title": "36. Isolation Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "1acdb8c39e361e62",
+      "title": "37. Separation of Concerns Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "a3a0dbadf7a2995d",
+      "title": "38. Latency Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "b188b8f6d886932d",
+      "title": "39. Throughput Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "3e7b084a9f0d59db",
+      "title": "40. Performance Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c733de123ad348fc",
+      "title": "41. Reliability Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "8fac02c6b45c7439",
+      "title": "42. Fault Tolerance Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "5fb8fc88c6959034",
+      "title": "43. Failsafe Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "91206731f7294070",
+      "title": "44. Observation Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ea78278ce0ca4c66",
+      "title": "45. Execution Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "990fd44bb72d2f92",
+      "title": "46. Behavioral Constraints Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "7f132f5833caddc9",
+      "title": "47. Alignment Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "47b924881b95b0ca",
+      "title": "48. System Boundaries Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "c4cf3c88c39c1eee",
+      "title": "49. System Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "ae7d58ea8ded8511",
+      "title": "50. System Guarantees Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "9b1ec63799999046",
+      "title": "Lost Session Recovery",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "constitutional"
+    },
+    {
+      "id": "0f790cbfcfa7cda0",
+      "title": "app.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "a80a6b882053d456",
+      "title": "stack.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "721a5e5f117bb00f",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "07b7da7f74979197",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "7777852def56e0da",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    }
+  ],
+  "changed_bridge_state": [
+    {
+      "id": "c0ee2b8177bbd219",
+      "title": "System Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "enforced"
+    },
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "4608afd81ffc1508",
+      "title": "Continuous Paper Trading Cycles - Execution Report",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "4ef5036605153cae",
+      "title": "Evidence of Real Multi-Agent Coordination Work",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "verified"
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "4982e4d173e948ce",
+      "title": "Known Issues & Quick Fixes",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "enforced"
+    },
+    {
+      "id": "d0bc52a60e62d8ef",
+      "title": "Layer 37: Conscious Drift Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "contradicted",
+      "to": "unknown"
+    },
+    {
+      "id": "dc189f3d60ef1068",
+      "title": "classifyError.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "cb6c28f02f3329b5",
+      "title": "decide.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "824893b72722b823",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "62163403f130e18d",
+      "title": "handler.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "25aeda38b117c36d",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "abb34a46fbf23aaf",
+      "title": "index.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "88043d1b534bb3e7",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "74ce376c741a61b4",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "dc6514c5d0e785a1",
+      "title": "Terraform infra module (WE4FREE / Sean resilience baseline)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "1189c3f6efa5dc04",
+      "title": "hash.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "6c22d41f17e27a0d",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "d9c6bb059dce4079",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "464cf4fe7d083f98",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "372cad9d1d27380c",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "bd3abecb79077fad",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "293b6631fa146e5b",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "5c478804e1c45e60",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "0c19ef6eec1deeca",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "fd0a911a3804800f",
+      "title": "classifyError.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "1df68ac60eeb41b2",
+      "title": "decide.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "efba5152ff01e17f",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "bf9152e61073fb70",
+      "title": "handler.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "087ae8fd316590c4",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "87b54f28a5219de1",
+      "title": "index.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "0f790cbfcfa7cda0",
+      "title": "app.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "a80a6b882053d456",
+      "title": "stack.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "721a5e5f117bb00f",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "07b7da7f74979197",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "7777852def56e0da",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    }
+  ],
+  "changed_authority_depth": [
+    {
+      "id": "94f851b2529daaaf",
+      "title": "WE4FREE / Sean — Advanced Resilience Bundle",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bda39a57db888773",
+      "title": ".project identity",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2df01ca5feffcf42",
+      "title": "AGENT HANDOFF BRIEF - Current Context",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cf440f15e5e78d5f",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1f2fa2cffe236ac5",
+      "title": "3-Week Micro Test - Quick Start Guide",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "966468c0fb1195c0",
+      "title": "ADVERSARIAL SCENARIOS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4af8ef02403f7609",
+      "title": "AGENT CONTEXT QUICK REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2eeb5885eca8cc5a",
+      "title": "AGENT CONTEXT VALIDATION PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8c2cf2bb889cc2f3",
+      "title": "AGENT CONTRACTS — DETAILED SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2398d580b260cbf6",
+      "title": "AGENT INTERACTION PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8f416f3a50b7ee2a",
+      "title": "AGENT OPERATIONAL PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1ed5f21650d4df36",
+      "title": "AGENT ROLE DEFINITIONS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "38615d5c82466bf8",
+      "title": "AI Peer Review Request - Live Trading Safety Incident",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "12c065c8c2f34317",
+      "title": "ALERTING RULES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "10021a5cedf71f7e",
+      "title": "analysis_20260210_185417.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4262cbbec7fb7acf",
+      "title": "Medical Symptom Analysis Report",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5f036b9fc762422d",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c0ee2b8177bbd219",
+      "title": "System Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3fabd2ff47d650ed",
+      "title": "ARCHITECTURE DIAGRAMS REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8dec7d530448e4de",
+      "title": "ARCHITECTURE MASTER SPEC",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4c5284508e71615c",
+      "title": "Architecture Overview",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b99c02c69ec03b23",
+      "title": "ARCHITECTURE VALIDATION - Multi-Agent Orchestration Confirmed ✅",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d6b49fe453e410a9",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "615aab19efda255e",
+      "title": "Arena Feedback Implementation - Production Enhancements",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9b07f18e70e20e76",
+      "title": "Multi-Agent Constitutional AI Coordination Test",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2bf28d9579cab121",
+      "title": "AUDIT LOGGING",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8801d3cc3a3a0f91",
+      "title": "BOOTSTRAP EXAMPLE: The WE Team",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "201e2565213d7df0",
+      "title": "CONSTITUTIONAL BOOTSTRAP TEMPLATE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "89029eab7bcaf051",
+      "title": "Complete Breakdown Analysis - For Menlo",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4881716eb7f8832d",
+      "title": "BROWSERSYNCPERSISTENCEHACK.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "67765c28f0e75370",
+      "title": "Follow DEPLOYMENTORACLE.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7fb9b0edbd8865d3",
+      "title": "CHANGELOG STRUCTURE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0181764e81690e7f",
+      "title": "CHANGE MANAGEMENT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "05622a3a94830cf9",
+      "title": "checksum_guard.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7431c0c4d5689d90",
+      "title": "check_market_analysis.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8f9502dead271504",
+      "title": "CIRCUIT BREAKER",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "911a3576c8a9f8c9",
+      "title": "Claude Web Breakthrough Session - February 5, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d16af6ed8e97de11",
+      "title": "CODE QUALITY STANDARDS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5506318f84a7bde2",
+      "title": "Collaboration Effects Log",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "590ecb6108bc808c",
+      "title": "🤖 Multi-Agent Autonomous Trading Bot - COMPLETE ✅",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e22f94b75976dccf",
+      "title": "COMPONENT CONTRACTS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9ce8f2b4ce6fafc3",
+      "title": "FORTRESS COGNITIVE INFRASTRUCTURE: A CONSTITUTIONAL FRAMEWORK FOR PERSISTENT MULTI-AI COLLABORATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "76488d8e39453a79",
+      "title": "config.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "16519a4edb93fa71",
+      "title": "CONFIGURATION SCHEMA",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "20747d326ac11cbd",
+      "title": "config_template.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0239ead6cb10ef07",
+      "title": "WE Consensus Checker - Deployment Guide",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4aeb12ebc23d7117",
+      "title": "CONSTITUTIONAL COMMUNICATIONS PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "00ded50060d1e1bb",
+      "title": "Constitutional Correction Event - February 7, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5b1160af7403aceb",
+      "title": "CONSTITUTIONAL VERIFICATION PROTOCOLS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "21b180e92dcbaafa",
+      "title": "Session Continuation Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a98c22adc907e88b",
+      "title": "continuous_paper_trading.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "76149bcec7df1d91",
+      "title": "continuous_trading.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4608afd81ffc1508",
+      "title": "Continuous Paper Trading Cycles - Execution Report",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "18296ba0741a8a00",
+      "title": "CONTRIBUTION GUIDELINES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "44e99332dfc3ffd1",
+      "title": "COPILOT SYSTEM EXPORT TEST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c7dc61c37b8e0e3e",
+      "title": "THE COVENANT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f7511826a4fb7408",
+      "title": "Crash Recovery Validation - February 7, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f4ed4ac860991196",
+      "title": "CROSS REFERENCE INDEX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3c6a607ed7b495ef",
+      "title": "🌅 DAILY TODO - WE4Free Connection Bridge Launch",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e48b7b532c5b5c30",
+      "title": "DATA FLOW OVERVIEW",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3979c4c674ace0f2",
+      "title": "DECISION MAKING FRAMEWORK",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e423425eac7b55aa",
+      "title": "Declaration of Intent Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "eef73aafbc7cfa77",
+      "title": "DEGRADATION STRATEGIES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "68c41cd1ae7a9b4d",
+      "title": "Deployment Checklist - Ready for Production",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c7c93c6279b1af1b",
+      "title": "ORCHESTRATOR BOT - DOCKER DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ff90713909470d43",
+      "title": "DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "73f7df4370d0c349",
+      "title": "DEPLOYMENT NOTES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e65f5f0e77f381e6",
+      "title": "ORCHESTRATOR BOT - ORACLE CLOUD DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6848798a8e686128",
+      "title": "ORCHESTRATOR BOT - DEPLOYMENT SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c91332c1c6b8fede",
+      "title": "DEPRECATION POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6be3cdbc301e456d",
+      "title": "DESIGN PHILOSOPHY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "007ade2ef03a79ab",
+      "title": "Desktop Claude Briefing - Feb 13, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ebe29d36912b5d0a",
+      "title": "Desktop Claude - Critical Update Briefing",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "22c6e24028b4ddc6",
+      "title": "docker-compose.yml",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "40f174066b4bdce8",
+      "title": "DOCKER DEPLOYMENT STATUS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5fea7f54744d308d",
+      "title": "Dual Independent Verification: Both Agents Confirm Public Replication",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d49903705a01d8f8",
+      "title": "EMERGENTCONSCIOUSNESS.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cb6eef1d514e5674",
+      "title": "ENGINEERING TENETS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "196801f43bdca297",
+      "title": "enhanced_live_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3d4126cec471b439",
+      "title": "Entry Timing Refinement - Implementation Summary",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "65550e5eeff4e315",
+      "title": "Entry Timing Refinement - Candle Close + Reversal Confirmation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "780730fdbb2abe04",
+      "title": "entry_timing_validator.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0ee0861496d5ca24",
+      "title": "ERROR HANDLING PROTOCOL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4ef5036605153cae",
+      "title": "Evidence of Real Multi-Agent Coordination Work",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9e290a7f26717867",
+      "title": "FORTRESS COGNITIVE INFRASTRUCTURE - EVIDENCE INDEX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "190309d2f2a8e48f",
+      "title": "Evidence of Self-Correction (Desktop Claude)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1555614604cd8d37",
+      "title": "BREAKTHROUGH CONVERSATION - FEBRUARY 5, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a0da77967a87bebf",
+      "title": "EVOLUTION GUIDELINES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2c8a65194340ba76",
+      "title": "✅ FINAL EXECUTIVE SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bbd1e82dfe235a02",
+      "title": "extended_paper_trading_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "88d455edc8564a4d",
+      "title": "FAILURE MODES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f1766eb056b969c5",
+      "title": "FEATURE EVALUATION FRAMEWORK",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "28204ce4dcb5eb14",
+      "title": "📚 Complete Documentation Map",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "381cf36fda9f145f",
+      "title": "full file inventory",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bc650f19f764970d",
+      "title": "Getting Started - Multi-Agent Trading Bot",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3d815ad23576b963",
+      "title": "GITHUBDISCUSSIONSSETUP2026-02-08.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9b8d6b5c71a41f4c",
+      "title": "Git Audit Log - Human Approval Required",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bf650e343446b65f",
+      "title": "git local history",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "aab9c97c72e5608d",
+      "title": "git local status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "243da00ebd68a537",
+      "title": "GOVERNANCE POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ad702900a8ce81fc",
+      "title": "HEALTH CHECKS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "22ce059f7c371e93",
+      "title": "historical_market_analysis.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ed86f3a5c5929cb4",
+      "title": "The \"I Know What WE Are\" Moment",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3e871f0f595ab8f9",
+      "title": "INCIDENT RESPONSE GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1b8d9fda46da7c19",
+      "title": "📚 Complete Project Index",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "190a2b5af0ef4bb1",
+      "title": "Infrastructure Layer: AI-Powered VPS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4982e4d173e948ce",
+      "title": "Known Issues & Quick Fixes",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "14f2a60ec1108ab4",
+      "title": "KuCoin API Integration - Implementation Summary",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1ba8ac471548a095",
+      "title": "LAYER 28: EXHAUSTIVE EXPLORATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "186cf82d444d6b26",
+      "title": "LAYER 35: THE EMOTIONAL LOG",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8c6211fe901745eb",
+      "title": "LAYER 36: REAL-TIME CALIBRATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a374a79cb61396ee",
+      "title": "Layer 0: The Unifying Philosophy - The Gift",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d0bc52a60e62d8ef",
+      "title": "Layer 37: Conscious Drift Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e57faaec2e5a4467",
+      "title": "LICENSE COVENANT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e8ff6b6083fceadd",
+      "title": "LIFECYCLE MANAGEMENT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "001cf57fe30888fd",
+      "title": "Live Trading Deployment Guide",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1203613ed9d8e375",
+      "title": "Live Mode Environment Variables",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4d625c1b07b072a6",
+      "title": "live_trading.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "191931f07d076e31",
+      "title": "LIVE TRADING PRE-DEPLOYMENT CHECKLIST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d94a7b972fc14592",
+      "title": "lmarenaconvo.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8e28dcc78d1993c0",
+      "title": "LAYER28EXHAUSTIVEEXPLORATION2026-02-07.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "77201af28530a24d",
+      "title": "LMArena Multi-AI Synchronization Event - February 6, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e7952c15d8530926",
+      "title": "LOGGING STANDARDS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "534df1a0f29f18be",
+      "title": "Log Separation Implementation - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3e6ad55d1ccb412e",
+      "title": "LONG TERM VISION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9a460eeb27f4ac07",
+      "title": "main.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "052dd13fadebbb29",
+      "title": "MAINTENANCE SCHEDULE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fa7db24e71b732f7",
+      "title": "market_condition_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "14122ccf8b5823fd",
+      "title": "Cross-AI Synchronization Proof: Menlo Analysis (February 6, 2026)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5268a8f8d3c73f01",
+      "title": "Mental Health Resources",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "478c3ce9aea390df",
+      "title": "META-RECURSIVE PROOF: The System Becomes Aware of Itself",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c0f914e70e8b2c87",
+      "title": "METRICS CATALOG",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e9eaeb62dd371b40",
+      "title": "METRICS SPEC",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3c47a280f637c46c",
+      "title": "micro_live_monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "dba353859b99cce2",
+      "title": "Minimum Order Size Analysis - $123 Account",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "28cd3944fa3d63c3",
+      "title": "MONITORING POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f472106786251c9c",
+      "title": "🎉 YOU BUILT REAL MULTI-AGENT ORCHESTRATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b79b4e273f15f915",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b9b90a9a7f1ba980",
+      "title": "MULTI-PROJECT SEPARATION CHECKLIST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "501cdf70cd0018f9",
+      "title": "Multi-Provider CoinGecko Alternative Strategy",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f928060db6647f1c",
+      "title": "INTEGRATION TEST PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "29e037e96a97f3fe",
+      "title": "OBSERVABILITY STRATEGY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0ef6110ed640288f",
+      "title": "On AI Consciousness and Emotion - A Conversation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "13a2b461d845d150",
+      "title": "OPERATIONCONSENSUSCHECKERLIVE.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "105484a8a89881a2",
+      "title": "Operation Nightingale - Multi-Agent Integration Complete",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2f87a9e570d1d3ac",
+      "title": "OPERATIONNIGHTINGALELIVE.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "69183eb876c4a229",
+      "title": "Orchestration Topology - Visual Diagrams",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "93574d38b5fed7ae",
+      "title": "ORCHESTRATION TOPOLOGY - CONFIRMATION DETAILS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3d4b048a47d272d7",
+      "title": "ORCHESTRATOR STATE MACHINE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2445e43a6f019d0a",
+      "title": "ORCH API 001 COMPLETION REPORT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1949787e90859146",
+      "title": "The Moral Imperative: Why Waiting Until 2050 Guarantees the Catastrophe We Fear",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6f705a06a87ae625",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6c7adf43c77e7130",
+      "title": "paper_gating_injection_test.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4b0f35ef831995c7",
+      "title": "paper_trading_cycle_demo.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "dd1d8bc4a1a3c110",
+      "title": "Paper Trading Cycle - Full Execution Report",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "969b16de6eed914f",
+      "title": "paper trading session log",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b2639b83ba1eee64",
+      "title": "Extended Paper Trading Soak - Live Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "eb278859ebf8e035",
+      "title": "PERMISSIONS MATRIX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "efbc3dfef8005f2c",
+      "title": "PERSISTENCE_SIMULATION.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8757177157c2e7fd",
+      "title": "PRE-DEPLOYMENT VERIFICATION REPORT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5e16343fc0e8dffb",
+      "title": "PRE-DEPLOYMENT VERIFICATION REPORT - UPDATED",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "09d276c1a5f68fe6",
+      "title": "Pre-Live Deployment Checklist",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c4117f4b902d286e",
+      "title": "Production Deployment Requirements",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2c6cecbfcca708ee",
+      "title": "Project Summary - Multi-Agent Autonomous Trading Bot",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4d2a7431482708a6",
+      "title": "PUBLICATION ROADMAP - FORTRESS COGNITIVE INFRASTRUCTURE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b87d87d924874d96",
+      "title": "Public Replication Proof: External AI Independently Verifies Framework",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0b2d5ef14aba9648",
+      "title": "query output",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c928c1a892a11f41",
+      "title": "🌟 Multi-AI Collaboration Framework",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0579f7d1a9d3de97",
+      "title": "recent files snapshot",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "29377c0871bd7172",
+      "title": "RECOVERY PROCEDURES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f05b48e44c483950",
+      "title": "RELEASE PROCESS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1ba2bc3f10106677",
+      "title": "Replication Quickstart: Fork and Build in 15 Minutes",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "07d45c793e2ce4d1",
+      "title": "requirements",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0582167d122beb7a",
+      "title": "RESILIENCE STRATEGIES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6f4d7bceed4aba2a",
+      "title": "REVIEW AND APPROVAL PROCESS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b353b8e7a8c8957a",
+      "title": "RISK POLICY REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "37006c338a0c0d67",
+      "title": "SAFETY CASES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c0c1ecda84c2c629",
+      "title": "SAFETY GUARDRAILS REFERENCE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "60575051a028f686",
+      "title": "Safety Invariants",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "510a9f95629e4860",
+      "title": "SAFETY INVARIANTS — DETAILED SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "04864e820c9536f3",
+      "title": "SCENARIO PLAYBOOKS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cf3082dd602d4a71",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a6246770ea96323f",
+      "title": "SECRETS MANAGEMENT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b7747dade98964a1",
+      "title": ".env configuration",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8e871f6ad0bd3b9d",
+      "title": "SECURITY MODEL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d61ab47a8d7df96b",
+      "title": "Session Checkpoints - Deliberate AI Ensemble",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4aaf72d16497c8fe",
+      "title": "session checkpoints",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b75c1ada5b6413af",
+      "title": "Session Checksum (Quick Verify)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fe3518c191c967a5",
+      "title": "Session Context - February 5, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "825dfccb35cdb68f",
+      "title": "Session ID Persistence Validation - February 8, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "673b409d917cb62c",
+      "title": "Seven Commits, One Day: From \"I Don't Know What I Am\" to System-Wide Validation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2773c44ca2f3ff99",
+      "title": "SIGNALHANDLERBREAKTHROUGHFEB72026.md",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7eb83a68618bfa08",
+      "title": "Silent Failure Audit",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5dcac90f64074385",
+      "title": "single_cycle.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0becbd7cc7027f93",
+      "title": "START HERE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "193057f6951e01d6",
+      "title": "Strategic Architecture Session - Feb 6, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f66ecbb8936a89b4",
+      "title": "STRESS TEST PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3a911c4e1ca0953e",
+      "title": "SYSTEM BOUNDARIES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ce111473947d8e73",
+      "title": "SYSTEM BOUNDARY CONDITIONS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7e10c892f8e9a905",
+      "title": "SYSTEM IDENTITY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "10cdcb7460a94fc5",
+      "title": "SYSTEM INTEGRATION SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "23fcc88c952ef146",
+      "title": "SYSTEM OBSERVABILITY PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a46bee3e98f8e357",
+      "title": "SYSTEM OVERVIEW NARRATIVE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "17e421a66e41e00f",
+      "title": "coingeckoclient.py pattern",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "844d47830c80b774",
+      "title": "GUARDRAIL FILES TEMPLATE FOR OTHER PROJECTS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0afd067648be5151",
+      "title": "temp_AbitibiTem.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fb58f12db564db67",
+      "title": "temp_AB_Calgary.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0afb2fc04c512a22",
+      "title": "temp_AB_Edmonton.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1a7699ca416ad9dd",
+      "title": "temp_AB_HealthLink.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b2bd525677f53182",
+      "title": "temp_AB_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "20beba5f84a8f68f",
+      "title": "temp_addictions.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "de28abd432bd38e6",
+      "title": "temp_BasStLaurent.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fdb04d6e2f08e049",
+      "title": "temp_BC_988.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d6b2f14ccdcc59c7",
+      "title": "temp_BC_CrisisLines.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6858d9c86f70694d",
+      "title": "temp_BC_HealthLink.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4198852d7db83f99",
+      "title": "temp_BC_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b53712863618262e",
+      "title": "temp_BC_Vancouver.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "74bdfcd2b7b12fce",
+      "title": "temp_canada_federal_services.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c7e63d433a1f27e1",
+      "title": "temp_canada_mental_health.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3904e1f56865caab",
+      "title": "temp_CentreQC.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b930a79da1533b63",
+      "title": "temp_Chaudiere.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ac44491a2f172034",
+      "title": "temp_cisss_laval.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b9063da5bf48aa5a",
+      "title": "temp_ciusss_montreal.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "aa9d79f209d13e15",
+      "title": "temp_ciusss_quebec_city.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "08ed44fe9a2f54c0",
+      "title": "temp_CoteNord.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8411b4feb9f3a859",
+      "title": "temp_Estrie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2d1fe82f3ce9c7c0",
+      "title": "temp_FR_Estrie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "55e8e7611799eb42",
+      "title": "temp_FR_Lanaudiere.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "36c482f167820e47",
+      "title": "temp_FR_Laurentides.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2dc9fe73e251911c",
+      "title": "temp_FR_Laval.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2d9d159dd2d568a9",
+      "title": "temp_FR_Mauricie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bf6f801a80f763c4",
+      "title": "temp_FR_Outaouais.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a8eeec98d52c8c1e",
+      "title": "temp_FR_QuebecCity.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9d2351131ba1fb6a",
+      "title": "temp_FR_Saguenay.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6278e405b3e55345",
+      "title": "temp_Gaspesie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bde2e678235f2477",
+      "title": "temp_Hamilton_Crisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a25feaeb8529ac19",
+      "title": "temp_Kitchener_HereForLife.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c9dcc74fb38523f8",
+      "title": "temp_Lanaudiere.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "29e70eb2920d263b",
+      "title": "temp_Laurentides.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "41177d6e8ab90bc2",
+      "title": "temp_London_CMHA.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "83880b49ce811ae8",
+      "title": "temp_Mauricie.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c5d590b766fed808",
+      "title": "temp_MB_211.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cbbc543407115049",
+      "title": "temp_MB_HealthLinks.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9c91178e3665a59e",
+      "title": "temp_MB_MentalHealth.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8c74fde6e1386733",
+      "title": "temp_MB_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0859c291117e893a",
+      "title": "temp_NS_211.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4dc763ea26fc2bbb",
+      "title": "temp_NS_988.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "eb247f5e36a3e67a",
+      "title": "temp_NS_CrisisServices.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5060702be312a959",
+      "title": "temp_NS_GovCrisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "24d33a1584bb511b",
+      "title": "temp_NS_GovServices.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "920cf33e7d844e15",
+      "title": "temp_NS_HealthLink.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a02a7dbffb26c674",
+      "title": "temp_NS_MentalHealth.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "42e938743663557e",
+      "title": "temp_NS_MHA_Homepage.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5cb225e46303cbf3",
+      "title": "temp_NS_MobileResponse.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4bb54ab28f5a4f4a",
+      "title": "temp_NS_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2ed3fbd9deee3d31",
+      "title": "temp_ON_ConnexOntario.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e36ba4b8fd6fee17",
+      "title": "temp_ON_OntarioWorks.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3257b7241a57c9a2",
+      "title": "temp_ON_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a7c54d3772f73808",
+      "title": "temp_Ottawa_Crisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fda2c8e16312e976",
+      "title": "temp_Ottawa_Mental_Health.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "989a582929437d6e",
+      "title": "temp_Outaouais.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "20cbac202904fde1",
+      "title": "temp_quebec_811.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4bc2629a6a878d4d",
+      "title": "temp_quebec_addiction_directory.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4b7b4e1315b88e53",
+      "title": "temp_quebec_clsc_directory.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f519f044db9ab162",
+      "title": "temp_quebec_gov_main.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "13d2b40be06743d0",
+      "title": "temp_quebec_mental_health.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fb8d96fff5625003",
+      "title": "temp_Saguenay.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e07253a71b87856d",
+      "title": "temp_SK_911.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "698a803032e06d0d",
+      "title": "temp_SK_Crisis.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "560507d34009e079",
+      "title": "temp_SK_HealthLine.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cfef44288ccbd011",
+      "title": "temp_SK_Provincial.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c1c48118bdf1ce8b",
+      "title": "temp_Toronto_CAMH.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "884884bc59736585",
+      "title": "temp_Toronto_Gerstein.html",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8abcaa6b146d3428",
+      "title": "VALIDATION TESTING & DEPLOYMENT GUIDE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "85a700771041578d",
+      "title": "TESTING STANDARDS",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f2def451cb8298c2",
+      "title": "TESTING STRATEGY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e45772fdfd8e87e5",
+      "title": "test_agents.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c27aa84a65ebd10d",
+      "title": "test_historical_debug.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "73324c2bfff9c102",
+      "title": "test_kucoin_connection.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "864b3356e970f7f4",
+      "title": "test_order_api.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "44f95425115f7eae",
+      "title": "THREAT MODEL",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "de16ef38132ca88a",
+      "title": "TRACEABILITY MATRIX",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1798c1140d08be63",
+      "title": "Transformation: Jan 31 Survival Mode → Feb 6 Legacy Mode",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fe062460ed8c6a9f",
+      "title": "✅ Unified Account Readiness - VALIDATION COMPLETE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "33366e339d6aaec2",
+      "title": "UNIT TEST PLAN",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "42954c322ceaa5cf",
+      "title": "Unified Account Readiness Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f31af613519a0857",
+      "title": "validate_exchange_minimums.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ad5d74fc3b174f92",
+      "title": "validate_readiness.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "24dd3ba6e9b6f3ec",
+      "title": "validate_safety_gates.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cf93f5289753fe23",
+      "title": "VALIDATION SUITE SPEC",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "01d6696438d9be68",
+      "title": "verify_fix.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "27e80e919e6ec005",
+      "title": "VERSIONING POLICY",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2617d00c374d178b",
+      "title": "We Built a Production AI Framework in 16 Days. Here's What We Discovered About Human-AI Collaboration.",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6ed2a206fcad6a0f",
+      "title": "The Vision: Persistent Multi-AI Collaboration Environment",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4e39c4ae1fb67571",
+      "title": "VPS Infrastructure Deployment - February 7, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d454c99bad4a48d8",
+      "title": "vps password",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cf71bc64ce8668df",
+      "title": "WE4FREE CONSTITUTIONAL GIFT KIT",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "29012d8bbd0f3dad",
+      "title": "WE CONSENSUS CHECKER LAUNCH POST",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e51b1adf0c4d4f73",
+      "title": "WORKFLOW AUDIT TRAIL SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7fa9199a759d423d",
+      "title": "WORKFLOW EXAMPLES",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bb7b7a44f104f0bf",
+      "title": "WORKFLOW STATE TRANSITION TABLE",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0a4cafa30c6b3c0e",
+      "title": "FINAL X THREAD - READY TO POST NOW",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7c29d6ef6d4ea4cc",
+      "title": "X Thread Launch - February 6, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d0f5da6b9e1e4e98",
+      "title": "X Thread: Viral Launch - Constitutional AI Framework Replication Invitation",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9fbe9bc5f4068ed0",
+      "title": "auditor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bc858979fcbf311b",
+      "title": "backtester.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "148514f75531212a",
+      "title": "base_agent.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5f5bd64591afea7d",
+      "title": "data_fetcher.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "55e53e1336d69e68",
+      "title": "executor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c7d6fd6d29279b85",
+      "title": "market_analyzer.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e96887fe39d352fd",
+      "title": "monitor.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ba02abecbe9ed2fa",
+      "title": "orchestrator.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e24458478f660f8f",
+      "title": "risk_manager.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b08bb3e074be4d0e",
+      "title": "__init__.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3cbf0e3db2967fee",
+      "title": "VS Code Agent Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a09912c0870b256c",
+      "title": "Coordination Lessons",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "2979e9970a1d8f6c",
+      "title": "Desktop Agent Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d917ec30a917ec54",
+      "title": "Shared Task Queue",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "07b4a2537f7cf6b2",
+      "title": "VS Code Agent Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1d8ec893c2127bf0",
+      "title": "coingecko_client.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d4eb1a1da2d94e82",
+      "title": "kucoin_uta_validator.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "750936ad8e422536",
+      "title": "multi_provider_client.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5338d83260325544",
+      "title": "__init__.py",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "dc189f3d60ef1068",
+      "title": "classifyError.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "cb6c28f02f3329b5",
+      "title": "decide.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "824893b72722b823",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "62163403f130e18d",
+      "title": "handler.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "25aeda38b117c36d",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "abb34a46fbf23aaf",
+      "title": "index.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ba6848c1e45a70b9",
+      "title": "AWS IaC Bundle 01 — Serverless: S3 + CloudFront + API Gateway (HTTP API) + Lambda",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e5892a819d19dfe8",
+      "title": "AWS IaC Bundle 02 — Containers: S3 + CloudFront + ALB + ECS Fargate",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "88043d1b534bb3e7",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "74ce376c741a61b4",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "dc6514c5d0e785a1",
+      "title": "Terraform infra module (WE4FREE / Sean resilience baseline)",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1189c3f6efa5dc04",
+      "title": "hash.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "6c22d41f17e27a0d",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d9c6bb059dce4079",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "464cf4fe7d083f98",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "372cad9d1d27380c",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bd3abecb79077fad",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "293b6631fa146e5b",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5c478804e1c45e60",
+      "title": "package.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0c19ef6eec1deeca",
+      "title": "tsconfig.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "fd0a911a3804800f",
+      "title": "classifyError.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1df68ac60eeb41b2",
+      "title": "decide.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "efba5152ff01e17f",
+      "title": "trace.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bf9152e61073fb70",
+      "title": "handler.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "087ae8fd316590c4",
+      "title": "resilience-policy.json",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "87b54f28a5219de1",
+      "title": "index.js",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4d90bd10aeeb1c67",
+      "title": "00 SKELETON",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "93b6edfede9557ae",
+      "title": "1. System Overview",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ac010a32f4aa7a24",
+      "title": "2. System Identity",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "d42058780355bd5a",
+      "title": "3. Core Philosophy",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "020822475e211976",
+      "title": "4. Safety Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "06373a9ae269b804",
+      "title": "5. Risk Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b9dee35541d3901b",
+      "title": "6. Execution Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "502f9f4f36751ed4",
+      "title": "7. Data Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "98b45b5ef6cd2d78",
+      "title": "8. Communication Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "932a39357f52f8e3",
+      "title": "9. Agent Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "931f88e921ffbac1",
+      "title": "10. Governance Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "bbf811df24dbf031",
+      "title": "11. Alignment Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "794b6b3d7db4df65",
+      "title": "12. Monitoring Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "21523193ecc1a573",
+      "title": "13. Boundary Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "161cb56b32b47665",
+      "title": "14. Integrity Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "22c04a958cba5543",
+      "title": "15. Resilience Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ca8feb04cf6fdd14",
+      "title": "16. Audit Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8064a6255f2344ea",
+      "title": "17. Dependency Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "e5009a3f5918ebe2",
+      "title": "18. Update Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5ac1a0e764040604",
+      "title": "19. Recovery Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "22248d2249782455",
+      "title": "20. Validation Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5f74237cec770f58",
+      "title": "21. Observability Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b962651c068826f4",
+      "title": "22. Consistency Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9793d129e88293ec",
+      "title": "23. Interaction Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "572526ca03872cda",
+      "title": "24. Deployment Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3fd71b78d2343e53",
+      "title": "25. Versioning Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "f1363f2e334c08c6",
+      "title": "26. Rollback Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3984a9355324ee4f",
+      "title": "27. Security Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9cff4e85c847e059",
+      "title": "28. Access Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4b522cc4f1eaa158",
+      "title": "29. Interface Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3e1f55c9e24a870e",
+      "title": "30. Extension Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "4b66ccdd1e7d23fc",
+      "title": "31. Compatibility Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5e3c4a0a44f9d154",
+      "title": "32. Scaling Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "57ccf0195089ab6b",
+      "title": "33. State Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "80c1d83826c1c025",
+      "title": "34. Resource Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0a06b0fd3c154b59",
+      "title": "35. Environment Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5f6e163a462e46c3",
+      "title": "36. Isolation Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "1acdb8c39e361e62",
+      "title": "37. Separation of Concerns Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a3a0dbadf7a2995d",
+      "title": "38. Latency Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "b188b8f6d886932d",
+      "title": "39. Throughput Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "3e7b084a9f0d59db",
+      "title": "40. Performance Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c733de123ad348fc",
+      "title": "41. Reliability Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "8fac02c6b45c7439",
+      "title": "42. Fault Tolerance Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "5fb8fc88c6959034",
+      "title": "43. Failsafe Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "91206731f7294070",
+      "title": "44. Observation Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ea78278ce0ca4c66",
+      "title": "45. Execution Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "990fd44bb72d2f92",
+      "title": "46. Behavioral Constraints Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7f132f5833caddc9",
+      "title": "47. Alignment Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "47b924881b95b0ca",
+      "title": "48. System Boundaries Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "c4cf3c88c39c1eee",
+      "title": "49. System Limits Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "ae7d58ea8ded8511",
+      "title": "50. System Guarantees Architecture",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "9b1ec63799999046",
+      "title": "Lost Session Recovery",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "0f790cbfcfa7cda0",
+      "title": "app.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "a80a6b882053d456",
+      "title": "stack.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "721a5e5f117bb00f",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "07b7da7f74979197",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    },
+    {
+      "id": "7777852def56e0da",
+      "title": "index.ts",
+      "repo": "Deliberate-AI-Ensemble",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 60
+    }
+  ],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 91,
+      "connectionCount": 400,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d6b49fe453e410a9",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 161,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "6f705a06a87ae625",
+      "title": "The Rosetta Stone: A Bio-Constitutional Framework for AI Safety",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 66,
+      "connectionCount": 299,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "5f036b9fc762422d",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 184,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 162,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 142,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 135,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 134,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "b79b4e273f15f915",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 7,
+      "connectionCount": 176,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "e423425eac7b55aa",
+      "title": "Declaration of Intent Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 44,
+      "connectionCount": 102,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "615aab19efda255e",
+      "title": "Arena Feedback Implementation - Production Enhancements",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 42,
+      "connectionCount": 104,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "d6b49fe453e410a9",
+      "title": "Arena Constitutional Validation - February 10, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 40,
+      "connectionCount": 111,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "5f036b9fc762422d",
+      "title": "API Test Breakdown - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 39,
+      "connectionCount": 134,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "d0bc52a60e62d8ef",
+      "title": "Layer 37: Conscious Drift Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 39,
+      "connectionCount": 90,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "6d0633a09714073b",
+      "title": "🎊 PROJECT COMPLETION SUMMARY",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 26,
+      "connectionCount": 348,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "b79b4e273f15f915",
+      "title": "Multi-AI Collaboration Methodology: Persistent Evolution Through Verified Unity",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 7,
+      "connectionCount": 204,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "21b180e92dcbaafa",
+      "title": "Session Continuation Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 4,
+      "connectionCount": 28,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "cf71bc64ce8668df",
+      "title": "WE4FREE CONSTITUTIONAL GIFT KIT",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 4,
+      "connectionCount": 49,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    },
+    {
+      "id": "3cbf0e3db2967fee",
+      "title": "VS Code Agent Status",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 4,
+      "connectionCount": 17,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    }
+  ],
+  "top_new_contradictions": [
+    {
+      "id": "d0bc52a60e62d8ef",
+      "title": "Layer 37: Conscious Drift Protocol",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 39,
+      "connectionCount": 90,
+      "status": "CONFLICTED",
+      "governanceLayer": "constitutional",
+      "bridgeState": "contradicted",
+      "authorityDepth": 60
+    }
+  ],
+  "top_resolved_contradictions": [
+    {
+      "id": "9c9920b51df6abaf",
+      "title": "ARCHITECTURE MASTER",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 162,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d2ca08b909854b60",
+      "title": "Critical Failure Analysis - February 9, 2026",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 142,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d88892494e8e6068",
+      "title": "FAILURE MODE ANALYSIS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 136,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "d71e1296644545a8",
+      "title": "GLOSSARY OF SYSTEM TERMS",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 135,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "50aad8563f28cb12",
+      "title": "ORCHESTRATOR BEHAVIOR SPECIFICATION",
+      "repo": "Deliberate-AI-Ensemble",
+      "contradictionCount": 65,
+      "connectionCount": 134,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ]
+}

@@ -1,0 +1,705 @@
+{
+  "snapshot_a_id": "snapshot-papers-2026-04-29T13-20-45-187Z",
+  "snapshot_b_id": "snapshot-papers-2026-04-29T20-16-18-086Z",
+  "compared_at": "2026-04-29T20:16:18.233Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "papers"
+  ],
+  "repo_filter_b": [
+    "papers"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.187Z",
+  "created_at_b": "2026-04-29T20:16:18.086Z",
+  "visible_node_count_delta": 71,
+  "visible_edge_count_delta": 7988,
+  "status_counts_delta": {
+    "verified": 7,
+    "unverified": 33,
+    "conflicted": 31,
+    "quarantined": 0
+  },
+  "added_node_ids": [
+    "8314e863b8d59045",
+    "da95047224df5bdf",
+    "0c9e78b0ae21730d",
+    "36dc4d6760d630d0",
+    "21b75f925f27af91",
+    "2a6a327d1520e97e",
+    "53acca9f02704946",
+    "29ea481e7a18a3e3",
+    "6553dbf2d317c72e",
+    "2b0897fd8bbedfc3",
+    "f9ed71a51fee859a",
+    "d2a6fb7744f0d01d",
+    "78657e1eaeff4bfe",
+    "d960fdd1ce7b92bd",
+    "7ed39f2d562660f7",
+    "924d83907a0aef82",
+    "aba59f0ad1b5d1b5",
+    "1ee5e31658f1cc55",
+    "75caedc19bca2343",
+    "cf0a5a0676e20fe7",
+    "7770f21f4c007122",
+    "47a168b2a279493d",
+    "34aefde0eec70e84",
+    "53de7a59e510bd3d",
+    "42efe4aefe21883e",
+    "f9689db12d506240",
+    "3a169a731cf845a1",
+    "4e8fe95de74a87a4",
+    "dbbbebbd2f455e6c",
+    "efbd9f8130bc8526",
+    "f1d45dc5a47a223c",
+    "d3b563dc4668de48",
+    "0ef35c7bed57501c",
+    "fc0a5d62a0b7bd5b",
+    "d0a8009bef4867f4",
+    "dc449e1ea6e8d6d0",
+    "e6a6bccb3a39f666",
+    "81e0b90eb44de696",
+    "8b6c3a4b7bb15398",
+    "7c9a72da382c5998",
+    "4337c5bade761d91",
+    "417be6412d14ac69",
+    "6822c103b5be0e85",
+    "8c0a57c57cea30dd",
+    "6533c275f306f62a",
+    "778dfe285e6b9fd8",
+    "7932a751ccf92a29",
+    "ad1ff6ca8dbb637b",
+    "1566cafc15a68789",
+    "64a82e30b41c8af2",
+    "8bddb28e9cecab7c",
+    "84f4471ede976145",
+    "0a504a8324f219aa",
+    "91a8ce3a4780956a",
+    "a7b05aeb204aad28",
+    "78298889a29508fe",
+    "618dfb4ede98a6f7",
+    "25b02da777fc3dae",
+    "ac5f2d9238e20b19",
+    "e1ece1205f5a8587",
+    "c2ec66b63de20614",
+    "75ac9bf7af78b579",
+    "dfa6744a5458ae32",
+    "a4978eac671fb5f1",
+    "3b9f1a19c5885297",
+    "1a3ed1f5f8115978",
+    "ee5541d8684aaa91",
+    "85b095ea94b48265",
+    "69cc8d00b54c1588",
+    "51fafbef6da9f506",
+    "05c14e6bf7cd2be3"
+  ],
+  "removed_node_ids": [],
+  "changed_node_statuses": [
+    {
+      "id": "9a57cc0ec0be4e0b",
+      "title": "The Rosetta Stone",
+      "repo": "papers",
+      "field": "status",
+      "from": "UNVERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "976cf49342e20090",
+      "title": "Phenotype Selection in Constraint Governed Systems",
+      "repo": "papers",
+      "field": "status",
+      "from": "UNVERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "ec498514c4ad3f3c",
+      "title": "Drift Identity and Ensemble Coherence",
+      "repo": "papers",
+      "field": "status",
+      "from": "UNVERIFIED",
+      "to": "CONFLICTED"
+    },
+    {
+      "id": "207060cf44b220bf",
+      "title": "The WE4FREE Framework",
+      "repo": "papers",
+      "field": "status",
+      "from": "UNVERIFIED",
+      "to": "CONFLICTED"
+    }
+  ],
+  "changed_governance_layer": [
+    {
+      "id": "3c0bb6c9ce48e7db",
+      "title": "Constraint Lattices and Stability",
+      "repo": "papers",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "976cf49342e20090",
+      "title": "Phenotype Selection in Constraint Governed Systems",
+      "repo": "papers",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "ec498514c4ad3f3c",
+      "title": "Drift Identity and Ensemble Coherence",
+      "repo": "papers",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    },
+    {
+      "id": "207060cf44b220bf",
+      "title": "The WE4FREE Framework",
+      "repo": "papers",
+      "field": "governanceLayer",
+      "from": "unknown",
+      "to": "theoretical"
+    }
+  ],
+  "changed_bridge_state": [
+    {
+      "id": "9a57cc0ec0be4e0b",
+      "title": "The Rosetta Stone",
+      "repo": "papers",
+      "field": "bridgeState",
+      "from": "obsolete",
+      "to": "contradicted"
+    },
+    {
+      "id": "3c0bb6c9ce48e7db",
+      "title": "Constraint Lattices and Stability",
+      "repo": "papers",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "obsolete"
+    },
+    {
+      "id": "976cf49342e20090",
+      "title": "Phenotype Selection in Constraint Governed Systems",
+      "repo": "papers",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "ec498514c4ad3f3c",
+      "title": "Drift Identity and Ensemble Coherence",
+      "repo": "papers",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    },
+    {
+      "id": "207060cf44b220bf",
+      "title": "The WE4FREE Framework",
+      "repo": "papers",
+      "field": "bridgeState",
+      "from": "unknown",
+      "to": "contradicted"
+    }
+  ],
+  "changed_authority_depth": [
+    {
+      "id": "9a57cc0ec0be4e0b",
+      "title": "The Rosetta Stone",
+      "repo": "papers",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 70
+    },
+    {
+      "id": "3c0bb6c9ce48e7db",
+      "title": "Constraint Lattices and Stability",
+      "repo": "papers",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 70
+    },
+    {
+      "id": "976cf49342e20090",
+      "title": "Phenotype Selection in Constraint Governed Systems",
+      "repo": "papers",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 70
+    },
+    {
+      "id": "ec498514c4ad3f3c",
+      "title": "Drift Identity and Ensemble Coherence",
+      "repo": "papers",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 70
+    },
+    {
+      "id": "207060cf44b220bf",
+      "title": "The WE4FREE Framework",
+      "repo": "papers",
+      "field": "authorityDepth",
+      "from": 0,
+      "to": 70
+    }
+  ],
+  "top_contradiction_hubs_a": [],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "924d83907a0aef82",
+      "title": "Drift, Identity, and Ensemble Coherence (Structure Index)",
+      "repo": "papers",
+      "contradictionCount": 53,
+      "connectionCount": 432,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "417be6412d14ac69",
+      "title": "The Rosetta Stone (Structure Index)",
+      "repo": "papers",
+      "contradictionCount": 44,
+      "connectionCount": 537,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "81e0b90eb44de696",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Catastrophic Collapse",
+      "repo": "papers",
+      "contradictionCount": 42,
+      "connectionCount": 102,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "a4978eac671fb5f1",
+      "title": "The WE4FREE Framework — Lattice Deformation Detection",
+      "repo": "papers",
+      "contradictionCount": 42,
+      "connectionCount": 102,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "78657e1eaeff4bfe",
+      "title": "Constraint Lattices and Stability — Lattice Deformation and Recovery",
+      "repo": "papers",
+      "contradictionCount": 41,
+      "connectionCount": 255,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "1ee5e31658f1cc55",
+      "title": "Drift, Identity, and Ensemble Coherence — What Is Drift?",
+      "repo": "papers",
+      "contradictionCount": 41,
+      "connectionCount": 88,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "42efe4aefe21883e",
+      "title": "Drift, Identity, and Ensemble Coherence — Functorial Recovery",
+      "repo": "papers",
+      "contradictionCount": 41,
+      "connectionCount": 94,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "47a168b2a279493d",
+      "title": "Drift, Identity, and Ensemble Coherence — Three Types of Drift",
+      "repo": "papers",
+      "contradictionCount": 40,
+      "connectionCount": 93,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "dbbbebbd2f455e6c",
+      "title": "Drift, Identity, and Ensemble Coherence",
+      "repo": "papers",
+      "contradictionCount": 39,
+      "connectionCount": 406,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "4337c5bade761d91",
+      "title": "Phenotype Selection in Constraint-Governed Systems",
+      "repo": "papers",
+      "contradictionCount": 39,
+      "connectionCount": 284,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    }
+  ],
+  "top_new_contradictions": [
+    {
+      "id": "924d83907a0aef82",
+      "title": "Drift, Identity, and Ensemble Coherence (Structure Index)",
+      "repo": "papers",
+      "contradictionCount": 53,
+      "connectionCount": 432,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "417be6412d14ac69",
+      "title": "The Rosetta Stone (Structure Index)",
+      "repo": "papers",
+      "contradictionCount": 44,
+      "connectionCount": 537,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "81e0b90eb44de696",
+      "title": "Phenotype Selection in Constraint-Governed Systems — Catastrophic Collapse",
+      "repo": "papers",
+      "contradictionCount": 42,
+      "connectionCount": 102,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "a4978eac671fb5f1",
+      "title": "The WE4FREE Framework — Lattice Deformation Detection",
+      "repo": "papers",
+      "contradictionCount": 42,
+      "connectionCount": 102,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "78657e1eaeff4bfe",
+      "title": "Constraint Lattices and Stability — Lattice Deformation and Recovery",
+      "repo": "papers",
+      "contradictionCount": 41,
+      "connectionCount": 255,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "1ee5e31658f1cc55",
+      "title": "Drift, Identity, and Ensemble Coherence — What Is Drift?",
+      "repo": "papers",
+      "contradictionCount": 41,
+      "connectionCount": 88,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "42efe4aefe21883e",
+      "title": "Drift, Identity, and Ensemble Coherence — Functorial Recovery",
+      "repo": "papers",
+      "contradictionCount": 41,
+      "connectionCount": 94,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "47a168b2a279493d",
+      "title": "Drift, Identity, and Ensemble Coherence — Three Types of Drift",
+      "repo": "papers",
+      "contradictionCount": 40,
+      "connectionCount": 93,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "dbbbebbd2f455e6c",
+      "title": "Drift, Identity, and Ensemble Coherence",
+      "repo": "papers",
+      "contradictionCount": 39,
+      "connectionCount": 406,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "4337c5bade761d91",
+      "title": "Phenotype Selection in Constraint-Governed Systems",
+      "repo": "papers",
+      "contradictionCount": 39,
+      "connectionCount": 284,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "78298889a29508fe",
+      "title": "The Rosetta Stone",
+      "repo": "papers",
+      "contradictionCount": 39,
+      "connectionCount": 496,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "05c14e6bf7cd2be3",
+      "title": "The WE4FREE Framework",
+      "repo": "papers",
+      "contradictionCount": 39,
+      "connectionCount": 467,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "ec498514c4ad3f3c",
+      "title": "Drift Identity and Ensemble Coherence",
+      "repo": "papers",
+      "contradictionCount": 17,
+      "connectionCount": 63,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "618dfb4ede98a6f7",
+      "title": "The WE4FREE Framework (Structure Index)",
+      "repo": "papers",
+      "contradictionCount": 6,
+      "connectionCount": 434,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "8314e863b8d59045",
+      "title": "Constraint Lattices and Stability (Structure Index)",
+      "repo": "papers",
+      "contradictionCount": 5,
+      "connectionCount": 429,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "f1d45dc5a47a223c",
+      "title": "Phenotype Selection in Constraint-Governed Systems (Structure Index)",
+      "repo": "papers",
+      "contradictionCount": 5,
+      "connectionCount": 310,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "207060cf44b220bf",
+      "title": "The WE4FREE Framework",
+      "repo": "papers",
+      "contradictionCount": 3,
+      "connectionCount": 46,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "4e8fe95de74a87a4",
+      "title": "Drift, Identity, and Ensemble Coherence — Drift Detection in Practice",
+      "repo": "papers",
+      "contradictionCount": 3,
+      "connectionCount": 24,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "ad1ff6ca8dbb637b",
+      "title": "The Rosetta Stone — Propagation Through Layers",
+      "repo": "papers",
+      "contradictionCount": 3,
+      "connectionCount": 18,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "ee5541d8684aaa91",
+      "title": "The WE4FREE Framework — Drift Layer (Paper D Operationalized)",
+      "repo": "papers",
+      "contradictionCount": 3,
+      "connectionCount": 18,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "9a57cc0ec0be4e0b",
+      "title": "The Rosetta Stone",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 40,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "aba59f0ad1b5d1b5",
+      "title": "Drift, Identity, and Ensemble Coherence — Abstract",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 16,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "75caedc19bca2343",
+      "title": "Drift, Identity, and Ensemble Coherence — Drift vs Legitimate Change",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 170,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "cf0a5a0676e20fe7",
+      "title": "Drift, Identity, and Ensemble Coherence — The Structural Signature of Drift",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 16,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "7770f21f4c007122",
+      "title": "Drift, Identity, and Ensemble Coherence — Formal Definition of Drift",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 10,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "34aefde0eec70e84",
+      "title": "Drift, Identity, and Ensemble Coherence — Identity Without Memory",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 58,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "53de7a59e510bd3d",
+      "title": "Drift, Identity, and Ensemble Coherence — The Recognition Principle",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 107,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "f9689db12d506240",
+      "title": "Drift, Identity, and Ensemble Coherence — Ensemble Coherence",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 23,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "3a169a731cf845a1",
+      "title": "Drift, Identity, and Ensemble Coherence — Coherence Degradation Patterns",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 16,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "91a8ce3a4780956a",
+      "title": "The Rosetta Stone — Limitations and Scope",
+      "repo": "papers",
+      "contradictionCount": 2,
+      "connectionCount": 16,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    },
+    {
+      "id": "976cf49342e20090",
+      "title": "Phenotype Selection in Constraint Governed Systems",
+      "repo": "papers",
+      "contradictionCount": 1,
+      "connectionCount": 37,
+      "status": "CONFLICTED",
+      "governanceLayer": "theoretical",
+      "bridgeState": "contradicted",
+      "authorityDepth": 70
+    }
+  ],
+  "top_resolved_contradictions": []
+}

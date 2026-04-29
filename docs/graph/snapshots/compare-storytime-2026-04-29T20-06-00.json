@@ -1,0 +1,78 @@
+{
+  "snapshot_a_id": "snapshot-storytime-2026-04-29T13-20-45-188Z",
+  "snapshot_b_id": "snapshot-storytime-2026-04-29T20-06-00-924Z",
+  "compared_at": "2026-04-29T20:06:01.067Z",
+  "interpretation_status": "observation",
+  "repo_filter_a": [
+    "storytime"
+  ],
+  "repo_filter_b": [
+    "storytime"
+  ],
+  "created_at_a": "2026-04-29T13:20:45.188Z",
+  "created_at_b": "2026-04-29T20:06:00.924Z",
+  "visible_node_count_delta": 0,
+  "visible_edge_count_delta": 0,
+  "status_counts_delta": {
+    "verified": 0,
+    "unverified": 0,
+    "conflicted": 0,
+    "quarantined": 0
+  },
+  "added_node_ids": [],
+  "removed_node_ids": [],
+  "changed_node_statuses": [],
+  "changed_governance_layer": [],
+  "changed_bridge_state": [],
+  "changed_authority_depth": [],
+  "top_contradiction_hubs_a": [
+    {
+      "id": "5ef61dc0b569b587",
+      "title": "Changelog",
+      "repo": "storytime",
+      "contradictionCount": 65,
+      "connectionCount": 202,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_contradiction_hubs_b": [
+    {
+      "id": "5ef61dc0b569b587",
+      "title": "Changelog",
+      "repo": "storytime",
+      "contradictionCount": 65,
+      "connectionCount": 202,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    },
+    {
+      "id": "36c9547e1c6a0f6e",
+      "title": "Steelman Arguments Against Agent Swarms",
+      "repo": "storytime",
+      "contradictionCount": 65,
+      "connectionCount": 160,
+      "status": "CONFLICTED",
+      "governanceLayer": "unknown",
+      "bridgeState": "contradicted",
+      "authorityDepth": 0
+    }
+  ],
+  "top_new_contradictions": [],
+  "top_resolved_contradictions": []
+}
