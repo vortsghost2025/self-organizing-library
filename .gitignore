@@ -53,6 +53,7 @@ keys.json
 
 # Inbox hygiene - prevent UUID/temp heartbeat files from being committed
 # Only heartbeat-{lane}.json (single file per lane) should exist
+lanes/*/inbox/blocked/
 lanes/*/inbox/!(*-library.json|README.md)
 lanes/*/inbox/processed/
 lanes/*/inbox/expired/

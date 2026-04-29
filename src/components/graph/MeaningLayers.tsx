@@ -8,12 +8,14 @@ interface MeaningLayersProps {
   onToggle: (layer: MeaningLayer) => void;
   onExportSnapshot?: () => void;
   onImportSnapshot?: () => void;
+  onExportAllRepos?: () => void;
+  onExportContradictionHub?: () => void;
   importError?: string | null;
 }
 
 const ALL_LAYERS: MeaningLayer[] = ["structure", "conflicts", "verification", "execution", "governance"];
 
-export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot, onImportSnapshot, importError }: MeaningLayersProps) {
+export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot, onImportSnapshot, onExportAllRepos, onExportContradictionHub, importError }: MeaningLayersProps) {
   return (
     <div className="space-y-3" role="group" aria-label="Meaning layers and actions">
       <div className="space-y-1">
@@ -51,20 +53,42 @@ export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot
           </button>
         </div>
       )}
-      {onImportSnapshot && (
-        <div>
-          <button
-            onClick={onImportSnapshot}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1"
-            aria-label="Import graph snapshot from JSON"
-          >
-            Import Snapshot JSON
-          </button>
-          {importError && (
-            <p className="mt-1 text-xs text-red-400">{importError}</p>
-          )}
-        </div>
-      )}
+  {onImportSnapshot && (
+  <div>
+    <button
+      onClick={onImportSnapshot}
+      className="w-full text-left px-3 py-2 rounded-lg text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1"
+      aria-label="Import graph snapshot from JSON"
+    >
+      Import Snapshot JSON
+    </button>
+    {importError && (
+    <p className="mt-1 text-xs text-red-400">{importError}</p>
+    )}
+  </div>
+  )}
+  {onExportAllRepos && (
+  <div>
+    <button
+      onClick={onExportAllRepos}
+      className="w-full text-left px-3 py-2 rounded-lg text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1"
+      aria-label="Export separate snapshot JSON for each repo"
+    >
+      Export All Repos
+    </button>
+  </div>
+  )}
+  {onExportContradictionHub && (
+  <div>
+    <button
+      onClick={onExportContradictionHub}
+      className="w-full text-left px-3 py-2 rounded-lg text-sm border border-amber-500/30 text-amber-400 hover:bg-amber-500/10 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:ring-offset-1"
+      aria-label="Export contradiction hub report"
+    >
+      Contradiction Hub Report
+    </button>
+  </div>
+  )}
     </div>
   );
 }

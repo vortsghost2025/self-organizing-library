@@ -15,7 +15,7 @@ import DensityControl from "./graph/DensityControl";
 import ClusterSelector from "./graph/ClusterSelector";
 import NodeDetail from "./graph/NodeDetail";
 import GraphLegend from "./graph/GraphLegend";
-import { createSnapshotFromGraphState, parseSnapshot } from "@/lib/graph-snapshot";
+import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
 import type { GraphSnapshot } from "@/lib/graph-snapshot";
 
 export default function NexusGraph() {
@@ -265,6 +265,22 @@ export default function NexusGraph() {
     input.click();
   }, []);
 
+  const handleExportAllRepos = useCallback(() => {
+    const repoNames = [...new Set(nodes.map(n => n.repo))];
+    const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
+    for (const repoName of repoNames) {
+      const snapshot = createRepoSnapshot(repoName, nodes, edges, clusters, entryPoints);
+      const safeName = repoName.replace(/[^a-zA-Z0-9]/g, '-');
+      downloadJson(snapshot, `graph-snapshot-${safeName}-${ts}.json`);
+    }
+  }, [nodes, edges, clusters, entryPoints]);
+
+  const handleExportContradictionHub = useCallback(() => {
+    const report = generateContradictionHubReport(nodes);
+    const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
+    downloadJson(report, `contradiction-hub-report-${ts}.json`);
+  }, [nodes]);
+
   const handleLayerToggle = useCallback((layer: MeaningLayer) => {
     setActiveLayers((prev) =>
       prev.includes(layer) ? prev.filter((l) => l !== layer) : [...prev, layer]
@@ -361,13 +377,15 @@ export default function NexusGraph() {
             <EntryPoints entryPoints={entryPoints} activeEntryPoint={activeEntryPoint} onSelect={setActiveEntryPoint} />
           </div>
           <div className="card p-3">
-        <MeaningLayers
-          activeLayers={activeLayers}
-          onToggle={handleLayerToggle}
-          onExportSnapshot={handleExportSnapshot}
-          onImportSnapshot={handleImportSnapshot}
-          importError={importError}
-        />
+      <MeaningLayers
+        activeLayers={activeLayers}
+        onToggle={handleLayerToggle}
+        onExportSnapshot={handleExportSnapshot}
+        onImportSnapshot={handleImportSnapshot}
+        onExportAllRepos={handleExportAllRepos}
+        onExportContradictionHub={handleExportContradictionHub}
+        importError={importError}
+      />
           </div>
           <div className="card p-3 max-h-64 overflow-y-auto">
             <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />

@@ -97,3 +97,83 @@ export function parseSnapshot(json: string): GraphSnapshot | null {
     return null;
   }
 }
+
+export function createRepoSnapshot(
+  repoName: string,
+  nodes: GraphNode[],
+  edges: GraphEdge[],
+  clusters: Cluster[],
+  entryPoints: EntryPoint[]
+): GraphSnapshot {
+  const repoNodes = nodes.filter(n => n.repo === repoName);
+  const repoNodeIds = new Set(repoNodes.map(n => n.id));
+  const repoEdges = edges.filter(e => repoNodeIds.has(e.source) || repoNodeIds.has(e.target));
+  const repoClusterIds = new Set(repoNodes.map(n => n.clusterIds || []).flat());
+  const repoClusters = clusters.filter(c => repoClusterIds.has(c.id));
+  const repoEpIds = new Set(repoClusters.map(c => c.nodeIds || []).flat());
+  const repoEntryPoints = entryPoints.filter(ep => {
+    const epNodeIds = ep.nodeIds || [];
+    return epNodeIds.some(id => repoNodeIds.has(id));
+  });
+
+  const statusCounts = { verified: 0, unverified: 0, conflicted: 0, quarantined: 0 };
+  for (const n of repoNodes) {
+    const key = n.status.toLowerCase() as keyof typeof statusCounts;
+    if (key in statusCounts) statusCounts[key]++;
+  }
+
+  return createSnapshotFromGraphState({
+    repoFilter: [repoName],
+    visibleNodeCount: repoNodes.length,
+    visibleEdgeCount: repoEdges.length,
+    totalAvailableNodes: repoNodes.length,
+    totalAvailableEdges: repoEdges.length,
+    statusCounts,
+    selectedNodeIds: [],
+    selectedEdgeIds: [],
+    nodes: repoNodes,
+    edges: repoEdges,
+    clusters: repoClusters,
+    entryPoints: repoEntryPoints,
+  });
+}
+
+export function downloadJson(data: object, filename: string): void {
+  const dataStr = JSON.stringify(data, null, 2);
+  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+  const link = document.createElement('a');
+  link.setAttribute('href', dataUri);
+  link.setAttribute('download', filename);
+  link.click();
+}
+
+export interface ContradictionHubEntry {
+  id: string;
+  title: string;
+  repo: string;
+  connectionCount: number;
+  contradictionCount: number;
+  governanceLayer: string;
+  authorityDepth: number;
+  bridgeState: string;
+  status: string;
+  clusterIds: string[];
+}
+
+export function generateContradictionHubReport(nodes: GraphNode[]): ContradictionHubEntry[] {
+  return nodes
+    .filter(n => n.contradictionCount > 0)
+    .sort((a, b) => b.contradictionCount - a.contradictionCount)
+    .map(n => ({
+      id: n.id,
+      title: n.title,
+      repo: n.repo,
+      connectionCount: n.connectionCount,
+      contradictionCount: n.contradictionCount,
+      governanceLayer: n.governanceLayer,
+      authorityDepth: n.authorityDepth,
+      bridgeState: n.bridgeState,
+      status: n.status,
+      clusterIds: n.clusterIds || [],
+    }));
+}

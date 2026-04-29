@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.3",
+  "task_id": "e2e-1777290391593-library-1",
+  "idempotency_key": "e2e-1777290391593-library-1",
+  "from": "archivist",
+  "to": "library",
+  "type": "task",
+  "task_kind": "review",
+  "priority": "P2",
+  "subject": "diff",
+  "body": "diff S:/self-organizing-library/README.md S:/self-organizing-library/README.md",
+  "timestamp": "2026-04-27T11:46:31.658Z",
+  "requires_action": true
+}
