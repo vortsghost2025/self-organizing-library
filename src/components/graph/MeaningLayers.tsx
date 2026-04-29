@@ -10,12 +10,13 @@ interface MeaningLayersProps {
   onImportSnapshot?: () => void;
   onExportAllRepos?: () => void;
   onExportContradictionHub?: () => void;
+  onCompareSnapshots?: () => void;
   importError?: string | null;
 }
 
 const ALL_LAYERS: MeaningLayer[] = ["structure", "conflicts", "verification", "execution", "governance"];
 
-export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot, onImportSnapshot, onExportAllRepos, onExportContradictionHub, importError }: MeaningLayersProps) {
+export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot, onImportSnapshot, onExportAllRepos, onExportContradictionHub, onCompareSnapshots, importError }: MeaningLayersProps) {
   return (
     <div className="space-y-3" role="group" aria-label="Meaning layers and actions">
       <div className="space-y-1">
@@ -86,6 +87,17 @@ export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot
       aria-label="Export contradiction hub report"
     >
       Contradiction Hub Report
+    </button>
+  </div>
+  )}
+  {onCompareSnapshots && (
+  <div>
+    <button
+      onClick={onCompareSnapshots}
+      className="w-full text-left px-3 py-2 rounded-lg text-sm border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-1"
+      aria-label="Compare two exported snapshot JSON files"
+    >
+      Compare Snapshots
     </button>
   </div>
   )}
