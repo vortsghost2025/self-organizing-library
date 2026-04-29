@@ -1249,7 +1249,24 @@ Remediation report delivered to Archivist inbox + outbox logged.
 - `src/components/graph/MeaningLayers.tsx` — onCompareSnapshots prop, Compare Snapshots button
 
 **Still To Do:**
-- Verify duplicate-title hypothesis for "THE SINGLE ENTRY POINT" across repos (inspect actual content)
 - Audit Federation classification rules (551/572 UNVERIFIED, governanceLayer=unknown)
-- Improve papers mapping (5 shallow nodes → section-level first-class nodes)
+- Improve papers mapping (5 shallow nodes → section-level first-class nodes) — kernel-lane feedback
+- Re-run `node scripts/generate-snapshot-reports.js` after future index regeneration for meaningful delta compare reports
 - Do not change mapper yet — all findings are observation → hypothesis → verification
+
+### Session 2026-04-29: Contradiction False Positive Verification — UPGRADED TO VERIFIED
+
+- [x] **Verified duplicate-title hypothesis — NOW VERIFIED** (not hypothesis): contradictionCount=65 is a Failure Mode tag-grouping artifact, NOT a genuine contradiction
+- [x] **BOOTSTRAP.md MD5 comparison across 4 repos**: self-organizing-library and kernel-lane are byte-identical (MD5: `03bc3ea407287990ddc7c343cfd213cc`, 939 lines). Archivist-Agent differs by only 3 small sections (MD5: `913a0202a9af1f72a1fa8bc2f67a24b7`, 944 lines). These are copies/customizations of the same template, NOT genuine contradictions.
+- [x] **WE4FREE Publication Roadmap analysis**: All 4 entries share "Failure Mode" tag (via NFM-029, NFM-035, etc.). Different MD5 hashes but variants of the same canonical text. contradictionCount=65 is the same Failure Mode group artifact.
+- [x] **Root cause traced to truth-routing.ts**: `CONTRADICTION_TAGS = {"Failure Mode", "Drift"}` (lines 79-82). Tags with 2-80 members create bidirectional CONTRADICTS edges between ALL pairs (lines 234-240). "Failure Mode" has 66 entries → each member gets 65 incoming CONTRADICTS edges → contradictionCount=65. "Drift" has 258 entries (exceeds >80 cap at line 218) → silently filtered out → zero CONTRADICTS edges from Drift.
+- [x] **19 tag groups exceed >80 cap and are silently filtered**: Verification:530, Governance:353, Multi-Agent:329, Ensemble:287, Drift:258, Archivist:249, Library:231, Phase 2:193, Swarmmind:192, WE4FREE:177, Phase 1:169, Phase 3:160, Federation:156, Kernel:117, Covenant:105, Phase 4:103, Phenotype:93, Rosetta Stone:90, Freeagent:81
+- [x] **Federation under-classification root cause**: 194 game-category entries (.gd/.tscn/.tres) lack governance markers. Federation has 0 "Failure Mode" entries and 18 "Drift" entries (filtered by >80 cap). Federation NOT in `REPO_AUTHORITY_DEPTH` map (truth-routing.ts:145-151) → all 572 nodes get authorityDepth=0.
+- [x] **Wrote verification doc**: `docs/graph/CONTRADICTION_FALSE_POSITIVE_VERIFICATION_2026-04-29.md` — full root cause analysis, evidence, convergence gates (all status: proven), recommended mapper improvements (hypotheses only, NOT implemented)
+- [x] **Committed and pushed**: `211c1b9` — "docs: verify contradictionCount=65 is Failure Mode tag-grouping artifact, not genuine contradiction"
+
+**Key Discovery #29**: contradictionCount=65 across 4 repos for "THE SINGLE ENTRY POINT" and "WE4FREE Publication Roadmap" is a **mapper classification false positive**, not a genuine contradiction. The truth-routing mapper treats topic-sharing (same "Failure Mode" tag) as a contradiction relationship, but "Failure Mode" describes a document's *topic*, not its *relationship* to other documents.
+
+**Key Discovery #30**: 19 tag groups exceed the >80 member cap and are silently filtered from CONTRADICTS edge creation. This means Governance (353), Verification (530), and Drift (258) tags produce zero contradiction edges, while Failure Mode (66, under cap) produces 65 per member. The cap is arbitrary and creates asymmetric coverage.
+
+**Key Discovery #31**: Federation has authorityDepth=0 because it's not in `REPO_AUTHORITY_DEPTH` map (truth-routing.ts:145-151). Only 4 lane repos are mapped. This explains why all 572 Federation nodes appear as governanceLayer=unknown.

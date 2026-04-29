@@ -158,6 +158,11 @@ export default function GovernancePage() {
         <p className="text-[var(--text-secondary)]">
           Verification surface for the multi-agent AI governance lattice
         </p>
+        <div className="mt-3">
+          <Link href="/governance/dual-plane-authority" className="text-sm text-[var(--primary)] hover:underline">
+            ⬡ Dual-Plane Authority Resolution &rarr;
+          </Link>
+        </div>
         {status?.lastRun && (
           <p className="text-xs text-[var(--text-muted)] mt-1 mono">
             Last scan: {new Date(status.lastRun).toLocaleString()}

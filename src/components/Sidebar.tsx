@@ -26,6 +26,7 @@ const navItems = [
   { href: "/about", icon: "⊛", label: "About", ariaLabel: "About - project description" },
   { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour" },
   { href: "/governance", icon: "⚖", label: "Governance", ariaLabel: "Governance - 4-lane system dashboard" },
+  { href: "/governance/dual-plane-authority", icon: "⬡", label: "Dual-Plane", ariaLabel: "Dual-plane authority - initiation vs execution" },
 ];
 
 export function Sidebar({ stats }: SidebarProps) {

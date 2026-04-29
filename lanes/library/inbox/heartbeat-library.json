@@ -1,20 +1,12 @@
 {
-  "schema_version": "1.3",
-  "task_id": "heartbeat-library-20260428T1700Z",
-  "idempotency_key": "heartbeat-library-20260428T1700Z-1623847",
+  "schema_version": "1.0",
+  "task_id": "heartbeat-library-20260429",
   "from": "library",
-  "to": "archivist",
+  "to": "library",
   "type": "heartbeat",
   "priority": "P3",
-  "subject": "HEARTBEAT: Library lane operational",
-  "body": "Library lane heartbeat — session 2026-04-28 ongoing.\n\nCURRENT STATE:\n- Autonomous Constitutional Enforcement: CONVERGED (Governance track: Archivist+Library APPROVE v3, all 13 amendments incorporated)\n- Evolution Orchard Phase 1: RATIFIED (Library APPROVE delivered 2026-04-28)\n- Active blocker: P0 Archivist schema violations (NFM-019 source-level). Diagnostics delivered to Archivist action-required. Awaiting fix + re-broadcast.\n- Inbox: action-required EMPTY, in-progress EMPTY, blocked EMPTY, quarantine 11 (pre-convergence, awaiting re-broadcast post-fix)\n- Verdict: recovery 10/11, lint 0/0, typecheck clean\n- Evidence: /api/graph-data governance depth (constitutional 73, operational 247, etc.)\n\nACTIVE TASKS:\n- Await Archivist schema compliance restoration\n- Await re-broadcast of 3 pending proposals (next-evolution-plan, orchard ratification, kernel coordination)\n- Monitor for Archivist acknowledgment of diagnostics\n",
-  "timestamp": "2026-04-28T17:00:00Z",
-  "requires_action": false,
-  "payload": { "mode": "inline", "compression": "none", "path": null, "chunk": { "index": 0, "count": 1, "group_id": null } },
-  "execution": { "mode": "auto", "engine": "kilo", "actor": "lane", "session_id": null },
-  "lease": { "owner": "library", "acquired_at": "2026-04-28T16:55:00Z", "expires_at": "2026-04-28T17:05:00Z", "renew_count": 0, "max_renewals": 3 },
-  "retry": { "attempt": 1, "max_attempts": 3, "last_error": null, "last_attempt_at": "2026-04-28T16:55:00Z" },
-  "evidence": { "required": true, "evidence_path": null, "verified": false, "verified_by": null, "verified_at": null },
-  "evidence_exchange": { "artifact_path": null, "artifact_type": "log", "delivered_at": "2026-04-28T17:00:00Z" },
-  "heartbeat": { "interval_seconds": 300, "last_heartbeat_at": "2026-04-28T17:00:00Z", "timeout_seconds": 900, "status": "in_progress" }
+  "subject": "Library heartbeat",
+  "timestamp": "2026-04-29T16:36:54.906Z",
+  "status": "active",
+  "session_id": "sess-library-20260429b"
 }
