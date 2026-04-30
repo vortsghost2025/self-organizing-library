@@ -11,7 +11,7 @@ interface EntryPointsProps {
 export default function EntryPoints({ entryPoints, activeEntryPoint, onSelect }: EntryPointsProps) {
   return (
     <div className="space-y-1" role="group" aria-label="Entry points">
-      <h3 className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Entry Points</h3>
+      <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Entry Points</h3>
       {entryPoints.slice(0, 12).map((ep) => (
         <button
           key={ep.id}
@@ -25,7 +25,7 @@ export default function EntryPoints({ entryPoints, activeEntryPoint, onSelect }:
         >
           <span className="w-5 text-center" aria-hidden="true">{ep.icon}</span>
           <span className="flex-1 truncate">{ep.label}</span>
-          <span className="text-xs text-[var(--text-muted)]">{ep.nodeIds.length}</span>
+          <span className="text-sm text-[var(--text-muted)]">{ep.nodeIds.length}</span>
         </button>
       ))}
     </div>

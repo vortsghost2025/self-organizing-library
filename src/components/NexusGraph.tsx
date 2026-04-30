@@ -15,6 +15,7 @@ import DensityControl from "./graph/DensityControl";
 import ClusterSelector from "./graph/ClusterSelector";
 import NodeDetail from "./graph/NodeDetail";
 import GraphLegend from "./graph/GraphLegend";
+import GraphContextPanel from "./graph/GraphContextPanel";
 import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
 import type { GraphSnapshot } from "@/lib/graph-snapshot";
 import { compareSnapshots } from "@/lib/graph-snapshot-compare";
@@ -385,7 +386,7 @@ const handleCompareSnapshots = useCallback(() => {
         visibleCount={visibleCount}
       />
 
-      <div className="card p-3 mb-2 flex gap-3 items-center text-xs animate-fade-in" role="status" aria-label="Node status summary">
+      <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
           <span key={status} className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }} aria-hidden="true" />
@@ -403,9 +404,9 @@ const handleCompareSnapshots = useCallback(() => {
                 <span className="text-[var(--text-muted)]">
                   on <span className="text-[var(--text-primary)]">{selectedNode?.title || focusedNodeId}</span>
                 </span>
-                <button onClick={handleStageClick} className="ml-auto text-[var(--primary)] hover:text-[var(--primary)]/80 text-xs underline focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 rounded">
-                  Exit Focus
-                </button>
+        <button onClick={handleStageClick} className="ml-auto text-[var(--primary)] hover:text-[var(--primary)]/80 text-sm underline focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 rounded">
+          Exit Focus
+        </button>
               </>
             )}
             {pathSource && (
@@ -415,7 +416,7 @@ const handleCompareSnapshots = useCallback(() => {
                 {pathTarget && <span className="text-[var(--text-muted)]">Target: <span className="text-[var(--text-primary)]">{filteredNodes.find((n) => n.id === pathTarget)?.title || pathTarget}</span></span>}
                 {pathNodes.size > 0 && <span className="text-amber-300 font-medium">{pathNodes.size - 1} hops</span>}
                 {!pathTarget && <span className="text-[var(--text-muted)]">Click another node</span>}
-                <button onClick={handleStageClick} className="ml-auto text-amber-400 hover:text-amber-300 text-xs underline focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:ring-offset-1 rounded">
+                <button onClick={handleStageClick} className="ml-auto text-amber-400 hover:text-amber-300 text-sm underline focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:ring-offset-1 rounded">
                   Exit Path
                 </button>
               </>
@@ -483,7 +484,21 @@ const handleCompareSnapshots = useCallback(() => {
                   onGraphReady={handleGraphReady}
                 />
               )}
-              <div className="absolute top-3 right-3 px-2 py-1 rounded bg-[var(--bg-surface)]/80 text-xs text-[var(--text-muted)] backdrop-blur-sm" aria-live="polite">
+              <GraphContextPanel
+                nodeCount={filteredNodes.length}
+                edgeCount={edges.length}
+                visibleCount={visibleCount}
+                density={density}
+                activeLayers={activeLayers}
+                filter={filter}
+                filterMode={filterMode}
+                activeEntryPoint={activeEntryPoint}
+                activeClusterId={activeClusterId}
+                focusedNodeId={focusedNodeId}
+                selectedNodeTitle={selectedNode?.title || null}
+                searchQuery={searchQuery}
+              />
+              <div className="absolute top-3 right-3 px-2 py-1 rounded bg-[var(--bg-surface)]/80 text-sm text-[var(--text-muted)] backdrop-blur-sm" aria-live="polite">
                 {zoomLabel}
               </div>
             </div>
@@ -504,7 +519,7 @@ const handleCompareSnapshots = useCallback(() => {
         </main>
       </div>
 
-      <p className="mt-4 text-xs text-[var(--text-muted)] text-center animate-fade-in">
+      <p className="mt-4 text-sm text-[var(--text-muted)] text-center animate-fade-in">
         Entry points replace explore mode &mdash; choose what to see. Toggle meaning layers to filter edge types. Adjust density for depth. Use Tab to focus the graph, arrow keys or WASD to pan, +/- to zoom, Escape to clear.
       </p>
 

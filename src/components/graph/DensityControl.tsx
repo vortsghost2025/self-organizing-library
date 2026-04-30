@@ -16,7 +16,7 @@ const DENSITIES: { level: DensityLevel; label: string; icon: string; description
 export default function DensityControl({ density, onChange }: DensityControlProps) {
   return (
     <div className="space-y-1" role="radiogroup" aria-label="Density level">
-      <h3 className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Density</h3>
+      <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Density</h3>
       {DENSITIES.map((d) => (
         <button
           key={d.level}
@@ -31,7 +31,7 @@ export default function DensityControl({ density, onChange }: DensityControlProp
         >
           <span className="w-5 text-center" aria-hidden="true">{d.icon}</span>
           <span className="flex-1">{d.label}</span>
-          <span className="text-xs text-[var(--text-muted)]">{d.description}</span>
+          <span className="text-sm text-[var(--text-muted)]">{d.description}</span>
         </button>
       ))}
     </div>

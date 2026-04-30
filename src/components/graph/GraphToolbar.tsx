@@ -65,7 +65,7 @@ export default function GraphToolbar({
           />
         </div>
 
-      <span className="text-[var(--text-muted)] text-xs mx-1" aria-hidden="true">|</span>
+      <span className="text-[var(--text-muted)] text-sm mx-1" aria-hidden="true">|</span>
 
       <button
         onClick={() => { onFilterModeChange("type"); onFilterChange("all"); }}

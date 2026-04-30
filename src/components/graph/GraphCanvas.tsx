@@ -40,6 +40,12 @@ const HOVER_DIM_EDGE = "#252530";
 const PATH_HIGHLIGHT = "#F59E0B";
 const PATH_EDGE_COLOR = "#FBBF24";
 
+function getReducedMotionDurations() {
+  if (typeof window === "undefined") return { camera: 200, pan: 150 };
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return { camera: reduced ? 0 : 200, pan: reduced ? 0 : 150 };
+}
+
 function buildGraph(
   nodes: GraphNode[],
   edges: GraphEdge[],
@@ -126,6 +132,7 @@ export default function GraphCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   const sigmaRef = useRef<Sigma | null>(null);
   const graphRef = useRef<Graph | null>(null);
+  const baseLabelSizeRef = useRef(12);
 
   const hoveredNeighborIdsRef = useRef<Set<string>>(new Set());
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -159,6 +166,21 @@ export default function GraphCanvas({
   useEffect(() => { clustersRef.current = clusters; }, [clusters]);
 
   useEffect(() => {
+    const updateBaseLabelSize = () => {
+      const zoomLevel = typeof window !== "undefined" ? Math.round(window.devicePixelRatio * 100) / 100 : 1;
+      baseLabelSizeRef.current = Math.round(12 * Math.max(1, zoomLevel));
+    };
+    updateBaseLabelSize();
+    window.addEventListener("resize", updateBaseLabelSize);
+    const mq = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+    mq.addEventListener("change", updateBaseLabelSize);
+    return () => {
+      window.removeEventListener("resize", updateBaseLabelSize);
+      mq.removeEventListener("change", updateBaseLabelSize);
+    };
+  }, []);
+
+  useEffect(() => {
     if (sigmaRef.current) sigmaRef.current.refresh();
   }, [hoveredNodeId, selectedNodeId, focusedNodeId, pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density, activeEntryPoint, activeClusterId, searchQuery]);
 
@@ -167,35 +189,32 @@ export default function GraphCanvas({
     const graph = graphRef.current;
     if (!sigma || !graph) return;
     const camera = sigma.getCamera() as any;
+    const dur = getReducedMotionDurations();
     if (e.key === "Escape") {
       onStageClick();
       (e.target as HTMLElement).blur();
     } else if (e.key === "+" || e.key === "=") {
       e.preventDefault();
-      camera.animatedZoom({ duration: 200 });
+      camera.animatedZoom({ duration: dur.camera });
     } else if (e.key === "-" || e.key === "_") {
       e.preventDefault();
-      camera.animatedUnzoom({ duration: 200 });
+      camera.animatedUnzoom({ duration: dur.camera });
     } else if (e.key === "ArrowUp" || e.key === "w") {
       e.preventDefault();
       const state = camera.getState();
-      camera.animate({ ...state, y: state.y - 50 / camera.ratio }, { duration: 150 });
+      camera.animate({ ...state, y: state.y - 50 / camera.ratio }, { duration: dur.pan });
     } else if (e.key === "ArrowDown" || e.key === "s") {
       e.preventDefault();
       const state = camera.getState();
-      camera.animate({ ...state, y: state.y + 50 / camera.ratio }, { duration: 150 });
+      camera.animate({ ...state, y: state.y + 50 / camera.ratio }, { duration: dur.pan });
     } else if (e.key === "ArrowLeft" || e.key === "a") {
       e.preventDefault();
       const state = camera.getState();
-      camera.animate({ ...state, x: state.x - 50 / camera.ratio }, { duration: 150 });
+      camera.animate({ ...state, x: state.x - 50 / camera.ratio }, { duration: dur.pan });
     } else if (e.key === "ArrowRight" || e.key === "d") {
       e.preventDefault();
       const state = camera.getState();
-      camera.animate({ ...state, x: state.x + 50 / camera.ratio }, { duration: 150 });
-    } else if (e.key === "ArrowRight" || e.key === "d") {
-      e.preventDefault();
-      const state = camera.getState();
-      camera.animate({ ...state, x: state.x + 50 / camera.ratio }, { duration: 150 });
+      camera.animate({ ...state, x: state.x + 50 / camera.ratio }, { duration: dur.pan });
     }
   }, [onStageClick]);
 
@@ -310,14 +329,14 @@ export default function GraphCanvas({
     };
 
     const container = containerRef.current;
-    const renderer = new Sigma(graph, container, {
-      renderLabels: true,
-      renderEdgeLabels: false,
-      labelFont: "DM Sans",
-      labelSize: 12,
-      labelWeight: "500",
-      labelColor: { color: "#A1A1AA" },
-      labelRenderedSizeThreshold: 50,
+  const renderer = new Sigma(graph, container, {
+    renderLabels: true,
+    renderEdgeLabels: false,
+    labelFont: "DM Sans",
+    labelSize: baseLabelSizeRef.current,
+    labelWeight: "500",
+    labelColor: { color: "#A1A1AA" },
+    labelRenderedSizeThreshold: 50,
       defaultEdgeColor: "#1E1E24",
       defaultNodeType: "circle",
       minCameraRatio: 0.1,
