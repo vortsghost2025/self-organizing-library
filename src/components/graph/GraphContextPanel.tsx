@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import type { MeaningLayer, DensityLevel } from "@/lib/graph-types";
 import { LAYER_META } from "@/lib/graph-types";
 
@@ -39,16 +39,34 @@ export default function GraphContextPanel({
   selectedNodeTitle,
   searchQuery,
 }: GraphContextPanelProps) {
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissCount, setDismissCount] = useState(0);
+  const [dismissKey, setDismissKey] = useState(0);
 
-  useEffect(() => {
-    setDismissed(false);
-  }, [density, filter, filterMode, activeEntryPoint, activeClusterId]);
+  const contextKey = useMemo(
+    () => `${density}:${filter}:${filterMode}:${activeEntryPoint}:${activeClusterId}`,
+    [density, filter, filterMode, activeEntryPoint, activeClusterId]
+  );
 
-  if (dismissed) {
+  const isDismissed = dismissCount > 0 && dismissKey === contextKey.length;
+
+  const handleDismiss = () => {
+    setDismissCount((c) => c + 1);
+    setDismissKey(contextKey.length);
+  };
+
+  const handleRestore = () => {
+    setDismissCount(0);
+    setDismissKey(0);
+  };
+
+  if (contextKey.length !== dismissKey || dismissCount === 0) {
+    if (dismissCount > 0) setDismissCount(0);
+  }
+
+  if (isDismissed) {
     return (
       <button
-        onClick={() => setDismissed(false)}
+        onClick={handleRestore}
         className="absolute top-3 left-3 px-2 py-1 rounded bg-[var(--bg-surface)]/80 text-sm text-[var(--text-muted)] backdrop-blur-sm hover:text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
         aria-label="Show graph context panel"
       >
@@ -76,7 +94,7 @@ export default function GraphContextPanel({
       <div className="flex items-center justify-between mb-1.5">
         <span className="text-[var(--text-primary)] font-semibold">What am I looking at?</span>
         <button
-          onClick={() => setDismissed(true)}
+          onClick={handleDismiss}
           className="text-[var(--text-muted)] hover:text-[var(--text-secondary)] text-xs ml-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 rounded px-1"
           aria-label="Dismiss context panel"
         >
@@ -130,8 +148,8 @@ export default function GraphContextPanel({
       </ul>
 
       <div className="mt-2 pt-2 border-t border-[var(--border)]">
-        <span className="text-xs text-[var(--text-muted)]">Layers: </span>
-        <span className="text-xs text-[var(--text-secondary)]">{activeLayerLabels}</span>
+        <span className="text-sm text-[var(--text-muted)]">Layers: </span>
+        <span className="text-sm text-[var(--text-secondary)]">{activeLayerLabels}</span>
       </div>
     </div>
   );
