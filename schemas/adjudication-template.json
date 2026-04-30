@@ -1,0 +1,9 @@
+{
+  "edge_id": "abc123def456789",
+  "domain": "code",
+  "adjudication_status": "proven_conflict",
+  "next_action_owner": "swarmmind",
+  "evidence_source": "path/to/source-evidence-ref",
+  "evidence_target": "path/to/target-evidence-ref",
+  "timestamp": "2026-04-30T12:00:00.000Z"
+}
