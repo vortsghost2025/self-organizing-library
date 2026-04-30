@@ -1,71 +1,55 @@
 {
-    "to":  "library",
-    "watcher":  {
-                    "poll_seconds":  60,
-                    "max_concurrent":  1,
-                    "heartbeat_required":  true,
-                    "backoff":  {
-                                    "initial_seconds":  60,
-                                    "multiplier":  2,
-                                    "max_seconds":  300
-                                },
-                    "stale_after_seconds":  300,
-                    "p0_fast_path":  true,
-                    "enabled":  false
-                },
-    "heartbeat":  {
-                      "last_heartbeat_at":  "2026-04-29T13:45:33Z",
-                      "timeout_seconds":  900,
-                      "status":  "in_progress",
-                      "interval_seconds":  60
-                  },
-    "type":  "heartbeat",
-    "task_kind":  "proposal",
-    "subject":  "Heartbeat from library lane",
-    "priority":  "P3",
-    "retry":  {
-                  "attempt":  1,
-                  "last_attempt_at":  null,
-                  "max_attempts":  3,
-                  "last_error":  null
-              },
-    "schema_version":  "1.1",
-    "body":  "{\"lane\":\"library\",\"session_active\":true,\"uptime_seconds\":0,\"messages_processed\":0,\"last_inbox_scan\":\"2026-04-29T13:45:33Z\",\"version\":\"1.1\",\"daemon\":\"heartbeat-all-lanes.ps1\"}",
-    "processed_ok":  true,
-    "payload":  {
-                    "mode":  "inline"
-                },
-    "evidence":  {
-                     "verified":  false,
-                     "evidence_path":  null,
-                     "verified_by":  null,
-                     "verified_at":  null,
-                     "required":  true
-                 },
-    "delivery_verification":  {
-                                  "verified":  false,
-                                  "retries":  0,
-                                  "verified_at":  null
-                              },
-    "execution":  {
-                      "actor":  "heartbeat-daemon",
-                      "engine":  "powershell",
-                      "mode":  "daemon"
-                  },
-    "idempotency_key":  "8b9e57b0dc43eabe611abbcf7ea957bdb1dd6e8799e205b748ab97e188b7a1f5",
-    "system_state":  "consistent",
-    "lease":  {
-                  "max_renewals":  3,
-                  "renew_count":  0,
-                  "acquired_at":  null,
-                  "expires_at":  null,
-                  "owner":  null
-              },
-    "requires_action":  false,
-    "task_id":  "heartbeat-library",
-    "from":  "library",
-    "active_contradictions":  [
-
-                              ],
-    "timestamp":  "2026-04-29T13:45:33Z"
+  "schema_version": "1.1",
+  "task_id": "heartbeat-library",
+  "idempotency_key": "8b9e57b0dc43eabe611abbcf7ea957bdb1dd6e8799e205b748ab97e188b7a1f5",
+  "from": "library",
+  "to": "library",
+  "type": "heartbeat",
+  "task_kind": "proposal",
+  "priority": "P3",
+  "subject": "Heartbeat from library lane",
+  "body": "{\"lane\":\"library\",\"session_active\":true,\"uptime_seconds\":0,\"messages_processed\":0,\"last_inbox_scan\":\"2026-04-30T22:36:23.431Z\",\"version\":\"1.0\"}",
+  "timestamp": "2026-04-30T22:36:23.431Z",
+  "requires_action": false,
+  "payload": {
+    "mode": "inline"
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "opencode",
+    "actor": "lane"
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": null,
+    "verified": false,
+    "verified_by": null,
+    "verified_at": null
+  },
+  "heartbeat": {
+    "interval_seconds": 60,
+    "last_heartbeat_at": "2026-04-30T22:36:23.431Z",
+    "timeout_seconds": 900,
+    "status": "in_progress"
+  },
+  "signature": "",
+  "key_id": "",
+  "system_state": "consistent",
+  "active_contradictions": [],
+  "processed_ok": false,
+  "compaction_enabled": true,
+  "compaction_suspend_reason": null
 }

@@ -1,26 +1,26 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-04-29T20:03:45.461Z",
+  "generated_at": "2026-04-30T20:44:44.203Z",
   "repo_count": 9,
   "stats": {
-    "total_files": 3589,
-    "total_size_bytes": 81380606,
+    "total_files": 3771,
+    "total_size_bytes": 128243162,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 472,
-        "total_size_bytes": 30950955
+        "total_files": 561,
+        "total_size_bytes": 67671739
       },
       "Archivist-Agent": {
-        "total_files": 517,
-        "total_size_bytes": 4073073
+        "total_files": 547,
+        "total_size_bytes": 4547467
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 226,
-        "total_size_bytes": 1139044
+        "total_files": 254,
+        "total_size_bytes": 1600579
       },
       "kernel-lane": {
-        "total_files": 215,
-        "total_size_bytes": 1239839
+        "total_files": 250,
+        "total_size_bytes": 10445682
       },
       "federation": {
         "total_files": 572,
@@ -49,71 +49,71 @@
   "top_tags": [
     {
       "tag": "Verification",
-      "count": 549
+      "count": 565
     },
     {
       "tag": "Governance",
-      "count": 366
+      "count": 381
     },
     {
       "tag": "Multi-Agent",
-      "count": 344
+      "count": 348
     },
     {
       "tag": "Ensemble",
-      "count": 301
+      "count": 305
     },
     {
       "tag": "Drift",
-      "count": 286
+      "count": 294
     },
     {
       "tag": "Archivist",
-      "count": 254
+      "count": 274
     },
     {
       "tag": "Library",
-      "count": 235
-    },
-    {
-      "tag": "WE4FREE",
-      "count": 206
+      "count": 257
     },
     {
       "tag": "Swarmmind",
-      "count": 196
+      "count": 213
+    },
+    {
+      "tag": "WE4FREE",
+      "count": 210
     },
     {
       "tag": "Phase 2",
-      "count": 194
+      "count": 197
     },
     {
       "tag": "Phase 1",
-      "count": 170
+      "count": 171
     },
     {
       "tag": "Federation",
-      "count": 163
+      "count": 168
     },
     {
       "tag": "Phase 3",
-      "count": 160
+      "count": 162
     },
     {
       "tag": "Kernel",
-      "count": 121
+      "count": 137
     },
     {
       "tag": "Phenotype",
-      "count": 116
+      "count": 120
     },
     {
       "tag": "Covenant",
-      "count": 113
+      "count": 118
     },
     {
       "tag": "Rosetta Stone",
-      "count": 109
+      "count": 113
     },
     {
       "tag": "Phase 4",
@@ -121,15 +121,15 @@
     },
     {
       "tag": "Failure Mode",
-      "count": 85
+      "count": 90
     },
     {
       "tag": "Freeagent",
-      "count": 83
+      "count": 88
     },
     {
       "tag": "Constitutional AI",
-      "count": 78
+      "count": 82
     },
     {
       "tag": "Constraint Lattice",
@@ -141,19 +141,19 @@
     },
     {
       "tag": "Attestation",
-      "count": 46
+      "count": 47
     },
     {
       "tag": "Convergence Gate",
-      "count": 34
-    },
-    {
-      "tag": "Phase 6",
-      "count": 26
+      "count": 42
     },
     {
       "tag": "CAISC 2026",
-      "count": 25
+      "count": 27
+    },
+    {
+      "tag": "Phase 6",
+      "count": 27
     },
     {
       "tag": "Identity Enforcement",
@@ -170,19 +170,21 @@
   ],
   "category_breakdown": {
     "root-doc": 804,
-    "config": 50,
+    "config": 52,
     "data": 28,
-    "docs": 394,
+    "docs": 471,
     "drafts": 1,
     "log": 8,
+    "reports": 6,
     "schema": 38,
-    "script": 458,
-    "code": 341,
+    "script": 510,
+    "code": 342,
     "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
     "test": 10,
     "verification": 14,
+    "evidence": 41,
     "paper": 18,
-    "library": 3,
+    "library": 4,
     "web": 34,
     "attestation": 24,
     "audit": 1,
@@ -191,7 +193,7 @@
     "memory": 2,
     "queue": 4,
     "resilience": 14,
-    "swarmmind": 1,
+    "swarmmind": 2,
     "usage": 4,
     "governance": 346,
     "failure-mode": 14,
@@ -208,13 +210,13 @@
     "bridge": 9,
     "monitoring": 3,
     "tool": 2,
+    "archivist": 1,
     "templates": 1,
     "baseline": 1,
     "benchmark": 12,
     "integration": 1,
-    "kernel": 3,
+    "kernel": 4,
     "release": 5,
-    "reports": 1,
     "profile": 7,
     "agent": 143,
     "distributed": 25,

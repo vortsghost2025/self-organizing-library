@@ -1,0 +1,9 @@
+{
+  "write_path": "S:\\self-organizing-library\\data\\site-index.json",
+  "normalized_write_path": "s:/self-organizing-library/data/site-index.json",
+  "operation": "generate-site-index",
+  "object_hash": "b3c443ee089e24db5d725750fa98d1ab3bd3915a973ecd6837ec75eb8ac145d7",
+  "hash": "2cd99461cc1c7befffecd4a77f41a163d0eecb1cab4acf05379a415541eecf51",
+  "adjudication_path": "S:/self-organizing-library/tmp/phase15-adjudication-index-valid.json",
+  "sealed_at": "2026-04-30T20:44:44.279Z"
+}

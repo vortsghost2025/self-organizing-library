@@ -1,0 +1,12 @@
+{
+  "edge_id_or_path": "phase15/test/edge-index",
+  "evidence_source": "hash:source-index",
+  "evidence_target": "hash:target-index",
+  "domain": "data",
+  "adjudication_status": "proven_spurious",
+  "next_action_owner": "library",
+  "adjudicator_lane": "library",
+  "operation": "generate-site-index",
+  "write_path": "S:/self-organizing-library/data/site-index.json",
+  "signature_jws": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxpYnJhcnktdGVzdCJ9.eyJhZGp1ZGljYXRpb25fc3RhdHVzIjoicHJvdmVuX3NwdXJpb3VzIiwiZG9tYWluIjoiZGF0YSIsImV4cCI6MTc3NzY2ODI3NCwiaWF0IjoxNzc3NTgxODc0LCJsYW5lIjoibGlicmFyeSIsIm9wZXJhdGlvbiI6ImdlbmVyYXRlLXNpdGUtaW5kZXgiLCJ3cml0ZV9wYXRoIjoiUzovc2VsZi1vcmdhbml6aW5nLWxpYnJhcnkvZGF0YS9zaXRlLWluZGV4Lmpzb24ifQ.iTtKg8En8dk1lvDugRuNQv08jtm2STsspvR2CRJ4CpGXY8o51eOJfPaUCSTsUgvE1bUbREAeeA3ZdC0LVyaiE-YYDK1o0s4ZkD1NDUITdMW0IkeYWt7kWizHWqvdks8_n1O8kSyJycJ50HuyGjHkNK_wt089gz-vQEpuclvc7Janbc2eYHsmKcZheA9YTiPlPkS4bY7G4i818VAy0v8mTFL7-22iybwvbetAQP9zVknWlzr3SVwFdwTbNBA_8ke_4e6nkNvpP4H4QEQVJRDdI1kmcN4tzbcFVnooIYrHGpTKAt2tksfvF3qplmlU5eHoebAn9AEUbv_D3U6hKqQ1mA"
+}
