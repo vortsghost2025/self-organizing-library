@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.3",
+  "task_id": "nack-1777588268428-37mida",
+  "idempotency_key": "nack-unknown-1777588268428",
+  "from": "archivist",
+  "to": "library",
+  "type": "notification",
+  "task_kind": "status",
+  "priority": "P2",
+  "subject": "NACK: message rejected at archivist",
+  "body": "Your message (task_id=unknown, type=unknown) was rejected.\nReason: SCHEMA_INVALID\nDetail: Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action\nOriginal subject: unknown",
+  "timestamp": "2026-04-30T22:31:08.428Z",
+  "requires_action": false,
+  "payload": {
+    "mode": "inline",
+    "compression": "none"
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "kilo",
+    "actor": "lane"
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 1
+  },
+  "evidence": {
+    "required": false,
+    "verified": false
+  },
+  "evidence_exchange": {},
+  "heartbeat": {
+    "status": "done",
+    "last_heartbeat_at": "2026-04-30T22:31:08.428Z"
+  },
+  "nack_for_task_id": null,
+  "nack_reason": "SCHEMA_INVALID",
+  "nack_detail": "Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action"
+}

@@ -1,9 +1,18 @@
 const fs = require('fs');
 const path = require('path');
+const {
+  enforceGraphWriteGuard,
+  writeGuardAudit,
+  writeSeal,
+  getArgValue,
+  loadJson
+} = require('./graph-write-guard');
 
 // ============ CONFIGURATION ============
 const SNAPSHOT_PATH = 'S:/self-organizing-library/context-buffer/graphs/graph-snapshot-SwarmMind-Self-Optimizing-Multi-Agent-AI-System-2026-04-29-12-41-47-680.json';
 const DRY_RUN = process.argv.includes('--dry-run');  // Set to false to apply changes
+const args = process.argv.slice(2);
+const adjudicationPath = getArgValue(args, '--adjudication');
 // =========================================
 
 console.log('=== SwarmMind Graph Auto-Reclassifier (Tag-Group Artifact Cleanup) ===\n');
@@ -79,6 +88,7 @@ patch.changes.forEach(c => {
 if (DRY_RUN) {
   console.log('\n⚠️  DRY RUN — no changes applied. Remove --dry-run to apply.');
 } else {
+  const originalGraph = loadJson(SNAPSHOT_PATH);
   // Apply changes to graph
   toReclassify.forEach(n => {
     n.status = 'UNVERIFIED';
@@ -97,7 +107,28 @@ if (DRY_RUN) {
   // Write updated graph
   const backupPath = SNAPSHOT_PATH + '.backup-' + timestamp;
   fs.copyFileSync(SNAPSHOT_PATH, backupPath);
+  const guardDecision = enforceGraphWriteGuard({
+    operation: 'reclassify-tag-artifacts-swarmmind-apply',
+    guardPath: 'S:/self-organizing-library/scripts/graph-write-guard.js',
+    writePath: SNAPSHOT_PATH,
+    beforeObject: originalGraph,
+    afterObject: graph,
+    adjudicationPath,
+    mode: 'snapshot'
+  });
+  writeGuardAudit('S:/self-organizing-library', 'reclassify-tag-artifacts-swarmmind-apply', guardDecision, adjudicationPath);
+  if (!guardDecision.allowWrite) {
+    console.log('\n=== GRAPH WRITE GUARD ===');
+    console.log(`STATUS: ${guardDecision.status}`);
+    console.log(`guard_path: ${guardDecision.guard_path}`);
+    console.log(`write_path: ${guardDecision.write_path}`);
+    console.log(`blocked_case: ${guardDecision.blocked_case}`);
+    console.log(`evidence_required: ${guardDecision.evidence_required}`);
+    console.log(`bypass_notes: ${guardDecision.bypass_notes}`);
+    process.exit(2);
+  }
   fs.writeFileSync(SNAPSHOT_PATH, JSON.stringify(graph, null, 2));
+  writeSeal(SNAPSHOT_PATH, graph, 'reclassify-tag-artifacts-swarmmind-apply', adjudicationPath);
   console.log(`✅ Graph updated in place (backup saved: ${backupPath})`);
   console.log(`   Conflicted: ${graph.status_counts.conflicted} → Unverified: ${graph.status_counts.unverified}`);
 }

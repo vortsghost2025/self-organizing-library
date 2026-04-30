@@ -3,6 +3,16 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const {
+  enforceGraphWriteGuard,
+  writeGuardAudit,
+  writeSeal,
+  loadJson,
+  getArgValue
+} = require('./graph-write-guard');
+
+const ARGS = process.argv.slice(2);
+const ADJUDICATION_PATH = getArgValue(ARGS, '--adjudication');
 
 const REPOS = [
   {
@@ -845,7 +855,31 @@ function main() {
 
   const outputPath = path.join('S:/self-organizing-library', 'data', 'site-index.json');
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  const previousIndex = loadJson(outputPath);
+  const guardDecision = enforceGraphWriteGuard({
+    operation: 'generate-site-index',
+    guardPath: path.join('S:/self-organizing-library', 'scripts', 'graph-write-guard.js'),
+    writePath: outputPath,
+    beforeObject: previousIndex,
+    afterObject: index,
+    adjudicationPath: ADJUDICATION_PATH,
+    mode: 'index'
+  });
+  writeGuardAudit('S:/self-organizing-library', 'generate-site-index', guardDecision, ADJUDICATION_PATH);
+
+  if (!guardDecision.allowWrite) {
+    console.log('\n=== GRAPH WRITE GUARD ===');
+    console.log(`STATUS: ${guardDecision.status}`);
+    console.log(`guard_path: ${guardDecision.guard_path}`);
+    console.log(`write_path: ${guardDecision.write_path}`);
+    console.log(`blocked_case: ${guardDecision.blocked_case}`);
+    console.log(`evidence_required: ${guardDecision.evidence_required}`);
+    console.log(`bypass_notes: ${guardDecision.bypass_notes}`);
+    process.exit(2);
+  }
+
   fs.writeFileSync(outputPath, JSON.stringify(index, null, 2));
+  writeSeal(outputPath, index, 'generate-site-index', ADJUDICATION_PATH);
   console.log(`\nIndex written to ${outputPath}`);
   console.log(`  ${allEntries.length} entries`);
   console.log(`  ${Object.keys(tagIndex).length} unique tags`);

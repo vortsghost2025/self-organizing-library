@@ -1,9 +1,16 @@
 const fs = require('fs');
 const path = require('path');
+const {
+  enforceGraphWriteGuard,
+  writeGuardAudit,
+  writeSeal,
+  getArgValue
+} = require('./graph-write-guard');
 
 // Process command‑line arguments
 const args = process.argv.slice(2);
 const apply = args.includes('--apply');
+const adjudicationPath = getArgValue(args, '--adjudication');
 
 // Default snapshot paths (try these in order)
 const SNAPSHOT_PATHS = [
@@ -29,6 +36,7 @@ console.log('=== VERIFICATION TRIAGE — HIGH-AUTHORITY UNVERIFIED NODES ===\n')
 console.log('Using snapshot:', SNAPSHOT_PATH);
 
 const graph = JSON.parse(fs.readFileSync(SNAPSHOT_PATH, 'utf8'));
+const originalGraph = JSON.parse(JSON.stringify(graph));
 const nodes = graph.nodes || [];
 const edges = graph.edges || [];
 
@@ -195,8 +203,31 @@ if (apply) {
       appliedCount++;
     }
   });
+  const guardDecision = enforceGraphWriteGuard({
+    operation: 'analyze-unverified-authority-apply',
+    guardPath: 'S:/self-organizing-library/scripts/graph-write-guard.js',
+    writePath: SNAPSHOT_PATH,
+    beforeObject: originalGraph,
+    afterObject: graph,
+    adjudicationPath,
+    mode: 'snapshot'
+  });
+  writeGuardAudit('S:/self-organizing-library', 'analyze-unverified-authority-apply', guardDecision, adjudicationPath);
+
+  if (!guardDecision.allowWrite) {
+    console.log('\n=== GRAPH WRITE GUARD ===');
+    console.log(`STATUS: ${guardDecision.status}`);
+    console.log(`guard_path: ${guardDecision.guard_path}`);
+    console.log(`write_path: ${guardDecision.write_path}`);
+    console.log(`blocked_case: ${guardDecision.blocked_case}`);
+    console.log(`evidence_required: ${guardDecision.evidence_required}`);
+    console.log(`bypass_notes: ${guardDecision.bypass_notes}`);
+    process.exit(2);
+  }
+
   // Write updated snapshot
   fs.writeFileSync(SNAPSHOT_PATH, JSON.stringify(graph, null, 2));
+  writeSeal(SNAPSHOT_PATH, graph, 'analyze-unverified-authority-apply', adjudicationPath);
   console.log('\n=== APPLIED ===');
   console.log(`Backup created at: ${backupPath}`);
   console.log(`Tags applied to ${appliedCount} nodes`);

@@ -1,10 +1,19 @@
 const fs = require('fs');
 const path = require('path');
+const {
+  enforceGraphWriteGuard,
+  writeGuardAudit,
+  writeSeal,
+  getArgValue,
+  loadJson
+} = require('./graph-write-guard');
 
 // ============ CONFIGURATION ============
 // Use the latest full graph snapshot (adjust path if needed)
 const SNAPSHOT_PATH = 'S:/self-organizing-library/context-buffer/graphs/graph-snapshot-2026-04-29-12-41-47-680.json';
 const DRY_RUN = process.argv.includes('--dry-run');
+const args = process.argv.slice(2);
+const adjudicationPath = getArgValue(args, '--adjudication');
 // =========================================
 
 console.log('=== GLOBAL Tag-Group Artifact Cleanup (All Repos) ===\n');
@@ -120,6 +129,7 @@ if (DRY_RUN) {
   console.log('\n⚠️  DRY RUN MODE — no changes applied to graph.');
   console.log('   Remove --dry-run to perform actual reclassification.');
 } else {
+  const originalGraph = loadJson(SNAPSHOT_PATH);
   // Apply changes
   console.log('\n🔧 Applying reclassification...');
   let applied = 0;
@@ -146,7 +156,28 @@ if (DRY_RUN) {
   // Write backup and updated graph
   const backupPath = SNAPSHOT_PATH + '.backup-' + timestamp;
   fs.copyFileSync(SNAPSHOT_PATH, backupPath);
+  const guardDecision = enforceGraphWriteGuard({
+    operation: 'reclassify-all-tag-artifacts-apply',
+    guardPath: 'S:/self-organizing-library/scripts/graph-write-guard.js',
+    writePath: SNAPSHOT_PATH,
+    beforeObject: originalGraph,
+    afterObject: graph,
+    adjudicationPath,
+    mode: 'snapshot'
+  });
+  writeGuardAudit('S:/self-organizing-library', 'reclassify-all-tag-artifacts-apply', guardDecision, adjudicationPath);
+  if (!guardDecision.allowWrite) {
+    console.log('\n=== GRAPH WRITE GUARD ===');
+    console.log(`STATUS: ${guardDecision.status}`);
+    console.log(`guard_path: ${guardDecision.guard_path}`);
+    console.log(`write_path: ${guardDecision.write_path}`);
+    console.log(`blocked_case: ${guardDecision.blocked_case}`);
+    console.log(`evidence_required: ${guardDecision.evidence_required}`);
+    console.log(`bypass_notes: ${guardDecision.bypass_notes}`);
+    process.exit(2);
+  }
   fs.writeFileSync(SNAPSHOT_PATH, JSON.stringify(graph, null, 2));
+  writeSeal(SNAPSHOT_PATH, graph, 'reclassify-all-tag-artifacts-apply', adjudicationPath);
 
   console.log(`\n✅ Applied reclassification to ${applied} nodes`);
   console.log(`   Conflicted: ${oldConflicted} → ${graph.status_counts.conflicted}`);
