@@ -20,7 +20,7 @@ export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot
   return (
     <div className="space-y-3" role="group" aria-label="Meaning layers and actions">
       <div className="space-y-1">
-        <h3 className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Meaning Layers</h3>
+        <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Meaning Layers</h3>
         {ALL_LAYERS.map((layer) => {
           const meta = LAYER_META[layer];
           const active = activeLayers.includes(layer);
@@ -37,7 +37,7 @@ export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot
             >
               <span style={{ color: meta.color }} aria-hidden="true">{meta.icon}</span>
               <span className="flex-1">{meta.label}</span>
-              <span className="text-xs text-[var(--text-muted)]">{active ? "On" : "Off"}</span>
+              <span className="text-sm text-[var(--text-muted)]">{active ? "On" : "Off"}</span>
             </button>
           );
         })}
@@ -63,9 +63,9 @@ export default function MeaningLayers({ activeLayers, onToggle, onExportSnapshot
     >
       Import Snapshot JSON
     </button>
-    {importError && (
-    <p className="mt-1 text-xs text-red-400">{importError}</p>
-    )}
+      {importError && (
+          <p className="mt-1 text-sm text-red-400" role="alert">{importError}</p>
+        )}
   </div>
   )}
   {onExportAllRepos && (

@@ -73,11 +73,11 @@ export default function NodeDetail({
             style={{ backgroundColor: TYPE_COLORS[node.type] || TYPE_COLORS.doc }}
             aria-hidden="true"
           />
-          <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)]">
-            {node.type}
-          </span>
-          <span
-            className="text-xs px-1.5 py-0.5 rounded font-medium"
+        <span className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)]">
+          {node.type}
+        </span>
+        <span
+          className="text-sm px-1.5 py-0.5 rounded font-medium"
             style={{
               backgroundColor: (STATUS_COLORS[node.status] || STATUS_COLORS.UNVERIFIED) + "22",
               color: STATUS_COLORS[node.status] || STATUS_COLORS.UNVERIFIED,
@@ -85,11 +85,11 @@ export default function NodeDetail({
           >
             {node.status}
           </span>
-          {interactionMode === "focus" && node.id === focusedNodeId && (
-            <span className="text-xs px-1.5 py-0.5 rounded bg-[var(--primary)]/20 text-[var(--primary)]">Focused</span>
-          )}
-          {interactionMode === "path" && (node.id === pathSource || node.id === pathTarget) && (
-            <span className="text-xs px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">
+      {interactionMode === "focus" && node.id === focusedNodeId && (
+        <span className="text-sm px-1.5 py-0.5 rounded bg-[var(--primary)]/20 text-[var(--primary)]">Focused</span>
+      )}
+      {interactionMode === "path" && (node.id === pathSource || node.id === pathTarget) && (
+        <span className="text-sm px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">
               {node.id === pathSource ? "Source" : "Target"}
             </span>
           )}
@@ -117,9 +117,14 @@ export default function NodeDetail({
             <span className="text-[var(--text-secondary)]" style={{ color: node.verificationCount > 0 ? STATUS_COLORS.VERIFIED : undefined }}>{node.verificationCount}</span>
           </div>
         {node.contradictionCount > 0 && (
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <span className="text-[var(--text-muted)]">Contradictions</span>
             <span style={{ color: STATUS_COLORS.CONFLICTED }}>{node.contradictionCount}</span>
+          </div>
+        )}
+        {node.contradictionCount >= 39 && (
+          <div className="mt-1 px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-sm text-red-300" role="note">
+            This node is part of a large tag group where contradictions arise from pairwise sampling, not direct cross-reference conflicts. See audit docs for details.
           </div>
         )}
         <div className="flex justify-between">
@@ -144,15 +149,15 @@ export default function NodeDetail({
 
         {node.tags.length > 0 && (
           <div className="mb-4">
-            <span className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)] mb-2 block">Tags</span>
-            <div className="flex gap-1 flex-wrap">
-              {node.tags.slice(0, 8).map((tag) => (
-                <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">
-                  {tag}
-                </span>
-              ))}
-              {node.tags.length > 8 && (
-                <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--bg-surface-hover)] text-[var(--text-muted)]">
+        <span className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)] mb-2 block">Tags</span>
+        <div className="flex gap-1 flex-wrap">
+          {node.tags.slice(0, 8).map((tag) => (
+            <span key={tag} className="text-sm px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">
+              {tag}
+            </span>
+          ))}
+          {node.tags.length > 8 && (
+            <span className="text-sm px-2 py-0.5 rounded-full bg-[var(--bg-surface-hover)] text-[var(--text-muted)]">
                   +{node.tags.length - 8}
                 </span>
               )}

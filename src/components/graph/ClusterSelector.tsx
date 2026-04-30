@@ -14,9 +14,9 @@ export default function ClusterSelector({ clusters, activeClusterId, onSelect }:
 
   return (
     <div className="space-y-3" role="group" aria-label="Cluster selector">
-      <h3 className="text-xs font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Clusters</h3>
-      <div className="space-y-1" role="group" aria-label="Repository clusters">
-        <h4 className="text-xs text-[var(--text-secondary)] px-3">Repositories</h4>
+    <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Clusters</h3>
+    <div className="space-y-1" role="group" aria-label="Repository clusters">
+      <h4 className="text-sm text-[var(--text-secondary)] px-3">Repositories</h4>
         {repos.map((c) => (
           <button
             key={c.id}
@@ -30,12 +30,12 @@ export default function ClusterSelector({ clusters, activeClusterId, onSelect }:
           >
             <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} aria-hidden="true" />
             <span className="flex-1 truncate">{c.label}</span>
-            <span className="text-xs text-[var(--text-muted)]">{c.nodeIds.length}</span>
-          </button>
-        ))}
-      </div>
-      <div className="space-y-1" role="group" aria-label="Tag group clusters">
-        <h4 className="text-xs text-[var(--text-secondary)] px-3">Tag Groups (10+)</h4>
+      <span className="text-sm text-[var(--text-muted)]">{c.nodeIds.length}</span>
+    </button>
+  ))}
+  </div>
+  <div className="space-y-1" role="group" aria-label="Tag group clusters">
+    <h4 className="text-sm text-[var(--text-secondary)] px-3">Tag Groups (10+)</h4>
         {tags.map((c) => (
           <button
             key={c.id}
@@ -49,9 +49,9 @@ export default function ClusterSelector({ clusters, activeClusterId, onSelect }:
           >
             <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} aria-hidden="true" />
             <span className="flex-1 truncate">{c.label}</span>
-            <span className="text-xs text-[var(--text-muted)]">{c.nodeIds.length}</span>
-          </button>
-        ))}
+        <span className="text-sm text-[var(--text-muted)]">{c.nodeIds.length}</span>
+      </button>
+    ))}
       </div>
     </div>
   );
