@@ -15,7 +15,7 @@ export async function generateStaticParams() {
       e.category === "governance" ||
       e.category === "spec" ||
       (e.content_type === "doc" && e.tags.length >= 2) ||
-      (e.content_type === "data" && (e.verificationCount >= 10 || e.authorityDepth >= 70))
+      (e.content_type === "data" && (("verificationCount" in e && (e as unknown as Record<string, unknown>).verificationCount as number >= 10) || ("authorityDepth" in e && (e as unknown as Record<string, unknown>).authorityDepth as number >= 70)))
   );
   return coreEntries.slice(0, 1000).map((e) => ({ id: e.id }));
 }

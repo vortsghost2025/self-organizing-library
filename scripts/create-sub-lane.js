@@ -136,6 +136,7 @@ fs.writeFileSync(path.join(laneRoot, 'run-worker.cmd'), workerWrapper);
 console.log(`  [launcher] run-worker.cmd created`);
 
 // Create README for this sub-lane
+/* eslint-disable */
 const readme = `# Library ${name.charAt(0).toUpperCase() + name.slice(1)} Sub-Lane
 
 **Lane ID:** ${laneId}
@@ -147,22 +148,23 @@ This is a specialized Library sub-lane. It shares code and identity with the mai
 
 ## Operations
 
-- **Start worker:** `run-worker.cmd` or `node ../self-organizing-library/scripts/lane-worker.js --watch --apply --poll-seconds 60 --filter "${filter}"`
-- **Inbox:** `lanes/${laneId}/inbox/`
-- **Outbox:** `lanes/${laneId}/outbox/`
-- **State:** `lanes/${laneId}/state/`
+- **Start worker:** \`run-worker.cmd\` or \`node ../self-organizing-library/scripts/lane-worker.js --watch --apply --poll-seconds 60 --filter \${filter}\`
+- **Inbox:** \`lanes/` + laneId + `/inbox/\`
+- **Outbox:** \`lanes/` + laneId + `/outbox/\`
+- **State:** \`lanes/` + laneId + `/state/\`
 
 ## Notes
 
-- Identity keys are shared with main Library (`.identity/` symlink)
-- Processed messages appear in `processed/` subdirectory
+- Identity keys are shared with main Library (\`.identity/\` symlink)
+- Processed messages appear in \`processed/\` subdirectory
 - This lane runs in parallel with main Library and other sub-lanes
 - All workers compete for inbox items via lease mechanism
 
 Created: ${new Date().toISOString()}
 `;
+/* eslint-enable */
 fs.writeFileSync(path.join(laneRoot, 'README.md'), readme);
 console.log(`  [doc] README.md created`);
 
 console.log(`\n✅ Sub-lane '${name}' created at ${laneRoot}`);
-console.log(`   Start it with: run-worker.cmd (in that directory)`);
+console.log(` Start it with: \`run-worker.cmd\` (in that directory)`);
