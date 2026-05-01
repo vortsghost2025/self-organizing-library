@@ -9,14 +9,15 @@ export async function generateStaticParams() {
   const index = getSiteIndex();
   const coreEntries = index.entries.filter(
     (e) =>
+      e.repo === "papers" ||
       e.content_type === "paper" ||
-      e.category === "paper" ||
       e.category === "verification" ||
       e.category === "governance" ||
       e.category === "spec" ||
-      (e.content_type === "doc" && e.tags.length >= 2)
+      (e.content_type === "doc" && e.tags.length >= 2) ||
+      (e.content_type === "data" && (e.verificationCount >= 10 || e.authorityDepth >= 70))
   );
-  return coreEntries.slice(0, 650).map((e) => ({ id: e.id }));
+  return coreEntries.slice(0, 1000).map((e) => ({ id: e.id }));
 }
 
 export default async function DocumentPage({ params }: { params: Promise<{ id: string }> }) {
