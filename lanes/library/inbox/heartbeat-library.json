@@ -15,5 +15,12 @@
     "last_heartbeat_at": "2026-05-01T01:19:53.066Z",
     "timeout_seconds": 900,
     "status": "done"
-  }
+  },
+  "status": "done",
+  "last_heartbeat_at": "2026-05-01T01:42:08.348Z",
+  "completed_tasks": [
+    "verification_triage_2026-05-01",
+    "tag_artifact_reclassification_2026-05-01"
+  ],
+  "convergence_status": "proven"
 }

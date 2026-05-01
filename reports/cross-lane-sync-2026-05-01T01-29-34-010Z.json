@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-05-01T01:29:33.983Z",
+  "lanes": [
+    {
+      "lane": "archivist",
+      "siteIndexExists": false,
+      "systemStateExists": true,
+      "siteIndexValid": false,
+      "systemStateValid": false,
+      "issues": [
+        "site-index.json not found",
+        "system_state.json missing health data"
+      ]
+    },
+    {
+      "lane": "library",
+      "siteIndexExists": true,
+      "systemStateExists": true,
+      "siteIndexValid": true,
+      "systemStateValid": false,
+      "issues": [
+        "system_state.json missing health data"
+      ]
+    },
+    {
+      "lane": "swarmmind",
+      "siteIndexExists": false,
+      "systemStateExists": true,
+      "siteIndexValid": false,
+      "systemStateValid": false,
+      "issues": [
+        "site-index.json not found",
+        "system_state.json missing health data"
+      ]
+    },
+    {
+      "lane": "kernel",
+      "siteIndexExists": false,
+      "systemStateExists": true,
+      "siteIndexValid": false,
+      "systemStateValid": false,
+      "issues": [
+        "site-index.json not found",
+        "system_state.json missing health data"
+      ]
+    }
+  ],
+  "consistent": false,
+  "issues": [
+    "[archivist] site-index.json not found",
+    "[archivist] system_state.json missing health data",
+    "[library] system_state.json missing health data",
+    "[swarmmind] site-index.json not found",
+    "[swarmmind] system_state.json missing health data",
+    "[kernel] site-index.json not found",
+    "[kernel] system_state.json missing health data"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-05-01T01:37:09.078Z",
+  "file": "scripts/sync-all-lanes.js",
+  "action": "quarantined",
+  "reason": "created_from_restored_plan_authorization_error",
+  "authority_violation": "recovered_recommendation_treated_as_live_command",
+  "rule": "RECOVERED_PLAN_STATE_IS_EVIDENCE_NOT_AUTHORIZATION",
+  "resolution": "file_moved_to_quarantine_directory",
+  "sha256": "3388a0af2285b8502f913ac3aea1b17b1789e836bfc1ea3377a62a3dc29cf981"
+}
