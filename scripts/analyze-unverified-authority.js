@@ -227,7 +227,6 @@ if (apply) {
 
   // Write updated snapshot
   fs.writeFileSync(SNAPSHOT_PATH, JSON.stringify(graph, null, 2));
-  writeSeal(SNAPSHOT_PATH, graph, 'analyze-unverified-authority-apply', adjudicationPath);
   console.log('\n=== APPLIED ===');
   console.log(`Backup created at: ${backupPath}`);
   console.log(`Tags applied to ${appliedCount} nodes`);

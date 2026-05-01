@@ -505,11 +505,44 @@ function verifyAuditLog(repoRoot, limit = 100) {
   };
 }
 
+/**
+ * Write a cryptographic seal (signature) for a graph snapshot.
+ * Creates a signed JWS-like artifact to prove graph state at point-in-time.
+ */
+function writeSeal(snapshotPath, graphObj, operation, adjudicationPath) {
+  const sealPath = snapshotPath + '.seal.json';
+  const ts = new Date().toISOString();
+  const payload = {
+    operation,
+    snapshot_path: snapshotPath,
+    snapshot_id: graphObj.snapshot_id,
+    node_count: (graphObj.nodes || []).length,
+    edge_count: (graphObj.edges || []).length,
+    adjudication_path: adjudicationPath || null,
+    status_counts: graphObj.status_counts || {},
+    ts
+  };
+  const payloadStr = JSON.stringify(payload, Object.keys(payload).sort());
+  const signature = crypto
+    .createHmac('sha256', 'graph-seal-secret-' + operation)
+    .update(payloadStr)
+    .digest('hex');
+  const seal = {
+    seal_version: '1.0',
+    payload,
+    signature,
+    algorithm: 'HMAC-SHA256'
+  };
+  fs.writeFileSync(sealPath, JSON.stringify(seal, null, 2));
+  return sealPath;
+}
+
 module.exports = {
   enforceGraphWriteGuard,
   writeGuardAudit,
   generateSignedAuditEntry,
   verifyAuditLog,
+  writeSeal,
   loadJson,
   getArgValue,
   validateAdjudicationPayload,

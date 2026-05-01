@@ -10,7 +10,7 @@ const {
 
 // ============ CONFIGURATION ============
 // Use the latest full graph snapshot (adjust path if needed)
-const SNAPSHOT_PATH = 'S:/self-organizing-library/context-buffer/graphs/graph-snapshot-2026-04-29-12-41-47-680.json';
+const SNAPSHOT_PATH = 'S:/self-organizing-library/context-buffer/graphs/graph-snapshot-self-organizing-library-2026-04-29-12-41-47-680.json';
 const DRY_RUN = process.argv.includes('--dry-run');
 const args = process.argv.slice(2);
 const adjudicationPath = getArgValue(args, '--adjudication');
