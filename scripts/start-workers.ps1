@@ -8,16 +8,15 @@ Write-Host "Close windows to stop workers." -ForegroundColor Yellow
 Write-Host ""
 
 for ($i = 1; $i -le $Count; $i++) {
-    $windowTitle = "Library Worker $i (PID: $([System.Diagnostics.Process]::GetCurrentProcess().Id))"
-    $command = "cd /d S:\self-organizing-library && npm run worker"
+    $command = "cd S:\self-organizing-library; npm run worker"
     
     Write-Host "Opening Worker $i..." -ForegroundColor Green
-    # Open new PowerShell window, keep open after command finishes, run command
+    # Start new PowerShell window, keep open after command finishes
     Start-Process powershell -ArgumentList @(
         '-NoExit',
         '-WindowStyle', 'Normal',
         '-Command', $command
-    ) -WorkingDirectory "S:\self-organizing-library"
+    )
     
     Start-Sleep -Milliseconds 500
 }
