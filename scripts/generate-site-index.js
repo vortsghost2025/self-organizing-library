@@ -50,13 +50,13 @@ const REPOS = [
     maxDepth: Infinity,
     excludeDirs: new Set([
       '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-      'tmp', 'out',
+      'tmp', 'out', 'context-buffer',  // local-only artifacts, no GitHub mirror
     ]),
   },
   {
     name: 'Archivist-Agent',
     root: 'S:/Archivist-Agent',
-    github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/main',
+    github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/master',
     categoryMap: {
       'docs': 'docs',
       'docs/spec': 'spec',
@@ -91,6 +91,7 @@ const REPOS = [
       '.test-identity', '.continuity_test', '.continuity_test2',
       '.continuity_test2b', '.continuity_test3', '.continuity_test4',
       '.lane-relay', 'backup_static_old', 'target', 'public_html',
+      'context-buffer',  // Local-only artifacts, no GitHub mirror
     ]),
   },
   {
@@ -119,7 +120,7 @@ const REPOS = [
   {
     name: 'kernel-lane',
     root: 'S:/kernel-lane',
-    github: 'https://github.com/vortsghost2025/kernel-lane/blob/main',
+    github: 'https://github.com/vortsghost2025/kernel-lane/blob/master',
     categoryMap: {
       'kernels': 'kernel',
       'docs': 'docs',
@@ -184,7 +185,7 @@ const REPOS = [
   {
     name: 'storytime',
     root: 'S:/storytime',
-    github: 'https://github.com/vortsghost2025/storytime/blob/main',
+    github: 'https://github.com/vortsghost2025/storytime/blob/master',
     categoryMap: {
       'docs': 'docs',
       'src': 'code',
@@ -208,6 +209,10 @@ const REPOS = [
     name: 'Deliberate-AI-Ensemble',
     root: 'S:/April152026mainreferencepoint',
     github: 'https://github.com/vortsghost2025/Deliberate-AI-Ensemble/blob/main',
+    githubPathRewrite: [
+      { prefix: 'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/', replaceWith: '' },
+      { prefix: 'Deliberate-AI-Ensemble-main/', replaceWith: '' },
+    ],
     categoryMap: {
       'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents/architecture': 'architecture',
       'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents': 'agent',
@@ -391,6 +396,70 @@ function getBreadcrumbs(relativePath) {
   return parts.slice(0, -1).filter(p => p.length > 0);
 }
 
+function applyGithubPathRewrite(repoConfig, relativePath) {
+  if (!repoConfig.githubPathRewrite) return relativePath;
+  let rewritten = relativePath.replace(/\\/g, '/');
+  for (const rule of repoConfig.githubPathRewrite) {
+    if (rewritten.startsWith(rule.prefix)) {
+      rewritten = rule.replaceWith + rewritten.slice(rule.prefix.length);
+    }
+  }
+  return rewritten;
+}
+
+function encodeGithubPath(p) {
+  return p.split('/').map(seg => encodeURIComponent(seg)).join('/');
+}
+
+/**
+ * Local-only working artifacts (provenance logs, temporary outputs, buffer files)
+ * are excluded from public linking even if they are indexed.
+ */
+function shouldHaveGitHubUrl(repoConfig, relativePath, fileName) {
+  // If the repo itself has no GitHub mirror, nothing gets a URL
+  if (!repoConfig.github) return false;
+
+  const pathLower = relativePath.toLowerCase();
+  const fnLower = fileName.toLowerCase();
+
+  // 1) Entire directory exclusions (local working state)
+  if (pathLower.includes('context-buffer') || pathLower.includes('context_buffer')) {
+    return false;
+  }
+
+  // 2) Specific known artifact filenames (usually at repo root or in working dirs)
+  const localOnlyFilenames = [
+    'OUTPUT_PROVENANCE.txt',
+    'Agentcontext-buffergraph.txt',
+    'workslibrar.txt',
+    // Add more as discovered
+  ];
+  if (localOnlyFilenames.some(f => fnLower === f.toLowerCase())) return false;
+
+  // 3) Files with provenance-style names common to generated artifacts
+  if (/^output_provenance/i.test(fnLower)) return false;
+  if (/^agentcontext-buffergraph/i.test(fnLower)) return false;
+  if (/^workslibrar/i.test(fnLower)) return false;
+
+  // 4) Local-only extracted bundles in Deliberate-AI-Ensemble that have no GitHub mirror
+  const localOnlyPrefixes = [
+    'we4free_aws_iac_bundles/',
+    'WE4FREE_Sean_Infra_Replay_Constraints_Drift_Bundle/',
+    'WE4FREE_Sean_Resilience_Code_Bundle/',
+    'resilience_bundle_preview/',
+    'papers-20260416T223833Z-3-001/',
+    'git-20260416T223826Z-3-001/',
+  ];
+  const normalizedPath = relativePath.replace(/\\/g, '/');
+  if (localOnlyPrefixes.some(p => normalizedPath.startsWith(p) || normalizedPath.includes('/' + p))) return false;
+
+  // 5) Files starting with .aider are gitignored and never on GitHub
+  if (fnLower.startsWith('.aider')) return false;
+
+  // Everything else (real source/docs) gets a GitHub URL
+  return true;
+}
+
 function extractTitle(content, fileName) {
   const frontmatterTitle = content.match(/^---[\s\S]*?title:\s*["']?(.+?)["']?\s*\n[\s\S]*?---/);
   if (frontmatterTitle) return frontmatterTitle[1].trim();
@@ -530,7 +599,7 @@ function processFile(fullPath, repoConfig) {
     id: computeId(repoConfig.name, relativePath),
     repo: repoConfig.name,
     path: relativePath,
-     github_url: repoConfig.github ? `${repoConfig.github}/${relativePath}` : null,
+      github_url: shouldHaveGitHubUrl(repoConfig, relativePath, fileName) ? (repoConfig.github ? `${repoConfig.github}/${encodeGithubPath(applyGithubPathRewrite(repoConfig, relativePath))}` : null) : null,
     title: fileName,
     extension: ext,
     content_type: getContentType(ext),
@@ -582,7 +651,7 @@ function processFile(fullPath, repoConfig) {
           id: sectionId,
           repo: repoConfig.name,
           path: `.papers-meta/${paperData.paper_id}.json`,
-           github_url: repoConfig.github ? `${repoConfig.github}/.papers-meta/${paperData.paper_id}.json` : null,
+           github_url: repoConfig.github ? `${repoConfig.github}/${encodeGithubPath(`.papers-meta/${paperData.paper_id}.json`)}` : null,
           title: `${paperData.title} — ${section.title}`,
           extension: '.json',
           content_type: 'paper-section',
