@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-05-01T13:37:27.580Z",
+  "generated_at": "2026-05-01T16:41:19.806Z",
   "repo_count": 9,
   "stats": {
     "total_files": 3827,
@@ -240,5 +240,7 @@
     "drift": 18,
     "iac": 2,
     "architecture": 52
-  }
+  },
+  "core_exterior_tags_applied": true,
+  "core_tagged_count": 3827
 }
