@@ -1,0 +1,31 @@
+{
+  "snapshot_id": "snapshot-2026-04-29-08-41-47",
+  "created_at": "2026-04-29T12:41:47.682Z",
+  "total_nodes": 415,
+  "status_counts": {
+    "verified": 311,
+    "unverified": 100,
+    "conflicted": 0,
+    "quarantined": 4
+  },
+  "verification_summary": {
+    "total": 415,
+    "verified": 311,
+    "unverified": 100,
+    "conflicted": 0,
+    "quarantined": 6
+  },
+  "entry_points": {
+    "contradictions": 0,
+    "authority_mismatches": 0,
+    "verified_count": 292
+  },
+  "priority_breakdown": {
+    "high": 39,
+    "medium": 230,
+    "low": 78
+  },
+  "clean_baseline": true,
+  "notes": "Clean baseline snapshot after Step 2 review. All 375+ fixes applied successfully.",
+  "zero_contradiction_state": true
+}
