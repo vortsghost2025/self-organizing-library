@@ -1,0 +1,16 @@
+{
+  "edge_id": "verification-sweep-2026-05-01",
+  "domain": "code",
+  "adjudication_status": "proven_spurious",
+  "status": "proven_spurious",
+  "next_action_owner": "archivist",
+  "owner": "archivist",
+  "evidence": {
+    "source": "S:/Archivist-Agent/docs/graph/CONFLICTED_RESOLUTION_LOG_2026-05-01.json",
+    "target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json"
+  },
+  "evidence_source": "S:/Archivist-Agent/docs/graph/CONFLICTED_RESOLUTION_LOG_2026-05-01.json",
+  "evidence_target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json",
+  "reason": "Verification sweep: 199 CONFLICTED + 3 high-CC UNVERIFIED nodes resolved as tag-overlap false positives. Zero CONTRADICTS edges in graph. Library independently verified same pattern (311/415 VERIFIED, zero contradictions).",
+  "timestamp": "2026-05-01T12:09:05.436Z"
+}

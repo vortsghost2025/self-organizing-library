@@ -1,0 +1,16 @@
+{
+  "edge_id": "governance-ratification-2026-05-01",
+  "domain": "code",
+  "adjudication_status": "proven_conflict",
+  "status": "proven_conflict",
+  "next_action_owner": "archivist",
+  "owner": "archivist",
+  "evidence": {
+    "source": "S:/Archivist-Agent/docs/graph/GOVERNANCE_RATIFICATION_REPORT_2026-05-01.json",
+    "target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json"
+  },
+  "evidence_source": "S:/Archivist-Agent/docs/graph/GOVERNANCE_RATIFICATION_REPORT_2026-05-01.json",
+  "evidence_target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json",
+  "reason": "Archivist governance ratification: 1 ratified (Self-State Resolution), 3 deferred (FreeAgent plans, Approval Queue), 2 archived (stale Index, critical Implementation Package with FORBIDDEN paths and stale session hardcoding).",
+  "timestamp": "2026-05-01T12:16:34.749Z"
+}
