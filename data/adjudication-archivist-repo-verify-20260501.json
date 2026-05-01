@@ -1,0 +1,16 @@
+{
+  "edge_id": "archivist-repo-verification-2026-05-01",
+  "domain": "code",
+  "adjudication_status": "proven_spurious",
+  "status": "proven_spurious",
+  "next_action_owner": "archivist",
+  "owner": "archivist",
+  "evidence": {
+    "source": "S:/Archivist-Agent/docs/graph/CORE_EXTERIOR_CLASSIFICATION_PLAN_2026-05-01.md",
+    "target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json"
+  },
+  "evidence_source": "S:/Archivist-Agent/docs/graph/CORE_EXTERIOR_CLASSIFICATION_PLAN_2026-05-01.md",
+  "evidence_target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json",
+  "reason": "Archivist verified 368 own-repo UNVERIFIED nodes. All are legitimate files that exist on disk: scripts, docs, root-docs, governance configs, schemas, tests, bridge code, monitoring, queue processors, infrastructure docs. 14 nodes kept UNVERIFIED (13 scratch historical_context + 1 sensitive artifact_resolved).",
+  "timestamp": "2026-05-01T14:58:59.175Z"
+}
