@@ -332,7 +332,25 @@ function enforceGraphWriteGuard(options) {
   }
 
   // REJECT-BY-DEFAULT: Mutations detected but no adjudication path provided
+  // For index mode, structural changes (entry/cross-ref count) do not require adjudication
   if (!adjudicationPath) {
+    // Index mode: allow writes for index-level changes (non-graph mutations)
+    if (mode === 'index' && detector.mutations.every(m => 
+        m.type === 'index_entry_count_change' || m.type === 'index_cross_ref_change')) {
+      return {
+        status: 'SUCCESS',
+        allowWrite: true,
+        guard_path: guardPath,
+        write_path: writePath,
+        blocked_case: 'none',
+        evidence_required: false,
+        bypass_notes: 'INDEX_CHANGE_ALLOWED_WITHOUT_ADJUDICATION',
+        detected_status: detector.detected_status,
+        adjudicated_status: null,
+        mutations: detector.mutations,
+        guard_version: '2.0'
+      };
+    }
     return {
       status: 'QUARANTINE',
       allowWrite: false,

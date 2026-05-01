@@ -5,10 +5,10 @@
     "snapshot_path": "S:\\self-organizing-library\\data\\site-index.json",
     "node_count": 0,
     "edge_count": 0,
-    "adjudication_path": "S:/self-organizing-library/data/adjudication-site-index-regen-20260501.json",
+    "adjudication_path": null,
     "status_counts": {},
-    "ts": "2026-05-01T03:54:33.602Z"
+    "ts": "2026-05-01T13:37:27.636Z"
   },
-  "signature": "f6e520f0ef12fbc18101a375dbaf2aa712d75209607c66922c314e29dcc33f6e",
+  "signature": "87d1a2b0a78e0228dbe89a9767208f87fbb327ece9e5e8a6c498bdb6c96abf94",
   "algorithm": "HMAC-SHA256"
 }

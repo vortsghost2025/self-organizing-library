@@ -171,7 +171,7 @@ const REPOS = [
   {
     name: 'papers',
     root: 'S:/papers',
-    github: 'https://github.com/vortsghost2025/papers/blob/main',
+    github: null, // Local-only repo, no GitHub mirror
     categoryMap: {
       'papers': 'paper',
       '.papers-meta': 'paper-section',
@@ -530,7 +530,7 @@ function processFile(fullPath, repoConfig) {
     id: computeId(repoConfig.name, relativePath),
     repo: repoConfig.name,
     path: relativePath,
-    github_url: `${repoConfig.github}/${relativePath}`,
+     github_url: repoConfig.github ? `${repoConfig.github}/${relativePath}` : null,
     title: fileName,
     extension: ext,
     content_type: getContentType(ext),
@@ -582,7 +582,7 @@ function processFile(fullPath, repoConfig) {
           id: sectionId,
           repo: repoConfig.name,
           path: `.papers-meta/${paperData.paper_id}.json`,
-          github_url: `${repoConfig.github}/.papers-meta/${paperData.paper_id}.json`,
+           github_url: repoConfig.github ? `${repoConfig.github}/.papers-meta/${paperData.paper_id}.json` : null,
           title: `${paperData.title} — ${section.title}`,
           extension: '.json',
           content_type: 'paper-section',
