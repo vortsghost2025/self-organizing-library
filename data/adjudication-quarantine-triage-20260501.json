@@ -1,0 +1,16 @@
+{
+  "edge_id": "quarantine-triage-2026-05-01",
+  "domain": "code",
+  "adjudication_status": "proven_spurious",
+  "status": "proven_spurious",
+  "next_action_owner": "archivist",
+  "owner": "archivist",
+  "evidence": {
+    "source": "S:/Archivist-Agent/context-buffer/contradiction-hub/contradiction-isolation-report-20260501-0127.json",
+    "target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json"
+  },
+  "evidence_source": "S:/Archivist-Agent/context-buffer/contradiction-hub/contradiction-isolation-report-20260501-0127.json",
+  "evidence_target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json",
+  "reason": "Archivist triage of 23 QUARANTINED nodes: 16 scratch/historical_context (conversational paste dumps, not governance-active), 6 governance_pending_review (legitimate Phase 2 documents awaiting approval), 1 artifact_resolved (key.txt marker text). All reclassified to UNVERIFIED with appropriate triage_disposition tags.",
+  "timestamp": "2026-05-01T04:38:08.416Z"
+}

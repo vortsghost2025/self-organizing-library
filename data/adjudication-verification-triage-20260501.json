@@ -1,0 +1,16 @@
+{
+  "edge_id": "verification-triage-2026-05-01",
+  "domain": "code",
+  "adjudication_status": "proven_spurious",
+  "status": "proven_spurious",
+  "next_action_owner": "archivist",
+  "owner": "archivist",
+  "evidence": {
+    "source": "S:/self-organizing-library/scripts/analyze-unverified-authority.js",
+    "target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json"
+  },
+  "evidence_source": "S:/self-organizing-library/scripts/analyze-unverified-authority.js",
+  "evidence_target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json",
+  "reason": "Verification triage of 1198 high-authority UNVERIFIED nodes in fresh snapshot (3589 nodes). Tags: structural(481), needs-verification(116), ambiguous(601). Heuristics reviewed in dry-run.",
+  "timestamp": "2026-05-01T04:04:00.860Z"
+}

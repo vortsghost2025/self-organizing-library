@@ -12,10 +12,10 @@ const args = process.argv.slice(2);
 const apply = args.includes('--apply');
 const adjudicationPath = getArgValue(args, '--adjudication');
 
-// Default snapshot paths (try these in order)
+// Default snapshot paths (try these in order — newest first)
 const SNAPSHOT_PATHS = [
-  'S:/self-organizing-library/context-buffer/graphs/graph-snapshot-self-organizing-library-2026-04-29-12-41-47-680.json',
-  'C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json'
+'C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json',
+'S:/self-organizing-library/context-buffer/graphs/graph-snapshot-self-organizing-library-2026-04-29-12-41-47-680.json'
 ];
 
 let SNAPSHOT_PATH = null;
