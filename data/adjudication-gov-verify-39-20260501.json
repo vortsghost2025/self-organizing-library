@@ -1,0 +1,16 @@
+{
+  "edge_id": "gov-verify-39-nodes-2026-05-01",
+  "domain": "code",
+  "adjudication_status": "proven_spurious",
+  "status": "proven_spurious",
+  "next_action_owner": "library",
+  "owner": "archivist",
+  "evidence": {
+    "source": "S:/Archivist-Agent/lanes/archivist/inbox/gov-verify-request-1777609187467.json",
+    "target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json"
+  },
+  "evidence_source": "S:/Archivist-Agent/lanes/archivist/inbox/gov-verify-request-1777609187467.json",
+  "evidence_target": "C:/Users/seand/Downloads/graph-snapshot-2026-04-30-14-25-58-478.json",
+  "reason": "Archivist verified 39 high-priority governance nodes per Library P1 request. All are legitimate governance/gateway/identity scripts with authorityDepth 90. 14 were already VERIFIED from earlier sweep; 25 now verified. Zero contradictionCount on all nodes.",
+  "timestamp": "2026-05-01T14:26:34.194Z"
+}
