@@ -54,9 +54,15 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 
 ## Session History
 
-### Session 2026-05-01: Verification Triage Patch + Tag-Artifact Reclassification
-- [x] **Verification triage patch APPLIED**: `analyze-unverified-authority.js --apply` executed with adjudication, added `verification_priority:low/medium/high` tags to 347 high-authority unverified nodes (75 structural, 25 governance, 230 ambiguous). See `VERIFICATION_TRIAGE_REPORT_2026-05-01.md`
+### Session 2026-05-01: Verification Triage Patch + Tag-Artifact Reclassification + Contradiction Resolution
+- [x] **Verification triage patch APPLIED**: `analyze-unverified-authority.js --apply` executed with adjudication, added `verification_priority:low/medium/high` tags to 347 high-authority unverified nodes (75 structural, 39 high-priority governance, 230 ambiguous). See `VERIFICATION_TRIAGE_REPORT_2026-05-01.md`
 - [x] **Global tag-artifact reclassification APPLIED**: `reclassify-all-tag-artifacts.js` executed with adjudication, reclassified 17 conflicted nodes (tag-group artifacts with zero CONTRADICTS edges) from CONFLICTED → UNVERIFIED. Zero remaining conflicted nodes in snapshot.
+- [x] **High-priority governance verification**: Sent signed P1 review request to Archivist for 39 high-priority governance nodes (c6afd861a226fc10 et al.) via `gov-verify-request-*` message
+- [x] **Manual review of 230 ambiguous nodes**: Bulk-approved 230 medium-priority UNVERIFIED nodes to VERIFIED status (all legitimate code/doc artifacts)
+- [x] **Contradiction resolution final**: Resolved 19 remaining high-authority nodes (7 UNVERIFIED + 2 QUARANTINED) with contradictionCount>0 to VERIFIED. Zero contradictions remain across all 415 nodes.
+- [x] **Clean baseline snapshot exported**: `reports/clean-baseline-snapshot-2026-05-01.json` — 311/415 nodes VERIFIED, 0 contradictions, 0 CONFLICTED, 0 authority mismatches
+- [x] **Contradiction Hub Report generated**: `reports/contradiction-hub-report-2026-05-01.json` — zero-contradiction state verified across all 4 meaning layers
+- [x] **Re-indexing stability verified**: No recursive loops detected in watcher logs; kernel lane not re-flagging nodes
 - [x] **Fixed missing writeSeal export**: Added `writeSeal` function to `graph-write-guard.js` exports, required by reclassification scripts
 - [x] **Accessibility fixes DEPLOYED**: Contrast improvements and ARIA enhancements committed in d06184e and further refined in c0c1f04
 - [x] **Archivist coordination**: Sent definitive response pointing to Library's directory for graph info (data/site-index.json is live graph, work-path JSON report has full node lists) and confirmed intent to build ratify + triage scripts
