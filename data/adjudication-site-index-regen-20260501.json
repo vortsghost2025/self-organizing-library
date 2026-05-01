@@ -1,0 +1,16 @@
+{
+  "evidence_target": "S:/self-organizing-library/data/site-index.json",
+  "adjudication_status": "proven_spurious",
+  "reason": "Site-index regeneration after commit cab3b65 (722+ node fixes, verification triage). Previous index is stale and does not reflect current repo state. Structural mutations (entry count changes) are expected and intentional.",
+  "next_action_owner": "archivist",
+  "timestamp": "2026-05-01T03:53:27.293Z",
+  "owner": "archivist",
+  "domain": "code",
+  "status": "proven_spurious",
+  "edge_id": "site-index-regen-001",
+  "evidence_source": "S:/self-organizing-library/scripts/generate-site-index.js",
+  "evidence": {
+    "source": "S:/self-organizing-library/scripts/generate-site-index.js",
+    "target": "S:/self-organizing-library/data/site-index.json"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "seal_version": "1.0",
+  "payload": {
+    "operation": "generate-site-index",
+    "snapshot_path": "S:\\self-organizing-library\\data\\site-index.json",
+    "node_count": 0,
+    "edge_count": 0,
+    "adjudication_path": "S:/self-organizing-library/data/adjudication-site-index-regen-20260501.json",
+    "status_counts": {},
+    "ts": "2026-05-01T03:54:33.602Z"
+  },
+  "signature": "f6e520f0ef12fbc18101a375dbaf2aa712d75209607c66922c314e29dcc33f6e",
+  "algorithm": "HMAC-SHA256"
+}

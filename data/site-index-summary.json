@@ -1,30 +1,30 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-04-30T20:44:44.203Z",
+  "generated_at": "2026-05-01T03:54:33.552Z",
   "repo_count": 9,
   "stats": {
-    "total_files": 3771,
-    "total_size_bytes": 128243162,
+    "total_files": 3816,
+    "total_size_bytes": 132752745,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 561,
-        "total_size_bytes": 67671739
+        "total_files": 575,
+        "total_size_bytes": 72064318
       },
       "Archivist-Agent": {
-        "total_files": 547,
-        "total_size_bytes": 4547467
+        "total_files": 564,
+        "total_size_bytes": 4605810
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 254,
-        "total_size_bytes": 1600579
+        "total_files": 257,
+        "total_size_bytes": 1627351
       },
       "kernel-lane": {
-        "total_files": 250,
-        "total_size_bytes": 10445682
+        "total_files": 261,
+        "total_size_bytes": 10477788
       },
       "federation": {
         "total_files": 572,
-        "total_size_bytes": 4608759
+        "total_size_bytes": 4608542
       },
       "FreeAgent": {
         "total_files": 828,
@@ -49,43 +49,43 @@
   "top_tags": [
     {
       "tag": "Verification",
-      "count": 565
+      "count": 591
     },
     {
       "tag": "Governance",
-      "count": 381
+      "count": 393
     },
     {
       "tag": "Multi-Agent",
-      "count": 348
+      "count": 350
     },
     {
       "tag": "Ensemble",
-      "count": 305
+      "count": 307
     },
     {
       "tag": "Drift",
-      "count": 294
+      "count": 302
     },
     {
       "tag": "Archivist",
-      "count": 274
+      "count": 300
     },
     {
       "tag": "Library",
-      "count": 257
+      "count": 285
     },
     {
       "tag": "Swarmmind",
-      "count": 213
+      "count": 240
     },
     {
       "tag": "WE4FREE",
-      "count": 210
+      "count": 213
     },
     {
       "tag": "Phase 2",
-      "count": 197
+      "count": 198
     },
     {
       "tag": "Phase 1",
@@ -93,7 +93,7 @@
     },
     {
       "tag": "Federation",
-      "count": 168
+      "count": 170
     },
     {
       "tag": "Phase 3",
@@ -101,19 +101,19 @@
     },
     {
       "tag": "Kernel",
-      "count": 137
+      "count": 161
     },
     {
       "tag": "Phenotype",
-      "count": 120
+      "count": 122
     },
     {
       "tag": "Covenant",
-      "count": 118
+      "count": 120
     },
     {
       "tag": "Rosetta Stone",
-      "count": 113
+      "count": 117
     },
     {
       "tag": "Phase 4",
@@ -121,31 +121,31 @@
     },
     {
       "tag": "Failure Mode",
-      "count": 90
+      "count": 94
     },
     {
       "tag": "Freeagent",
-      "count": 88
+      "count": 90
     },
     {
       "tag": "Constitutional AI",
-      "count": 82
+      "count": 84
     },
     {
       "tag": "Constraint Lattice",
-      "count": 74
+      "count": 75
     },
     {
       "tag": "Phase 5",
       "count": 64
     },
     {
-      "tag": "Attestation",
-      "count": 47
+      "tag": "Convergence Gate",
+      "count": 48
     },
     {
-      "tag": "Convergence Gate",
-      "count": 42
+      "tag": "Attestation",
+      "count": 48
     },
     {
       "tag": "CAISC 2026",
@@ -161,28 +161,29 @@
     },
     {
       "tag": "NFM-002",
-      "count": 15
+      "count": 16
     },
     {
-      "tag": "Phase 8",
+      "tag": "NFM-036",
       "count": 13
     }
   ],
   "category_breakdown": {
-    "root-doc": 804,
+    "root-doc": 812,
     "config": 52,
-    "data": 28,
-    "docs": 471,
+    "data": 29,
+    "docs": 482,
     "drafts": 1,
     "log": 8,
-    "reports": 6,
-    "schema": 38,
-    "script": 510,
+    "quarantine": 2,
+    "reports": 9,
+    "schema": 39,
+    "script": 516,
     "code": 342,
     "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
     "test": 10,
-    "verification": 14,
-    "evidence": 41,
+    "verification": 15,
+    "evidence": 52,
     "paper": 18,
     "library": 4,
     "web": 34,
@@ -206,6 +207,7 @@
     "infrastructure": 14,
     "scratch": 16,
     "sensitive": 1,
+    "system": 1,
     "ui": 7,
     "bridge": 9,
     "monitoring": 3,
