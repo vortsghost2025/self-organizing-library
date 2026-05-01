@@ -1,26 +1,26 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-05-01T03:54:33.552Z",
+  "generated_at": "2026-05-01T13:37:27.580Z",
   "repo_count": 9,
   "stats": {
-    "total_files": 3816,
-    "total_size_bytes": 132752745,
+    "total_files": 3827,
+    "total_size_bytes": 132936619,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 575,
-        "total_size_bytes": 72064318
+        "total_files": 582,
+        "total_size_bytes": 72123978
       },
       "Archivist-Agent": {
-        "total_files": 564,
-        "total_size_bytes": 4605810
+        "total_files": 566,
+        "total_size_bytes": 4722026
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 257,
-        "total_size_bytes": 1627351
+        "total_files": 258,
+        "total_size_bytes": 1631305
       },
       "kernel-lane": {
-        "total_files": 261,
-        "total_size_bytes": 10477788
+        "total_files": 262,
+        "total_size_bytes": 10481832
       },
       "federation": {
         "total_files": 572,
@@ -57,7 +57,7 @@
     },
     {
       "tag": "Multi-Agent",
-      "count": 350
+      "count": 351
     },
     {
       "tag": "Ensemble",
@@ -69,7 +69,7 @@
     },
     {
       "tag": "Archivist",
-      "count": 300
+      "count": 301
     },
     {
       "tag": "Library",
@@ -85,7 +85,7 @@
     },
     {
       "tag": "Phase 2",
-      "count": 198
+      "count": 199
     },
     {
       "tag": "Phase 1",
@@ -96,12 +96,12 @@
       "count": 170
     },
     {
-      "tag": "Phase 3",
+      "tag": "Kernel",
       "count": 162
     },
     {
-      "tag": "Kernel",
-      "count": 161
+      "tag": "Phase 3",
+      "count": 162
     },
     {
       "tag": "Phenotype",
@@ -113,7 +113,7 @@
     },
     {
       "tag": "Rosetta Stone",
-      "count": 117
+      "count": 116
     },
     {
       "tag": "Phase 4",
@@ -140,11 +140,11 @@
       "count": 64
     },
     {
-      "tag": "Convergence Gate",
-      "count": 48
+      "tag": "Attestation",
+      "count": 49
     },
     {
-      "tag": "Attestation",
+      "tag": "Convergence Gate",
       "count": 48
     },
     {
@@ -171,19 +171,19 @@
   "category_breakdown": {
     "root-doc": 812,
     "config": 52,
-    "data": 29,
-    "docs": 482,
+    "data": 34,
+    "docs": 484,
     "drafts": 1,
     "log": 8,
     "quarantine": 2,
-    "reports": 9,
+    "reports": 11,
     "schema": 39,
     "script": 516,
     "code": 342,
     "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
     "test": 10,
     "verification": 15,
-    "evidence": 52,
+    "evidence": 54,
     "paper": 18,
     "library": 4,
     "web": 34,
