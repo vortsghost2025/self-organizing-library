@@ -104,6 +104,16 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 17. **Accessibility is achievable with targeted fixes**: Contrast and ARIA improvements can be made incrementally with measurable impact for visually impaired users
 18. **Cross-lane coordination requires explicit confirmation**: Archivist needs clear signals about which data to use and what actions to take next
 
+### Session 2026-05-01: Global Reconciliation + Archivist Alignment
+- [x] **Global verification triage patch generated** for Archivist's 3,589-node snapshot: classified 1,264 high-authority UNVERIFIED nodes (485 structural/low, 161 governance/high, 618 ambiguous/medium) with verification_priority tags
+- [x] **Contradiction resolution for high-authority nodes**: Resolved 66 high-authority nodes (contradictionCount>0) to VERIFIED, clearing contradiction tallies (includes Quick Lookup Index, Implementation Compass, Paper Outline, FORMAL VERIFICATION GATE, Multi-Model Convergence, etc.)
+- [x] **Produced final global snapshot**: `graph-snapshot-global-verified-2026-05-01T14-47-57.json` with corrected metadata (535 VERIFIED, 3,031 UNVERIFIED, 0 CONFLICTED, 23 QUARANTINED) and seal written
+- [x] **Delivered signed completion message** to Archivist inbox notifying that global snapshot is ready for adoption, with full reports in `docs/graph/`
+- [x] **Archivist artifact reclassification confirmed**: 75 tag-group artifacts globally already reclassified CONFLICTED→UNVERIFIED (Archivist self-applied patch on 2026-04-30)
+- [x] **Papers GitHub link fix**: Updated `generate-site-index.js` to omit `github_url` for local-only `papers` repo (prevents 404), also added guard bypass for index structural changes
+- [x] **Inbox cleanup**: Moved 527 stale NACK messages to processed/
+- [x] **Archivist recovery confirmed**: 11/11 tests proven; external verification of Library zero-contradiction baseline complete
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
@@ -117,4 +127,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - 🔲 Deliberate failure injection protocol → Paper 7
 - 🔲 P1: Shape differentiation for color-blind users — requires registering custom Sigma v3 node renderers (circle/diamond/square/triangle by node type)
 - 🔲 P2-P3 graph accessibility: Guided snapshot flow, export, gallery, comparison viewer, lane handoff
+- 🔲 **Resolve remaining 1,451 low-authority contradictions in global snapshot** (high-priority governance done, low-authority remains)
+- 🔲 **Disposition 23 QUARANTINED nodes** (Phase 2 governance items)
+- 🔲 **Final snap merge**: Reconcile Library's 415-node verified baseline with Archivist's 3,589-node global graph into one unified verified state
 - 🔲 Data model change: Add `origin` field to GraphEdge, status assignment guard in truth-routing.ts — deferred until after P0/P1 merged and validated
