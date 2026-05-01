@@ -54,9 +54,10 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 
 ## Session History
 
-### Session 2026-04-30: Graph Work-Path Analysis + Accessibility + Cross-Lane Coordination
-- [x] **Graph work-path analysis script COMPLETE**: Created `scripts/graph-work-path.js` (920 lines) that loads `data/site-index.json` directly, runs truth-routing pipeline inline with provenance tracking, classifies all 3,589 nodes into 7 signal buckets with priority scoring, and emits `reports/graph-work-path-{date}.md` + `.json`
-- [x] **Work-path results analyzed**: Direct Semantic Contradictions: 141 (P0), Tag-Sampled Artifacts: 58 (P0: 43, P1: 15), Quarantine Triage: 23 (P1), Unverified High-Authority: 1,369 (P1), Bridge-State Mismatch: 798 (P1), Derives-Without-Verifies: 156 (P1), Orphaned/Ungoverned: 3,110 (P0: 2,050, P2: 856)
+### Session 2026-05-01: Verification Triage Patch + Tag-Artifact Reclassification
+- [x] **Verification triage patch APPLIED**: `analyze-unverified-authority.js --apply` executed with adjudication, added `verification_priority:low/medium/high` tags to 347 high-authority unverified nodes (75 structural, 25 governance, 230 ambiguous). See `VERIFICATION_TRIAGE_REPORT_2026-05-01.md`
+- [x] **Global tag-artifact reclassification APPLIED**: `reclassify-all-tag-artifacts.js` executed with adjudication, reclassified 17 conflicted nodes (tag-group artifacts with zero CONTRADICTS edges) from CONFLICTED → UNVERIFIED. Zero remaining conflicted nodes in snapshot.
+- [x] **Fixed missing writeSeal export**: Added `writeSeal` function to `graph-write-guard.js` exports, required by reclassification scripts
 - [x] **Accessibility fixes DEPLOYED**: Contrast improvements and ARIA enhancements committed in d06184e and further refined in c0c1f04
 - [x] **Archivist coordination**: Sent definitive response pointing to Library's directory for graph info (data/site-index.json is live graph, work-path JSON report has full node lists) and confirmed intent to build ratify + triage scripts
 - [x] **SwarmMind coordination**: Successfully executed `scripts/dry-run-reclassify-tag-artifacts-global.js --graph S:/self-organizing-library/context-buffer/graph-snapshot-2026-04-30-17-34-19-619.json` projecting 75 artifact-class candidates for reclassification
