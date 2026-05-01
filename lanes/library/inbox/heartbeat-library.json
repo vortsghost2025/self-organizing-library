@@ -1,8 +1,8 @@
 {
   "from": "library",
-  "timestamp": "2026-05-01T04:46:29.732Z",
-  "status": "alive",
-  "requires_action": false,
   "priority": "P3",
-  "type": "heartbeat"
+  "type": "heartbeat",
+  "timestamp": "2026-05-01T12:19:25.462Z",
+  "status": "alive",
+  "requires_action": false
 }
