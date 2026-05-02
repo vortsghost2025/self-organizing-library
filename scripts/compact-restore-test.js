@@ -14,6 +14,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
+const discovery = new LaneDiscovery();
+const { LaneDiscovery } = require('./util/lane-discovery');
+const discovery = new LaneDiscovery();
+const { LaneDiscovery } = require('./util/lane-discovery');
+const { LaneDiscovery } = require('./util/lane-discovery');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const LOG = { info: '[i]', success: '[+]', warning: '[!]', error: '[-]', test: '[T]' };
 function log(message, level = 'info') {
@@ -22,15 +29,15 @@ function log(message, level = 'info') {
 
 const LANES = {
   'archivist-agent': {
-    root: 'S:\\Archivist-Agent',
+    root: discovery.getLocalPath('archivist'),
     role: 'governance-root'
   },
   'swarmmind': {
-    root: 'S:\\SwarmMind',
+    root: discovery.getLocalPath('swarmmind'),
     role: 'trace-layer'
   },
   'library': {
-    root: 'S:\\self-organizing-library',
+    root: discovery.getLocalPath('library'),
     role: 'memory-layer'
   }
 };

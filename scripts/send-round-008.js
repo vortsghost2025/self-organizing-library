@@ -4,21 +4,24 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
+
+const discovery = new LaneDiscovery();
 
 const { createSignedMessage } = require('./create-signed-message');
 const { computeIdempotencyKey } = require('../src/lane/SchemaValidator');
 
 // LEASE + ATOMIC WRITE: Require kernel primitives for cross-lane mutation safety
-const KERNEL_ROOT = 'S:/kernel-lane';
+const KERNEL_ROOT = discovery.getLocalPath('kernel');
 const { atomicWriteJson, atomicWriteWithLease, atomicWriteOutbox } = require(path.join(KERNEL_ROOT, 'scripts', 'atomic-write-util'));
 
 const CANONICAL_PATHS = {
-  archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
-   swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
-  kernel: 'S:/kernel-lane/lanes/kernel/inbox/',
+  archivist: discovery.getInbox('archivist'),
+   swarmmind: discovery.getInbox('swarmmind'),
+  kernel: discovery.getInbox('kernel'),
 };
 
-const OUTBOX_PATH = 'S:/self-organizing-library/lanes/library/outbox/';
+const OUTBOX_PATH = discovery.getOutbox('library');
 
 const TASKS = [
   '1. Identity Mode Upgrade: Switch IdentityEnforcer from warn to enforce mode on all lanes (currently only Kernel uses enforce). Unsigned inbound messages should be structurally rejected, not just warned about.',

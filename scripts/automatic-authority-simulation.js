@@ -7,12 +7,15 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
+const discovery = new LaneDiscovery();
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const LANE_ROOTS = {
-  archivist: 'S:/Archivist-Agent',
-  kernel: 'S:/kernel-lane',
-  library: 'S:/self-organizing-library',
-  swarmmind: 'S:/SwarmMind'
+  archivist: discovery.getLocalPath('archivist'),
+  kernel: discovery.getLocalPath('kernel'),
+  library: discovery.getLocalPath('library'),
+  swarmmind: discovery.getLocalPath('swarmmind')
 };
 
 function loadJson(filePath) {
@@ -38,17 +41,17 @@ function evaluateConvergence() {
     else convergenceArtifacts.push(convergencePath);
   }
   
-  // 2. Check latest convergence monitor report
-  const monitorPath = 'S:/Archivist-Agent/convergence-monitor-report-20260423.json';
-  const monitor = loadJson(monitorPath);
+    // 2. Check latest convergence monitor report
+    const monitorPath = path.join(discovery.getLocalPath('archivist'), 'convergence-monitor-report-20260423.json');
+    const monitor = loadJson(monitorPath);
   if (monitor) {
     console.log(`\n[Monitor] Status: ${monitor.status}`);
     console.log(`[Monitor] Contradictions: ${monitor.contradictions.join(', ') || 'none'}`);
   }
   
-  // 3. Check post-compact audit
-  const auditPath = 'S:/Archivist-Agent/.compact-audit/POST_COMPACT_AUDIT.json';
-  const audit = loadJson(auditPath);
+    // 3. Check post-compact audit
+    const auditPath = path.join(discovery.getLocalPath('archivist'), '.compact-audit', 'POST_COMPACT_AUDIT.json');
+    const audit = loadJson(auditPath);
   if (audit) {
     console.log(`\n[Audit] overall_ok: ${audit.overall_ok}`);
     console.log(`[Audit] Risks lost: ${audit.risks_lost || 'none'}`);
@@ -87,7 +90,7 @@ function generateRatification() {
     terminal_decision: 'Automatic authority simulation approves ratification based on convergence evidence'
   };
   
-  const outPath = `S:/Archivist-Agent/automatic-ratification-${timestamp.replace(/[:.]/g, '')}.json`;
+    const outPath = path.join(discovery.getLocalPath('archivist'), `automatic-ratification-${timestamp.replace(/[:.]/g, '')}.json`);
   fs.writeFileSync(outPath, JSON.stringify(artifact, null, 2));
   console.log(`\n✅ Generated: ${path.basename(outPath)}`);
   return artifact;
@@ -109,7 +112,7 @@ function generateEscalation(reasons) {
     terminal_decision: 'Automatic authority simulation escalates due to convergence contradictions'
   };
   
-  const outPath = `S:/Archivist-Agent/automatic-escalation-${timestamp.replace(/[:.]/g, '')}.json`;
+    const outPath = path.join(discovery.getLocalPath('archivist'), `automatic-escalation-${timestamp.replace(/[:.]/g, '')}.json`);
   fs.writeFileSync(outPath, JSON.stringify(artifact, null, 2));
   console.log(`\n❌ Generated: ${path.basename(outPath)}`);
   return artifact;

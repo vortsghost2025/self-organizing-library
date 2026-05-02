@@ -3,6 +3,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
+
+const discovery = new LaneDiscovery();
 
 const cp = require('./completion-proof');
 const { ArtifactResolver } = require('./artifact-resolver');
@@ -83,10 +86,10 @@ const LANE_HINTS = [
 ];
 
 const LANE_ROOTS = {
-  archivist: 'S:/Archivist-Agent',
-  library: 'S:/self-organizing-library',
-  kernel: 'S:/kernel-lane',
-  swarmmind: 'S:/SwarmMind',
+  archivist: discovery.getLocalPath('archivist'),
+  library: discovery.getLocalPath('library'),
+  kernel: discovery.getLocalPath('kernel'),
+  swarmmind: discovery.getLocalPath('swarmmind'),
 };
 
 function nowIso() {

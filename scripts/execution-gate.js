@@ -5,16 +5,16 @@ const fs = require('fs');
 const path = require('path');
 
 const { ArtifactResolver } = require('./artifact-resolver');
-const { LaneDiscovery } = require('S:/Archivist-Agent/.global/lane-discovery');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const _discovery = new LaneDiscovery();
 const _validLanes = new Set(_discovery.listLanes());
 
 const DEFAULT_ALLOWED_ROOTS = [
-'S:/Archivist-Agent',
-'S:/kernel-lane',
-'S:/self-organizing-library',
-'S:/SwarmMind',
+_discovery.getLocalPath('archivist'),
+_discovery.getLocalPath('kernel'),
+_discovery.getLocalPath('library'),
+_discovery.getLocalPath('swarmmind'),
 ];
 
 const COMPLETION_WINDOW_MS = 5 * 60 * 1000;

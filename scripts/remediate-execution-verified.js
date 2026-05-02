@@ -3,12 +3,15 @@
 const fs = require('fs');
 const path = require('path');
 const { deriveKeyId } = require('../.global/deriveKeyId.js');
+const { LaneDiscovery } = require('./util/lane-discovery');
+
+const discovery = new LaneDiscovery();
 
 const LANES = [
-  { name: 'archivist', dir: 'S:/Archivist-Agent' },
-  { name: 'kernel', dir: 'S:/kernel-lane' },
-  { name: 'library', dir: 'S:/self-organizing-library' },
-  { name: 'swarmmind', dir: 'S:/SwarmMind' }
+  { name: 'archivist', dir: discovery.getLocalPath('archivist') },
+  { name: 'kernel', dir: discovery.getLocalPath('kernel') },
+  { name: 'library', dir: discovery.getLocalPath('library') },
+  { name: 'swarmmind', dir: discovery.getLocalPath('swarmmind') }
 ];
 
 let totalStamped = 0;
