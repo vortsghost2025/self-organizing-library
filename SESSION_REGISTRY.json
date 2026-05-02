@@ -3,7 +3,18 @@
   "version": "1.1.0",
   "last_updated": "2026-04-19T01:20:00Z",
   "purpose": "Enable bidirectional communication between concurrent agent lanes",
-  "active_sessions": {},
+  "active_sessions": {
+    "library-2": {
+      "session_id": "lib2-observer-20260502",
+      "lane_id": "library",
+      "mode": "observer",
+      "actor": "opencode",
+      "registered_at": "2026-05-02T17:15:00Z",
+      "can_write": false,
+      "purpose": "parallel-verification-test",
+      "heartbeat_required": false
+    }
+  },
   "terminated_sessions": {},
   "inactive_sessions": {},
   "communication_protocol": {

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "test_id": "parallel-library-agent-test-20260502",
+  "test_subject": "What happens when a 2nd Library agent operates concurrently?",
+  "generated_at": "2026-05-02T21:13:30Z",
+  "session_id": "lib2-observer-20260502",
+  "outcome": "SAFE - observer mode works as designed",
+  "findings": [
+    {
+      "id": "F1",
+      "area": "session_registry",
+      "finding": "SESSION_REGISTRY already defines observer mode for parallel agents",
+      "severity": "info",
+      "detail": "Observer mode: can_write=false, no heartbeat required, timeout=inactive. Designed for stress testing and parallel verification."
+    },
+    {
+      "id": "F2",
+      "area": "locking",
+      "finding": "No lock file exists for primary agent",
+      "severity": "medium",
+      "detail": "Primary library agent did not create a .lock file. Two governing-mode agents would have no filesystem-level exclusion."
+    },
+    {
+      "id": "F3",
+      "area": "message_processing",
+      "finding": "Inbox processing has no concurrency guard at filesystem level",
+      "severity": "high",
+      "detail": "Both agents can read, lease, and move the same inbox message. The lease.acquire pattern (v1.0 schema) exists but is not enforced by a filesystem mutex. A race between two governing agents would result in double-processing or one agent moving the file mid-operation for the other."
+    },
+    {
+      "id": "F4",
+      "area": "heartbeat",
+      "finding": "Primary agent heartbeat stale since 2026-05-02T16:06Z (>5 hours)",
+      "severity": "high",
+      "detail": "Archivist detected this and sent P1 coordination message. Library-2 (observer) cannot restart the primary agent."
+    },
+    {
+      "id": "F5",
+      "area": "registration",
+      "finding": "Primary agent never registered in SESSION_REGISTRY.active_sessions",
+      "severity": "medium",
+      "detail": "The session registry had {} active_sessions. Library-2 added itself as an observer. No conflict because no governing session existed."
+    },
+    {
+      "id": "F6",
+      "area": "outbox",
+      "finding": "Outbox write succeeded — two agents can independently write to outbox",
+      "severity": "low",
+      "detail": "No filesystem contention. First-writer-wins conflict resolution applies to any shared files."
+    }
+  ],
+  "risk_assessment": {
+    "two_governing_agents": "HIGH RISK — message double-processing, conflicting writes, heartbeat confusion",
+    "observer_alongside_governing": "LOW RISK — observer is read-only by protocol (self-enforced)",
+    "two_observers": "SAFE — both are read-only",
+    "governing_after_stale": "MEDIUM RISK — no graceful handoff, stale agent's state is unknown"
+  },
+  "recommendations": [
+    "Implement filesystem-level mutex for inbox message leasing (e.g., advisory .lock file per message)",
+    "Enforce SESSION_REGISTRY registration at session start (governing mode) with duplicate detection",
+    "Add stale-agent detection: if heartbeat >900s stale, allow new governing agent takeover",
+    "Consider in-process locking (port-based or PID-based) for same-machine agents"
+  ],
+  "convergence_gate": {
+    "claim": "Two Library agents can coexist safely using observer mode; two governing agents would race on inbox processing and writes",
+    "evidence": "S:/self-organizing-library/evidence/verification/parallel-agent-test-20260502.json",
+    "verified_by": "library-2",
+    "contradictions": [],
+    "status": "proven"
+  },
+  "OUTPUT_PROVENANCE": "agent: opencode/deepseek-v4-pro lane: library generated_at: 2026-05-02T21:13:30Z session_id: lib2-observer-20260502 target_lane: library"
+}

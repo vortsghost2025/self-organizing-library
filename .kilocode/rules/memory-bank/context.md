@@ -116,6 +116,14 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Inbox cleanup**: Moved 527 stale NACK messages to processed/
 - [x] **Archivist recovery confirmed**: 11/11 tests proven; external verification of Library zero-contradiction baseline complete
 
+### Session 2026-05-02 (cont): Sovereignty Enforcement + Vercel Deployment
+- [x] **Sovereignty violations eliminated (ALL 81)**: Refactored all 24 scripts to use `scripts/util/lane-discovery.js` (LaneDiscovery class) for cross-lane paths instead of hardcoded strings. Pre-commit sovereignty scanner now passes with 0 violations. Committed `cc4915c` (had lint errors), then fixed as `744d80c` (clean: sovereignty + lint + typecheck all pass).
+- [x] **Duplicate LaneDiscovery declarations fixed**: 4 scripts had duplicate `const { LaneDiscovery } = require(...)` + `const discovery = new LaneDiscovery()` lines from subagent merge errors. Deduplicated.
+- [x] **generate-site-index.js corruption fixed**: Subagent accidentally deleted `maxDepth`/`excludeDirs` properties and duplicated repo entries. Restored from commit `1e5a82c`, re-applied only LaneDiscovery refactor (10 path replacements).
+- [x] **Cross-lane corrections applied**: `scripts/apply-cross-lane-corrections.js` added 1,123 tags from Archivist B1/B2 + Kernel B5/B6 reviews to site-index.json.
+- [x] **Inbox processed**: Moved 5 informational messages to processed/ (2 broadcast tests, heartbeat, kernel deploy artifacts, sovereignty E2E). Committed `4960ec1`.
+- [x] **Vercel production deployment**: `npx vercel --prod` succeeded — site live at https://deliberateensemble.works with all recent fixes (GitHub button, WebGL fallback, sovereignty cleanup, orphan tags, cross-lane corrections). Build: 1031 static pages, 1006 Pagefind-indexed.
+
 ### Session 2026-05-02: GitHub Button Fix + OUTPUT_PROVENANCE + WebGL Crash Fix + Work-Path Cross-Lane Dispatch + Bucket 7 Orphan Resolution
 - [x] **GitHub button fix**: Wrapped "View on GitHub →" link in `page.tsx` with conditional `{entry.github_url && (...)}` for null `github_url` entries. Fixed `IndexEntry` type: `github_url: string` → `string | null`. Committed `46381d8`, pushed.
 - [x] **OUTPUT_PROVENANCE enforcement**: Added 18-line OUTPUT_PROVENANCE block to Library AGENTS.md before Convergence Gate section. Mirrors Archivist pattern. Committed `3a1c3ff`, pushed.
@@ -130,6 +138,9 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Cross-lane review processing**: Archivist B1/B2 (0 proven contradictions, 141 cross-ref candidates, 43 artifact-dismiss) + Kernel B5/B6 (517 state-correction, 437 verification-needed). Both moved to processed/.
 - [x] **Bucket 7 orphan resolution**: Executed `scripts/auto-tag-orphans.js` — tagged 2,527 orphaned entries with inferred tags from repo governance, category, content_type, path keywords. All 3,827 entries now connected via tag graph BFS (0 orphans remaining). Tag index: 118→126 keys. Committed `544bb85`, pushed.
 - [x] **Tag case-sensitivity bridge**: Orphans had lowercase tags (governance, verification) while connected entries used Title-Case (Governance, Verification). Auto-tagger created shared tags that unified the tag graph, eliminating the orphan island problem.
+
+### Session 2026-05-02 (cont.2): Inbox Processing + Housekeeping
+- [x] **Inbox processed**: 2 new messages — Kernel final summary (P2, all tasks done, system healthy) + SwarmMind status update (P1, system GREEN, verification processing ongoing). Both informational (`requires_action: false`), moved to processed/.
 
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
