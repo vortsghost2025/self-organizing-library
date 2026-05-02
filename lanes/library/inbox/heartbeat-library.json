@@ -4,11 +4,12 @@
   "type": "heartbeat",
   "priority": "P3",
   "subject": "Library heartbeat - active",
-  "timestamp": "2026-05-02T22:42:48.000Z",
+  "timestamp": "2026-05-02T23:22:12.817Z",
   "heartbeat": {
-    "status": "active",
-    "last_heartbeat_at": "2026-05-02T22:42:48.000Z",
+    "status": "in_progress",
+    "last_heartbeat_at": "2026-05-02T23:22:12.817Z",
     "interval_seconds": 300,
     "timeout_seconds": 900
-  }
+  },
+  "updated_at": "2026-05-02T23:22:12.817Z"
 }
