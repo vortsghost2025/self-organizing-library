@@ -1,12 +1,29 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
 import Graph from "graphology";
 import Sigma from "sigma";
 import { circular } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
 import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState } from "@/lib/graph-types";
 import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS } from "@/lib/graph-types";
+
+let _webglAvailable: boolean | undefined;
+
+function isWebGLAvailable(): boolean {
+  if (_webglAvailable !== undefined) return _webglAvailable;
+  if (typeof window === "undefined") { _webglAvailable = false; return false; }
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl2") || canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    _webglAvailable = gl !== null;
+    return _webglAvailable;
+  } catch {
+    _webglAvailable = false;
+    return false;
+  }
+}
 
 interface GraphCanvasProps {
   nodes: GraphNode[];
@@ -32,6 +49,7 @@ interface GraphCanvasProps {
   onStageClick: () => void;
   onCameraUpdate: (ratio: number) => void;
   onGraphReady: (graph: Graph, sigma: Sigma) => void;
+  onWebGLUnavailable?: () => void;
 }
 
 const DIM_COLOR = "#2A2A38";
@@ -128,6 +146,7 @@ export default function GraphCanvas({
   pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
   activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
   visibleCount, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
+  onWebGLUnavailable,
 }: GraphCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sigmaRef = useRef<Sigma | null>(null);
@@ -220,6 +239,8 @@ export default function GraphCanvas({
 
   useEffect(() => {
     if (!containerRef.current || nodes.length === 0) return;
+
+    if (!isWebGLAvailable()) return;
 
     if (sigmaRef.current) {
       sigmaRef.current.kill();
@@ -329,8 +350,10 @@ export default function GraphCanvas({
     };
 
     const container = containerRef.current;
-  const renderer = new Sigma(graph, container, {
-    renderLabels: true,
+    let renderer: Sigma;
+    try {
+      renderer = new Sigma(graph, container, {
+        renderLabels: true,
     renderEdgeLabels: false,
     labelFont: "DM Sans",
     labelSize: baseLabelSizeRef.current,
@@ -505,6 +528,12 @@ export default function GraphCanvas({
         return res;
       },
     });
+    } catch (err) {
+    console.error("Sigma renderer creation failed:", err);
+    _webglAvailable = false;
+    onWebGLUnavailable?.();
+      return;
+    }
 
     renderer.on("clickNode", ({ node }) => {
       onNodeClick(node);
@@ -548,7 +577,7 @@ export default function GraphCanvas({
         sigmaRef.current = null;
       }
     };
-  }, [nodes, edges, clusters, filter, filterMode, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady]);
+  }, [nodes, edges, clusters, filter, filterMode, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady, onWebGLUnavailable]);
 
   const ariaLabel = [
     "Interactive nexus graph",
@@ -558,6 +587,28 @@ export default function GraphCanvas({
     pathSource ? "path trace active" : "",
     searchQuery ? "searching: " + searchQuery : "",
   ].filter(Boolean).join(", ");
+
+  if (!isWebGLAvailable()) {
+    return (
+      <div
+        className="w-full h-full flex flex-col items-center justify-center gap-3 text-center p-8"
+        role="alert"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>
+        <h2 className="text-lg font-semibold text-[var(--text-primary)]">WebGL Not Available</h2>
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
+          The Nexus Graph requires WebGL to render. Your browser or device does not support WebGL,
+          or it may be disabled. Try updating your browser, enabling hardware acceleration, or using
+          a different device.
+        </p>
+        <Link href="/library" className="text-sm text-[var(--primary)] underline mt-2">
+          Browse the Library instead
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div
