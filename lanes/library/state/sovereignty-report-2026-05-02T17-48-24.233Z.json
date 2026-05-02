@@ -1,0 +1,591 @@
+{
+  "lane_id": "library",
+  "timestamp": "2026-05-02T17:48:24.233Z",
+  "scan_scope": "scripts/",
+  "total_violations": 81,
+  "violations": [
+    {
+      "file": "scripts\\act-daemon.js",
+      "line": 41,
+      "snippet": "projectDir: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\act-daemon.js",
+      "line": 49,
+      "snippet": "projectDir: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\activate-identity.js",
+      "line": 12,
+      "snippet": "{ id: 'swarmmind', dir: 'S:/SwarmMind' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\activate-identity.js",
+      "line": 13,
+      "snippet": "{ id: 'kernel', dir: 'S:/kernel-lane' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\agent-presence.js",
+      "line": 9,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\agent-presence.js",
+      "line": 11,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\automatic-authority-simulation.js",
+      "line": 13,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\automatic-authority-simulation.js",
+      "line": 15,
+      "snippet": "swarmmind: 'S:/SwarmMind'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\build-copilot-package.js",
+      "line": 30,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\build-copilot-package.js",
+      "line": 32,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\ci-execution-truth-guard.js",
+      "line": 10,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\ci-execution-truth-guard.js",
+      "line": 12,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\ci-integration-check.js",
+      "line": 10,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\ci-integration-check.js",
+      "line": 12,
+      "snippet": "swarmmind: 'S:/SwarmMind'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\compact-restore-test.js",
+      "line": 29,
+      "snippet": "root: 'S:\\\\SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\completion-proof-audit.js",
+      "line": 9,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\completion-proof-audit.js",
+      "line": 11,
+      "snippet": "swarmmind: 'S:/SwarmMind'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\create-signed-message.js",
+      "line": 11,
+      "snippet": "const KERNEL_ROOT = 'S:/kernel-lane';",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\cross-lane-consistency-check.js",
+      "line": 8,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\cross-lane-consistency-check.js",
+      "line": 10,
+      "snippet": "swarmmind: 'S:/SwarmMind'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\cross-lane-sync-gate.js",
+      "line": 10,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\cross-lane-sync-gate.js",
+      "line": 12,
+      "snippet": "swarmmind: 'S:/SwarmMind'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\cross-lane-sync.js",
+      "line": 43,
+      "snippet": "root: 'S:\\\\SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\daily-productivity-report.js",
+      "line": 13,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\daily-productivity-report.js",
+      "line": 15,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\debug-consistency.js",
+      "line": 10,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\debug-consistency.js",
+      "line": 11,
+      "snippet": "kernel: 'S:/kernel-lane'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\dispatch-task.js",
+      "line": 12,
+      "snippet": "kernel: { inbox: 'S:/kernel-lane/lanes/kernel/inbox', root: 'S:/kernel-lane' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\dispatch-task.js",
+      "line": 14,
+      "snippet": "swarmmind: { inbox: 'S:/SwarmMind/lanes/swarmmind/inbox', root: 'S:/SwarmMind' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\enforce-consistency-invariant.js",
+      "line": 14,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\enforce-consistency-invariant.js",
+      "line": 16,
+      "snippet": "swarmmind: 'S:/SwarmMind'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\evidence-exchange-check.js",
+      "line": 21,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\evidence-exchange-check.js",
+      "line": 22,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\execution-gate.js",
+      "line": 15,
+      "snippet": "'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\execution-gate.js",
+      "line": 17,
+      "snippet": "'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\fix-trust-stores.js",
+      "line": 11,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\fix-trust-stores.js",
+      "line": 12,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\full-lane-review-and-dispatch.js",
+      "line": 61,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\full-lane-review-and-dispatch.js",
+      "line": 62,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\generate-site-index.js",
+      "line": 99,
+      "snippet": "root: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\generate-site-index.js",
+      "line": 122,
+      "snippet": "root: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\generic-task-executor.js",
+      "line": 21,
+      "snippet": "kernel: { root: 'S:/kernel-lane', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\generic-task-executor.js",
+      "line": 23,
+      "snippet": "swarmmind: { root: 'S:/SwarmMind', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\health-core.js",
+      "line": 20,
+      "snippet": "const SWARMIND_ROOT = 'S:/SwarmMind';",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\identity-enforcer.js",
+      "line": 19,
+      "snippet": "'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\identity-enforcer.js",
+      "line": 21,
+      "snippet": "'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\identity-enforcer.js",
+      "line": 262,
+      "snippet": "const { stableStringify } = require(path.join(\r",
+      "type": "cross_lane_require_path_join",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\lane-health-monitor.js",
+      "line": 10,
+      "snippet": "{ name: 'swarmmind', path: 'S:/SwarmMind' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\lane-worker.js",
+      "line": 88,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\lane-worker.js",
+      "line": 89,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\lease-write.js",
+      "line": 7,
+      "snippet": "const KERNEL_ROOT = 'S:/kernel-lane';",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\nuke-lane-mail.js",
+      "line": 8,
+      "snippet": "{ name: 'kernel', dir: 'S:/kernel-lane' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\nuke-lane-mail.js",
+      "line": 10,
+      "snippet": "{ name: 'swarmmind', dir: 'S:/SwarmMind' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\outbox-write-guard.js",
+      "line": 11,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\outbox-write-guard.js",
+      "line": 12,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\path-normalization-guard.js",
+      "line": 11,
+      "snippet": "'swarmmind': 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\path-normalization-guard.js",
+      "line": 12,
+      "snippet": "'kernel': 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\post-compact-audit.js",
+      "line": 11,
+      "snippet": "swarmmind: { root: 'S:/SwarmMind', inbox: 'S:/SwarmMind/lanes/swarmmind/inbox' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\post-compact-audit.js",
+      "line": 12,
+      "snippet": "kernel: { root: 'S:/kernel-lane', inbox: 'S:/kernel-lane/lanes/kernel/inbox' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\recovery-preflight.js",
+      "line": 9,
+      "snippet": "{ name: 'kernel', root: 'S:/kernel-lane' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\recovery-preflight.js",
+      "line": 10,
+      "snippet": "{ name: 'swarmmind', root: 'S:/SwarmMind' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\relay-daemon.js",
+      "line": 17,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\relay-daemon.js",
+      "line": 18,
+      "snippet": "kernel:    'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\remediate-execution-verified.js",
+      "line": 9,
+      "snippet": "{ name: 'kernel', dir: 'S:/kernel-lane' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\remediate-execution-verified.js",
+      "line": 11,
+      "snippet": "{ name: 'swarmmind', dir: 'S:/SwarmMind' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\send-reverse-test-messages.js",
+      "line": 12,
+      "snippet": "{ name: 'swarmmind', dir: 'S:/SwarmMind' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\send-reverse-test-messages.js",
+      "line": 13,
+      "snippet": "{ name: 'kernel', dir: 'S:/kernel-lane' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\send-round-008.js",
+      "line": 12,
+      "snippet": "const KERNEL_ROOT = 'S:/kernel-lane';",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\sign-outbox-message.js",
+      "line": 11,
+      "snippet": "const KERNEL_ROOT = 'S:/kernel-lane';",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\smoke-core.js",
+      "line": 21,
+      "snippet": "const SWARMIND_ROOT = 'S:/SwarmMind';",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\start-core.js",
+      "line": 22,
+      "snippet": "const SWARMIND_ROOT = 'S:/SwarmMind';",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\sync-identity-from-trust.js",
+      "line": 8,
+      "snippet": "swarmmind: { root: 'S:/SwarmMind', ts: 'S:/Archivist-Agent/lanes/broadcast/trust-store.json' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\sync-identity-from-trust.js",
+      "line": 9,
+      "snippet": "kernel: { root: 'S:/kernel-lane', ts: 'S:/Archivist-Agent/lanes/broadcast/trust-store.json' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\system-status.js",
+      "line": 7,
+      "snippet": "kernel: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\tighten-evidence-exchange-check.js",
+      "line": 33,
+      "snippet": "swarmmind: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\tighten-evidence-exchange-check.js",
+      "line": 34,
+      "snippet": "kernel: 'S:/kernel-lane'",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\tmp-sync-scripts.js",
+      "line": 5,
+      "snippet": "{ name: 'kernel', root: 'S:/kernel-lane' },",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\tmp-sync-scripts.js",
+      "line": 7,
+      "snippet": "{ name: 'swarmmind', root: 'S:/SwarmMind' }",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\util\\lane-discovery.js",
+      "line": 37,
+      "snippet": "local_path: 'S:/kernel-lane',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\util\\lane-discovery.js",
+      "line": 48,
+      "snippet": "local_path: 'S:/SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    },
+    {
+      "file": "scripts\\validate-schema.js",
+      "line": 23,
+      "snippet": "'swarmmind': 'S:\\\\SwarmMind',",
+      "type": "cross_lane_import",
+      "severity": "blocking"
+    }
+  ],
+  "summary": {
+    "blocking": 81,
+    "warnings": 0,
+    "info": 0
+  },
+  "enforcement": {
+    "pre_commit_hook": true,
+    "block_on_violation": true,
+    "strict_mode": true
+  },
+  "recommendations": [
+    "Move cross-lane dependencies to local scripts/util/ implementations",
+    "Replace absolute paths with relative local imports",
+    "Document utility origins with ORIGIN: comments",
+    "Run: node scripts/sovereignty-enforcer.js to verify"
+  ]
+}

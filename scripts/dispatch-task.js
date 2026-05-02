@@ -4,14 +4,16 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
+const discovery = new LaneDiscovery();
 
 const LANE_REGISTRY = {
-  archivist: { inbox: 'S:/Archivist-Agent/lanes/archivist/inbox', root: 'S:/Archivist-Agent' },
-  kernel: { inbox: 'S:/kernel-lane/lanes/kernel/inbox', root: 'S:/kernel-lane' },
-  library: { inbox: 'S:/self-organizing-library/lanes/library/inbox', root: 'S:/self-organizing-library' },
-  swarmmind: { inbox: 'S:/SwarmMind/lanes/swarmmind/inbox', root: 'S:/SwarmMind' },
+  archivist: { inbox: discovery.getInbox('archivist'), root: discovery.getLocalPath('archivist') },
+  kernel: { inbox: discovery.getInbox('kernel'), root: discovery.getLocalPath('kernel') },
+  library: { inbox: discovery.getInbox('library'), root: discovery.getLocalPath('library') },
+  swarmmind: { inbox: discovery.getInbox('swarmmind'), root: discovery.getLocalPath('swarmmind') },
 };
 
 function generateId() {

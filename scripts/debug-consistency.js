@@ -1,14 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
-const ROOT = 'S:/Archivist-Agent';
+const discovery = new LaneDiscovery();
+const ROOT = discovery.getLocalPath('archivist');
 const TRUST_PATH = `${ROOT}/lanes/broadcast/trust-store.json`;
 const LANE_CONFIGS = {
   archivist: `${ROOT}`,
-  library: 'S:/self-organizing-library',
-  swarmmind: 'S:/SwarmMind',
-  kernel: 'S:/kernel-lane'
+  library: discovery.getLocalPath('library'),
+  swarmmind: discovery.getLocalPath('swarmmind'),
+  kernel: discovery.getLocalPath('kernel')
 };
 
 console.log('=== Multi-Source Consistency Debug ===\n');

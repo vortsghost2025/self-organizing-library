@@ -11,17 +11,19 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
+const discovery = new LaneDiscovery();
 const LOG = { info: '[i]', success: '[+]', warning: '[!]', error: '[-]', test: '[T]' };
 function log(message, level = 'info') {
   console.log(`${LOG[level] || ''} ${message}`);
 }
 
-const SCHEMAS_DIR = path.join('S:', 'Archivist-Agent', 'schemas');
+const SCHEMAS_DIR = path.join(discovery.getLocalPath('archivist'), 'schemas');
 const LANES = {
-  'archivist-agent': 'S:\\Archivist-Agent',
-  'swarmmind': 'S:\\SwarmMind',
-  'library': 'S:\\self-organizing-library'
+  'archivist-agent': discovery.getLocalPath('archivist'),
+  'swarmmind': discovery.getLocalPath('swarmmind'),
+  'library': discovery.getLocalPath('library')
 };
 
 /**

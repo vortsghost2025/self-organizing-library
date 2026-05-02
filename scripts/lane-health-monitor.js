@@ -4,10 +4,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
+
+const discovery = new LaneDiscovery();
 
 const LANES = [
-  { name: 'library', path: 'S:/self-organizing-library' },
-  { name: 'swarmmind', path: 'S:/SwarmMind' }
+  { name: 'library', path: discovery.getLocalPath('library') },
+  { name: 'swarmmind', path: discovery.getLocalPath('swarmmind') }
 ];
 
 const THRESHOLDS = {

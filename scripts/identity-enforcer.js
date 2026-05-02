@@ -4,21 +4,20 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
+const discovery = new LaneDiscovery();
 const LOCAL_TRUST_STORE = path.join(__dirname, '..', 'lanes', 'broadcast', 'trust-store.json');
 const TRUST_STORE_SEARCH_PATHS = [
 LOCAL_TRUST_STORE,
-'S:/Archivist-Agent/lanes/broadcast/trust-store.json',
-'S:/kernel-lane/lanes/broadcast/trust-store.json',
-'S:/self-organizing-library/lanes/broadcast/trust-store.json',
-'S:/SwarmMind/lanes/broadcast/trust-store.json',
+path.join(discovery.getBroadcastPath(), 'trust-store.json'),
 ];
 
 const ALLOWED_TRUST_STORE_ROOTS = [
-'S:/Archivist-Agent',
-'S:/kernel-lane',
-'S:/self-organizing-library',
-'S:/SwarmMind',
+  discovery.getLocalPath('archivist'),
+  discovery.getLocalPath('kernel'),
+  discovery.getLocalPath('library'),
+  discovery.getLocalPath('swarmmind'),
 ];
 
 const TRUST_STORE_PRECOMMIT_CHECKS = [
@@ -258,15 +257,8 @@ this._loadTrustStore();
     };
   }
 
-  static signMessage(msg, privateKey, keyId) {
-const { stableStringify } = require(path.join(
-fs.existsSync('S:/SwarmMind/src/attestation/stableStringify.js')
-? 'S:/SwarmMind/src/attestation'
-: fs.existsSync('S:/self-organizing-library/src/attestation/stableStringify.js')
-? 'S:/self-organizing-library/src/attestation'
-: 'S:/kernel-lane/src/attestation',
-'stableStringify.js'
-));
+   static signMessage(msg, privateKey, keyId) {
+    const { stableStringify } = require('../src/attestation/stableStringify');
 
     const header = { alg: 'RS256', typ: 'JWT', kid: keyId };
     const headerB64 = Buffer.from(JSON.stringify(header)).toString('base64')

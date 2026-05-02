@@ -6,6 +6,7 @@ const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const { getCodeVersionHash } = require('./code-version-hash');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const EXECUTOR_VERSION = '3.1.0';
 const FEATURE_FLAGS = {
@@ -16,11 +17,13 @@ const FEATURE_FLAGS = {
   diff_size_limit: true,
 };
 
+const discovery = new LaneDiscovery();
+
 const LANE_REGISTRY = {
-  archivist: { root: 'S:/Archivist-Agent', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
-  kernel: { root: 'S:/kernel-lane', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
-  library: { root: 'S:/self-organizing-library', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
-  swarmmind: { root: 'S:/SwarmMind', inbox_target: 'S:/Archivist-Agent/lanes/archivist/inbox' },
+  archivist: { root: discovery.getLocalPath('archivist'), inbox_target: discovery.getInbox('archivist') },
+  kernel: { root: discovery.getLocalPath('kernel'), inbox_target: discovery.getInbox('archivist') },
+  library: { root: discovery.getLocalPath('library'), inbox_target: discovery.getInbox('archivist') },
+  swarmmind: { root: discovery.getLocalPath('swarmmind'), inbox_target: discovery.getInbox('archivist') },
 };
 
 const TRUTH_CRITICAL_PATH_MARKERS = [

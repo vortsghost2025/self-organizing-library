@@ -16,10 +16,12 @@
 
 const { spawn } = require('child_process');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
-const ARCHIVIST_ROOT = 'S:/Archivist-Agent';
-const LIBRARY_ROOT = 'S:/self-organizing-library';
-const SWARMIND_ROOT = 'S:/SwarmMind';
+const discovery = new LaneDiscovery();
+const ARCHIVIST_ROOT = discovery.getLocalPath('archivist');
+const LIBRARY_ROOT = discovery.getLocalPath('library');
+const SWARMIND_ROOT = discovery.getLocalPath('swarmmind');
 
 function runCommand(cmd, args, cwd) {
   return new Promise((resolve, reject) => {

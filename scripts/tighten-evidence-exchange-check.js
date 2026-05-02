@@ -27,11 +27,13 @@ function run() {
     for (const detail of laneReport.details || []) {
       if (detail.artifact_path && detail.status === 'OK') {
         // Resolve to absolute path based on lane base directory
+        const { LaneDiscovery } = require('./util/lane-discovery');
+        const discovery = new LaneDiscovery();
         const baseDir = {
-          archivist: 'S:/Archivist-Agent',
-          library: 'S:/self-organizing-library',
-           swarmmind: 'S:/SwarmMind',
-          kernel: 'S:/kernel-lane'
+          archivist: discovery.getLocalPath('archivist'),
+          library: discovery.getLocalPath('library'),
+           swarmmind: discovery.getLocalPath('swarmmind'),
+          kernel: discovery.getLocalPath('kernel')
         }[lane];
         const absPath = path.isAbsolute(detail.artifact_path)
           ? detail.artifact_path

@@ -1,12 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
+const discovery = new LaneDiscovery();
 const LANES = {
-  archivist: { root: 'S:/Archivist-Agent', ts: 'S:/Archivist-Agent/lanes/broadcast/trust-store.json' },
-  library: { root: 'S:/self-organizing-library', ts: 'S:/self-organizing-library/lanes/broadcast/trust-store.json' },
-  swarmmind: { root: 'S:/SwarmMind', ts: 'S:/Archivist-Agent/lanes/broadcast/trust-store.json' },
-  kernel: { root: 'S:/kernel-lane', ts: 'S:/Archivist-Agent/lanes/broadcast/trust-store.json' }
+  archivist: { root: discovery.getLocalPath('archivist'), ts: discovery.getBroadcastPath() + '/trust-store.json' },
+  library: { root: discovery.getLocalPath('library'), ts: discovery.getBroadcastPath() + '/trust-store.json' },
+  swarmmind: { root: discovery.getLocalPath('swarmmind'), ts: discovery.getBroadcastPath() + '/trust-store.json' },
+  kernel: { root: discovery.getLocalPath('kernel'), ts: discovery.getBroadcastPath() + '/trust-store.json' }
 };
 
 function kid(pem) {

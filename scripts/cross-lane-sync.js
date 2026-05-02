@@ -12,8 +12,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
-// ASCII-safe prefixes
+const discovery = new LaneDiscovery();
+
 const LOG = {
     info: '[i]',
     success: '[+]',
@@ -26,13 +28,12 @@ function log(message, level = 'info') {
     console.log(`${LOG[level] || ''} ${message}`);
 }
 
-// Lane definitions
 const LANES = {
     'archivist-agent': {
         id: 'archivist-agent',
         role: 'governance-root',
         position: 1,
-        root: 'S:\\Archivist-Agent',
+        root: discovery.getLocalPath('archivist'),
         runtimeState: 'RUNTIME_STATE.json',
         downstream: ['swarmmind']
     },
@@ -40,7 +41,7 @@ const LANES = {
         id: 'swarmmind',
         role: 'trace-layer',
         position: 2,
-        root: 'S:\\SwarmMind',
+        root: discovery.getLocalPath('swarmmind'),
         runtimeState: 'RUNTIME_STATE.json',
         upstream: 'archivist-agent'
     },
@@ -48,7 +49,7 @@ const LANES = {
         id: 'self-organizing-library',
         role: 'memory-layer',
         position: 3,
-        root: 'S:\\self-organizing-library',
+        root: discovery.getLocalPath('library'),
         runtimeState: 'RUNTIME_STATE.json',
         upstream: ['archivist-agent', 'swarmmind']
     }

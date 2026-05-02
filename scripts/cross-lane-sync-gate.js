@@ -4,19 +4,22 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
+
+const discovery = new LaneDiscovery();
 
 const LANE_ROOTS = {
-  archivist: 'S:/Archivist-Agent',
-  kernel: 'S:/kernel-lane',
-  library: 'S:/self-organizing-library',
-swarmmind: 'S:/SwarmMind'
+  archivist: discovery.getLocalPath('archivist'),
+  kernel: discovery.getLocalPath('kernel'),
+  library: discovery.getLocalPath('library'),
+  swarmmind: discovery.getLocalPath('swarmmind'),
 };
 
 const TRUST_STORE_PATHS = [
-'S:/Archivist-Agent/lanes/broadcast/trust-store.json',
-'S:/kernel-lane/lanes/broadcast/trust-store.json',
-'S:/self-organizing-library/lanes/broadcast/trust-store.json',
-'S:/SwarmMind/lanes/broadcast/trust-store.json'
+  discovery.getLocalPath('archivist') + '/lanes/broadcast/trust-store.json',
+  discovery.getLocalPath('kernel') + '/lanes/broadcast/trust-store.json',
+  discovery.getLocalPath('library') + '/lanes/broadcast/trust-store.json',
+  discovery.getLocalPath('swarmmind') + '/lanes/broadcast/trust-store.json'
 ];
 
 function findTrustStore() {

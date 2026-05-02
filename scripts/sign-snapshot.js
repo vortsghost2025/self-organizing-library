@@ -15,7 +15,7 @@
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
-const { atomicWriteWithLease } = require('S:/kernel-lane/scripts/atomic-write-util');
+const { atomicWriteWithLease } = require('./util/atomic-write-util');
 
 const ROOT = path.join(__dirname, '..');
 const IDENTITY_DIR = path.join(ROOT, '.identity');
@@ -114,7 +114,7 @@ async function signSnapshot() {
 
   const jws = `${headerB64}.${payloadB64}.${signatureB64}`;
 
-  await atomicWriteWithLease(SNAPSHOT_JWS_PATH, jws, 'archivist', 30000);
+  await atomicWriteWithLease(SNAPSHOT_JWS_PATH, jws, 'library', 30000);
 
   console.log('\nSigned snapshot written to:', SNAPSHOT_JWS_PATH);
   console.log('JWS length:', jws.length, 'characters');

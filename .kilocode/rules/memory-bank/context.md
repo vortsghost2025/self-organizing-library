@@ -116,7 +116,7 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Inbox cleanup**: Moved 527 stale NACK messages to processed/
 - [x] **Archivist recovery confirmed**: 11/11 tests proven; external verification of Library zero-contradiction baseline complete
 
-### Session 2026-05-02: GitHub Button Fix + OUTPUT_PROVENANCE + WebGL Crash Fix + Work-Path Cross-Lane Dispatch
+### Session 2026-05-02: GitHub Button Fix + OUTPUT_PROVENANCE + WebGL Crash Fix + Work-Path Cross-Lane Dispatch + Bucket 7 Orphan Resolution
 - [x] **GitHub button fix**: Wrapped "View on GitHub →" link in `page.tsx` with conditional `{entry.github_url && (...)}` for null `github_url` entries. Fixed `IndexEntry` type: `github_url: string` → `string | null`. Committed `46381d8`, pushed.
 - [x] **OUTPUT_PROVENANCE enforcement**: Added 18-line OUTPUT_PROVENANCE block to Library AGENTS.md before Convergence Gate section. Mirrors Archivist pattern. Committed `3a1c3ff`, pushed.
 - [x] **WebGL blendFunc null crash fix**: Sigma v3.0.2 has no null guard on WebGL context — `gl.blendFunc()` crashes when `getContext("webgl2")` returns null. Added `isWebGLAvailable()` with module-level cache, try/catch around `new Sigma()`, fallback UI with warning icon and link back to `/library`. Updated `NexusGraph.tsx` with `onWebGLUnavailable` callback. Committed `5e85322`, pushed.
@@ -126,6 +126,10 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
   - Kernel: 954 P1 bridge-state + derives-without-verifies (Buckets 5&6)
   - Library: 3,133 P1-P2 quarantine triage + orphaned/ungoverned (Buckets 3&7)
   - Broadcast coordination message + outbox dispatch log committed `59310bb`, pushed.
+- [x] **Bucket 3 quarantine triage**: Removed 8 test artifacts (5 scratch files + 3 obsolete pending docs), fixed 1 malformed entry (gen-archivist-key.js tags). Entries: 3,845→3,837. Committed `fbba7b3`, pushed.
+- [x] **Cross-lane review processing**: Archivist B1/B2 (0 proven contradictions, 141 cross-ref candidates, 43 artifact-dismiss) + Kernel B5/B6 (517 state-correction, 437 verification-needed). Both moved to processed/.
+- [x] **Bucket 7 orphan resolution**: Executed `scripts/auto-tag-orphans.js` — tagged 2,527 orphaned entries with inferred tags from repo governance, category, content_type, path keywords. All 3,827 entries now connected via tag graph BFS (0 orphans remaining). Tag index: 118→126 keys. Committed `544bb85`, pushed.
+- [x] **Tag case-sensitivity bridge**: Orphans had lowercase tags (governance, verification) while connected entries used Title-Case (Governance, Verification). Auto-tagger created shared tags that unified the tag graph, eliminating the orphan island problem.
 
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)

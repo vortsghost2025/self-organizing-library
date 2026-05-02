@@ -8,20 +8,21 @@ const crypto = require('crypto');
 const { deriveKeyId } = require(path.join(__dirname, '..', '.global', 'deriveKeyId.js'));
 
 // LEASE + ATOMIC WRITE: Require kernel primitives for cross-lane mutation safety
-const KERNEL_ROOT = 'S:/kernel-lane';
-const { atomicWriteWithLease } = require(path.join(KERNEL_ROOT, 'scripts', 'atomic-write-util'));
+const { LaneDiscovery } = require('./util/lane-discovery');
+const discovery = new LaneDiscovery();
+const { atomicWriteWithLease } = require(path.join(discovery.getLocalPath('kernel'), 'scripts', 'atomic-write-util'));
 const { guardWrite } = require(path.join(__dirname, 'outbox-write-guard'));
 
 const PASSFILE_CANDIDATES = [
   path.join(__dirname, '..', '.runtime', 'lane-passphrases.json'),
-  'S:/Archivist-Agent/.runtime/lane-passphrases.json'
+  path.join(discovery.getLocalPath('archivist'), '.runtime', 'lane-passphrases.json')
 ];
 
 const LANE_IDENTITY_DIRS = {
-  archivist: 'S:/Archivist-Agent/.identity',
-  library: 'S:/self-organizing-library/.identity',
-  swarmmind: 'S:/SwarmMind/.identity',
-  kernel: 'S:/kernel-lane/.identity',
+  archivist: path.join(discovery.getLocalPath('archivist'), '.identity'),
+  library: path.join(discovery.getLocalPath('library'), '.identity'),
+  swarmmind: path.join(discovery.getLocalPath('swarmmind'), '.identity'),
+  kernel: path.join(discovery.getLocalPath('kernel'), '.identity'),
 };
 
 const DEFAULT_PAYLOAD = { mode: 'inline', compression: 'none' };

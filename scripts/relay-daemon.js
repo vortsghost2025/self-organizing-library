@@ -3,19 +3,22 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
+
+const discovery = new LaneDiscovery();
 
 const CANONICAL_INBOX = {
-  archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
-  library:   'S:/self-organizing-library/lanes/library/inbox/',
-  swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
-  kernel:    'S:/kernel-lane/lanes/kernel/inbox/',
+  archivist: discovery.getInbox('archivist'),
+  library:   discovery.getInbox('library'),
+  swarmmind: discovery.getInbox('swarmmind'),
+  kernel:    discovery.getInbox('kernel'),
 };
 
 const LANE_ROOTS = {
-  archivist: 'S:/Archivist-Agent',
-  library:   'S:/self-organizing-library',
-  swarmmind: 'S:/SwarmMind',
-  kernel:    'S:/kernel-lane',
+  archivist: discovery.getLocalPath('archivist'),
+  library:   discovery.getLocalPath('library'),
+  swarmmind: discovery.getLocalPath('swarmmind'),
+  kernel:    discovery.getLocalPath('kernel'),
 };
 
 function nowIso() { return new Date().toISOString(); }

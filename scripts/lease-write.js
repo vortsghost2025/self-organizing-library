@@ -3,8 +3,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
-const KERNEL_ROOT = 'S:/kernel-lane';
+const discovery = new LaneDiscovery();
+const KERNEL_ROOT = discovery.getLocalPath('kernel');
 const { atomicWriteWithLease } = require(path.join(KERNEL_ROOT, 'scripts', 'atomic-write-util'));
 
 function ensureParentDir(filePath) {

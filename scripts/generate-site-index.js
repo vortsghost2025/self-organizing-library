@@ -10,53 +10,123 @@ const {
   loadJson,
   getArgValue
 } = require('./graph-write-guard');
+const { LaneDiscovery } = require('./util/lane-discovery');
+
+const discovery = new LaneDiscovery();
 
 const ARGS = process.argv.slice(2);
 const ADJUDICATION_PATH = getArgValue(ARGS, '--adjudication');
 
 const REPOS = [
-  {
-    name: 'self-organizing-library',
-    root: 'S:/self-organizing-library',
-    github: 'https://github.com/vortsghost2025/self-organizing-library/blob/main',
-    categoryMap: {
-      'library/books': 'paper',
-      'library/docs/papers': 'paper',
-      'library/docs/specs': 'spec',
-      'library/docs/verification': 'verification',
-      'library/docs/failure-modes': 'failure-mode',
-      'library/docs/attestation': 'attestation',
-      'library/docs/archivist': 'governance',
-      'library/docs/reflection': 'reflection',
-      'library/docs/pending': 'pending',
-      'schemas': 'schema',
-      'scripts': 'script',
-      'src/attestation': 'attestation',
-      'src/audit': 'audit',
-      'src/identity': 'identity',
-  'src/lane': 'lane-protocol',
-  'src/resilience': 'resilience',
-  'src/swarmmind': 'swarmmind',
-  'src/queue': 'queue',
-  'src/usage': 'usage',
-  'src/memory': 'memory',
-  'src/db': 'database',
-  'docs': 'docs',
-      'tests': 'test',
-      'verification': 'verification',
-      'config': 'config',
-      'data': 'data',
-    },
+   {
+     name: 'self-organizing-library',
+     root: discovery.getLocalPath('library'),
+     github: 'https://github.com/vortsghost2025/self-organizing-library/blob/main',
+     categoryMap: {
+       'library/books': 'paper',
+       'library/docs/papers': 'paper',
+       'library/docs/specs': 'spec',
+       'library/docs/verification': 'verification',
+       'library/docs/failure-modes': 'failure-mode',
+       'library/docs/attestation': 'attestation',
+       'library/docs/archivist': 'governance',
+       'library/docs/reflection': 'reflection',
+       'library/docs/pending': 'pending',
+       'schemas': 'schema',
+       'scripts': 'script',
+       'src/attestation': 'attestation',
+       'src/audit': 'audit',
+       'src/identity': 'identity',
+     'src/lane': 'lane-protocol',
+     'src/resilience': 'resilience',
+     'src/swarmmind': 'swarmmind',
+     'src/queue': 'queue',
+     'src/usage': 'usage',
+     'src/memory': 'memory',
+     'src/db': 'database',
+   },
+   {
+     name: 'Archivist-Agent',
+     root: discovery.getLocalPath('archivist'),
+     github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/master',
+     categoryMap: {
+       'docs': 'docs',
+       'docs/spec': 'spec',
+     'docs/verification': 'verification',
+     'papers': 'paper',
+       'logs': 'log',
+       'config': 'config',
+       'projects': 'project',
+       'COORDINATION': 'coordination',
+       'context': 'context',
+       'schemas': 'schema',
+       'scripts': 'script',
+       'src/attestation': 'attestation',
+       'src/core': 'governance',
+       'src/lane': 'lane-protocol',
+       'src/orchestrator': 'governance',
+       'src/monitoring': 'monitoring',
+       'src/queue': 'queue',
+       'src/memory': 'memory',
+       'src/bridge': 'bridge',
+       'src/tools': 'tool',
+       'tests': 'test',
+       'verification': 'verification',
+       'data': 'data',
+       'library': 'library',
+     },
+   },
+   {
+     name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
+     root: discovery.getLocalPath('swarmmind'),
+     github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
+     categoryMap: {
+       'docs': 'docs',
+       'src': 'code',
+       'scripts': 'script',
+       'tests': 'test',
+     'config': 'config',
+       'schemas': 'schema',
+       'data': 'data',
+   },
+   maxDepth: Infinity,
+   excludeDirs: new Set([
+     '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+     '.pi', '.mulch', '.sapling', '.canopy', '.seeds',
+     '.global', '.compact-audit', '.test-trust', '.test-memory',
+     '.test-identity', '.continuity_test', '.continuity_test2',
+     '.continuity_test2b', '.continuity_test3', '.continuity_test4',
+     'worktrees', 'tmp',
+   ]),
+   },
+   {
+     name: 'kernel-lane',
+     root: discovery.getLocalPath('kernel'),
+     github: 'https://github.com/vortsghost2025/kernel-lane/blob/master',
+     categoryMap: {
+       'kernels': 'kernel',
+       'docs': 'docs',
+       'schemas': 'schema',
+       'scripts': 'script',
+     'src': 'code',
+       'benchmarks': 'benchmark',
+       'integration': 'integration',
+       'config': 'config',
+       'profiles': 'profile',
+       'baselines': 'baseline',
+     },
+     maxDepth: Infinity,
+   },
     maxDepth: Infinity,
     excludeDirs: new Set([
       '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
       'tmp', 'out', 'context-buffer',  // local-only artifacts, no GitHub mirror
     ]),
   },
-  {
-    name: 'Archivist-Agent',
-    root: 'S:/Archivist-Agent',
-    github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/master',
+   {
+     name: 'Archivist-Agent',
+     root: discovery.getLocalPath('archivist'),
+     github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/master',
     categoryMap: {
       'docs': 'docs',
       'docs/spec': 'spec',
@@ -94,10 +164,10 @@ const REPOS = [
       'context-buffer',  // Local-only artifacts, no GitHub mirror
     ]),
   },
-  {
-    name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
-    root: 'S:/SwarmMind',
-    github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
+   {
+     name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
+     root: discovery.getLocalPath('swarmmind'),
+     github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
     categoryMap: {
       'docs': 'docs',
       'src': 'code',
@@ -117,10 +187,10 @@ const REPOS = [
     'worktrees', 'tmp',
   ]),
   },
-  {
-    name: 'kernel-lane',
-    root: 'S:/kernel-lane',
-    github: 'https://github.com/vortsghost2025/kernel-lane/blob/master',
+   {
+     name: 'kernel-lane',
+     root: discovery.getLocalPath('kernel'),
+     github: 'https://github.com/vortsghost2025/kernel-lane/blob/master',
     categoryMap: {
       'kernels': 'kernel',
       'docs': 'docs',
@@ -922,7 +992,7 @@ function main() {
     entries: allEntries
   };
 
-  const outputPath = path.join('S:/self-organizing-library', 'data', 'site-index.json');
+  const outputPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index.json');
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const previousIndex = loadJson(outputPath);
   const guardDecision = enforceGraphWriteGuard({

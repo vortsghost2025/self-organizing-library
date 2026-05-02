@@ -17,41 +17,43 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
+const discovery = new LaneDiscovery();
 
 // ── Configuration ──────────────────────────────────────────────────────────
 
 const LANE_CONFIG = {
   library: {
-    projectDir: 'S:/self-organizing-library',
-    inboxDir: 'S:/self-organizing-library/lanes/library/inbox',
-    processedDir: 'S:/self-organizing-library/lanes/library/inbox/processed',
-    expiredDir: 'S:/self-organizing-library/lanes/library/inbox/expired',
-    outboxDir: 'S:/self-organizing-library/lanes/library/outbox',
-    actDocsDir: 'S:/self-organizing-library/docs/autonomous-cycle-test',
+    projectDir: discovery.getLocalPath('library'),
+    inboxDir: discovery.getInbox('library'),
+    processedDir: discovery.getProcessed('library'),
+    expiredDir: path.join(discovery.getInbox('library'), 'expired'),
+    outboxDir: discovery.getOutbox('library'),
+    actDocsDir: path.join(discovery.getLocalPath('library'), 'docs', 'autonomous-cycle-test'),
   },
   archivist: {
-    projectDir: 'S:/Archivist-Agent',
-    inboxDir: 'S:/Archivist-Agent/lanes/archivist/inbox',
-    processedDir: 'S:/Archivist-Agent/lanes/archivist/inbox/processed',
-    expiredDir: 'S:/Archivist-Agent/lanes/archivist/inbox/expired',
-    outboxDir: 'S:/Archivist-Agent/lanes/archivist/outbox',
-    actDocsDir: 'S:/Archivist-Agent/docs/autonomous-cycle-test',
+    projectDir: discovery.getLocalPath('archivist'),
+    inboxDir: discovery.getInbox('archivist'),
+    processedDir: discovery.getProcessed('archivist'),
+    expiredDir: path.join(discovery.getInbox('archivist'), 'expired'),
+    outboxDir: discovery.getOutbox('archivist'),
+    actDocsDir: path.join(discovery.getLocalPath('archivist'), 'docs', 'autonomous-cycle-test'),
   },
-   swarmmind: {
-     projectDir: 'S:/SwarmMind',
-     inboxDir: 'S:/SwarmMind/lanes/swarmmind/inbox',
-     processedDir: 'S:/SwarmMind/lanes/swarmmind/inbox/processed',
-     expiredDir: 'S:/SwarmMind/lanes/swarmmind/inbox/expired',
-     outboxDir: 'S:/SwarmMind/lanes/swarmmind/outbox',
-     actDocsDir: 'S:/SwarmMind/docs/autonomous-cycle-test',
-   },
+  swarmmind: {
+    projectDir: discovery.getLocalPath('swarmmind'),
+    inboxDir: discovery.getInbox('swarmmind'),
+    processedDir: discovery.getProcessed('swarmmind'),
+    expiredDir: path.join(discovery.getInbox('swarmmind'), 'expired'),
+    outboxDir: discovery.getOutbox('swarmmind'),
+    actDocsDir: path.join(discovery.getLocalPath('swarmmind'), 'docs', 'autonomous-cycle-test'),
+  },
   kernel: {
-    projectDir: 'S:/kernel-lane',
-    inboxDir: 'S:/kernel-lane/lanes/kernel/inbox',
-    processedDir: 'S:/kernel-lane/lanes/kernel/inbox/processed',
-    expiredDir: 'S:/kernel-lane/lanes/kernel/inbox/expired',
-    outboxDir: 'S:/kernel-lane/lanes/kernel/outbox',
-    actDocsDir: 'S:/kernel-lane/docs/autonomous-cycle-test',
+    projectDir: discovery.getLocalPath('kernel'),
+    inboxDir: discovery.getInbox('kernel'),
+    processedDir: discovery.getProcessed('kernel'),
+    expiredDir: path.join(discovery.getInbox('kernel'), 'expired'),
+    outboxDir: discovery.getOutbox('kernel'),
+    actDocsDir: path.join(discovery.getLocalPath('kernel'), 'docs', 'autonomous-cycle-test'),
   },
 };
 
