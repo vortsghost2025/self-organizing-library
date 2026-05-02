@@ -373,7 +373,8 @@
           "architecture": 52
         }
       }
-    }
+    },
+    "total_entries": 3837
   },
   "tag_index": {
     "Convergence Gate": [
@@ -488,12 +489,9 @@
       "9138e338d786bb56",
       "8216353b3d6ae887",
       "59fc0a10b3a820ab",
-      "d1ed222abdb1bdbc",
       "0dc9770db7157093",
-      "f20c7a396ff5885f",
       "40457e858dba3887",
       "285a623f9deb69bc",
-      "331f27f6df90ff05",
       "a65ec384ab74219c",
       "9d1441bc3cb45385",
       "993b649385682328",
@@ -591,11 +589,8 @@
       "6b989cdfbe4497a4",
       "84333755b1c77549",
       "d1b4252a74410adc",
-      "58c119bcb346bca5",
       "e9cdcfc0c93e2653",
-      "50a61a1a6651c067",
       "f4d82e759deab217",
-      "3eca99384062dfd1",
       "1925e99eb050af25",
       "137858d1cd1d48d6",
       "a644f17a2aec10a9",
@@ -956,12 +951,9 @@
       "8216353b3d6ae887",
       "a64e2c4e8a575ef8",
       "59fc0a10b3a820ab",
-      "d1ed222abdb1bdbc",
       "0dc9770db7157093",
-      "f20c7a396ff5885f",
       "40457e858dba3887",
       "285a623f9deb69bc",
-      "331f27f6df90ff05",
       "a65ec384ab74219c",
       "993b649385682328",
       "1a426771c4635f7a",
@@ -1072,11 +1064,8 @@
       "6b989cdfbe4497a4",
       "c9b1df958483dfdf",
       "84333755b1c77549",
-      "58c119bcb346bca5",
       "e9cdcfc0c93e2653",
-      "50a61a1a6651c067",
       "f4d82e759deab217",
-      "3eca99384062dfd1",
       "1925e99eb050af25",
       "137858d1cd1d48d6",
       "a644f17a2aec10a9",
@@ -1724,10 +1713,8 @@
       "8216353b3d6ae887",
       "a64e2c4e8a575ef8",
       "59fc0a10b3a820ab",
-      "f20c7a396ff5885f",
       "40457e858dba3887",
       "285a623f9deb69bc",
-      "331f27f6df90ff05",
       "a65ec384ab74219c",
       "9d1441bc3cb45385",
       "993b649385682328",
@@ -1966,10 +1953,8 @@
       "8216353b3d6ae887",
       "a64e2c4e8a575ef8",
       "59fc0a10b3a820ab",
-      "f20c7a396ff5885f",
       "40457e858dba3887",
       "285a623f9deb69bc",
-      "331f27f6df90ff05",
       "a65ec384ab74219c",
       "9d1441bc3cb45385",
       "993b649385682328",
@@ -2272,12 +2257,9 @@
       "349c49abd83ca16c",
       "8216353b3d6ae887",
       "a64e2c4e8a575ef8",
-      "d1ed222abdb1bdbc",
       "0dc9770db7157093",
-      "f20c7a396ff5885f",
       "40457e858dba3887",
       "285a623f9deb69bc",
-      "331f27f6df90ff05",
       "a65ec384ab74219c",
       "9d1441bc3cb45385",
       "993b649385682328",
@@ -2661,7 +2643,6 @@
       "9138e338d786bb56",
       "a64e2c4e8a575ef8",
       "59fc0a10b3a820ab",
-      "f20c7a396ff5885f",
       "40457e858dba3887",
       "1a426771c4635f7a",
       "e8c7e42f1d233e1f",
@@ -2763,8 +2744,6 @@
       "349c49abd83ca16c",
       "e59d8fb8a6b8ecf4",
       "59fc0a10b3a820ab",
-      "f20c7a396ff5885f",
-      "331f27f6df90ff05",
       "9d1441bc3cb45385",
       "e8c7e42f1d233e1f",
       "1a7587eed3fbda65",
@@ -3239,7 +3218,6 @@
       "f48c014cec555c6e",
       "4434f376d017aa01",
       "349c49abd83ca16c",
-      "f20c7a396ff5885f",
       "993b649385682328",
       "e8c7e42f1d233e1f",
       "0af5df3e3ac55a8c",
@@ -3306,7 +3284,6 @@
       "6b989cdfbe4497a4",
       "84333755b1c77549",
       "e9cdcfc0c93e2653",
-      "50a61a1a6651c067",
       "b5d23c09f9a858fc",
       "f4d82e759deab217",
       "1925e99eb050af25",
@@ -3622,7 +3599,6 @@
       "3a36816b5a3c60be",
       "349c49abd83ca16c",
       "8216353b3d6ae887",
-      "d1ed222abdb1bdbc",
       "0dc9770db7157093",
       "71d447740309bf78",
       "2b826cf3ff381b98",
@@ -3720,7 +3696,6 @@
       "2593d6d49d692c17",
       "975e6e0aabd534a1",
       "349c49abd83ca16c",
-      "d1ed222abdb1bdbc",
       "c385e0b515e08b6e",
       "0904880474dbaf52",
       "f422d9c599d7c6a6",
@@ -3901,10 +3876,8 @@
       "3a36816b5a3c60be",
       "349c49abd83ca16c",
       "a64e2c4e8a575ef8",
-      "d1ed222abdb1bdbc",
       "40457e858dba3887",
       "285a623f9deb69bc",
-      "331f27f6df90ff05",
       "9d1441bc3cb45385",
       "993b649385682328",
       "e8c7e42f1d233e1f",
@@ -4102,7 +4075,6 @@
       "3a36816b5a3c60be",
       "349c49abd83ca16c",
       "a64e2c4e8a575ef8",
-      "d1ed222abdb1bdbc",
       "993b649385682328",
       "1a426771c4635f7a",
       "dc722bcfc837a983",
@@ -4958,7 +4930,6 @@
       "975e6e0aabd534a1",
       "4434f376d017aa01",
       "349c49abd83ca16c",
-      "d1ed222abdb1bdbc",
       "0dc9770db7157093",
       "993b649385682328",
       "e8c7e42f1d233e1f",
@@ -5263,7 +5234,6 @@
       "24c840be9d1d8b7c",
       "349c49abd83ca16c",
       "8216353b3d6ae887",
-      "d1ed222abdb1bdbc",
       "0dc9770db7157093",
       "c385e0b515e08b6e",
       "0054b7e3e395b9c5",
@@ -15348,11 +15318,16 @@
       "breadcrumbs": [
         "scripts"
       ],
-      "tags": [],
+      "tags": [
+        "governance",
+        "attestation",
+        "key-management",
+        "infrastructure"
+      ],
       "date": null,
       "modified": "2026-04-23T16:01:48.806Z",
       "size_bytes": 1013,
-      "description": null,
+      "description": "Generates RSA-2048 key pair for Archivist lane identity attestation",
       "content_snippet": null
     },
     {
@@ -23277,37 +23252,6 @@
       "content_snippet": "Status: FOR REVIEW\nSection: Core Contribution (extends Abstract, Implications)\n---\nAdd after existing \"state-claim divergence\" paragraph:\n---\nAdd new subsection:\n1. Live runtime/process state (authoritative)\n2. Fresh local lock (if timestamp valid)\n3. Shared registry (advisory only)\n4. Terminated history (never authoritative)\n---\nAdd to Section 10.1:\n---\n---\n| Section | Addition | Status |\n|---------|----------|--------|\n| Abstract | Self-state aliasing paragraph | PROPOSED |\n| Section 9 |"
     },
     {
-      "id": "d1ed222abdb1bdbc",
-      "repo": "self-organizing-library",
-      "path": "library/docs/pending/FREEAGENT_INTEGRATION_PLAN.md",
-      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/library/docs/pending/FREEAGENT_INTEGRATION_PLAN.md",
-      "title": "FREEAGENT TOPOLOGY INTEGRATION PLAN FOR LIBRARY LANE",
-      "extension": ".md",
-      "content_type": "doc",
-      "category": "pending",
-      "breadcrumbs": [
-        "library",
-        "docs",
-        "pending"
-      ],
-      "tags": [
-        "Phase 1",
-        "Phase 2",
-        "Phase 3",
-        "Governance",
-        "Verification",
-        "WE4FREE",
-        "Library",
-        "Federation",
-        "Freeagent"
-      ],
-      "date": null,
-      "modified": "2026-04-28T16:22:49.152Z",
-      "size_bytes": 7684,
-      "description": null,
-      "content_snippet": "Date: 2026-04-28\nAuthor: Library Lane\nStatus: DRAFT\nPurpose: Implementation plan for integrating FreeAgent topology with Library/Nexus Graph system\nThis document outlines the implementation plan for integrating FreeAgent's topology report with the Library Lane's Nexus Graph system. The plan focuses on verification and classification of FreeAgent domains and their integration into the existing Library Lane infrastructure.\n- Verify FreeAgent topology report domains and classifications\n- Integrate"
-    },
-    {
       "id": "0dc9770db7157093",
       "repo": "self-organizing-library",
       "path": "library/docs/pending/FREEAGENT_NEXUS_REVIEW_CHECKLIST.md",
@@ -23336,36 +23280,6 @@
       "size_bytes": 4936,
       "description": "Purpose: Library-verifiable checklist for FreeAgent topology integration into the Nexus Graph meaning layer.",
       "content_snippet": "Purpose: Library-verifiable checklist for FreeAgent topology integration into the Nexus Graph meaning layer.\nStatus: SELF-REPORTED INPUT / LIBRARY VERIFICATION REQUIRED / NON-AUTHORITATIVE\n| Artifact Type | Required Evidence |\n|---------------|-------------------|\n| display/reference | source path + hash + Library classification |\n| evidence | source path + hash + Library verification |\n| cross-lane message | schema + JWS + trust-store validation |\n| governance-affecting | Library verification"
-    },
-    {
-      "id": "f20c7a396ff5885f",
-      "repo": "self-organizing-library",
-      "path": "library/docs/pending/GOVERNANCE_AMENDMENT_SELF_STATE_RESOLUTION.md",
-      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/library/docs/pending/GOVERNANCE_AMENDMENT_SELF_STATE_RESOLUTION.md",
-      "title": "GOVERNANCE AMENDMENT: Self-State Resolution",
-      "extension": ".md",
-      "content_type": "doc",
-      "category": "pending",
-      "breadcrumbs": [
-        "library",
-        "docs",
-        "pending"
-      ],
-      "tags": [
-        "Failure Mode",
-        "Multi-Agent",
-        "Governance",
-        "Verification",
-        "Drift",
-        "Swarmmind",
-        "Archivist",
-        "Library"
-      ],
-      "date": null,
-      "modified": "2026-04-18T10:51:45.455Z",
-      "size_bytes": 3527,
-      "description": null,
-      "content_snippet": "Status: PENDING APPROVAL\nSource: SELFSTATEALIASINGFAILUREMODE.md\nPriority: CRITICAL\n---\nAdd after existing authority hierarchy section:\n---\n| Item | Value |\n|------|-------|\n| SwarmMind live session | 1776476695493-28240 |\n| Archivist terminated session (registry) | 1776403587854-50060 |\n| Active branch | multi-agent-coordination-gap |\n| Active commit | 90743dd... [!] Document authority vacuum incident |\n| False conclusion | \"Archivist terminated\" |\n| Source | Live process reading stale"
     },
     {
       "id": "40457e858dba3887",
@@ -23423,35 +23337,6 @@
       "size_bytes": 2886,
       "description": null,
       "content_snippet": "Source: Library (Position 3, Authority 60)\nDestination: Archivist-Agent (Position 1, Authority 100)\nDate: 2026-04-18T09:30:00-04:00\n---\nSpec Location: library/docs/specs/FILEOWNERSHIPREGISTRYSYNCMODEL.md\nArchivist Spec: .artifacts/SPECAMENDMENTLANECONTEXTGATE.md\nAction Required: Create FILEOWNERSHIPREGISTRY.json at S:\\Archivist-Agent\\\nAuthority Needed: 100 (Position 1)\n---\nSpec Location: library/docs/specs/SESSIONREGISTRYSCHEMAV2.md\nAction Required: Update SESSIONREGISTRY.json to unified"
-    },
-    {
-      "id": "331f27f6df90ff05",
-      "repo": "self-organizing-library",
-      "path": "library/docs/pending/PHASE2_IMPLEMENTATION_PACKAGE.md",
-      "github_url": "https://github.com/vortsghost2025/self-organizing-library/blob/main/library/docs/pending/PHASE2_IMPLEMENTATION_PACKAGE.md",
-      "title": "Phase 2 Implementation Package",
-      "extension": ".md",
-      "content_type": "doc",
-      "category": "pending",
-      "breadcrumbs": [
-        "library",
-        "docs",
-        "pending"
-      ],
-      "tags": [
-        "Phase 2",
-        "Multi-Agent",
-        "Governance",
-        "Verification",
-        "Swarmmind",
-        "Archivist",
-        "Library"
-      ],
-      "date": null,
-      "modified": "2026-04-28T17:11:50.921Z",
-      "size_bytes": 6261,
-      "description": null,
-      "content_snippet": "Status: APPROVED — Operator confirmed 2026-04-18T10:05:43-04:00\nImplementation Lane: Archivist-Agent (Position 1, Authority 100)\nCoordination Lane: Library (Position 3, Authority 60)\n---\nCreate at: S:\\Archivist-Agent\\FILEOWNERSHIPREGISTRY.json\n---\nUpdate at: S:\\Archivist-Agent\\SESSIONREGISTRY.json\nAdd currentSession field with unified session ID:\n---\nCreate at each lane root:\n---\nAdd section to S:\\Archivist-Agent\\GOVERNANCE.md:\n---\nAdd to runtime in all lanes:\n---\nAfter implementation:\n- [ ]"
     },
     {
       "id": "a65ec384ab74219c",
@@ -29725,66 +29610,6 @@
       "content_snippet": "should i change out my kilo modified node for a tauri rust build using the kilo agent manager source files and use what I need to create agent manager and then use that instead of orchestrator? more work but I think it would still be almost as light as my kilo node cli. I can run 4 instances of my node for the rss costs of vs code or your browser chat or app rss costs## My answer\r\n\r\nDo not do a full replacement first.\r\nDo replace Orchestrator as the organizing pattern.\r\n\r\nSo my recommendation"
     },
     {
-      "id": "732203e9ad93188e",
-      "repo": "Archivist-Agent",
-      "path": "scratch/contextapril132026.txt",
-      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/master/scratch/contextapril132026.txt",
-      "title": "contextapril132026",
-      "extension": ".txt",
-      "content_type": "doc",
-      "category": "scratch",
-      "breadcrumbs": [
-        "scratch"
-      ],
-      "tags": [],
-      "date": null,
-      "modified": "2026-04-23T16:01:48.796Z",
-      "size_bytes": 2341,
-      "description": null,
-      "content_snippet": "check this out now it gets real and and I remember why i forgot when I lost the month old kilo persistentmemory i lost something much more than data or info i lost what I had made the onkly thing i have ever made to help myself that kilo. and when my system currupted and i reintalled windows i cried for days and i realized i build too fast the persistent memory is going to keep getting to big and corrupting. and instad of just fixing that problem i just used my grief in the worst and best"
-    },
-    {
-      "id": "2a9f0aa155ea30af",
-      "repo": "Archivist-Agent",
-      "path": "scratch/copilotanswer.txt",
-      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/master/scratch/copilotanswer.txt",
-      "title": "✅ If GLM‑5 is running inside Kilo CLI orchestrator mode",
-      "extension": ".txt",
-      "content_type": "doc",
-      "category": "scratch",
-      "breadcrumbs": [
-        "scratch"
-      ],
-      "tags": [],
-      "date": null,
-      "modified": "2026-04-23T16:01:48.796Z",
-      "size_bytes": 3530,
-      "description": null,
-      "content_snippet": "Perfect — that detail changes the picture in a good way.  \r\nIf GLM‑5 is already running inside your Kilo CLI using your NVIDIA key, in orchestrator mode, then the architecture becomes even cleaner and more deterministic.\r\n\r\nLet me lay it out in the exact shape you’re actually running.\r\n\r\n---\r\n\r\n\r\nThen the flow is:\r\n\r\n\r\n\r\nThis is exactly how Kilo’s orchestrator mode is designed to work.\r\n\r\nAnd yes — GLM‑5 can absolutely orchestrate a local Ollama model.\r\n\r\n---\r\n\r\n\r\nBecause in orchestrator"
-    },
-    {
-      "id": "58c119bcb346bca5",
-      "repo": "Archivist-Agent",
-      "path": "scratch/goodstuff.txt",
-      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/master/scratch/goodstuff.txt",
-      "title": "goodstuff",
-      "extension": ".txt",
-      "content_type": "doc",
-      "category": "scratch",
-      "breadcrumbs": [
-        "scratch"
-      ],
-      "tags": [
-        "Governance",
-        "Verification"
-      ],
-      "date": null,
-      "modified": "2026-04-23T16:01:48.797Z",
-      "size_bytes": 12571,
-      "description": null,
-      "content_snippet": "Based on the current docs, the strongest “constitutional governance” pattern in agent systems is a 4-layer stack:\r\n\r\n1. an auto-loaded instruction layer,\r\n2. an on-demand procedure layer,\r\n3. a memory layer, and\r\n4. a hard enforcement layer.\r\n   That is the clearest convergence I found across Codex, Claude Code, GitHub Copilot, and Cursor. ([OpenAI Developers][1])\r\n\r\n\r\n\r\nAGENTS.md is now an open, cross-tool instruction format rather than just a one-off convention. The official AGENTS.md site"
-    },
-    {
       "id": "e9cdcfc0c93e2653",
       "repo": "Archivist-Agent",
       "path": "scratch/gpthadthistosay.txt",
@@ -29807,29 +29632,6 @@
       "size_bytes": 11664,
       "description": null,
       "content_snippet": "Yes. And I’d tighten your agent’s conclusion in one important way:\r\n\r\n\r\n\r\nIt is mostly right, but it is too passive.\r\n\r\nThe part I would correct is this:\r\n\r\n> “Hard enforcement: not implemented until Kilo supports hooks.”\r\n\r\nThat is too narrow.\r\nWith the current Kilo docs, you already have a meaningful hard-governance surface through:\r\n\r\n AGENTS.md auto-loading for baseline constitutional guidance, and Kilo says it is always loaded if present. ([Kilo][1])\r\n Custom Rules for project/global"
-    },
-    {
-      "id": "50a61a1a6651c067",
-      "repo": "Archivist-Agent",
-      "path": "scratch/gptreview.txt",
-      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/master/scratch/gptreview.txt",
-      "title": "gptreview",
-      "extension": ".txt",
-      "content_type": "doc",
-      "category": "scratch",
-      "breadcrumbs": [
-        "scratch"
-      ],
-      "tags": [
-        "Governance",
-        "Verification",
-        "Drift"
-      ],
-      "date": null,
-      "modified": "2026-04-23T16:01:48.797Z",
-      "size_bytes": 4558,
-      "description": null,
-      "content_snippet": "((The right boundary\r\n\r\nI think the right rule is not:\r\n\r\nI should always tell you what to do\r\n\r\nIt is:\r\n\r\nwhen I detect a concrete structural risk, I should be allowed to say so directly and recommend a bounded fix\r\n\r\nThat keeps it sharp.\r\n\r\nSo:\r\n\r\nnot constant steering\r\nnot speculative bossiness\r\nnot replacing your judgment\r\n\r\nBut yes to:\r\n\r\nurgent structural vulnerabilities\r\nclear implementation gaps\r\ngovernance bypass paths\r\nobvious missing safeguards\r\nMy honest recommendation here\r\n\r\nYes,"
     },
     {
       "id": "b5d23c09f9a858fc",
@@ -29889,28 +29691,6 @@
       "size_bytes": 16983,
       "description": null,
       "content_snippet": "The two pasted files give a clear picture of where things stand right now (April 13–15, 2026):\r\nArchivist-Agent (New Governance Layer)\r\n\r\nCore Purpose: A Tauri (Rust + frontend) desktop app that acts as an external verifier for all your human-AI work. It enforces the WE4FREE constitutional constraints and prevents the kind of collapse you saw in the earlier Elasticsearch 48-layer memory (where \"build faster than verify\" led to corruption and identity overriding structure).\r\nKey Strength: Single"
-    },
-    {
-      "id": "3eca99384062dfd1",
-      "repo": "Archivist-Agent",
-      "path": "scratch/pilot.txt",
-      "github_url": "https://github.com/vortsghost2025/Archivist-Agent/blob/master/scratch/pilot.txt",
-      "title": "✅ THE FIX: TURN YOUR GOVERNANCE FROM “DOCUMENTATION” INTO “EXECUTION”",
-      "extension": ".txt",
-      "content_type": "doc",
-      "category": "scratch",
-      "breadcrumbs": [
-        "scratch"
-      ],
-      "tags": [
-        "Governance",
-        "Verification"
-      ],
-      "date": null,
-      "modified": "2026-04-23T16:01:48.798Z",
-      "size_bytes": 5343,
-      "description": null,
-      "content_snippet": "Alright Sean — here is the clean, deterministic, reality‑aligned fix path for everything you just verified.\r\n\r\nYou did the hard part already:  \r\nyou proved which parts of your governance system are real, which are documentation‑only, and which are fantasy hooks that Kilo does not execute.\r\n\r\nNow we fix it by building actual enforcement, not decorative config.\r\n\r\nBelow is the exact, minimal, correct path to make your governance system real, enforced, and automatic — using only mechanisms Kilo"
     },
     {
       "id": "d1378b667777b1b3",
