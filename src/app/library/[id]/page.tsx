@@ -61,14 +61,16 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
               </div>
           <h1 className="text-3xl font-bold text-[var(--text-primary)]" data-pagefind-meta="title">{entry.title}</h1>
         </div>
-        <a
-              href={entry.github_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary px-4 py-2 text-sm"
-            >
-              View on GitHub →
-            </a>
+        {entry.github_url && (
+          <a
+            href={entry.github_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary px-4 py-2 text-sm"
+          >
+            View on GitHub →
+          </a>
+        )}
           </div>
 
           {entry.tags.length > 0 && (

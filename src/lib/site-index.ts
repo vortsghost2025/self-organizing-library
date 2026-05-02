@@ -5,7 +5,7 @@ export interface IndexEntry {
   id: string;
   repo: string;
   path: string;
-  github_url: string;
+  github_url: string | null;
   title: string;
   extension: string;
   content_type: string;
