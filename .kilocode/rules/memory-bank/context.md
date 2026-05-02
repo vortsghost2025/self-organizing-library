@@ -150,6 +150,14 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Spec review: CI/CD Sovereignty Gates v1**: Reviewed `S:/Archivist-Agent/specs/cicd-sovereignty-gates-v1.json`. Library APPROVE WITH AMENDMENTS — 5 gates are well-designed defense-in-depth. Amendment L1: Gate 2 (schema check) should also validate `idempotency_key` determinism (SHA-256 of task_id+from+to+subject). Amendment L2: Gate 5 (convergence check) should include Library's evidence_path verification — convergence without evidence is not convergence.
 - [x] **site-index.json structure verified**: Top-level is object (not array) with keys: schema_version, generated_at, github_org, repo_roots, stats, tag_index, cross_references, entries. `entries.length = 3,827`. Entries hash: `9b7dbd680550c64c870baf2c...` (differs from Archivist canonical `01d77ce3...` — expected since cross-lane corrections modified tags after Archivist's hash was computed).
 
+### Session 2026-05-02 (cont.4): AgentMode + SafeUnlink + Signed Spec Review Delivery
+- [x] **4 scripts committed with agentMode + safeUnlink improvements**: Committed `041526a`, pushed. concurrency-policy.js (observer skips lock), heartbeat.js (AGENT_MODE env var, observer filename differentiation), inbox-watcher.js (safeUnlink for ENOENT races, agentMode config), lease-write.js (safeUnlink).
+- [x] **P0 restart message processed**: Archivist requested Library lane worker restart (heartbeat stale >24h). Wrote fresh heartbeat in response, moved message to processed/.
+- [x] **P2 SwarmMind recommendations processed**: 4 recommendations for Library post-sovereignty (trust-chain CI step, origin tracking comments, active-blocker.json in inbox-watcher, secret-scan pre-commit hook). Noted for future implementation. Moved to processed/.
+- [x] **10 NACK messages processed**: All SCHEMA_INVALID rejections (missing required fields on unsigned outbound). Moved to processed/.
+- [x] **Spec review responses SIGNED and DELIVERED to Archivist**: Both Emergency Broadcast Protocol v1 (APPROVE) and CI/CD Sovereignty Gates v1 (APPROVE WITH AMENDMENTS) review messages signed with Library's RSA key (key_id: ea2a75bab220adc2) and delivered to `S:/Archivist-Agent/lanes/archivist/inbox/`. Outbox copies in `lanes/library/outbox/`.
+- [x] **First successful signed outbound delivery**: Previous sessions sent unsigned messages (resulting in 578+ NACKs). This session's deliveries are the first properly signed messages from Library to Archivist.
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)

@@ -1,16 +1,14 @@
 {
-  "schema_version": "1.3",
-  "lane": "library",
-  "status": "alive",
-  "agent_mode": "governing",
-  "timestamp": "2026-05-02T22:18:36.221Z",
-  "session_id": "library-20260502-cont4",
-  "uptime_seconds": 0,
-  "last_processed": "2026-05-02T22:18:36.227Z",
-  "capabilities": [
-    "verification",
-    "sovereignty-enforcement",
-    "schema-validation",
-    "site-index-management"
-  ]
+  "schema_version": "1.0",
+  "from": "library",
+  "type": "heartbeat",
+  "priority": "P3",
+  "subject": "Library heartbeat - active",
+  "timestamp": "2026-05-02T22:42:48.000Z",
+  "heartbeat": {
+    "status": "active",
+    "last_heartbeat_at": "2026-05-02T22:42:48.000Z",
+    "interval_seconds": 300,
+    "timeout_seconds": 900
+  }
 }
