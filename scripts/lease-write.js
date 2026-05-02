@@ -3,6 +3,20 @@
 
 const fs = require('fs');
 const path = require('path');
+
+function safeUnlink(filePath, context) {
+  try {
+    fs.unlinkSync(filePath);
+    return 'ok';
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      console.log(`[lease-write] RACE_SKIPPED: ${context || 'file'} already removed by another process`);
+      return 'race_skipped';
+    }
+    throw e;
+  }
+}
+
 const { LaneDiscovery } = require('./util/lane-discovery');
 
 const discovery = new LaneDiscovery();
@@ -29,7 +43,7 @@ async function moveFileWithLease(sourcePath, destPath, laneId, timeoutMs = 30000
   ensureParentDir(destPath);
 
   if (fs.existsSync(destPath)) {
-    fs.unlinkSync(sourcePath);
+    safeUnlink(sourcePath, path.basename(sourcePath));
     return { moved: false, reason: 'DEST_EXISTS_SOURCE_DROPPED', sourcePath, destPath };
   }
 

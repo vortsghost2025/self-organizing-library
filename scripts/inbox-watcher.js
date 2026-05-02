@@ -32,6 +32,19 @@ const UUID_PATTERN = /^\d{8}-\d{4}-\d{4}-\d{4}-\d{12}\.json$/i;
   ];
   const VALID_DISPOSITIONS = new Set(['completed', 'declined', 'superseded', 'expired', 'quarantined']);
 
+function safeUnlink(filePath, context) {
+  try {
+    fs.unlinkSync(filePath);
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      console.log(`[watcher] RACE_SKIPPED: ${context || 'file'} already removed by another process`);
+      return 'race_skipped';
+    }
+    throw e;
+  }
+  return 'ok';
+}
+
 function hasCompletionProof(msg) {
   if (!msg) return false;
   // Check for completion proof fields
@@ -79,6 +92,7 @@ function isEnglishOnly(msg) {
 
 const DEFAULT_CONFIG = {
   laneName: 'archivist',
+  agentMode: process.env.AGENT_MODE || 'governing',
   inboxPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox'),
   processedPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'processed'),
   outboxPath: path.join(__dirname, '..', 'lanes', 'archivist', 'outbox'),
@@ -300,7 +314,7 @@ class InboxWatcher {
     const dest = path.join(this.config.processedPath, filename);
     try {
       if (fs.existsSync(dest)) {
-        if (fs.existsSync(sourcePath)) fs.unlinkSync(sourcePath);
+        safeUnlink(sourcePath, filename);
       } else {
         await moveFileWithLease(sourcePath, dest, this.config.laneName, 30000);
       }
@@ -325,12 +339,10 @@ class InboxWatcher {
 
       if (attemptCount > MAX_QUARANTINE_ATTEMPTS) {
         const qDest = path.join(this.config.quarantinePath, filename);
-        if (fs.existsSync(sourcePath)) {
-          if (fs.existsSync(qDest)) {
-            fs.unlinkSync(sourcePath);
-          } else {
-            await moveFileWithLease(sourcePath, qDest, this.config.laneName, 30000);
-          }
+        if (fs.existsSync(qDest)) {
+          safeUnlink(sourcePath, filename);
+        } else if (fs.existsSync(sourcePath)) {
+          await moveFileWithLease(sourcePath, qDest, this.config.laneName, 30000);
         }
         this._logQuarantine(filename, 'RETRY_LIMIT', attemptCount);
         this.processedKeys.add(filename);
@@ -339,7 +351,7 @@ class InboxWatcher {
       }
 
       if (fs.existsSync(dest)) {
-        if (fs.existsSync(sourcePath)) fs.unlinkSync(sourcePath);
+        safeUnlink(sourcePath, filename);
       } else {
         await moveFileWithLease(sourcePath, dest, this.config.laneName, 30000);
       }
@@ -357,7 +369,7 @@ class InboxWatcher {
         fs.mkdirSync(this.config.actionRequiredPath, { recursive: true });
       }
       if (fs.existsSync(dest)) {
-        if (fs.existsSync(sourcePath)) fs.unlinkSync(sourcePath);
+        safeUnlink(sourcePath, filename);
       } else {
         await moveFileWithLease(sourcePath, dest, this.config.laneName, 30000);
       }
@@ -476,7 +488,8 @@ class InboxWatcher {
     const releaseLock = acquireWatcherLock({
       repoRoot: this.repoRoot,
       laneName: this.config.laneName,
-      policy: this.policy
+      policy: this.policy,
+      agentMode: this.config.agentMode
     });
 
     console.log(`[watcher] ${this.config.laneName} inbox scan starting`);

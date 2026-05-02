@@ -54,22 +54,29 @@ function assertWatcherConfig({ laneName, pollSeconds, heartbeatSeconds, maxConcu
   }
 }
 
-function acquireWatcherLock({ repoRoot, laneName, policy }) {
+function acquireWatcherLock({ repoRoot, laneName, policy, agentMode }) {
   const lockCfg = (policy && policy.locks) || DEFAULT_POLICY.locks;
   const lockDir = path.join(repoRoot, lockCfg.watcher_lock_dir || '.runtime/locks');
   const filePattern = lockCfg.watcher_lock_file_pattern || 'watcher-{lane}.lock';
   const staleAfterSeconds = Number(lockCfg.stale_after_seconds || 900);
   const lockFile = filePattern.replace('{lane}', laneName);
   const lockPath = path.join(lockDir, lockFile);
+  const mode = agentMode || process.env.AGENT_MODE || 'governing';
 
   if (!fs.existsSync(lockDir)) {
     fs.mkdirSync(lockDir, { recursive: true });
+  }
+
+  if (mode === 'observer') {
+    console.log(`[lock] Observer mode: skipping lock acquisition for ${laneName}`);
+    return () => {}; 
   }
 
   const owner = {
     lane: laneName,
     pid: process.pid,
     host: os.hostname(),
+    agent_mode: mode,
     acquired_at: new Date().toISOString()
   };
 
