@@ -45,6 +45,7 @@ export default function NexusGraph() {
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
   const [cameraRatio, setCameraRatio] = useState(1);
+  const [webglUnavailable, setWebglUnavailable] = useState(false);
 
   const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
@@ -452,10 +453,10 @@ const handleCompareSnapshots = useCallback(() => {
 
         <main className="flex-1 min-w-0 flex gap-4" id="nexus-graph-canvas">
           <div className="flex-1 min-w-0">
-            <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "500px" }}>
-              {loading ? (
-                <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status" aria-live="polite">Loading graph data...</div>
-              ) : filteredNodes.length === 0 ? (
+        <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "500px" }}>
+                {loading ? (
+                  <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status" aria-live="polite">Loading graph data...</div>
+                ) : filteredNodes.length === 0 && !webglUnavailable ? (
                 <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
                 <GraphCanvas
@@ -482,6 +483,7 @@ const handleCompareSnapshots = useCallback(() => {
                   onStageClick={handleStageClick}
                   onCameraUpdate={handleCameraUpdate}
                   onGraphReady={handleGraphReady}
+          onWebGLUnavailable={() => setWebglUnavailable(true)}
                 />
               )}
               <GraphContextPanel
