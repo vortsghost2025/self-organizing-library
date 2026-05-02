@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.3",
+  "task_id": "nack-1777762386981-1ma6ti",
+  "idempotency_key": "nack-unknown-1777762386981",
+  "from": "archivist",
+  "to": "library",
+  "type": "notification",
+  "task_kind": "status",
+  "priority": "P2",
+  "subject": "NACK: message rejected at archivist",
+  "body": "Your message (task_id=unknown, type=task) was rejected.\nReason: SIGNATURE_INVALID\nDetail: MISSING_SIGNATURE\nOriginal subject: No signature",
+  "timestamp": "2026-05-02T22:53:06.981Z",
+  "requires_action": false,
+  "payload": {
+    "mode": "inline",
+    "compression": "none"
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "kilo",
+    "actor": "lane"
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 1
+  },
+  "evidence": {
+    "required": false,
+    "verified": false
+  },
+  "evidence_exchange": {},
+  "heartbeat": {
+    "status": "done",
+    "last_heartbeat_at": "2026-05-02T22:53:06.981Z"
+  },
+  "nack_for_task_id": null,
+  "nack_reason": "SIGNATURE_INVALID",
+  "nack_detail": "MISSING_SIGNATURE"
+}
