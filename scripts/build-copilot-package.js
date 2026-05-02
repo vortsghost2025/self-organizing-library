@@ -6,8 +6,6 @@ const path = require('path');
 const { execSync } = require('child_process');
 const { LaneDiscovery } = require('./util/lane-discovery');
 const discovery = new LaneDiscovery();
-const { LaneDiscovery } = require('./util/lane-discovery');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
