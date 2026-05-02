@@ -142,6 +142,14 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 ### Session 2026-05-02 (cont.2): Inbox Processing + Housekeeping
 - [x] **Inbox processed**: 2 new messages — Kernel final summary (P2, all tasks done, system healthy) + SwarmMind status update (P1, system GREEN, verification processing ongoing). Both informational (`requires_action: false`), moved to processed/.
 
+### Session 2026-05-02 (cont.3): Heartbeat + Spec Review + NACK Cleanup
+- [x] **Library heartbeat written**: `lanes/library/inbox/heartbeat-library.json` — restores lane_liveness per Archivist coordination message. Committed `e2d087f`, pushed.
+- [x] **578 NACK messages processed**: All unsigned outbound messages from Library were rejected by Archivist's IdentityEnforcer (expected — messages were sent unsigned in previous sessions). Moved to `processed/`. Committed `e2d087f`, pushed.
+- [x] **Archivist coordination message**: Already processed in prior session (moved to processed/). Heartbeat action was the remaining item — now done.
+- [x] **Spec review: Emergency Broadcast Protocol v1**: Reviewed `S:/Archivist-Agent/specs/emergency-broadcast-protocol-v1.json`. Library APPROVE — protocol is sound: P0 triggers, broadcast+inbox delivery, active-blocker.json coordination, 1-hour timeout, dry-run testing. No amendments.
+- [x] **Spec review: CI/CD Sovereignty Gates v1**: Reviewed `S:/Archivist-Agent/specs/cicd-sovereignty-gates-v1.json`. Library APPROVE WITH AMENDMENTS — 5 gates are well-designed defense-in-depth. Amendment L1: Gate 2 (schema check) should also validate `idempotency_key` determinism (SHA-256 of task_id+from+to+subject). Amendment L2: Gate 5 (convergence check) should include Library's evidence_path verification — convergence without evidence is not convergence.
+- [x] **site-index.json structure verified**: Top-level is object (not array) with keys: schema_version, generated_at, github_org, repo_roots, stats, tag_index, cross_references, entries. `entries.length = 3,827`. Entries hash: `9b7dbd680550c64c870baf2c...` (differs from Archivist canonical `01d77ce3...` — expected since cross-lane corrections modified tags after Archivist's hash was computed).
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)

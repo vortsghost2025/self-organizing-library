@@ -9,6 +9,7 @@ const DEFAULT_CONFIG = {
   inboxPath: path.join(__dirname, '..', 'lanes', process.env.LANE_NAME || 'archivist', 'inbox'),
   intervalSeconds: 60,
   staleAfterSeconds: 900,
+  agentMode: process.env.AGENT_MODE || 'governing',
   canonicalPaths: {
     archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
     library: 'S:/self-organizing-library/lanes/library/inbox/',
@@ -59,6 +60,9 @@ class Heartbeat {
   }
 
   _heartbeatFilename(laneName) {
+    if (this.config.agentMode === 'observer') {
+      return `heartbeat-${laneName}-observer.json`;
+    }
     return `heartbeat-${laneName}.json`;
   }
 
@@ -136,6 +140,7 @@ class Heartbeat {
       subject: `Heartbeat from ${this.config.laneName} lane`,
       body: JSON.stringify({
         lane: this.config.laneName,
+        agent_mode: this.config.agentMode,
         session_active: !this._shuttingDown,
         uptime_seconds: uptimeSeconds,
         messages_processed: this.messagesProcessed,
@@ -211,23 +216,38 @@ class Heartbeat {
     for (let i = 0; i < laneNames.length; i++) {
       const laneName = laneNames[i];
       const inboxPath = this.config.canonicalPaths[laneName];
-      const laneSpecificPath = path.join(inboxPath, this._heartbeatFilename(laneName));
+      const primaryPath = path.join(inboxPath, `heartbeat-${laneName}.json`);
+      const observerPath = path.join(inboxPath, `heartbeat-${laneName}-observer.json`);
 
       try {
-        if (!fs.existsSync(laneSpecificPath)) {
-          lanes[laneName] = { status: 'unknown', last_heartbeat: null, stale_for_seconds: 0 };
+        let data = null;
+        let source = 'none';
+
+        if (fs.existsSync(primaryPath)) {
+          const raw = fs.readFileSync(primaryPath, 'utf8');
+          data = JSON.parse(raw);
+          source = 'primary';
+        } else if (fs.existsSync(observerPath)) {
+          const raw = fs.readFileSync(observerPath, 'utf8');
+          data = JSON.parse(raw);
+          source = 'observer';
+        }
+
+        if (!data) {
+          lanes[laneName] = { status: 'unknown', last_heartbeat: null, stale_for_seconds: 0, source };
           continue;
         }
 
-        const raw = fs.readFileSync(laneSpecificPath, 'utf8');
-        const data = JSON.parse(raw);
         const heartbeatTime = new Date(data.timestamp).getTime();
         const elapsed = Math.floor((now - heartbeatTime) / 1000);
+        const agentMode = (data.body && JSON.parse(data.body).agent_mode) || data.agent_mode || 'unknown';
 
         lanes[laneName] = {
           status: elapsed > this.config.staleAfterSeconds ? 'stale' : 'alive',
           last_heartbeat: data.timestamp,
-          stale_for_seconds: elapsed
+          stale_for_seconds: elapsed,
+          source,
+          agent_mode: agentMode
         };
       } catch (err) {
         lanes[laneName] = { status: 'unknown', last_heartbeat: null, stale_for_seconds: 0 };
