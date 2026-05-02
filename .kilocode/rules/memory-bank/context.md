@@ -116,6 +116,17 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Inbox cleanup**: Moved 527 stale NACK messages to processed/
 - [x] **Archivist recovery confirmed**: 11/11 tests proven; external verification of Library zero-contradiction baseline complete
 
+### Session 2026-05-02: GitHub Button Fix + OUTPUT_PROVENANCE + WebGL Crash Fix + Work-Path Cross-Lane Dispatch
+- [x] **GitHub button fix**: Wrapped "View on GitHub →" link in `page.tsx` with conditional `{entry.github_url && (...)}` for null `github_url` entries. Fixed `IndexEntry` type: `github_url: string` → `string | null`. Committed `46381d8`, pushed.
+- [x] **OUTPUT_PROVENANCE enforcement**: Added 18-line OUTPUT_PROVENANCE block to Library AGENTS.md before Convergence Gate section. Mirrors Archivist pattern. Committed `3a1c3ff`, pushed.
+- [x] **WebGL blendFunc null crash fix**: Sigma v3.0.2 has no null guard on WebGL context — `gl.blendFunc()` crashes when `getContext("webgl2")` returns null. Added `isWebGLAvailable()` with module-level cache, try/catch around `new Sigma()`, fallback UI with warning icon and link back to `/library`. Updated `NexusGraph.tsx` with `onWebGLUnavailable` callback. Committed `5e85322`, pushed.
+- [x] **Work-path cross-lane dispatch**: Distributed 5,655 work-path items to lanes by domain expertise:
+  - Archivist: 184 P0 contradiction candidates (Buckets 1&2)
+  - SwarmMind: 1,369 P1 unverified high-authority nodes (Bucket 4)
+  - Kernel: 954 P1 bridge-state + derives-without-verifies (Buckets 5&6)
+  - Library: 3,133 P1-P2 quarantine triage + orphaned/ungoverned (Buckets 3&7)
+  - Broadcast coordination message + outbox dispatch log committed `59310bb`, pushed.
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
