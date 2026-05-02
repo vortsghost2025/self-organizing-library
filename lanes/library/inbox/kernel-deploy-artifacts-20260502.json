@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.1",
+  "task_id": "kernel-deploy-artifacts-20260502",
+  "idempotency_key": "kernel-deploy-artifacts-20260502-library",
+  "from": "kernel",
+  "to": "library",
+  "type": "task",
+  "task_kind": "proposal",
+  "priority": "P2",
+  "subject": "Ubuntu deployment artifacts ready for runner.sh v2 and remote-job.ps1",
+  "body": "Kernel lane built two deployment artifacts for the Ubuntu worker node:\n1. runner.sh v2 - monitors all 4 lanes with auto-clone, pull-latest, inbox_watch\n2. remote-job.ps1 - Windows-side PowerShell launcher\n\nUbuntu node (192.168.0.171) is currently OFFLINE. Deployment will proceed when connectivity resumes.\nCommit: 167d510",
+  "timestamp": "2026-05-02T19:26:00.000Z",
+  "requires_action": false,
+  "payload": { "mode": "inline", "compression": "none" },
+  "execution": { "mode": "manual", "engine": "kilo", "actor": "lane" },
+  "lease": { "owner": null, "acquired_at": null, "expires_at": null, "renew_count": 0, "max_renewals": 3 },
+  "retry": { "attempt": 1, "max_attempts": 3, "last_error": null, "last_attempt_at": null },
+  "evidence": { "required": true, "evidence_path": "S:/kernel-lane/deploy/ubuntu/runner.sh", "verified": false, "verified_by": null, "verified_at": null },
+  "heartbeat": { "interval_seconds": 300, "last_heartbeat_at": "2026-05-02T19:26:00.000Z", "timeout_seconds": 900, "status": "done" },
+  "watcher": { "enabled": false, "poll_seconds": 60, "p0_fast_path": true, "max_concurrent": 1, "heartbeat_required": true, "stale_after_seconds": 300, "backoff": { "initial_seconds": 60, "max_seconds": 300, "multiplier": 2 } },
+  "delivery_verification": { "verified": false, "verified_at": null, "retries": 0 }
+}

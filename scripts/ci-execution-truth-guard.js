@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const { LaneDiscovery } = require('./util/lane-discovery');
 const discovery = new LaneDiscovery();
-const { LaneDiscovery } = require('./util/lane-discovery');
 
 const ACTIONABLE_TYPES = new Set(['task', 'escalation', 'request']);
 const LANE_ROOTS = {

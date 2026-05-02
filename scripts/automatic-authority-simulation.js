@@ -9,7 +9,6 @@ const fs = require('fs');
 const path = require('path');
 const { LaneDiscovery } = require('./util/lane-discovery');
 const discovery = new LaneDiscovery();
-const { LaneDiscovery } = require('./util/lane-discovery');
 
 const LANE_ROOTS = {
   archivist: discovery.getLocalPath('archivist'),
