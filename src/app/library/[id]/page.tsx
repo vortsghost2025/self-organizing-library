@@ -79,7 +79,7 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
                 <Link
                   key={tag}
                   href={`/library?tag=${encodeURIComponent(tag)}`}
-                  className="text-sm px-3 py-1 rounded-full bg-[var(--primary)]/15 text-[var(--primary)] hover:bg-[var(--primary)]/25 transition-colors"
+                  className="text-sm px-3 py-1 rounded-full bg-[var(--primary)]/15 text-[var(--primary-text)] hover:bg-[var(--primary)]/25 transition-colors"
                 >
                   {tag}
                 </Link>

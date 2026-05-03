@@ -81,8 +81,8 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
           onClick={() => setMode("high-contrast")}
           className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
             mode === "high-contrast"
-              ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary)]"
-              : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
+? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
+  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
           }`}
           aria-pressed={mode === "high-contrast"}
           aria-label="High Contrast mode"
@@ -94,8 +94,8 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
           onClick={() => setMode("large-text")}
           className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
             mode === "large-text"
-              ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary)]"
-              : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
+? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
+  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
           }`}
           aria-pressed={mode === "large-text"}
           aria-label="Large Text mode"

@@ -24,7 +24,7 @@ export default function ClusterSelector({ clusters, activeClusterId, onSelect }:
             aria-pressed={activeClusterId === c.id}
             className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
               activeClusterId === c.id
-                ? "bg-[var(--primary)]/20 text-[var(--primary)]"
+                ? "bg-[var(--primary)]/20 text-[var(--primary-text)]"
                 : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
             }`}
           >

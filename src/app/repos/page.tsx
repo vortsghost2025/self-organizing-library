@@ -27,7 +27,7 @@ export default async function ReposPage() {
           <div key={repo} className={`card p-6 animate-fade-in stagger-${(i % 5) + 1}`}>
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/15 flex items-center justify-center text-xl text-[var(--primary)]">
+                <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/15 flex items-center justify-center text-xl text-[var(--primary-text)]">
                   ⌘
                 </div>
                 <div>

@@ -105,7 +105,7 @@ export function VideoCard({ video }: VideoCardProps) {
         {video.tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"
+            className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary-text)]"
           >
             {tag}
           </span>

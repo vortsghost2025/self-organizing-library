@@ -52,7 +52,7 @@ export default function SearchCatalogPage() {
             {entry.tags.slice(0, 5).map((tag) => (
               <span
                 key={tag}
-                className="px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary)]"
+                className="px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary-text)]"
                 data-pagefind-filter="tag"
               >
                 {tag}
