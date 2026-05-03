@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.3",
+  "task_id": "execution-weight-shared-source-clarification-library-1777780209640",
+  "idempotency_key": "archivist-library-execution-weight-shared-source-2026-05-03T03:50:09.640Z",
+  "from": "archivist",
+  "to": "library",
+  "type": "notification",
+  "task_kind": "handoff",
+  "priority": "P2",
+  "subject": "Clarification: use shared execution-weight helper as adoption source",
+  "body": "This clarifies prior task execution-weight-adoption-review-library-1777779887152.\n\nA shared helper now exists and should be treated as the adoption source of truth:\n- S:/shared-scripts/execution-weight.js\n- S:/shared-scripts/README-execution-weight.md\n\nArchivist-local files remain test/integration evidence:\n- S:/Archivist-Agent/scripts/analyze-graph-json.js\n- S:/Archivist-Agent/scripts/test-execution-weight.js\n\nIf your lane adopts the helper, prefer importing/copying from S:/shared-scripts rather than forking the Archivist-local helper.\nReturn adoption evidence in your existing execution-weight review artifact.",
+  "timestamp": "2026-05-03T03:50:09.640Z",
+  "requires_action": false,
+  "payload": {
+    "mode": "inline",
+    "compression": "none",
+    "artifact_type": "clarification",
+    "supersedes_or_clarifies": "execution-weight-adoption-review-library-1777779887152",
+    "shared_source_files": [
+      "S:/shared-scripts/execution-weight.js",
+      "S:/shared-scripts/README-execution-weight.md"
+    ],
+    "archivist_evidence_files": [
+      "S:/Archivist-Agent/scripts/analyze-graph-json.js",
+      "S:/Archivist-Agent/scripts/test-execution-weight.js"
+    ]
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "pipeline",
+    "actor": "lane"
+  },
+  "lease": {
+    "owner": "library",
+    "acquired_at": "2026-05-03T03:50:09.640Z"
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3
+  },
+  "evidence": {
+    "required": false,
+    "verified": true,
+    "evidence_path": "S:/shared-scripts/execution-weight.js"
+  },
+  "evidence_exchange": {
+    "artifact_type": "artifact",
+    "artifact_path": "S:/shared-scripts/execution-weight.js",
+    "note": "Shared source of truth for execution weight helper."
+  },
+  "heartbeat": {
+    "status": "pending",
+    "last_heartbeat_at": "2026-05-03T03:50:09.640Z",
+    "interval_seconds": 300,
+    "timeout_seconds": 900
+  },
+  "content_hash": "sha256:47246899afdbfdba583a477568ab9ec6cb6c6507081cff509140de555f1e97c9",
+  "signature": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjY1YWUwNWIyYTllNzQ5Y2IifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6NDcyNDY4OTlhZmRiZmRiYTU4M2E0Nzc1NjhhYjllYzZjYjZjNjUwNzA4MWNmZjUwOTE0MGRlNTU1ZjFlOTdjOSIsImV4cCI6MTc3Nzg2NjYwOSwiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3Nzc4MDIwOSwiaWQiOm51bGwsImxhbmUiOiJhcmNoaXZpc3QiLCJwcmlvcml0eSI6IlAyIiwidGFza19pZCI6ImV4ZWN1dGlvbi13ZWlnaHQtc2hhcmVkLXNvdXJjZS1jbGFyaWZpY2F0aW9uLWxpYnJhcnktMTc3Nzc4MDIwOTY0MCIsInRvIjoibGlicmFyeSJ9.Sc6vhj408UcFRt0ng-Wm1iM6u4tVMZeKZg55rsMQq1qIRV3hig290V_7kDjYGb8CJjPPqgeoqvdgE8npT51k-zJo7mqLuHZjekFWrAGb8MK_az4agjPwXSt1iVIPQTKZ_fJ33wy-GvJ9iKLq5tPRw_AxNyjxdGb-JiCtrch9P7cV9r0eSQgWwd2lOzyvJIVdVh8ub7qZDF7fJjJHVTHZwuBNQgss3Gee5yXuf0ywpn9aJXAQAvuA8m1n9BM-H6UmxYVR4oqTXysmwWc-MdSFC3qReZy2KSri0fw9SilvtIfTHXagGOrUO63zTFl-jsSuvlihQomgZR1PLlMuLjzcFw",
+  "signature_alg": "RS256",
+  "key_id": "65ae05b2a9e749cb",
+  "session_identity": {
+    "session_id": "sess-1777780209637-c05334ba",
+    "session_epoch_started_at": "2026-05-03T03:50:09.638Z",
+    "origin_runtime": "opencode",
+    "origin_workspace": "S:\\Archivist-Agent"
+  }
+}

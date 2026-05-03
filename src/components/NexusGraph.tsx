@@ -12,6 +12,8 @@ import GraphToolbar from "./graph/GraphToolbar";
 import EntryPoints from "./graph/EntryPoints";
 import MeaningLayers from "./graph/MeaningLayers";
 import DensityControl from "./graph/DensityControl";
+import { ModeSelector } from "./graph/ModeSelector";
+import { GraphMode, MODE_CONFIG, DEFAULT_MODE } from "@/lib/graph-types";
 import ClusterSelector from "./graph/ClusterSelector";
 import NodeDetail from "./graph/NodeDetail";
 import GraphLegend from "./graph/GraphLegend";
@@ -40,8 +42,9 @@ export default function NexusGraph() {
   const [pathNodes, setPathNodes] = useState<Set<string>>(new Set());
   const [pathEdges, setPathEdges] = useState<Set<string>>(new Set());
 
-  const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
+const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
   const [density, setDensity] = useState<DensityLevel>("mid");
+  const [graphMode, setGraphMode] = useState<GraphMode>(DEFAULT_MODE);
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
   const [cameraRatio, setCameraRatio] = useState(1);
@@ -50,11 +53,83 @@ export default function NexusGraph() {
   const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
 
-  const filteredNodes = filter === "all"
-    ? nodes
-    : filterMode === "repo"
-    ? nodes.filter((n) => n.repo === filter)
-    : nodes.filter((n) => n.type === filter);
+  // Sync density and layers when mode changes, and auto-select entry point
+  useEffect(() => {
+    const config = MODE_CONFIG[graphMode];
+    setDensity(config.density);
+    setActiveLayers(config.layers);
+
+    // Auto-select appropriate entry point per mode
+    if (graphMode === "understand") {
+      setActiveEntryPoint("ep:authority");
+    } else if (graphMode === "explore") {
+      setActiveEntryPoint("ep:contradictions");
+    } else {
+      setActiveEntryPoint(null);
+    }
+  }, [graphMode]);
+
+  // Compute core nodes for highlighting in understand mode (computed from full nodes list)
+  const coreNodeIds = useMemo(() => {
+    if (graphMode !== "understand") return new Set<string>();
+    const scored = nodes
+      .filter(n => n.status === "VERIFIED" && (n.authorityDepth >= 50 || n.verificationCount >= 5))
+      .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map(s => s.id);
+    return new Set(scored);
+  }, [graphMode, nodes]);
+
+  const filteredNodes = useMemo(() => {
+    let result = nodes;
+
+    // Apply type/repo filter
+    if (filter === "all") {
+      result = nodes;
+    } else if (filterMode === "repo") {
+      result = nodes.filter((n) => n.repo === filter);
+    } else {
+      result = nodes.filter((n) => n.type === filter);
+    }
+
+    // Apply data visibility policy based on mode
+    const modeConfig = MODE_CONFIG[graphMode];
+    if (!modeConfig.showUnverified) {
+      result = result.filter((n) => n.status === "VERIFIED");
+    }
+    if (!modeConfig.showQuarantined) {
+      result = result.filter((n) => n.status !== "QUARANTINED");
+    }
+
+    // Apply search query
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(n =>
+        n.title.toLowerCase().includes(q) ||
+        n.tags.some(t => t.toLowerCase().includes(q)) ||
+        n.repo.toLowerCase().includes(q)
+      );
+    }
+
+    // Apply entry point filter
+    if (activeEntryPoint) {
+      const ep = entryPoints.find(e => e.id === activeEntryPoint);
+      if (ep) {
+        result = result.filter(n => ep.nodeIds.includes(n.id));
+      }
+    }
+
+    // Apply cluster filter
+    if (activeClusterId) {
+      const cluster = clusters.find(c => c.id === activeClusterId);
+      if (cluster) {
+        result = result.filter(n => cluster.nodeIds.includes(n.id));
+      }
+    }
+
+    return result;
+  }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
 
   const selectedNode = selectedNodeId
     ? filteredNodes.find((n) => n.id === selectedNodeId) || null
@@ -366,14 +441,32 @@ const handleCompareSnapshots = useCallback(() => {
         {pathSource && !pathTarget ? "Path trace: select target node" : ""}
         {pathSource && pathTarget ? "Path trace: " + (pathNodes.size - 1) + " hops" : ""}
       </div>
-      <div className="flex items-center justify-between mb-6 animate-fade-in">
-        <div>
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
-          <p className="text-[var(--text-secondary)]">
-            Thinking interface for the Deliberate Ensemble architecture &mdash; entry points, meaning layers, progressive density
-          </p>
-        </div>
-      </div>
+       <div className="mb-6 animate-fade-in">
+         <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
+         <p className="text-[var(--text-secondary)] mb-4">
+           This is a live system that:
+           <br />• organizes knowledge
+           <br />• detects contradictions
+           <br />• verifies truth over time
+           <br />Start with core nodes &rarr; explore connections &rarr; inspect conflicts.
+         </p>
+         <div className="text-sm text-[var(--text-secondary)]">
+           <span className="font-medium">Legend:</span>{' '}
+           <span className="text-[#22C55E]">Blue/Green</span> &rarr; Verified (trusted structure){' '}
+           <span className="text-[#EF4444]">Red</span> &rarr; Contradictions (requires resolution){' '}
+           <span className="text-[#9CA3AF]">Gray</span> &rarr; Unverified (untested)
+         </div>
+       </div>
+
+       <div className="mb-4">
+         <ModeSelector mode={graphMode} onChange={setGraphMode} />
+       </div>
+       {graphMode === "full" && (
+         <div className="mb-4 text-sm text-amber-400 flex items-center gap-2" role="alert">
+           <span aria-hidden="true">⚠</span>
+           <span>Advanced Mode: Full system state (high density, may be noisy)</span>
+         </div>
+       )}
 
       <GraphToolbar
         filter={filter}
@@ -428,27 +521,64 @@ const handleCompareSnapshots = useCallback(() => {
 
       <div className="flex gap-4 animate-fade-in">
         <nav aria-label="Graph sidebar controls" className="w-56 flex-shrink-0 space-y-4">
+          {/* Density and MeaningLayers always visible */}
           <div className="card p-3">
             <DensityControl density={density} onChange={setDensity} />
           </div>
           <div className="card p-3">
-            <EntryPoints entryPoints={entryPoints} activeEntryPoint={activeEntryPoint} onSelect={setActiveEntryPoint} />
+            <MeaningLayers
+              activeLayers={activeLayers}
+              onToggle={handleLayerToggle}
+              onExportSnapshot={handleExportSnapshot}
+              onImportSnapshot={handleImportSnapshot}
+              onExportAllRepos={handleExportAllRepos}
+              onExportContradictionHub={handleExportContradictionHub}
+              onCompareSnapshots={handleCompareSnapshots}
+              importError={importError}
+            />
           </div>
-          <div className="card p-3">
-      <MeaningLayers
-        activeLayers={activeLayers}
-        onToggle={handleLayerToggle}
-        onExportSnapshot={handleExportSnapshot}
-        onImportSnapshot={handleImportSnapshot}
-        onExportAllRepos={handleExportAllRepos}
-      onExportContradictionHub={handleExportContradictionHub}
-      onCompareSnapshots={handleCompareSnapshots}
-      importError={importError}
-    />
-          </div>
-          <div className="card p-3 max-h-64 overflow-y-auto">
-            <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
-          </div>
+
+          {/* Start Here – Understand mode */}
+          {graphMode === "understand" && (
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Start Here</h3>
+              <div className="card p-2">
+                <EntryPoints
+                  entryPoints={entryPoints.filter(ep => ep.id === "ep:authority" || ep.id === "ep:gov-core")}
+                  activeEntryPoint={activeEntryPoint}
+                  onSelect={setActiveEntryPoint}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Investigate – Explore mode */}
+          {graphMode === "explore" && (
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Investigate</h3>
+              <div className="card p-2">
+                <EntryPoints
+                  entryPoints={entryPoints.filter(ep =>
+                    ep.id === "ep:contradictions" ||
+                    ep.id === "ep:gov-unenforced" ||
+                    ep.id === "ep:gov-authority-mismatch"
+                  )}
+                  activeEntryPoint={activeEntryPoint}
+                  onSelect={setActiveEntryPoint}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Advanced – Full mode */}
+          {graphMode === "full" && (
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Advanced</h3>
+              <div className="card p-3 max-h-64 overflow-y-auto">
+                <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
+              </div>
+            </section>
+          )}
         </nav>
 
         <main className="flex-1 min-w-0 flex gap-4" id="nexus-graph-canvas">
@@ -459,32 +589,33 @@ const handleCompareSnapshots = useCallback(() => {
                 ) : filteredNodes.length === 0 && !webglUnavailable ? (
                 <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
-                <GraphCanvas
-                  nodes={filteredNodes}
-                  edges={edges}
-                  clusters={clusters}
-                  hoveredNodeId={hoveredNodeId}
-                  selectedNodeId={selectedNodeId}
-                  focusedNodeId={focusedNodeId}
-                  pathNodes={pathNodes}
-                  pathEdges={pathEdges}
-                  pathSource={pathSource}
-                  pathTarget={pathTarget}
-                  activeLayers={activeLayers}
-                  density={density}
-                  activeEntryPoint={activeEntryPoint}
-                  activeClusterId={activeClusterId}
-                  searchQuery={searchQuery}
-                  filterMode={filterMode}
-                  filter={filter}
-                  visibleCount={visibleCount}
-                  onNodeClick={handleNodeClick}
-                  onNodeHover={handleNodeHover}
-                  onStageClick={handleStageClick}
-                  onCameraUpdate={handleCameraUpdate}
-                  onGraphReady={handleGraphReady}
-          onWebGLUnavailable={() => setWebglUnavailable(true)}
-                />
+<GraphCanvas
+                   nodes={filteredNodes}
+                   edges={edges}
+                   clusters={clusters}
+                   hoveredNodeId={hoveredNodeId}
+                   selectedNodeId={selectedNodeId}
+                   focusedNodeId={focusedNodeId}
+                   pathNodes={pathNodes}
+                   pathEdges={pathEdges}
+                   pathSource={pathSource}
+                   pathTarget={pathTarget}
+                   activeLayers={activeLayers}
+                   density={density}
+                   activeEntryPoint={activeEntryPoint}
+                   activeClusterId={activeClusterId}
+                   searchQuery={searchQuery}
+                   filterMode={filterMode}
+                   filter={filter}
+                   visibleCount={visibleCount}
+                   coreNodeIds={Array.from(coreNodeIds)}
+                   onNodeClick={handleNodeClick}
+                   onNodeHover={handleNodeHover}
+                   onStageClick={handleStageClick}
+                   onCameraUpdate={handleCameraUpdate}
+                   onGraphReady={handleGraphReady}
+           onWebGLUnavailable={() => setWebglUnavailable(true)}
+                 />
               )}
               <GraphContextPanel
                 nodeCount={filteredNodes.length}

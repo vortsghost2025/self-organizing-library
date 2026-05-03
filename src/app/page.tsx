@@ -34,13 +34,49 @@ export default async function Dashboard() {
   
   return (
     <div className="p-8" data-pagefind-body>
-      {/* Hero: what this is */}
-      <HeroSection 
-        title={heroTitle}
-        tagline={heroTagline}
-      />
+       {/* Hero: what this is */}
+       <HeroSection 
+         title={heroTitle}
+         tagline={heroTagline}
+       />
 
-      {/* Archive stats strip - moved lower */}
+       {/* What This Is */}
+       <div className="card p-6 mb-12 animate-fade-in">
+         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">What This Is</h2>
+         <p className="text-[var(--text-secondary)] mb-4 text-sm">
+           This is a living system where AI agents:
+           <br />• organize knowledge
+           <br />• detect contradictions
+           <br />• verify truth over time
+         </p>
+         <p className="text-[var(--text-secondary)] text-sm">
+           The graph is not just visualization — it is the system thinking.
+         </p>
+       </div>
+
+       {/* 3-Step Guided Flow */}
+       <div className="card p-6 mb-12 animate-fade-in">
+         <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">Getting Started</h3>
+         <div className="grid md:grid-cols-3 gap-4">
+           <div className="p-4 border border-[var(--border)] rounded-lg">
+             <div className="text-2xl mb-2">1</div>
+             <h4 className="font-medium text-[var(--text-primary)] mb-2">Start with core ideas</h4>
+             <p className="text-sm text-[var(--text-secondary)]">Begin with the most verified, highest-authority nodes.</p>
+           </div>
+           <div className="p-4 border border-[var(--border)] rounded-lg">
+             <div className="text-2xl mb-2">2</div>
+             <h4 className="font-medium text-[var(--text-primary)] mb-2">Explore connections</h4>
+             <p className="text-sm text-[var(--text-secondary)]">See how artifacts link together through references and shared tags.</p>
+           </div>
+           <div className="p-4 border border-[var(--border)] rounded-lg">
+             <div className="text-2xl mb-2">3</div>
+             <h4 className="font-medium text-[var(--text-primary)] mb-2">Inspect conflicts</h4>
+              <p className="text-sm text-[var(--text-secondary)]">Discover where the system detects contradictions and how they&apos;re resolved.</p>
+           </div>
+         </div>
+       </div>
+
+       {/* Archive stats strip - moved lower */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-6">Archive at a Glance</h2>
         <ArchiveStats />
@@ -98,6 +134,17 @@ export default async function Dashboard() {
               </div>
             </div>
           </a>
+          {/* Mental health resources link */}
+          <div className="mt-2 pl-2">
+            <a
+              href="https://orangered-jellyfish-637583.hostingersite.com/resources.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[var(--primary)] hover:underline"
+            >
+              Mental health resources →
+            </a>
+          </div>
 
           {/* Federation Simulation — historical/archive mode */}
           <a
