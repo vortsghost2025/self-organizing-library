@@ -34,5 +34,12 @@
     "registered_at": "2026-04-28T17:44:57.485Z",
     "expires_at": null,
     "revoked_at": null
+  },
+  "phenotypes": {
+    "library": {
+      "hash": "sha256:84f7670b5f7b4fb6",
+      "last_sync": "2026-05-03T01:20:28.848Z",
+      "state_summary": "lane,verified_at,key_id"
+    }
   }
 }

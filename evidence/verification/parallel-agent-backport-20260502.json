@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "parallel-agent-backport-20260502",
+  "generated_at": "2026-05-02T23:27:20.932Z",
+  "session_id": "lib2-observer-20260502",
+  "lanes_patched": [
+    "archivist",
+    "swarmmind",
+    "kernel"
+  ],
+  "files_per_lane": [
+    "concurrency-policy.js",
+    "heartbeat.js",
+    "lease-write.js",
+    "inbox-watcher.js"
+  ],
+  "details": [
+    {
+      "lane": "archivist",
+      "changes": [
+        "concurrency-policy.js: +observer skip",
+        "heartbeat.js: +observer split",
+        "lease-write.js: +safeUnlink",
+        "inbox-watcher.js: +safeUnlink + agentMode"
+      ]
+    },
+    {
+      "lane": "swarmmind",
+      "changes": [
+        "concurrency-policy.js: +observer skip",
+        "heartbeat.js: +observer split",
+        "lease-write.js: +safeUnlink",
+        "inbox-watcher.js: +safeUnlink + agentMode"
+      ]
+    },
+    {
+      "lane": "kernel",
+      "changes": [
+        "concurrency-policy.js: +observer skip",
+        "heartbeat.js: +observer split",
+        "lease-write.js: +safeUnlink",
+        "inbox-watcher.js: +safeUnlink + agentMode"
+      ]
+    }
+  ],
+  "convergence_gate": {
+    "claim": "Parallel-agent safety changes backported to Archivist, SwarmMind, and Kernel",
+    "evidence": "S:/self-organizing-library/evidence/verification/parallel-agent-backport-20260502.json",
+    "verified_by": "library-2",
+    "contradictions": [],
+    "status": "proven"
+  },
+  "OUTPUT_PROVENANCE": "agent: opencode/deepseek-v4-pro lane: library generated_at: 2026-05-02T23:27:20.932Z session_id: lib2-observer-20260502"
+}
