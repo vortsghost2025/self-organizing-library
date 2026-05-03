@@ -162,3 +162,50 @@ export const BRIDGE_STATE_LABELS: Record<BridgeState, string> = {
   obsolete: "Obsolete",
   unknown: "Unknown",
 };
+
+export type GraphMode = "understand" | "explore" | "full";
+
+export const DEFAULT_MODE: GraphMode = "understand";
+
+export const MODE_CONFIG: Record<GraphMode, {
+  label: string;
+  description: string;
+  density: DensityLevel;
+  layers: MeaningLayer[];
+  showUnverified: boolean;
+  showQuarantined: boolean;
+  entryPointFilter?: (ep: EntryPoint) => boolean;
+  highlightCoreNodes: boolean;
+  groupEntryPoints: "start" | "investigate" | "advanced";
+}> = {
+  understand: {
+    label: "Understand",
+    description: "Human-friendly entry — verified cores only",
+    density: "overview",
+    layers: ["structure"],
+    showUnverified: false,
+    showQuarantined: false,
+    highlightCoreNodes: true,
+    groupEntryPoints: "start",
+  },
+  explore: {
+    label: "Explore Problems",
+    description: "See how system detects contradictions",
+    density: "mid",
+    layers: ["structure", "verification", "conflicts"],
+    showUnverified: true,
+    showQuarantined: true,
+    highlightCoreNodes: false,
+    groupEntryPoints: "investigate",
+  },
+  full: {
+    label: "Full System",
+    description: "Advanced — all nodes and layers",
+    density: "focus",
+    layers: ["structure", "conflicts", "verification", "execution", "governance"],
+    showUnverified: true,
+    showQuarantined: true,
+    highlightCoreNodes: false,
+    groupEntryPoints: "advanced",
+  },
+};
