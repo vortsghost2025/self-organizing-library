@@ -210,6 +210,17 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
  - [x] **UX goal**: Non-technical user understands graph in <5 seconds. Accomplished: max 4 lines, emoji indicator, human phrasing.
  - [x] **All checks**: Typecheck, lint, sovereignty, gates all pass. Commit `686a460` pushed.
 
+### Session 2026-05-03 (cont.5): Homepage simplification per exterior-synthesis + /lanes 404 fix
+
+ - [x] **Complete homepage rebuild** to exact spec: only Hero (title+subtext), How It Works (3 steps), Choose Your Path (3 cards). All other sections removed.
+ - [x] **Deleted**: Archive at a Glance, Guided Walkthrough, all multi-card clutter (Papers to System Bridge, External Services dashboard).
+ - [x] **Hero simplified**: title "An AI system that proves what it knows.", subtext "Most AI gives answers. This one verifies them.", two CTAs (Start Here, Explore Live Graph).
+ - [x] **How It Works**: "1. Agents generate ideas 2. Other agents challenge them 3. The system tracks what survives" — plain English only.
+ - [x] **Choose Your Path**: three bordered cards (🟢 Understand the idea → /start-here, 🔵 See it working → /graph, 🟣 Read the theory → /papers).
+ - [x] **Below fold**: LaneArchitecture + About (minimal). No stats.
+ - [x] **/lanes 404 fixed**: Created `src/app/lanes/page.tsx` rendering LaneArchitecture to unbreak navigation link.
+ - [x] **All quality gates**: sovereignty scan clean, Gate 2 pass, typecheck+lint pass. Commit `47c555f` pushed.
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
