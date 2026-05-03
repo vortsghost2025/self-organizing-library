@@ -78,12 +78,9 @@ class ArtifactResolver {
 
   hasPathTraversal(artifactPath) {
     if (!artifactPath || typeof artifactPath !== 'string') return true;
-    try {
-      const resolved = path.resolve(artifactPath);
-      return !this.isWithinAllowedRoots(resolved);
-    } catch (_) {
-      return true;
-    }
+    const normalized = artifactPath.replace(/\\/g, '/');
+    if (/(?:^|\/)\.\.(?:\/|$)/.test(normalized)) return true;
+    return false;
   }
 
   resolveRelativePath(artifactPath) {

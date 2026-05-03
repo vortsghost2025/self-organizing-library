@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const crypto = require('crypto');
 const { LaneDiscovery } = require('./util/lane-discovery');
 
@@ -31,16 +32,17 @@ class IdentityEnforcer {
 constructor(options = {}) {
 this.trustStore = null;
 this.trustStorePath = options.trustStorePath || this._findTrustStore();
-if (options.trustStorePath) {
-const resolved = path.resolve(options.trustStorePath);
-const isAllowed = ALLOWED_TRUST_STORE_ROOTS.some(allowedRoot => {
-const resolvedAllowed = path.resolve(allowedRoot);
-return resolved === resolvedAllowed || resolved.startsWith(resolvedAllowed + path.sep);
-});
-if (!isAllowed) {
-throw new Error('SECURITY: trustStorePath outside allowed roots: ' + resolved);
-}
-}
+  if (options.trustStorePath) {
+    const resolved = path.resolve(options.trustStorePath);
+    const isAllowed = ALLOWED_TRUST_STORE_ROOTS.some(allowedRoot => {
+      const resolvedAllowed = path.resolve(allowedRoot);
+      return resolved === resolvedAllowed || resolved.startsWith(resolvedAllowed + path.sep);
+    });
+    const isExplicitTemp = options.allowTempTrustStore && resolved.startsWith(path.resolve(os.tmpdir()) + path.sep);
+    if (!isAllowed && !isExplicitTemp) {
+      throw new Error('SECURITY: trustStorePath outside allowed roots: ' + resolved);
+    }
+  }
 this.enforcementMode = options.enforcementMode || 'enforce';
 this.verificationLog = [];
 this._loadTrustStore();

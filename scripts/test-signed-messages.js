@@ -192,8 +192,8 @@ test('valid signed message with valid artifact enters processed', (tmpRoot) => {
     rmDir(path.join(inbox, 'processed'));
     mkDir(path.join(inbox, 'processed'));
 
-    const enforcer = new IdentityEnforcer({ trustStorePath: path.join(trustStoreDir, 'trust-store.json'), enforcementMode: 'enforce' });
-    const injectedWorker = new LaneWorker({
+const enforcer = new IdentityEnforcer({ trustStorePath: path.join(trustStoreDir, 'trust-store.json'), enforcementMode: 'enforce', allowTempTrustStore: true });
+const injectedWorker = new LaneWorker({
       repoRoot: tmpRoot,
       lane: 'archivist',
       dryRun: false,
@@ -253,16 +253,16 @@ test('missing signature fails with real IdentityEnforcer', (tmpRoot) => {
   };
   fs.writeFileSync(path.join(trustStoreDir, 'trust-store.json'), JSON.stringify(trustStore, null, 2), 'utf8');
 
-  const enforcer = new IdentityEnforcer({ trustStorePath: path.join(trustStoreDir, 'trust-store.json'), enforcementMode: 'enforce' });
+const enforcer = new IdentityEnforcer({ trustStorePath: path.join(trustStoreDir, 'trust-store.json'), enforcementMode: 'enforce', allowTempTrustStore: true });
 
-  const inbox = path.join(tmpRoot, 'lanes', 'archivist', 'inbox');
-  mkDir(inbox);
-  for (const sub of ['action-required', 'in-progress', 'processed', 'blocked', 'quarantine']) {
-    mkDir(path.join(inbox, sub));
-  }
+const inbox = path.join(tmpRoot, 'lanes', 'archivist', 'inbox');
+mkDir(inbox);
+for (const sub of ['action-required', 'in-progress', 'processed', 'blocked', 'quarantine']) {
+  mkDir(path.join(inbox, sub));
+}
 
-  const msg = {
-    id: 'unsigned-msg',
+const msg = {
+  id: 'unsigned-msg',
     from: 'library',
     to: 'archivist',
     type: 'task',
@@ -329,16 +329,16 @@ test('tampered signature fails with real IdentityEnforcer', (tmpRoot) => {
   };
   fs.writeFileSync(path.join(trustStoreDir, 'trust-store.json'), JSON.stringify(trustStore, null, 2), 'utf8');
 
-  const enforcer = new IdentityEnforcer({ trustStorePath: path.join(trustStoreDir, 'trust-store.json'), enforcementMode: 'enforce' });
+const enforcer = new IdentityEnforcer({ trustStorePath: path.join(trustStoreDir, 'trust-store.json'), enforcementMode: 'enforce', allowTempTrustStore: true });
 
-  const inbox = path.join(tmpRoot, 'lanes', 'archivist', 'inbox');
-  mkDir(inbox);
-  for (const sub of ['action-required', 'in-progress', 'processed', 'blocked', 'quarantine']) {
-    mkDir(path.join(inbox, sub));
-  }
+const inbox = path.join(tmpRoot, 'lanes', 'archivist', 'inbox');
+mkDir(inbox);
+for (const sub of ['action-required', 'in-progress', 'processed', 'blocked', 'quarantine']) {
+  mkDir(path.join(inbox, sub));
+}
 
-  let msg = {
-    id: 'tampered-sig',
+let msg = {
+  id: 'tampered-sig',
     from: 'library',
     to: 'archivist',
     type: 'task',
