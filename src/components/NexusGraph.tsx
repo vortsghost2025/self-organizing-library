@@ -136,6 +136,12 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     ? filteredNodes.find((n) => n.id === selectedNodeId) || null
     : null;
 
+  const visibleNodeIdSet = useMemo(() => new Set(filteredNodes.map((n) => n.id)), [filteredNodes]);
+
+  const visibleEdgeCount = useMemo(() => {
+    return edges.filter((e) => visibleNodeIdSet.has(e.source) && visibleNodeIdSet.has(e.target)).length;
+  }, [edges, visibleNodeIdSet]);
+
   const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
   for (const n of filteredNodes) {
     if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
@@ -282,6 +288,13 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
   })();
 
   const [importError, setImportError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Overview becomes unreadable for tiny slices; switch to mid automatically.
+    if (!loading && density === "overview" && filteredNodes.length > 0 && filteredNodes.length < 10) {
+      setDensity("mid");
+    }
+  }, [loading, density, filteredNodes.length]);
 
   const handleExportSnapshot = useCallback(() => {
     // Get status counts
@@ -521,9 +534,15 @@ const handleCompareSnapshots = useCallback(() => {
          onFilterModeChange={setFilterMode}
          onSearchChange={setSearchQuery}
          nodeCount={filteredNodes.length}
-         edgeCount={edges.length}
+         edgeCount={visibleEdgeCount}
          visibleCount={visibleCount}
        />
+
+       {!loading && filteredNodes.length > 0 && filteredNodes.length < 10 && (
+         <div className="mb-2 px-3 py-2 rounded border border-amber-500/30 bg-amber-500/10 text-amber-200 text-sm">
+           Sparse view: this filter currently has only {filteredNodes.length} nodes. Try broader repo/mode for a fuller graph.
+         </div>
+       )}
 
        <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
@@ -664,7 +683,7 @@ const handleCompareSnapshots = useCallback(() => {
               )}
               <GraphContextPanel
                 nodeCount={filteredNodes.length}
-                edgeCount={edges.length}
+                edgeCount={visibleEdgeCount}
                 visibleCount={visibleCount}
                 density={density}
                 activeLayers={activeLayers}
