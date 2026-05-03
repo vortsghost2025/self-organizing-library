@@ -141,6 +141,29 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
   }
 
+  const primaryInstability = useMemo(() => {
+    const sorted = [...filteredNodes].sort((a, b) => b.contradictionCount - a.contradictionCount);
+    const top = sorted[0];
+    if (!top) return null;
+    return { title: top.title, contradictionCount: top.contradictionCount };
+  }, [filteredNodes]);
+
+  const viewModeLabel = useMemo(() => {
+    if (graphMode === "explore") return "CONTRADICTION HUB" as const;
+    if (graphMode === "understand") return "TRUSTED CORE" as const;
+    return "FULL SYSTEM" as const;
+  }, [graphMode]);
+
+  const isFilteredView = useMemo(() => {
+    return (
+      graphMode !== "full" ||
+      filter !== "all" ||
+      searchQuery.trim().length > 0 ||
+      activeEntryPoint !== null ||
+      activeClusterId !== null
+    );
+  }, [graphMode, filter, searchQuery, activeEntryPoint, activeClusterId]);
+
   useEffect(() => {
     let cancelled = false;
     async function load() {
@@ -481,7 +504,15 @@ const handleCompareSnapshots = useCallback(() => {
          visibleCount={visibleCount}
        />
 
-       <SystemInterpretation />
+       <SystemInterpretation
+         viewModeLabel={viewModeLabel}
+         isFiltered={isFilteredView}
+         visibleNodeCount={filteredNodes.length}
+         conflictedCount={statusCounts.CONFLICTED}
+         quarantinedCount={statusCounts.QUARANTINED}
+         primaryInstability={primaryInstability}
+         loading={loading}
+       />
 
        <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
