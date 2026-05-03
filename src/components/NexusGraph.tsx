@@ -16,11 +16,12 @@ import { ModeSelector } from "./graph/ModeSelector";
 import { GraphMode, MODE_CONFIG, DEFAULT_MODE } from "@/lib/graph-types";
 import ClusterSelector from "./graph/ClusterSelector";
 import NodeDetail from "./graph/NodeDetail";
-import GraphLegend from "./graph/GraphLegend";
-import GraphContextPanel from "./graph/GraphContextPanel";
-import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
-import type { GraphSnapshot } from "@/lib/graph-snapshot";
-import { compareSnapshots } from "@/lib/graph-snapshot-compare";
+ import GraphLegend from "./graph/GraphLegend";
+ import GraphContextPanel from "./graph/GraphContextPanel";
+ import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
+ import type { GraphSnapshot } from "@/lib/graph-snapshot";
+ import { compareSnapshots } from "@/lib/graph-snapshot-compare";
+ import SystemInterpretation from "./graph/SystemInterpretation";
 
 export default function NexusGraph() {
   const [loading, setLoading] = useState(true);
@@ -468,19 +469,21 @@ const handleCompareSnapshots = useCallback(() => {
          </div>
        )}
 
-      <GraphToolbar
-        filter={filter}
-        filterMode={filterMode}
-        searchQuery={searchQuery}
-        onFilterChange={setFilter}
-        onFilterModeChange={setFilterMode}
-        onSearchChange={setSearchQuery}
-        nodeCount={filteredNodes.length}
-        edgeCount={edges.length}
-        visibleCount={visibleCount}
-      />
+       <GraphToolbar
+         filter={filter}
+         filterMode={filterMode}
+         searchQuery={searchQuery}
+         onFilterChange={setFilter}
+         onFilterModeChange={setFilterMode}
+         onSearchChange={setSearchQuery}
+         nodeCount={filteredNodes.length}
+         edgeCount={edges.length}
+         visibleCount={visibleCount}
+       />
 
-      <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
+       <SystemInterpretation />
+
+       <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
           <span key={status} className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }} aria-hidden="true" />
