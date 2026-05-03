@@ -16,7 +16,9 @@ export async function GET() {
   const nonPaperNodes = nodes.filter((n) => {
     const nodeType = (n.type || "").toLowerCase();
     const nodeCategory = (n.category || "").toLowerCase();
-    return !nodeType.includes("paper") && !nodeCategory.includes("paper");
+    const isPaper = nodeType.includes("paper") || nodeCategory.includes("paper");
+    const isCodeOrSchema = nodeType === "code" || nodeType === "schema";
+    return !isPaper && !isCodeOrSchema;
   });
   const nodeIds = new Set(nonPaperNodes.map((n) => n.id));
   const edges = graphData.edges.filter((e) => nodeIds.has(e.source) && nodeIds.has(e.target));
