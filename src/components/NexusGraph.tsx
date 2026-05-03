@@ -261,14 +261,19 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
 
   // Calculate visibleCount before using it in handleExportSnapshot
   const visibleCount = (() => {
-    if (density === "overview") return clusters.length;
-    if (activeEntryPoint || activeClusterId) {
+    let rawVisible = filteredNodes.length;
+    if (density === "overview") {
+      rawVisible = clusters.length;
+    } else if (activeEntryPoint || activeClusterId) {
       const ep = entryPoints.find((e) => e.id === activeEntryPoint);
       const cl = clusters.find((c) => c.id === activeClusterId);
-      return ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
+      rawVisible = ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
+    } else if (focusedNodeId) {
+      rawVisible = 20;
     }
-    if (focusedNodeId) return 20;
-    return filteredNodes.length;
+
+    // Visible should never exceed currently filtered node pool.
+    return Math.max(0, Math.min(rawVisible, filteredNodes.length));
   })();
 
   const [importError, setImportError] = useState<string | null>(null);
@@ -492,6 +497,17 @@ const handleCompareSnapshots = useCallback(() => {
          </div>
        )}
 
+       <SystemInterpretation
+         className="sticky top-2 z-20"
+         viewModeLabel={viewModeLabel}
+         isFiltered={isFilteredView}
+         visibleNodeCount={filteredNodes.length}
+         conflictedCount={statusCounts.CONFLICTED}
+         quarantinedCount={statusCounts.QUARANTINED}
+         primaryInstability={primaryInstability}
+         loading={loading}
+       />
+
        <GraphToolbar
          filter={filter}
          filterMode={filterMode}
@@ -502,16 +518,6 @@ const handleCompareSnapshots = useCallback(() => {
          nodeCount={filteredNodes.length}
          edgeCount={edges.length}
          visibleCount={visibleCount}
-       />
-
-       <SystemInterpretation
-         viewModeLabel={viewModeLabel}
-         isFiltered={isFilteredView}
-         visibleNodeCount={filteredNodes.length}
-         conflictedCount={statusCounts.CONFLICTED}
-         quarantinedCount={statusCounts.QUARANTINED}
-         primaryInstability={primaryInstability}
-         loading={loading}
        />
 
        <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
