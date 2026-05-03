@@ -4,9 +4,7 @@ import { LaneArchitecture } from "@/components/LaneArchitecture";
 import fs from "fs";
 import path from "path";
 import { HeroSection } from "@/components/homepage/HeroSection";
-import { HowThisWorks } from "@/components/homepage/HowThisWorks";
 import { PapersToSystemBridge } from "@/components/homepage/PapersToSystemBridge";
-import { NexusGraphExplanation } from "@/components/homepage/NexusGraphExplanation";
 import { ArchiveStats } from "@/components/homepage/ArchiveStats";
 
 // Load homepage preview data if present (for rapid iteration without code changes)
