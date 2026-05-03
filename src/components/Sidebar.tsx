@@ -62,11 +62,11 @@ export function Sidebar({ stats }: SidebarProps) {
               href={item.href}
               aria-label={item.ariaLabel}
               aria-current={isActive ? "page" : undefined}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                isActive
-                  ? "bg-[var(--primary)]/20 text-[var(--primary)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-primary)]"
-              }`}
+               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                 isActive
+                   ? "bg-[var(--primary)] text-white"
+                   : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-primary)]"
+               }`}
             >
               <span className="text-lg" aria-hidden="true">{item.icon}</span>
               <span className="font-medium">{item.label}</span>
