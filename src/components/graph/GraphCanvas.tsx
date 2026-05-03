@@ -75,6 +75,11 @@ function buildGraph(
     ? nodes
     : filterMode === "repo"
     ? nodes.filter((n) => n.repo === filter)
+    : filter === "core"
+    ? nodes.filter((n) => {
+        const t = (n.type || "").toLowerCase();
+        return t === "doc" || t === "data" || t === "test-data";
+      })
     : nodes.filter((n) => n.type === filter);
   const ids = new Set(filtered.map((n) => n.id));
 
@@ -129,14 +134,31 @@ function buildGraph(
     }
   }
 
-  circular.assign(graph, { scale: 300 });
+  // Tiny views should stay centered and readable.
+  if (graph.order === 1) {
+    const [n0] = graph.nodes();
+    graph.setNodeAttribute(n0, "x", 0);
+    graph.setNodeAttribute(n0, "y", 0);
+    return graph;
+  }
+  if (graph.order === 2) {
+    const [a, b] = graph.nodes();
+    graph.setNodeAttribute(a, "x", -30);
+    graph.setNodeAttribute(a, "y", 0);
+    graph.setNodeAttribute(b, "x", 30);
+    graph.setNodeAttribute(b, "y", 0);
+    return graph;
+  }
 
-  if (graph.order > 0) {
+  const scale = Math.max(80, Math.min(220, Math.round(Math.sqrt(graph.order) * 18)));
+  circular.assign(graph, { scale });
+
+  if (graph.order > 2) {
     const settings = forceAtlas2.inferSettings(graph);
     settings.gravity = 1;
     settings.scalingRatio = 2;
     settings.barnesHutOptimize = graph.order > 100;
-    forceAtlas2.assign(graph, { iterations: 100, settings });
+    forceAtlas2.assign(graph, { iterations: 80, settings });
   }
 
   return graph;
@@ -581,6 +603,13 @@ export default function GraphCanvas({
     });
 
     const camera = renderer.getCamera() as any;
+    const dur = getReducedMotionDurations();
+    // Always reset camera after graph rebuild so tiny slices are on-screen.
+    if (typeof camera.animatedReset === "function") {
+      camera.animatedReset({ duration: dur.camera });
+    } else if (typeof camera.setState === "function") {
+      camera.setState({ x: 0, y: 0, ratio: 1 });
+    }
     const handleCameraUpdate = () => {
       onCameraUpdate(camera.ratio);
     };
