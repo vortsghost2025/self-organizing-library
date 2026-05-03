@@ -483,7 +483,7 @@ export default function GraphCanvas({
           }
         } else if (d === "mid") {
           const degree = graph.degree(node);
-          if (degree < 8) res.label = "";
+          if (degree < 15) res.label = "";
         }
 
         return res;
