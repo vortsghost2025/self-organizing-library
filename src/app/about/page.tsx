@@ -39,12 +39,12 @@ export default function AboutPage() {
           <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-4 mt-8">Links</h2>
           <div className="flex gap-4">
             <a
-              href="https://github.com/vortsghost2025"
+              href="https://github.com/vortsghost2025/Deliberate-AI-Ensemble"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[var(--primary)] hover:underline text-sm"
             >
-              GitHub Organization →
+              GitHub Repository →
             </a>
             <a
               href="https://osf.io/n3tya"

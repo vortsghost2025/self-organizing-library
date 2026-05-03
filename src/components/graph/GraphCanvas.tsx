@@ -44,6 +44,7 @@ interface GraphCanvasProps {
   filterMode: "type" | "repo";
   filter: string;
   visibleCount: number;
+  coreNodeIds?: string[];
   onNodeClick: (nodeId: string) => void;
   onNodeHover: (nodeId: string | null) => void;
   onStageClick: () => void;
@@ -145,7 +146,7 @@ export default function GraphCanvas({
   nodes, edges, clusters, hoveredNodeId, selectedNodeId, focusedNodeId,
   pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
   activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
-  visibleCount, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
+  visibleCount, coreNodeIds, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
   onWebGLUnavailable,
 }: GraphCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -169,6 +170,7 @@ export default function GraphCanvas({
   const pathSourceRef = useRef(pathSource);
   const pathTargetRef = useRef(pathTarget);
   const clustersRef = useRef(clusters);
+  const coreNodeIdsRef = useRef<string[]>(coreNodeIds || []);
 
   useEffect(() => { activeLayersRef.current = activeLayers; }, [activeLayers]);
   useEffect(() => { densityRef.current = density; }, [density]);
@@ -183,6 +185,7 @@ export default function GraphCanvas({
   useEffect(() => { pathSourceRef.current = pathSource; }, [pathSource]);
   useEffect(() => { pathTargetRef.current = pathTarget; }, [pathTarget]);
   useEffect(() => { clustersRef.current = clusters; }, [clusters]);
+  useEffect(() => { coreNodeIdsRef.current = coreNodeIds || []; }, [coreNodeIds]);
 
   useEffect(() => {
     const updateBaseLabelSize = () => {
@@ -380,6 +383,23 @@ export default function GraphCanvas({
           res.color = DIM_COLOR;
           res.size = 0.5;
           res.label = "";
+          return res;
+        }
+
+        // Core node highlighting for understand mode (initial load)
+        const coreNodes = coreNodeIdsRef.current;
+        const hasInteraction = hovered || selected || focused || pathNodesRef.current.size > 0;
+        if (coreNodes.length > 0 && !hasInteraction) {
+          if (coreNodes.includes(node)) {
+            res.highlighted = true;
+            res.zIndex = 9;
+            res.color = "#FDE047"; // Yellow highlight for core nodes
+            res.size = (res.size || 6) * 1.2;
+          } else {
+            // Fade non-core nodes on initial load
+            res.color = "#2A2A38";
+            res.label = "";
+          }
           return res;
         }
 

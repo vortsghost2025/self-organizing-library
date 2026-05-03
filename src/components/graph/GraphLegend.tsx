@@ -5,6 +5,9 @@ import { STATUS_COLORS, AUTHORITY_EDGE_COLORS, GOVERNANCE_LAYER_COLORS, GOVERNAN
 export default function GraphLegend() {
   return (
     <div className="mt-4 card p-4 animate-fade-in" role="region" aria-label="Truth routing legend">
+      <p className="text-sm text-[var(--text-secondary)] mb-3">
+        The graph visualizes artifacts and their relationships. Colors indicate verification status, governance layers, and bridge states.
+      </p>
       <div className="flex flex-wrap gap-x-6 gap-y-2 items-start">
         <div>
       <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-1">Node Status</h3>

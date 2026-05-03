@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
+**Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.
 
@@ -156,7 +156,21 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **P2 SwarmMind recommendations processed**: 4 recommendations for Library post-sovereignty (trust-chain CI step, origin tracking comments, active-blocker.json in inbox-watcher, secret-scan pre-commit hook). Noted for future implementation. Moved to processed/.
 - [x] **10 NACK messages processed**: All SCHEMA_INVALID rejections (missing required fields on unsigned outbound). Moved to processed/.
 - [x] **Spec review responses SIGNED and DELIVERED to Archivist**: Both Emergency Broadcast Protocol v1 (APPROVE) and CI/CD Sovereignty Gates v1 (APPROVE WITH AMENDMENTS) review messages signed with Library's RSA key (key_id: ea2a75bab220adc2) and delivered to `S:/Archivist-Agent/lanes/archivist/inbox/`. Outbox copies in `lanes/library/outbox/`.
-- [x] **First successful signed outbound delivery**: Previous sessions sent unsigned messages (resulting in 578+ NACKs). This session's deliveries are the first properly signed messages from Library to Archivist.
+ - [x] **First successful signed outbound delivery**: Previous sessions sent unsigned messages (resulting in 578+ NACKs). This session's deliveries are the first properly signed messages from Library to Archivist.
+
+### Session 2026-05-03: UX Correction — 3-Mode Graph + Homepage Reorganization
+
+- [x] **Graph 3-mode system implemented**: Added Understand, Explore, Full modes with top-level ModeSelector. Mode changes automatically set density, active layers, and entry point presets.
+- [x] **Understand mode (default)**: Overview density, structure-only layers, Top Authority entry point preset; hides UNVERIFIED/QUARANTINED nodes; highlights top 10 VERIFIED high-authority core nodes on load.
+- [x] **Explore mode**: Mid density, structure+verification+conflicts layers, Contradictions entry point; shows all node statuses to expose problems.
+- [x] **Full mode**: Focus density, all layers; shows ClusterSelector (repos and tag groups) for advanced navigation; includes warning label about high density.
+- [x] **Left panel reorganization**: Controls grouped into mode-specific sections — Start Here (Understand), Investigate (Explore), Advanced (Full) — reducing cognitive load.
+- [x] **Graph page explanation block**: Replaced vague header with concise system purpose statement and color legend (Verified=Blue/Green, Contradictions=Red, Unverified=Gray).
+- [x] **GraphLegend enriched**: Added descriptive text explaining the meaning of colors and graph elements.
+- [x] **Homepage enhancements**: Added "What This Is" section and a 3-step Getting Started flow (Start with core ideas → Explore connections → Inspect conflicts).
+- [x] **Homepage link updates**: Added Mental Health Resources link; confirmed Federation and Connection Bridge links present.
+- [x] **GitHub link correction**: Updated About page to link to the correct repository at https://github.com/vortsghost2025/Deliberate-AI-Ensemble.
+- [x] **All checks passed**: Typecheck and lint succeeded with no errors.
 
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
