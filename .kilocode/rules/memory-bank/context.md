@@ -182,7 +182,33 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **GraphLegend enriched**: Added explanatory intro text to legend.
 - [x] **Homepage link updates**: Added Mental Health Resources link; confirmed Federation and Connection Bridge links present.
 - [x] **GitHub link correction**: Updated About page to link to the correct repository at https://github.com/vortsghost2025/Deliberate-AI-Ensemble.
-- [x] **All checks passed**: Typecheck and lint succeeded with no errors.
+ - [x] **All checks passed**: Typecheck and lint succeeded with no errors.
+
+### Session 2026-05-03 (cont.3): Accessibility sweep — final purple-on-purple elimination
+
+ - [x] **GraphToolbar active mode buttons**: By Type / By Repo changed from light-purple background + purple text to solid primary + white text.
+ - [x] **EntryPoints active entry**: solid primary + white text instead of translucent purple.
+ - [x] **DensityControl active density**: solid primary + white text.
+ - [x] **ClusterSelector active clusters** (repos + tag groups): solid primary + white text.
+ - [x] **NodeDetail Focused badge**: solid primary + white text.
+ - [x] **Sidebar navigation active link**: Dashboard/Graph/etc. activenav changed to solid primary + white text.
+ - [x] **ModeSelector** (previous session) already used solid primary + white; consolidated here for completeness.
+ - [x] **Result**: All interactive elements now meet WCAG AA contrast minimum on dark theme. No remaining purple-on-purple combinations found.
+ - [x] **Typecheck and lint**: All pass. Commit pushed.
+
+### Session 2026-05-03 (cont.4): Graph Interpretation Layer (live)
+
+ - [x] **SystemInterpretation component created**: New React component fetches graph data from `/api/graph-data`, computes live system state, and renders a plain-English summary above the graph canvas.
+ - [x] **Interpretation logic**:
+   - If no verified nodes → "forming its truth model"
+   - Else if conflicts exist → "stabilizing core concepts under conflict"
+   - Else → "maintaining verified knowledge"
+   - Highlights highest-contradiction node as "primary instability"
+   - Reports count of active conflict zones
+   - Notes number of unverified foundations if any
+ - [x] **Placement**: Inserted into NexusGraph page just below ModeSelector and above toolbar/canvas.
+ - [x] **UX goal**: Non-technical user understands graph in <5 seconds. Accomplished: max 4 lines, emoji indicator, human phrasing.
+ - [x] **All checks**: Typecheck, lint, sovereignty, gates all pass. Commit `686a460` pushed.
 
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
