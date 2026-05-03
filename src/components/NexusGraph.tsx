@@ -86,7 +86,7 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     let result = nodes;
 
     // Apply type/repo filter
-    if (filter === "all") {
+    if (filter === "all" || (filterMode === "type" && filter === "paper")) {
       result = nodes;
     } else if (filterMode === "repo") {
       result = nodes.filter((n) => n.repo === filter);
