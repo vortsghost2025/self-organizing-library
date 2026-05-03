@@ -152,7 +152,7 @@ export default function NodeDetail({
         <span className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)] mb-2 block">Tags</span>
         <div className="flex gap-1 flex-wrap">
           {node.tags.slice(0, 8).map((tag) => (
-            <span key={tag} className="text-sm px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">
+            <span key={tag} className="text-sm px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary-text)]">
               {tag}
             </span>
           ))}

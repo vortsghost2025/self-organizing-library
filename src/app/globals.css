@@ -9,6 +9,7 @@
   --border: #4A4A52;
   --primary: #8B5CF6;
   --primary-hover: #A78BFA;
+  --primary-text: #C4B5FD;
   --secondary: #06B6D4;
   --text-primary: #F4F4F5;
   --text-secondary: #A1A1AA;
@@ -225,6 +226,7 @@ select:focus-visible,
   --border: #555555;
   --primary: #B49AFF;
   --primary-hover: #CDB4FF;
+  --primary-text: #E0D4FF;
   --secondary: #00E5FF;
   --text-primary: #FFFFFF;
   --text-secondary: #D4D4D8;
@@ -287,6 +289,7 @@ select:focus-visible,
   --border: #555555;
   --primary: #B49AFF;
   --primary-hover: #CDB4FF;
+  --primary-text: #E0D4FF;
   --secondary: #00E5FF;
   --text-primary: #FFFFFF;
   --text-secondary: #D4D4D8;

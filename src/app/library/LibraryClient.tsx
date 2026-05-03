@@ -123,23 +123,23 @@ export default function LibraryClient({
           aria-pressed={!activeType}
           className={`px-4 py-2 rounded-lg text-sm font-medium ${
             !activeType
-              ? "bg-[var(--primary)]/20 text-[var(--primary)]"
-              : "bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
-          }`}
-        >
-          All <span className="opacity-70">{totalFiles}</span>
-        </button>
-        {typeCounts
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 5)
-          .map(({ type, count }) => (
-          <button
-            key={type}
-            onClick={() => setActiveType(activeType === type ? null : type)}
-            aria-pressed={activeType === type}
-            className={`px-4 py-2 rounded-lg text-sm font-medium capitalize ${
-              activeType === type
-                ? "bg-[var(--primary)]/20 text-[var(--primary)]"
+? "bg-[var(--primary)]/20 text-[var(--primary-text)]"
+  : "bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
+}`}
+>
+  All <span className="opacity-70">{totalFiles}</span>
+</button>
+{typeCounts
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 5)
+  .map(({ type, count }) => (
+    <button
+      key={type}
+      onClick={() => setActiveType(activeType === type ? null : type)}
+      aria-pressed={activeType === type}
+      className={`px-4 py-2 rounded-lg text-sm font-medium capitalize ${
+        activeType === type
+        ? "bg-[var(--primary)]/20 text-[var(--primary-text)]"
                 : "bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
             }`}
           >
@@ -188,7 +188,7 @@ export default function LibraryClient({
             aria-pressed={activeCategory === cat.category}
             className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm transition-colors text-left ${
               activeCategory === cat.category
-                ? "bg-[var(--primary)]/15 text-[var(--primary)]"
+                ? "bg-[var(--primary)]/15 text-[var(--primary-text)]"
                 : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
             }`}
           >
@@ -251,7 +251,7 @@ export default function LibraryClient({
                       {doc.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"
+                          className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary-text)]"
                         >
                           {tag}
                         </span>

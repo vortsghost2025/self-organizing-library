@@ -80,7 +80,7 @@ function PublicationCard({ pub, internalId }: { pub: PublicationEntry; internalI
           {pub.tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"
+              className="text-xs px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary-text)]"
             >
               {tag}
             </span>
@@ -174,7 +174,7 @@ function InternalPaperCard({
   return (
     <div className="card p-5 hover:border-[var(--primary)] animate-fade-in">
       <div className="flex items-center gap-2 mb-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--primary)]/15 text-[var(--primary)]">
+        <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--primary)]/15 text-[var(--primary-text)]">
           <span className="w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold bg-[var(--primary)] text-white">
             R
           </span>

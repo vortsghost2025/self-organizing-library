@@ -28,7 +28,7 @@ export function HeroSection({ title, tagline, onStartWalkthrough }: HeroSectionP
         </Link>
         <Link
           href="/graph"
-          className="px-6 py-3 border-2 border-[var(--primary)] text-[var(--primary)] rounded-lg font-medium hover:bg-[var(--primary)]/10 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
+          className="px-6 py-3 border-2 border-[var(--primary)] text-[var(--text-primary)] rounded-lg font-medium hover:bg-[var(--primary)]/10 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
         >
           Explore Live Graph
         </Link>

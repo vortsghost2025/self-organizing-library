@@ -121,7 +121,7 @@ export default function DualPlaneAuthorityPage() {
         </h2>
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-lg bg-[var(--primary)]/20 flex items-center justify-center text-[var(--primary)] font-bold">
+            <div className="w-12 h-12 rounded-lg bg-[var(--primary)]/20 flex items-center justify-center text-[var(--primary-text)] font-bold">
               Op
             </div>
             <div className="flex-1">
