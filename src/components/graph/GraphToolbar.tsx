@@ -18,9 +18,7 @@ interface GraphToolbarProps {
 const TYPE_FILTERS = [
   { key: "all", label: "All", color: "#F4F4F5" },
   { key: "doc", label: "Docs", color: TYPE_COLORS.doc },
-  { key: "code", label: "Code", color: TYPE_COLORS.code },
   { key: "data", label: "Data", color: TYPE_COLORS.data },
-  { key: "schema", label: "Schema", color: TYPE_COLORS.schema },
 ];
 
 const REPO_FILTERS = [

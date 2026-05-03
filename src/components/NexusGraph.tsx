@@ -86,7 +86,7 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     let result = nodes;
 
     // Apply type/repo filter
-    if (filter === "all" || (filterMode === "type" && filter === "paper")) {
+    if (filter === "all") {
       result = nodes;
     } else if (filterMode === "repo") {
       result = nodes.filter((n) => n.repo === filter);
@@ -131,6 +131,15 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
 
     return result;
   }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
+
+  useEffect(() => {
+    // Guard against stale filters from previous builds/cached URLs.
+    if (filterMode !== "type") return;
+    const allowedTypeFilters = new Set(["all", "doc", "data"]);
+    if (!allowedTypeFilters.has(filter)) {
+      setFilter("all");
+    }
+  }, [filterMode, filter]);
 
   const selectedNode = selectedNodeId
     ? filteredNodes.find((n) => n.id === selectedNodeId) || null
