@@ -43,7 +43,7 @@ export default function ClusterSelector({ clusters, activeClusterId, onSelect }:
             aria-pressed={activeClusterId === c.id}
             className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
               activeClusterId === c.id
-                ? "bg-[var(--primary)]/20 text-[var(--primary)]"
+                ? "bg-[var(--primary)] text-white"
                 : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
             }`}
           >
@@ -51,7 +51,7 @@ export default function ClusterSelector({ clusters, activeClusterId, onSelect }:
             <span className="flex-1 truncate">{c.label}</span>
         <span className="text-sm text-[var(--text-muted)]">{c.nodeIds.length}</span>
       </button>
-    ))}
+        ))}
       </div>
     </div>
   );

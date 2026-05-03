@@ -85,9 +85,9 @@ export default function NodeDetail({
           >
             {node.status}
           </span>
-      {interactionMode === "focus" && node.id === focusedNodeId && (
-        <span className="text-sm px-1.5 py-0.5 rounded bg-[var(--primary)]/20 text-[var(--primary)]">Focused</span>
-      )}
+       {interactionMode === "focus" && node.id === focusedNodeId && (
+         <span className="text-sm px-1.5 py-0.5 rounded bg-[var(--primary)] text-white">Focused</span>
+       )}
       {interactionMode === "path" && (node.id === pathSource || node.id === pathTarget) && (
         <span className="text-sm px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">
               {node.id === pathSource ? "Source" : "Target"}

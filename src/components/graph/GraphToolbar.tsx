@@ -67,24 +67,24 @@ export default function GraphToolbar({
 
       <span className="text-[var(--text-muted)] text-sm mx-1" aria-hidden="true">|</span>
 
-      <button
-        onClick={() => { onFilterModeChange("type"); onFilterChange("all"); }}
-        aria-pressed={filterMode === "type"}
-        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
-          filterMode === "type" ? "bg-[var(--primary)]/20 text-[var(--primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-        }`}
-      >
-        By Type
-      </button>
-      <button
-        onClick={() => { onFilterModeChange("repo"); onFilterChange("all"); }}
-        aria-pressed={filterMode === "repo"}
-        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--secondary)]/50 focus:ring-offset-1 ${
-          filterMode === "repo" ? "bg-[var(--secondary)]/20 text-[var(--secondary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-        }`}
-      >
-        By Repo
-      </button>
+        <button
+          onClick={() => { onFilterModeChange("type"); onFilterChange("all"); }}
+          aria-pressed={filterMode === "type"}
+          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
+            filterMode === "type" ? "bg-[var(--primary)] text-white" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          }`}
+        >
+          By Type
+        </button>
+        <button
+          onClick={() => { onFilterModeChange("repo"); onFilterChange("all"); }}
+          aria-pressed={filterMode === "repo"}
+          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--secondary)]/50 focus:ring-offset-1 ${
+            filterMode === "repo" ? "bg-[var(--secondary)] text-white" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+          }`}
+        >
+          By Repo
+        </button>
 
         <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
           {visibleCount}/{nodeCount} nodes &middot; {edgeCount} edges
