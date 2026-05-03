@@ -248,7 +248,7 @@ export function UnderstandingTheSystem() {
                     <div className="mt-3">
                       <Link
                         href="/graph"
-                        className="text-sm text-[var(--primary)] hover:underline"
+                        className="text-sm text-[var(--primary-text)] hover:underline"
                       >
                         Open the Nexus Graph →
                       </Link>
@@ -256,13 +256,13 @@ export function UnderstandingTheSystem() {
                   )}
                   {section.id === "same-system" && (
                     <div className="mt-3 flex gap-4 text-sm">
-                      <Link href="/search-catalog" className="text-[var(--primary)] hover:underline">
-                        Search Catalog →
-                      </Link>
-                      <Link href="/graph" className="text-[var(--primary)] hover:underline">
-                        Nexus Graph →
-                      </Link>
-                      <Link href="/governance" className="text-[var(--primary)] hover:underline">
+                  <Link href="/search-catalog" className="text-[var(--primary-text)] hover:underline">
+                    Search Catalog →
+                  </Link>
+                  <Link href="/graph" className="text-[var(--primary-text)] hover:underline">
+                    Nexus Graph →
+                  </Link>
+                  <Link href="/governance" className="text-[var(--primary-text)] hover:underline">
                         Governance →
                       </Link>
                     </div>

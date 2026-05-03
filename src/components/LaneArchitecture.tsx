@@ -11,6 +11,7 @@ const LANES = [
     role: "Governance Root",
     description: "Constitutional authority. Ratifies proposals, manages policy, holds the single active blocker.",
     color: "#8B5CF6",
+    textColor: "#C4B5FD",
     icon: "⚖",
     repo: "Archivist-Agent",
     duties: ["Proposal ratification", "Policy enforcement", "Blocker management", "Convergence gate"],
@@ -23,6 +24,7 @@ const LANES = [
     role: "Execution Layer",
     description: "Orchestrates multi-agent execution. Dispatches parallel agents, runs code, implements features.",
     color: "#06B6D4",
+    textColor: "#67E8F9",
     icon: "⚡",
     repo: "SwarmMind",
     duties: ["Parallel agent dispatch", "Code execution", "Feature implementation", "Task orchestration"],
@@ -35,6 +37,7 @@ const LANES = [
     role: "Verification & Enforcement",
     description: "Proves or rejects claims with runtime evidence. Pre-filters inputs before they reach the coordinator.",
     color: "#10B981",
+    textColor: "#6EE7B7",
     icon: "◈",
     repo: "self-organizing-library",
     duties: ["Evidence verification", "Claim proof/rejection", "Convergence assessment", "Schema enforcement"],
@@ -47,6 +50,7 @@ const LANES = [
     role: "Runtime Layer",
     description: "CUDA/GPU runtime. Handles compute-intensive tasks, model inference, and infrastructure operations.",
     color: "#F59E0B",
+    textColor: "#FCD34D",
     icon: "⚙",
     repo: "kernel-lane",
     duties: ["GPU compute", "Model inference", "Infrastructure ops", "Runtime services"],
@@ -126,7 +130,7 @@ export function LaneArchitecture() {
           >
             <div
               className="w-12 h-12 rounded-full flex items-center justify-center text-xl mb-2"
-              style={{ background: `${lane.color}22`, border: `2px solid ${lane.color}`, color: lane.color }}
+              style={{ background: `${lane.color}22`, border: `2px solid ${lane.color}`, color: "#FFFFFF" }}
               aria-hidden="true"
             >
               {lane.icon}
@@ -144,7 +148,7 @@ export function LaneArchitecture() {
                 aria-valuemax={100}
                 aria-label={`Authority level ${lane.authority} out of 100`}
               />
-              <span className="text-xs mono" style={{ color: lane.color }}>{lane.authority}</span>
+              <span className="text-xs mono" style={{ color: lane.textColor }}>{lane.authority}</span>
             </div>
           </button>
         ))}
@@ -173,7 +177,7 @@ export function LaneArchitecture() {
                 <p className="text-sm text-[var(--text-secondary)] mb-3">{lane.description}</p>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {lane.duties.map((duty) => (
-                    <span key={duty} className="tag" style={{ background: `${lane.color}22`, color: lane.color }}>
+                    <span key={duty} className="tag" style={{ background: `${lane.color}22`, color: lane.textColor }}>
                       {duty}
                     </span>
                   ))}
@@ -189,8 +193,8 @@ export function LaneArchitecture() {
 
       <div className="text-xs text-[var(--text-muted)] mt-2" role="note">
         Lanes communicate via signed cross-lane relay messages (JWS RS256). Click a lane to expand details.
-        Explore the <a href="/graph" className="text-[var(--primary)] hover:underline">nexus graph</a> for
-        the full cross-reference map, or visit the <a href="/governance" className="text-[var(--primary)] hover:underline">governance dashboard</a> for live system status.
+          Explore the <a href="/graph" className="text-[var(--primary-text)] hover:underline">nexus graph</a> for
+          the full cross-reference map, or visit the <a href="/governance" className="text-[var(--primary-text)] hover:underline">governance dashboard</a> for live system status.
       </div>
     </section>
   );
