@@ -11,6 +11,7 @@ interface SystemInterpretationProps {
   quarantinedCount: number;
   primaryInstability: { title: string; contradictionCount: number } | null;
   loading?: boolean;
+  fourLaneLock?: boolean;
 }
 
 export default function SystemInterpretation({
@@ -22,6 +23,7 @@ export default function SystemInterpretation({
   quarantinedCount,
   primaryInstability,
   loading = false,
+  fourLaneLock = false,
 }: SystemInterpretationProps) {
   const filterLine = isFiltered
     ? "This is a filtered diagnostic view, not the full system."
@@ -36,6 +38,11 @@ export default function SystemInterpretation({
     <section className={`card p-4 mb-4 animate-fade-in ${className || ""}`} role="status" aria-live="polite">
       <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--text-secondary)] mb-3">Live System State / Interpretation</h3>
       <p className="text-sm font-semibold text-[var(--text-primary)] mb-3">VIEW MODE: {viewModeLabel}</p>
+      {fourLaneLock ? (
+        <p className="text-xs uppercase tracking-wide font-semibold text-emerald-300 mb-2">
+          4-LANE LOCK ACTIVE: Showing only core lane repos (external repos hidden)
+        </p>
+      ) : null}
       <p className="text-sm text-[var(--text-primary)] mb-2">{filterLine}</p>
       <p className="text-sm text-[var(--text-primary)] mb-3">The system is currently resolving contradictions in its governance/library layer.</p>
 

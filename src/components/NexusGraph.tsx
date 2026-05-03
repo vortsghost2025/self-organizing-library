@@ -30,7 +30,7 @@ export default function NexusGraph() {
   const [clusters, setClusters] = useState<Cluster[]>([]);
   const [entryPoints, setEntryPoints] = useState<EntryPoint[]>([]);
 
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("core");
   const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -88,6 +88,11 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     // Apply type/repo filter
     if (filter === "all") {
       result = nodes;
+    } else if (filterMode === "type" && filter === "core") {
+      result = nodes.filter((n) => {
+        const t = (n.type || "").toLowerCase();
+        return t === "doc" || t === "data" || t === "test-data";
+      });
     } else if (filterMode === "repo") {
       result = nodes.filter((n) => n.repo === filter);
     } else {
@@ -135,9 +140,9 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
   useEffect(() => {
     // Guard against stale filters from previous builds/cached URLs.
     if (filterMode !== "type") return;
-    const allowedTypeFilters = new Set(["all", "doc", "data"]);
+    const allowedTypeFilters = new Set(["core", "all", "doc", "data"]);
     if (!allowedTypeFilters.has(filter)) {
-      setFilter("all");
+      setFilter("core");
     }
   }, [filterMode, filter]);
 
@@ -524,16 +529,17 @@ const handleCompareSnapshots = useCallback(() => {
          </div>
        )}
 
-       <SystemInterpretation
-         className="sticky top-2 z-20"
-         viewModeLabel={viewModeLabel}
-         isFiltered={isFilteredView}
-         visibleNodeCount={filteredNodes.length}
-         conflictedCount={statusCounts.CONFLICTED}
-         quarantinedCount={statusCounts.QUARANTINED}
-         primaryInstability={primaryInstability}
-         loading={loading}
-       />
+      <SystemInterpretation
+        className="sticky top-2 z-20"
+        viewModeLabel={viewModeLabel}
+        isFiltered={isFilteredView}
+        visibleNodeCount={filteredNodes.length}
+        conflictedCount={statusCounts.CONFLICTED}
+        quarantinedCount={statusCounts.QUARANTINED}
+        primaryInstability={primaryInstability}
+        fourLaneLock={true}
+        loading={loading}
+      />
 
        <GraphToolbar
          filter={filter}
