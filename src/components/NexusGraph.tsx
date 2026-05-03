@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import Graph from "graphology";
 import Sigma from "sigma";
 import { bidirectional } from "graphology-shortest-path";
@@ -24,6 +25,7 @@ import NodeDetail from "./graph/NodeDetail";
  import SystemInterpretation from "./graph/SystemInterpretation";
 
 export default function NexusGraph() {
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
@@ -53,6 +55,13 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
 
   const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
+
+  useEffect(() => {
+    const mode = searchParams.get("mode");
+    if (mode === "understand" || mode === "explore" || mode === "full") {
+      setGraphMode(mode);
+    }
+  }, [searchParams]);
 
   // Sync density and layers when mode changes, and auto-select entry point
   useEffect(() => {

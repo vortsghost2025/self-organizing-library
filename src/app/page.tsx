@@ -53,7 +53,7 @@ export default async function Dashboard() {
             </div>
           </a>
           <a
-            href="/graph"
+            href="/graph?mode=explore"
             className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
           >
             <div className="text-4xl" aria-hidden="true">🔵</div>
