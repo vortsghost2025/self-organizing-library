@@ -165,6 +165,11 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
   }, [graphMode, filter, searchQuery, activeEntryPoint, activeClusterId]);
 
   useEffect(() => {
+    // Ensure direct visits and dashboard navigation start at top of graph page.
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
     let cancelled = false;
     async function load() {
       try {
