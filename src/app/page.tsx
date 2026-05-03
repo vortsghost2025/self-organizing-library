@@ -4,7 +4,6 @@ import { LaneArchitecture } from "@/components/LaneArchitecture";
 import fs from "fs";
 import path from "path";
 import { HeroSection } from "@/components/homepage/HeroSection";
-import { GuidedWalkthrough } from "@/components/homepage/GuidedWalkthrough";
 import { HowThisWorks } from "@/components/homepage/HowThisWorks";
 import { PapersToSystemBridge } from "@/components/homepage/PapersToSystemBridge";
 import { NexusGraphExplanation } from "@/components/homepage/NexusGraphExplanation";
@@ -28,71 +27,88 @@ const preview = loadHomepagePreview();
 export default async function Dashboard() {
   const stats = getStats();
 
-  // Use preview data if available, otherwise hardcoded defaults
-  const heroTitle = preview?.hero?.title || "A living research archive for human-AI collaboration.";
-  const heroTagline = preview?.hero?.tagline || "Deliberate Ensemble maps theory, code, evidence, contradictions, and multi-agent governance into one navigable system.";
-  
+  // Use preview data if available, otherwise use the required new defaults
+  const heroTitle = preview?.hero?.title || "An AI system that proves what it knows.";
+  const heroTagline = preview?.hero?.tagline || "Deliberate Ensemble is a multi-agent system where every claim is verified, tracked, and challenged over time.";
+
   return (
     <div className="p-8" data-pagefind-body>
-       {/* Hero: what this is */}
-       <HeroSection 
-         title={heroTitle}
-         tagline={heroTagline}
-       />
+      {/* HERO SECTION — top of page, clear and dominant */}
+      <HeroSection
+        title={heroTitle}
+        tagline={heroTagline}
+      />
 
-       {/* What This Is */}
-       <div className="card p-6 mb-12 animate-fade-in">
-         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">What This Is</h2>
-         <p className="text-[var(--text-secondary)] mb-4 text-sm">
-           This is a living system where AI agents:
-           <br />• organize knowledge
-           <br />• detect contradictions
-           <br />• verify truth over time
-         </p>
-         <p className="text-[var(--text-secondary)] text-sm">
-           The graph is not just visualization — it is the system thinking.
-         </p>
-       </div>
-
-       {/* 3-Step Guided Flow */}
-       <div className="card p-6 mb-12 animate-fade-in">
-         <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">Getting Started</h3>
-         <div className="grid md:grid-cols-3 gap-4">
-           <div className="p-4 border border-[var(--border)] rounded-lg">
-             <div className="text-2xl mb-2">1</div>
-             <h4 className="font-medium text-[var(--text-primary)] mb-2">Start with core ideas</h4>
-             <p className="text-sm text-[var(--text-secondary)]">Begin with the most verified, highest-authority nodes.</p>
-           </div>
-           <div className="p-4 border border-[var(--border)] rounded-lg">
-             <div className="text-2xl mb-2">2</div>
-             <h4 className="font-medium text-[var(--text-primary)] mb-2">Explore connections</h4>
-             <p className="text-sm text-[var(--text-secondary)]">See how artifacts link together through references and shared tags.</p>
-           </div>
-           <div className="p-4 border border-[var(--border)] rounded-lg">
-             <div className="text-2xl mb-2">3</div>
-             <h4 className="font-medium text-[var(--text-primary)] mb-2">Inspect conflicts</h4>
-              <p className="text-sm text-[var(--text-secondary)]">Discover where the system detects contradictions and how they&apos;re resolved.</p>
-           </div>
-         </div>
-       </div>
-
-       {/* Archive stats strip - moved lower */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-6">Archive at a Glance</h2>
-        <ArchiveStats />
+      {/* HOW IT WORKS — 3-step human explanation, directly under hero */}
+      <div className="card p-6 mb-12 animate-fade-in">
+        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">How It Works</h2>
+        <div className="grid md:grid-cols-3 gap-4 text-center">
+          <div className="p-4">
+            <div className="text-3xl mb-2">1</div>
+            <h3 className="font-medium text-[var(--text-primary)] mb-2">Agents generate ideas</h3>
+            <p className="text-sm text-[var(--text-secondary)]">Documentation, code, and claims are created across the system.</p>
+          </div>
+          <div className="p-4">
+            <div className="text-3xl mb-2">2</div>
+            <h3 className="font-medium text-[var(--text-primary)] mb-2">Other agents verify or challenge</h3>
+            <p className="text-sm text-[var(--text-secondary)]">Each claim is tested. If it doesn&apos;t hold, it&apos;s marked and tracked.</p>
+          </div>
+          <div className="p-4">
+            <div className="text-3xl mb-2">3</div>
+            <h3 className="font-medium text-[var(--text-primary)] mb-2">The system tracks truth over time</h3>
+             <p className="text-sm text-[var(--text-secondary)]">You see what&apos;s proven, what&apos;s contested, and what&apos;s still unknown.</p>
+          </div>
+        </div>
       </div>
 
-      {/* Guided walkthrough */}
-      <GuidedWalkthrough />
+      {/* CHOOSE YOUR PATH — clear entry points for different needs */}
+      <div className="card p-6 mb-12 animate-fade-in">
+        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">Choose Your Path</h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          <a
+            href="/start-here"
+            className="flex items-start gap-4 p-5 rounded-lg border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
+          >
+            <div className="text-3xl flex-shrink-0" aria-hidden="true">🟢</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">I want to understand the idea</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Start with the foundational documents and core principles.</p>
+            </div>
+          </a>
+          <a
+            href="/graph"
+            className="flex items-start gap-4 p-5 rounded-lg border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+          >
+            <div className="text-3xl flex-shrink-0" aria-hidden="true">🔵</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">I want to see it in action</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Explore the live graph to see how ideas connect and conflict.</p>
+            </div>
+          </a>
+          <a
+            href="/papers"
+            className="flex items-start gap-4 p-5 rounded-lg border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+          >
+            <div className="text-3xl flex-shrink-0" aria-hidden="true">🟣</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">I want the deep technical theory</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Read the full Rosetta Stone paper series and architecture specs.</p>
+            </div>
+          </a>
+        </div>
+      </div>
 
-      {/* How this works */}
-      <HowThisWorks />
+      {/* NEXUS GRAPH INTRO — positioned before graph to frame its purpose */}
+      <div className="card p-6 mb-6 animate-fade-in">
+        <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-2">Live System Map</h2>
+        <p className="text-[var(--text-secondary)] mb-0">
+          This is a live map of how ideas connect, conflict, and get verified.
+          <Link href="/graph" className="text-[var(--primary)] hover:underline ml-1">Open the Nexus Graph →</Link>
+        </p>
+      </div>
 
       {/* Papers to system bridge */}
       <PapersToSystemBridge />
-
-      {/* Nexus graph explanation */}
-      <NexusGraphExplanation />
 
       {/* External services dashboard */}
       <div className="card p-6 mb-12 animate-fade-in">
@@ -120,7 +136,7 @@ export default async function Dashboard() {
               </div>
               <div className="text-xs text-[var(--text-muted)] mt-1">
                 Canada-based offline-first mesh network for mental health support. Operates independently
-                via local p2p when connectivity drops. Integrated via GitHub bridge.
+                via local p2p when connectivity drops. Integrated with the Deliberate Ensemble governance via GitHub bridge.
               </div>
               <div className="flex items-center gap-3 mt-2 text-xs text-[var(--text-muted)]">
                 <span className="flex items-center gap-1">
@@ -193,6 +209,12 @@ export default async function Dashboard() {
             </a>
           </div>
         </div>
+      </div>
+
+      {/* ARCHIVE STATS — moved well below the fold, after services */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-6">Archive at a Glance</h2>
+        <ArchiveStats />
       </div>
 
       {/* Lane diagram + about */}

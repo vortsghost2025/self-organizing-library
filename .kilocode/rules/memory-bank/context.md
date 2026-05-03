@@ -158,16 +158,28 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Spec review responses SIGNED and DELIVERED to Archivist**: Both Emergency Broadcast Protocol v1 (APPROVE) and CI/CD Sovereignty Gates v1 (APPROVE WITH AMENDMENTS) review messages signed with Library's RSA key (key_id: ea2a75bab220adc2) and delivered to `S:/Archivist-Agent/lanes/archivist/inbox/`. Outbox copies in `lanes/library/outbox/`.
  - [x] **First successful signed outbound delivery**: Previous sessions sent unsigned messages (resulting in 578+ NACKs). This session's deliveries are the first properly signed messages from Library to Archivist.
 
-### Session 2026-05-03: UX Correction — 3-Mode Graph + Homepage Reorganization
+### Session 2026-05-03 (cont.1): Homepage Comprehension Rewrite
 
-- [x] **Graph 3-mode system implemented**: Added Understand, Explore, Full modes with top-level ModeSelector. Mode changes automatically set density, active layers, and entry point presets.
+ - [x] **Homepage hero completely rewritten**: New title "An AI system that proves what it knows.", tagline "Deliberate Ensemble is a multi-agent system where every claim is verified, tracked, and challenged over time.", hook "Most AI gives answers. This system proves them." Primary CTA "Start Here — Understand the System", secondary CTA "Explore the Live Graph".
+ - [x] **Noise removal from above-the-fold**: Archive stats moved well below the fold; multi-card equal-weight sections removed from immediate view. New focus: single clear path.
+ - [x] **3-step explanation added directly under hero**: "How It Works" with human-language steps (1. Agents generate ideas, 2. Other agents verify or challenge them, 3. The system tracks truth over time) — replaces technical jargon.
+ - [x] **Guided Walkthrough replaced with "Choose Your Path"**: Three distinct cards:
+   🟢 "I want to understand the idea" → Start Here
+   🔵 "I want to see it in action" → Nexus Graph
+   🟣 "I want the deep technical theory" → Papers
+ - [x] **Graph intro text added**: "This is a live map of how ideas connect, conflict, and get verified." positioned immediately before graph section.
+ - [x] **Tone shifted**: From descriptive ("here is a system") to transformative ("This changes how AI works").
+ - [x] **Accessibility verified**: Primary CTA uses high-contrast white text on primary; no purple-on-purple low-contrast buttons remaining.
+ - [x] **All checks passed**: Typecheck and lint succeeded.
+
+### Session 2026-05-03 (cont.2): UX correction: 3-mode graph system + link fixes
+- [x] **Graph 3-mode system implemented**: Added Understand, Explore, Full modes with mode selector. Mode changes automatically set density, active layers, and entry point presets.
 - [x] **Understand mode (default)**: Overview density, structure-only layers, Top Authority entry point preset; hides UNVERIFIED/QUARANTINED nodes; highlights top 10 VERIFIED high-authority core nodes on load.
 - [x] **Explore mode**: Mid density, structure+verification+conflicts layers, Contradictions entry point; shows all node statuses to expose problems.
 - [x] **Full mode**: Focus density, all layers; shows ClusterSelector (repos and tag groups) for advanced navigation; includes warning label about high density.
 - [x] **Left panel reorganization**: Controls grouped into mode-specific sections — Start Here (Understand), Investigate (Explore), Advanced (Full) — reducing cognitive load.
 - [x] **Graph page explanation block**: Replaced vague header with concise system purpose statement and color legend (Verified=Blue/Green, Contradictions=Red, Unverified=Gray).
-- [x] **GraphLegend enriched**: Added descriptive text explaining the meaning of colors and graph elements.
-- [x] **Homepage enhancements**: Added "What This Is" section and a 3-step Getting Started flow (Start with core ideas → Explore connections → Inspect conflicts).
+- [x] **GraphLegend enriched**: Added explanatory intro text to legend.
 - [x] **Homepage link updates**: Added Mental Health Resources link; confirmed Federation and Connection Bridge links present.
 - [x] **GitHub link correction**: Updated About page to link to the correct repository at https://github.com/vortsghost2025/Deliberate-AI-Ensemble.
 - [x] **All checks passed**: Typecheck and lint succeeded with no errors.
