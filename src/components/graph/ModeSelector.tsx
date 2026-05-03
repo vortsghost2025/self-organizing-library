@@ -30,7 +30,7 @@ export const ModeSelector = ({ mode, onChange }: ModeSelectorProps) => {
               focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2
               ${
                 mode === m
-                  ? "bg-[var(--primary)]/20 text-[var(--primary)]"
+                  ? "bg-[var(--primary)] text-white"
                   : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
               }
             `}
