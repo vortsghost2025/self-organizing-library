@@ -1,0 +1,45 @@
+OUTPUT_PROVENANCE: agent: kilo-auto/free lane: library generated_at: 2026-05-03T01:24:57-04:00 session_id: unknown
+
+1. Snapshot data files found:
+   - reports/clean-baseline-snapshot-2026-05-01.json
+   - evidence/graph-snapshots/graph-snapshot-2026-04-30T16-08-47-analysis.json
+   - evidence/graph-snapshots/graph-snapshot-2026-04-30T16-08-47-reduced.json
+   - evidence/graph-snapshots/auto-tag-manifest-2026-04-30.json
+
+2. Node object shape in snapshots (GraphNode from src/lib/graph-types.ts):
+   {
+     id: string,
+     title: string,
+     type: string,
+     category: string,
+     repo: string,
+     connectionCount: number,
+     tags: string[],
+     status: "UNVERIFIED" | "VERIFIED" | "CONFLICTED" | "QUARANTINED",
+     verificationCount: number,
+     contradictionCount: number,
+     clusterIds: string[],
+     governanceLayer: "constitutional" | "operational" | "theoretical" | "historical" | "evidence" | "application_adjacent" | "unknown",
+     authorityDepth: number,
+     bridgeState: "enforced" | "verified" | "partial" | "documented_only" | "contradicted" | "obsolete" | "unknown"
+   }
+
+3. How frontend accesses graph data:
+   In src/components/NexusGraph.tsx, the useEffect hook fetches from "/api/graph-data":
+     const res = await fetch("/api/graph-data");
+     const data = await res.json();
+   This calls the Next.js API route at src/app/api/graph-data/route.ts, which calls getGraphData() from src/lib/site-index.ts to compute nodes, edges, and authority edges from the site index.
+
+4. Suggested approach to read snapshot data in a React component:
+   - For live data: fetch from "/api/graph-data" as done in NexusGraph.
+   - For static snapshot files (e.g., in reports/): import them directly if they are bundled with the code (e.g., import snapshot from '@/reports/clean-baseline-snapshot-2026-05-01.json';) or fetch them via HTTP if placed in the public folder.
+   - To load a snapshot into the graph state, use the parseSnapshot function from src/lib/graph-snapshot.ts to convert JSON into a GraphSnapshot, then extract nodes, edges, clusters, and entry_points to set component state.
+
+Convergence Gate:
+{
+  "claim": "Identified graph snapshot generation, storage, node structure, frontend data access, and suggested approaches for reading snapshot data in React components.",
+  "evidence": "Files examined: src/lib/graph-snapshot.ts, src/lib/graph-types.ts, src/components/NexusGraph.tsx, src/app/api/graph-data/route.ts, src/lib/site-index.ts, reports/clean-baseline-snapshot-2026-05-01.json, evidence/graph-snapshots/*.json",
+  "verified_by": "self",
+  "contradictions": [],
+  "status": "proven"
+}
