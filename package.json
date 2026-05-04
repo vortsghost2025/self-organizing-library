@@ -33,6 +33,8 @@
     "provenance:verify": "node scripts/verify-output-provenance.js",
     "health": "curl -s http://localhost:3000/api/health | jq",
     "generate-index": "node scripts/generate-site-index.js",
+    "deploy:prod": "vercel --prod --yes",
+    "deploy:preview": "vercel --yes",
     "postbuild": "npx pagefind --site .next/server/app --output-path public/pagefind"
   },
   "dependencies": {

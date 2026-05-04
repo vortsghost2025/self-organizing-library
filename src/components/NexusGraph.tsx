@@ -21,33 +21,18 @@ import NodeDetail from "./graph/NodeDetail";
  import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
  import type { GraphSnapshot } from "@/lib/graph-snapshot";
  import { compareSnapshots } from "@/lib/graph-snapshot-compare";
-  import SystemInterpretation from "./graph/SystemInterpretation";
-  import ViewContextBanner from "./graph/ViewContextBanner";
-  import GraphInterpretationGuide from "./graph/GraphInterpretationGuide";
+ import SystemInterpretation from "./graph/SystemInterpretation";
 
-interface NexusGraphProps {
-  initialMode?: GraphMode;
-  initialFilter?: string;
-  initialFilterMode?: "type" | "repo";
-}
-
-export default function NexusGraph(props: NexusGraphProps = {}) {
-  const { initialMode = DEFAULT_MODE, initialFilter = "all", initialFilterMode = "type" } = props;
+export default function NexusGraph() {
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
   const [clusters, setClusters] = useState<Cluster[]>([]);
   const [entryPoints, setEntryPoints] = useState<EntryPoint[]>([]);
 
-  const [filter, setFilter] = useState(initialFilter);
-  const [filterMode, setFilterMode] = useState<"type" | "repo">(initialFilterMode);
+  const [filter, setFilter] = useState("all");
+  const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Sync filter state when URL query params change (client-side navigation)
-  useEffect(() => {
-    setFilter(initialFilter);
-    setFilterMode(initialFilterMode);
-  }, [initialFilter, initialFilterMode]);
 
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
@@ -60,195 +45,101 @@ export default function NexusGraph(props: NexusGraphProps = {}) {
 
 const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
   const [density, setDensity] = useState<DensityLevel>("mid");
-  const [graphMode, setGraphMode] = useState<GraphMode>(initialMode);
+  const [graphMode, setGraphMode] = useState<GraphMode>(DEFAULT_MODE);
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
-   const [cameraRatio, setCameraRatio] = useState(1);
-   const [webglUnavailable, setWebglUnavailable] = useState(false);
-   const [nodeLimit, setNodeLimit] = useState<number | null>(null);
+  const [cameraRatio, setCameraRatio] = useState(1);
+  const [webglUnavailable, setWebglUnavailable] = useState(false);
 
-   // Derived UI state
-   const filterLabel = useMemo(() => {
-     if (activeEntryPoint) {
-       const ep = entryPoints.find(e => e.id === activeEntryPoint);
-       return ep ? ep.label : activeEntryPoint;
-     }
-     if (activeClusterId) {
-       const c = clusters.find(cl => cl.id === activeClusterId);
-       return c ? c.label : activeClusterId;
-     }
-     if (filterMode === "repo" && filter !== "all") return `repository: ${filter}`;
-     if (filterMode === "type" && filter !== "all") return `type: ${filter}`;
-     return "none (full system)";
-   }, [activeEntryPoint, activeClusterId, filterMode, filter, entryPoints, clusters]);
+  const graphRef = useRef<Graph | null>(null);
+  const sigmaRef = useRef<Sigma | null>(null);
 
-   const focusNodeTitle = useMemo(() => {
-     if (activeEntryPoint) {
-       const ep = entryPoints.find(e => e.id === activeEntryPoint);
-       return ep ? ep.label : null;
-     }
-     if (activeClusterId) {
-       const c = clusters.find(cl => cl.id === activeClusterId);
-       return c ? c.label : null;
-     }
-     if (focusedNodeId) {
-       const n = nodes.find(n => n.id === focusedNodeId);
-       return n ? n.title : null;
-     }
-     return null;
-   }, [activeEntryPoint, activeClusterId, focusedNodeId, entryPoints, clusters, nodes]);
+  // Sync density and layers when mode changes, and auto-select entry point
+  useEffect(() => {
+    const config = MODE_CONFIG[graphMode];
+    setDensity(config.density);
+    setActiveLayers(config.layers);
 
-   const graphRef = useRef<Graph | null>(null);
-   const sigmaRef = useRef<Sigma | null>(null);
+    // Auto-select appropriate entry point per mode
+    if (graphMode === "understand") {
+      setActiveEntryPoint("ep:authority");
+    } else if (graphMode === "explore") {
+      setActiveEntryPoint("ep:contradictions");
+    } else {
+      setActiveEntryPoint(null);
+    }
+  }, [graphMode]);
 
-    // Sync density and layers when mode changes, and auto-select entry point
-    useEffect(() => {
-      const config = MODE_CONFIG[graphMode];
-      setDensity(config.density);
-      setActiveLayers(config.layers);
+  // Compute core nodes for highlighting in understand mode (computed from full nodes list)
+  const coreNodeIds = useMemo(() => {
+    if (graphMode !== "understand") return new Set<string>();
+    const scored = nodes
+      .filter(n => n.status === "VERIFIED" && (n.authorityDepth >= 50 || n.verificationCount >= 5))
+      .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map(s => s.id);
+    return new Set(scored);
+  }, [graphMode, nodes]);
 
-      // Auto-select appropriate entry point per mode
-      if (graphMode === "understand") {
-        // If a repo filter is active, select that repo's cluster; otherwise use authority
-        if (filterMode === "repo" && filter !== "all") {
-          const repoClusterId = `ep:repo:${filter}`;
-          // Check if the cluster exists before selecting
-          if (entryPoints.some(ep => ep.id === repoClusterId)) {
-            setActiveEntryPoint(repoClusterId);
-            setNodeLimit(null); // Show all nodes for a specific repo
-          } else {
-            setActiveEntryPoint("ep:authority");
-            setNodeLimit(100);
-          }
-        } else {
-          setActiveEntryPoint("ep:authority");
-          setNodeLimit(100); // Default limit for understand mode
-        }
-      } else if (graphMode === "explore") {
-        setActiveEntryPoint("ep:contradictions");
-        setNodeLimit(null);
-      } else {
-        setActiveEntryPoint(null);
-        setNodeLimit(null);
+  const filteredNodes = useMemo(() => {
+    let result = nodes;
+
+    // Apply type/repo filter
+    if (filter === "all") {
+      result = nodes;
+    } else if (filterMode === "repo") {
+      result = nodes.filter((n) => n.repo === filter);
+    } else {
+      result = nodes.filter((n) => n.type === filter);
+    }
+
+    // Apply data visibility policy based on mode
+    const modeConfig = MODE_CONFIG[graphMode];
+    if (!modeConfig.showUnverified) {
+      result = result.filter((n) => n.status === "VERIFIED");
+    }
+    if (!modeConfig.showQuarantined) {
+      result = result.filter((n) => n.status !== "QUARANTINED");
+    }
+
+    // Apply search query
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(n =>
+        n.title.toLowerCase().includes(q) ||
+        n.tags.some(t => t.toLowerCase().includes(q)) ||
+        n.repo.toLowerCase().includes(q)
+      );
+    }
+
+    // Apply entry point filter
+    if (activeEntryPoint) {
+      const ep = entryPoints.find(e => e.id === activeEntryPoint);
+      if (ep) {
+        result = result.filter(n => ep.nodeIds.includes(n.id));
       }
-    }, [graphMode, filterMode, filter, entryPoints]);
+    }
 
-    // Compute core nodes for highlighting in understand mode (computed from full nodes list)
-    const coreNodeIds = useMemo(() => {
-      if (graphMode !== "understand") return new Set<string>();
-      const scored = nodes
-        .filter(n => n.status === "VERIFIED" && (n.authorityDepth >= 80 || n.verificationCount >= 5))
-        .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 10)
-        .map(s => s.id);
-      return new Set(scored);
-    }, [graphMode, nodes]);
-
-    // Compute base filtered set (all filters EXCEPT nodeLimit)
-    const baseFilteredNodes = useMemo(() => {
-      let result = nodes;
-
-      // Apply type/repo filter
-      if (filter === "all") {
-        result = nodes;
-      } else if (filterMode === "repo") {
-        result = nodes.filter((n) => n.repo === filter);
-      } else {
-        result = nodes.filter((n) => n.type === filter);
+    // Apply cluster filter
+    if (activeClusterId) {
+      const cluster = clusters.find(c => c.id === activeClusterId);
+      if (cluster) {
+        result = result.filter(n => cluster.nodeIds.includes(n.id));
       }
+    }
 
-      // Apply data visibility policy based on mode
-      const modeConfig = MODE_CONFIG[graphMode];
-      if (!modeConfig.showUnverified) {
-        result = result.filter((n) => n.status === "VERIFIED");
-      }
-      if (!modeConfig.showQuarantined) {
-        result = result.filter((n) => n.status !== "QUARANTINED");
-      }
+    return result;
+  }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
 
-      // Apply search query
-      if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        result = result.filter(n =>
-          n.title.toLowerCase().includes(q) ||
-          n.tags.some(t => t.toLowerCase().includes(q)) ||
-          n.repo.toLowerCase().includes(q)
-        );
-      }
-
-      // Apply entry point filter
-      if (activeEntryPoint) {
-        const ep = entryPoints.find(e => e.id === activeEntryPoint);
-        if (ep) {
-          result = result.filter(n => ep.nodeIds.includes(n.id));
-        }
-      }
-
-      // Apply cluster filter
-      if (activeClusterId) {
-        const cluster = clusters.find(c => c.id === activeClusterId);
-        if (cluster) {
-          result = result.filter(n => cluster.nodeIds.includes(n.id));
-        }
-      }
-
-      return result;
-    }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
-
-    // Compute limited node IDs based on nodeLimit (top N by relevance score), applied to baseFiltered set
-    const limitedNodeIds = useMemo(() => {
-      if (!nodeLimit) return null;
-      const scored = baseFilteredNodes
-        .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, nodeLimit)
-        .map(s => s.id);
-      return new Set(scored);
-    }, [nodeLimit, baseFilteredNodes]);
-
-    // Final displayed nodes after all filters including optional node limit
-    const displayedNodes = useMemo(() => {
-      if (limitedNodeIds) {
-        return baseFilteredNodes.filter(n => limitedNodeIds.has(n.id));
-      }
-      return baseFilteredNodes;
-     }, [baseFilteredNodes, limitedNodeIds]);
-
-   // Final nodes actually displayed (after all filters and optional limit)
-   const filteredNodes = displayedNodes;
-
-   const selectedNode = selectedNodeId
+  const selectedNode = selectedNodeId
     ? filteredNodes.find((n) => n.id === selectedNodeId) || null
     : null;
 
-   const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
-   for (const n of displayedNodes) {
-     if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
-   }
-
-   const primaryInstability = useMemo(() => {
-     const sorted = [...displayedNodes].sort((a, b) => b.contradictionCount - a.contradictionCount);
-     const top = sorted[0];
-     if (!top) return null;
-     return { title: top.title, contradictionCount: top.contradictionCount };
-   }, [displayedNodes]);
-
-  const viewModeLabel = useMemo(() => {
-    if (graphMode === "explore") return "CONTRADICTION HUB" as const;
-    if (graphMode === "understand") return "TRUSTED CORE" as const;
-    return "FULL SYSTEM" as const;
-  }, [graphMode]);
-
-  const isFilteredView = useMemo(() => {
-    return (
-      graphMode !== "full" ||
-      filter !== "all" ||
-      searchQuery.trim().length > 0 ||
-      activeEntryPoint !== null ||
-      activeClusterId !== null
-    );
-  }, [graphMode, filter, searchQuery, activeEntryPoint, activeClusterId]);
+  const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
+  for (const n of filteredNodes) {
+    if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -345,20 +236,35 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     }
   }, [pathSource]);
 
-   // Calculate visibleCount for status display (how many nodes are actually rendered on screen)
-   const visibleCount = (() => {
-     // In overview mode: only cluster representatives are visible; count those that are in displayedNodes
-     if (density === "overview") {
-       const reps = new Set(clusters.map(c => c.representativeId));
-       return displayedNodes.filter(n => reps.has(n.id)).length;
-     }
-     // Focus mode: approximate as displayedNodes (keeping it simple)
-     if (focusedNodeId) {
-       return displayedNodes.length;
-     }
-     // Entry point or cluster selection: all displayed nodes are in view
-     return displayedNodes.length;
-   })();
+  // Calculate visibleCount before using it in handleExportSnapshot
+  const visibleCount = (() => {
+    if (density === "overview") return clusters.length;
+    if (activeEntryPoint || activeClusterId) {
+      const ep = entryPoints.find((e) => e.id === activeEntryPoint);
+      const cl = clusters.find((c) => c.id === activeClusterId);
+      return ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
+    }
+    if (focusedNodeId) return 20;
+    return filteredNodes.length;
+  })();
+
+  const totalNodeCount = nodes.length;
+
+  const displayedVisibleCount = Math.min(visibleCount, filteredNodes.length);
+
+  const filteredNodeIds = useMemo(() => new Set(filteredNodes.map(n => n.id)), [filteredNodes]);
+  const visibleEdgeCount = useMemo(() => {
+    return edges.filter(e => filteredNodeIds.has(e.source) && filteredNodeIds.has(e.target)).length;
+  }, [edges, filteredNodeIds]);
+
+  const activeEntryPointMeta = useMemo(
+    () => (activeEntryPoint ? entryPoints.find((ep) => ep.id === activeEntryPoint) || null : null),
+    [activeEntryPoint, entryPoints]
+  );
+  const activeClusterMeta = useMemo(
+    () => (activeClusterId ? clusters.find((c) => c.id === activeClusterId) || null : null),
+    [activeClusterId, clusters]
+  );
 
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -371,7 +277,7 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
       quarantined: 0,
     };
     
-    for (const n of displayedNodes) {
+    for (const n of filteredNodes) {
       const nodeStatus = n.status.toLowerCase() as keyof typeof statusCounts;
       if (nodeStatus in statusCounts) {
         statusCounts[nodeStatus] += 1;
@@ -387,8 +293,8 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
       densityMode: density,
       zoomMode: cameraRatio.toString(),
       visibleNodeCap: undefined,
-      visibleNodeCount: visibleCount,
-      visibleEdgeCount: edges.length,
+    visibleNodeCount: displayedVisibleCount,
+    visibleEdgeCount: visibleEdgeCount,
       totalAvailableNodes: nodes.length,
       totalAvailableEdges: edges.length,
       statusCounts: statusCounts,
@@ -412,7 +318,7 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
-  }, [filter, filterMode, activeEntryPoint, activeLayers, density, cameraRatio, filteredNodes, nodes, edges, selectedNodeId, pathEdges, visibleCount, clusters, entryPoints]);
+  }, [filter, filterMode, activeEntryPoint, activeLayers, density, cameraRatio, filteredNodes, nodes, edges, selectedNodeId, pathEdges, displayedVisibleCount, visibleEdgeCount, clusters, entryPoints]);
 
   const handleImportSnapshot = useCallback(() => {
     const input = document.createElement("input");
@@ -533,16 +439,15 @@ const handleCompareSnapshots = useCallback(() => {
     );
   }, []);
 
-   // Simplified zoom level label (no counts — counts are in toolbar)
-   const zoomLabel = cameraRatio < 0.3
-     ? "Zoom: Deep"
-     : cameraRatio < 0.6
-     ? "Zoom: Close"
-     : cameraRatio < 1.2
-     ? "Zoom: Normal"
-     : cameraRatio < 3
-     ? "Zoom: Far"
-     : "Zoom: Overview";
+  const zoomLabel = cameraRatio < 0.3
+    ? "Zoom: Deep — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
+    : cameraRatio < 0.6
+    ? "Zoom: Close — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
+    : cameraRatio < 1.2
+    ? "Zoom: Normal — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
+    : cameraRatio < 3
+    ? "Zoom: Far — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
+    : "Zoom: Overview — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)";
 
   return (
     <div className="p-8" data-pagefind-ignore>
@@ -572,21 +477,10 @@ const handleCompareSnapshots = useCallback(() => {
          </div>
        </div>
 
-        <div className="mb-4">
-          <ModeSelector mode={graphMode} onChange={setGraphMode} />
-        </div>
-
-        {/* Interpretation banner — plain-language view summary */}
-        <ViewContextBanner
-          mode={graphMode}
-          visibleCount={displayedNodes.length}
-          totalNodes={nodes.length}
-          statusCounts={statusCounts}
-          focusNodeTitle={focusNodeTitle}
-          filterLabel={filterLabel}
-        />
-
-        {graphMode === "full" && (
+       <div className="mb-4">
+         <ModeSelector mode={graphMode} onChange={setGraphMode} />
+       </div>
+       {graphMode === "full" && (
          <div className="mb-4 text-sm text-amber-400 flex items-center gap-2" role="alert">
            <span aria-hidden="true">⚠</span>
            <span>Advanced Mode: Full system state (high density, may be noisy)</span>
@@ -600,22 +494,37 @@ const handleCompareSnapshots = useCallback(() => {
           onFilterChange={setFilter}
           onFilterModeChange={setFilterMode}
           onSearchChange={setSearchQuery}
-          nodeCount={baseFilteredNodes.length}
-          edgeCount={edges.length}
-          visibleCount={visibleCount}
-          nodeLimit={nodeLimit}
-          onNodeLimitChange={setNodeLimit}
+          nodeCount={totalNodeCount}
+          edgeCount={visibleEdgeCount}
+          visibleCount={displayedVisibleCount}
         />
 
-         <SystemInterpretation
-           viewModeLabel={viewModeLabel}
-           visibleNodeCount={displayedNodes.length}
-           conflictedCount={statusCounts.CONFLICTED}
-           quarantinedCount={statusCounts.QUARANTINED}
-          verifiedCount={statusCounts.VERIFIED}
-          primaryInstability={primaryInstability}
-          loading={loading}
-        />
+      {(activeEntryPointMeta || activeClusterMeta) && (
+        <div className="card p-3 mb-2 flex flex-wrap items-center gap-2 text-sm animate-fade-in" role="status" aria-live="polite">
+          <span className="text-[var(--text-secondary)] font-medium">Active scope:</span>
+          {activeEntryPointMeta && (
+            <span className="px-2 py-1 rounded bg-[var(--primary)]/15 text-[var(--text-primary)] border border-[var(--primary)]/30">
+              Entry Point: {activeEntryPointMeta.label} ({activeEntryPointMeta.nodeIds.length})
+            </span>
+          )}
+          {activeClusterMeta && (
+            <span className="px-2 py-1 rounded bg-[var(--secondary)]/15 text-[var(--text-primary)] border border-[var(--secondary)]/30">
+              Cluster: {activeClusterMeta.label} ({activeClusterMeta.nodeIds.length})
+            </span>
+          )}
+          <button
+            onClick={() => {
+              setActiveEntryPoint(null);
+              setActiveClusterId(null);
+            }}
+            className="ml-auto px-3 py-1.5 rounded text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/40"
+          >
+            Clear Scope
+          </button>
+        </div>
+      )}
+
+       <SystemInterpretation />
 
        <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
@@ -675,25 +584,19 @@ const handleCompareSnapshots = useCallback(() => {
             />
           </div>
 
-           {/* Start Here – Understand mode */}
-           {graphMode === "understand" && (
-             <section className="space-y-2">
-               <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Start Here</h3>
-               <div className="card p-2">
-                 <EntryPoints
-              entryPoints={entryPoints.filter(ep => {
-                if (ep.id === "ep:authority" || ep.id === "ep:gov-core" || ep.id === "ep:all-verified") return true;
-                if (filterMode === "repo" && filter !== "all" && ep.id === `ep:repo:${filter}`) {
-                  return true;
-                }
-                return false;
-              })}
-                   activeEntryPoint={activeEntryPoint}
-                   onSelect={setActiveEntryPoint}
-                 />
-               </div>
-             </section>
-           )}
+          {/* Start Here – Understand mode */}
+          {graphMode === "understand" && (
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Start Here</h3>
+              <div className="card p-2">
+                <EntryPoints
+                  entryPoints={entryPoints.filter(ep => ep.id === "ep:authority" || ep.id === "ep:gov-core")}
+                  activeEntryPoint={activeEntryPoint}
+                  onSelect={setActiveEntryPoint}
+                />
+              </div>
+            </section>
+          )}
 
           {/* Investigate – Explore mode */}
           {graphMode === "explore" && (
@@ -732,41 +635,38 @@ const handleCompareSnapshots = useCallback(() => {
                 ) : filteredNodes.length === 0 && !webglUnavailable ? (
                 <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
-         <GraphCanvas
-           nodes={displayedNodes}
-           edges={edges}
-           clusters={clusters}
-           hoveredNodeId={hoveredNodeId}
-           selectedNodeId={selectedNodeId}
-           focusedNodeId={focusedNodeId}
-           pathNodes={pathNodes}
-           pathEdges={pathEdges}
-           pathSource={pathSource}
-           pathTarget={pathTarget}
-           activeLayers={activeLayers}
-           density={density}
-           activeEntryPoint={activeEntryPoint}
-           activeClusterId={activeClusterId}
-           searchQuery={searchQuery}
-           filterMode={filterMode}
-           filter={filter}
-           visibleCount={displayedNodes.length}
-           coreNodeIds={Array.from(coreNodeIds)}
-           onNodeClick={handleFocusNode}
-           onNodeHover={setHoveredNodeId}
-           onStageClick={handleStageClick}
-           onCameraUpdate={setCameraRatio}
-           onGraphReady={(g, s) => {
-             graphRef.current = g;
-             sigmaRef.current = s;
-           }}
+<GraphCanvas
+                   nodes={filteredNodes}
+                   edges={edges}
+                   clusters={clusters}
+                   hoveredNodeId={hoveredNodeId}
+                   selectedNodeId={selectedNodeId}
+                   focusedNodeId={focusedNodeId}
+                   pathNodes={pathNodes}
+                   pathEdges={pathEdges}
+                   pathSource={pathSource}
+                   pathTarget={pathTarget}
+                   activeLayers={activeLayers}
+                   density={density}
+                   activeEntryPoint={activeEntryPoint}
+                   activeClusterId={activeClusterId}
+                   searchQuery={searchQuery}
+                   filterMode={filterMode}
+                   filter={filter}
+                   visibleCount={displayedVisibleCount}
+                   coreNodeIds={Array.from(coreNodeIds)}
+                   onNodeClick={handleNodeClick}
+                   onNodeHover={handleNodeHover}
+                   onStageClick={handleStageClick}
+                   onCameraUpdate={handleCameraUpdate}
+                   onGraphReady={handleGraphReady}
            onWebGLUnavailable={() => setWebglUnavailable(true)}
-         />
+                 />
               )}
               <GraphContextPanel
                 nodeCount={filteredNodes.length}
-                edgeCount={edges.length}
-                visibleCount={visibleCount}
+                edgeCount={visibleEdgeCount}
+                visibleCount={displayedVisibleCount}
                 density={density}
                 activeLayers={activeLayers}
                 filter={filter}
@@ -783,30 +683,18 @@ const handleCompareSnapshots = useCallback(() => {
             </div>
           </div>
 
-          {/* Right sidebar: node detail OR interpretation guide */}
-          <aside className="w-80 flex-shrink-0">
-            {selectedNode ? (
-              <NodeDetail
-                node={selectedNode}
-                interactionMode={focusedNodeId ? "focus" : pathSource ? "path" : "entry"}
-                focusedNodeId={focusedNodeId}
-                pathSource={pathSource}
-                pathTarget={pathTarget}
-                onFocusNode={handleFocusNode}
-                onTracePath={handleTracePath}
-                onClose={handleStageClick}
-              />
-            ) : (
-              <GraphInterpretationGuide
-                mode={graphMode}
-                visibleCount={displayedNodes.length}
-                totalNodes={nodes.length}
-                statusCounts={statusCounts}
-                isFiltered={isFilteredView}
-                filterLabel={filterLabel || undefined}
-              />
-            )}
-          </aside>
+          {selectedNode && (
+            <NodeDetail
+              node={selectedNode}
+              interactionMode={focusedNodeId ? "focus" : pathSource ? "path" : "entry"}
+              focusedNodeId={focusedNodeId}
+              pathSource={pathSource}
+              pathTarget={pathTarget}
+              onFocusNode={handleFocusNode}
+              onTracePath={handleTracePath}
+              onClose={handleStageClick}
+            />
+          )}
         </main>
       </div>
 

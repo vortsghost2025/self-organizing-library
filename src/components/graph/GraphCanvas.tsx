@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useMemo, useState } from "react";
+import { useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
 import Graph from "graphology";
 import Sigma from "sigma";
+import { circular } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
-import type { GraphNode, GraphEdge, Cluster, DensityLevel, MeaningLayer, AuthorityEdgeType } from "@/lib/graph-types";
-import { STATUS_COLORS, REPO_COLORS, MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE } from "@/lib/graph-types";
+import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState } from "@/lib/graph-types";
+import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS } from "@/lib/graph-types";
 
 let _webglAvailable: boolean | undefined;
 
@@ -51,318 +53,592 @@ interface GraphCanvasProps {
   onWebGLUnavailable?: () => void;
 }
 
-const MIN_NODE_SIZE = 4;
-const MAX_NODE_SIZE = 20;
-const BASE_NODE_SIZE = 6;
 const DIM_COLOR = "#2A2A38";
+const HOVER_DIM_COLOR = "#353540";
+const HOVER_DIM_EDGE = "#252530";
 const PATH_HIGHLIGHT = "#F59E0B";
-const EDGE_BG_OPACITY = 0.03;
-const EDGE_BG_AUTHORITY_OPACITY = 0.08;
+const PATH_EDGE_COLOR = "#FBBF24";
 
-function hexToRgba(hex: string, alpha: number): string {
-  const h = hex.replace("#", "");
-  const r = parseInt(h.substring(0, 2), 16);
-  const g = parseInt(h.substring(2, 4), 16);
-  const b = parseInt(h.substring(4, 6), 16);
-  return `rgba(${r},${g},${b},${alpha})`;
+function getReducedMotionDurations() {
+  if (typeof window === "undefined") return { camera: 200, pan: 150 };
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return { camera: reduced ? 0 : 200, pan: reduced ? 0 : 150 };
 }
 
-const REPO_REGIONS: Record<string, { angle: number; label: string }> = {
-  "self-organizing-library": { angle: 0, label: "Library" },
-  "Archivist-Agent": { angle: Math.PI / 2, label: "Archivist" },
-  "kernel-lane": { angle: Math.PI, label: "Kernel" },
-  "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": { angle: 3 * Math.PI / 2, label: "SwarmMind" },
-};
+function buildGraph(
+  nodes: GraphNode[],
+  edges: GraphEdge[],
+  filter: string,
+  filterMode: "type" | "repo"
+): Graph {
+  const filtered = filter === "all"
+    ? nodes
+    : filterMode === "repo"
+    ? nodes.filter((n) => n.repo === filter)
+    : nodes.filter((n) => n.type === filter);
+  const ids = new Set(filtered.map((n) => n.id));
 
-function importanceScore(n: GraphNode): number {
-  return Math.sqrt(n.connectionCount) * 0.6 + n.verificationCount * 0.4 + n.authorityDepth / 60;
-}
+  const graph = new Graph({ type: "undirected", multi: false });
 
-function clampSize(base: number, spread: number): number {
-  return Math.min(MAX_NODE_SIZE, Math.max(MIN_NODE_SIZE, base + spread));
+  for (const node of filtered) {
+    const baseSize = node.type === "paper" ? 10 : node.type === "doc" ? 6 : 4;
+    const color = filterMode === "repo"
+      ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
+      : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
+    graph.addNode(node.id, {
+      label: node.title,
+      x: 0,
+      y: 0,
+      size: Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
+      color,
+      nodeType: node.type,
+      category: node.category,
+      repo: node.repo,
+      connectionCount: node.connectionCount,
+      tags: JSON.stringify(node.tags),
+      nodeStatus: node.status || "UNVERIFIED",
+      verificationCount: node.verificationCount || 0,
+      contradictionCount: node.contradictionCount || 0,
+      clusterIds: JSON.stringify(node.clusterIds || []),
+      governanceLayer: node.governanceLayer || "unknown",
+      authorityDepth: node.authorityDepth || 0,
+      bridgeState: node.bridgeState || "unknown",
+    });
+  }
+
+  for (const edge of edges) {
+    if (!ids.has(edge.source) || !ids.has(edge.target)) continue;
+    if (graph.hasNode(edge.source) && graph.hasNode(edge.target)) {
+      if (!graph.hasEdge(edge.source, edge.target)) {
+        const auth = edge.authority;
+        const edgeColor = auth
+          ? AUTHORITY_EDGE_COLORS[auth] || "#1E1E24"
+          : edge.type === "shared-tag"
+          ? "#1E1E24"
+          : "#2A2A32";
+        const edgeSize = auth
+          ? AUTHORITY_EDGE_SIZE[auth] || 0.5
+          : 0.5;
+        graph.addEdge(edge.source, edge.target, {
+          color: edgeColor,
+          size: edgeSize,
+          edgeType: edge.type,
+          authority: auth || null,
+        });
+      }
+    }
+  }
+
+  circular.assign(graph, { scale: 300 });
+
+  if (graph.order > 0) {
+    const settings = forceAtlas2.inferSettings(graph);
+    settings.gravity = 0.5;
+    settings.scalingRatio = 4;
+    settings.barnesHutOptimize = graph.order > 100;
+    const iterations = graph.order > 200 ? 300 : graph.order > 50 ? 200 : 100;
+    forceAtlas2.assign(graph, { iterations, settings });
+  }
+
+  return graph;
 }
 
 export default function GraphCanvas({
-  nodes, edges, clusters,
-  hoveredNodeId, selectedNodeId, focusedNodeId,
-  pathNodes, pathEdges, pathSource, pathTarget,
-  activeLayers, density, activeEntryPoint, activeClusterId,
-  searchQuery, filterMode, filter,
-  coreNodeIds,
-  onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady, onWebGLUnavailable,
+  nodes, edges, clusters, hoveredNodeId, selectedNodeId, focusedNodeId,
+  pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
+  activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
+  visibleCount, coreNodeIds, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
+  onWebGLUnavailable,
 }: GraphCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
-  const [cameraRatio, setCameraRatio] = useState(1);
-  const coreNodeIdsSet = useMemo(() => new Set(coreNodeIds || []), [coreNodeIds]);
+  const graphRef = useRef<Graph | null>(null);
+  const baseLabelSizeRef = useRef(12);
 
-  const refs = useRef({ hoveredNodeId, selectedNodeId, focusedNodeId, pathNodes, pathEdges, clusters, coreNodeIdsSet, activeLayers });
-  refs.current = { hoveredNodeId, selectedNodeId, focusedNodeId, pathNodes, pathEdges, clusters, coreNodeIdsSet, activeLayers };
+  const hoveredNeighborIdsRef = useRef<Set<string>>(new Set());
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const visibleNodeIds = useMemo(() => {
-    if (activeEntryPoint || activeClusterId) return new Set(nodes.map(x => x.id));
+  const activeLayersRef = useRef(activeLayers);
+  const densityRef = useRef(density);
+  const activeEntryPointRef = useRef(activeEntryPoint);
+  const activeClusterIdRef = useRef(activeClusterId);
+  const searchQueryRef = useRef(searchQuery);
+  const hoveredNodeIdRef = useRef(hoveredNodeId);
+  const selectedNodeIdRef = useRef(selectedNodeId);
+  const focusedNodeIdRef = useRef(focusedNodeId);
+  const pathNodesRef = useRef(pathNodes);
+  const pathEdgesRef = useRef(pathEdges);
+  const pathSourceRef = useRef(pathSource);
+  const pathTargetRef = useRef(pathTarget);
+  const clustersRef = useRef(clusters);
+  const coreNodeIdsRef = useRef<string[]>(coreNodeIds || []);
 
-    if (cameraRatio < 0.35) {
-      const reps = new Set(clusters.map(c => c.representativeId).filter(Boolean));
-      const top = nodes
-        .filter(x => !reps.has(x.id))
-        .sort((a, b) => importanceScore(b) - importanceScore(a))
-        .slice(0, 20)
-        .map(x => x.id);
-      return new Set([...reps, ...top]);
-    }
-
-    if (cameraRatio < 0.8) {
-      const activeIds = new Set<string>();
-      if (focusedNodeId) activeIds.add(focusedNodeId);
-      if (selectedNodeId) activeIds.add(selectedNodeId);
-      if (hoveredNodeId) activeIds.add(hoveredNodeId);
-      const activeNeighbors = new Set<string>();
-      for (const edge of edges) {
-        if (activeIds.has(edge.source)) activeNeighbors.add(edge.target);
-        if (activeIds.has(edge.target)) activeNeighbors.add(edge.source);
-      }
-      const combined = new Set<string>();
-      for (const node of nodes) {
-        const isHigh = node.authorityDepth >= 40 || node.verificationCount >= 2 || node.connectionCount >= 4 || node.status === "CONFLICTED";
-        const isMedium = node.authorityDepth >= 20 || node.verificationCount >= 1 || node.connectionCount >= 2 || activeNeighbors.has(node.id);
-        if (isHigh || isMedium) combined.add(node.id);
-      }
-      return combined;
-    }
-
-    return new Set(nodes.map(x => x.id));
-  }, [nodes, edges, clusters, activeEntryPoint, activeClusterId, cameraRatio, focusedNodeId, selectedNodeId, hoveredNodeId]);
-
-  const labelPermittedNodeIds = useMemo(() => {
-    if (cameraRatio < 0.35) return new Set<string>();
-    if (cameraRatio < 0.8) {
-      const scored = nodes
-        .filter(n => visibleNodeIds.has(n.id))
-        .map(n => ({ id: n.id, importance: importanceScore(n) }))
-        .sort((a, b) => b.importance - a.importance);
-      return new Set(scored.slice(0, 5).map(x => x.id));
-    }
-    const scored = nodes
-      .filter(n => visibleNodeIds.has(n.id))
-      .map(n => ({ id: n.id, importance: importanceScore(n) }))
-      .sort((a, b) => b.importance - a.importance);
-    return new Set(scored.slice(0, 10).map(x => x.id));
-  }, [nodes, visibleNodeIds, cameraRatio, clusters]);
-
-  const visibleNodeIdsKey = useMemo(() => Array.from(visibleNodeIds).sort().join(","), [visibleNodeIds]);
-
-  const allowedEdgeTypes = useMemo(() => {
-    const allowed = new Set<string>();
-    for (const layer of activeLayers) {
-      const layerEdges = MEANING_LAYER_EDGES[layer];
-      if (layerEdges) layerEdges.forEach(e => allowed.add(e));
-    }
-    return allowed.size > 0 ? allowed : null;
-  }, [activeLayers]);
+  useEffect(() => { activeLayersRef.current = activeLayers; }, [activeLayers]);
+  useEffect(() => { densityRef.current = density; }, [density]);
+  useEffect(() => { activeEntryPointRef.current = activeEntryPoint; }, [activeEntryPoint]);
+  useEffect(() => { activeClusterIdRef.current = activeClusterId; }, [activeClusterId]);
+  useEffect(() => { searchQueryRef.current = searchQuery; }, [searchQuery]);
+  useEffect(() => { hoveredNodeIdRef.current = hoveredNodeId; }, [hoveredNodeId]);
+  useEffect(() => { selectedNodeIdRef.current = selectedNodeId; }, [selectedNodeId]);
+  useEffect(() => { focusedNodeIdRef.current = focusedNodeId; }, [focusedNodeId]);
+  useEffect(() => { pathNodesRef.current = pathNodes; }, [pathNodes]);
+  useEffect(() => { pathEdgesRef.current = pathEdges; }, [pathEdges]);
+  useEffect(() => { pathSourceRef.current = pathSource; }, [pathSource]);
+  useEffect(() => { pathTargetRef.current = pathTarget; }, [pathTarget]);
+  useEffect(() => { clustersRef.current = clusters; }, [clusters]);
+  useEffect(() => { coreNodeIdsRef.current = coreNodeIds || []; }, [coreNodeIds]);
 
   useEffect(() => {
+    const updateBaseLabelSize = () => {
+      const zoomLevel = typeof window !== "undefined" ? Math.round(window.devicePixelRatio * 100) / 100 : 1;
+      baseLabelSizeRef.current = Math.round(12 * Math.max(1, zoomLevel));
+    };
+    updateBaseLabelSize();
+    window.addEventListener("resize", updateBaseLabelSize);
+    const mq = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+    mq.addEventListener("change", updateBaseLabelSize);
+    return () => {
+      window.removeEventListener("resize", updateBaseLabelSize);
+      mq.removeEventListener("change", updateBaseLabelSize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (sigmaRef.current) sigmaRef.current.refresh();
+  }, [hoveredNodeId, selectedNodeId, focusedNodeId, pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density, activeEntryPoint, activeClusterId, searchQuery]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    const sigma = sigmaRef.current;
+    const graph = graphRef.current;
+    if (!sigma || !graph) return;
+    const camera = sigma.getCamera() as any;
+    const dur = getReducedMotionDurations();
+    if (e.key === "Escape") {
+      onStageClick();
+      (e.target as HTMLElement).blur();
+    } else if (e.key === "+" || e.key === "=") {
+      e.preventDefault();
+      camera.animatedZoom({ duration: dur.camera });
+    } else if (e.key === "-" || e.key === "_") {
+      e.preventDefault();
+      camera.animatedUnzoom({ duration: dur.camera });
+    } else if (e.key === "ArrowUp" || e.key === "w") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, y: state.y - 50 / camera.ratio }, { duration: dur.pan });
+    } else if (e.key === "ArrowDown" || e.key === "s") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, y: state.y + 50 / camera.ratio }, { duration: dur.pan });
+    } else if (e.key === "ArrowLeft" || e.key === "a") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, x: state.x - 50 / camera.ratio }, { duration: dur.pan });
+    } else if (e.key === "ArrowRight" || e.key === "d") {
+      e.preventDefault();
+      const state = camera.getState();
+      camera.animate({ ...state, x: state.x + 50 / camera.ratio }, { duration: dur.pan });
+    }
+  }, [onStageClick]);
+
+  useEffect(() => {
+    if (!containerRef.current || nodes.length === 0) return;
+
+    if (!isWebGLAvailable()) return;
+
+    if (sigmaRef.current) {
+      sigmaRef.current.kill();
+      sigmaRef.current = null;
+    }
+
+    const graph = buildGraph(nodes, edges, filter, filterMode);
+    if (graph.order === 0) return;
+    graphRef.current = graph;
+
+    const clusterNodeIds = new Map<string, Set<string>>();
+    for (const cl of clusters) {
+      clusterNodeIds.set(cl.id, new Set(cl.nodeIds));
+    }
+
+  const isVisible = (nodeId: string): boolean => {
+    const d = densityRef.current;
+    const ep = activeEntryPointRef.current;
+    const ac = activeClusterIdRef.current;
+    const sq = searchQueryRef.current.toLowerCase();
+    const focused = focusedNodeIdRef.current;
+    const selected = selectedNodeIdRef.current;
+    const g = graphRef.current;
+    if (!g || !g.hasNode(nodeId)) return false;
+
+    if (sq && g.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
+    if (pathNodesRef.current.size > 0 && pathNodesRef.current.has(nodeId)) return true;
+    if (focused && g.hasNode(focused)) {
+      const neighbors = new Set(g.neighbors(focused));
+      if (neighbors.has(nodeId) || nodeId === focused) return true;
+    }
+    if (selected && nodeId === selected) return true;
+
+    if (ep) {
+      for (const cl of clustersRef.current) {
+        if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
+      }
+      if (ep === "ep:authority") {
+        const attrs = g.getNodeAttributes(nodeId);
+        if ((attrs as any).verificationCount >= 3) return true;
+      }
+      if (ep === "ep:contradictions") {
+        const ns = (g.getNodeAttributes(nodeId) as any).nodeStatus;
+        if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
+      }
+      if (ep === "ep:gov-unenforced") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+        if ((gl === "theoretical" || gl === "historical") && (bs === "documented_only" || bs === "unknown")) return true;
+      }
+      if (ep === "ep:gov-core") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "constitutional" || gl === "operational") return true;
+      }
+      if (ep === "ep:gov-bridges") {
+        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+        if (bs === "enforced" || bs === "verified" || bs === "partial") return true;
+      }
+      if (ep === "ep:gov-contradicted") {
+        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+        if (bs === "contradicted") return true;
+      }
+      if (ep === "ep:gov-authority-mismatch") {
+        const attrs = g.getNodeAttributes(nodeId) as any;
+        const gl = attrs.governanceLayer;
+        const ad = attrs.authorityDepth;
+        if ((gl === "theoretical" || gl === "historical") && ad >= 75) return true;
+      }
+      if (ep === "ep:gov-evidence") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "evidence") return true;
+      }
+      if (ep === "ep:gov-adjacent") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "application_adjacent") return true;
+      }
+      if (ep === "ep:gov-historical") {
+        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+        if (gl === "historical") return true;
+      }
+    }
+
+      if (ac && clusterNodeIds.get(ac)?.has(nodeId)) return true;
+
+      if (d === "overview") {
+        for (const cl of clustersRef.current) {
+          if (cl.representativeId === nodeId) return true;
+        }
+        return false;
+      }
+
+      if (d === "mid") {
+        if (!ep && !ac && !focused && !sq) return true;
+        return false;
+      }
+
+      return true;
+    };
+
+    const isEdgeInActiveLayer = (authority: string | null): boolean => {
+      if (!authority) return true;
+      const layers = activeLayersRef.current;
+      for (const layer of layers) {
+        if (MEANING_LAYER_EDGES[layer]?.includes(authority as AuthorityEdgeType)) return true;
+      }
+      return false;
+    };
+
     const container = containerRef.current;
-    if (!container) return;
-
-    if (!isWebGLAvailable()) { onWebGLUnavailable?.(); return; }
-
-    if (sigmaRef.current) { sigmaRef.current.kill(); sigmaRef.current = null; graphRef.current = null; }
-
-    const graph = new Graph({ type: "undirected", multi: false });
-    const scale = Math.min(container.clientWidth, container.clientHeight) * 0.35;
-
-    const repoGroups = new Map<string, string[]>();
-    for (const node of nodes) {
-      if (!visibleNodeIds.has(node.id)) continue;
-      if (!repoGroups.has(node.repo)) repoGroups.set(node.repo, []);
-      repoGroups.get(node.repo)!.push(node.id);
-    }
-
-    for (const node of nodes) {
-      if (!visibleNodeIds.has(node.id)) continue;
-
-      const spread = Math.sqrt(node.connectionCount) * 0.5 + node.verificationCount * 0.4;
-      let size = clampSize(BASE_NODE_SIZE, spread);
-      if (coreNodeIdsSet.has(node.id)) size = Math.min(MAX_NODE_SIZE, size * 1.15);
-
-      let color: string;
-      if (filterMode === "repo" && filter !== "all") {
-        color = REPO_COLORS[filter] || "#6B7280";
-      } else {
-        color = STATUS_COLORS[node.status] || "#6B7280";
-      }
-
-      const region = REPO_REGIONS[node.repo];
-      const regionAngle = region ? region.angle : Math.random() * Math.PI * 2;
-      const importance = importanceScore(node);
-      const radius = importance > 3 ? scale * (0.2 + Math.random() * 0.2) : scale * (0.5 + Math.random() * 0.4);
-
-      const x = Math.cos(regionAngle) * radius + (Math.random() - 0.5) * scale * 0.15;
-      const y = Math.sin(regionAngle) * radius + (Math.random() - 0.5) * scale * 0.15;
-
-      graph.addNode(node.id, {
-        label: node.title, x, y, size, color,
-        coreNode: coreNodeIdsSet.has(node.id),
-        repo: node.repo,
-        importance,
-      });
-    }
-
-    let authorityEdgeCount = 0;
-    const MAX_AUTHORITY_EDGES = 200;
-
-    const authorityEdges: GraphEdge[] = [];
-    const nonAuthorityEdges: GraphEdge[] = [];
-    for (const edge of edges) {
-      if (!visibleNodeIds.has(edge.source) || !visibleNodeIds.has(edge.target)) continue;
-      if (allowedEdgeTypes && edge.authority && !allowedEdgeTypes.has(edge.authority)) continue;
-      if (edge.authority) authorityEdges.push(edge);
-      else nonAuthorityEdges.push(edge);
-    }
-
-  for (const edge of authorityEdges) {
-    if (authorityEdgeCount >= MAX_AUTHORITY_EDGES) break;
-    if (graph.hasNode(edge.source) && graph.hasNode(edge.target) && !graph.hasEdge(edge.source, edge.target)) {
-      const authType = edge.authority as AuthorityEdgeType;
-      const authColor = AUTHORITY_EDGE_COLORS[authType] || "#60A5FA";
-      graph.addEdge(edge.source, edge.target, {
-        color: authColor,
-        size: AUTHORITY_EDGE_SIZE[authType] || 0.5,
-          authority: true,
-          authorityType: edge.authority || null,
-          source: edge.source, target: edge.target,
-        });
-        authorityEdgeCount++;
-      }
-    }
-
-    for (const edge of nonAuthorityEdges.slice(0, 400)) {
-      if (graph.hasNode(edge.source) && graph.hasNode(edge.target) && !graph.hasEdge(edge.source, edge.target)) {
-        graph.addEdge(edge.source, edge.target, {
-          color: `rgba(120,120,140,${EDGE_BG_OPACITY})`,
-          size: 0.1,
-          authority: false,
-          authorityType: null,
-          source: edge.source, target: edge.target,
-        });
-      }
-    }
-
+    let renderer: Sigma;
     try {
-      forceAtlas2.assign(graph, {
-        iterations: 60,
-        settings: {
-          gravity: 8,
-          scalingRatio: 4,
-          barnesHutOptimize: true,
-          slowDown: 1.5,
-          linLogMode: true,
-        },
-      });
-    } catch {
-      // fallback: positions already set by region-based init
-    }
-
-    const renderer = new Sigma(graph, container, {
-      renderLabels: true,
-      labelFont: "Inter, DM Sans, sans-serif",
-      labelSize: 13,
-      labelWeight: "600",
-      labelColor: { color: "#D1D5DB" },
-      labelRenderedSizeThreshold: 6,
+      renderer = new Sigma(graph, container, {
+        renderLabels: true,
+    renderEdgeLabels: false,
+    labelFont: "DM Sans",
+    labelSize: baseLabelSizeRef.current,
+    labelWeight: "500",
+    labelColor: { color: "#A1A1AA" },
+    labelRenderedSizeThreshold: 50,
       defaultEdgeColor: "#1E1E24",
       defaultNodeType: "circle",
       minCameraRatio: 0.1,
       maxCameraRatio: 10,
       stagePadding: 20,
       nodeReducer: (node, data) => {
-        const r = refs.current;
-        const isActive = r.hoveredNodeId === node || r.selectedNodeId === node || r.focusedNodeId === node || r.pathNodes.has(node);
-        const isCore = r.coreNodeIdsSet.has(node);
         const res = { ...data };
+        const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
+        const hovered = hoveredNodeIdRef.current;
+        const selected = selectedNodeIdRef.current;
+        const focused = focusedNodeIdRef.current;
+        const pNodes = pathNodesRef.current;
+        const pSource = pathSourceRef.current;
+        const pTarget = pathTargetRef.current;
+        const visible = isVisible(node);
 
-        if (isActive) {
-          res.size = Math.min(MAX_NODE_SIZE, (data.size || BASE_NODE_SIZE) * 1.3);
-          res.highlighted = true;
-          res.zIndex = 99;
-        } else if (isCore) {
-          res.size = Math.min(MAX_NODE_SIZE, (data.size || BASE_NODE_SIZE) * 1.1);
-          res.zIndex = 50;
-          res.color = data.color;
-          res.label = labelPermittedNodeIds.has(node) ? data.label : "";
-        } else {
-          if (labelPermittedNodeIds.has(node)) {
-            res.size = data.size;
-            res.color = data.color;
+        if (!visible) {
+          res.color = DIM_COLOR;
+          res.size = 0.5;
+          res.label = "";
+          return res;
+        }
+
+        // Core node highlighting for understand mode (initial load)
+        const coreNodes = coreNodeIdsRef.current;
+        const hasInteraction = hovered || selected || focused || pathNodesRef.current.size > 0;
+        if (coreNodes.length > 0 && !hasInteraction) {
+          if (coreNodes.includes(node)) {
+            res.highlighted = true;
+            res.zIndex = 9;
+            res.color = "#FDE047"; // Yellow highlight for core nodes
+            res.size = (res.size || 6) * 1.2;
           } else {
-            res.color = DIM_COLOR;
-            res.size = Math.max(MIN_NODE_SIZE, (data.size || BASE_NODE_SIZE) * 0.55);
+            // Fade non-core nodes on initial load
+            res.color = "#2A2A38";
             res.label = "";
           }
+          return res;
         }
+
+        if (pNodes.size > 0) {
+          if (pNodes.has(node)) {
+            res.highlighted = true;
+            res.zIndex = 10;
+            if (node === pSource || node === pTarget) {
+              res.color = PATH_HIGHLIGHT;
+              res.size = (res.size || 6) * 1.5;
+            }
+          } else {
+            res.color = DIM_COLOR;
+            res.label = "";
+          }
+          return res;
+        }
+
+        if (focused && graph.hasNode(focused)) {
+          const neighbors = new Set(graph.neighbors(focused));
+          if (neighbors.has(node) || node === focused) {
+            if (node === focused) {
+              res.highlighted = true;
+              res.zIndex = 10;
+              res.size = (res.size || 6) * 1.3;
+            }
+          } else {
+            res.color = DIM_COLOR;
+            res.label = "";
+          }
+          return res;
+        }
+
+        if (hovered) {
+          const neighborIds = hoveredNeighborIdsRef.current;
+          if (node === hovered || neighborIds.has(node)) {
+            res.highlighted = true;
+          } else {
+            res.color = HOVER_DIM_COLOR;
+            const degree = graph.degree(node);
+            if (degree < 8) res.label = "";
+          }
+          return res;
+        }
+
+      if (nodeStatus === "CONFLICTED") {
+        res.color = STATUS_COLORS.CONFLICTED;
+        res.zIndex = 5;
+      } else if (nodeStatus === "QUARANTINED") {
+        res.color = STATUS_COLORS.QUARANTINED;
+        res.zIndex = 5;
+      }
+
+      if (activeLayersRef.current.includes("governance")) {
+        const gl = (data as any).governanceLayer as GovernanceLayer;
+        const bs = (data as any).bridgeState as BridgeState;
+        if (bs === "contradicted") {
+          res.color = BRIDGE_STATE_COLORS.contradicted;
+          res.zIndex = 6;
+        } else if (bs === "enforced") {
+          res.color = BRIDGE_STATE_COLORS.enforced;
+          res.zIndex = 4;
+        } else if (bs === "documented_only" || bs === "obsolete") {
+          res.color = BRIDGE_STATE_COLORS[bs] || GOVERNANCE_LAYER_COLORS[gl] || res.color;
+          res.zIndex = 1;
+        } else if (gl && GOVERNANCE_LAYER_COLORS[gl]) {
+          res.color = GOVERNANCE_LAYER_COLORS[gl];
+        }
+      }
+
+        if (selected && node === selected) {
+          res.highlighted = true;
+          res.zIndex = 10;
+        }
+
+        const d = densityRef.current;
+        if (d === "overview") {
+          const isRep = clustersRef.current.some((cl) => cl.representativeId === node);
+          if (!isRep) {
+            res.label = "";
+          }
+        } else if (d === "mid") {
+          const degree = graph.degree(node);
+          if (degree < 8) res.label = "";
+        }
+
         return res;
       },
       edgeReducer: (edge, data) => {
-        const r = refs.current;
-        const onPath = r.pathEdges.has(edge);
-        const edgeSource = (data as any).source as string | undefined;
-        const edgeTarget = (data as any).target as string | undefined;
+        const res = { ...data };
+        const authority = (data as any).authority as string | null;
+        const hovered = hoveredNodeIdRef.current;
+        const focused = focusedNodeIdRef.current;
+        const pEdges = pathEdgesRef.current;
 
-        const connectedToActive =
-          edgeSource && edgeTarget && (
-            r.hoveredNodeId === edgeSource || r.hoveredNodeId === edgeTarget ||
-            r.selectedNodeId === edgeSource || r.selectedNodeId === edgeTarget ||
-            r.focusedNodeId === edgeSource || r.focusedNodeId === edgeTarget
-          );
-
-        if (onPath) {
-          return { ...data, color: PATH_HIGHLIGHT, size: 1.0 };
+        if (!isEdgeInActiveLayer(authority)) {
+          res.hidden = true;
+          return res;
         }
 
-        if (connectedToActive) {
-          const isAuthority = (data as any).authority;
-          if (isAuthority) {
-            const authType = (data as any).authorityType as AuthorityEdgeType | null;
-            if (authType && AUTHORITY_EDGE_COLORS[authType]) {
-              return { ...data, color: AUTHORITY_EDGE_COLORS[authType], size: Math.min(1.5, AUTHORITY_EDGE_SIZE[authType] || 0.9) };
-            }
-            return { ...data, color: "#60A5FA", size: 0.7 };
+        if (pEdges.size > 0) {
+          if (pEdges.has(edge)) {
+            res.color = PATH_EDGE_COLOR;
+            res.size = 2.5;
+          } else {
+            res.hidden = true;
           }
-          return { ...data, color: "rgba(120,120,140,0.2)", size: 0.3 };
+          return res;
         }
 
-        const isAuthority = (data as any).authority;
-        if (isAuthority) {
-          const authType = (data as any).authorityType as AuthorityEdgeType | null;
-          const authColor = authType && AUTHORITY_EDGE_COLORS[authType] ? AUTHORITY_EDGE_COLORS[authType] : "#60A5FA";
-          return { ...data, color: hexToRgba(authColor, EDGE_BG_AUTHORITY_OPACITY), size: 0.2 };
+        if (focused && graph.hasNode(focused)) {
+          const neighbors = new Set(graph.neighbors(focused));
+          const src = graph.source(edge);
+          const tgt = graph.target(edge);
+          if (!neighbors.has(src) || !neighbors.has(tgt)) {
+            res.hidden = true;
+          } else if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
+            res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
+            res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType] || 1.2;
+          } else {
+            res.size = 1.2;
+          }
+          return res;
         }
 
-        return { ...data, size: 0.05, color: `rgba(120,120,140,${EDGE_BG_OPACITY})` };
+        if (hovered) {
+          const src = graph.source(edge);
+          const tgt = graph.target(edge);
+          if (src !== hovered && tgt !== hovered) {
+            res.color = HOVER_DIM_EDGE;
+            res.size = 0.2;
+          } else if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
+            res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
+            res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType] || 1.5;
+          } else {
+            res.size = 1.5;
+          }
+          return res;
+        }
+
+        if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
+          res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
+          res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
+        }
+
+        return res;
       },
     });
+    } catch (err) {
+    console.error("Sigma renderer creation failed:", err);
+    _webglAvailable = false;
+    onWebGLUnavailable?.();
+      return;
+    }
+
+    renderer.on("clickNode", ({ node }) => {
+      onNodeClick(node);
+    });
+
+    renderer.on("enterNode", ({ node }) => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = setTimeout(() => {
+        const g = graphRef.current;
+        if (g && g.hasNode(node)) {
+          hoveredNeighborIdsRef.current = new Set(g.neighbors(node));
+        }
+        onNodeHover(node);
+      }, 60);
+    });
+
+    renderer.on("leaveNode", () => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      hoveredNeighborIdsRef.current = new Set();
+      onNodeHover(null);
+    });
+
+    renderer.on("clickStage", () => {
+      onStageClick();
+    });
+
+    const camera = renderer.getCamera() as any;
+    const handleCameraUpdate = () => {
+      onCameraUpdate(camera.ratio);
+    };
+    camera.on("updated", handleCameraUpdate);
 
     sigmaRef.current = renderer;
-    graphRef.current = graph;
     onGraphReady(graph, renderer);
 
-    const updateRatio = () => {
-      const ratio = renderer.getCamera().ratio;
-      setCameraRatio(ratio);
-      onCameraUpdate(ratio);
+    return () => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      camera.removeListener("updated", handleCameraUpdate);
+      if (sigmaRef.current) {
+        sigmaRef.current.kill();
+        sigmaRef.current = null;
+      }
     };
-    renderer.getCamera().addListener("updated", updateRatio);
-    updateRatio();
+  }, [nodes, edges, clusters, filter, filterMode, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady, onWebGLUnavailable]);
 
-    renderer.on("clickNode", (e) => onNodeClick(e.node));
-    renderer.on("enterNode", (e) => onNodeHover(e.node));
-    renderer.on("leaveNode", () => onNodeHover(null));
-    renderer.on("clickStage", () => onStageClick());
+  const ariaLabel = [
+    "Interactive nexus graph",
+    density + " density",
+    visibleCount + " visible nodes",
+    focusedNodeId ? "focused on node" : "",
+    pathSource ? "path trace active" : "",
+    searchQuery ? "searching: " + searchQuery : "",
+  ].filter(Boolean).join(", ");
 
-    return () => { renderer.kill(); };
-  }, [nodes, edges, clusters, filterMode, filter, visibleNodeIdsKey, activeEntryPoint, activeClusterId, coreNodeIds, allowedEdgeTypes, onGraphReady, onCameraUpdate, onNodeClick, onNodeHover, onStageClick, onWebGLUnavailable]);
+  if (!isWebGLAvailable()) {
+    return (
+      <div
+        className="w-full h-full flex flex-col items-center justify-center gap-3 text-center p-8"
+        role="alert"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>
+        <h2 className="text-lg font-semibold text-[var(--text-primary)]">WebGL Not Available</h2>
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
+          The Nexus Graph requires WebGL to render. Your browser or device does not support WebGL,
+          or it may be disabled. Try updating your browser, enabling hardware acceleration, or using
+          a different device.
+        </p>
+        <Link href="/library" className="text-sm text-[var(--primary)] underline mt-2">
+          Browse the Library instead
+        </Link>
+      </div>
+    );
+  }
 
-  return <div ref={containerRef} className="w-full h-full" aria-label="Interactive governance graph" />;
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-inset"
+      role="application"
+      tabIndex={0}
+      aria-label={ariaLabel}
+      onKeyDown={handleKeyDown}
+    />
+  );
 }

@@ -168,41 +168,6 @@ export function getGraphData() {
     edges.push({ source: refs.source, target: refs.target, type: refs.type });
   }
 
-  for (const [tag, ids] of Object.entries(index.tag_index)) {
-    if (ids.length < 2) continue;
-    for (let i = 0; i < ids.length - 1; i++) {
-      for (let j = i + 1; j < Math.min(ids.length, i + 4); j++) {
-        edges.push({ source: ids[i], target: ids[j], type: 'shared-tag' });
-      }
-    }
-    const idRepoMap = new Map<string, string>();
-    for (const id of ids) {
-      const entry = index.entries.find(e => e.id === id);
-      if (entry) idRepoMap.set(id, entry.repo);
-    }
-    const repoGroups = new Map<string, string[]>();
-    for (const id of ids) {
-      const repo = idRepoMap.get(id);
-      if (!repo) continue;
-      if (!repoGroups.has(repo)) repoGroups.set(repo, []);
-      repoGroups.get(repo)!.push(id);
-    }
-    const repoNames = Array.from(repoGroups.keys());
-    if (repoNames.length >= 2) {
-      for (let r = 0; r < repoNames.length - 1; r++) {
-        const srcIds = repoGroups.get(repoNames[r])!;
-        const tgtIds = repoGroups.get(repoNames[r + 1])!;
-        const srcSample = srcIds.slice(0, 3);
-        const tgtSample = tgtIds.slice(0, 3);
-        for (const s of srcSample) {
-          for (const t of tgtSample) {
-            edges.push({ source: s, target: t, type: 'shared-tag' });
-          }
-        }
-      }
-    }
-  }
-
   const authEdgeSet = new Set<string>();
   for (const ae of authorityEdges) {
     const key = `${ae.source}:${ae.target}:${ae.authority}`;
