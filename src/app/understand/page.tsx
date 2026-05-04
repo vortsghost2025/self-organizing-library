@@ -1,16 +1,9 @@
-"use client";
+import UnderstandGraphWrapper from '@/components/UnderstandGraphWrapper';
 
-import dynamic from 'next/dynamic';
-import type { Metadata } from 'next';
-
-const NexusGraph = dynamic(() => import('@/components/NexusGraph'), { ssr: false });
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Understand — Deliberate Ensemble',
-    description: 'Explore the governance graph in understand mode, focusing on verified, high-authority nodes.',
-  };
-}
+export const metadata = {
+  title: 'Understand — Deliberate Ensemble',
+  description: 'Explore the governance graph in understand mode, focusing on verified, high-authority nodes.',
+};
 
 export default function UnderstandPage() {
   return (
@@ -22,7 +15,7 @@ export default function UnderstandPage() {
           showing how knowledge is structured and verified. Start with the core and explore connections.
         </p>
       </div>
-      <NexusGraph initialMode="understand" />
+      <UnderstandGraphWrapper initialMode="understand" />
     </div>
   );
 }
