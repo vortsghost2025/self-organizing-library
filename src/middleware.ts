@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 
 const PUBLIC_API_ROUTES = [
   '/api/graph-data',
+  '/api/swarmmind/resilience',
   '/api/document-content/',
 ];
 
