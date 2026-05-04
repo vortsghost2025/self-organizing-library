@@ -1,6 +1,6 @@
-"use client";
+import dynamic from 'next/dynamic';
 
-import NexusGraph from '@/components/NexusGraph';
+const NexusGraph = dynamic(() => import('@/components/NexusGraph'), { ssr: false });
 
 export const metadata = {
   title: 'Understand — Deliberate Ensemble',
