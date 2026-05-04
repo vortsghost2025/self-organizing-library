@@ -29,9 +29,23 @@ export default function SystemInterpretation({
     ? "This view shows the verified core with no active contradictions."
     : "This is the full system state.";
 
+  const lastUpdated = new Date().toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  });
+
   return (
     <section className={`card p-4 mb-4 animate-fade-in ${className || ""}`} role="status" aria-live="polite">
-      <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Live System State</h2>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-lg font-semibold text-[var(--text-primary)]">Live System State</h2>
+        <span className="text-xs text-[var(--text-muted)]" title="Last graph data refresh">
+          Updated {lastUpdated}
+        </span>
+      </div>
       <div className="grid grid-cols-4 gap-4 mb-3">
         <div>
           <div className="text-2xl font-bold text-[var(--text-primary)]">{loading ? "..." : visibleNodeCount}</div>
