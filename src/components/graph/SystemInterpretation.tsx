@@ -5,61 +5,56 @@ type ViewModeLabel = "CONTRADICTION HUB" | "TRUSTED CORE" | "FULL SYSTEM";
 interface SystemInterpretationProps {
   className?: string;
   viewModeLabel: ViewModeLabel;
-  isFiltered: boolean;
   visibleNodeCount: number;
   conflictedCount: number;
   quarantinedCount: number;
+  verifiedCount: number;
   primaryInstability: { title: string; contradictionCount: number } | null;
   loading?: boolean;
-  fourLaneLock?: boolean;
 }
 
 export default function SystemInterpretation({
   className,
   viewModeLabel,
-  isFiltered,
   visibleNodeCount,
   conflictedCount,
   quarantinedCount,
+  verifiedCount,
   primaryInstability,
   loading = false,
-  fourLaneLock = false,
 }: SystemInterpretationProps) {
-  const filterLine = isFiltered
-    ? "This is a filtered diagnostic view, not the full system."
-    : "This is the full system view with no active graph filter.";
-
-  const interpretation =
-    viewModeLabel === "CONTRADICTION HUB"
-      ? "This view shows what the system has not yet resolved. It does not mean the entire system has zero verified truth."
-      : "This interpretation explains only the visible graph state at this moment and should be read with mode context.";
+  const modeDescription = viewModeLabel === "CONTRADICTION HUB"
+    ? "This view shows unresolved items only; the verified core is stable."
+    : viewModeLabel === "TRUSTED CORE"
+    ? "This view shows the verified core with no active contradictions."
+    : "This is the full system state.";
 
   return (
     <section className={`card p-4 mb-4 animate-fade-in ${className || ""}`} role="status" aria-live="polite">
-      <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--text-secondary)] mb-3">Live System State / Interpretation</h3>
-      <p className="text-sm font-semibold text-[var(--text-primary)] mb-3">VIEW MODE: {viewModeLabel}</p>
-      {fourLaneLock ? (
-        <p className="text-xs uppercase tracking-wide font-semibold text-emerald-300 mb-2">
-          4-LANE LOCK ACTIVE: Showing only core lane repos (external repos hidden)
-        </p>
-      ) : null}
-      <p className="text-sm text-[var(--text-primary)] mb-2">{filterLine}</p>
-      <p className="text-sm text-[var(--text-primary)] mb-3">The system is currently resolving contradictions in its governance/library layer.</p>
-
-      <p className="text-sm font-medium text-[var(--text-primary)]">Visible concepts:</p>
-      <ul className="text-sm text-[var(--text-primary)] mb-3">
-        <li>- {loading ? "Loading..." : `${visibleNodeCount} nodes`}</li>
-        <li>- {loading ? "Loading..." : `${conflictedCount} conflicted`}</li>
-        <li>- {loading ? "Loading..." : `${quarantinedCount} quarantined`}</li>
-      </ul>
-
-      <p className="text-sm font-medium text-[var(--text-primary)]">Primary instability:</p>
-      <p className="text-sm text-[var(--text-primary)] mb-3">
-        {loading ? "Loading..." : primaryInstability ? `${primaryInstability.title} (${primaryInstability.contradictionCount} contradictions)` : "None (0 contradictions)"}
+      <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Live System State</h2>
+      <div className="grid grid-cols-4 gap-4 mb-3">
+        <div>
+          <div className="text-2xl font-bold text-[var(--text-primary)]">{loading ? "..." : visibleNodeCount}</div>
+          <div className="text-sm text-[var(--text-muted)]">Total Nodes</div>
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-[var(--error)]">{loading ? "..." : conflictedCount}</div>
+          <div className="text-sm text-[var(--text-muted)]">Active Contradictions</div>
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-[var(--warning)]">{loading ? "..." : quarantinedCount}</div>
+          <div className="text-sm text-[var(--text-muted)]">Quarantined</div>
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-[var(--success)]">{loading ? "..." : verifiedCount}</div>
+          <div className="text-sm text-[var(--text-muted)]">Verified</div>
+        </div>
+      </div>
+      <p className="text-sm text-[var(--text-secondary)]">
+        Current focus: <strong>{loading ? "Loading..." : primaryInstability ? primaryInstability.title : "No active instability"}</strong>
+        {!loading && primaryInstability ? ` (${primaryInstability.contradictionCount} contradictions — highest priority)` : ''}.
+        {!loading ? ` ${modeDescription}` : ''}
       </p>
-
-      <p className="text-sm font-medium text-[var(--text-primary)]">Interpretation:</p>
-      <p className="text-sm text-[var(--text-primary)]">{interpretation}</p>
     </section>
   );
 }

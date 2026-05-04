@@ -13,13 +13,17 @@ interface GraphToolbarProps {
   nodeCount: number;
   edgeCount: number;
   visibleCount: number;
+  nodeLimit: number | null;
+  onNodeLimitChange: (n: number | null) => void;
 }
 
 const TYPE_FILTERS = [
-  { key: "core", label: "Core (Docs + Data)", color: "#7C5CFF" },
   { key: "all", label: "All", color: "#F4F4F5" },
   { key: "doc", label: "Docs", color: TYPE_COLORS.doc },
+  { key: "paper", label: "Papers", color: TYPE_COLORS.paper },
+  { key: "code", label: "Code", color: TYPE_COLORS.code },
   { key: "data", label: "Data", color: TYPE_COLORS.data },
+  { key: "schema", label: "Schema", color: TYPE_COLORS.schema },
 ];
 
 const REPO_FILTERS = [
@@ -41,6 +45,8 @@ export default function GraphToolbar({
   nodeCount,
   edgeCount,
   visibleCount,
+  nodeLimit,
+  onNodeLimitChange,
 }: GraphToolbarProps) {
   const currentFilters = filterMode === "type" ? TYPE_FILTERS : REPO_FILTERS;
 
@@ -82,11 +88,27 @@ export default function GraphToolbar({
           }`}
         >
           By Repo
-        </button>
+         </button>
 
-        <span className="ml-auto text-sm text-[var(--text-muted)]" role="status">
-          {visibleCount}/{nodeCount} nodes &middot; {edgeCount} edges
-        </span>
+         <span className="ml-auto text-sm text-[var(--text-muted)] flex items-center gap-3" role="status">
+           <div className="flex items-center gap-2">
+             <label className="text-[var(--text-muted)]">Show top:</label>
+             <select
+               value={nodeLimit ?? "all"}
+               onChange={(e) => onNodeLimitChange(e.target.value === "all" ? null : parseInt(e.target.value))}
+               className="bg-[var(--bg-surface)] border border-[var(--border)] rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+             >
+               <option value="all">All ({nodeCount})</option>
+               <option value="200">200</option>
+               <option value="150">150</option>
+               <option value="100">100</option>
+               <option value="50">50</option>
+             </select>
+           </div>
+           <span>
+             {nodeLimit ? `${visibleCount}/${nodeLimit} nodes` : `${visibleCount}/${nodeCount} nodes`} &middot; {edgeCount} edges
+           </span>
+         </span>
       </div>
 
       <div

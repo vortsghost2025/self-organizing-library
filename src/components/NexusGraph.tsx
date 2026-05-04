@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
 import Graph from "graphology";
 import Sigma from "sigma";
 import { bidirectional } from "graphology-shortest-path";
@@ -23,17 +22,20 @@ import NodeDetail from "./graph/NodeDetail";
  import type { GraphSnapshot } from "@/lib/graph-snapshot";
  import { compareSnapshots } from "@/lib/graph-snapshot-compare";
  import SystemInterpretation from "./graph/SystemInterpretation";
- import SwarmmindResiliencePanel from "./graph/SwarmmindResiliencePanel";
 
-export default function NexusGraph() {
-  const searchParams = useSearchParams();
+interface NexusGraphProps {
+  initialMode?: GraphMode;
+}
+
+export default function NexusGraph(props: NexusGraphProps = {}) {
+  const { initialMode = DEFAULT_MODE } = props;
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
   const [clusters, setClusters] = useState<Cluster[]>([]);
   const [entryPoints, setEntryPoints] = useState<EntryPoint[]>([]);
 
-  const [filter, setFilter] = useState("core");
+  const [filter, setFilter] = useState("all");
   const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -48,123 +50,116 @@ export default function NexusGraph() {
 
 const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
   const [density, setDensity] = useState<DensityLevel>("mid");
-  const [graphMode, setGraphMode] = useState<GraphMode>(DEFAULT_MODE);
+  const [graphMode, setGraphMode] = useState<GraphMode>(initialMode);
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
-  const [cameraRatio, setCameraRatio] = useState(1);
-  const [webglUnavailable, setWebglUnavailable] = useState(false);
+   const [cameraRatio, setCameraRatio] = useState(1);
+   const [webglUnavailable, setWebglUnavailable] = useState(false);
+   const [nodeLimit, setNodeLimit] = useState<number | null>(null);
 
-  const graphRef = useRef<Graph | null>(null);
-  const sigmaRef = useRef<Sigma | null>(null);
+   const graphRef = useRef<Graph | null>(null);
+   const sigmaRef = useRef<Sigma | null>(null);
 
-  useEffect(() => {
-    const mode = searchParams.get("mode");
-    if (mode === "understand" || mode === "explore" || mode === "full") {
-      setGraphMode(mode);
-    }
-  }, [searchParams]);
+   // Sync density and layers when mode changes, and auto-select entry point
+   useEffect(() => {
+     const config = MODE_CONFIG[graphMode];
+     setDensity(config.density);
+     setActiveLayers(config.layers);
 
-  // Sync density and layers when mode changes, and auto-select entry point
-  useEffect(() => {
-    const config = MODE_CONFIG[graphMode];
-    setDensity(config.density);
-    setActiveLayers(config.layers);
+     // Auto-select appropriate entry point per mode
+     if (graphMode === "understand") {
+       setActiveEntryPoint("ep:authority");
+       setNodeLimit(100); // Default limit for understand mode
+     } else if (graphMode === "explore") {
+       setActiveEntryPoint("ep:contradictions");
+       setNodeLimit(null);
+     } else {
+       setActiveEntryPoint(null);
+       setNodeLimit(null);
+     }
+   }, [graphMode]);
 
-    // Auto-select appropriate entry point per mode
-    if (graphMode === "understand") {
-      setActiveEntryPoint("ep:authority");
-    } else if (graphMode === "explore") {
-      setActiveEntryPoint("ep:contradictions");
-    } else {
-      setActiveEntryPoint(null);
-    }
-  }, [graphMode]);
+   // Compute core nodes for highlighting in understand mode (computed from full nodes list)
+   const coreNodeIds = useMemo(() => {
+     if (graphMode !== "understand") return new Set<string>();
+     const scored = nodes
+        .filter(n => n.status === "VERIFIED" && (n.authorityDepth >= 80 || n.verificationCount >= 5))
+       .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
+       .sort((a, b) => b.score - a.score)
+       .slice(0, 10)
+       .map(s => s.id);
+     return new Set(scored);
+   }, [graphMode, nodes]);
 
-  // Compute core nodes for highlighting in understand mode (computed from full nodes list)
-  const coreNodeIds = useMemo(() => {
-    if (graphMode !== "understand") return new Set<string>();
-    const scored = nodes
-      .filter(n => n.status === "VERIFIED" && (n.authorityDepth >= 50 || n.verificationCount >= 5))
-      .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 10)
-      .map(s => s.id);
-    return new Set(scored);
-  }, [graphMode, nodes]);
+   // Compute limited node IDs based on nodeLimit (top N by relevance score)
+   const limitedNodeIds = useMemo(() => {
+     if (!nodeLimit) return null;
+     const scored = nodes
+       .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
+       .sort((a, b) => b.score - a.score)
+       .slice(0, nodeLimit)
+       .map(s => s.id);
+     return new Set(scored);
+   }, [nodeLimit, nodes]);
 
-  const filteredNodes = useMemo(() => {
-    let result = nodes;
+   const filteredNodes = useMemo(() => {
+     let result = nodes;
 
-    // Apply type/repo filter
-    if (filter === "all") {
-      result = nodes;
-    } else if (filterMode === "type" && filter === "core") {
-      result = nodes.filter((n) => {
-        const t = (n.type || "").toLowerCase();
-        return t === "doc" || t === "data" || t === "test-data";
-      });
-    } else if (filterMode === "repo") {
-      result = nodes.filter((n) => n.repo === filter);
-    } else {
-      result = nodes.filter((n) => n.type === filter);
-    }
+     // Apply type/repo filter
+     if (filter === "all") {
+       result = nodes;
+     } else if (filterMode === "repo") {
+       result = nodes.filter((n) => n.repo === filter);
+     } else {
+       result = nodes.filter((n) => n.type === filter);
+     }
 
-    // Apply data visibility policy based on mode
-    const modeConfig = MODE_CONFIG[graphMode];
-    if (!modeConfig.showUnverified) {
-      result = result.filter((n) => n.status === "VERIFIED");
-    }
-    if (!modeConfig.showQuarantined) {
-      result = result.filter((n) => n.status !== "QUARANTINED");
-    }
+     // Apply data visibility policy based on mode
+     const modeConfig = MODE_CONFIG[graphMode];
+     if (!modeConfig.showUnverified) {
+       result = result.filter((n) => n.status === "VERIFIED");
+     }
+     if (!modeConfig.showQuarantined) {
+       result = result.filter((n) => n.status !== "QUARANTINED");
+     }
 
-    // Apply search query
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(n =>
-        n.title.toLowerCase().includes(q) ||
-        n.tags.some(t => t.toLowerCase().includes(q)) ||
-        n.repo.toLowerCase().includes(q)
-      );
-    }
+     // Apply search query
+     if (searchQuery) {
+       const q = searchQuery.toLowerCase();
+       result = result.filter(n =>
+         n.title.toLowerCase().includes(q) ||
+         n.tags.some(t => t.toLowerCase().includes(q)) ||
+         n.repo.toLowerCase().includes(q)
+       );
+     }
 
-    // Apply entry point filter
-    if (activeEntryPoint) {
-      const ep = entryPoints.find(e => e.id === activeEntryPoint);
-      if (ep) {
-        result = result.filter(n => ep.nodeIds.includes(n.id));
-      }
-    }
+     // Apply entry point filter
+     if (activeEntryPoint) {
+       const ep = entryPoints.find(e => e.id === activeEntryPoint);
+       if (ep) {
+         result = result.filter(n => ep.nodeIds.includes(n.id));
+       }
+     }
 
-    // Apply cluster filter
-    if (activeClusterId) {
-      const cluster = clusters.find(c => c.id === activeClusterId);
-      if (cluster) {
-        result = result.filter(n => cluster.nodeIds.includes(n.id));
-      }
-    }
+     // Apply cluster filter
+     if (activeClusterId) {
+       const cluster = clusters.find(c => c.id === activeClusterId);
+       if (cluster) {
+         result = result.filter(n => cluster.nodeIds.includes(n.id));
+       }
+     }
 
-    return result;
-  }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
+     // Apply node limit (after all other filters)
+     if (limitedNodeIds) {
+       result = result.filter(n => limitedNodeIds.has(n.id));
+     }
 
-  useEffect(() => {
-    // Guard against stale filters from previous builds/cached URLs.
-    if (filterMode !== "type") return;
-    const allowedTypeFilters = new Set(["core", "all", "doc", "data"]);
-    if (!allowedTypeFilters.has(filter)) {
-      setFilter("core");
-    }
-  }, [filterMode, filter]);
+     return result;
+   }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode, limitedNodeIds]);
 
   const selectedNode = selectedNodeId
     ? filteredNodes.find((n) => n.id === selectedNodeId) || null
     : null;
-
-  const visibleNodeIdSet = useMemo(() => new Set(filteredNodes.map((n) => n.id)), [filteredNodes]);
-
-  const visibleEdgeCount = useMemo(() => {
-    return edges.filter((e) => visibleNodeIdSet.has(e.source) && visibleNodeIdSet.has(e.target)).length;
-  }, [edges, visibleNodeIdSet]);
 
   const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
   for (const n of filteredNodes) {
@@ -195,11 +190,6 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
   }, [graphMode, filter, searchQuery, activeEntryPoint, activeClusterId]);
 
   useEffect(() => {
-    // Ensure direct visits and dashboard navigation start at top of graph page.
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "auto" });
-    }
-
     let cancelled = false;
     async function load() {
       try {
@@ -296,29 +286,17 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
 
   // Calculate visibleCount before using it in handleExportSnapshot
   const visibleCount = (() => {
-    let rawVisible = filteredNodes.length;
-    if (density === "overview") {
-      rawVisible = clusters.length;
-    } else if (activeEntryPoint || activeClusterId) {
+    if (density === "overview") return clusters.length;
+    if (activeEntryPoint || activeClusterId) {
       const ep = entryPoints.find((e) => e.id === activeEntryPoint);
       const cl = clusters.find((c) => c.id === activeClusterId);
-      rawVisible = ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
-    } else if (focusedNodeId) {
-      rawVisible = 20;
+      return ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
     }
-
-    // Visible should never exceed currently filtered node pool.
-    return Math.max(0, Math.min(rawVisible, filteredNodes.length));
+    if (focusedNodeId) return 20;
+    return filteredNodes.length;
   })();
 
   const [importError, setImportError] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Overview becomes unreadable for tiny slices; switch to mid automatically.
-    if (!loading && density === "overview" && filteredNodes.length > 0 && filteredNodes.length < 10) {
-      setDensity("mid");
-    }
-  }, [loading, density, filteredNodes.length]);
 
   const handleExportSnapshot = useCallback(() => {
     // Get status counts
@@ -539,36 +517,29 @@ const handleCompareSnapshots = useCallback(() => {
          </div>
        )}
 
-      <SystemInterpretation
-        className="sticky top-2 z-20"
-        viewModeLabel={viewModeLabel}
-        isFiltered={isFilteredView}
-        visibleNodeCount={filteredNodes.length}
-        conflictedCount={statusCounts.CONFLICTED}
-        quarantinedCount={statusCounts.QUARANTINED}
-        primaryInstability={primaryInstability}
-        fourLaneLock={true}
-        loading={loading}
-      />
-      <SwarmmindResiliencePanel />
+        <GraphToolbar
+          filter={filter}
+          filterMode={filterMode}
+          searchQuery={searchQuery}
+          onFilterChange={setFilter}
+          onFilterModeChange={setFilterMode}
+          onSearchChange={setSearchQuery}
+          nodeCount={filteredNodes.length}
+          edgeCount={edges.length}
+          visibleCount={visibleCount}
+          nodeLimit={nodeLimit}
+          onNodeLimitChange={setNodeLimit}
+        />
 
-       <GraphToolbar
-         filter={filter}
-         filterMode={filterMode}
-         searchQuery={searchQuery}
-         onFilterChange={setFilter}
-         onFilterModeChange={setFilterMode}
-         onSearchChange={setSearchQuery}
-         nodeCount={filteredNodes.length}
-         edgeCount={visibleEdgeCount}
-         visibleCount={visibleCount}
-       />
-
-       {!loading && filteredNodes.length > 0 && filteredNodes.length < 10 && (
-         <div className="mb-2 px-3 py-2 rounded border border-amber-500/30 bg-amber-500/10 text-amber-200 text-sm">
-           Sparse view: this filter currently has only {filteredNodes.length} nodes. Try broader repo/mode for a fuller graph.
-         </div>
-       )}
+        <SystemInterpretation
+          viewModeLabel={viewModeLabel}
+          visibleNodeCount={filteredNodes.length}
+          conflictedCount={statusCounts.CONFLICTED}
+          quarantinedCount={statusCounts.QUARANTINED}
+          verifiedCount={statusCounts.VERIFIED}
+          primaryInstability={primaryInstability}
+          loading={loading}
+        />
 
        <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
@@ -709,7 +680,7 @@ const handleCompareSnapshots = useCallback(() => {
               )}
               <GraphContextPanel
                 nodeCount={filteredNodes.length}
-                edgeCount={visibleEdgeCount}
+                edgeCount={edges.length}
                 visibleCount={visibleCount}
                 density={density}
                 activeLayers={activeLayers}

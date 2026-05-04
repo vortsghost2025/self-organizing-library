@@ -15,8 +15,19 @@ export default function SearchCatalogPage() {
 
   return (
     <div className="p-8" data-pagefind-body>
-      <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Document Catalog</h1>
-      <p className="text-[var(--text-muted)] mb-8" data-pagefind-ignore>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Search the Governance Graph</h1>
+        <p className="text-[var(--text-secondary)] mb-4">
+          Search across 3,771 nodes from all 4 lanes (Library, Archivist, Kernel, SwarmMind).
+          Try searching for concepts like <strong>"constitution"</strong>, <strong>"protocol"</strong>, or <strong>"verification"</strong>.
+        </p>
+        <div className="flex gap-3 text-sm text-[var(--text-muted)]">
+          <span>Example: <code className="bg-[var(--bg-surface)] px-1 rounded">THE COVENANT</code></span>
+          <span>Example: <code className="bg-[var(--bg-surface)] px-1 rounded">verification-domain-gate</code></span>
+          <span>Example: <code className="bg-[var(--bg-surface)] px-1 rounded">driftScore</code></span>
+        </div>
+      </div>
+      <p className="text-[var(--text-muted)] mb-4">
         {entries.length} indexed documents across {Object.keys(index.stats.by_repo).length} repositories
       </p>
 
