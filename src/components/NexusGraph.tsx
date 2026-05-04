@@ -41,6 +41,12 @@ export default function NexusGraph(props: NexusGraphProps = {}) {
   const [filterMode, setFilterMode] = useState<"type" | "repo">(initialFilterMode);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Sync filter state when URL query params change (client-side navigation)
+  useEffect(() => {
+    setFilter(initialFilter);
+    setFilterMode(initialFilterMode);
+  }, [initialFilter, initialFilterMode]);
+
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null);
@@ -94,99 +100,106 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
       }
     }, [graphMode, filterMode, filter, entryPoints]);
 
-   // Compute core nodes for highlighting in understand mode (computed from full nodes list)
-   const coreNodeIds = useMemo(() => {
-     if (graphMode !== "understand") return new Set<string>();
-     const scored = nodes
+    // Compute core nodes for highlighting in understand mode (computed from full nodes list)
+    const coreNodeIds = useMemo(() => {
+      if (graphMode !== "understand") return new Set<string>();
+      const scored = nodes
         .filter(n => n.status === "VERIFIED" && (n.authorityDepth >= 80 || n.verificationCount >= 5))
-       .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
-       .sort((a, b) => b.score - a.score)
-       .slice(0, 10)
-       .map(s => s.id);
-     return new Set(scored);
-   }, [graphMode, nodes]);
+        .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10)
+        .map(s => s.id);
+      return new Set(scored);
+    }, [graphMode, nodes]);
 
-   // Compute limited node IDs based on nodeLimit (top N by relevance score)
-   const limitedNodeIds = useMemo(() => {
-     if (!nodeLimit) return null;
-     const scored = nodes
-       .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
-       .sort((a, b) => b.score - a.score)
-       .slice(0, nodeLimit)
-       .map(s => s.id);
-     return new Set(scored);
-   }, [nodeLimit, nodes]);
+    // Compute base filtered set (all filters EXCEPT nodeLimit)
+    const baseFilteredNodes = useMemo(() => {
+      let result = nodes;
 
-   const filteredNodes = useMemo(() => {
-     let result = nodes;
+      // Apply type/repo filter
+      if (filter === "all") {
+        result = nodes;
+      } else if (filterMode === "repo") {
+        result = nodes.filter((n) => n.repo === filter);
+      } else {
+        result = nodes.filter((n) => n.type === filter);
+      }
 
-     // Apply type/repo filter
-     if (filter === "all") {
-       result = nodes;
-     } else if (filterMode === "repo") {
-       result = nodes.filter((n) => n.repo === filter);
-     } else {
-       result = nodes.filter((n) => n.type === filter);
-     }
+      // Apply data visibility policy based on mode
+      const modeConfig = MODE_CONFIG[graphMode];
+      if (!modeConfig.showUnverified) {
+        result = result.filter((n) => n.status === "VERIFIED");
+      }
+      if (!modeConfig.showQuarantined) {
+        result = result.filter((n) => n.status !== "QUARANTINED");
+      }
 
-     // Apply data visibility policy based on mode
-     const modeConfig = MODE_CONFIG[graphMode];
-     if (!modeConfig.showUnverified) {
-       result = result.filter((n) => n.status === "VERIFIED");
-     }
-     if (!modeConfig.showQuarantined) {
-       result = result.filter((n) => n.status !== "QUARANTINED");
-     }
+      // Apply search query
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        result = result.filter(n =>
+          n.title.toLowerCase().includes(q) ||
+          n.tags.some(t => t.toLowerCase().includes(q)) ||
+          n.repo.toLowerCase().includes(q)
+        );
+      }
 
-     // Apply search query
-     if (searchQuery) {
-       const q = searchQuery.toLowerCase();
-       result = result.filter(n =>
-         n.title.toLowerCase().includes(q) ||
-         n.tags.some(t => t.toLowerCase().includes(q)) ||
-         n.repo.toLowerCase().includes(q)
-       );
-     }
+      // Apply entry point filter
+      if (activeEntryPoint) {
+        const ep = entryPoints.find(e => e.id === activeEntryPoint);
+        if (ep) {
+          result = result.filter(n => ep.nodeIds.includes(n.id));
+        }
+      }
 
-     // Apply entry point filter
-     if (activeEntryPoint) {
-       const ep = entryPoints.find(e => e.id === activeEntryPoint);
-       if (ep) {
-         result = result.filter(n => ep.nodeIds.includes(n.id));
-       }
-     }
+      // Apply cluster filter
+      if (activeClusterId) {
+        const cluster = clusters.find(c => c.id === activeClusterId);
+        if (cluster) {
+          result = result.filter(n => cluster.nodeIds.includes(n.id));
+        }
+      }
 
-     // Apply cluster filter
-     if (activeClusterId) {
-       const cluster = clusters.find(c => c.id === activeClusterId);
-       if (cluster) {
-         result = result.filter(n => cluster.nodeIds.includes(n.id));
-       }
-     }
+      return result;
+    }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
 
-     // Apply node limit (after all other filters)
-     if (limitedNodeIds) {
-       result = result.filter(n => limitedNodeIds.has(n.id));
-     }
+    // Compute limited node IDs based on nodeLimit (top N by relevance score), applied to baseFiltered set
+    const limitedNodeIds = useMemo(() => {
+      if (!nodeLimit) return null;
+      const scored = baseFilteredNodes
+        .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, nodeLimit)
+        .map(s => s.id);
+      return new Set(scored);
+    }, [nodeLimit, baseFilteredNodes]);
 
-     return result;
-   }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode, limitedNodeIds]);
+    // Final displayed nodes after all filters including optional node limit
+    const displayedNodes = useMemo(() => {
+      if (limitedNodeIds) {
+        return baseFilteredNodes.filter(n => limitedNodeIds.has(n.id));
+      }
+      return baseFilteredNodes;
+     }, [baseFilteredNodes, limitedNodeIds]);
 
-  const selectedNode = selectedNodeId
+   // Final nodes actually displayed (after all filters and optional limit)
+   const filteredNodes = displayedNodes;
+
+   const selectedNode = selectedNodeId
     ? filteredNodes.find((n) => n.id === selectedNodeId) || null
     : null;
 
-  const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
-  for (const n of filteredNodes) {
-    if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
-  }
+   const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
+   for (const n of displayedNodes) {
+     if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
+   }
 
-  const primaryInstability = useMemo(() => {
-    const sorted = [...filteredNodes].sort((a, b) => b.contradictionCount - a.contradictionCount);
-    const top = sorted[0];
-    if (!top) return null;
-    return { title: top.title, contradictionCount: top.contradictionCount };
-  }, [filteredNodes]);
+   const primaryInstability = useMemo(() => {
+     const sorted = [...displayedNodes].sort((a, b) => b.contradictionCount - a.contradictionCount);
+     const top = sorted[0];
+     if (!top) return null;
+     return { title: top.title, contradictionCount: top.contradictionCount };
+   }, [displayedNodes]);
 
   const viewModeLabel = useMemo(() => {
     if (graphMode === "explore") return "CONTRADICTION HUB" as const;
@@ -299,17 +312,20 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     }
   }, [pathSource]);
 
-  // Calculate visibleCount before using it in handleExportSnapshot
-  const visibleCount = (() => {
-    if (density === "overview") return clusters.length;
-    if (activeEntryPoint || activeClusterId) {
-      const ep = entryPoints.find((e) => e.id === activeEntryPoint);
-      const cl = clusters.find((c) => c.id === activeClusterId);
-      return ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
-    }
-    if (focusedNodeId) return 20;
-    return filteredNodes.length;
-  })();
+   // Calculate visibleCount for status display (how many nodes are actually rendered on screen)
+   const visibleCount = (() => {
+     // In overview mode: only cluster representatives are visible; count those that are in displayedNodes
+     if (density === "overview") {
+       const reps = new Set(clusters.map(c => c.representativeId));
+       return displayedNodes.filter(n => reps.has(n.id)).length;
+     }
+     // Focus mode: approximate as displayedNodes (keeping it simple)
+     if (focusedNodeId) {
+       return displayedNodes.length;
+     }
+     // Entry point or cluster selection: all displayed nodes are in view
+     return displayedNodes.length;
+   })();
 
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -322,7 +338,7 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
       quarantined: 0,
     };
     
-    for (const n of filteredNodes) {
+    for (const n of displayedNodes) {
       const nodeStatus = n.status.toLowerCase() as keyof typeof statusCounts;
       if (nodeStatus in statusCounts) {
         statusCounts[nodeStatus] += 1;
@@ -484,15 +500,16 @@ const handleCompareSnapshots = useCallback(() => {
     );
   }, []);
 
-  const zoomLabel = cameraRatio < 0.3
-    ? "Zoom: Deep — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
-    : cameraRatio < 0.6
-    ? "Zoom: Close — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
-    : cameraRatio < 1.2
-    ? "Zoom: Normal — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
-    : cameraRatio < 3
-    ? "Zoom: Far — showing " + visibleCount + " of " + filteredNodes.length + " nodes"
-    : "Zoom: Overview — showing " + visibleCount + " of " + filteredNodes.length + " nodes";
+   // Simplified zoom level label (no counts — counts are in toolbar)
+   const zoomLabel = cameraRatio < 0.3
+     ? "Zoom: Deep"
+     : cameraRatio < 0.6
+     ? "Zoom: Close"
+     : cameraRatio < 1.2
+     ? "Zoom: Normal"
+     : cameraRatio < 3
+     ? "Zoom: Far"
+     : "Zoom: Overview";
 
   return (
     <div className="p-8" data-pagefind-ignore>
@@ -539,18 +556,18 @@ const handleCompareSnapshots = useCallback(() => {
           onFilterChange={setFilter}
           onFilterModeChange={setFilterMode}
           onSearchChange={setSearchQuery}
-          nodeCount={filteredNodes.length}
+          nodeCount={baseFilteredNodes.length}
           edgeCount={edges.length}
           visibleCount={visibleCount}
           nodeLimit={nodeLimit}
           onNodeLimitChange={setNodeLimit}
         />
 
-        <SystemInterpretation
-          viewModeLabel={viewModeLabel}
-          visibleNodeCount={filteredNodes.length}
-          conflictedCount={statusCounts.CONFLICTED}
-          quarantinedCount={statusCounts.QUARANTINED}
+         <SystemInterpretation
+           viewModeLabel={viewModeLabel}
+           visibleNodeCount={displayedNodes.length}
+           conflictedCount={statusCounts.CONFLICTED}
+           quarantinedCount={statusCounts.QUARANTINED}
           verifiedCount={statusCounts.VERIFIED}
           primaryInstability={primaryInstability}
           loading={loading}
