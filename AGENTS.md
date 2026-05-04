@@ -223,6 +223,12 @@ OUTPUT_PROVENANCE: agent: <agent-runtime-or-model> lane: library generated_at: <
 
 Use ASCII-only. Do not send final output without this header. Every cross-lane message, evidence artifact, and convergence gate claim must carry complete `OUTPUT_PROVENANCE` fields so cycled messages stay unambiguous across agents.
 
+Canonical contract files for local/runtime enforcement:
+- `governance/OUTPUT_PROVENANCE_CONTRACT.md`
+- `governance/output-provenance.contract.json`
+- `scripts/output-provenance.js` (ensure + verify helpers)
+- `scripts/verify-output-provenance.js` (CLI gate)
+
 ---
 
 ## Convergence Gate (MANDATORY)
@@ -449,4 +455,3 @@ After completing work, update relevant memory files:
 
 - `.kilocode/rules/memory-bank/context.md`
 - Other memory files when architecture/stack/goals change.
-

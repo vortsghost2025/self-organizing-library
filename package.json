@@ -30,6 +30,7 @@
     "act:daemon:status": "node -e \"console.log(JSON.stringify(require('fs').readFileSync('docs/autonomous-cycle-test/daemon-state.json','utf8'))||'no state')\"",
     "act:daemon:reset": "node -e \"require('fs').unlinkSync('docs/autonomous-cycle-test/daemon-state.json');console.log('state reset')\"",
     "verdict": "node scripts/generate-verdict.js",
+    "provenance:verify": "node scripts/verify-output-provenance.js",
     "health": "curl -s http://localhost:3000/api/health | jq",
     "generate-index": "node scripts/generate-site-index.js",
     "postbuild": "npx pagefind --site .next/server/app --output-path public/pagefind"

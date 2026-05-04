@@ -9,6 +9,14 @@ import forceAtlas2 from "graphology-layout-forceatlas2";
 import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState } from "@/lib/graph-types";
 import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS } from "@/lib/graph-types";
 
+// Helper to convert hex color to rgba with adjustable alpha
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 let _webglAvailable: boolean | undefined;
 
 function isWebGLAvailable(): boolean {
@@ -470,12 +478,22 @@ export default function GraphCanvas({
         }
       }
 
-        if (selected && node === selected) {
-          res.highlighted = true;
-          res.zIndex = 10;
-        }
+  if (selected && node === selected) {
+    res.highlighted = true;
+    res.zIndex = 10;
+  }
 
-        const d = densityRef.current;
+  // Global significance-based label filtering (for non-interacting nodes)
+  // Nodes that are not interacting and not high-significance have hidden labels
+  if (!hovered && !selected && !focused && pNodes.size === 0) {
+    const authorityDepth = (data as any).authorityDepth || 0;
+    const verificationCount = (data as any).verificationCount || 0;
+    if (authorityDepth < 80 && verificationCount < 5) {
+      res.label = "";
+    }
+  }
+
+  const d = densityRef.current;
         if (d === "overview") {
           const isRep = clustersRef.current.some((cl) => cl.representativeId === node);
           if (!isRep) {
@@ -543,6 +561,15 @@ export default function GraphCanvas({
         if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
           res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
           res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
+        }
+        // else keep original color from data
+
+        // Reduce opacity for background edges when many nodes are present
+        if (nodes.length > 200) {
+          const originalColor = res.color as string;
+          if (typeof originalColor === 'string' && originalColor.startsWith('#')) {
+            res.color = hexToRgba(originalColor, 0.4);
+          }
         }
 
         return res;

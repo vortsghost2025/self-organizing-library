@@ -9,10 +9,12 @@ interface EntryPointsProps {
 }
 
 export default function EntryPoints({ entryPoints, activeEntryPoint, onSelect }: EntryPointsProps) {
+  const visibleEntryPoints = entryPoints.filter((ep) => ep.nodeIds.length > 0).slice(0, 12);
+
   return (
     <div className="space-y-1" role="group" aria-label="Entry points">
       <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Entry Points</h3>
-      {entryPoints.slice(0, 12).map((ep) => (
+      {visibleEntryPoints.map((ep) => (
         <button
           key={ep.id}
           onClick={() => onSelect(activeEntryPoint === ep.id ? null : ep.id)}
