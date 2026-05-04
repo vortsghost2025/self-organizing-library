@@ -14,6 +14,13 @@
     "constraints": {
       "never_export_private_key": true,
       "rotate_on_compromise_only": true
+    },
+    "key_type_note": {
+      "identity_file_key_type": "Ed25519",
+      "cross_lane_signing_key_type": "RSA-2048",
+      "trust_store_key_id": "2eec06be0befc8d5",
+      "explanation": "This identity file contains an Ed25519 key pair used for continuity proof boundaries (session attestations, handoff documents). Cross-lane message signing and verification use a separate RSA-2048 key pair stored in .identity/private.pem and .identity/public.pem, registered in lanes/broadcast/trust-store.json under key_id 2eec06be0befc8d5. The two key types serve different purposes: Ed25519 for internal continuity proofs, RSA-2048 for JWS RS256 cross-lane attestation.",
+      "documented_at": "2026-05-04T19:35:00Z"
     }
   },
   "private_key": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIDwTc/IVGrIUhnRqt9iZgJKEJ/QjBgGextnK0uL5hAGE\n-----END PRIVATE KEY-----\n"

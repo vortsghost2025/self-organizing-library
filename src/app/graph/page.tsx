@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 
 const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
   ssr: false,
@@ -27,24 +28,25 @@ const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
 });
 
 export default function GraphPage() {
+  const searchParams = useSearchParams();
+  const filterMode = searchParams.get("filterMode") as "type" | "repo" | null || "type";
+  const filter = searchParams.get("filter") || "all";
+
   return (
     <>
       <noscript>
-        {/* eslint-disable @next/next/no-html-link-for-pages -- <a> required inside <noscript> where next/link cannot function (JS disabled) */}
         <div className="p-8">
           <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
           <p className="text-[var(--text-secondary)]">
             The interactive nexus graph requires JavaScript to render. Please enable JavaScript
-            to explore the connections between repositories, documents, and tags in the
-            Deliberate Ensemble project.
+            to explore the connections.
           </p>
           <p className="text-[var(--text-muted)] mt-4">
-            Alternatively, browse the <a href="/library" className="text-[var(--primary)] underline">Library</a> or <a href="/repos" className="text-[var(--primary)] underline">Repositories</a> pages for a non-interactive view.
+            Alternatively, browse the <a href="/library" className="text-[var(--primary)] underline">Library</a> or <a href="/repos" className="text-[var(--primary)] underline">Repositories</a> pages.
           </p>
         </div>
-        {/* eslint-enable @next/next/no-html-link-for-pages */}
       </noscript>
-      <NexusGraph />
+      <NexusGraph initialFilter={filter} initialFilterMode={filterMode} />
     </>
   );
 }

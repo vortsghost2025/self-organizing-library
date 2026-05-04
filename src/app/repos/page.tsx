@@ -20,6 +20,7 @@ export default async function ReposPage() {
       name: "Library",
       desc: "Documentation, verification, and coordination hub — the central archive for all governance artifacts",
       href: "/library",
+      graphHref: "/graph?filterMode=repo&filter=self-organizing-library",
       color: "var(--primary)",
       stat: `${repoGroups["self-organizing-library"]?.count || 0} files`
     },
@@ -27,6 +28,7 @@ export default async function ReposPage() {
       name: "Archivist",
       desc: "Governance, sovereignty, and identity enforcement — maintains the truth ledger and ratification protocol",
       href: "/archivist",
+      graphHref: "/graph?filterMode=repo&filter=Archivist-Agent",
       color: "var(--secondary)",
       stat: `${repoGroups["Archivist-Agent"]?.count || 0} files`
     },
@@ -34,6 +36,7 @@ export default async function ReposPage() {
       name: "Kernel",
       desc: "Runtime enforcement, constraint lattice, OS-level policies — the operational control plane",
       href: "/kernel",
+      graphHref: "/graph?filterMode=repo&filter=kernel-lane",
       color: "var(--success)",
       stat: `${repoGroups["kernel-lane"]?.count || 0} files`
     },
@@ -41,6 +44,7 @@ export default async function ReposPage() {
       name: "SwarmMind",
       desc: "Multi-agent drift detection and constraint verification — autonomous oversight and validation",
       href: "/swarmmind",
+      graphHref: "/graph?filterMode=repo&filter=SwarmMind",
       color: "var(--warning)",
       stat: `${repoGroups["SwarmMind"]?.count || 0} files`
     },
