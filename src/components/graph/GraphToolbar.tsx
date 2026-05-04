@@ -69,7 +69,7 @@ export default function GraphToolbar({
           />
         </div>
 
-      <span className="text-[var(--text-muted)] text-sm mx-1" aria-hidden="true">|</span>
+        <span className="text-[var(--text-muted)] text-sm mx-1" aria-hidden="true">|</span>
 
         <button
           onClick={() => { onFilterModeChange("type"); onFilterChange("all"); }}
@@ -88,9 +88,23 @@ export default function GraphToolbar({
           }`}
         >
           By Repo
-         </button>
+        </button>
 
-         <span className="ml-auto text-sm text-[var(--text-muted)] flex items-center gap-3" role="status">
+        {/* Active filter indicator */}
+        {filterMode === "repo" && filter !== "all" && (
+          <span className="ml-2 px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--border)] text-sm text-[var(--text-primary)]">
+            Showing: <strong className="capitalize">{filter.replace(/-/g, " ")}</strong>
+            <button
+              onClick={() => onFilterChange("all")}
+              className="ml-2 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              title="Clear filter"
+            >
+              ×
+            </button>
+          </span>
+        )}
+
+        <span className="ml-auto text-sm text-[var(--text-muted)] flex items-center gap-3" role="status">
            <div className="flex items-center gap-2">
              <label className="text-[var(--text-muted)]">Show top:</label>
              <select
