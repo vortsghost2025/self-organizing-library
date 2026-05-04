@@ -1,0 +1,23 @@
+# Website Safe Mode — GLM (Library lane) is sole writer for critical paths
+# Other agents may only submit review artifacts / issue notes
+# Last updated: 2026-05-03
+
+# App pages and layouts
+/src/app/** @vortsghost2025/library-lane
+
+# All components
+/src/components/** @vortsghost2025/library-lane
+
+# Core lib (site-index, truth-routing, graph data)
+/src/lib/** @vortsghost2025/library-lane
+
+# Styles
+/src/app/globals.css @vortsghost2025/library-lane
+
+# Config files
+/tailwind.config.* @vortsghost2025/library-lane
+/next.config.* @vortsghost2025/library-lane
+/postcss.config.* @vortsghost2025/library-lane
+
+# Static assets
+/public/** @vortsghost2025/library-lane

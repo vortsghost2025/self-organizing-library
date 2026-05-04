@@ -1,2 +1,24 @@
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2026-05-03 00:42:57.036"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2026-05-03 00:42:57.039"}
+{"arguments":{"url":"https://deliberateensemble.works"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2026-05-03 02:12:59.042","tool":"puppeteer_navigate"}
+{"0":"n","1":"p","2":"x","level":"info","message":"Launching browser with config:","service":"mcp-puppeteer","timestamp":"2026-05-03 02:12:59.044"}
+{"level":"info","message":"Browser launched successfully","service":"mcp-puppeteer","timestamp":"2026-05-03 02:12:59.984"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2026-05-03 02:12:59.985","url":"https://deliberateensemble.works"}
+{"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2026-05-03 02:13:04.484","url":"https://deliberateensemble.works"}
+{"arguments":{"height":900,"name":"deliberateensemble-works-marker-check","width":1280},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2026-05-03 02:16:16.550","tool":"puppeteer_screenshot"}
+{"arguments":{"script":"\n(() => {\n  const marker = document.getElementById('build-marker');\n  const bodyText = document.body.innerText.substring(0, 3000);\n  const hasMarker = marker ? marker.textContent : 'NOT FOUND';\n  const hasGuided = bodyText.includes('Guided Walkthrough');\n  const hasArchive = bodyText.includes('Archive at a Glance');\n  return { markerContent: hasMarker, hasGuidedWalkthrough: hasGuided, hasArchiveAtAGlance: hasArchive, firstChars: bodyText.substring(0, 500) };\n})()\n"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:06.625","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":468,"service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:06.627"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:06.630"}
+{"arguments":{"script":"\ndocument.getElementById('build-marker') ? document.getElementById('build-marker').textContent : 'NO_MARKER_ELEMENT'\n"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:22.177","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":117,"service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:22.177"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:22.178"}
+{"arguments":{"script":"\nvar m = document.getElementById('build-marker');\nvar r = m ? m.textContent : 'NO_MARKER';\nvar t = document.body.innerText.slice(0, 800);\nJSON.stringify({marker: r, text: t})\n"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:37.433","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":175,"service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:37.434"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:37.435"}
+{"arguments":{"script":"document.title"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:47.732","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":14,"service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:47.732"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2026-05-03 02:17:47.734"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2026-05-03 03:52:33.827"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2026-05-03 03:52:33.830"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2026-05-03 03:53:52.395"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2026-05-03 03:53:52.396"}

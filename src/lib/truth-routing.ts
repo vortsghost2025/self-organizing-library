@@ -248,8 +248,8 @@ export function computeAuthorityEdges(
     }
   }
 
-const TAG_GROUP_CAP = 80;
-const TAG_GROUP_LARGE_SAMPLE = 40;
+const TAG_GROUP_CAP = 40;
+const TAG_GROUP_LARGE_SAMPLE = 15;
 
   const tagPairs: [string, Set<string>][] = [];
   for (const [tag, ids] of Object.entries(tagIndex)) {
@@ -274,39 +274,47 @@ const TAG_GROUP_LARGE_SAMPLE = 40;
   for (const [tag, idSet] of tagPairs) {
     const ids = [...idSet];
 
+    const MAX_PAIR_EDGES = 20;
+    let pairEdgeCount = 0;
+
     if (VERIFICATION_TAGS.has(tag)) {
-      for (let i = 0; i < ids.length; i++) {
-        for (let j = i + 1; j < ids.length; j++) {
+      for (let i = 0; i < ids.length && pairEdgeCount < MAX_PAIR_EDGES; i++) {
+        for (let j = i + 1; j < ids.length && pairEdgeCount < MAX_PAIR_EDGES; j++) {
           addEdge(ids[i], ids[j], "VERIFIES");
           addEdge(ids[j], ids[i], "VERIFIES");
+          pairEdgeCount++;
         }
       }
     } else if (CONTRADICTION_TAGS.has(tag)) {
-      for (let i = 0; i < ids.length; i++) {
-        for (let j = i + 1; j < ids.length; j++) {
+      for (let i = 0; i < ids.length && pairEdgeCount < MAX_PAIR_EDGES; i++) {
+        for (let j = i + 1; j < ids.length && pairEdgeCount < MAX_PAIR_EDGES; j++) {
           addEdge(ids[i], ids[j], "CONTRADICTS");
           addEdge(ids[j], ids[i], "CONTRADICTS");
+          pairEdgeCount++;
         }
       }
     } else if (SIGNING_TAGS.has(tag)) {
-      for (let i = 0; i < ids.length; i++) {
-        for (let j = i + 1; j < ids.length; j++) {
+      for (let i = 0; i < ids.length && pairEdgeCount < MAX_PAIR_EDGES; i++) {
+        for (let j = i + 1; j < ids.length && pairEdgeCount < MAX_PAIR_EDGES; j++) {
           addEdge(ids[i], ids[j], "SIGNED_BY");
           addEdge(ids[j], ids[i], "SIGNED_BY");
+          pairEdgeCount++;
         }
       }
     } else if (EXECUTION_TAGS.has(tag)) {
-      for (let i = 0; i < ids.length; i++) {
-        for (let j = i + 1; j < ids.length; j++) {
+      for (let i = 0; i < ids.length && pairEdgeCount < MAX_PAIR_EDGES; i++) {
+        for (let j = i + 1; j < ids.length && pairEdgeCount < MAX_PAIR_EDGES; j++) {
           addEdge(ids[i], ids[j], "EXECUTES");
           addEdge(ids[j], ids[i], "EXECUTES");
+          pairEdgeCount++;
         }
       }
     } else if (GOVERNANCE_TAGS.has(tag)) {
-      for (let i = 0; i < ids.length; i++) {
-        for (let j = i + 1; j < ids.length; j++) {
+      for (let i = 0; i < ids.length && pairEdgeCount < MAX_PAIR_EDGES; i++) {
+        for (let j = i + 1; j < ids.length && pairEdgeCount < MAX_PAIR_EDGES; j++) {
           addEdge(ids[i], ids[j], "DERIVES_FROM");
           addEdge(ids[j], ids[i], "DERIVES_FROM");
+          pairEdgeCount++;
         }
       }
     }
