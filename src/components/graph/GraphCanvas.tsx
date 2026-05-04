@@ -88,31 +88,32 @@ function buildGraph(
 
   const graph = new Graph({ type: "undirected", multi: false });
 
-  for (const node of filtered) {
-    const baseSize = node.type === "paper" ? 10 : node.type === "doc" ? 6 : 4;
-    const color = filterMode === "repo"
-      ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
-      : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
-    graph.addNode(node.id, {
-      label: node.title,
-      x: 0,
-      y: 0,
-      size: Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
-      color,
-      nodeType: node.type,
-      category: node.category,
-      repo: node.repo,
-      connectionCount: node.connectionCount,
-      tags: JSON.stringify(node.tags),
-      nodeStatus: node.status || "UNVERIFIED",
-      verificationCount: node.verificationCount || 0,
-      contradictionCount: node.contradictionCount || 0,
-      clusterIds: JSON.stringify(node.clusterIds || []),
-      governanceLayer: node.governanceLayer || "unknown",
-      authorityDepth: node.authorityDepth || 0,
-      bridgeState: node.bridgeState || "unknown",
-    });
-  }
+   for (const node of filtered) {
+     // Larger base sizes for accessibility
+     const baseSize = node.type === "paper" ? 16 : node.type === "doc" ? 12 : 10;
+     const color = filterMode === "repo"
+       ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
+       : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
+     graph.addNode(node.id, {
+       label: node.title,
+       x: 0,
+       y: 0,
+       size: Math.max(baseSize, 5 + Math.min(node.connectionCount * 0.5, 10)),
+       color,
+       nodeType: node.type,
+       category: node.category,
+       repo: node.repo,
+       connectionCount: node.connectionCount,
+       tags: JSON.stringify(node.tags),
+       nodeStatus: node.status || "UNVERIFIED",
+       verificationCount: node.verificationCount || 0,
+       contradictionCount: node.contradictionCount || 0,
+       clusterIds: JSON.stringify(node.clusterIds || []),
+       governanceLayer: node.governanceLayer || "unknown",
+       authorityDepth: node.authorityDepth || 0,
+       bridgeState: node.bridgeState || "unknown",
+     });
+   }
 
   for (const edge of edges) {
     if (!ids.has(edge.source) || !ids.has(edge.target)) continue;
@@ -195,17 +196,17 @@ export default function GraphCanvas({
   useEffect(() => { clustersRef.current = clusters; }, [clusters]);
   useEffect(() => { coreNodeIdsRef.current = coreNodeIds || []; }, [coreNodeIds]);
 
-  useEffect(() => {
-    const updateBaseLabelSize = () => {
-      const zoomLevel = typeof window !== "undefined" ? Math.round(window.devicePixelRatio * 100) / 100 : 1;
-      baseLabelSizeRef.current = Math.round(12 * Math.max(1, zoomLevel));
-    };
-    updateBaseLabelSize();
-    window.addEventListener("resize", updateBaseLabelSize);
-    const mq = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
-    mq.addEventListener("change", updateBaseLabelSize);
-    return () => {
-      window.removeEventListener("resize", updateBaseLabelSize);
+   useEffect(() => {
+     const updateBaseLabelSize = () => {
+       const zoomLevel = typeof window !== "undefined" ? Math.round(window.devicePixelRatio * 100) / 100 : 1;
+       baseLabelSizeRef.current = Math.round(16 * Math.max(1, zoomLevel)); // Increased from 12 for accessibility
+     };
+     updateBaseLabelSize();
+     window.addEventListener("resize", updateBaseLabelSize);
+     const mq = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+     mq.addEventListener("change", updateBaseLabelSize);
+     return () => {
+       window.removeEventListener("resize", updateBaseLabelSize);
       mq.removeEventListener("change", updateBaseLabelSize);
     };
   }, []);
@@ -363,15 +364,15 @@ export default function GraphCanvas({
     const container = containerRef.current;
     let renderer: Sigma;
     try {
-      renderer = new Sigma(graph, container, {
-        renderLabels: true,
-    renderEdgeLabels: false,
-    labelFont: "DM Sans",
-    labelSize: baseLabelSizeRef.current,
-    labelWeight: "500",
-    labelColor: { color: "#A1A1AA" },
-    labelRenderedSizeThreshold: 50,
-      defaultEdgeColor: "#1E1E24",
+     renderer = new Sigma(graph, container, {
+       renderLabels: true,
+       renderEdgeLabels: false,
+       labelFont: "DM Sans",
+       labelSize: baseLabelSizeRef.current,
+       labelWeight: "500",
+       labelColor: { color: "#A1A1AA" },
+       labelRenderedSizeThreshold: 0, // Show all labels regardless of node size
+       defaultEdgeColor: "#1E1E24",
       defaultNodeType: "circle",
       minCameraRatio: 0.1,
       maxCameraRatio: 10,

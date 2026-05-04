@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
   ssr: false,
@@ -27,11 +28,15 @@ const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
   ),
 });
 
-export default function GraphPage() {
+function GraphContent() {
   const searchParams = useSearchParams();
   const filterMode = searchParams.get("filterMode") as "type" | "repo" | null || "type";
   const filter = searchParams.get("filter") || "all";
 
+  return <NexusGraph initialFilter={filter} initialFilterMode={filterMode} />;
+}
+
+export default function GraphPage() {
   return (
     <>
       <noscript>
@@ -46,7 +51,9 @@ export default function GraphPage() {
           </p>
         </div>
       </noscript>
-      <NexusGraph initialFilter={filter} initialFilterMode={filterMode} />
+      <Suspense fallback={<div className="p-8 text-[var(--text-muted)]">Loading graph...</div>}>
+        <GraphContent />
+      </Suspense>
     </>
   );
 }
