@@ -40,15 +40,16 @@ export default function HomeSystemStateStrip() {
 
   const conflictedCount = nodes.filter((n) => n.status === "CONFLICTED").length;
   const quarantinedCount = nodes.filter((n) => n.status === "QUARANTINED").length;
+  const verifiedCount = nodes.filter((n) => n.status === "VERIFIED").length;
 
   return (
     <SystemInterpretation
       className="mb-8"
       viewModeLabel="CONTRADICTION HUB"
-      isFiltered={true}
       visibleNodeCount={nodes.length}
       conflictedCount={conflictedCount}
       quarantinedCount={quarantinedCount}
+      verifiedCount={verifiedCount}
       primaryInstability={primaryInstability}
       loading={loading}
     />

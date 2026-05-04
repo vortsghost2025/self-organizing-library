@@ -9,6 +9,14 @@ import forceAtlas2 from "graphology-layout-forceatlas2";
 import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState } from "@/lib/graph-types";
 import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS } from "@/lib/graph-types";
 
+// Helper to convert hex color to rgba with adjustable alpha
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 let _webglAvailable: boolean | undefined;
 
 function isWebGLAvailable(): boolean {
@@ -75,11 +83,6 @@ function buildGraph(
     ? nodes
     : filterMode === "repo"
     ? nodes.filter((n) => n.repo === filter)
-    : filter === "core"
-    ? nodes.filter((n) => {
-        const t = (n.type || "").toLowerCase();
-        return t === "doc" || t === "data" || t === "test-data";
-      })
     : nodes.filter((n) => n.type === filter);
   const ids = new Set(filtered.map((n) => n.id));
 
@@ -134,31 +137,14 @@ function buildGraph(
     }
   }
 
-  // Tiny views should stay centered and readable.
-  if (graph.order === 1) {
-    const [n0] = graph.nodes();
-    graph.setNodeAttribute(n0, "x", 0);
-    graph.setNodeAttribute(n0, "y", 0);
-    return graph;
-  }
-  if (graph.order === 2) {
-    const [a, b] = graph.nodes();
-    graph.setNodeAttribute(a, "x", -30);
-    graph.setNodeAttribute(a, "y", 0);
-    graph.setNodeAttribute(b, "x", 30);
-    graph.setNodeAttribute(b, "y", 0);
-    return graph;
-  }
+  circular.assign(graph, { scale: 300 });
 
-  const scale = Math.max(80, Math.min(220, Math.round(Math.sqrt(graph.order) * 18)));
-  circular.assign(graph, { scale });
-
-  if (graph.order > 2) {
+  if (graph.order > 0) {
     const settings = forceAtlas2.inferSettings(graph);
     settings.gravity = 1;
     settings.scalingRatio = 2;
     settings.barnesHutOptimize = graph.order > 100;
-    forceAtlas2.assign(graph, { iterations: 80, settings });
+    forceAtlas2.assign(graph, { iterations: 100, settings });
   }
 
   return graph;
@@ -492,12 +478,22 @@ export default function GraphCanvas({
         }
       }
 
-        if (selected && node === selected) {
-          res.highlighted = true;
-          res.zIndex = 10;
-        }
+  if (selected && node === selected) {
+    res.highlighted = true;
+    res.zIndex = 10;
+  }
 
-        const d = densityRef.current;
+  // Global significance-based label filtering (for non-interacting nodes)
+  // Nodes that are not interacting and not high-significance have hidden labels
+  if (!hovered && !selected && !focused && pNodes.size === 0) {
+    const authorityDepth = (data as any).authorityDepth || 0;
+    const verificationCount = (data as any).verificationCount || 0;
+    if (authorityDepth < 80 && verificationCount < 5) {
+      res.label = "";
+    }
+  }
+
+  const d = densityRef.current;
         if (d === "overview") {
           const isRep = clustersRef.current.some((cl) => cl.representativeId === node);
           if (!isRep) {
@@ -505,7 +501,7 @@ export default function GraphCanvas({
           }
         } else if (d === "mid") {
           const degree = graph.degree(node);
-          if (degree < 15) res.label = "";
+          if (degree < 8) res.label = "";
         }
 
         return res;
@@ -566,6 +562,15 @@ export default function GraphCanvas({
           res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
           res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
         }
+        // else keep original color from data
+
+        // Reduce opacity for background edges when many nodes are present
+        if (nodes.length > 200) {
+          const originalColor = res.color as string;
+          if (typeof originalColor === 'string' && originalColor.startsWith('#')) {
+            res.color = hexToRgba(originalColor, 0.4);
+          }
+        }
 
         return res;
       },
@@ -603,13 +608,6 @@ export default function GraphCanvas({
     });
 
     const camera = renderer.getCamera() as any;
-    const dur = getReducedMotionDurations();
-    // Always reset camera after graph rebuild so tiny slices are on-screen.
-    if (typeof camera.animatedReset === "function") {
-      camera.animatedReset({ duration: dur.camera });
-    } else if (typeof camera.setState === "function") {
-      camera.setState({ x: 0, y: 0, ratio: 1 });
-    }
     const handleCameraUpdate = () => {
       onCameraUpdate(camera.ratio);
     };

@@ -18,11 +18,31 @@ export default async function ReposPage() {
   return (
     <div className="p-8">
       <div className="mb-8 animate-fade-in">
-        <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Repos</h1>
-        <p className="text-[var(--text-secondary)]">Source repositories in the Deliberate Ensemble archive</p>
+        <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Repositories</h1>
+        <p className="text-[var(--text-secondary)]">
+          The Deliberate Ensemble system spans 4 coordinated lanes
+        </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      {/* Section: The 4 Lanes */}
+      <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">The 4 Lanes</h2>
+      <div className="grid grid-cols-4 gap-4 mb-8">
+        {[
+          { name: "Library", desc: "Documentation, verification, and coordination hub", href: "/library", color: "var(--primary)" },
+          { name: "Archivist", desc: "Governance, sovereignty, and identity enforcement", href: "/archivist", color: "var(--secondary)" },
+          { name: "Kernel", desc: "Runtime enforcement, constraint lattice, OS-level policies", href: "/kernel", color: "var(--success)" },
+          { name: "SwarmMind", desc: "Multi-agent drift detection and constraint verification", href: "/swarmmind", color: "var(--warning)" },
+        ].map((lane) => (
+          <Link key={lane.name} href={lane.href} className={`card p-4 hover:border-[${lane.color}] transition-colors`}>
+            <h3 className="font-semibold text-[var(--text-primary)] mb-1">{lane.name}</h3>
+            <p className="text-sm text-[var(--text-secondary)]">{lane.desc}</p>
+          </Link>
+        ))}
+      </div>
+
+      {/* Section: All Repositories */}
+      <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">All Repositories</h2>
+      <div className="space-y-6">
         {Object.entries(repoGroups).map(([repo, data], i) => (
           <div key={repo} className={`card p-6 animate-fade-in stagger-${(i % 5) + 1}`}>
             <div className="flex items-start justify-between mb-4">
