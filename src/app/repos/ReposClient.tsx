@@ -242,47 +242,11 @@ export default function ReposClient({
                Open Combined Graph →
              </Link>
            </section>
-         </>
-       )}
+          </>
+        )}
 
-           {/* Coordination section */}
-           <section className="card p-6 mb-8 animate-fade-in">
-             <h2 className="text-2xl font-semibold mb-4 text-[var(--text-primary)]">
-               How the 4 Lanes Work Together
-             </h2>
-             <div className="prose prose-slate dark:prose-invert max-w-none text-[var(--text-secondary)]">
-               <p className="lead">
-                 The Deliberate Ensemble is a 4-lane multi-agent coordination system. Each lane is a sovereign agent with its own repository, governance rules, and runtime enforcement. They do not merge or share code — instead, they <strong>publish artifacts</strong> and <strong>cross-reference</strong> via a shared governance graph.
-               </p>
-
-               <div className="my-6 p-4 rounded-lg bg-[var(--bg-surface)] border-l-4 border-[var(--primary)]">
-                 <h4 className="text-[var(--text-primary)] font-semibold mb-2">Convergence Protocol</h4>
-                 <p className="mb-0">
-                   Cross-lane decisions go through a 5-phase Convergence Gate: <strong>Proposal → Review → Amend → Converge → Ratify</strong>. The Archivist lane is the final ratifier. No lane can unilaterally change trust anchors, identity keys, or governance constraints.
-                 </p>
-               </div>
-             </div>
-           </section>
-
-           {/* Combined Graph Section */}
-           <section className="card p-6 animate-fade-in border-2 border-[var(--primary)]">
-             <h2 className="text-2xl font-semibold mb-2 text-[var(--text-primary)]">
-               The Full Governance Graph
-             </h2>
-             <p className="text-[var(--text-secondary)] mb-4">
-               See all 4 lanes together in the live Nexus graph. Each node is colored by lane. Hover for details, filter by status, and explore connections.
-             </p>
-             <Link
-               href="/graph"
-               className="inline-flex items-center px-4 py-2 bg-[var(--primary)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
-             >
-               Open Combined Graph →
-             </Link>
-           </section>
-         </>
-       )}
-
-      {/* Tab panel: All Repositories */}
+       {/* Tab panel: All Repositories */}
+       {tab === "all" && (
       {tab === "all" && (
         <div
           className="grid grid-cols-2 gap-6"
