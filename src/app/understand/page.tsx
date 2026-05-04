@@ -1,11 +1,16 @@
+"use client";
+
 import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
 
 const NexusGraph = dynamic(() => import('@/components/NexusGraph'), { ssr: false });
 
-export const metadata = {
-  title: 'Understand — Deliberate Ensemble',
-  description: 'Explore the governance graph in understand mode, focusing on verified, high-authority nodes.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Understand — Deliberate Ensemble',
+    description: 'Explore the governance graph in understand mode, focusing on verified, high-authority nodes.',
+  };
+}
 
 export default function UnderstandPage() {
   return (
