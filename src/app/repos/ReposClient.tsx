@@ -241,18 +241,16 @@ export default function ReposClient({
              >
                Open Combined Graph →
              </Link>
-           </section>
-          </>
-        )}
+         </section>
+        </>
 
-       {/* Tab panel: All Repositories */}
-       {tab === "all" && (
-      {tab === "all" && (
-        <div
-          className="grid grid-cols-2 gap-6"
-          role="tabpanel"
-          aria-labelledby="tab-all"
-        >
+        {/* Tab panel: All Repositories */}
+        {tab === "all" && (
+          <div
+            className="grid grid-cols-2 gap-6"
+            role="tabpanel"
+            aria-labelledby="tab-all"
+          >
           {Object.entries(repoGroups).map(([repo, data], i) => (
             <div key={repo} className={`card p-6 animate-fade-in stagger-${(i % 5) + 1}`}>
               <div className="flex items-start justify-between mb-4">
