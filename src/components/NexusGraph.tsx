@@ -62,24 +62,37 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
    const graphRef = useRef<Graph | null>(null);
    const sigmaRef = useRef<Sigma | null>(null);
 
-   // Sync density and layers when mode changes, and auto-select entry point
-   useEffect(() => {
-     const config = MODE_CONFIG[graphMode];
-     setDensity(config.density);
-     setActiveLayers(config.layers);
+    // Sync density and layers when mode changes, and auto-select entry point
+    useEffect(() => {
+      const config = MODE_CONFIG[graphMode];
+      setDensity(config.density);
+      setActiveLayers(config.layers);
 
-     // Auto-select appropriate entry point per mode
-     if (graphMode === "understand") {
-       setActiveEntryPoint("ep:authority");
-       setNodeLimit(100); // Default limit for understand mode
-     } else if (graphMode === "explore") {
-       setActiveEntryPoint("ep:contradictions");
-       setNodeLimit(null);
-     } else {
-       setActiveEntryPoint(null);
-       setNodeLimit(null);
-     }
-   }, [graphMode]);
+      // Auto-select appropriate entry point per mode
+      if (graphMode === "understand") {
+        // If a repo filter is active, select that repo's cluster; otherwise use authority
+        if (filterMode === "repo" && filter !== "all") {
+          const repoClusterId = `ep:repo:${filter}`;
+          // Check if the cluster exists before selecting
+          if (entryPoints.some(ep => ep.id === repoClusterId)) {
+            setActiveEntryPoint(repoClusterId);
+            setNodeLimit(null); // Show all nodes for a specific repo
+          } else {
+            setActiveEntryPoint("ep:authority");
+            setNodeLimit(100);
+          }
+        } else {
+          setActiveEntryPoint("ep:authority");
+          setNodeLimit(100); // Default limit for understand mode
+        }
+      } else if (graphMode === "explore") {
+        setActiveEntryPoint("ep:contradictions");
+        setNodeLimit(null);
+      } else {
+        setActiveEntryPoint(null);
+        setNodeLimit(null);
+      }
+    }, [graphMode, filterMode, filter, entryPoints]);
 
    // Compute core nodes for highlighting in understand mode (computed from full nodes list)
    const coreNodeIds = useMemo(() => {
@@ -601,19 +614,27 @@ const handleCompareSnapshots = useCallback(() => {
             />
           </div>
 
-          {/* Start Here – Understand mode */}
-          {graphMode === "understand" && (
-            <section className="space-y-2">
-              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Start Here</h3>
-              <div className="card p-2">
-                <EntryPoints
-                  entryPoints={entryPoints.filter(ep => ep.id === "ep:authority" || ep.id === "ep:gov-core")}
-                  activeEntryPoint={activeEntryPoint}
-                  onSelect={setActiveEntryPoint}
-                />
-              </div>
-            </section>
-          )}
+           {/* Start Here – Understand mode */}
+           {graphMode === "understand" && (
+             <section className="space-y-2">
+               <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Start Here</h3>
+               <div className="card p-2">
+                 <EntryPoints
+                   entryPoints={entryPoints.filter(ep => {
+                     // Always include the two curated entry points
+                     if (ep.id === "ep:authority" || ep.id === "ep:gov-core") return true;
+                     // When a repo filter is active in understand mode, show that repo's cluster
+                     if (filterMode === "repo" && filter !== "all" && ep.id === `ep:repo:${filter}`) {
+                       return true;
+                     }
+                     return false;
+                   })}
+                   activeEntryPoint={activeEntryPoint}
+                   onSelect={setActiveEntryPoint}
+                 />
+               </div>
+             </section>
+           )}
 
           {/* Investigate – Explore mode */}
           {graphMode === "explore" && (
