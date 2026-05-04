@@ -100,5 +100,43 @@
     "session_epoch_started_at": "2026-05-03T02:55:30.526Z",
     "origin_runtime": "opencode",
     "origin_workspace": "C:\\Users\\seand\\.codex\\worktrees\\b6c3\\Archivist-Agent"
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "_lane_worker": {
+    "lane": "library",
+    "routed_at": "2026-05-04T19:45:00.876Z",
+    "dry_run": false,
+    "route": "quarantine",
+    "reason": "SCHEMA_INVALID",
+    "detail": "Field \"execution.engine\" value \"lane-worker\" not in allowed values: kilo, opencode, codex, other, pipeline",
+    "schema_valid": false,
+    "signature_valid": false,
+    "schema_remediation": null,
+    "english_only": true,
+    "execution_verified": false,
+    "would_verify": false,
+    "enforce_ownership": false,
+    "ownership_enforcement_enabled": false,
+    "ownership": {
+      "present": false
+    },
+    "ownership_notes": [],
+    "domain_gate_executed": false,
+    "verification_outcome": null,
+    "domain_validation": null,
+    "verification_path": null,
+    "session_identity": {
+      "session_id": "sess_moq2qcdj_393891",
+      "session_epoch_started_at": "2026-05-03T17:58:15.079Z",
+      "origin_runtime": "opencode",
+      "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+    },
+    "output_provenance": {
+      "agent": "lane-worker-393891",
+      "lane": "library",
+      "generated_at": "2026-05-04T19:45:00.876Z",
+      "session_id": "sess_moq2qcdj_393891"
+    }
   }
 }

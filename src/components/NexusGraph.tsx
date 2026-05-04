@@ -25,18 +25,20 @@ import NodeDetail from "./graph/NodeDetail";
 
 interface NexusGraphProps {
   initialMode?: GraphMode;
+  initialFilter?: string;
+  initialFilterMode?: "type" | "repo";
 }
 
 export default function NexusGraph(props: NexusGraphProps = {}) {
-  const { initialMode = DEFAULT_MODE } = props;
+  const { initialMode = DEFAULT_MODE, initialFilter = "all", initialFilterMode = "type" } = props;
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
   const [clusters, setClusters] = useState<Cluster[]>([]);
   const [entryPoints, setEntryPoints] = useState<EntryPoint[]>([]);
 
-  const [filter, setFilter] = useState("all");
-  const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
+  const [filter, setFilter] = useState(initialFilter);
+  const [filterMode, setFilterMode] = useState<"type" | "repo">(initialFilterMode);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);

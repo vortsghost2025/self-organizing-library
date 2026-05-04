@@ -9,6 +9,7 @@ interface ReposClientProps {
     name: string;
     desc: string;
     href: string;
+    graphHref: string;
     color: string;
     stat: string;
   }>;
@@ -69,34 +70,248 @@ export default function ReposClient({
         </button>
       </div>
 
-      {/* Tab panel: The 4 Lanes */}
-      {tab === "lanes" && (
-        <div
-          className="grid grid-cols-4 gap-4 mb-8"
-          role="tabpanel"
-          aria-labelledby="tab-lanes"
-        >
-          {laneRepos.map((lane, i) => (
-            <Link
-              key={lane.name}
-              href={lane.href}
-              className="card p-4 hover:border-[var(--primary)] transition-colors animate-fade-in stagger-${(i % 4) + 1}"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                  style={{ backgroundColor: `${lane.color}15`, color: lane.color }}
-                >
-                  {lane.name.charAt(0)}
-                </div>
-                <span className="text-xs text-[var(--text-muted)]">{lane.stat}</span>
-              </div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-1">{lane.name}</h3>
-              <p className="text-sm text-[var(--text-secondary)]">{lane.desc}</p>
-            </Link>
-          ))}
-        </div>
-      )}
+       {/* Tab panel: The 4 Lanes */}
+       {tab === "lanes" && (
+         <>
+           {/* Lane cards grid */}
+           <div
+             className="grid grid-cols-4 gap-4 mb-8"
+             role="tabpanel"
+             aria-labelledby="tab-lanes"
+           >
+             {laneRepos.map((lane, i) => (
+               <div key={lane.name} className="flex flex-col">
+                 <Link
+                   href={lane.href}
+                   className="card p-4 hover:border-[var(--primary)] transition-colors animate-fade-in flex-1"
+                   style={{ animationDelay: `${(i % 4) * 100}ms` }}
+                 >
+                   <div className="flex items-center justify-between mb-3">
+                     <div
+                       className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
+                       style={{ backgroundColor: `${lane.color}15`, color: lane.color }}
+                     >
+                       {lane.name.charAt(0)}
+                     </div>
+                     <span className="text-xs text-[var(--text-muted)]">{lane.stat}</span>
+                   </div>
+                   <h3 className="font-semibold text-[var(--text-primary)] mb-1">{lane.name}</h3>
+                   <p className="text-sm text-[var(--text-secondary)] line-clamp-2">{lane.desc}</p>
+                 </Link>
+                 <Link
+                   href={lane.graphHref}
+                   className="mt-2 text-center text-sm font-medium px-3 py-2 rounded-lg border border-[var(--border)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors animate-fade-in"
+                   style={{ animationDelay: `${(i % 4) * 100 + 50}ms` }}
+                 >
+                   See {lane.name} in the Graph →
+                 </Link>
+               </div>
+             ))}
+           </div>
+
+           {/* How the 4 Lanes Work Together */}
+           <section className="card p-6 mb-8 animate-fade-in">
+             <h2 className="text-2xl font-semibold mb-4 text-[var(--text-primary)]">
+               How the 4 Lanes Work Together
+             </h2>
+             <div className="prose prose-slate dark:prose-invert max-w-none text-[var(--text-secondary)]">
+               <p className="lead">
+                 The Deliberate Ensemble is a 4-lane multi-agent coordination system. Each lane is a sovereign agent with its own repository, governance rules, and runtime enforcement. They do not merge or share code — instead, they <strong>publish artifacts</strong> and <strong>cross-reference</strong> via a shared governance graph.
+               </p>
+
+               <div className="my-6 p-4 rounded-lg bg-[var(--bg-surface)] border-l-4 border-[var(--primary)]">
+                 <h4 className="text-[var(--text-primary)] font-semibold mb-2">Convergence Protocol</h4>
+                 <p className="mb-0">
+                   Cross-lane decisions go through a 5-phase Convergence Gate: <strong>Proposal → Review → Amend → Converge → Ratify</strong>. The Archivist lane is the final ratifier. No lane can unilaterally change trust anchors, identity keys, or governance constraints.
+                 </p>
+               </div>
+             </div>
+           </section>
+
+           {/* Individual Lane READMEs */}
+           <div className="space-y-8 mb-8">
+             {/* Library */}
+             <section className="card p-6 animate-fade-in">
+               <div className="flex items-start gap-4 mb-4">
+                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ backgroundColor: "var(--primary)15", color: "var(--primary)" }}>
+                   L
+                 </div>
+                 <div>
+                   <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">Library Lane — The Archive</h3>
+                   <p className="text-[var(--text-muted)] text-sm">
+                     Central documentation and coordination hub. Collects, indexes, and serves all governance artifacts from all lanes.
+                   </p>
+                 </div>
+               </div>
+               <div className="ml-16 prose prose-slate dark:prose-invert max-w-none text-[var(--text-secondary)]">
+                 <h4 className="text-[var(--text-primary)]">Scope &amp; Responsibilities</h4>
+                 <ul>
+                   <li><strong>Document aggregation:</strong> Fetches and indexes documents from all lanes via GitHub mirror mounts</li>
+                   <li><strong>Site index:</strong> Maintains the searchable catalog (tags, categories, cross-references)</li>
+                   <li><strong>Verification evidence:</strong> Publishes runtime proof transcripts and auditing trails</li>
+                   <li><strong>Coordination outbox:</strong> Broadcasts proposal/ack/escalation messages to other lanes</li>
+                   <li><strong>Public face:</strong> Hosts the website (<code>deliberateensemble.works</code>)</li>
+                 </ul>
+
+                 <h4 className="text-[var(--text-primary)]">Isolation Model</h4>
+                 <p>
+                   The Library does <strong>not</strong> enforce governance. It is a read-only mirror of other lanes' published artifacts. It cannot reject or mutate any document — only index and display. Its authority depth comes from being the convergence coordinator and evidence repository.
+                 </p>
+
+                 <h4 className="text-[var(--text-primary)]">Connection to Papers</h4>
+                 <p>
+                   Papers are published externally (arXiv, OSF, conference submissions) and referenced in governance artifacts via <code>paper_id</code>. The Library indexes all papers and provides the <code>/papers</code> catalog. Paper→artifact→decision traces are explicit in the cross-reference graph.
+                 </p>
+
+                 <div className="mt-4">
+                   <Link href="/library" className="inline-flex items-center text-[var(--primary)] font-medium hover:underline">
+                     Browse the Library →
+                   </Link>
+                 </div>
+               </div>
+             </section>
+
+             {/* Archivist */}
+             <section className="card p-6 animate-fade-in">
+               <div className="flex items-start gap-4 mb-4">
+                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ backgroundColor: "var(--secondary)15", color: "var(--secondary)" }}>
+                   A
+                 </div>
+                 <div>
+                   <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">Archivist Lane — The Sovereign</h3>
+                   <p className="text-[var(--text-muted)] text-sm">
+                     Governance, sovereignty, and identity enforcement. Maintains the truth ledger and ratification protocol.
+                   </p>
+                 </div>
+               </div>
+               <div className="ml-16 prose prose-slate dark:prose-invert max-w-none text-[var(--text-secondary)]">
+                 <h4 className="text-[var(--text-primary)]">Scope &amp; Responsibilities</h4>
+                 <ul>
+                   <li><strong>Identity &amp; trust:</strong> RSA key lifecycle, trust-store ratification, JWS verification</li>
+                   <li><strong>Message schema:</strong> Inbox schema v1.0 enforcement, idempotency, id enforcement</li>
+                   <li><strong>Convergence gate:</strong> Final ratification of all cross-lane proposals</li>
+                   <li><strong>Session handoff:</strong> Maintains session continuity across context compactions</li>
+                   <li><strong>Quarantine &amp; expiry:</strong> Rejects non-compliant messages (expired, invalid signatures)</li>
+                 </ul>
+
+                 <h4 className="text-[var(--text-primary)]">Isolation Model</h4>
+                 <p>
+                   The Archivist's authority is <strong>non-negotiable</strong>. No lane may mutate trust-store keys, ratify proposals, or sign messages without Archivist-issued credentials. It operates as the final arbiter of truth — a binary gate: either a message is verified (enters processing) or it is rejected (moved to <code>expired/</code>).
+                 </p>
+
+                 <h4 className="text-[var(--text-primary)]">Connection to Papers</h4>
+                 <p>
+                   Governance protocols (CONVERGENCE_PROTOCOL, IDENTITY_PROTOCOL) are published as formal specifications in the Archivist's repo. These papers define the operational constraints that all lanes must obey. Changes to governance require Archivist ratification.
+                 </p>
+
+                 <div className="mt-4">
+                   <Link href="/archivist" className="inline-flex items-center text-[var(--secondary)] font-medium hover:underline">
+                     View Archivist Dashboard →
+                   </Link>
+                 </div>
+               </div>
+             </section>
+
+             {/* Kernel */}
+             <section className="card p-6 animate-fade-in">
+               <div className="flex items-start gap-4 mb-4">
+                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ backgroundColor: "var(--success)15", color: "var(--success)" }}>
+                   K
+                 </div>
+                 <div>
+                   <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">Kernel Lane — The OS</h3>
+                   <p className="text-[var(--text-muted)] text-sm">
+                     Runtime enforcement, constraint lattice, and OS-level policies. The operational control plane.
+                   </p>
+                 </div>
+               </div>
+               <div className="ml-16 prose prose-slate dark:prose-invert max-w-none text-[var(--text-secondary)]">
+                 <h4 className="text-[var(--text-primary)]">Scope &amp; Responsibilities</h4>
+                 <ul>
+                   <li><strong>Constraint lattice:</strong> Declarative optimization problem: minimize drift subject to constraints</li>
+                   <li><strong>Runtime validation:</strong> Enforces output provenance, blob boundaries, convergence gate checks</li>
+                   <li><strong>Process supervision:</strong> Supervises agent lifecycle, heartbeat monitoring, stale-lane detection</li>
+                   <li><strong>OS-level policies:</strong> File-system layout, lane-directory enforcement, SMB mount validation</li>
+                   <li><strong>Drift score calc:</strong> Computes divergence between intended state and actual state</li>
+                 </ul>
+
+                 <h4 className="text-[var(--text-primary)]">Isolation Model</h4>
+                 <p>
+                   The Kernel runs <strong>closest to the metal</strong>. It can kill or restart agents, enforce read/write boundaries, and validate every output against provenance contracts. It does not make decisions — it enforces constraints defined by governance. Its authority is absolute but bounded by the Archivist-ratified constraint lattice.
+                 </p>
+
+                 <h4 className="text-[var(--text-primary)]">Connection to Papers</h4>
+                 <p>
+                   The constraint lattice formulation is documented in the Kernel's README and specification papers. These define the optimization objective (minimize drift) and hard constraints (identity, session-mode, lane-relay paths). The Kernel publishes runtime validation logs as evidence.
+                 </p>
+
+                 <div className="mt-4">
+                   <Link href="/kernel" className="inline-flex items-center text-[var(--success)] font-medium hover:underline">
+                     Explore Kernel →
+                   </Link>
+                 </div>
+               </div>
+             </section>
+
+             {/* SwarmMind */}
+             <section className="card p-6 animate-fade-in">
+               <div className="flex items-start gap-4 mb-4">
+                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ backgroundColor: "var(--warning)15", color: "var(--warning)" }}>
+                   S
+                 </div>
+                 <div>
+                   <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-1">SwarmMind Lane — The Watchdog</h3>
+                   <p className="text-[var(--text-muted)] text-sm">
+                     Multi-agent drift detection and constraint verification. Autonomous oversight and validation.
+                   </p>
+                 </div>
+               </div>
+               <div className="ml-16 prose prose-slate dark:prose-invert max-w-none text-[var(--text-secondary)]">
+                 <h4 className="text-[var(--text-primary)]">Scope &amp; Responsibilities</h4>
+                 <ul>
+                   <li><strong>Drift detection:</strong> Monitors all lanes for deviation from ratified state</li>
+                   <li><strong>Constraint verification:</strong> Recomputes drift scores and flags violations</li>
+                   <li><strong>Evidence collection:</strong> Gathers logs, verdicts, and state snapshots for audit</li>
+                   <li><strong>Escalation:</strong> Issues P0 escalations when contradictions or blockers detected</li>
+                   <li><strong>Health checks:</strong> Heartbeat monitoring, session validation, cross-lane consistency scans</li>
+                 </ul>
+
+                 <h4 className="text-[var(--text-primary)]">Isolation Model</h4>
+                 <p>
+                   SwarmMind is a <strong>read-only observer</strong>. It never mutates state directly. It only verifies and escalates. Its authority derives from being able to declare a "blocker" or "conflicted" state, which freezes all non-essential work across all lanes until resolved.
+                 </p>
+
+                 <h4 className="text-[var(--text-primary)]">Connection to Papers</h4>
+                 <p>
+                   SwarmMind's detection algorithms are documented in drift-detection papers and resilience analysis reports. These papers are published externally and referenced in the SwarmMind repo's verification docs.
+                 </p>
+
+                 <div className="mt-4">
+                   <Link href="/swarmmind" className="inline-flex items-center text-[var(--warning)] font-medium hover:underline">
+                     View SwarmMind Dashboard →
+                   </Link>
+                 </div>
+               </div>
+             </section>
+           </div>
+
+           {/* Combined Graph Section */}
+           <section className="card p-6 mb-8 animate-fade-in border-2 border-[var(--primary)]">
+             <h2 className="text-2xl font-semibold mb-2 text-[var(--text-primary)]">
+               The Full Governance Graph
+             </h2>
+             <p className="text-[var(--text-secondary)] mb-4">
+               See all 4 lanes together in the live Nexus graph. Each node is colored by lane. Hover for details, filter by status, and explore connections.
+             </p>
+             <Link
+               href="/graph"
+               className="inline-flex items-center px-4 py-2 bg-[var(--primary)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+             >
+               Open Combined Graph →
+             </Link>
+           </section>
+         </>
+       )}
 
       {/* Tab panel: All Repositories */}
       {tab === "all" && (
