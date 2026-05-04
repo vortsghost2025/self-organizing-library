@@ -73,7 +73,7 @@ export default function ReposClient({
 
        {/* Tab panel: The 4 Lanes */}
        {tab === "lanes" && (
-         <>
+         <div className="lanes-tab-content">
            {/* Lane cards grid with inline expandable sections */}
            <div
              className="grid grid-cols-4 gap-4 mb-8"
@@ -241,8 +241,9 @@ export default function ReposClient({
              >
                Open Combined Graph →
              </Link>
-         </section>
-        </>
+            </section>
+          </div>
+        )}
 
         {/* Tab panel: All Repositories */}
         {tab === "all" && (
