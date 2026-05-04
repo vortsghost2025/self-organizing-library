@@ -23,6 +23,7 @@ import NodeDetail from "./graph/NodeDetail";
  import type { GraphSnapshot } from "@/lib/graph-snapshot";
  import { compareSnapshots } from "@/lib/graph-snapshot-compare";
  import SystemInterpretation from "./graph/SystemInterpretation";
+ import SwarmmindResiliencePanel from "./graph/SwarmmindResiliencePanel";
 
 export default function NexusGraph() {
   const searchParams = useSearchParams();
@@ -549,6 +550,7 @@ const handleCompareSnapshots = useCallback(() => {
         fourLaneLock={true}
         loading={loading}
       />
+      <SwarmmindResiliencePanel />
 
        <GraphToolbar
          filter={filter}
