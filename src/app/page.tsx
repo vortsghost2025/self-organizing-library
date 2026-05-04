@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
+import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
 
 export default async function Dashboard() {
   // Strict defaults per exterior-synthesis directive
@@ -17,6 +18,7 @@ export default async function Dashboard() {
         title={heroTitle}
         tagline={heroTagline}
       />
+      <HomeSystemStateStrip />
 
       {/* HOW IT WORKS — 3 steps, plain English only */}
       <div className="card p-6 mb-12 animate-fade-in">
@@ -51,7 +53,7 @@ export default async function Dashboard() {
             </div>
           </a>
           <a
-            href="/graph"
+            href="/graph?mode=explore"
             className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
           >
             <div className="text-4xl" aria-hidden="true">🔵</div>

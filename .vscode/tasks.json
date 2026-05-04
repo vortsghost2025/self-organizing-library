@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "handoff:safe",
+      "type": "shell",
+      "command": "scripts/handoff-safe.sh ${input:msgFile}",
+      "problemMatcher": []
+    },
+    {
+      "label": "git:commit-push",
+      "type": "shell",
+      "command": "git add -A && git commit -m \"${input:commitMsg}\" && git push",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "msgFile",
+      "type": "promptString",
+      "description": "Path to output/handoff file"
+    },
+    {
+      "id": "commitMsg",
+      "type": "promptString",
+      "description": "Commit message"
+    }
+  ]
+}
+

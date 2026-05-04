@@ -9,8 +9,11 @@ interface ClusterSelectorProps {
 }
 
 export default function ClusterSelector({ clusters, activeClusterId, onSelect }: ClusterSelectorProps) {
-  const repos = clusters.filter((c) => c.kind === "repo");
-  const tags = clusters.filter((c) => c.kind === "tag").sort((a, b) => b.nodeIds.length - a.nodeIds.length).slice(0, 15);
+  const repos = clusters.filter((c) => c.kind === "repo" && c.nodeIds.length > 0);
+  const tags = clusters
+    .filter((c) => c.kind === "tag" && c.nodeIds.length > 0)
+    .sort((a, b) => b.nodeIds.length - a.nodeIds.length)
+    .slice(0, 15);
 
   return (
     <div className="space-y-3" role="group" aria-label="Cluster selector">
