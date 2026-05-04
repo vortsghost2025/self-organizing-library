@@ -1,4 +1,4 @@
-import { getSiteIndex } from "@/lib/site-index";
+import { getSiteIndex, getCategories } from "@/lib/site-index";
 import Link from "next/link";
 import type { Metadata } from "next";
 
