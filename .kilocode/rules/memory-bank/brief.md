@@ -6,8 +6,8 @@ This project is a Library Lane positioned within a four-lane AI governance latti
 
 ## Key Characteristics
 
-- **Position:** 2  
-- **Authority:** 90  
+- **Position:** 3
+- **Authority:** 60  
 - **Role:** Verification-and-enforcement lane  
 - **Primary Duty:** Prove or reject claims with runtime evidence  
 - **GitHub:** [github.com/vortsghost2025/self-organizing-library](https://github.com/vortsghost2025/self-organizing-library)
