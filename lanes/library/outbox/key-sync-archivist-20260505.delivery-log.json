@@ -1,0 +1,7 @@
+{
+  "delivered_at": "2026-05-05T11:10:22.789Z",
+  "source": "lanes/library/outbox/key-sync-archivist-20260505.json",
+  "destination": "/home/we4free/agent/repos/Archivist-Agent/lanes/archivist/inbox/key-sync-archivist-20260505.json",
+  "key_id": "2156d8756504ea32",
+  "status": "delivered"
+}
