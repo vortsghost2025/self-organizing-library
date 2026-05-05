@@ -12,6 +12,13 @@ const TYPE_COLORS: Record<string, string> = {
   verification: "border-[var(--accent)]",
 };
 
+const ACCESS_LABELS: Record<TimelineEvent['evidence'][0]['access'], string> = {
+  public_url: '🌐 Public',
+  repo_path: '📁 Repo',
+  local_path: '💻 Local',
+  generated_metadata: '📄 Metadata',
+};
+
 export default function SystemEvolution() {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,12 +42,6 @@ export default function SystemEvolution() {
   const formatDate = (iso: string) => {
     const d = new Date(iso);
     return d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  };
-
-  const getEvidenceHref = (p: string) => {
-    if (p.startsWith('S:/')) return p; // absolute cross-lane path
-    if (p.startsWith('/')) return p;
-    return '/' + p;
   };
 
   return (
@@ -96,10 +97,18 @@ export default function SystemEvolution() {
                 <div className="mt-4 pt-4 border-t border-[var(--border)] grid md:grid-cols-2 gap-4 text-xs">
                   <div>
                     <div className="font-semibold mb-2">Evidence</div>
-                    {ev.evidencePaths.map((p, i) => (
-                      <div key={i} className="mb-1">
-                        <Link href={getEvidenceHref(p)} target="_blank" className="text-[var(--primary)] hover:underline font-mono truncate block">
-                          {p}
+                    {ev.evidence.map((item, i) => (
+                      <div key={i} className="mb-1 flex items-center gap-2">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded" style={{
+                          background: item.access === 'local_path' ? 'var(--warning)' :
+                                     item.access === 'public_url' ? 'var(--success)' :
+                                     item.access === 'repo_path' ? 'var(--primary)' : 'var(--text-muted)',
+                          color: ['local_path','public_url','repo_path'].includes(item.access) ? '#000' : 'inherit'
+                        }}>
+                          {ACCESS_LABELS[item.access]}
+                        </span>
+                        <Link href={item.href} target="_blank" className="text-[var(--primary)] hover:underline font-mono truncate block">
+                          {item.href}
                         </Link>
                       </div>
                     ))}
@@ -115,7 +124,7 @@ export default function SystemEvolution() {
                         {ev.graphSnapshotPath}
                       </Link>
                       <p className="mt-1 text-[var(--text-muted)]">
-                        Download JSON and open in Graph Explorer (future: inline viewer)
+                        Download JSON and explore in Nexus Graph (future: inline replay)
                       </p>
                     </div>
                   )}
@@ -133,7 +142,8 @@ export default function SystemEvolution() {
       )}
 
       <p className="mt-4 text-xs text-[var(--text-muted)]">
-        Events are extracted from lanes/broadcast/, evidence/graph-snapshots/, verification/ reports, and sovereignty scans.
+        Events are extracted from timestamped artifacts in <code className="px-1 py-0.5 bg-[var(--surface)] rounded">lanes/broadcast/</code>, <code className="px-1 py-0.5 bg-[var(--surface)] rounded">evidence/graph-snapshots/</code>, <code className="px-1 py-0.5 bg-[var(--surface)] rounded">evidence/verification/</code>, and <code className="px-1 py-0.5 bg-[var(--surface)] rounded">lanes/library/state/</code>.
+        Evidence paths are classified by accessibility: <span className="text-[var(--success)]">🌐 Public</span> (URL), <span className="text-[var(--primary)]">📁 Repo</span> (in-repo path), <span className="text-[var(--warning)]">💻 Local</span> (machine-specific path like <code>S:/...</code>), <span className="text-[var(--text-muted)]">📄 Metadata</span> (generated).
         Graph snapshots can be downloaded and replayed in the Nexus Graph (future feature).
       </p>
     </section>
