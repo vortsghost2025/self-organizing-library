@@ -1,6 +1,21 @@
-OUTPUT_PROVENANCE: agent: kilo-auto/free lane: library generated_at: 2026-05-05T00:00:00Z session_id: system-map-20260505
+OUTPUT_PROVENANCE: agent: kilo-auto/free lane: library generated_at: 2026-05-05T00:10:00Z session_id: system-map-20260505
 
 # SYSTEM_MAP — 4-Lane Constitutional Governance Lattice
+
+**Status:** `PARTIAL_CANONICAL_MAP`  
+**Scope:** Archivist-Agent, self-organizing-library, SwarmMind-Self-Optimizing-Multi-Agent-AI-System, kernel-lane  
+**Known limitations at time of generation:**
+- Heartbeat and inbox-watcher daemons were stopped (cross-lane coordination degraded)
+- SwarmMind key_id mismatch remains unresolved (requires lane-owner action)
+- `contradictions.json` requires Archivist adjudication (stale vs active conflicts)
+- Some S:/ paths are environment-specific and not externally reproducible without lane runtime
+
+**Next required authority:**
+- Archivist: adjudicate contradiction reconciliation, ratify trust-store updates
+- SwarmMind owner: regenerate keypair to match ratified trust-store entry
+- Library operator: restart heartbeat + inbox-watcher daemons, quarantine cleanup
+
+**Canonicalization note:** Authority numbers should be consolidated into a single machine-readable registry (e.g., `lanes/broadcast/lane-authority.json`) to avoid drift between `.session-mode`, `AGENTS.md`, and memory-bank. Current source-of-truth is `.session-mode v2.0.0`.
 
 **Scope:** Self-Organizing Library (Library Lane repository) + canonical references to Archivist-Agent, SwarmMind, and Kernel Lane  
 **Status:** Active (governance-sensitive identity conflicts pending ratification; see §7)  
