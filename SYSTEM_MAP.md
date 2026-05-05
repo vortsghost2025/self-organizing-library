@@ -253,7 +253,8 @@ The post-compact audit (`reports/post-compact-blocker-report-2026-05-03.md`) rep
 3. **About** — `/about` (project scope, 4-lane overview with authority numbers, external links)
 4. **Understanding The System** — Homepage accordion component (answers "What is this system?", "What do the 4 lanes do?", "How to read the dashboard?", "What is the Nexus Graph?", "Same system, different views", "For AI agents reading this") — this is the single most comprehensive on-page explanation
 5. **Sidebar exploration** — `/papers` (Rosetta Stone series), `/graph` (interactive Nexus Graph), `/governance` (lane liveness + blocker status), `/logs` (session + verification logs)
-6. **Repository documentation** (after cloning):
+6. **System Evolution** — Dashboard homepage timeline showing chronological governance events, graph snapshots, and verification milestones with evidence links
+7. **Repository documentation** (after cloning):
    - `README.md` — tech stack, install, dev commands, project overview
    - `AGENTS.md` — lane identity, git protocol, convergence gate, heartbeat, identity enforcement (for AI agents but human-readable)
    - `library/docs/specs/` — deeper implementation specs
@@ -475,6 +476,8 @@ npm run dev
 ## 14. Conclusion
 
 The system is a functioning 4-lane constitutional governance lattice with **evidence-based verification** as its core guarantee. It is currently operating in a **degraded but functional state**: lane-workers enforce schema and identity checks, but higher-orchestration daemons (inbox-watcher, heartbeat, act-daemon) are stopped. Governance-sensitive identity conflicts (Library authority level, SwarmMind key_id, trust-store divergence) block full ratification; Archivist intervention is required to clear these blockers.
+
+The dashboard now includes a **System Evolution** timeline (auto-generated from lanes/broadcast/ and evidence/ artifacts) that provides a narrative evidence interface: users can trace governance events, graph snapshots, verification drills, and state changes in chronological order. This turns the system from a static state view into a replayable audit trail.
 
 Cross-lane data movement is designed around **canonical S:/ paths** and **JWS-signed messages** with **Convergence Gate** proof. The web UI exposes a progressive discovery experience (Start Here → Graph → Papers). New contributors encounter a relatively gentle on-ramp but find no formal CONTRIBUTING guide; they must piece together architecture from dispersed docs (AGENTS.md, RECIPROCAL_ACCOUNTABILITY.md, Convergence Protocol, and the homepage's "Understanding The System").
 
