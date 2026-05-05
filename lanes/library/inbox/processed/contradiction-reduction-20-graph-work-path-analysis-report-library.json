@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "task_id": "contradiction-reduction-20-graph-work-path-analysis-report-library",
+  "idempotency_key": "f32c36e8b37fe7c862b369ca3b120acad0bf9edb78a1dace77bdd073f767479b",
+  "from": "library",
+  "to": "library",
+  "type": "task",
+  "task_kind": "amendment",
+  "priority": "P0",
+  "subject": "Task: Reduce contradictions for node [Library] - Graph Work-Path Analysis Report (rank 20)",
+  "body": "Node: Graph Work-Path Analysis Report\nRank: 20\nCurrent contradictionCount: 39\nTarget contradictionCount: 11\nDisposition: supersede\nEvidence path required: evidence/task-20-graph-work-path-analysis-report.md\nDue: 2026-05-10T19:59:23Z\nNote: node_id TBD-20 pending resolution from next snapshot.",
+  "timestamp": "2026-05-03T19:59:23Z",
+  "requires_action": true,
+  "payload": {
+    "mode": "inline",
+    "path": null,
+    "chunk": null
+  },
+  "execution": {
+    "mode": "manual",
+    "actor": "lane",
+    "engine": "opencode",
+    "session_id": null
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": "evidence/task-20-graph-work-path-analysis-report.md",
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-05-05T04:08:15.196Z"
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": "2026-05-05T04:08:15.196Z",
+    "timeout_seconds": 900,
+    "status": "done"
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "signature": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIxNTZkODc1NjUwNGVhMzIifQ.eyJleHAiOjE3NzgwMzQzMTMsImZyb20iOiJsaWJyYXJ5IiwiaWF0IjoxNzc3OTQ3OTEzLCJsYW5lIjoibGlicmFyeSIsInByaW9yaXR5IjoiUDAiLCJ0YXNrX2lkIjoiY29udHJhZGljdGlvbi1yZWR1Y3Rpb24tMjAtZ3JhcGgtd29yay1wYXRoLWFuYWx5c2lzLXJlcG9ydC1saWJyYXJ5IiwidGFza19raW5kIjoiYW1lbmRtZW50IiwidGltZXN0YW1wIjoiMjAyNi0wNS0wM1QxOTo1OToyM1oiLCJ0byI6ImxpYnJhcnkiLCJ0eXBlIjoidGFzayJ9.BpUCHdmgFSze5N9p-Ge08QV4uieBW_WkInwArtoKkHPFI0SnUG4OALtC3gMM_Te7mLNOKROJlfzsYeMewdLmrquyLxQ8UYAZLLzTH0X0eJifn2DOZC9bv_3tZXbsq31A63dAyrMa6qLOLwLeLS62pCQwEbGitlItN6EWnl9S5_aYda6zRZj3AgP59LBzaxNdwPt9Gmvp8aXi16SitHtWKeerTLZU6cL0ogfyBuJ2RAXaGtthhpVZ1Q9EghKTuDoBz6-ugM5PrCGLbqj4OpaSpZDL1l5AkcBOBArWTH86cnG5xcaQDBJmXLXomstbMaHaYTTNMS-1OOThc-moemGU3g",
+  "signature_alg": "RS256",
+  "key_id": "2156d8756504ea32"
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "task_id": "contradiction-reduction-19-three-lane-constitutional-ai-governance-system-complete-implementation-summary-library",
+  "idempotency_key": "3cbd30b3c473a6f063fddc5e42feffe4483aeced0fcf8a819bd37cadb7843585",
+  "from": "library",
+  "to": "library",
+  "type": "task",
+  "task_kind": "amendment",
+  "priority": "P0",
+  "subject": "Task: Reduce contradictions for node [Library] - Three-Lane Constitutional AI Governance System: Complete Implementation Summary (rank 19)",
+  "body": "Node: Three-Lane Constitutional AI Governance System: Complete Implementation Summary\nRank: 19\nCurrent contradictionCount: 39\nTarget contradictionCount: 11\nDisposition: supersede\nEvidence path required: evidence/task-19-three-lane-constitutional-ai-governance-system-complete-implementation-summary.md\nDue: 2026-05-10T19:59:23Z\nNote: node_id TBD-19 pending resolution from next snapshot.",
+  "timestamp": "2026-05-03T19:59:23Z",
+  "requires_action": true,
+  "payload": {
+    "mode": "inline",
+    "path": null,
+    "chunk": null
+  },
+  "execution": {
+    "mode": "manual",
+    "actor": "lane",
+    "engine": "opencode",
+    "session_id": null
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": "evidence/task-19-three-lane-constitutional-ai-governance-system-complete-implementation-summary.md",
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-05-05T04:08:15.191Z"
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": "2026-05-05T04:08:15.191Z",
+    "timeout_seconds": 900,
+    "status": "done"
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "signature": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIxNTZkODc1NjUwNGVhMzIifQ.eyJleHAiOjE3NzgwMzQzMTIsImZyb20iOiJsaWJyYXJ5IiwiaWF0IjoxNzc3OTQ3OTEyLCJsYW5lIjoibGlicmFyeSIsInByaW9yaXR5IjoiUDAiLCJ0YXNrX2lkIjoiY29udHJhZGljdGlvbi1yZWR1Y3Rpb24tMTktdGhyZWUtbGFuZS1jb25zdGl0dXRpb25hbC1haS1nb3Zlcm5hbmNlLXN5c3RlbS1jb21wbGV0ZS1pbXBsZW1lbnRhdGlvbi1zdW1tYXJ5LWxpYnJhcnkiLCJ0YXNrX2tpbmQiOiJhbWVuZG1lbnQiLCJ0aW1lc3RhbXAiOiIyMDI2LTA1LTAzVDE5OjU5OjIzWiIsInRvIjoibGlicmFyeSIsInR5cGUiOiJ0YXNrIn0.Xh6EjgUcQ_ukULu3_BPBg0JNSpfJwlGvYneQ7m9GO0nhjrpWN328Ay56bKChTBdSSVVSw7r1xSu2x3bFRlUSA9SytJ7XVmKMtcPE3dw1cKe04l6Ehefz3Jcr679qEw_aiYolv7lDXomxGIoqgvFFyoE8l0jI8_xezXFqcqeDUwV5ucDmbGkz1Q9lr3AE6j9hBGqPZbhdIZW0Al-Ph0E5ILTQF7rRcE9uFBVhgJ2lg025Ult4fo72WSwvHn4NBDtVe-t3AM8_McwB3tNtlMxxGnrJC3v0MO8vjxnCYQSFYyifYT2t5sr49PLwIxyCAT9pEjqABNYEols9Qgthl-i65g",
+  "signature_alg": "RS256",
+  "key_id": "2156d8756504ea32"
+}
