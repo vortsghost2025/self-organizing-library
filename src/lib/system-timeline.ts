@@ -173,6 +173,47 @@ export function collectTimelineEvents(limit = 20): TimelineEvent[] {
     }
   }
 
+  // 4. data/snapshots/ — site-index evolution events
+  const snapshotsDir = path.join(REPO_ROOT, 'data', 'snapshots');
+  if (fs.existsSync(snapshotsDir)) {
+    const snapFiles = fs.readdirSync(snapshotsDir)
+      .filter(f => f.endsWith('.json'))
+      .sort();
+    for (let i = 0; i < snapFiles.length; i++) {
+      const file = snapFiles[i];
+      const data = readJSONsafe(path.join(snapshotsDir, file));
+      if (!data) continue;
+      const dateStr = file.replace('.json', '');
+      const entryCount = data.entries?.length || 0;
+      const refCount = data.cross_references?.length || 0;
+      const tagCount = Object.keys(data.tag_index || {}).length;
+
+      let description = `Index: ${entryCount} entries, ${refCount} cross-refs, ${tagCount} tags`;
+
+      if (i > 0) {
+        const prevData = readJSONsafe(path.join(snapshotsDir, snapFiles[i - 1]));
+        if (prevData) {
+          const delta = entryCount - (prevData.entries?.length || 0);
+          const refDelta = refCount - (prevData.cross_references?.length || 0);
+          const sign = delta >= 0 ? '+' : '';
+          description += ` | ${sign}${delta} entries, ${refDelta >= 0 ? '+' : ''}${refDelta} refs vs ${snapFiles[i-1].replace('.json','')}`;
+        }
+      }
+
+      events.push({
+        id: `snapshot:${dateStr}`,
+        timestamp: data.generated_at || `${dateStr}T00:00:00Z`,
+        title: `Graph index snapshot: ${dateStr}`,
+        description,
+        lane: 'system',
+        type: 'graph',
+        evidence: [{ access: 'repo_path', label: 'Snapshot', href: `/data/snapshots/${file}`, path: `/data/snapshots/${file}` }],
+        graphSnapshotPath: file,
+        raw: { date: dateStr, entries: entryCount, cross_refs: refCount, tags: tagCount },
+      });
+    }
+  }
+
   events.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   return events.slice(0, limit);
 }
