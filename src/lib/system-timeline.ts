@@ -8,9 +8,14 @@ export interface TimelineEvent {
   description: string;
   lane: 'archivist' | 'library' | 'swarmmind' | 'kernel' | 'system';
   type: 'governance' | 'graph' | 'contradiction' | 'deployment' | 'verification';
-  evidencePaths: string[];
+  evidence: Array<{
+    path: string;
+    access: 'public_url' | 'repo_path' | 'local_path' | 'generated_metadata';
+    label?: string;
+    href: string;
+  }>;
   graphSnapshotPath?: string;
-  raw: any; // full artifact for detail pane
+  raw: any;
 }
 
 const REPO_ROOT = process.cwd();
@@ -24,13 +29,35 @@ function readJSONsafe(filepath: string): any {
 }
 
 /**
+ * Classify a filesystem path for public display.
+ */
+function classifyPath(p: string): { path: string; access: TimelineEvent['evidence'][0]['access']; label: string; href: string } {
+  if (!p) return { path: p, access: 'generated_metadata', label: 'Generated metadata', href: '#' };
+
+  // Absolute local machine path (S:/) — local-only
+  if (p.startsWith('S:/') || p.startsWith('C:/') || p.startsWith('/home/') || p.startsWith('/Users/')) {
+    return { path: p, access: 'local_path', label: 'Local source', href: p };
+  }
+
+  // Absolute URL
+  if (p.startsWith('http://') || p.startsWith('https://')) {
+    return { path: p, access: 'public_url', label: 'Public evidence', href: p };
+  }
+
+  // Repo-relative path (starts with / or is a bare relative)
+  if (p.startsWith('/')) {
+    return { path: p, access: 'repo_path', label: 'Repository path', href: p };
+  }
+  return { path: p, access: 'repo_path', label: 'Repository path', href: '/' + p };
+}
+
+/**
  * Collect timeline events from known artifact locations.
- * Priority: structured governance messages > snapshot manifests > reports.
  */
 export function collectTimelineEvents(limit = 20): TimelineEvent[] {
   const events: TimelineEvent[] = [];
 
-  // 1. lanes/broadcast/ — structured cross-lane messages with convergence gates
+  // 1. lanes/broadcast/ — structured cross-lane messages
   const broadcastDir = path.join(REPO_ROOT, 'lanes', 'broadcast');
   if (fs.existsSync(broadcastDir)) {
     for (const file of fs.readdirSync(broadcastDir).filter(f => f.endsWith('.json'))) {
@@ -40,25 +67,31 @@ export function collectTimelineEvents(limit = 20): TimelineEvent[] {
       const timestamp = data.timestamp || data.generated_at || data.created_at;
       if (!timestamp) continue;
 
-      const subject = data.subject || data.title || file;
-      const type = classifyEventType(data);
-      const lane = inferLane(data.from || data.lane || 'system');
+       const evidenceList = [] as TimelineEvent['evidence'];
+       if (data.evidence_path) {
+         evidenceList.push(classifyPath(data.evidence_path));
+       }
+       if (data.evidence_exchange?.artifact_path) {
+         evidenceList.push(classifyPath(data.evidence_exchange.artifact_path));
+       }
+       // fallback: the message file itself
+       evidenceList.push({ access: 'repo_path', label: 'Message file', href: `/lanes/broadcast/${file}`, path: `/lanes/broadcast/${file}` });
 
       events.push({
         id: data.task_id || file,
         timestamp,
-        title: subject,
+        title: data.subject || data.title || file,
         description: makeDescription(data),
-        lane,
-        type,
-        evidencePaths: [full],
+        lane: inferLane(data.from || data.lane || 'system'),
+        type: classifyEventType(data),
+        evidence: evidenceList,
         graphSnapshotPath: findRelatedSnapshot(data),
         raw: data,
       });
     }
   }
 
-  // 2. evidence/graph-snapshots/ — snapshot analysis events (high-signal structural changes)
+  // 2. evidence/graph-snapshots/ — snapshot analysis events
   const snapDir = path.join(REPO_ROOT, 'evidence', 'graph-snapshots');
   if (fs.existsSync(snapDir)) {
     const snapFiles = fs.readdirSync(snapDir)
@@ -72,17 +105,17 @@ export function collectTimelineEvents(limit = 20): TimelineEvent[] {
       const mtime = fs.statSync(full).mtime.toISOString();
       const timestamp = data.timestamp || data.generated_at || mtime;
 
-      events.push({
-        id: `snapshot:${file}`,
-        timestamp,
-        title: `Graph snapshot: ${file.split('-')[0]}`,
-        description: `Structural analysis — ${data.overview?.node_count || 'nodes'}, ${data.edge_type_counts?.['DERIVES_FROM'] || 0} DERIVES_FROM edges`,
-        lane: 'system',
-        type: 'graph',
-        evidencePaths: [full],
-        graphSnapshotPath: file.replace('-analysis.json', '-reduced.json'),
-        raw: data,
-      });
+       events.push({
+         id: `snapshot:${file}`,
+         timestamp,
+         title: `Graph snapshot analysis: ${file.replace('-analysis.json','').replace('-manifest','')}`,
+         description: `Structural analysis — nodes: ${data.overview?.node_count || 'N/A'}, edges: ${Object.values(data.edge_type_counts||{}).reduce((a: number, b: any) => a + (b as number), 0)}`,
+         lane: 'system',
+         type: 'graph',
+         evidence: [{ access: 'repo_path', label: 'Analysis file', href: `/evidence/graph-snapshots/${file}`, path: `/evidence/graph-snapshots/${file}` }],
+         graphSnapshotPath: file.replace('-analysis.json', '-reduced.json'),
+         raw: data,
+       });
     }
   }
 
@@ -100,16 +133,16 @@ export function collectTimelineEvents(limit = 20): TimelineEvent[] {
       if (!data) continue;
       const timestamp = data.generated_at || fs.statSync(full).mtime.toISOString();
 
-      events.push({
-        id: `verify:${file}`,
-        timestamp,
-        title: `Verification drill: ${file.replace('.json','')}`,
-        description: makeVerificationDescription(data),
-        lane: 'library',
-        type: 'verification',
-        evidencePaths: [full],
-        raw: data,
-      });
+       events.push({
+         id: `verify:${file}`,
+         timestamp,
+         title: `Verification drill: ${file.replace('.json','')}`,
+         description: makeVerificationDescription(data),
+         lane: 'library',
+         type: 'verification',
+         evidence: [{ access: 'repo_path', label: 'Report', href: `/evidence/verification/${file}`, path: `/evidence/verification/${file}` }],
+         raw: data,
+       });
     }
   }
 
@@ -127,20 +160,19 @@ export function collectTimelineEvents(limit = 20): TimelineEvent[] {
       if (!data) continue;
       const timestamp = data.generated_at || data.timestamp || fs.statSync(full).mtime.toISOString();
 
-      events.push({
-        id: `sov:${file}`,
-        timestamp,
-        title: 'Sovereignty scan — no violations',
-        description: `All lanes scanned: ${data.scan_summary?.lanes_clean || 'clean'} (0 violations)`,
-        lane: 'library',
-        type: 'governance',
-        evidencePaths: [full],
-        raw: data,
-      });
+       events.push({
+         id: `sov:${file}`,
+         timestamp,
+         title: 'Sovereignty scan — no violations',
+         description: `All lanes scanned clean (0 violations)`,
+         lane: 'library',
+         type: 'governance',
+         evidence: [{ access: 'repo_path', label: 'Scan report', href: `/lanes/library/state/${file}`, path: `/lanes/library/state/${file}` }],
+         raw: data,
+       });
     }
   }
 
-  // Sort descending by timestamp, limit, return
   events.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   return events.slice(0, limit);
 }
@@ -178,7 +210,6 @@ function makeVerificationDescription(data: any): string {
 }
 
 function findRelatedSnapshot(data: any): string | undefined {
-  // If the message references a graph snapshot in evidence_path
   const ep = data.evidence_path || data.evidence_exchange?.artifact_path;
   if (ep && typeof ep === 'string' && ep.includes('graph-snapshot')) {
     const base = path.basename(ep);
