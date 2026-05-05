@@ -376,11 +376,11 @@ this._loadTrustStore();
       payload = JSON.parse(fs.readFileSync(approvalPath, 'utf8'));
     }
 
-    const approvals = IdentityEnforcer._extractConvergedApprovals(payload);
-    if (approvals.length < 3) {
-      const lanes = approvals.map(a => a.lane).join(', ') || 'none';
-      throw new Error(`TRUST_STORE_WRITE_BLOCKED: requires 3-lane convergence with signatures, got ${approvals.length} (${lanes})`);
-    }
+     const approvals = IdentityEnforcer._extractConvergedApprovals(payload);
+     if (approvals.length < 3) {
+       const lanes = approvals.map(a => a.lane).join(', ') || 'none';
+       throw new Error(`TRUST_STORE_WRITE_BLOCKED: requires 3-out-of-4 lane convergence with signatures, got ${approvals.length} (${lanes})`);
+     }
     return { ok: true, approvals };
   }
 
