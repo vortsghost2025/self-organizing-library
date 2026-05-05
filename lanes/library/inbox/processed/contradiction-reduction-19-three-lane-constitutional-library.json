@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "task_id": "contradiction-reduction-19-three-lane-constitutional-library",
+  "idempotency_key": "3cbd30b3c473a6f063fddc5e42feffe4483aeced0fcf8a819bd37cadb7843585",
+  "from": "library",
+  "to": "library",
+  "type": "task",
+  "task_kind": "amendment",
+  "priority": "P0",
+  "subject": "Task: Reduce contradictions for node [Library] - Three-Lane Constitutional AI Governance System: Complete Implementation Summary (rank 19)",
+  "body": "Node: Three-Lane Constitutional AI Governance System: Complete Implementation Summary\nRank: 19\nCurrent contradictionCount: 39\nTarget contradictionCount: 11\nDisposition: supersede\nEvidence path required: evidence/task-19-three-lane-constitutional-ai-governance-system-complete-implementation-summary.md\nDue: 2026-05-10T19:59:23Z\nNote: node_id TBD-19 pending resolution from next snapshot.",
+  "timestamp": "2026-05-03T19:59:23Z",
+  "requires_action": true,
+  "payload": {
+    "mode": "inline",
+    "path": null,
+    "chunk": null
+  },
+  "execution": {
+    "mode": "manual",
+    "actor": "lane",
+    "engine": "opencode",
+    "session_id": null
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": "evidence/task-19-three-lane-constitutional-ai-governance-system-complete-implementation-summary.md",
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-05-05T04:08:15.191Z"
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": "2026-05-05T04:08:15.191Z",
+    "timeout_seconds": 900,
+    "status": "done"
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "signature": "",
+  "signature_alg": null,
+  "key_id": "",
+  "_lane_worker": {
+    "lane": "library",
+    "routed_at": "2026-05-05T07:42:32.726Z",
+    "dry_run": false,
+    "route": "blocked",
+    "reason": "EVIDENCE_REQUIRED_NO_ARTIFACT",
+    "detail": "evidence.required=true but no evidence_exchange.artifact_path provided",
+    "schema_valid": true,
+    "signature_valid": true,
+    "schema_remediation": null,
+    "english_only": true,
+    "execution_verified": false,
+    "would_verify": false,
+    "enforce_ownership": false,
+    "ownership_enforcement_enabled": false,
+    "ownership": {
+      "present": false,
+      "malformed": false
+    },
+    "ownership_notes": [
+      "OWNERSHIP_MISSING"
+    ],
+    "domain_gate_executed": false,
+    "verification_outcome": null,
+    "domain_validation": null,
+    "verification_path": null,
+    "session_identity": {
+      "session_id": "sess_mos3zm41_156655",
+      "session_epoch_started_at": "2026-05-05T04:08:59.569Z",
+      "origin_runtime": "opencode",
+      "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+    },
+    "output_provenance": {
+      "agent": "lane-worker-156655",
+      "lane": "library",
+      "generated_at": "2026-05-05T07:42:32.727Z",
+      "session_id": "sess_mos3zm41_156655"
+    }
+  }
+}

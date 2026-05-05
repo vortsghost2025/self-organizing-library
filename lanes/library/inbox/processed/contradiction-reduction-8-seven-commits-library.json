@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "task_id": "contradiction-reduction-8-seven-commits-library",
+  "idempotency_key": "5007f666f8e029efd0c1bf826f2b0ac95ce1d93dbc06d5666f326b68c5c0f17c",
+  "from": "library",
+  "to": "library",
+  "type": "task",
+  "task_kind": "amendment",
+  "priority": "P0",
+  "subject": "Task: Reduce contradictions for node [Library] - Seven Commits, One Day: From I Don't Know What I Am to System-Wide Validation (rank 8)",
+  "body": "Node: Seven Commits, One Day: From I Don't Know What I Am to System-Wide Validation\nRank: 8\nCurrent contradictionCount: 42\nTarget contradictionCount: 12\nDisposition: retain\nEvidence path required: evidence/task-8-seven-commits-one-day-from-i-don-t-know-what-i-am-to-system-wide-validation.md\nDue: 2026-05-10T19:59:23Z\nNote: node_id TBD-8 pending resolution from next snapshot.",
+  "timestamp": "2026-05-03T19:59:23Z",
+  "requires_action": true,
+  "payload": {
+    "mode": "inline",
+    "path": null,
+    "chunk": null
+  },
+  "execution": {
+    "mode": "manual",
+    "actor": "lane",
+    "engine": "opencode",
+    "session_id": null
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": "evidence/task-8-seven-commits-one-day-from-i-don-t-know-what-i-am-to-system-wide-validation.md",
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-05-05T04:08:15.198Z"
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": "2026-05-05T04:08:15.198Z",
+    "timeout_seconds": 900,
+    "status": "done"
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "signature": "",
+  "signature_alg": null,
+  "key_id": "",
+  "_lane_worker": {
+    "lane": "library",
+    "routed_at": "2026-05-05T07:41:52.683Z",
+    "dry_run": false,
+    "route": "blocked",
+    "reason": "EVIDENCE_REQUIRED_NO_ARTIFACT",
+    "detail": "evidence.required=true but no evidence_exchange.artifact_path provided",
+    "schema_valid": true,
+    "signature_valid": true,
+    "schema_remediation": null,
+    "english_only": true,
+    "execution_verified": false,
+    "would_verify": false,
+    "enforce_ownership": false,
+    "ownership_enforcement_enabled": false,
+    "ownership": {
+      "present": false,
+      "malformed": false
+    },
+    "ownership_notes": [
+      "OWNERSHIP_MISSING"
+    ],
+    "domain_gate_executed": false,
+    "verification_outcome": null,
+    "domain_validation": null,
+    "verification_path": null,
+    "session_identity": {
+      "session_id": "sess_mos3zm41_156655",
+      "session_epoch_started_at": "2026-05-05T04:08:59.569Z",
+      "origin_runtime": "opencode",
+      "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+    },
+    "output_provenance": {
+      "agent": "lane-worker-156655",
+      "lane": "library",
+      "generated_at": "2026-05-05T07:41:52.683Z",
+      "session_id": "sess_mos3zm41_156655"
+    }
+  }
+}

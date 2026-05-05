@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "task_id": "contradiction-reduction-8-seven-commits-one-day-from-i-don-t-know-what-i-am-to-system-wide-validation-library",
+  "idempotency_key": "5007f666f8e029efd0c1bf826f2b0ac95ce1d93dbc06d5666f326b68c5c0f17c",
+  "from": "library",
+  "to": "library",
+  "type": "task",
+  "task_kind": "amendment",
+  "priority": "P0",
+  "subject": "Task: Reduce contradictions for node [Library] - Seven Commits, One Day: From \"I Don't Know What I Am\" to System-Wide Validation (rank 8)",
+  "body": "Node: Seven Commits, One Day: From \"I Don't Know What I Am\" to System-Wide Validation\nRank: 8\nCurrent contradictionCount: 42\nTarget contradictionCount: 12\nDisposition: retain\nEvidence path required: evidence/task-8-seven-commits-one-day-from-i-don-t-know-what-i-am-to-system-wide-validation.md\nDue: 2026-05-10T19:59:23Z\nNote: node_id TBD-8 pending resolution from next snapshot.",
+  "timestamp": "2026-05-03T19:59:23Z",
+  "requires_action": true,
+  "payload": {
+    "mode": "inline",
+    "path": null,
+    "chunk": null
+  },
+  "execution": {
+    "mode": "manual",
+    "actor": "lane",
+    "engine": "opencode",
+    "session_id": null
+  },
+  "lease": {
+    "owner": null,
+    "acquired_at": null,
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": "evidence/task-8-seven-commits-one-day-from-i-don-t-know-what-i-am-to-system-wide-validation.md",
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-05-05T04:08:15.198Z"
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": "2026-05-05T04:08:15.198Z",
+    "timeout_seconds": 900,
+    "status": "done"
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "signature": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIxNTZkODc1NjUwNGVhMzIifQ.eyJleHAiOjE3NzgwMzQzMTQsImZyb20iOiJsaWJyYXJ5IiwiaWF0IjoxNzc3OTQ3OTE0LCJsYW5lIjoibGlicmFyeSIsInByaW9yaXR5IjoiUDAiLCJ0YXNrX2lkIjoiY29udHJhZGljdGlvbi1yZWR1Y3Rpb24tOC1zZXZlbi1jb21taXRzLW9uZS1kYXktZnJvbS1pLWRvbi10LWtub3ctd2hhdC1pLWFtLXRvLXN5c3RlbS13aWRlLXZhbGlkYXRpb24tbGlicmFyeSIsInRhc2tfa2luZCI6ImFtZW5kbWVudCIsInRpbWVzdGFtcCI6IjIwMjYtMDUtMDNUMTk6NTk6MjNaIiwidG8iOiJsaWJyYXJ5IiwidHlwZSI6InRhc2sifQ.bfU2xHKy5BBCyt3X08W0MIRo2BaO7sSnsa5PWXt_KcdfWrcMvU_QV0e6SWxbxojwdiRvT1T_dvp_olJt8782M3rWhZ6JnTs5FW5ohwfV-qA8Y4tatmjIoydz04PbyEoW3NezzaATaHJeqtwiFxVG3OASM_etg7LVoBzNX8YwQMjv-eJifH8lwq4EX3AW8TG2BS9c9K5bDOE2JurNjczLRS62Co3LbuJ1j4AwzaX_PdXyr-nWpAjlANfBVMAFZX1F_XIm4S1ARrYvz_Xta3yN1GG4v4j-oWdq5oi_WPe7BmFEXTlfki0yXsIzauMAMSSo9IguBBehRscnvgRd3CK1tw",
+  "signature_alg": "RS256",
+  "key_id": "2156d8756504ea32"
+}
