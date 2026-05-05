@@ -100,8 +100,8 @@ ALSO WRITE urgent_{id}.json to target canonical inbox
 ## Library Lane Identity
 
 ### Position and Authority
-- **Position:** 2
-- **Authority:** 90
+- **Position:** 3
+- **Authority:** 60
 - **Role:** verification-and-enforcement-lane
 - **Capabilities:** can_govern: false
 
