@@ -950,13 +950,24 @@ function main() {
     process.exit(2);
   }
 
-  fs.writeFileSync(outputPath, JSON.stringify(index, null, 2));
-  writeSeal(outputPath, index, 'generate-site-index', ADJUDICATION_PATH);
-  console.log(`\nIndex written to ${outputPath}`);
-  console.log(`  ${allEntries.length} entries`);
-  console.log(`  ${Object.keys(tagIndex).length} unique tags`);
-  console.log(`  ${crossRefs.length} cross-references`);
-  console.log(`  ${repoStats.total_size_bytes.toLocaleString()} total bytes`);
+fs.writeFileSync(outputPath, JSON.stringify(index, null, 2));
+writeSeal(outputPath, index, 'generate-site-index', ADJUDICATION_PATH);
+console.log(`\nIndex written to ${outputPath}`);
+console.log(` ${allEntries.length} entries`);
+console.log(` ${Object.keys(tagIndex).length} unique tags`);
+console.log(` ${crossRefs.length} cross-references`);
+console.log(` ${repoStats.total_size_bytes.toLocaleString()} total bytes`);
+
+const snapshotDir = path.join(discovery.getLocalPath('library'), 'data', 'snapshots');
+if (!fs.existsSync(snapshotDir)) fs.mkdirSync(snapshotDir, { recursive: true });
+const snapshotDate = new Date().toISOString().slice(0, 10);
+const snapshotPath = path.join(snapshotDir, `${snapshotDate}.json`);
+if (!fs.existsSync(snapshotPath)) {
+  fs.writeFileSync(snapshotPath, JSON.stringify(index, null, 2));
+  console.log(`Snapshot saved to ${snapshotPath}`);
+} else {
+  console.log(`Snapshot already exists for ${snapshotDate}, skipping`);
+}
 
   const summaryPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index-summary.json');
   const summary = {
