@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
 import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
+import SystemEvolution from "@/components/SystemEvolution";
 
 export default async function Dashboard() {
   // Strict defaults per exterior-synthesis directive
@@ -11,7 +12,7 @@ export default async function Dashboard() {
   return (
     <div className="p-8" data-pagefind-body>
       {/* BUILD MARKER — deployment verification */}
-      <div id="build-marker" style={{background:'#000',color:'#0f0',padding:'8px 16px',fontFamily:'monospace',fontSize:'14px',textAlign:'center',letterSpacing:'1px'}}>BUILD_MARKER_2026_05_03</div>
+      <div id="build-marker" style={{background:'#000',color:'#0f0',padding:'8px 16px',fontFamily:'monospace',fontSize:'14px',textAlign:'center',letterSpacing:'1px'}}>BUILD_MARKER_2026_05_05</div>
 
       {/* HERO — top of page, clear and dominant */}
       <HeroSection
@@ -19,6 +20,7 @@ export default async function Dashboard() {
         tagline={heroTagline}
       />
       <HomeSystemStateStrip />
+      <SystemEvolution />
 
       {/* HOW IT WORKS — 3 steps, plain English only */}
       <div className="card p-6 mb-12 animate-fade-in">
