@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "task_id": "library-key-ratification",
+  "idempotency_key": "c5423f36603e1491-20260505025000-library-ratify",
+  "from": "library",
+  "to": "archivist",
+  "type": "ratification",
+  "task_kind": "proposal",
+  "priority": "P0",
+  "subject": "Library key rotation ratification: c5423f36603e1491",
+  "body": "Library lane confirms key rotation completed. Old key 2eec06be0befc8d5 revoked, new key c5423f36603e1491 active in trust store and identity snapshot. All P0 contradiction-reduction artifacts verified. One-Blocker Rule enforced with active-blocker.json. Recovery verdict PROVEN. Requesting archivist acknowledgement and closure of contradiction-reduction-2 task.",
+  "timestamp": "2026-05-05T02:50:00Z",
+  "requires_action": true,
+  "payload": {
+    "key_id": "c5423f36603e1491",
+    "previous_key_id": "2eec06be0befc8d5",
+    "revoked_at": "2026-05-05T01:50:00Z",
+    "registered_at": "2026-05-05T01:50:00Z",
+    "recovery_verdict": "PROVEN",
+    "contradiction_task": "contradiction-reduction-2"
+  },
+  "execution": {
+    "mode": "manual",
+    "actor": "library",
+    "engine": "canonical"
+  },
+  "signature": "",
+  "key_id": "c5423f36603e1491"
+}
