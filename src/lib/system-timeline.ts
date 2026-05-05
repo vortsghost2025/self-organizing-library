@@ -250,6 +250,19 @@ function makeVerificationDescription(data: any): string {
   return `Drill ${passed ? 'passed' : 'failed'}: ${total} tests, ${passed ? 'no findings' : 'issues detected'}`;
 }
 
+export function collectSnapshotDiffs(): any[] {
+  const diffDir = path.join(REPO_ROOT, 'data', 'snapshot-diffs');
+  if (!fs.existsSync(diffDir)) return [];
+  const files = fs.readdirSync(diffDir).filter(f => f.endsWith('.json')).sort();
+  const diffs: any[] = [];
+  for (const file of files.slice(-10)) {
+    const data = readJSONsafe(path.join(diffDir, file));
+    if (!data) continue;
+    diffs.push(data);
+  }
+  return diffs;
+}
+
 function findRelatedSnapshot(data: any): string | undefined {
   const ep = data.evidence_path || data.evidence_exchange?.artifact_path;
   if (ep && typeof ep === 'string' && ep.includes('graph-snapshot')) {
