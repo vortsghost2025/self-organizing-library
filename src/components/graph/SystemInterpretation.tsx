@@ -51,9 +51,10 @@ export default function SystemInterpretation({
           <div className="text-2xl font-bold text-[var(--text-primary)]">{loading ? "..." : visibleNodeCount}</div>
           <div className="text-sm text-[var(--text-muted)]">Total Nodes</div>
         </div>
-        <div>
-          <div className="text-2xl font-bold text-[var(--error)]">{loading ? "..." : conflictedCount}</div>
-          <div className="text-sm text-[var(--text-muted)]">Active Contradictions</div>
+      <div>
+        <div className="text-2xl font-bold text-[var(--error)]">{loading ? "..." : conflictedCount}</div>
+        <div className="text-sm text-[var(--text-muted)]">Active Contradictions</div>
+        <div className="text-xs text-[var(--text-muted)]">in current filtered view</div>
         </div>
         <div>
           <div className="text-2xl font-bold text-[var(--warning)]">{loading ? "..." : quarantinedCount}</div>
@@ -67,8 +68,9 @@ export default function SystemInterpretation({
       <p className="text-sm text-[var(--text-secondary)]">
         Current focus: <strong>{loading ? "Loading..." : primaryInstability ? primaryInstability.title : "No active instability"}</strong>
         {!loading && primaryInstability ? ` (${primaryInstability.contradictionCount} contradictions — highest priority)` : ''}.
-        {!loading ? ` ${modeDescription}` : ''}
-      </p>
+    {!loading ? ` ${modeDescription}` : ''}
+    {!loading && viewModeLabel === "TRUSTED CORE" ? ' Historical snapshot diffs may report higher contradiction counts — those describe transition events between saved snapshots, not the current live view.' : ''}
+    </p>
     </section>
   );
 }

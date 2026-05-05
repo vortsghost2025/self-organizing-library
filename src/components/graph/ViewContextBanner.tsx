@@ -65,6 +65,11 @@ export default function ViewContextBanner({
           <p className="text-sm text-[var(--text-secondary)] mb-2">
             {info.explanation} {info.suggestion}
           </p>
+          {(mode === "understand" && (contradictions === 0)) && (
+            <p className="text-xs text-[var(--text-muted)] mb-1">
+              0 active contradictions in this filtered view. Snapshot diffs may report historical contradiction counts — those describe transition events between saved snapshots, not the current live graph state.
+            </p>
+          )}
           {filterLabel && (
             <p className="text-xs text-[var(--text-muted)]">
               Active filter: <span className="font-mono px-1.5 py-0.5 rounded bg-[var(--surface)]">{filterLabel}</span>
