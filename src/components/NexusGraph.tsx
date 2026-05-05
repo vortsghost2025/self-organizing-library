@@ -681,15 +681,13 @@ const handleCompareSnapshots = useCallback(() => {
                <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Start Here</h3>
                <div className="card p-2">
                  <EntryPoints
-                   entryPoints={entryPoints.filter(ep => {
-                     // Always include the two curated entry points
-                     if (ep.id === "ep:authority" || ep.id === "ep:gov-core") return true;
-                     // When a repo filter is active in understand mode, show that repo's cluster
-                     if (filterMode === "repo" && filter !== "all" && ep.id === `ep:repo:${filter}`) {
-                       return true;
-                     }
-                     return false;
-                   })}
+              entryPoints={entryPoints.filter(ep => {
+                if (ep.id === "ep:authority" || ep.id === "ep:gov-core" || ep.id === "ep:all-verified") return true;
+                if (filterMode === "repo" && filter !== "all" && ep.id === `ep:repo:${filter}`) {
+                  return true;
+                }
+                return false;
+              })}
                    activeEntryPoint={activeEntryPoint}
                    onSelect={setActiveEntryPoint}
                  />

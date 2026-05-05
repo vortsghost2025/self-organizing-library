@@ -20,10 +20,9 @@ interface GraphToolbarProps {
 const TYPE_FILTERS = [
   { key: "all", label: "All", color: "#F4F4F5" },
   { key: "doc", label: "Docs", color: TYPE_COLORS.doc },
-  { key: "paper", label: "Papers", color: TYPE_COLORS.paper },
-  { key: "code", label: "Code", color: TYPE_COLORS.code },
+  { key: "config", label: "Config", color: TYPE_COLORS.config },
   { key: "data", label: "Data", color: TYPE_COLORS.data },
-  { key: "schema", label: "Schema", color: TYPE_COLORS.schema },
+  { key: "test-data", label: "Test Data", color: TYPE_COLORS["test-data"] },
 ];
 
 const REPO_FILTERS = [

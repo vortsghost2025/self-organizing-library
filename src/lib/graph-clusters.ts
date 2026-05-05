@@ -66,15 +66,25 @@ export function computeEntryPoints(
   const entryPoints: EntryPoint[] = [];
 
   const topAuthority = [...nodes]
-    .filter((n) => n.verificationCount >= 3)
-    .sort((a, b) => b.verificationCount - a.verificationCount)
-    .slice(0, 30);
+    .filter((n) => n.status === "VERIFIED" && (n.verificationCount >= 2 || n.authorityDepth >= 50))
+    .sort((a, b) => (b.verificationCount + b.authorityDepth / 25) - (a.verificationCount + a.authorityDepth / 25))
+    .slice(0, 60);
   entryPoints.push({
     id: "ep:authority",
     label: "Top Authority",
-    description: `${topAuthority.length} most-verified nodes`,
+    description: `${topAuthority.length} verified high-authority nodes`,
     nodeIds: topAuthority.map((n) => n.id),
     icon: "\u2713",
+    kind: "authority",
+  });
+
+  const allVerified = nodes.filter((n) => n.status === "VERIFIED");
+  entryPoints.push({
+    id: "ep:all-verified",
+    label: "All Verified",
+    description: `${allVerified.length} verified nodes across all repos`,
+    nodeIds: allVerified.map((n) => n.id),
+    icon: "\u2714",
     kind: "authority",
   });
 
