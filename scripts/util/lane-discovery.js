@@ -3,15 +3,26 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 const REGISTRY_PATH = path.join(__dirname, '..', '..', 'config', 'lane-registry.json');
 
+const isWin32 = process.platform === 'win32';
+const UBUNTU_ROOT = path.join(os.homedir(), 'agent', 'repos');
+
+function _resolvePath(winPath) {
+  if (isWin32) return winPath;
+  const match = winPath.match(/^S:\/(.+)$/);
+  if (!match) return winPath;
+  return path.join(UBUNTU_ROOT, match[1]);
+}
+
 const _DRIVE = 'S:/';
 const _DIRS = {
-  archivist: _DRIVE + 'Archivist-Agent',
-  kernel: _DRIVE + 'kernel-lane',
-  swarmmind: _DRIVE + 'SwarmMind',
-  library: _DRIVE + 'self-organizing-library',
+  archivist: _resolvePath(_DRIVE + 'Archivist-Agent'),
+  kernel: _resolvePath(_DRIVE + 'kernel-lane'),
+  swarmmind: _resolvePath(_DRIVE + 'SwarmMind'),
+  library: _resolvePath(_DRIVE + 'self-organizing-library'),
 };
 const _MAILBOX_SUB = (laneId) => `/lanes/${laneId}/`;
 const _MAILBOXES = (root, laneId) => {

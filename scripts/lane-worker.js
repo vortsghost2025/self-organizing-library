@@ -754,10 +754,11 @@ processFile(filePath) {
     };
   }
 
-  if (msg._lane_worker && msg._lane_worker.session_identity &&
-      msg._lane_worker.session_identity.session_id &&
-      msg._lane_worker.session_identity.session_id !== SESSION_ID) {
-    if (!msg.allow_cross_instance && msg.requires_action === true) {
+      const isSelfMessage = msg.from === this.lane && msg.to === this.lane;
+      if (!isSelfMessage && msg._lane_worker && msg._lane_worker.session_identity && 
+          msg._lane_worker.session_identity.session_id && 
+          msg._lane_worker.session_identity.session_id !== SESSION_ID) {
+        if (!msg.allow_cross_instance && msg.requires_action === true) {
       const staleDir = this.config.queues.staleForeign || path.join(path.dirname(filePath), 'stale-foreign');
       if (!fs.existsSync(staleDir)) fs.mkdirSync(staleDir, { recursive: true });
       const sfPath = uniquePath(path.join(staleDir, filename));

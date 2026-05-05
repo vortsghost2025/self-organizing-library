@@ -4,7 +4,7 @@ import { collectTimelineEvents } from '@/lib/system-timeline';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const limit = parseInt(searchParams.get('limit') || '20', 10);
-  const type = searchParams.get('type'); // optional filter
+  const type = searchParams.get('type');
 
   try {
     let events = collectTimelineEvents(limit);
