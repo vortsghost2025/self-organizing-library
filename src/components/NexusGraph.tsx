@@ -21,7 +21,9 @@ import NodeDetail from "./graph/NodeDetail";
  import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
  import type { GraphSnapshot } from "@/lib/graph-snapshot";
  import { compareSnapshots } from "@/lib/graph-snapshot-compare";
- import SystemInterpretation from "./graph/SystemInterpretation";
+  import SystemInterpretation from "./graph/SystemInterpretation";
+  import ViewContextBanner from "./graph/ViewContextBanner";
+  import GraphInterpretationGuide from "./graph/GraphInterpretationGuide";
 
 interface NexusGraphProps {
   initialMode?: GraphMode;
@@ -64,6 +66,37 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
    const [cameraRatio, setCameraRatio] = useState(1);
    const [webglUnavailable, setWebglUnavailable] = useState(false);
    const [nodeLimit, setNodeLimit] = useState<number | null>(null);
+
+   // Derived UI state
+   const filterLabel = useMemo(() => {
+     if (activeEntryPoint) {
+       const ep = entryPoints.find(e => e.id === activeEntryPoint);
+       return ep ? ep.label : activeEntryPoint;
+     }
+     if (activeClusterId) {
+       const c = clusters.find(cl => cl.id === activeClusterId);
+       return c ? c.label : activeClusterId;
+     }
+     if (filterMode === "repo" && filter !== "all") return `repository: ${filter}`;
+     if (filterMode === "type" && filter !== "all") return `type: ${filter}`;
+     return "none (full system)";
+   }, [activeEntryPoint, activeClusterId, filterMode, filter, entryPoints, clusters]);
+
+   const focusNodeTitle = useMemo(() => {
+     if (activeEntryPoint) {
+       const ep = entryPoints.find(e => e.id === activeEntryPoint);
+       return ep ? ep.label : null;
+     }
+     if (activeClusterId) {
+       const c = clusters.find(cl => cl.id === activeClusterId);
+       return c ? c.label : null;
+     }
+     if (focusedNodeId) {
+       const n = nodes.find(n => n.id === focusedNodeId);
+       return n ? n.title : null;
+     }
+     return null;
+   }, [activeEntryPoint, activeClusterId, focusedNodeId, entryPoints, clusters, nodes]);
 
    const graphRef = useRef<Graph | null>(null);
    const sigmaRef = useRef<Sigma | null>(null);
@@ -539,10 +572,21 @@ const handleCompareSnapshots = useCallback(() => {
          </div>
        </div>
 
-       <div className="mb-4">
-         <ModeSelector mode={graphMode} onChange={setGraphMode} />
-       </div>
-       {graphMode === "full" && (
+        <div className="mb-4">
+          <ModeSelector mode={graphMode} onChange={setGraphMode} />
+        </div>
+
+        {/* Interpretation banner — plain-language view summary */}
+        <ViewContextBanner
+          mode={graphMode}
+          visibleCount={displayedNodes.length}
+          totalNodes={nodes.length}
+          statusCounts={statusCounts}
+          focusNodeTitle={focusNodeTitle}
+          filterLabel={filterLabel}
+        />
+
+        {graphMode === "full" && (
          <div className="mb-4 text-sm text-amber-400 flex items-center gap-2" role="alert">
            <span aria-hidden="true">⚠</span>
            <span>Advanced Mode: Full system state (high density, may be noisy)</span>
@@ -690,33 +734,36 @@ const handleCompareSnapshots = useCallback(() => {
                 ) : filteredNodes.length === 0 && !webglUnavailable ? (
                 <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
-<GraphCanvas
-                   nodes={filteredNodes}
-                   edges={edges}
-                   clusters={clusters}
-                   hoveredNodeId={hoveredNodeId}
-                   selectedNodeId={selectedNodeId}
-                   focusedNodeId={focusedNodeId}
-                   pathNodes={pathNodes}
-                   pathEdges={pathEdges}
-                   pathSource={pathSource}
-                   pathTarget={pathTarget}
-                   activeLayers={activeLayers}
-                   density={density}
-                   activeEntryPoint={activeEntryPoint}
-                   activeClusterId={activeClusterId}
-                   searchQuery={searchQuery}
-                   filterMode={filterMode}
-                   filter={filter}
-                   visibleCount={visibleCount}
-                   coreNodeIds={Array.from(coreNodeIds)}
-                   onNodeClick={handleNodeClick}
-                   onNodeHover={handleNodeHover}
-                   onStageClick={handleStageClick}
-                   onCameraUpdate={handleCameraUpdate}
-                   onGraphReady={handleGraphReady}
+         <GraphCanvas
+           nodes={displayedNodes}
+           edges={edges}
+           clusters={clusters}
+           hoveredNodeId={hoveredNodeId}
+           selectedNodeId={selectedNodeId}
+           focusedNodeId={focusedNodeId}
+           pathNodes={pathNodes}
+           pathEdges={pathEdges}
+           pathSource={pathSource}
+           pathTarget={pathTarget}
+           activeLayers={activeLayers}
+           density={density}
+           activeEntryPoint={activeEntryPoint}
+           activeClusterId={activeClusterId}
+           searchQuery={searchQuery}
+           filterMode={filterMode}
+           filter={filter}
+           visibleCount={displayedNodes.length}
+           coreNodeIds={Array.from(coreNodeIds)}
+           onNodeClick={handleFocusNode}
+           onNodeHover={setHoveredNodeId}
+           onStageClick={handleStageClick}
+           onCameraUpdate={setCameraRatio}
+           onGraphReady={(g, s) => {
+             graphRef.current = g;
+             sigmaRef.current = s;
+           }}
            onWebGLUnavailable={() => setWebglUnavailable(true)}
-                 />
+         />
               )}
               <GraphContextPanel
                 nodeCount={filteredNodes.length}
@@ -738,18 +785,30 @@ const handleCompareSnapshots = useCallback(() => {
             </div>
           </div>
 
-          {selectedNode && (
-            <NodeDetail
-              node={selectedNode}
-              interactionMode={focusedNodeId ? "focus" : pathSource ? "path" : "entry"}
-              focusedNodeId={focusedNodeId}
-              pathSource={pathSource}
-              pathTarget={pathTarget}
-              onFocusNode={handleFocusNode}
-              onTracePath={handleTracePath}
-              onClose={handleStageClick}
-            />
-          )}
+          {/* Right sidebar: node detail OR interpretation guide */}
+          <aside className="w-80 flex-shrink-0">
+            {selectedNode ? (
+              <NodeDetail
+                node={selectedNode}
+                interactionMode={focusedNodeId ? "focus" : pathSource ? "path" : "entry"}
+                focusedNodeId={focusedNodeId}
+                pathSource={pathSource}
+                pathTarget={pathTarget}
+                onFocusNode={handleFocusNode}
+                onTracePath={handleTracePath}
+                onClose={handleStageClick}
+              />
+            ) : (
+              <GraphInterpretationGuide
+                mode={graphMode}
+                visibleCount={displayedNodes.length}
+                totalNodes={nodes.length}
+                statusCounts={statusCounts}
+                isFiltered={isFilteredView}
+                filterLabel={filterLabel || undefined}
+              />
+            )}
+          </aside>
         </main>
       </div>
 

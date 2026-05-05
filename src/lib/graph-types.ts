@@ -179,7 +179,7 @@ export const MODE_CONFIG: Record<GraphMode, {
   groupEntryPoints: "start" | "investigate" | "advanced";
 }> = {
   understand: {
-    label: "Understand",
+    label: "Verified Core",
     description: "Human-friendly entry — verified cores only",
     density: "overview",
     layers: ["structure"],
@@ -189,8 +189,8 @@ export const MODE_CONFIG: Record<GraphMode, {
     groupEntryPoints: "start",
   },
   explore: {
-    label: "Explore Problems",
-    description: "See how system detects contradictions",
+    label: "Contradictions & Quarantine",
+    description: "See how system detects and isolates problems",
     density: "mid",
     layers: ["structure", "verification", "conflicts"],
     showUnverified: true,
@@ -199,7 +199,7 @@ export const MODE_CONFIG: Record<GraphMode, {
     groupEntryPoints: "investigate",
   },
   full: {
-    label: "Full System",
+    label: "Everything Indexed",
     description: "Advanced — all nodes and layers",
     density: "focus",
     layers: ["structure", "conflicts", "verification", "execution", "governance"],
