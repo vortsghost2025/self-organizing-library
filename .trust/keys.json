@@ -2,7 +2,7 @@
  "lane_id": "library",
  "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoCGLYvb8gGGwgMn1nF9Z\n8NnKi+zTCn5yjAyL4yQkwO7cKrXl8ExSc0LYcTwKgDvpmut+ILJGlwepIoLiZ00y\nCc50CH6LSTmeYyyUl1f6lcsBKvraKwBrnPm8tEu/Nk399WAXfjqY2Kg3sMQWZ1OY\nKY9k6fzgZyYoF8Tw5LTokiqQ8Z8iC+rpFN5CPZC25Zf5cZfTBOOFaOpDUnB0/nU+\nUtE8BjuK88iNwEZTCXv7sxod/+0IGW0Ca9vVfphG9vn7jAWJB+NnF3GeynwbiDg9\nCh3bHz9U+a/an8FD4QYrhMMJbyW3OIX+vPybsU8M0ejdQ4TioanwixTsvZCZgTEg\n+wIDAQAB\n-----END PUBLIC KEY-----\n",
  "algorithm": "RS256",
- "key_id": "b1eba056729bbe9a",
+ "key_id": "2eec06be0befc8d5",
  "registered_at": "2026-04-28T17:44:57.484Z",
  "expires_at": null,
  "revoked_at": null,

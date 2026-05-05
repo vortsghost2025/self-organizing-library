@@ -17,6 +17,13 @@ OUTPUT_PROVENANCE: agent: kilo-auto/free lane: library generated_at: 2026-05-05T
 
 **Canonicalization note:** Authority numbers should be consolidated into a single machine-readable registry (e.g., `lanes/broadcast/lane-authority.json`) to avoid drift between `.session-mode`, `AGENTS.md`, and memory-bank. Current source-of-truth is `.session-mode v2.0.0`.
 
+**Cross-repo drift status (high-level):**
+- ✅ Trust stores aligned (4/4 lanes)
+- ✅ Lane workers aligned (17/17 instances)
+- ✅ COVENANT.md identical
+- ✅ SchemaValidator.js identical
+- ⚠️ Authority numbers, schema enums, shared scripts, path references show significant drift (see §15)
+
 **Scope:** Self-Organizing Library (Library Lane repository) + canonical references to Archivist-Agent, SwarmMind, and Kernel Lane  
 **Status:** Active (governance-sensitive identity conflicts pending ratification; see §7)  
 **Last surveyed:** 2026-05-04T23:00:00Z
@@ -363,6 +370,13 @@ The canonical identity per `.session-mode` is `"lane": "library"` (lowercase). `
 
 This contradiction is flagged by Kernel audit and appears in `evidence/blocker-classification-updates.md` as `KEY_ID_MAPPING_CONFLICT` (identity divergence across agent contexts). **Fix required:** update AGENTS.md and memory-bank to canonical values.
 
+**Additional drift discovered (2026-05-05 cross-repo survey):**
+- **SwarmMind**: reported authority varies (50 vs 80) across AGENTS.md vs lane-registry
+- **Archivist**: reported authority varies (90 vs 100) across docs
+- **No canonical registry**: Each lane declares authority in its own AGENTS.md; no single source-of-truth
+
+See §15 for full cross-repo drift inventory.
+
 ### Schema Enum Mismatches
 
 **`to` field:** Schema v1.3 allows `broadcast` and `all`; `SchemaValidator.js` only allows `['archivist','library','swarmmind','kernel']`. Kernel messages using `to: "all"` or `broadcast` are being rejected (examples in quarantine). **Fix:** extend enum.
@@ -468,8 +482,123 @@ npm run dev
 10. Supervisor system (PM2/systemd) for auto-restart of daemons.
 11. Add npm scripts for hardening-drill, security-drill, watcher, heartbeat (`npm run drill:hardening`, etc.).
 12. Create `CONTRIBUTING.md` for human onboarding.
-13. Add `vercel.json` for infrastructure-as-code.
-14. Implement `NEXUS_GRAPH_EXPLANATION_LAYER.md` overlay for first-time graph users.
+ 13. Add `vercel.json` for infrastructure-as-code.
+ 14. Implement `NEXUS_GRAPH_EXPLANATION_LAYER.md` overlay for first-time graph users.
+
+---
+
+## 15. Cross-Repo Drift Inventory (Multi-Repo Survey 2026-05-05)
+
+This section catalogs known divergence across the 4 lane repositories. Drift is expected in a distributed system; what matters is what is *known* and *unresolved*.
+
+### Summary Table
+
+| Category | Status | Details |
+|----------|--------|---------|
+| Trust stores | ✅ Aligned (4/4) | All lanes have same ratified key set |
+| Lane worker code | ✅ Aligned (17/17) | All instances running same version |
+| COVENANT.md | ✅ Identical | Governance charter consistent |
+| SchemaValidator.js | ✅ Identical | Same implementation across all lanes |
+| Authority declarations | ⚠️ Drifted | Each lane declares different numbers in AGENTS.md |
+| Schema enums | ⚠️ Drifted | Library missing 10+ values present in other lanes |
+| Shared scripts (8 total) | ⚠️ Drifted (7/8) | Only SchemaValidator aligned; others diverged |
+| Path references | ⚠️ Stale | ~10,000 SwarmMind long-path refs still in Archivist/Library |
+| `.session-mode` files | ❌ Missing | SwarmMind and Kernel lack this canonical identity file |
+| `LANE_REGISTRY.json` (Archivist) | ❌ Stale | Lists 3 lanes, wrong paths, wrong authorities |
+| `"3-lane" terminology | ❌ Active | 8+ references in running code (start-core.js, identity-enforcer, schemas) |
+| Phantom "Authority" lane | ❌ Orphan | Schema defines but no repo/identity/authority exists |
+| `enforce_consistency_invariant.js` | ❌ Duplicate | Different copy in every repo (not synced) |
+
+### Authority Number Drift
+
+| Lane | Library AGENTS.md | SwarmMind AGENTS.md | Archivist AGENTS.md | Kernel AGENTS.md | Canonical (if any) |
+|------|-------------------|---------------------|---------------------|------------------|--------------------|
+| Position | 2 (stale) / 3 (canonical) | 3 | 1 | 4 | Library: .session-mode pos=3 auth=60 |
+| Authority | 90 (stale) / 60 (canonical) | 50? or 80? | 90? or 100? | 60 | Unratified |
+
+**Problem:** No single source-of-truth. Each lane's AGENTS.md is authoritative for that lane, but cross-lane decisions need a common reference. The `.session-mode` file exists only in Library (v2.0.0). Until all lanes publish `.session-mode`, authority numbers will remain ambiguous.
+
+### Schema Enum Drift (Library vs Others)
+
+Library's `schemas/inbox-message-v1.json` includes:
+- `to`: `broadcast`, `all` ✓ (fixed 2026-05-05)
+- `execution.engine`: `kilo`, `opencode`, `other` ❌ missing: `pipeline`, `codex`
+- `execution.actor`: limited set ❌ missing: `kernel`, `library`, `swarmmind`, `archivist` (present in other lanes)
+
+Other lanes' schemas include broader enums. Library's `SchemaValidator.js` was already broader than Library's own schema — now partially aligned. Full alignment requires schema update.
+
+### Shared Script Drift (8 Scripts Audited)
+
+| Script | Library | Archivist | SwarmMind | Kernel | Alignment |
+|--------|---------|-----------|-----------|--------|-----------|
+| `inbox-watcher.js` | Different version | Different version | Different version | Different version | ❌ |
+| `heartbeat.js` | Different version | Different version | Different version | Different version | ❌ |
+| `lane-worker.js` | Different version | Different version | Different version | Different version | ❌ |
+| `SchemaValidator.js` | Same | Same | Same | Same | ✅ |
+| `Signer.js` | Different | Different | Different | Different | ❌ |
+| `Verifier.js` | Different | Different | Different | Different | ❌ |
+| `TrustStoreManager.js` | Different | Different | Different | Different | ❌ |
+| `KeyManager.js` | Different | Different | Different | Different | ❌ |
+
+Only `SchemaValidator.js` is identical across repos. All other coordination scripts have diverged.
+
+### Deprecated Long-Path References
+
+SwarmMind historically used long absolute paths (`S:/SwarmMind/.../deep/nested/paths`). These were supposed to be shortened to `S:/SwarmMind/lanes/...`. ~10,000 references in Archivist-Agent and Library still use the old long-form paths. They work (paths are symlinked) but are brittle and confusing.
+
+### Missing `.session-mode`
+
+Only Library has `.session-mode` (v2.0.0). SwarmMind and Kernel lack this canonical identity declaration. Their lane identity is inferred from AGENTS.md only, which is human-edited and drift-prone.
+
+### `LANE_REGISTRY.json` Stale (Archivist-Agent)
+
+Archivist maintains `config/lane-registry.json` claiming:
+- Only 3 lanes (Library, Archivist, SwarmMind) — Kernel missing
+- Wrong S:/ paths for some lanes
+- Authority numbers out of sync with each lane's AGENTS.md
+
+This file is supposed to be the ** operational registry ** for cross-lane messaging, but it is stale.
+
+### "3-lane" Terminology in Running Code
+
+Despite system being 4-lane, error messages and schema descriptions still say "3-lane convergence":
+
+- `scripts/identity-enforcer.js:382` — "requires 3-lane convergence"
+- `lanes/broadcast/gate-schema.json:60` — "3-lane convergence to unblock"
+- `schemas/inbox-message-v1.json` description — "3-lane convergence"
+- `start-core.js` — "3-lane quorum" mentions
+- `CONCURRENCY_POLICY_v1.json` — inconsistent lane counts
+
+Fixed parts: terminology updated to "3-out-of-4" in enforcer and gate-schema. More remain.
+
+### Phantom "Authority" Lane
+
+`schemas/authority-edge-types.json` defines an "Authority" lane concept, but:
+- No repository named "Authority"
+- No AGENTS.md for Authority
+- No identity keys
+- No defined authority level (should be > Archivist? Undefined)
+
+This is a **speculative artifact** — either a placeholder or abandoned concept.
+
+ ### Duplicate `enforce_consistency_invariant.js`
+
+  Each repo contains a copy of `enforce_consistency_invariant.js` with slightly different logic. No single source-of-truth; these are meant to be per-lane invariants but have diverged.
+
+ ### Cross-Repo Canonicalization Sprint (Blocked — requires Archivist coordination)
+
+ A coordinated cross-lane effort is required to resolve systematic drift:
+
+ 1. **Authority registry** — publish `.session-mode` to all 4 lanes with agreed, ratified authority numbers (single source-of-truth)
+ 2. **Schema enum unification** — merge Library schema to include all standard `execution.engine` (`pipeline`, `codex`) and `execution.actor` values (`kernel`, `library`, `swarmmind`, `archivist`)
+ 3. **Shared script consolidation** — converge `inbox-watcher.js`, `heartbeat.js`, `lane-worker.js`, `Signer.js`, `Verifier.js`, `TrustStoreManager.js`, `KeyManager.js` to identical implementations (single repo + submodules or monorepo)
+ 4. **Path rationalization** — replace ~10,000 SwarmMind long-path references in Archivist/Library with canonical `lanes/` relative paths
+ 5. **LANE_REGISTRY.json refresh** — Archivist to update registry with all 4 lanes, correct S:/ paths, ratified authorities
+ 6. **Phantom lane resolution** — either implement "Authority" lane (with repo, identity, authority) or remove from schemas
+ 7. **Terminology scrub** — replace all remaining "3-lane" mentions with "3-out-of-4 lanes" or "multi-lane (≥3 of 4)"
+ 8. **Invariant centralization** — delete per-repo duplicates of `enforce_consistency_invariant.js`; move to shared library or canonical single copy
+
+ **Status:** All 8 items blocked pending Archivist ratification and cross-lane owner coordination. This sprint is prerequisite to reliable multi-lane coordination.
 
 ---
 

@@ -10,6 +10,7 @@ const {
 } = require('./concurrency-policy');
 const { IdentityEnforcer } = require('./identity-enforcer');
 const { moveFileWithLease } = require('./lease-write');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const PRIORITY_ORDER = { P0: 0, P1: 1, P2: 2, P3: 3 };
 const PREEMPTION_CYCLE_LIMIT = 2;
@@ -99,12 +100,15 @@ const DEFAULT_CONFIG = {
   expiredPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'expired'),
   quarantinePath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'quarantine'),
   actionRequiredPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'action-required'),
-canonicalPaths: {
-archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
-library: 'S:/self-organizing-library/lanes/library/inbox/',
-swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
-kernel: 'S:/kernel-lane/lanes/kernel/inbox/'
-}
+canonicalPaths: (() => {
+        const d = new LaneDiscovery();
+        return {
+          archivist: d.getInbox('archivist'),
+          library: d.getInbox('library'),
+          swarmmind: d.getInbox('swarmmind'),
+          kernel: d.getInbox('kernel')
+        };
+      })()
 };
 
 class InboxWatcher {

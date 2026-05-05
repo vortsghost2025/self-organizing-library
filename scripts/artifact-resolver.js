@@ -18,6 +18,18 @@ function _getDefaultAllowedRoots() {
     }
     if (roots.length > 0) return roots;
   }
+  // Platform-aware defaults: detect Ubuntu agent/repos layout
+  const homeDir = process.env.HOME || process.env.USERPROFILE || '';
+  const ubuntuRepos = path.join(homeDir, 'agent', 'repos');
+  if (fs.existsSync(path.join(ubuntuRepos, 'Archivist-Agent'))) {
+    return [
+      path.join(ubuntuRepos, 'Archivist-Agent'),
+      path.join(ubuntuRepos, 'kernel-lane'),
+      path.join(ubuntuRepos, 'self-organizing-library'),
+      path.join(ubuntuRepos, 'SwarmMind'),
+    ];
+  }
+  // Windows fallback
   return ['S:/Archivist-Agent', 'S:/kernel-lane', 'S:/self-organizing-library', 'S:/SwarmMind'];
 }
 
@@ -35,8 +47,19 @@ function isContainedWithin(childResolved, rootNormalized) {
 class ArtifactResolver {
   constructor(options = {}) {
     const rawRoots = options.allowedRoots || this._loadAllowedRoots(options.configPath);
-    this.allowedRoots = rawRoots.map(r => normalizePath(path.resolve(r)));
-    this._rawAllowedRoots = rawRoots;
+    // Filter out roots that don't exist on this platform (e.g., S:/ on Linux, /home/ on Windows)
+    const validRoots = rawRoots.filter(r => {
+      try {
+        const resolved = path.resolve(r);
+        // On non-Windows, skip paths that look like Windows drive letters
+        if (process.platform !== 'win32' && /^[A-Za-z]:/.test(r)) return false;
+        return fs.existsSync(resolved);
+      } catch (_) {
+        return false;
+      }
+    });
+    this.allowedRoots = (validRoots.length > 0 ? validRoots : rawRoots).map(r => normalizePath(path.resolve(r)));
+    this._rawAllowedRoots = validRoots.length > 0 ? validRoots : rawRoots;
     this.dryRun = options.dryRun !== undefined ? !!options.dryRun : true;
   }
 
@@ -78,9 +101,12 @@ class ArtifactResolver {
 
   hasPathTraversal(artifactPath) {
     if (!artifactPath || typeof artifactPath !== 'string') return true;
-    const normalized = artifactPath.replace(/\\/g, '/');
-    if (/(?:^|\/)\.\.(?:\/|$)/.test(normalized)) return true;
-    return false;
+    try {
+      const resolved = path.resolve(artifactPath);
+      return !this.isWithinAllowedRoots(resolved);
+    } catch (_) {
+      return true;
+    }
   }
 
   resolveRelativePath(artifactPath) {
