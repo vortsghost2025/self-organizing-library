@@ -1,7 +1,0 @@
-{
-  "delivered_at": "2026-05-05T11:10:24.232Z",
-  "source": "lanes/library/outbox/key-sync-swarmmind-20260505.json",
-  "destination": "/home/we4free/agent/repos/SwarmMind/lanes/swarmmind/inbox/key-sync-swarmmind-20260505.json",
-  "key_id": "2156d8756504ea32",
-  "status": "delivered"
-}
