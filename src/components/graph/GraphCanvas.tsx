@@ -647,12 +647,6 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         minCameraRatio: 0.1,
         maxCameraRatio: 10,
         stagePadding: 20,
-        camera: {
-          // Start zoomed out so graph is visible immediately
-          x: initCenterX,
-          y: initCenterY,
-          ratio: 0.5,
-        },
         nodeReducer: (node, data) => {
           const res = { ...data };
           const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
@@ -838,6 +832,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
           return res;
         },
       });
+      // Set initial camera immediately so graph is visible on first paint
+      renderer.setCamera({ x: initCenterX, y: initCenterY, ratio: 0.5 });
     } catch (err) {
     console.error("Sigma renderer creation failed:", err);
     _webglAvailable = false;
