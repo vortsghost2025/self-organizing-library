@@ -57,6 +57,9 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
   const [cameraRatio, setCameraRatio] = useState(1);
   const [webglUnavailable, setWebglUnavailable] = useState(false);
 
+  // Ref to expose GraphCanvas imperative methods
+  const graphCanvasRef = useRef<{fitVisible: () => void}>(null);
+
   const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
 
@@ -208,6 +211,10 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     setPathEdges(new Set());
   }, []);
 
+  const handleFitVisible = useCallback(() => {
+    graphCanvasRef.current?.fitVisible();
+  }, []);
+
   const handleCameraUpdate = useCallback((ratio: number) => {
     setCameraRatio(ratio);
   }, []);
@@ -216,6 +223,15 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     graphRef.current = graph;
     sigmaRef.current = sigma;
   }, []);
+
+  // Auto-fit camera when visible node set changes (filter, search, density, entry point, cluster)
+  useEffect(() => {
+    // Small delay to ensure GraphCanvas has processed prop changes
+    const timer = setTimeout(() => {
+      graphCanvasRef.current?.fitVisible();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [filter, filterMode, searchQuery, density, activeEntryPoint, activeClusterId, nodes, edges, clusters, entryPoints]);
 
   const handleFocusNode = useCallback((id: string) => {
     setFocusedNodeId(id);
@@ -505,6 +521,7 @@ const handleCompareSnapshots = useCallback(() => {
           visibleCount={displayedVisibleCount}
           nodeLimit={null}
           onNodeLimitChange={() => {}}
+          onFitVisible={handleFitVisible}
         />
 
       {(activeEntryPointMeta || activeClusterMeta) && (
@@ -651,6 +668,7 @@ const handleCompareSnapshots = useCallback(() => {
                 <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
 <GraphCanvas
+                   ref={graphCanvasRef}
                    nodes={filteredNodes}
                    edges={edges}
                    clusters={clusters}

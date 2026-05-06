@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback, useImperativeHandle, forwardRef } from "react";
 import Link from "next/link";
 import Graph from "graphology";
 import Sigma from "sigma";
@@ -51,6 +51,10 @@ interface GraphCanvasProps {
   onCameraUpdate: (ratio: number) => void;
   onGraphReady: (graph: Graph, sigma: Sigma) => void;
   onWebGLUnavailable?: () => void;
+}
+
+interface GraphCanvasImperativeHandle {
+  fitVisible: () => void;
 }
 
 const DIM_COLOR = "#2A2A38";
@@ -143,17 +147,26 @@ function buildGraph(
   return graph;
 }
 
-export default function GraphCanvas({
-  nodes, edges, clusters, hoveredNodeId, selectedNodeId, focusedNodeId,
-  pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
-  activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
-  visibleCount, coreNodeIds, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
-  onWebGLUnavailable,
-}: GraphCanvasProps) {
+const GraphCanvas = forwardRef(function GraphCanvas(
+  {
+    nodes, edges, clusters, hoveredNodeId, selectedNodeId, focusedNodeId,
+    pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
+    activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
+    visibleCount, coreNodeIds, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
+    onWebGLUnavailable,
+  }: GraphCanvasProps,
+  ref: React.Ref<GraphCanvasImperativeHandle>
+) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sigmaRef = useRef<Sigma | null>(null);
   const graphRef = useRef<Graph | null>(null);
-  const baseLabelSizeRef = useRef(12);
+  const [baseLabelSize, setBaseLabelSize] = useState(() => {
+    if (typeof window === "undefined") return 12;
+    const zoomLevel = Math.round(window.devicePixelRatio * 100) / 100;
+    return Math.round(12 * Math.max(1, zoomLevel));
+  });
+
+  const baseLabelSizeRef = useRef(baseLabelSize);
 
   const hoveredNeighborIdsRef = useRef<Set<string>>(new Set());
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -172,6 +185,136 @@ export default function GraphCanvas({
   const pathTargetRef = useRef(pathTarget);
   const clustersRef = useRef(clusters);
   const coreNodeIdsRef = useRef<string[]>(coreNodeIds || []);
+  const visibleNodeIdsRef = useRef<Set<string>>(new Set());
+  // Fit camera to visible nodes on demand
+  const fitVisible = useCallback(() => {
+    const sigma = sigmaRef.current;
+    const graph = graphRef.current;
+    if (!sigma || !graph) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Build clusterNodeIds map for visibility checks
+    const clusterNodeIds = new Map<string, Set<string>>();
+    for (const cl of clustersRef.current) {
+      clusterNodeIds.set(cl.id, new Set(cl.nodeIds));
+    }
+
+    const d = densityRef.current;
+    const ep = activeEntryPointRef.current;
+    const ac = activeClusterIdRef.current;
+    const sq = searchQueryRef.current.toLowerCase();
+    const focused = focusedNodeIdRef.current;
+    const selected = selectedNodeIdRef.current;
+    const pNodes = pathNodesRef.current;
+
+    const isNodeVisible = (nodeId: string): boolean => {
+      if (!graph.hasNode(nodeId)) return false;
+      if (sq && graph.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
+      if (pNodes.size > 0 && pNodes.has(nodeId)) return true;
+      if (focused && graph.hasNode(focused)) {
+        const neighbors = new Set(graph.neighbors(focused));
+        if (neighbors.has(nodeId) || nodeId === focused) return true;
+      }
+      if (selected && nodeId === selected) return true;
+      if (ep) {
+        for (const cl of clustersRef.current) {
+          if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
+        }
+        if (ep === "ep:authority") {
+          const attrs = graph.getNodeAttributes(nodeId);
+          if ((attrs as any).verificationCount >= 3) return true;
+        }
+        if (ep === "ep:contradictions") {
+          const ns = (graph.getNodeAttributes(nodeId) as any).nodeStatus;
+          if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
+        }
+        if (ep === "ep:gov-unenforced") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
+          if ((gl === "theoretical" || gl === "historical") && (bs === "documented_only" || bs === "unknown")) return true;
+        }
+        if (ep === "ep:gov-core") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "constitutional" || gl === "operational") return true;
+        }
+        if (ep === "ep:gov-bridges") {
+          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
+          if (bs === "enforced" || bs === "verified" || bs === "partial") return true;
+        }
+        if (ep === "ep:gov-contradicted") {
+          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
+          if (bs === "contradicted") return true;
+        }
+        if (ep === "ep:gov-authority-mismatch") {
+          const attrs = graph.getNodeAttributes(nodeId) as any;
+          if ((attrs.governanceLayer === "theoretical" || attrs.governanceLayer === "historical") && attrs.authorityDepth >= 75) return true;
+        }
+        if (ep === "ep:gov-evidence") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "evidence") return true;
+        }
+        if (ep === "ep:gov-adjacent") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "application_adjacent") return true;
+        }
+        if (ep === "ep:gov-historical") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "historical") return true;
+        }
+      }
+
+      if (ac && clusterNodeIds.get(ac)?.has(nodeId)) return true;
+
+      if (d === "overview") {
+        for (const cl of clustersRef.current) {
+          if (cl.representativeId === nodeId) return true;
+        }
+        return false;
+      }
+      if (d === "mid") {
+        if (!ep && !ac && !focused && !sq) return true;
+        return false;
+      }
+      return true;
+    };
+
+    const visibleNodeIds: string[] = [];
+    for (const nodeId of graph.nodes()) {
+      if (isNodeVisible(nodeId)) visibleNodeIds.push(nodeId);
+    }
+    if (visibleNodeIds.length === 0) return;
+
+    const xs: number[] = [];
+    const ys: number[] = [];
+    for (const id of visibleNodeIds) {
+      const attrs = graph.getNodeAttributes(id);
+      xs.push(attrs.x);
+      ys.push(attrs.y);
+    }
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const width = maxX - minX;
+    const height = maxY - minY;
+    if (width <= 0 || height <= 0) return;
+
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    const padding = 0.85;
+    const ratio = Math.min(
+      (containerWidth * padding) / width,
+      (containerHeight * padding) / height
+    );
+
+    const camera = sigma.getCamera() as any;
+    camera.animate({ x: centerX, y: centerY, ratio }, { duration: 200 });
+   }, []);
+
+  useImperativeHandle(ref, () => ({ fitVisible }), [fitVisible]);
 
   useEffect(() => { activeLayersRef.current = activeLayers; }, [activeLayers]);
   useEffect(() => { densityRef.current = density; }, [density]);
@@ -189,17 +332,17 @@ export default function GraphCanvas({
   useEffect(() => { coreNodeIdsRef.current = coreNodeIds || []; }, [coreNodeIds]);
 
   useEffect(() => {
-    const updateBaseLabelSize = () => {
+    const update = () => {
       const zoomLevel = typeof window !== "undefined" ? Math.round(window.devicePixelRatio * 100) / 100 : 1;
-      baseLabelSizeRef.current = Math.round(12 * Math.max(1, zoomLevel));
+      setBaseLabelSize(Math.round(12 * Math.max(1, zoomLevel)));
     };
-    updateBaseLabelSize();
-    window.addEventListener("resize", updateBaseLabelSize);
+    update();
+    window.addEventListener("resize", update);
     const mq = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
-    mq.addEventListener("change", updateBaseLabelSize);
+    mq.addEventListener("change", update);
     return () => {
-      window.removeEventListener("resize", updateBaseLabelSize);
-      mq.removeEventListener("change", updateBaseLabelSize);
+      window.removeEventListener("resize", update);
+      mq.removeEventListener("change", update);
     };
   }, []);
 
@@ -354,16 +497,21 @@ export default function GraphCanvas({
     };
 
     const container = containerRef.current;
+    // Compute effective label settings based on density
+    const effectiveLabelSize = density === "overview"
+      ? Math.round(baseLabelSizeRef.current * 1.5)
+      : baseLabelSizeRef.current;
+    const effectiveLabelThreshold = density === "overview" ? 20 : 50;
     let renderer: Sigma;
     try {
       renderer = new Sigma(graph, container, {
         renderLabels: true,
     renderEdgeLabels: false,
     labelFont: "DM Sans",
-    labelSize: baseLabelSizeRef.current,
+    labelSize: effectiveLabelSize,
     labelWeight: "500",
     labelColor: { color: "#A1A1AA" },
-    labelRenderedSizeThreshold: 50,
+    labelRenderedSizeThreshold: effectiveLabelThreshold,
       defaultEdgeColor: "#1E1E24",
       defaultNodeType: "circle",
       minCameraRatio: 0.1,
@@ -546,6 +694,11 @@ export default function GraphCanvas({
           res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
         }
 
+        // Boost edge visibility in overview/representative mode
+        if (densityRef.current === "overview") {
+          res.size = (res.size || 0.5) * 1.5;
+        }
+
         return res;
       },
     });
@@ -590,6 +743,9 @@ export default function GraphCanvas({
     sigmaRef.current = renderer;
     onGraphReady(graph, renderer);
 
+    // Fit camera to visible nodes on initial load and filter changes
+    fitVisible();
+
     return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       camera.removeListener("updated", handleCameraUpdate);
@@ -598,7 +754,8 @@ export default function GraphCanvas({
         sigmaRef.current = null;
       }
     };
-  }, [nodes, edges, clusters, filter, filterMode, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady, onWebGLUnavailable]);
+   }, [nodes, edges, clusters, filter, filterMode, density, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady, onWebGLUnavailable]);
+  // Note: density intentionally included because label size/threshold depend on it
 
   const ariaLabel = [
     "Interactive nexus graph",
@@ -641,4 +798,6 @@ export default function GraphCanvas({
       onKeyDown={handleKeyDown}
     />
   );
-}
+});
+
+export default GraphCanvas;

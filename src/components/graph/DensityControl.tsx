@@ -31,7 +31,7 @@ export default function DensityControl({ density, onChange }: DensityControlProp
         >
           <span className="w-5 text-center" aria-hidden="true">{d.icon}</span>
           <span className="flex-1">{d.label}</span>
-          <span className="text-sm text-[var(--text-muted)]">{d.description}</span>
+          <span className="text-sm text-[var(--text-muted)] truncate" title={d.description}>{d.description}</span>
         </button>
       ))}
     </div>
