@@ -1,0 +1,120 @@
+
+> nextjs-template@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.1.3 (Turbopack)
+- Environments: .env.local
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./src/app/api/events/route.ts:36:26
+The file pattern ('/ROOT/lanes/broadcast/' <dynamic> | '/ROOTlanes/broadcast/' <dynamic> | '/ROOT/' <dynamic> '/' <dynamic> | '/ROOT' <dynamic> '/' <dynamic> | '/ROOT/evidence/graph-snapshots/' <dynamic> | '/ROOTevidence/graph-snapshots/' <dynamic> | '/ROOT/evidence/verification/' <dynamic> | '/ROOTevidence/verification/' <dynamic> | '/ROOT/lanes/library/state/' <dynamic> | '/ROOTlanes/library/state/' <dynamic> | '/ROOT/lanes/broadcast' <dynamic> | '/ROOTlanes/broadcast' <dynamic> | '/ROOT/' <dynamic> | '/ROOT' <dynamic> | '/ROOT/evidence/graph-snapshots' <dynamic> | '/ROOTevidence/graph-snapshots' <dynamic> | '/ROOT/evidence/verification' <dynamic> | '/ROOTevidence/verification' <dynamic> | '/ROOT/lanes/library/state' <dynamic> | '/ROOTlanes/library/state' <dynamic>) matches 16681 files in [project]/
+  34 |         if (file === 'README.md' || file.startsWith('.')) continue;
+  35 |
+> 36 |         const filePath = path.join(fullPath, file);
+     |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  37 |         const stats = fs.statSync(filePath);
+  38 |         
+  39 |         // Try to extract timestamp from filename or use mtime
+
+Overly broad patterns can lead to build performance issues and over bundling.
+
+Import trace:
+  App Route:
+    ./src/app/api/events/route.ts
+    ./src/app/api/document-content/[id]/route.ts
+
+
+Γ£ô Compiled successfully in 4.8s
+  Running TypeScript ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/1040) ...
+  Generating static pages using 15 workers (260/1040) 
+  Generating static pages using 15 workers (520/1040) 
+  Generating static pages using 15 workers (780/1040) 
+Γ£ô Generating static pages using 15 workers (1040/1040) in 6.7s
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ Γùï /about
+Γö£ ╞Æ /api/document-content/[id]
+Γö£ ╞Æ /api/documents
+Γö£ ╞Æ /api/events
+Γö£ ╞Æ /api/governance/lanes
+Γö£ ╞Æ /api/governance/schemas
+Γö£ ╞Æ /api/governance/status
+Γö£ ╞Æ /api/governance/verification
+Γö£ ╞Æ /api/graph-data
+Γö£ ╞Æ /api/health
+Γö£ ╞Æ /api/search
+Γö£ ╞Æ /api/swarmmind/resilience
+Γö£ ╞Æ /api/system-timeline
+Γö£ Γùï /archivist
+Γö£ Γùï /categories
+Γö£ Γùï /collections
+Γö£ Γùï /governance
+Γö£ Γùï /governance/dual-plane-authority
+Γö£ Γùï /graph
+Γö£ Γùï /kernel
+Γö£ Γùï /lanes
+Γö£ Γùï /library
+Γö£ ΓùÅ /library/[id]
+Γöé Γö£ /library/f6d77915e48558b2
+Γöé Γö£ /library/79b8c52a5a59542d
+Γöé Γö£ /library/c6afd861a226fc10
+Γöé Γöö [+997 more paths]
+Γö£ Γùï /logs
+Γö£ Γùï /papers
+Γö£ Γùï /repos
+Γö£ Γùï /robots.txt
+Γö£ Γùï /search
+Γö£ Γùï /search-catalog
+Γö£ Γùï /services
+Γö£ Γùï /sitemap.xml
+Γö£ Γùï /sources
+Γö£ Γùï /start-here
+Γö£ Γùï /swarmmind
+Γö£ Γùï /tags
+Γö£ Γùï /timeline
+Γö£ Γùï /understand
+Γöö Γùï /videos
+
+
+╞Æ Proxy (Middleware)
+
+Γùï  (Static)   prerendered as static content
+ΓùÅ  (SSG)      prerendered as static HTML (uses generateStaticParams)
+╞Æ  (Dynamic)  server-rendered on demand
+
+
+> nextjs-template@0.1.0 postbuild
+> npx pagefind --site .next/server/app --output-path public/pagefind
+
+
+Running Pagefind v1.5.2 (Extended)
+Running from: "S:\\self-organizing-library"
+Source:       ".next/server/app"
+Output:       "public/pagefind"
+
+[Walking source directory]
+Found 1026 files matching **/*.{html}
+
+[Parsing files]
+Found a data-pagefind-body element on the site.
+Γå│ Ignoring pages without this tag.
+
+[Reading languages]
+Discovered 1 language: en
+
+[Building search indexes]
+Total: 
+  Indexed 1 language
+  Indexed 1007 pages
+  Indexed 16314 words
+  Indexed 1 filter
+  Indexed 0 sorts
+
+Finished in 28.224 seconds
