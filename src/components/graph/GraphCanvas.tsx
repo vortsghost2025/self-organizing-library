@@ -380,12 +380,13 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     console.debug("[fitVisible]", diag);
     lastFitDiagnosticsRef.current = diag;
 
+    const camera = sigma.getCamera() as any;
+    const camBefore = camera.getState ? camera.getState() : { x: camera.x, y: camera.y, ratio: camera.ratio };
     console.log("[fitVisible] RUNNING - container:", container.clientWidth, "x", container.clientHeight,
                 "adjWorld:", { w: adjWidth, h: adjHeight },
                 "computedRatio:", ratio.toFixed(4),
-                "cameraBefore:", camera.getState ? camera.getState() : { x: camera.x, y: camera.y, ratio: camera.ratio });
+                "cameraBefore:", camBefore);
 
-    const camera = sigma.getCamera() as any;
     camera.animate({ x: centerX, y: centerY, ratio }, { duration: 200 });
    }, []);
 
