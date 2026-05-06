@@ -1,28 +1,22 @@
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
-import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
-import SystemEvolution from "@/components/SystemEvolution";
+import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 
 export default async function Dashboard() {
-  // Strict defaults per exterior-synthesis directive
-  const heroTitle = "An AI system that proves what it knows.";
-  const heroTagline = "Most AI gives answers. This one verifies them.";
-
+// ... existing code ...
   return (
     <div className="p-8" data-pagefind-body>
-      {/* BUILD MARKER — deployment verification */}
-      <div id="build-marker" style={{background:'#000',color:'#0f0',padding:'8px 16px',fontFamily:'monospace',fontSize:'14px',textAlign:'center',letterSpacing:'1px'}}>BUILD_MARKER_2026_05_05</div>
-
-      {/* HERO — top of page, clear and dominant */}
+// ... existing code ...
       <HeroSection
         title={heroTitle}
         tagline={heroTagline}
       />
-      <HomeSystemStateStrip />
-      <SystemEvolution />
+      <LiveSystemPulse />
 
       {/* HOW IT WORKS — 3 steps, plain English only */}
+// ... existing code ...
+
       <div className="card p-6 mb-12 animate-fade-in">
         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">How It Works</h2>
         <div className="grid md:grid-cols-3 gap-4 text-center">
@@ -55,13 +49,13 @@ export default async function Dashboard() {
             </div>
           </a>
           <a
-            href="/graph?mode=explore"
+            href="/timeline"
             className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
           >
             <div className="text-4xl" aria-hidden="true">🔵</div>
             <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">See it working</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Explore the live graph of connections.</p>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">See the evolution</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Explore the chronological time-lapse of the system.</p>
             </div>
           </a>
           <a

@@ -47,12 +47,20 @@ const LANE_REPOS = new Set([
   'SwarmMind', 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System', 'kernel-lane',
 ]);
 const GAME_CATEGORIES = new Set(['game', 'uss-chaosbringer', 'uss_chaosbringer']);
+<<<<<<< HEAD
 const CONSTITUTIONAL_CATEGORIES = new Set(['governance', 'verification', 'attestation', 'spec', 'covenant', 'charter', 'constitution']);
 const OPERATIONAL_CATEGORIES = new Set(['code', 'scripts', 'script', 'config', 'schema', 'ops', 'infrastructure']);
 const OPERATIONAL_CATEGORIES_EXTENDED = new Set(['docs', 'root-doc', 'reports', 'report', 'ai-ensemble-lab', 'benchmark', 'bridge', 'drift']);
 const EVIDENCE_CATEGORIES = new Set(['verification', 'audit', 'test-data', 'evidence', 'data', 'test']);
 const HISTORICAL_CATEGORIES = new Set(['scratch', 'pending', 'sensitive', 'log']);
 const THEORETICAL_TAGS = new Set(['Rosetta Stone', 'CAISC', 'Constraint Lattice', 'paper']);
+=======
+const CONSTITUTIONAL_CATEGORIES = new Set(['governance', 'verification', 'attestation', 'spec']);
+const OPERATIONAL_CATEGORIES = new Set(['code', 'scripts', 'config']);
+const THEORETICAL_TAGS = new Set(['Rosetta Stone', 'CAISC', 'Constraint Lattice', 'paper']);
+const EVIDENCE_CATEGORIES = new Set(['verification', 'audit', 'test-data']);
+const HISTORICAL_CATEGORIES = new Set(['scratch', 'pending']);
+>>>>>>> 4f3495e ([LANE-3] Key convergence v1.1: fresh keypair, aligned trust stores, SYSTEM_MAP v1.1)
 
 const REPO_AUTHORITY_DEPTH = {
   'Archivist-Agent': 95,
@@ -229,10 +237,13 @@ function computeNodeStatuses(entries, authorityEdges) {
 function computeGovernanceLayer(entry) {
   if (LANE_REPOS.has(entry.repo) && CONSTITUTIONAL_CATEGORIES.has(entry.category)) return 'constitutional';
   if (LANE_REPOS.has(entry.repo) && OPERATIONAL_CATEGORIES.has(entry.category)) return 'operational';
+<<<<<<< HEAD
   if (LANE_REPOS.has(entry.repo) && EVIDENCE_CATEGORIES.has(entry.category)) return 'evidence';
   if (LANE_REPOS.has(entry.repo) && HISTORICAL_CATEGORIES.has(entry.category)) return 'historical';
   if (LANE_REPOS.has(entry.repo) && OPERATIONAL_CATEGORIES_EXTENDED.has(entry.category)) return 'operational';
   if (LANE_REPOS.has(entry.repo)) return 'operational';
+=======
+>>>>>>> 4f3495e ([LANE-3] Key convergence v1.1: fresh keypair, aligned trust stores, SYSTEM_MAP v1.1)
   if (entry.category === 'paper' || hasAnyTag(entry.tags, THEORETICAL_TAGS)) return 'theoretical';
   if (EVIDENCE_CATEGORIES.has(entry.category)) return 'evidence';
   if (HISTORICAL_CATEGORIES.has(entry.category)) return 'historical';
@@ -557,18 +568,32 @@ function buildInboxMessage(reportType, reportBody, summary) {
     from: 'library',
     to: 'library',
     type: 'task',
+<<<<<<< HEAD
     task_kind: 'report',
+=======
+    task_kind: 'graph-analysis',
+>>>>>>> 4f3495e ([LANE-3] Key convergence v1.1: fresh keypair, aligned trust stores, SYSTEM_MAP v1.1)
     priority: summary && summary.contradiction_rate > 10 ? 'P0' : 'P1',
     subject: `Graph State Report: ${reportType} (${nowIso().slice(0, 10)})`,
     body: reportBody,
     timestamp: nowIso(),
     requires_action: true,
+<<<<<<< HEAD
     payload: { mode: 'inline', compression: 'none' },
     execution: { mode: 'auto', engine: 'pipeline', actor: 'lane' },
     lease: { owner: 'library', acquired_at: nowIso(), expires_at: null, renew_count: 0, max_renewals: 3 },
     retry: { attempt: 1, max_attempts: 1, last_error: null, last_attempt_at: null },
     evidence: { required: false, evidence_path: null, verified: false, verified_by: null, verified_at: null },
     evidence_exchange: { artifact_type: 'report', artifact_path: null },
+=======
+    worker_claim: false,
+    payload: { mode: 'inline', compression: 'none' },
+    execution: { mode: 'manual', engine: 'opencode', actor: 'lane' },
+    lease: { owner: 'library', acquired_at: nowIso() },
+    retry: { attempt: 1, max_attempts: 1 },
+    evidence: { required: false, verified: false },
+    evidence_exchange: {},
+>>>>>>> 4f3495e ([LANE-3] Key convergence v1.1: fresh keypair, aligned trust stores, SYSTEM_MAP v1.1)
     heartbeat: { status: 'pending', last_heartbeat_at: nowIso(), interval_seconds: 300, timeout_seconds: 900 },
     output_provenance: {
       agent: 'graph-state-report',
