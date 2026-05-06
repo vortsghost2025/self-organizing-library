@@ -3,7 +3,7 @@ import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
 import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
-import SystemEvolution from "@/components/SystemEvolution";
+import SystemOverview from "@/components/SystemOverview";
 
 export default async function Dashboard() {
   const heroTitle = "An AI system that proves what it knows.";
@@ -20,7 +20,7 @@ export default async function Dashboard() {
       <LiveSystemPulse />
 
       <HomeSystemStateStrip />
-      <SystemEvolution />
+      <SystemOverview />
 
       <div className="card p-6 mb-12 animate-fade-in">
         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">How It Works</h2>
@@ -39,6 +39,8 @@ export default async function Dashboard() {
           </div>
         </div>
       </div>
+
+      <LaneArchitecture />
 
       <div className="mb-12">
         <div className="grid md:grid-cols-3 gap-4">
@@ -74,8 +76,6 @@ export default async function Dashboard() {
           </a>
         </div>
       </div>
-
-      <LaneArchitecture />
 
       <div className="card p-6 mt-6 animate-fade-in">
         <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
