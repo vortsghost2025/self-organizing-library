@@ -892,7 +892,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       if (urlParams.has('debugGraph')) {
         console.log("[GraphCanvas] init", {
           graphNodes: graph.order,
-          container: container ? { w: container.clientWidth, h: container.clientHeight } : null,
+          container: containerRef.current ? { w: containerRef.current.clientWidth, h: containerRef.current.clientHeight } : null,
           camera: { x: camera.x, y: camera.y, ratio: camera.ratio },
           sigma: !!renderer,
         });
