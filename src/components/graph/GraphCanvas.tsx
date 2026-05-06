@@ -302,19 +302,39 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     }
     const minX = Math.min(...xs), maxX = Math.max(...xs);
     const minY = Math.min(...ys), maxY = Math.max(...ys);
-    const width = maxX - minX;
-    const height = maxY - minY;
+    let width = maxX - minX;
+    let height = maxY - minY;
     if (width <= 0 || height <= 0) return;
 
-    const centerX = (minX + maxX) / 2;
-    const centerY = (minY + maxY) / 2;
+    // Enforce minimum spread for small filtered views to prevent over-zoom collapse
+    // Target: visible nodes should occupy at least 40% of the smaller container dimension
+    const minScreenFraction = 0.4;
+    const minWorldExtent = Math.min(container.clientWidth, container.clientHeight) * minScreenFraction;
+    
+    let adjMinX = minX, adjMaxX = maxX, adjMinY = minY, adjMaxY = maxY;
+    
+    if (width < minWorldExtent) {
+      const diff = minWorldExtent - width;
+      adjMinX -= diff / 2;
+      adjMaxX += diff / 2;
+    }
+    if (height < minWorldExtent) {
+      const diff = minWorldExtent - height;
+      adjMinY -= diff / 2;
+      adjMaxY += diff / 2;
+    }
+    
+    const adjWidth = adjMaxX - adjMinX;
+    const adjHeight = adjMaxY - adjMinY;
+    const centerX = (adjMinX + adjMaxX) / 2;
+    const centerY = (adjMinY + adjMaxY) / 2;
 
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     const padding = 0.85;
     const ratio = Math.min(
-      (containerWidth * padding) / width,
-      (containerHeight * padding) / height
+      (containerWidth * padding) / adjWidth,
+      (containerHeight * padding) / adjHeight
     );
 
     const camera = sigma.getCamera() as any;
