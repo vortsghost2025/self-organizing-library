@@ -186,6 +186,13 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const clustersRef = useRef(clusters);
   const coreNodeIdsRef = useRef<string[]>(coreNodeIds || []);
   const visibleNodeIdsRef = useRef<Set<string>>(new Set());
+  // Callback refs to prevent unnecessary re-renders
+  const onNodeClickRef = useRef(onNodeClick);
+  const onNodeHoverRef = useRef(onNodeHover);
+  const onStageClickRef = useRef(onStageClick);
+  const onCameraUpdateRef = useRef(onCameraUpdate);
+  const onGraphReadyRef = useRef(onGraphReady);
+  const onWebGLUnavailableRef = useRef(onWebGLUnavailable);
   // Fit camera to visible nodes on demand
   const fitVisible = useCallback(() => {
     const sigma = sigmaRef.current;
@@ -331,6 +338,14 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   useEffect(() => { clustersRef.current = clusters; }, [clusters]);
   useEffect(() => { coreNodeIdsRef.current = coreNodeIds || []; }, [coreNodeIds]);
 
+  // Sync callback refs to latest props (prevents main effect from depending on callbacks)
+  useEffect(() => { onNodeClickRef.current = onNodeClick; }, [onNodeClick]);
+  useEffect(() => { onNodeHoverRef.current = onNodeHover; }, [onNodeHover]);
+  useEffect(() => { onStageClickRef.current = onStageClick; }, [onStageClick]);
+  useEffect(() => { onCameraUpdateRef.current = onCameraUpdate; }, [onCameraUpdate]);
+  useEffect(() => { onGraphReadyRef.current = onGraphReady; }, [onGraphReady]);
+  useEffect(() => { onWebGLUnavailableRef.current = onWebGLUnavailable; }, [onWebGLUnavailable]);
+
   useEffect(() => {
     const update = () => {
       const zoomLevel = typeof window !== "undefined" ? Math.round(window.devicePixelRatio * 100) / 100 : 1;
@@ -357,7 +372,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const camera = sigma.getCamera() as any;
     const dur = getReducedMotionDurations();
     if (e.key === "Escape") {
-      onStageClick();
+      onStageClickRef.current?.();
       (e.target as HTMLElement).blur();
     } else if (e.key === "+" || e.key === "=") {
       e.preventDefault();
@@ -382,7 +397,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       const state = camera.getState();
       camera.animate({ ...state, x: state.x + 50 / camera.ratio }, { duration: dur.pan });
     }
-  }, [onStageClick]);
+  }, []); // onStageClick is stable via ref
 
   useEffect(() => {
     if (!containerRef.current || nodes.length === 0) return;
@@ -705,12 +720,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     } catch (err) {
     console.error("Sigma renderer creation failed:", err);
     _webglAvailable = false;
-    onWebGLUnavailable?.();
+    onWebGLUnavailableRef.current?.();
       return;
     }
 
     renderer.on("clickNode", ({ node }) => {
-      onNodeClick(node);
+      onNodeClickRef.current?.(node);
     });
 
     renderer.on("enterNode", ({ node }) => {
@@ -720,28 +735,28 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         if (g && g.hasNode(node)) {
           hoveredNeighborIdsRef.current = new Set(g.neighbors(node));
         }
-        onNodeHover(node);
+        onNodeHoverRef.current?.(node);
       }, 60);
     });
 
     renderer.on("leaveNode", () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       hoveredNeighborIdsRef.current = new Set();
-      onNodeHover(null);
+      onNodeHoverRef.current?.(null);
     });
 
     renderer.on("clickStage", () => {
-      onStageClick();
+      onStageClickRef.current?.();
     });
 
     const camera = renderer.getCamera() as any;
     const handleCameraUpdate = () => {
-      onCameraUpdate(camera.ratio);
+      onCameraUpdateRef.current?.(camera.ratio);
     };
     camera.on("updated", handleCameraUpdate);
 
     sigmaRef.current = renderer;
-    onGraphReady(graph, renderer);
+    onGraphReadyRef.current?.(graph, renderer);
 
     // Fit camera to visible nodes on initial load and filter changes
     fitVisible();
@@ -754,7 +769,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         sigmaRef.current = null;
       }
     };
-   }, [nodes, edges, clusters, filter, filterMode, density, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady, onWebGLUnavailable]);
+   }, [nodes, edges, clusters, filter, filterMode, density]);
   // Note: density intentionally included because label size/threshold depend on it
 
   const ariaLabel = [
