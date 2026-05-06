@@ -2,6 +2,8 @@ import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
 import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
+import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
+import SystemEvolution from "@/components/SystemEvolution";
 
 export default async function Dashboard() {
   const heroTitle = "An AI system that proves what it knows.";
@@ -16,6 +18,9 @@ export default async function Dashboard() {
         tagline={heroTagline}
       />
       <LiveSystemPulse />
+
+      <HomeSystemStateStrip />
+      <SystemEvolution />
 
       <div className="card p-6 mb-12 animate-fade-in">
         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">How It Works</h2>
