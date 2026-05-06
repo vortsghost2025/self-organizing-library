@@ -227,84 +227,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const selected = selectedNodeIdRef.current;
     const pNodes = pathNodesRef.current;
 
-    const isNodeVisible = (nodeId: string): boolean => {
-      if (!graph.hasNode(nodeId)) return false;
-      if (sq && graph.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
-      if (pNodes.size > 0 && pNodes.has(nodeId)) return true;
-      if (focused && graph.hasNode(focused)) {
-        const neighbors = new Set(graph.neighbors(focused));
-        if (neighbors.has(nodeId) || nodeId === focused) return true;
-      }
-      if (selected && nodeId === selected) return true;
-      if (ep) {
-        for (const cl of clustersRef.current) {
-          if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
-        }
-        if (ep === "ep:authority") {
-          const attrs = graph.getNodeAttributes(nodeId);
-          if ((attrs as any).verificationCount >= 3) return true;
-        }
-        if (ep === "ep:contradictions") {
-          const ns = (graph.getNodeAttributes(nodeId) as any).nodeStatus;
-          if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
-        }
-        if (ep === "ep:gov-unenforced") {
-          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
-          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
-          if ((gl === "theoretical" || gl === "historical") && (bs === "documented_only" || bs === "unknown")) return true;
-        }
-        if (ep === "ep:gov-core") {
-          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
-          if (gl === "constitutional" || gl === "operational") return true;
-        }
-        if (ep === "ep:gov-bridges") {
-          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
-          if (bs === "enforced" || bs === "verified" || bs === "partial") return true;
-        }
-        if (ep === "ep:gov-contradicted") {
-          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
-          if (bs === "contradicted") return true;
-        }
-        if (ep === "ep:gov-authority-mismatch") {
-          const attrs = graph.getNodeAttributes(nodeId) as any;
-          if ((attrs.governanceLayer === "theoretical" || attrs.governanceLayer === "historical") && attrs.authorityDepth >= 75) return true;
-        }
-        if (ep === "ep:gov-evidence") {
-          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
-          if (gl === "evidence") return true;
-        }
-        if (ep === "ep:gov-adjacent") {
-          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
-          if (gl === "application_adjacent") return true;
-        }
-        if (ep === "ep:gov-historical") {
-          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
-          if (gl === "historical") return true;
-        }
-      }
-
-      if (ac && clusterNodeIds.get(ac)?.has(nodeId)) return true;
-
-      if (d === "overview") {
-        for (const cl of clustersRef.current) {
-          if (cl.representativeId === nodeId) return true;
-        }
-        return false;
-      }
-      if (d === "mid") {
-        if (!ep && !ac && !focused && !sq) return true;
-        return false;
-      }
-      return true;
-    };
+    // For fit-to-view, ignore entry-point/density filters — fit to ALL nodes in the graph
+    const isNodeVisibleForFit = (nodeId: string): boolean => graph.hasNode(nodeId);
 
     const visibleNodeIds: string[] = [];
     for (const nodeId of graph.nodes()) {
-      if (isNodeVisible(nodeId)) visibleNodeIds.push(nodeId);
-    }
-    if (visibleNodeIds.length === 0) {
-      console.debug("[fitVisible] no visible nodes");
-      return;
+      if (isNodeVisibleForFit(nodeId)) visibleNodeIds.push(nodeId);
     }
 
     const xs: number[] = [];
