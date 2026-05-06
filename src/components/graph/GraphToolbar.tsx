@@ -15,6 +15,7 @@ interface GraphToolbarProps {
   visibleCount: number;
   nodeLimit: number | null;
   onNodeLimitChange: (n: number | null) => void;
+  onFitVisible?: () => void;
 }
 
 const TYPE_FILTERS = [
@@ -46,6 +47,7 @@ export default function GraphToolbar({
   visibleCount,
   nodeLimit,
   onNodeLimitChange,
+  onFitVisible,
 }: GraphToolbarProps) {
   const currentFilters = filterMode === "type" ? TYPE_FILTERS : REPO_FILTERS;
 
@@ -104,24 +106,33 @@ export default function GraphToolbar({
         )}
 
         <span className="ml-auto text-sm text-[var(--text-muted)] flex items-center gap-3" role="status">
-           <div className="flex items-center gap-2">
-             <label className="text-[var(--text-muted)]">Show top:</label>
-             <select
-               value={nodeLimit ?? "all"}
-               onChange={(e) => onNodeLimitChange(e.target.value === "all" ? null : parseInt(e.target.value))}
-               className="bg-[var(--bg-surface)] border border-[var(--border)] rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
-             >
-               <option value="all">All ({nodeCount})</option>
-               <option value="200">200</option>
-               <option value="150">150</option>
-               <option value="100">100</option>
-               <option value="50">50</option>
-             </select>
-           </div>
-           <span>
-             {nodeLimit ? `${visibleCount}/${nodeLimit} nodes` : `${visibleCount}/${nodeCount} nodes`} &middot; {edgeCount} edges
-           </span>
-         </span>
+          {onFitVisible && (
+            <button
+              onClick={onFitVisible}
+              className="px-2 py-1 rounded text-xs border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+              title="Fit visible nodes to view"
+            >
+              Fit
+            </button>
+          )}
+          <div className="flex items-center gap-2">
+            <label className="text-[var(--text-muted)]">Show top:</label>
+            <select
+              value={nodeLimit ?? "all"}
+              onChange={(e) => onNodeLimitChange(e.target.value === "all" ? null : parseInt(e.target.value))}
+              className="bg-[var(--bg-surface)] border border-[var(--border)] rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+            >
+              <option value="all">All ({nodeCount})</option>
+              <option value="200">200</option>
+              <option value="150">150</option>
+              <option value="100">100</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <span>
+            {nodeLimit ? `${visibleCount}/${nodeLimit} nodes` : `${visibleCount}/${nodeCount} nodes`} &middot; {edgeCount} edges
+          </span>
+        </span>
       </div>
 
       <div
