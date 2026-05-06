@@ -24,6 +24,7 @@ const navItems = [
   { href: "/videos", icon: "▶", label: "Videos", ariaLabel: "Videos - hackathon demos and system recordings" },
   { href: "/logs", icon: "▤", label: "Logs", ariaLabel: "Logs - session and verification logs" },
   { href: "/about", icon: "⊛", label: "About", ariaLabel: "About - project description" },
+  { href: "/agents", icon: "◆", label: "Agents", ariaLabel: "Agents - system map for AI agents" },
   { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour" },
   { href: "/governance", icon: "⚖", label: "Governance", ariaLabel: "Governance - 4-lane system dashboard" },
   { href: "/governance/dual-plane-authority", icon: "⬡", label: "Dual-Plane", ariaLabel: "Dual-plane authority - initiation vs execution" },
