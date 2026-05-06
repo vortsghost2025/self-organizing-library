@@ -21,7 +21,7 @@ export default function SearchCatalogPage() {
         <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Search the Governance Graph</h1>
         <p className="text-[var(--text-secondary)] mb-4">
           Search across {entries.length.toLocaleString()} documents from all 4 lanes (Library, Archivist, Kernel, SwarmMind).
-          Try concepts like <strong className="text-[var(--text-primary)]">"constitution"</strong>, <strong className="text-[var(--text-primary)]">"protocol"</strong>, or <strong className="text-[var(--text-primary)]">"verification"</strong>.
+          Try concepts like <strong className="text-[var(--text-primary)]">&ldquo;constitution&rdquo;</strong>, <strong className="text-[var(--text-primary)]">&ldquo;protocol&rdquo;</strong>, or <strong className="text-[var(--text-primary)]">&ldquo;verification&rdquo;</strong>.
         </p>
         <div className="flex flex-wrap gap-2 text-sm text-[var(--text-muted)]">
           <span>Quick examples:</span>

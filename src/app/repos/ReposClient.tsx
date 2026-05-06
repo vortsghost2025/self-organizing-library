@@ -161,7 +161,7 @@ export default function ReposClient({
                         <li><strong>Health checks:</strong> Heartbeat, session validation</li>
                       </ul>
                       <p className="text-xs mb-2 text-[var(--text-secondary)]">
-                        SwarmMind is read-only observer — declares "blocker" or "conflicted" states, freezing non-essential work.
+                        SwarmMind is read-only observer — declares &ldquo;blocker&rdquo; or &ldquo;conflicted&rdquo; states, freezing non-essential work.
                       </p>
                     </>
                   )}
