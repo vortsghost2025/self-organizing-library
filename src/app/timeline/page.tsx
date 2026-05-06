@@ -56,7 +56,7 @@ export default function TimelinePage() {
       <div className="mb-12 animate-fade-in">
         <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">System Evolution</h1>
         <p className="text-[var(--text-secondary)] text-lg mb-6">
-          A chronological time-lapse of the Deliberate Ensemble's emergence. 
+          A chronological time-lapse of the Deliberate Ensemble&apos;s emergence. 
           From theoretical discovery to constitutional ratification.
         </p>
         
