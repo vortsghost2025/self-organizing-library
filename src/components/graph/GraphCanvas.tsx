@@ -190,6 +190,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const clusterNodeIdsRef = useRef<Map<string, Set<string>>>(new Map());
   const lastRefreshTimeRef = useRef<number | null>(null);
   const lastFitDiagnosticsRef = useRef<string>("none");
+  const fitCountRef = useRef(0);
+  const lastFitTimeRef = useRef<number | null>(null);
   
   // Callback refs to prevent unnecessary re-renders
   const onNodeClickRef = useRef(onNodeClick);
@@ -205,16 +207,10 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const fitVisible = useCallback(() => {
     const sigma = sigmaRef.current;
     const graph = graphRef.current;
-    if (!sigma || !graph) {
-      console.debug("[fitVisible] sigma or graph missing");
-      return;
-    }
+    if (!sigma || !graph) return;
 
     const container = containerRef.current;
-    if (!container) {
-      console.debug("[fitVisible] container missing");
-      return;
-    }
+    if (!container) return;
 
     // Build clusterNodeIds map for visibility checks and store in ref for other effects
     const clusterNodeIds = new Map<string, Set<string>>();
@@ -379,16 +375,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const diag = `container=${container.clientWidth}x${container.clientHeight} adjWorld=${adjWidth.toFixed(0)}x${adjHeight.toFixed(0)} ratio=${ratio.toFixed(3)}`;
     console.debug("[fitVisible]", diag);
     lastFitDiagnosticsRef.current = diag;
+    fitCountRef.current += 1;
+    lastFitTimeRef.current = Date.now();
 
     const camera = sigma.getCamera() as any;
-    const camBefore = camera.getState ? camera.getState() : { x: camera.x, y: camera.y, ratio: camera.ratio };
-    console.log("[fitVisible] RUNNING - container:", container.clientWidth, "x", container.clientHeight,
-                "adjWorld:", { w: adjWidth, h: adjHeight },
-                "computedRatio:", ratio.toFixed(4),
-                "cameraBefore:", camBefore);
-
     camera.animate({ x: centerX, y: centerY, ratio }, { duration: 200 });
-   }, []);
+  }, []);
 
   // Watchdog: ensure graph never drifts off-screen or stays blank
   useEffect(() => {
@@ -1026,6 +1018,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         camera: state ? `${state.x?.toFixed(0)},${state.y?.toFixed(0)} ratio=${state.ratio?.toFixed(3)}` : 'none',
         refresh: lastRefreshTimeRef.current ? new Date(lastRefreshTimeRef.current).toISOString().slice(11, 23) : 'never',
         lastFit: lastFitDiagnosticsRef.current,
+        fitCount: fitCountRef.current,
+        lastFitTime: lastFitTimeRef.current ? new Date(lastFitTimeRef.current).toISOString().slice(11, 23) : 'never',
       };
       setDebugInfo(dbg);
     }, 500);
