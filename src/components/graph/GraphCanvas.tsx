@@ -832,8 +832,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
           return res;
         },
       });
-      // Set initial camera immediately so graph is visible on first paint
-      renderer.setCamera({ x: initCenterX, y: initCenterY, ratio: 0.5 });
+      // Set initial camera position (Sigma v3: mutate camera object directly)
+      const camera = renderer.getCamera();
+      camera.x = initCenterX;
+      camera.y = initCenterY;
+      camera.ratio = 0.5;
+      renderer.setCamera(camera);
     } catch (err) {
     console.error("Sigma renderer creation failed:", err);
     _webglAvailable = false;
