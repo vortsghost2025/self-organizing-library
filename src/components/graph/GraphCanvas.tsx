@@ -340,7 +340,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         }
         
         // Condition 1: Extremely zoomed in or out
-        if (state.ratio < 0.03 || state.ratio > 8) {
+        // Upper bound raised to 50 to accommodate natural fit ratios for typical graph spreads
+        if (state.ratio < 0.03 || state.ratio > 50) {
           console.debug("[watchdog] ratio out of range", state.ratio);
           fitVisible();
           consecutiveIssues = 0;
