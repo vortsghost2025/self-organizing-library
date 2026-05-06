@@ -1065,7 +1065,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         sigmaRef.current = null;
       }
     };
-   }, [nodes, edges, clusters, filter, filterMode, density]);
+   }, [nodes, edges, clusters, filter, filterMode, density, fitVisible]);
   // Note: density intentionally included because label size/threshold depend on it
 
   // Debug overlay for ?debugGraph=1
