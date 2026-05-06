@@ -344,6 +344,85 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     camera.animate({ x: centerX, y: centerY, ratio }, { duration: 200 });
    }, []);
 
+  // Watchdog: ensure graph never drifts off-screen or stays blank
+  useEffect(() => {
+    let rafId: number;
+    let lastCheck = Date.now();
+    let consecutiveIssues = 0;
+    let userHasInteracted = false;
+    
+    // Detect user interaction to avoid fighting the user's camera control
+    const handleInteraction = () => { userHasInteracted = true; };
+    containerRef.current?.addEventListener('wheel', handleInteraction, { passive: true });
+    containerRef.current?.addEventListener('mousedown', handleInteraction);
+    containerRef.current?.addEventListener('touchstart', handleInteraction);
+    
+    const checkGraphVisibility = () => {
+      const sigma = sigmaRef.current;
+      const container = containerRef.current;
+      if (!sigma || !container) return;
+      
+      const camera = sigma.getCamera() as any;
+      if (!camera) return;
+      
+      const now = Date.now();
+      if (now - lastCheck < 2000) return;
+      lastCheck = now;
+      
+      try {
+        const state = camera.getState ? camera.getState() : { x: camera.x, y: camera.y, ratio: camera.ratio };
+        
+        // Skip auto-correction if user has interacted recently (last 10s)
+        if (userHasInteracted) {
+          // Reset flag after 10 seconds of inactivity
+          setTimeout(() => { userHasInteracted = false; }, 10000);
+          return;
+        }
+        
+        // Condition 1: Extremely zoomed in or out
+        if (state.ratio < 0.03 || state.ratio > 8) {
+          fitVisible();
+          consecutiveIssues = 0;
+          return;
+        }
+        
+        // Condition 2: Graph loaded but camera looking at wrong place
+        if (graphRef.current && graphRef.current.order > 0) {
+          const anyNode = graphRef.current.nodes()[0];
+          if (anyNode) {
+            const nodePos = graphRef.current.getNodeAttributes(anyNode);
+            const screenX = (nodePos.x - state.x) * state.ratio + container.clientWidth / 2;
+            const screenY = (nodePos.y - state.y) * state.ratio + container.clientHeight / 2;
+            // Node exists but is far outside viewport
+            if (screenX < -container.clientWidth || screenX > container.clientWidth * 2 ||
+                screenY < -container.clientHeight || screenY > container.clientHeight * 2) {
+              fitVisible();
+              consecutiveIssues = 0;
+              return;
+            }
+          }
+        }
+        
+        consecutiveIssues = 0;
+      } catch {
+        consecutiveIssues++;
+        if (consecutiveIssues >= 3) {
+          fitVisible();
+          consecutiveIssues = 0;
+        }
+      }
+    };
+    
+    rafId = window.setInterval(checkGraphVisibility, 2000);
+    
+    return () => {
+      if (rafId) clearInterval(rafId);
+      containerRef.current?.removeEventListener('wheel', handleInteraction);
+      containerRef.current?.removeEventListener('mousedown', handleInteraction);
+      containerRef.current?.removeEventListener('touchstart', handleInteraction);
+    };
+  }, [fitVisible]);
+
   useImperativeHandle(ref, () => ({ fitVisible }), [fitVisible]);
 
   useEffect(() => { activeLayersRef.current = activeLayers; }, [activeLayers]);
@@ -555,6 +634,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       minCameraRatio: 0.1,
       maxCameraRatio: 10,
       stagePadding: 20,
+      initialCamera: {
+        // Start with a zoomed-out view so graph is visible immediately
+        ratio: 0.5,
+        x: (minX + maxX) / 2,
+        y: (minY + maxY) / 2,
+      },
       nodeReducer: (node, data) => {
         const res = { ...data };
         const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
@@ -781,14 +866,27 @@ const GraphCanvas = forwardRef(function GraphCanvas(
      sigmaRef.current = renderer;
      onGraphReadyRef.current?.(graph, renderer);
 
-     // Fit camera to visible nodes on initial load and filter changes
-     // Defer to next paint to ensure container dimensions are stable
-     requestAnimationFrame(() => {
-       requestAnimationFrame(() => {
+     // Ensure container is laid out before fitting
+     const container = containerRef.current;
+     if (container && container.clientWidth > 0 && container.clientHeight > 0) {
+       // Use ResizeObserver to wait for final layout, then fit
+       const resizeObserver = new ResizeObserver(() => {
          fitVisible();
          renderer.refresh();
+         resizeObserver.disconnect();
        });
-     });
+       resizeObserver.observe(container);
+       
+       // Also try immediate fit after a short delay as fallback
+       requestAnimationFrame(() => {
+         requestAnimationFrame(() => {
+           if (sigmaRef.current) {
+             fitVisible();
+             renderer.refresh();
+           }
+         });
+       });
+     }
 
      return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
