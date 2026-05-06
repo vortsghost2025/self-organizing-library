@@ -186,6 +186,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const clustersRef = useRef(clusters);
   const coreNodeIdsRef = useRef<string[]>(coreNodeIds || []);
   const visibleNodeIdsRef = useRef<Set<string>>(new Set());
+  // Cluster Node IDs map ref (computed in fitVisible, but needed for quick check)
+  const clusterNodeIdsRef = useRef<Map<string, Set<string>>>(new Map());
   // Callback refs to prevent unnecessary re-renders
   const onNodeClickRef = useRef(onNodeClick);
   const onNodeHoverRef = useRef(onNodeHover);
@@ -202,11 +204,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const container = containerRef.current;
     if (!container) return;
 
-    // Build clusterNodeIds map for visibility checks
+    // Build clusterNodeIds map for visibility checks and store in ref for other effects
     const clusterNodeIds = new Map<string, Set<string>>();
     for (const cl of clustersRef.current) {
       clusterNodeIds.set(cl.id, new Set(cl.nodeIds));
     }
+    clusterNodeIdsRef.current = clusterNodeIds;
 
     const d = densityRef.current;
     const ep = activeEntryPointRef.current;
@@ -775,13 +778,19 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     };
     camera.on("updated", handleCameraUpdate);
 
-    sigmaRef.current = renderer;
-    onGraphReadyRef.current?.(graph, renderer);
+     sigmaRef.current = renderer;
+     onGraphReadyRef.current?.(graph, renderer);
 
-    // Fit camera to visible nodes on initial load and filter changes
-    fitVisible();
+     // Fit camera to visible nodes on initial load and filter changes
+     // Defer to next paint to ensure container dimensions are stable
+     requestAnimationFrame(() => {
+       requestAnimationFrame(() => {
+         fitVisible();
+         renderer.refresh();
+       });
+     });
 
-    return () => {
+     return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       camera.removeListener("updated", handleCameraUpdate);
       if (sigmaRef.current) {
