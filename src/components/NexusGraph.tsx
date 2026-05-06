@@ -23,7 +23,13 @@ import NodeDetail from "./graph/NodeDetail";
  import { compareSnapshots } from "@/lib/graph-snapshot-compare";
  import SystemInterpretation from "./graph/SystemInterpretation";
 
-export default function NexusGraph() {
+interface NexusGraphProps {
+  initialFilter?: string;
+  initialFilterMode?: "type" | "repo";
+  initialMode?: string;
+}
+
+export default function NexusGraph({ initialFilter = "all", initialFilterMode = "type", initialMode }: NexusGraphProps) {
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
@@ -497,6 +503,8 @@ const handleCompareSnapshots = useCallback(() => {
           nodeCount={totalNodeCount}
           edgeCount={visibleEdgeCount}
           visibleCount={displayedVisibleCount}
+          nodeLimit={null}
+          onNodeLimitChange={() => {}}
         />
 
       {(activeEntryPointMeta || activeClusterMeta) && (
@@ -524,7 +532,14 @@ const handleCompareSnapshots = useCallback(() => {
         </div>
       )}
 
-       <SystemInterpretation />
+       <SystemInterpretation
+          viewModeLabel="FULL SYSTEM"
+          visibleNodeCount={totalNodeCount}
+          conflictedCount={0}
+          quarantinedCount={0}
+          verifiedCount={0}
+          primaryInstability={null}
+        />
 
        <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
