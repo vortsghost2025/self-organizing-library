@@ -100,10 +100,10 @@ export default function GovernancePage() {
     async function fetchData() {
       try {
         const [statusRes, verifyRes, lanesRes, schemasRes] = await Promise.all([
-          fetch('/api/governance/status'),
-          fetch('/api/governance/verification'),
-          fetch('/api/governance/lanes'),
-          fetch('/api/governance/schemas'),
+          (await import('../../lib/fetchWithRetry')).fetchWithRetry('/api/governance/status'),
+          (await import('../../lib/fetchWithRetry')).fetchWithRetry('/api/governance/verification'),
+          (await import('../../lib/fetchWithRetry')).fetchWithRetry('/api/governance/lanes'),
+          (await import('../../lib/fetchWithRetry')).fetchWithRetry('/api/governance/schemas'),
         ]);
 
         setStatus(await statusRes.json());

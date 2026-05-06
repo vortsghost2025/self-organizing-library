@@ -24,7 +24,8 @@ export default function SwarmmindResiliencePanel() {
     let canceled = false;
     async function load() {
       try {
-        const res = await fetch("/api/swarmmind/resilience");
+        const { fetchWithRetry } = await import('../../lib/fetchWithRetry');
+    const res = await fetchWithRetry('/api/swarmmind/resilience');
         const json = await res.json();
         if (!canceled) setData(json);
       } catch {

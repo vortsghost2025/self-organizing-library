@@ -154,7 +154,8 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     let cancelled = false;
     async function load() {
       try {
-        const res = await fetch("/api/graph-data");
+        const { fetchWithRetry } = await import('@/lib/fetchWithRetry');
+        const res = await fetchWithRetry('/api/graph-data');
         const data = await res.json();
         if (cancelled) return;
         const rawClusters = computeClusters(data.nodes);

@@ -204,7 +204,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const [debugInfo, setDebugInfo] = useState<Record<string, any> | null>(null);
 
   // Fit camera to visible nodes on demand
-  const fitVisible = useCallback(() => {
+  const fitAllNodes = useCallback(() => {
     const sigma = sigmaRef.current;
     const graph = graphRef.current;
     if (!sigma || !graph) return;
@@ -219,6 +219,97 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     }
     clusterNodeIdsRef.current = clusterNodeIds;
 
+    // For initial full-graph fit, ignore entry-point/density filters — fit to ALL nodes
+    const visibleNodeIds: string[] = [];
+    for (const nodeId of graph.nodes()) {
+      visibleNodeIds.push(nodeId);
+    }
+
+    if (visibleNodeIds.length === 0) {
+      console.debug("[fitAllNodes] no visible nodes");
+      return;
+    }
+
+    const xs: number[] = [];
+    const ys: number[] = [];
+    for (const id of visibleNodeIds) {
+      const attrs = graph.getNodeAttributes(id);
+      xs.push(attrs.x);
+      ys.push(attrs.y);
+    }
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    let width = maxX - minX;
+    let height = maxY - minY;
+    if (width <= 0 || height <= 0) {
+      console.debug("[fitAllNodes] invalid bbox dimensions");
+      return;
+    }
+
+    // Use natural spread (no clamp) for full graph
+    const adjMinX = minX, adjMaxX = maxX, adjMinY = minY, adjMaxY = maxY;
+    const adjWidth = adjMaxX - adjMinX;
+    const adjHeight = adjMaxY - adjMinY;
+    const centerX = (adjMinX + adjMaxX) / 2;
+    const centerY = (adjMinY + adjMaxY) / 2;
+
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    const padding = 0.85;
+    const ratio = Math.min(
+      (containerWidth * padding) / adjWidth,
+      (containerHeight * padding) / adjHeight
+    );
+
+    // Debug logging for ?debugGraph=1
+    const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+    if (urlParams.has('debugGraph')) {
+      console.log("[fitAllNodes] diagnostics:", {
+        container: { width: containerWidth, height: containerHeight },
+        visibleCount: visibleNodeIds.length,
+        bbox: { minX, maxX, minY, maxY, width, height },
+        adjBbox: { minX: adjMinX, maxX: adjMaxX, minY: adjMinY, maxY: adjMaxY, adjWidth, adjHeight },
+        fit: { centerX, centerY, ratio },
+        first5Visible: visibleNodeIds.slice(0, 5).map(id => ({
+          id,
+          x: graph.getNodeAttributes(id).x,
+          y: graph.getNodeAttributes(id).y,
+        })),
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    const diag = `container=${container.clientWidth}x${container.clientHeight} adjWorld=${adjWidth.toFixed(0)}x${adjHeight.toFixed(0)} ratio=${ratio.toFixed(3)}`;
+    console.debug("[fitAllNodes]", diag);
+    lastFitDiagnosticsRef.current = diag;
+    fitCountRef.current += 1;
+    lastFitTimeRef.current = Date.now();
+
+    const camera = sigma.getCamera() as any;
+    camera.x = centerX;
+    camera.y = centerY;
+    camera.ratio = ratio;
+    try {
+      sigma.setCamera(camera);
+    } catch {}
+    sigma.refresh();
+  }, []); // fitAllNodes
+
+  const fitVisible = useCallback(() => {
+    const sigma = sigmaRef.current;
+    const graph = graphRef.current;
+    if (!sigma || !graph) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Build clusterNodeIds map for visibility checks
+    const clusterNodeIds = new Map<string, Set<string>>();
+    for (const cl of clustersRef.current) {
+      clusterNodeIds.set(cl.id, new Set(cl.nodeIds));
+    }
+    clusterNodeIdsRef.current = clusterNodeIds;
+
     const d = densityRef.current;
     const ep = activeEntryPointRef.current;
     const ac = activeClusterIdRef.current;
@@ -227,12 +318,84 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const selected = selectedNodeIdRef.current;
     const pNodes = pathNodesRef.current;
 
-    // For fit-to-view, ignore entry-point/density filters — fit to ALL nodes in the graph
-    const isNodeVisibleForFit = (nodeId: string): boolean => graph.hasNode(nodeId);
+    const isNodeVisible = (nodeId: string): boolean => {
+      if (!graph.hasNode(nodeId)) return false;
+      if (sq && graph.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
+      if (pNodes.size > 0 && pNodes.has(nodeId)) return true;
+      if (focused && graph.hasNode(focused)) {
+        const neighbors = new Set(graph.neighbors(focused));
+        if (neighbors.has(nodeId) || nodeId === focused) return true;
+      }
+      if (selected && nodeId === selected) return true;
+      if (ep) {
+        for (const cl of clustersRef.current) {
+          if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
+        }
+        if (ep === "ep:authority") {
+          const attrs = graph.getNodeAttributes(nodeId);
+          if ((attrs as any).verificationCount >= 3) return true;
+        }
+        if (ep === "ep:contradictions") {
+          const ns = (graph.getNodeAttributes(nodeId) as any).nodeStatus;
+          if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
+        }
+        if (ep === "ep:gov-unenforced") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
+          if ((gl === "theoretical" || gl === "historical") && (bs === "documented_only" || bs === "unknown")) return true;
+        }
+        if (ep === "ep:gov-core") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "constitutional" || gl === "operational") return true;
+        }
+        if (ep === "ep:gov-bridges") {
+          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
+          if (bs === "enforced" || bs === "verified" || bs === "partial") return true;
+        }
+        if (ep === "ep:gov-contradicted") {
+          const bs = (graph.getNodeAttributes(nodeId) as any).bridgeState;
+          if (bs === "contradicted") return true;
+        }
+        if (ep === "ep:gov-authority-mismatch") {
+          const attrs = graph.getNodeAttributes(nodeId) as any;
+          if ((attrs.governanceLayer === "theoretical" || attrs.governanceLayer === "historical") && attrs.authorityDepth >= 75) return true;
+        }
+        if (ep === "ep:gov-evidence") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "evidence") return true;
+        }
+        if (ep === "ep:gov-adjacent") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "application_adjacent") return true;
+        }
+        if (ep === "ep:gov-historical") {
+          const gl = (graph.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "historical") return true;
+        }
+      }
+
+      if (ac && clusterNodeIds.get(ac)?.has(nodeId)) return true;
+
+      if (d === "overview") {
+        for (const cl of clustersRef.current) {
+          if (cl.representativeId === nodeId) return true;
+        }
+        return false;
+      }
+      if (d === "mid") {
+        if (!ep && !ac && !focused && !sq) return true;
+        return false;
+      }
+      return true;
+    };
 
     const visibleNodeIds: string[] = [];
     for (const nodeId of graph.nodes()) {
-      if (isNodeVisibleForFit(nodeId)) visibleNodeIds.push(nodeId);
+      if (isNodeVisible(nodeId)) visibleNodeIds.push(nodeId);
+    }
+    if (visibleNodeIds.length === 0) {
+      console.debug("[fitVisible] no visible nodes");
+      return;
     }
 
     const xs: number[] = [];
@@ -254,21 +417,17 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     // Enforce minimum spread for small filtered views to prevent over-zoom collapse
     // Target: visible nodes should occupy at least 40% of the smaller container dimension
     let adjMinX = minX, adjMaxX = maxX, adjMinY = minY, adjMaxY = maxY;
-    // Only enforce minimum spread for small filtered views (≤ 15 nodes) to prevent
-    // over-zoom collapse on tiny clusters while allowing larger views to use natural spread
-    if (visibleNodeIds.length <= 15) {
-      const minScreenFraction = 0.4;
-      const minWorldExtent = Math.min(container.clientWidth, container.clientHeight) * minScreenFraction;
-      if (width < minWorldExtent) {
-        const diff = minWorldExtent - width;
-        adjMinX -= diff / 2; adjMaxX += diff / 2;
-      }
-      if (height < minWorldExtent) {
-        const diff = minWorldExtent - height;
-        adjMinY -= diff / 2; adjMaxY += diff / 2;
-      }
+    const minScreenFraction = 0.4;
+    const minWorldExtent = Math.min(container.clientWidth, container.clientHeight) * minScreenFraction;
+    if (width < minWorldExtent) {
+      const diff = minWorldExtent - width;
+      adjMinX -= diff / 2; adjMaxX += diff / 2;
     }
-    
+    if (height < minWorldExtent) {
+      const diff = minWorldExtent - height;
+      adjMinY -= diff / 2; adjMaxY += diff / 2;
+    }
+
     const adjWidth = adjMaxX - adjMinX;
     const adjHeight = adjMaxY - adjMinY;
     const centerX = (adjMinX + adjMaxX) / 2;
@@ -310,12 +469,11 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     camera.x = centerX;
     camera.y = centerY;
     camera.ratio = ratio;
-    // Apply camera to Sigma instance and refresh. Some versions require explicit setCamera.
     try {
       sigma.setCamera(camera);
     } catch {}
     sigma.refresh();
-  }, []);
+  }, []); // fitVisible (respects filters)
 
   // Watchdog: ensure graph never drifts off-screen or stays blank
   useEffect(() => {

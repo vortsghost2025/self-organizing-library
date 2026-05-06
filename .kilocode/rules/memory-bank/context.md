@@ -2,6 +2,13 @@
 
 ## Current State
 
+### Recent Accomplishments (Session 2026-05-06)
+- [x] **Fetch retry utility added**: Implemented `src/lib/fetchWithRetry.ts` with exponential backoff, respects `Retry-After`, and integrated into client components.
+- [x] **Components updated**: Replaced direct `fetch` calls with `fetchWithRetry` in `LiveSystemPulse`, `HomeSystemStateStrip`, `SearchModal`, `graph/SwarmmindResiliencePanel`, `app/governance/page`, `components/MarkdownContent`, `swarmmind/orchestratorClient`, and `attestation/AttestationSupport`.
+- [x] **Dynamic imports**: Used dynamic import to keep client bundles lightweight.
+- [x] **All TypeScript checks pass** after changes.
+
+
 **Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.

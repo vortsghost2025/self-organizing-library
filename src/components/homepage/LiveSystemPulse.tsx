@@ -19,7 +19,8 @@ export function LiveSystemPulse() {
   useEffect(() => {
     async function fetchPulse() {
       try {
-        const res = await fetch('/api/events');
+        const { fetchWithRetry } = await import('@/lib/fetchWithRetry');
+        const res = await fetchWithRetry('/api/events');
         const data = await res.json();
         if (data && data.length > 0) {
           setLatestEvent(data[0]);
