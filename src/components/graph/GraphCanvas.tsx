@@ -647,11 +647,11 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         minCameraRatio: 0.1,
         maxCameraRatio: 10,
         stagePadding: 20,
-        initialCamera: {
+        camera: {
           // Start zoomed out so graph is visible immediately
-          ratio: 0.5,
           x: initCenterX,
           y: initCenterY,
+          ratio: 0.5,
         },
         nodeReducer: (node, data) => {
           const res = { ...data };
