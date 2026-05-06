@@ -4,18 +4,18 @@ import { HeroSection } from "@/components/homepage/HeroSection";
 import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 
 export default async function Dashboard() {
-// ... existing code ...
+  const heroTitle = "An AI system that proves what it knows.";
+  const heroTagline = "Most AI gives answers. This one verifies them.";
+
   return (
     <div className="p-8" data-pagefind-body>
-// ... existing code ...
+      <div id="build-marker" style={{background:'#000',color:'#0f0',padding:'8px 16px',fontFamily:'monospace',fontSize:'14px',textAlign:'center',letterSpacing:'1px'}}>BUILD_MARKER_2026_05_05</div>
+
       <HeroSection
         title={heroTitle}
         tagline={heroTagline}
       />
       <LiveSystemPulse />
-
-      {/* HOW IT WORKS — 3 steps, plain English only */}
-// ... existing code ...
 
       <div className="card p-6 mb-12 animate-fade-in">
         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">How It Works</h2>
@@ -35,7 +35,6 @@ export default async function Dashboard() {
         </div>
       </div>
 
-      {/* CHOOSE YOUR PATH — only three options */}
       <div className="mb-12">
         <div className="grid md:grid-cols-3 gap-4">
           <a
@@ -71,7 +70,6 @@ export default async function Dashboard() {
         </div>
       </div>
 
-      {/* Lanes diagram + about — below fold */}
       <LaneArchitecture />
 
       <div className="card p-6 mt-6 animate-fade-in">
