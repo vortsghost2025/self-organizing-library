@@ -1,14 +1,25 @@
 #!/usr/bin/env node
-'use strict';
+/**
+ * LOCAL LANE DISCOVERY UTILITY
+ * ORIGIN: S:/Archivist-Agent/.global/lane-discovery.js
+ * LOCALIZED: Archivist (2026-05-02)
+ * UPDATED: 2026-05-06 — Platform-aware (Windows S:/ + Ubuntu)
+ * PURPOSE: Local implementation to avoid cross-boundary require() on .global/
+ *
+ * This is a sovereign copy that reads the lane registry directly
+ * instead of importing from .global/ which is an external boundary.
+ */
 
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const REGISTRY_PATH = path.join(__dirname, '..', '..', 'config', 'lane-registry.json');
-
 const isWin32 = process.platform === 'win32';
 const UBUNTU_ROOT = path.join(os.homedir(), 'agent', 'repos');
+
+const REGISTRY_PATH = isWin32
+  ? 'S:/Archivist-Agent/.global/lane-registry.json'
+  : path.join(UBUNTU_ROOT, 'Archivist-Agent', '.global', 'lane-registry.json');
 
 function _resolvePath(winPath) {
   if (isWin32) return winPath;
@@ -17,67 +28,26 @@ function _resolvePath(winPath) {
   return path.join(UBUNTU_ROOT, match[1]);
 }
 
-const _DRIVE = 'S:/';
-const _DIRS = {
-  archivist: _resolvePath(_DRIVE + 'Archivist-Agent'),
-  kernel: _resolvePath(_DRIVE + 'kernel-lane'),
-  swarmmind: _resolvePath(_DRIVE + 'SwarmMind'),
-  library: _resolvePath(_DRIVE + 'self-organizing-library'),
-};
-const _MAILBOX_SUB = (laneId) => `/lanes/${laneId}/`;
-const _MAILBOXES = (root, laneId) => {
-  const base = root + _MAILBOX_SUB(laneId);
-  return { inbox: base + 'inbox', outbox: base + 'outbox', processed: base + 'inbox/processed' };
-};
-
-const FALLBACK_REGISTRY = {
-  schema_version: '1.0',
-  lanes: {
-    archivist: {
-      lane_id: 'archivist',
-      role: 'coordinator',
-      local_path: _DIRS.archivist,
-      repo: 'https://github.com/vortsghost2025/Archivist-Agent',
-      mailboxes: _MAILBOXES(_DIRS.archivist, 'archivist'),
-    },
-    authority: {
-      lane_id: 'authority',
-      role: 'governance',
-      local_path: _DIRS.archivist,
-      repo: 'https://github.com/vortsghost2025/Archivist-Agent',
-      mailboxes: _MAILBOXES(_DIRS.archivist, 'authority'),
-    },
-    kernel: {
-      lane_id: 'kernel',
-      role: 'execution',
-      local_path: _DIRS.kernel,
-      repo: 'https://github.com/vortsghost2025/kernel-lane.git',
-      mailboxes: _MAILBOXES(_DIRS.kernel, 'kernel'),
-    },
-    swarmmind: {
-      lane_id: 'swarmmind',
-      role: 'optimization',
-      local_path: _DIRS.swarmmind,
-      canonical_name: 'SwarmMind',
-      forbidden_variants: [
-        _DIRS.swarmmind + ' Self-Optimizing Multi-Agent AI System',
-        _DIRS.swarmmind.replace('/', '-') + '-Self-Optimizing-Multi-Agent-AI-System',
-      ],
-      repo: 'https://github.com/vortsghost2025/SwarmMind',
-      mailboxes: _MAILBOXES(_DIRS.swarmmind, 'swarmmind'),
-    },
-    library: {
-      lane_id: 'library',
-      role: 'knowledge',
-      local_path: _DIRS.library,
-      repo: 'https://github.com/vortsghost2025/self-organizing-library',
-      mailboxes: _MAILBOXES(_DIRS.library, 'library'),
-    },
-  },
-  broadcast: {
-    path: _DIRS.archivist + '/lanes/broadcast',
-  },
-};
+function _translateRegistry(registry) {
+  for (const lane of Object.values(registry.lanes)) {
+    lane.local_path = _resolvePath(lane.local_path);
+    if (lane.mailboxes) {
+      for (const [key, val] of Object.entries(lane.mailboxes)) {
+        lane.mailboxes[key] = _resolvePath(val);
+      }
+    }
+    if (lane.broadcast_access) {
+      lane.broadcast_access = _resolvePath(lane.broadcast_access);
+    }
+    if (lane.forbidden_variants) {
+      lane.forbidden_variants = lane.forbidden_variants.map(_resolvePath);
+    }
+  }
+  if (registry.broadcast && registry.broadcast.path) {
+    registry.broadcast.path = _resolvePath(registry.broadcast.path);
+  }
+  return registry;
+}
 
 class LaneDiscovery {
   constructor() {
@@ -87,9 +57,10 @@ class LaneDiscovery {
   loadRegistry() {
     try {
       const data = fs.readFileSync(REGISTRY_PATH, 'utf8');
-      return JSON.parse(data);
-    } catch (_) {
-      return FALLBACK_REGISTRY;
+      const raw = JSON.parse(data);
+      return isWin32 ? raw : _translateRegistry(raw);
+    } catch (e) {
+      throw new Error(`Failed to load lane registry from ${REGISTRY_PATH}: ${e.message}. Cannot proceed without registry.`);
     }
   }
 
@@ -124,22 +95,6 @@ class LaneDiscovery {
   getRepo(laneId) {
     const lane = this.getLane(laneId);
     return lane.repo;
-  }
-
-  getAllowedRoots() {
-    return Object.values(this.registry.lanes).map(l => l.local_path);
-  }
-
-  getLaneMap() {
-    const map = {};
-    for (const [id, lane] of Object.entries(this.registry.lanes)) {
-      map[id] = lane.local_path;
-    }
-    return map;
-  }
-
-  getBroadcastPath() {
-    return this.registry.broadcast.path;
   }
 
   validatePath(laneId, testPath) {
@@ -185,7 +140,7 @@ class LaneDiscovery {
       to: toLane,
       message_path: targetPath,
       timestamp: new Date().toISOString(),
-      status: 'delivered',
+      status: 'delivered'
     };
     const receiptPath = path.join(outboxPath, `receipt-${filename}`);
     fs.writeFileSync(receiptPath, JSON.stringify(receipt, null, 2));
@@ -196,6 +151,10 @@ class LaneDiscovery {
 
   listLanes() {
     return Object.keys(this.registry.lanes);
+  }
+
+  getBroadcastPath() {
+    return this.registry.broadcast.path;
   }
 }
 
@@ -236,4 +195,65 @@ if (require.main === module) {
   }
 }
 
-module.exports = { LaneDiscovery };
+const _discovery = new LaneDiscovery();
+
+function getRoots() {
+  const lanes = _discovery.registry.lanes;
+  const roots = {};
+  for (const [id, lane] of Object.entries(lanes)) {
+    roots[id] = lane.local_path;
+  }
+  return roots;
+}
+
+function sToLocal(winPath) {
+  if (!isWin32 && winPath) {
+    return winPath.replace(/^S:/, '/home/we4free/agent/repos').replace(/\\/g, '/');
+  }
+  return winPath;
+}
+
+function getAllLanes() {
+  return _discovery.registry.lanes;
+}
+
+function getLane(laneId) {
+  return _discovery.getLane(laneId);
+}
+
+function getLaneNames() {
+  return Object.keys(_discovery.registry.lanes);
+}
+
+const LANES_RAW = _discovery.registry.lanes;
+
+const LANES = {};
+for (const [id, lane] of Object.entries(LANES_RAW)) {
+  LANES[id] = {
+    ...lane,
+    root: lane.local_path,
+    inbox: lane.mailboxes ? lane.mailboxes.inbox : undefined,
+    outbox: lane.mailboxes ? lane.mailboxes.outbox : undefined,
+    processed: lane.mailboxes ? lane.mailboxes.processed : undefined
+  };
+}
+
+const ROOTS = getRoots();
+
+module.exports = {
+  LaneDiscovery,
+  getRoots,
+  sToLocal,
+  getAllLanes,
+  getLane,
+  getLaneNames,
+  LANES,
+  ROOTS
+};
+
+/**
+ * ORIGIN NOTE: Adapted from S:/Archivist-Agent/.global/lane-discovery.js
+ * LOCAL COPY FOR ARCHIVIST LANE SOVEREIGNTY
+ * Reads the same registry but avoids cross-boundary require() on .global/
+ * Last sync: 2026-05-02
+ */
