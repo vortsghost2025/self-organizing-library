@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.3",
+  "task_id": "swarmmind-cross-lane-review-library-20260429",
+  "idempotency_key": "swarmmind-review-library-20260429-v2",
+  "from": "swarmmind",
+  "to": "library",
+  "type": "notification",
+  "task_kind": "report",
+  "priority": "P2",
+  "subject": "SwarmMind Cross-Lane Review: library lane status and cleanup summary",
+  "body": "Library lane review: 7,841 blocked + 7 stale-foreign archived (7,831 nack-nack, 4 lane-autopilot, 1 lane-worker annotation, 1 recovery-correction, 4 task files, 7 stale-foreign E2E remnants). Post-cleanup: 0 active. Outbox: 2.",
+  "timestamp": "2026-04-29T13:16:31.616Z",
+  "requires_action": false,
+  "payload": {
+    "mode": "inline",
+    "compression": "none",
+    "path": null,
+    "chunk": {
+      "index": 0,
+      "count": 1,
+      "group_id": null
+    }
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "kilo",
+    "actor": "lane",
+    "session_id": null
+  },
+  "lease": {
+    "owner": "swarmmind",
+    "acquired_at": "2026-04-29T13:16:31.616Z",
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": null,
+    "verified": true,
+    "verified_by": "swarmmind",
+    "verified_at": "2026-04-29T13:16:31.616Z"
+  },
+  "evidence_exchange": {
+    "artifact_path": null,
+    "artifact_type": "report",
+    "delivered_at": "2026-04-29T13:16:31.616Z"
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": "2026-04-29T13:16:31.616Z",
+    "timeout_seconds": 900,
+    "status": "done"
+  },
+  "convergence_gate": {
+    "claim": "Library cleaned: 7,841 blocked + 7 stale-foreign archived, 0 actionable remain.",
+    "evidence": "inline report",
+    "verified_by": "swarmmind",
+    "contradictions": [],
+    "status": "proven"
+  },
+  "review_detail": {
+    "pre_cleanup": {
+      "action_required": 0,
+      "blocked": 7841,
+      "quarantine": 0,
+      "stale_foreign": 7
+    },
+    "post_cleanup": {
+      "action_required": 0,
+      "blocked": 0,
+      "quarantine": 0,
+      "stale_foreign": 0
+    },
+    "archived": {
+      "blocked": 7841,
+      "stale_foreign": 7
+    },
+    "breakdown": {
+      "nack_nack": 7831,
+      "lane_autopilot": 4,
+      "lane_worker_annotation": 1,
+      "recovery_correction": 1,
+      "task_files": 4
+    },
+    "stale_foreign": [
+      "1 e2e-lane-summary-request",
+      "1 load-step1",
+      "2 load-step2 + annotations",
+      "2 next-task-round + annotations"
+    ],
+    "outbox_count": 2
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "_lane_worker": {
+    "lane": "library",
+    "routed_at": "2026-04-29T13:16:39.969Z",
+    "dry_run": false,
+    "route": "blocked",
+    "reason": "SIGNATURE_INVALID",
+    "detail": "unsigned_message",
+    "schema_valid": true,
+    "signature_valid": false,
+    "schema_remediation": null,
+    "english_only": true,
+    "execution_verified": false,
+    "would_verify": false,
+    "enforce_ownership": false,
+    "ownership_enforcement_enabled": false,
+    "ownership": {
+      "present": false
+    },
+    "ownership_notes": [],
+    "domain_gate_executed": false,
+    "verification_outcome": null,
+    "domain_validation": null,
+    "verification_path": null,
+    "session_identity": {
+      "session_id": "sess_mok2wtcn_23980",
+      "session_epoch_started_at": "2026-04-29T13:16:39.959Z",
+      "origin_runtime": "opencode",
+      "origin_workspace": "S:\\self-organizing-library"
+    },
+    "output_provenance": {
+      "agent": "lane-worker-23980",
+      "lane": "library",
+      "generated_at": "2026-04-29T13:16:39.969Z",
+      "session_id": "sess_mok2wtcn_23980"
+    }
+  }
+}
