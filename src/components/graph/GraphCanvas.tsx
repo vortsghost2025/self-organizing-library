@@ -188,6 +188,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const visibleNodeIdsRef = useRef<Set<string>>(new Set());
   // Cluster Node IDs map ref (computed in fitVisible, but needed for quick check)
   const clusterNodeIdsRef = useRef<Map<string, Set<string>>>(new Map());
+  const lastRefreshTimeRef = useRef<number | null>(null);
+  
   // Callback refs to prevent unnecessary re-renders
   const onNodeClickRef = useRef(onNodeClick);
   const onNodeHoverRef = useRef(onNodeHover);
@@ -195,14 +197,23 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const onCameraUpdateRef = useRef(onCameraUpdate);
   const onGraphReadyRef = useRef(onGraphReady);
   const onWebGLUnavailableRef = useRef(onWebGLUnavailable);
+  // Debug state for ?debugGraph=1 overlay
+  const [debugInfo, setDebugInfo] = useState<Record<string, any> | null>(null);
+
   // Fit camera to visible nodes on demand
   const fitVisible = useCallback(() => {
     const sigma = sigmaRef.current;
     const graph = graphRef.current;
-    if (!sigma || !graph) return;
+    if (!sigma || !graph) {
+      console.debug("[fitVisible] sigma or graph missing");
+      return;
+    }
 
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      console.debug("[fitVisible] container missing");
+      return;
+    }
 
     // Build clusterNodeIds map for visibility checks and store in ref for other effects
     const clusterNodeIds = new Map<string, Set<string>>();
@@ -294,7 +305,10 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     for (const nodeId of graph.nodes()) {
       if (isNodeVisible(nodeId)) visibleNodeIds.push(nodeId);
     }
-    if (visibleNodeIds.length === 0) return;
+    if (visibleNodeIds.length === 0) {
+      console.debug("[fitVisible] no visible nodes");
+      return;
+    }
 
     const xs: number[] = [];
     const ys: number[] = [];
@@ -307,7 +321,10 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const minY = Math.min(...ys), maxY = Math.max(...ys);
     let width = maxX - minX;
     let height = maxY - minY;
-    if (width <= 0 || height <= 0) return;
+    if (width <= 0 || height <= 0) {
+      console.debug("[fitVisible] invalid bbox dimensions");
+      return;
+    }
 
     // Enforce minimum spread for small filtered views to prevent over-zoom collapse
     // Target: visible nodes should occupy at least 40% of the smaller container dimension
@@ -339,6 +356,24 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       (containerWidth * padding) / adjWidth,
       (containerHeight * padding) / adjHeight
     );
+
+    // Debug logging for ?debugGraph=1
+    const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+    if (urlParams.has('debugGraph')) {
+      console.log("[fitVisible] diagnostics:", {
+        container: { width: containerWidth, height: containerHeight },
+        visibleCount: visibleNodeIds.length,
+        bbox: { minX, maxX, minY, maxY, width, height },
+        adjBbox: { minX: adjMinX, maxX: adjMaxX, minY: adjMinY, maxY: adjMaxY, adjWidth, adjHeight },
+        fit: { centerX, centerY, ratio },
+        first5Visible: visibleNodeIds.slice(0, 5).map(id => ({
+          id,
+          x: graph.getNodeAttributes(id).x,
+          y: graph.getNodeAttributes(id).y,
+        })),
+        timestamp: new Date().toISOString(),
+      });
+    }
 
     const camera = sigma.getCamera() as any;
     camera.animate({ x: centerX, y: centerY, ratio }, { duration: 200 });
@@ -375,6 +410,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         
         // Condition 1: Extremely zoomed in or out
         if (state.ratio < 0.03 || state.ratio > 8) {
+          console.debug("[watchdog] ratio out of range", state.ratio);
           fitVisible();
           consecutiveIssues = 0;
           return;
@@ -390,6 +426,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
             // Node exists but is far outside viewport
             if (screenX < -container.clientWidth || screenX > container.clientWidth * 2 ||
                 screenY < -container.clientHeight || screenY > container.clientHeight * 2) {
+              console.debug("[watchdog] node off-screen, recentering");
               fitVisible();
               consecutiveIssues = 0;
               return;
@@ -398,7 +435,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         }
         
         consecutiveIssues = 0;
-      } catch {
+      } catch (err) {
+        console.debug("[watchdog] error", err);
         consecutiveIssues++;
         if (consecutiveIssues >= 3) {
           fitVisible();
@@ -464,7 +502,10 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   }, []);
 
   useEffect(() => {
-    if (sigmaRef.current) sigmaRef.current.refresh();
+    if (sigmaRef.current) {
+      sigmaRef.current.refresh();
+      lastRefreshTimeRef.current = Date.now();
+    }
   }, [hoveredNodeId, selectedNodeId, focusedNodeId, pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density, activeEntryPoint, activeClusterId, searchQuery]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -512,7 +553,10 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     }
 
     const graph = buildGraph(nodes, edges, filter, filterMode);
-    if (graph.order === 0) return;
+    if (graph.order === 0) {
+      console.debug("[GraphCanvas] built graph has 0 nodes");
+      return;
+    }
     graphRef.current = graph;
 
     const clusterNodeIds = new Map<string, Set<string>>();
@@ -520,72 +564,72 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       clusterNodeIds.set(cl.id, new Set(cl.nodeIds));
     }
 
-  const isVisible = (nodeId: string): boolean => {
-    const d = densityRef.current;
-    const ep = activeEntryPointRef.current;
-    const ac = activeClusterIdRef.current;
-    const sq = searchQueryRef.current.toLowerCase();
-    const focused = focusedNodeIdRef.current;
-    const selected = selectedNodeIdRef.current;
-    const g = graphRef.current;
-    if (!g || !g.hasNode(nodeId)) return false;
+    const isVisible = (nodeId: string): boolean => {
+      const d = densityRef.current;
+      const ep = activeEntryPointRef.current;
+      const ac = activeClusterIdRef.current;
+      const sq = searchQueryRef.current.toLowerCase();
+      const focused = focusedNodeIdRef.current;
+      const selected = selectedNodeIdRef.current;
+      const g = graphRef.current;
+      if (!g || !g.hasNode(nodeId)) return false;
 
-    if (sq && g.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
-    if (pathNodesRef.current.size > 0 && pathNodesRef.current.has(nodeId)) return true;
-    if (focused && g.hasNode(focused)) {
-      const neighbors = new Set(g.neighbors(focused));
-      if (neighbors.has(nodeId) || nodeId === focused) return true;
-    }
-    if (selected && nodeId === selected) return true;
+      if (sq && g.getNodeAttribute(nodeId, "label")?.toLowerCase().includes(sq)) return true;
+      if (pathNodesRef.current.size > 0 && pathNodesRef.current.has(nodeId)) return true;
+      if (focused && g.hasNode(focused)) {
+        const neighbors = new Set(g.neighbors(focused));
+        if (neighbors.has(nodeId) || nodeId === focused) return true;
+      }
+      if (selected && nodeId === selected) return true;
 
-    if (ep) {
-      for (const cl of clustersRef.current) {
-        if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
+      if (ep) {
+        for (const cl of clustersRef.current) {
+          if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
+        }
+        if (ep === "ep:authority") {
+          const attrs = g.getNodeAttributes(nodeId);
+          if ((attrs as any).verificationCount >= 3) return true;
+        }
+        if (ep === "ep:contradictions") {
+          const ns = (g.getNodeAttributes(nodeId) as any).nodeStatus;
+          if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
+        }
+        if (ep === "ep:gov-unenforced") {
+          const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+          const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+          if ((gl === "theoretical" || gl === "historical") && (bs === "documented_only" || bs === "unknown")) return true;
+        }
+        if (ep === "ep:gov-core") {
+          const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "constitutional" || gl === "operational") return true;
+        }
+        if (ep === "ep:gov-bridges") {
+          const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+          if (bs === "enforced" || bs === "verified" || bs === "partial") return true;
+        }
+        if (ep === "ep:gov-contradicted") {
+          const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
+          if (bs === "contradicted") return true;
+        }
+        if (ep === "ep:gov-authority-mismatch") {
+          const attrs = g.getNodeAttributes(nodeId) as any;
+          const gl = attrs.governanceLayer;
+          const ad = attrs.authorityDepth;
+          if ((gl === "theoretical" || gl === "historical") && ad >= 75) return true;
+        }
+        if (ep === "ep:gov-evidence") {
+          const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "evidence") return true;
+        }
+        if (ep === "ep:gov-adjacent") {
+          const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "application_adjacent") return true;
+        }
+        if (ep === "ep:gov-historical") {
+          const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
+          if (gl === "historical") return true;
+        }
       }
-      if (ep === "ep:authority") {
-        const attrs = g.getNodeAttributes(nodeId);
-        if ((attrs as any).verificationCount >= 3) return true;
-      }
-      if (ep === "ep:contradictions") {
-        const ns = (g.getNodeAttributes(nodeId) as any).nodeStatus;
-        if (ns === "CONFLICTED" || ns === "QUARANTINED") return true;
-      }
-      if (ep === "ep:gov-unenforced") {
-        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
-        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
-        if ((gl === "theoretical" || gl === "historical") && (bs === "documented_only" || bs === "unknown")) return true;
-      }
-      if (ep === "ep:gov-core") {
-        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
-        if (gl === "constitutional" || gl === "operational") return true;
-      }
-      if (ep === "ep:gov-bridges") {
-        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
-        if (bs === "enforced" || bs === "verified" || bs === "partial") return true;
-      }
-      if (ep === "ep:gov-contradicted") {
-        const bs = (g.getNodeAttributes(nodeId) as any).bridgeState;
-        if (bs === "contradicted") return true;
-      }
-      if (ep === "ep:gov-authority-mismatch") {
-        const attrs = g.getNodeAttributes(nodeId) as any;
-        const gl = attrs.governanceLayer;
-        const ad = attrs.authorityDepth;
-        if ((gl === "theoretical" || gl === "historical") && ad >= 75) return true;
-      }
-      if (ep === "ep:gov-evidence") {
-        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
-        if (gl === "evidence") return true;
-      }
-      if (ep === "ep:gov-adjacent") {
-        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
-        if (gl === "application_adjacent") return true;
-      }
-      if (ep === "ep:gov-historical") {
-        const gl = (g.getNodeAttributes(nodeId) as any).governanceLayer;
-        if (gl === "historical") return true;
-      }
-    }
 
       if (ac && clusterNodeIds.get(ac)?.has(nodeId)) return true;
 
@@ -912,6 +956,49 @@ const GraphCanvas = forwardRef(function GraphCanvas(
    }, [nodes, edges, clusters, filter, filterMode, density]);
   // Note: density intentionally included because label size/threshold depend on it
 
+  // Debug overlay for ?debugGraph=1
+  const urlParams = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
+  const showDebug = urlParams.has('debugGraph');
+
+  // Build debug info string
+  useEffect(() => {
+    if (!showDebug) return;
+    const interval = setInterval(() => {
+      const sigma = sigmaRef.current;
+      const graph = graphRef.current;
+      const container = containerRef.current;
+      if (!sigma || !graph || !container) return;
+      
+      const camera = sigma.getCamera() as any;
+      const state = camera?.getState ? camera.getState() : { x: camera?.x, y: camera?.y, ratio: camera?.ratio };
+      const visibleNodes = graph.nodes().filter(nid => {
+        // reuse visibility check — approximate
+        // For brevity, just count nodes with reasonable coordinates
+        const attrs = graph.getNodeAttributes(nid);
+        return typeof attrs.x === 'number' && typeof attrs.y === 'number';
+      });
+      const bbox = { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity };
+      for (const nid of visibleNodes) {
+        const a = graph.getNodeAttributes(nid);
+        if (a.x < bbox.minX) bbox.minX = a.x;
+        if (a.x > bbox.maxX) bbox.maxX = a.x;
+        if (a.y < bbox.minY) bbox.minY = a.y;
+        if (a.y > bbox.maxY) bbox.maxY = a.y;
+      }
+      const dbg = {
+        container: `${container.clientWidth}×${container.clientHeight}`,
+        sigma: sigma ? 'yes' : 'no',
+        nodes: graph.order,
+        visible: visibleNodes.length,
+        bbox: bbox.minX === Infinity ? 'none' : `${bbox.minX.toFixed(0)}-${bbox.maxX.toFixed(0)}, ${bbox.minY.toFixed(0)}-${bbox.maxY.toFixed(0)}`,
+        camera: state ? `${state.x?.toFixed(0)},${state.y?.toFixed(0)} ratio=${state.ratio?.toFixed(3)}` : 'none',
+        refresh: lastRefreshTimeRef.current ? new Date(lastRefreshTimeRef.current).toISOString().slice(11, 23) : 'never',
+      };
+      setDebugInfo(dbg);
+    }, 500);
+    return () => clearInterval(interval);
+  }, [showDebug]);
+
   const ariaLabel = [
     "Interactive nexus graph",
     density + " density",
@@ -946,12 +1033,25 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   return (
     <div
       ref={containerRef}
-      className="w-full h-full outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-inset"
+      className="w-full h-full outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-inset relative"
       role="application"
       tabIndex={0}
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
-    />
+    >
+      {/* Debug overlay */}
+      {showDebug && debugInfo && (
+        <div id="debug-overlay" style={{
+          position: 'absolute', top: 8, right: 8, zIndex: 9999,
+          background: 'rgba(0,0,0,0.85)', color: '#0f0', fontFamily: 'monospace',
+          fontSize: 11, padding: 8, borderRadius: 4, pointerEvents: 'none',
+          whiteSpace: 'pre-wrap', maxHeight: '90%', overflow: 'auto',
+        }}>
+          <div>── Graph Diagnostics ──</div>
+          {Object.entries(debugInfo).map(([k,v]) => <div key={k}>{k}: {v}</div>)}
+        </div>
+      )}
+    </div>
   );
 });
 
