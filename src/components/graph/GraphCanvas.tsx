@@ -189,6 +189,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   // Cluster Node IDs map ref (computed in fitVisible, but needed for quick check)
   const clusterNodeIdsRef = useRef<Map<string, Set<string>>>(new Map());
   const lastRefreshTimeRef = useRef<number | null>(null);
+  const lastFitDiagnosticsRef = useRef<string>("none");
   
   // Callback refs to prevent unnecessary re-renders
   const onNodeClickRef = useRef(onNodeClick);
@@ -374,6 +375,15 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         timestamp: new Date().toISOString(),
       });
     }
+
+    const diag = `container=${container.clientWidth}x${container.clientHeight} adjWorld=${adjWidth.toFixed(0)}x${adjHeight.toFixed(0)} ratio=${ratio.toFixed(3)}`;
+    console.debug("[fitVisible]", diag);
+    lastFitDiagnosticsRef.current = diag;
+
+    console.log("[fitVisible] RUNNING - container:", container.clientWidth, "x", container.clientHeight,
+                "adjWorld:", { w: adjWidth, h: adjHeight },
+                "computedRatio:", ratio.toFixed(4),
+                "cameraBefore:", camera.getState ? camera.getState() : { x: camera.x, y: camera.y, ratio: camera.ratio });
 
     const camera = sigma.getCamera() as any;
     camera.animate({ x: centerX, y: centerY, ratio }, { duration: 200 });
@@ -1014,6 +1024,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         bbox: bbox.minX === Infinity ? 'none' : `${bbox.minX.toFixed(0)}-${bbox.maxX.toFixed(0)}, ${bbox.minY.toFixed(0)}-${bbox.maxY.toFixed(0)}`,
         camera: state ? `${state.x?.toFixed(0)},${state.y?.toFixed(0)} ratio=${state.ratio?.toFixed(3)}` : 'none',
         refresh: lastRefreshTimeRef.current ? new Date(lastRefreshTimeRef.current).toISOString().slice(11, 23) : 'never',
+        lastFit: lastFitDiagnosticsRef.current,
       };
       setDebugInfo(dbg);
     }, 500);
