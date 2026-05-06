@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const { loadPolicy, assertWatcherConfig } = require('./concurrency-policy');
+const { LANES: _DL } = require('./util/lane-discovery');
 
 const DEFAULT_CONFIG = {
   laneName: process.env.LANE_NAME || 'archivist',
@@ -10,13 +11,11 @@ const DEFAULT_CONFIG = {
   intervalSeconds: 60,
   staleAfterSeconds: 900,
   agentMode: process.env.AGENT_MODE || 'governing',
-  canonicalPaths: {
-    archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
-    library: 'S:/self-organizing-library/lanes/library/inbox/',
-    swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
-    kernel: 'S:/kernel-lane/lanes/kernel/inbox/'
-  }
+  canonicalPaths: {}
 };
+for (const [id, info] of Object.entries(_DL)) {
+  DEFAULT_CONFIG.canonicalPaths[id] = info.inbox + '/';
+}
 
 const REPO_ROOT = path.join(__dirname, '..');
 const POLICY = loadPolicy(REPO_ROOT);

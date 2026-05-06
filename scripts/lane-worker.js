@@ -3,13 +3,13 @@
 
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
 
 const cp = require('./completion-proof');
 const { ArtifactResolver } = require('./artifact-resolver');
 const { ExecutionGate } = require('./execution-gate');
 const { evaluateVerificationDomain } = require('./verification-domain-gate');
 const { getCodeVersionHash } = require('./code-version-hash');
+const { getRoots } = require('./util/lane-discovery');
 
 const ACTIONABLE_TYPES = new Set(['task', 'escalation', 'request']);
 const NON_ASCII_PATTERN = /[^\x00-\x7F]/;
@@ -84,25 +84,7 @@ const LANE_HINTS = [
   { hint: 'swarmmind', lane: 'swarmmind' },
 ];
 
-const LANE_ROOTS = (function() {
-  // Platform-aware lane root resolution: match Archivist-Agent pattern
-  // On Windows, use S:/ drive paths. On Linux/Ubuntu, resolve via homedir.
-  if (process.platform === 'win32') {
-    return {
-      archivist: 'S:/Archivist-Agent',
-      library: 'S:/self-organizing-library',
-      kernel: 'S:/kernel-lane',
-      swarmmind: 'S:/SwarmMind',
-    };
-  }
-  const reposDir = path.join(os.homedir(), 'agent', 'repos');
-  return {
-    archivist: path.join(reposDir, 'Archivist-Agent'),
-    library: path.join(reposDir, 'self-organizing-library'),
-    kernel: path.join(reposDir, 'kernel-lane'),
-    swarmmind: path.join(reposDir, 'SwarmMind'),
-  };
-})();
+const LANE_ROOTS = getRoots();
 
 function nowIso() {
   return new Date().toISOString();
