@@ -351,12 +351,6 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     let consecutiveIssues = 0;
     let userHasInteracted = false;
     
-    // Detect user interaction to avoid fighting the user's camera control
-    const handleInteraction = () => { userHasInteracted = true; };
-    containerRef.current?.addEventListener('wheel', handleInteraction, { passive: true });
-    containerRef.current?.addEventListener('mousedown', handleInteraction);
-    containerRef.current?.addEventListener('touchstart', handleInteraction);
-    
     const checkGraphVisibility = () => {
       const sigma = sigmaRef.current;
       const container = containerRef.current;
@@ -415,11 +409,17 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     
     rafId = window.setInterval(checkGraphVisibility, 2000);
     
+    const handleInteraction = () => { userHasInteracted = true; };
+    const containerForCleanup = containerRef.current;
+    containerForCleanup?.addEventListener('wheel', handleInteraction, { passive: true });
+    containerForCleanup?.addEventListener('mousedown', handleInteraction);
+    containerForCleanup?.addEventListener('touchstart', handleInteraction);
+    
     return () => {
       if (rafId) clearInterval(rafId);
-      containerRef.current?.removeEventListener('wheel', handleInteraction);
-      containerRef.current?.removeEventListener('mousedown', handleInteraction);
-      containerRef.current?.removeEventListener('touchstart', handleInteraction);
+      containerForCleanup?.removeEventListener('wheel', handleInteraction);
+      containerForCleanup?.removeEventListener('mousedown', handleInteraction);
+      containerForCleanup?.removeEventListener('touchstart', handleInteraction);
     };
   }, [fitVisible]);
 
@@ -613,218 +613,231 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       return false;
     };
 
-    const container = containerRef.current;
     // Compute effective label settings based on density
     const effectiveLabelSize = density === "overview"
       ? Math.round(baseLabelSizeRef.current * 1.5)
       : baseLabelSizeRef.current;
     const effectiveLabelThreshold = density === "overview" ? 20 : 50;
+    
+    // Compute initial camera bounds from graph node positions
+    const nodeIdsArray = graph.nodes();
+    let initCenterX = 0, initCenterY = 0;
+    if (nodeIdsArray.length > 0) {
+      let sumX = 0, sumY = 0;
+      for (const id of nodeIdsArray) {
+        const attrs = graph.getNodeAttributes(id);
+        sumX += attrs.x;
+        sumY += attrs.y;
+      }
+      initCenterX = sumX / nodeIdsArray.length;
+      initCenterY = sumY / nodeIdsArray.length;
+    }
     let renderer: Sigma;
     try {
-      renderer = new Sigma(graph, container, {
+      renderer = new Sigma(graph, containerRef.current, {
         renderLabels: true,
-    renderEdgeLabels: false,
-    labelFont: "DM Sans",
-    labelSize: effectiveLabelSize,
-    labelWeight: "500",
-    labelColor: { color: "#A1A1AA" },
-    labelRenderedSizeThreshold: effectiveLabelThreshold,
-      defaultEdgeColor: "#1E1E24",
-      defaultNodeType: "circle",
-      minCameraRatio: 0.1,
-      maxCameraRatio: 10,
-      stagePadding: 20,
-      initialCamera: {
-        // Start with a zoomed-out view so graph is visible immediately
-        ratio: 0.5,
-        x: (minX + maxX) / 2,
-        y: (minY + maxY) / 2,
-      },
-      nodeReducer: (node, data) => {
-        const res = { ...data };
-        const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
-        const hovered = hoveredNodeIdRef.current;
-        const selected = selectedNodeIdRef.current;
-        const focused = focusedNodeIdRef.current;
-        const pNodes = pathNodesRef.current;
-        const pSource = pathSourceRef.current;
-        const pTarget = pathTargetRef.current;
-        const visible = isVisible(node);
+        renderEdgeLabels: false,
+        labelFont: "DM Sans",
+        labelSize: effectiveLabelSize,
+        labelWeight: "500",
+        labelColor: { color: "#A1A1AA" },
+        labelRenderedSizeThreshold: effectiveLabelThreshold,
+        defaultEdgeColor: "#1E1E24",
+        defaultNodeType: "circle",
+        minCameraRatio: 0.1,
+        maxCameraRatio: 10,
+        stagePadding: 20,
+        initialCamera: {
+          // Start zoomed out so graph is visible immediately
+          ratio: 0.5,
+          x: initCenterX,
+          y: initCenterY,
+        },
+        nodeReducer: (node, data) => {
+          const res = { ...data };
+          const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
+          const hovered = hoveredNodeIdRef.current;
+          const selected = selectedNodeIdRef.current;
+          const focused = focusedNodeIdRef.current;
+          const pNodes = pathNodesRef.current;
+          const pSource = pathSourceRef.current;
+          const pTarget = pathTargetRef.current;
+          const visible = isVisible(node);
 
-        if (!visible) {
-          res.color = DIM_COLOR;
-          res.size = 0.5;
-          res.label = "";
-          return res;
-        }
-
-        // Core node highlighting for understand mode (initial load)
-        const coreNodes = coreNodeIdsRef.current;
-        const hasInteraction = hovered || selected || focused || pathNodesRef.current.size > 0;
-        if (coreNodes.length > 0 && !hasInteraction) {
-          if (coreNodes.includes(node)) {
-            res.highlighted = true;
-            res.zIndex = 9;
-            res.color = "#FDE047"; // Yellow highlight for core nodes
-            res.size = (res.size || 6) * 1.2;
-          } else {
-            // Fade non-core nodes on initial load
-            res.color = "#2A2A38";
-            res.label = "";
-          }
-          return res;
-        }
-
-        if (pNodes.size > 0) {
-          if (pNodes.has(node)) {
-            res.highlighted = true;
-            res.zIndex = 10;
-            if (node === pSource || node === pTarget) {
-              res.color = PATH_HIGHLIGHT;
-              res.size = (res.size || 6) * 1.5;
-            }
-          } else {
+          if (!visible) {
             res.color = DIM_COLOR;
+            res.size = 0.5;
             res.label = "";
+            return res;
           }
-          return res;
-        }
 
-        if (focused && graph.hasNode(focused)) {
-          const neighbors = new Set(graph.neighbors(focused));
-          if (neighbors.has(node) || node === focused) {
-            if (node === focused) {
+          // Core node highlighting for understand mode (initial load)
+          const coreNodes = coreNodeIdsRef.current;
+          const hasInteraction = hovered || selected || focused || pathNodesRef.current.size > 0;
+          if (coreNodes.length > 0 && !hasInteraction) {
+            if (coreNodes.includes(node)) {
+              res.highlighted = true;
+              res.zIndex = 9;
+              res.color = "#FDE047"; // Yellow highlight for core nodes
+              res.size = (res.size || 6) * 1.2;
+            } else {
+              // Fade non-core nodes on initial load
+              res.color = "#2A2A38";
+              res.label = "";
+            }
+            return res;
+          }
+
+          if (pNodes.size > 0) {
+            if (pNodes.has(node)) {
               res.highlighted = true;
               res.zIndex = 10;
-              res.size = (res.size || 6) * 1.3;
+              if (node === pSource || node === pTarget) {
+                res.color = PATH_HIGHLIGHT;
+                res.size = (res.size || 6) * 1.5;
+              }
+            } else {
+              res.color = DIM_COLOR;
+              res.label = "";
             }
-          } else {
-            res.color = DIM_COLOR;
-            res.label = "";
+            return res;
           }
-          return res;
+
+          if (focused && graph.hasNode(focused)) {
+            const neighbors = new Set(graph.neighbors(focused));
+            if (neighbors.has(node) || node === focused) {
+              if (node === focused) {
+                res.highlighted = true;
+                res.zIndex = 10;
+                res.size = (res.size || 6) * 1.3;
+              }
+            } else {
+              res.color = DIM_COLOR;
+              res.label = "";
+            }
+            return res;
+          }
+
+          if (hovered) {
+            const neighborIds = hoveredNeighborIdsRef.current;
+            if (node === hovered || neighborIds.has(node)) {
+              res.highlighted = true;
+            } else {
+              res.color = HOVER_DIM_COLOR;
+              const degree = graph.degree(node);
+              if (degree < 8) res.label = "";
+            }
+            return res;
+          }
+
+        if (nodeStatus === "CONFLICTED") {
+          res.color = STATUS_COLORS.CONFLICTED;
+          res.zIndex = 5;
+        } else if (nodeStatus === "QUARANTINED") {
+          res.color = STATUS_COLORS.QUARANTINED;
+          res.zIndex = 5;
         }
 
-        if (hovered) {
-          const neighborIds = hoveredNeighborIdsRef.current;
-          if (node === hovered || neighborIds.has(node)) {
+        if (activeLayersRef.current.includes("governance")) {
+          const gl = (data as any).governanceLayer as GovernanceLayer;
+          const bs = (data as any).bridgeState as BridgeState;
+          if (bs === "contradicted") {
+            res.color = BRIDGE_STATE_COLORS.contradicted;
+            res.zIndex = 6;
+          } else if (bs === "enforced") {
+            res.color = BRIDGE_STATE_COLORS.enforced;
+            res.zIndex = 4;
+          } else if (bs === "documented_only" || bs === "obsolete") {
+            res.color = BRIDGE_STATE_COLORS[bs] || GOVERNANCE_LAYER_COLORS[gl] || res.color;
+            res.zIndex = 1;
+          } else if (gl && GOVERNANCE_LAYER_COLORS[gl]) {
+            res.color = GOVERNANCE_LAYER_COLORS[gl];
+          }
+        }
+
+          if (selected && node === selected) {
             res.highlighted = true;
-          } else {
-            res.color = HOVER_DIM_COLOR;
+            res.zIndex = 10;
+          }
+
+          const d = densityRef.current;
+          if (d === "overview") {
+            const isRep = clustersRef.current.some((cl) => cl.representativeId === node);
+            if (!isRep) {
+              res.label = "";
+            }
+          } else if (d === "mid") {
             const degree = graph.degree(node);
             if (degree < 8) res.label = "";
           }
+
           return res;
-        }
+        },
+        edgeReducer: (edge, data) => {
+          const res = { ...data };
+          const authority = (data as any).authority as string | null;
+          const hovered = hoveredNodeIdRef.current;
+          const focused = focusedNodeIdRef.current;
+          const pEdges = pathEdgesRef.current;
 
-      if (nodeStatus === "CONFLICTED") {
-        res.color = STATUS_COLORS.CONFLICTED;
-        res.zIndex = 5;
-      } else if (nodeStatus === "QUARANTINED") {
-        res.color = STATUS_COLORS.QUARANTINED;
-        res.zIndex = 5;
-      }
-
-      if (activeLayersRef.current.includes("governance")) {
-        const gl = (data as any).governanceLayer as GovernanceLayer;
-        const bs = (data as any).bridgeState as BridgeState;
-        if (bs === "contradicted") {
-          res.color = BRIDGE_STATE_COLORS.contradicted;
-          res.zIndex = 6;
-        } else if (bs === "enforced") {
-          res.color = BRIDGE_STATE_COLORS.enforced;
-          res.zIndex = 4;
-        } else if (bs === "documented_only" || bs === "obsolete") {
-          res.color = BRIDGE_STATE_COLORS[bs] || GOVERNANCE_LAYER_COLORS[gl] || res.color;
-          res.zIndex = 1;
-        } else if (gl && GOVERNANCE_LAYER_COLORS[gl]) {
-          res.color = GOVERNANCE_LAYER_COLORS[gl];
-        }
-      }
-
-        if (selected && node === selected) {
-          res.highlighted = true;
-          res.zIndex = 10;
-        }
-
-        const d = densityRef.current;
-        if (d === "overview") {
-          const isRep = clustersRef.current.some((cl) => cl.representativeId === node);
-          if (!isRep) {
-            res.label = "";
-          }
-        } else if (d === "mid") {
-          const degree = graph.degree(node);
-          if (degree < 8) res.label = "";
-        }
-
-        return res;
-      },
-      edgeReducer: (edge, data) => {
-        const res = { ...data };
-        const authority = (data as any).authority as string | null;
-        const hovered = hoveredNodeIdRef.current;
-        const focused = focusedNodeIdRef.current;
-        const pEdges = pathEdgesRef.current;
-
-        if (!isEdgeInActiveLayer(authority)) {
-          res.hidden = true;
-          return res;
-        }
-
-        if (pEdges.size > 0) {
-          if (pEdges.has(edge)) {
-            res.color = PATH_EDGE_COLOR;
-            res.size = 2.5;
-          } else {
+          if (!isEdgeInActiveLayer(authority)) {
             res.hidden = true;
+            return res;
           }
-          return res;
-        }
 
-        if (focused && graph.hasNode(focused)) {
-          const neighbors = new Set(graph.neighbors(focused));
-          const src = graph.source(edge);
-          const tgt = graph.target(edge);
-          if (!neighbors.has(src) || !neighbors.has(tgt)) {
-            res.hidden = true;
-          } else if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
+          if (pEdges.size > 0) {
+            if (pEdges.has(edge)) {
+              res.color = PATH_EDGE_COLOR;
+              res.size = 2.5;
+            } else {
+              res.hidden = true;
+            }
+            return res;
+          }
+
+          if (focused && graph.hasNode(focused)) {
+            const neighbors = new Set(graph.neighbors(focused));
+            const src = graph.source(edge);
+            const tgt = graph.target(edge);
+            if (!neighbors.has(src) || !neighbors.has(tgt)) {
+              res.hidden = true;
+            } else if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
+              res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
+              res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType] || 1.2;
+            } else {
+              res.size = 1.2;
+            }
+            return res;
+          }
+
+          if (hovered) {
+            const src = graph.source(edge);
+            const tgt = graph.target(edge);
+            if (src !== hovered && tgt !== hovered) {
+              res.color = HOVER_DIM_EDGE;
+              res.size = 0.2;
+            } else if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
+              res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
+              res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType] || 1.5;
+            } else {
+              res.size = 1.5;
+            }
+            return res;
+          }
+
+          if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
             res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
-            res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType] || 1.2;
-          } else {
-            res.size = 1.2;
+            res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
           }
-          return res;
-        }
 
-        if (hovered) {
-          const src = graph.source(edge);
-          const tgt = graph.target(edge);
-          if (src !== hovered && tgt !== hovered) {
-            res.color = HOVER_DIM_EDGE;
-            res.size = 0.2;
-          } else if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
-            res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
-            res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType] || 1.5;
-          } else {
-            res.size = 1.5;
+          // Boost edge visibility in overview/representative mode
+          if (densityRef.current === "overview") {
+            res.size = (res.size || 0.5) * 1.5;
           }
+
           return res;
-        }
-
-        if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
-          res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
-          res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
-        }
-
-        // Boost edge visibility in overview/representative mode
-        if (densityRef.current === "overview") {
-          res.size = (res.size || 0.5) * 1.5;
-        }
-
-        return res;
-      },
-    });
+        },
+      });
     } catch (err) {
     console.error("Sigma renderer creation failed:", err);
     _webglAvailable = false;
