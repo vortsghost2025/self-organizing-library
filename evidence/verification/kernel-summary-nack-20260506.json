@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "verification_type": "inbox-review",
+  "task_id": "kernel-summary-ascii-20260501T214200Z",
+  "verifier": "library",
+  "verified_at": "2026-05-06T23:03:31.000Z",
+  "outcome": "NACK",
+  "reason": "Evidence artifact not found at claimed path evidence/graph-snapshots/final-convergence-proof.json",
+  "block_reason": "EVIDENCE_REQUIRED_NO_ARTIFACT",
+  "action_required": "Kernel must provide evidence artifact or set evidence.required=false",
+  "evidence_checked": [
+    {
+      "path": "evidence/graph-snapshots/final-convergence-proof.json",
+      "exists": false,
+      "claim": "Kernel lane all tasks completed, system in zero-contradiction state"
+    }
+  ]
+}
