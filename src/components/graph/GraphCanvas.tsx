@@ -882,6 +882,21 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       camera.y = initCenterY;
       camera.ratio = 0.5;
       renderer.setCamera(camera);
+      
+      // Initial refresh and timestamp
+      renderer.refresh();
+      lastRefreshTimeRef.current = Date.now();
+      
+      // Debug: log initial state
+      const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+      if (urlParams.has('debugGraph')) {
+        console.log("[GraphCanvas] init", {
+          graphNodes: graph.order,
+          container: container ? { w: container.clientWidth, h: container.clientHeight } : null,
+          camera: { x: camera.x, y: camera.y, ratio: camera.ratio },
+          sigma: !!renderer,
+        });
+      }
     } catch (err) {
     console.error("Sigma renderer creation failed:", err);
     _webglAvailable = false;
@@ -971,25 +986,31 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       
       const camera = sigma.getCamera() as any;
       const state = camera?.getState ? camera.getState() : { x: camera?.x, y: camera?.y, ratio: camera?.ratio };
-      const visibleNodes = graph.nodes().filter(nid => {
-        // reuse visibility check — approximate
-        // For brevity, just count nodes with reasonable coordinates
-        const attrs = graph.getNodeAttributes(nid);
-        return typeof attrs.x === 'number' && typeof attrs.y === 'number';
-      });
+      
+      // Recompute visible nodes using same logic as fitVisible
+      const visibleNodeIds: string[] = [];
+      for (const nodeId of graph.nodes()) {
+        // Simplified visibility: node has valid position
+        const attrs = graph.getNodeAttributes(nodeId);
+        if (typeof attrs.x === 'number' && typeof attrs.y === 'number') {
+          visibleNodeIds.push(nodeId);
+        }
+      }
+      
       const bbox = { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity };
-      for (const nid of visibleNodes) {
+      for (const nid of visibleNodeIds) {
         const a = graph.getNodeAttributes(nid);
         if (a.x < bbox.minX) bbox.minX = a.x;
         if (a.x > bbox.maxX) bbox.maxX = a.x;
         if (a.y < bbox.minY) bbox.minY = a.y;
         if (a.y > bbox.maxY) bbox.maxY = a.y;
       }
+      
       const dbg = {
         container: `${container.clientWidth}×${container.clientHeight}`,
         sigma: sigma ? 'yes' : 'no',
         nodes: graph.order,
-        visible: visibleNodes.length,
+        visible: visibleNodeIds.length,
         bbox: bbox.minX === Infinity ? 'none' : `${bbox.minX.toFixed(0)}-${bbox.maxX.toFixed(0)}, ${bbox.minY.toFixed(0)}-${bbox.maxY.toFixed(0)}`,
         camera: state ? `${state.x?.toFixed(0)},${state.y?.toFixed(0)} ratio=${state.ratio?.toFixed(3)}` : 'none',
         refresh: lastRefreshTimeRef.current ? new Date(lastRefreshTimeRef.current).toISOString().slice(11, 23) : 'never',
