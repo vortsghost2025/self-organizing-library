@@ -307,7 +307,16 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     lastFitTimeRef.current = Date.now();
 
     const camera = sigma.getCamera() as any;
-    camera.animate({ x: centerX, y: centerY, ratio }, { duration: 200 });
+    camera.x = centerX;
+    camera.y = centerY;
+    camera.ratio = ratio;
+    // Notify Sigma of camera change and refresh
+    try {
+      renderer.setCamera(camera);
+    } catch {
+      // Some Sigma versions accept direct mutation without setCamera
+    }
+    renderer.refresh();
   }, []);
 
   // Watchdog: ensure graph never drifts off-screen or stays blank
