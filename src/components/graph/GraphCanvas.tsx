@@ -310,13 +310,11 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     camera.x = centerX;
     camera.y = centerY;
     camera.ratio = ratio;
-    // Notify Sigma of camera change and refresh
+    // Apply camera to Sigma instance and refresh. Some versions require explicit setCamera.
     try {
-      renderer.setCamera(camera);
-    } catch {
-      // Some Sigma versions accept direct mutation without setCamera
-    }
-    renderer.refresh();
+      sigma.setCamera(camera);
+    } catch {}
+    sigma.refresh();
   }, []);
 
   // Watchdog: ensure graph never drifts off-screen or stays blank
