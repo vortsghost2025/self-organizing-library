@@ -7,6 +7,12 @@
 - [x] **Components updated**: Replaced direct `fetch` calls with `fetchWithRetry` in `LiveSystemPulse`, `HomeSystemStateStrip`, `SearchModal`, `graph/SwarmmindResiliencePanel`, `app/governance/page`, `components/MarkdownContent`, `swarmmind/orchestratorClient`, and `attestation/AttestationSupport`.
 - [x] **Dynamic imports**: Used dynamic import to keep client bundles lightweight.
 - [x] **All TypeScript checks pass** after changes.
+- [x] **Local Ollama shell helper created**: Two scripts for calling `qwen2.5-coder:3b-instruct-q4_K_M` (GPU-offloaded on RTX 5060) as a local code-review tool via `http://127.0.0.1:11434`:
+  - `C:\Users\seand\ollama-review.ps1` — PowerShell version
+  - `C:\Users\seand\ollama-review.sh` — Bash/Node version (for Kilo agent shell)
+  - Usage: `bash /c/Users/seand/ollama-review.sh "Review this code: <code>"`
+  - Scope: code review, log summarization, small patch critique, obvious bugs only
+  - Not final authority. Keep prompts under 200 lines.
 
 
 **Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
