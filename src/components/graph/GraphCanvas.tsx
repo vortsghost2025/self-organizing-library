@@ -325,20 +325,20 @@ const GraphCanvas = forwardRef(function GraphCanvas(
 
     // Enforce minimum spread for small filtered views to prevent over-zoom collapse
     // Target: visible nodes should occupy at least 40% of the smaller container dimension
-    const minScreenFraction = 0.4;
-    const minWorldExtent = Math.min(container.clientWidth, container.clientHeight) * minScreenFraction;
-    
     let adjMinX = minX, adjMaxX = maxX, adjMinY = minY, adjMaxY = maxY;
-    
-    if (width < minWorldExtent) {
-      const diff = minWorldExtent - width;
-      adjMinX -= diff / 2;
-      adjMaxX += diff / 2;
-    }
-    if (height < minWorldExtent) {
-      const diff = minWorldExtent - height;
-      adjMinY -= diff / 2;
-      adjMaxY += diff / 2;
+    // Only enforce minimum spread for small filtered views (≤ 15 nodes) to prevent
+    // over-zoom collapse on tiny clusters while allowing larger views to use natural spread
+    if (visibleNodeIds.length <= 15) {
+      const minScreenFraction = 0.4;
+      const minWorldExtent = Math.min(container.clientWidth, container.clientHeight) * minScreenFraction;
+      if (width < minWorldExtent) {
+        const diff = minWorldExtent - width;
+        adjMinX -= diff / 2; adjMaxX += diff / 2;
+      }
+      if (height < minWorldExtent) {
+        const diff = minWorldExtent - height;
+        adjMinY -= diff / 2; adjMaxY += diff / 2;
+      }
     }
     
     const adjWidth = adjMaxX - adjMinX;
