@@ -13,6 +13,9 @@
   - Usage: `bash /c/Users/seand/ollama-review.sh "Review this code: <code>"`
   - Scope: code review, log summarization, small patch critique, obvious bugs only
   - Not final authority. Keep prompts under 200 lines.
+- [x] **Inbox processed — kernel summary NACK**: Kernel's ASCII summary message had no verifiable artifact. NACK'd with reason EVIDENCE_REQUIRED_NO_ARTIFACT, outbox response + evidence file created. Committed `b95e52c`.
+- [x] **Misrouted convergence proof archived**: Final-system-convergence-proof message was addressed to Archivist (not Library). Moved from stale-foreign/ to processed/ with note. Committed `b95e52c`.
+- [x] **Sovereignty + state sync**: sovereignty-report-latest.json and system_state.json updated. 0 violations across all 4 lanes. Committed `b95e52c`, pushed to origin.
 
 
 **Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
