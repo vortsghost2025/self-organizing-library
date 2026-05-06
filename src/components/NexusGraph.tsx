@@ -51,7 +51,7 @@ export default function NexusGraph({ initialFilter = "all", initialFilterMode = 
 
 const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
   const [density, setDensity] = useState<DensityLevel>("mid");
-  const [graphMode, setGraphMode] = useState<GraphMode>(DEFAULT_MODE);
+  const [graphMode, setGraphMode] = useState<GraphMode>(initialMode ? (initialMode as GraphMode) : DEFAULT_MODE);
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
   const [cameraRatio, setCameraRatio] = useState(1);

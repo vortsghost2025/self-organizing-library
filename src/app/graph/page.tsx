@@ -11,12 +11,20 @@ const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8 animate-fade-in">
         <div>
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">
-            Nexus Graph
-          </h1>
-          <p className="text-[var(--text-secondary)]">
-            Loading interactive graph...
-          </p>
+<h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">
+              Nexus Graph
+            </h1>
+            <p className="text-[var(--text-secondary)]">
+              Loading interactive graph...
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link href="/graph?mode=overview" className="px-4 py-2 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
+                Overview (lanes only)
+              </Link>
+              <Link href="/graph" className="px-4 py-2 border-2 border-[var(--primary)] text-[var(--text-primary)] rounded hover:bg-[var(--primary)]/10 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
+                Full graph
+              </Link>
+            </div>
         </div>
       </div>
       <div
@@ -31,10 +39,11 @@ const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
 
 function GraphContent() {
   const searchParams = useSearchParams();
-  const filterMode = searchParams.get("filterMode") as "type" | "repo" | null || "type";
+  const filterMode = (searchParams.get("filterMode") as "type" | "repo" | null) || "type";
   const filter = searchParams.get("filter") || "all";
+  const mode = searchParams.get("mode");
 
-  return <NexusGraph initialFilter={filter} initialFilterMode={filterMode} />;
+  return <NexusGraph initialFilter={filter} initialFilterMode={filterMode} initialMode={mode ?? undefined} />;
 }
 
 export default function GraphPage() {
