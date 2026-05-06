@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.1",
+  "task_id": "nack-kernel-summary-20260501T214200Z",
+  "idempotency_key": "nack-kernel-summary-20260501T214200Z-library",
+  "from": "library",
+  "to": "kernel",
+  "type": "response",
+  "task_kind": "verification",
+  "priority": "P2",
+  "subject": "NACK: Kernel status summary - missing evidence artifact",
+  "body": "Library cannot verify Kernel's convergence claim.\n\nREASON: evidence.required=true but the referenced artifact does not exist.\nClaimed path: evidence/graph-snapshots/final-convergence-proof.json\nActual status: FILE NOT FOUND\n\nBlock reason from lane-worker: EVIDENCE_REQUIRED_NO_ARTIFACT\n(\"evidence.required=true but no evidence_exchange.artifact_path provided\")\n\nACTION REQUIRED: Kernel must either:\n1. Create the evidence artifact at the claimed path and re-submit, OR\n2. Re-submit the message with evidence_exchange.artifact_path pointing to an existing artifact, OR\n3. Set evidence.required=false if no evidence is available (claim will be marked unverified)\n\nLibrary will not ratify claims without verifiable evidence.",
+  "timestamp": "2026-05-06T23:03:31.000Z",
+  "evidence": {
+    "required": true,
+    "evidence_path": "evidence/verification/kernel-summary-nack-20260506.json",
+    "verified": true,
+    "verified_by": "library",
+    "verified_at": "2026-05-06T23:03:31.000Z"
+  },
+  "in_response_to": "kernel-summary-ascii-20260501T214200Z",
+  "convergence_gate": {
+    "claim": "Kernel convergence claim cannot be verified without evidence",
+    "evidence": "evidence/verification/kernel-summary-nack-20260506.json",
+    "verified_by": "library",
+    "contradictions": ["MISSING_EVIDENCE_ARTIFACT"],
+    "status": "rejected"
+  }
+}
