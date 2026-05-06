@@ -27,7 +27,8 @@ export function SearchModal() {
     }
     setLoading(true);
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+      const { fetchWithRetry } = await import('@/lib/fetchWithRetry');
+        const res = await fetchWithRetry(`/api/search?q=${encodeURIComponent(q)}`);
       const data = await res.json();
       setResults(data.results || []);
     } catch (e) {

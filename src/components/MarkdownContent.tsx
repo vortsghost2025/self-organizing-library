@@ -23,7 +23,8 @@ export default function MarkdownContent({ entryId }: MarkdownContentProps) {
     let cancelled = false;
     async function load() {
       try {
-        const res = await fetch(`/api/document-content/${entryId}`);
+        const { fetchWithRetry } = await import('../lib/fetchWithRetry');
+    const res = await fetchWithRetry(`/api/document-content/${entryId}`);
         if (!res.ok) {
           if (!cancelled) setState({ status: "error", message: "Failed to load content" });
           return;

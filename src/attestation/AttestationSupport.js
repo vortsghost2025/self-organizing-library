@@ -15,6 +15,7 @@ const path = require('path');
 const crypto = require('crypto');
 // Use built-in global fetch (Node.js 18+) — node-fetch removed
 const { ARCHIVIST_ORCHESTRATOR_URL, ORCHESTRATOR_REQUEST_TIMEOUT_MS } = require('./constants');
+const { fetchWithRetry } = require('../lib/fetchWithRetry');
 const { QuarantineManager } = require('./QuarantineManager');
 
 class AttestationSupport {
@@ -164,7 +165,7 @@ try {
    */
   async reportFailureToArchivist(item, failureReason) {
     try {
-      const response = await fetch(ARCHIVIST_ORCHESTRATOR_URL, {
+      const response = await fetchWithRetry(ARCHIVIST_ORCHESTRATOR_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         timeout: ORCHESTRATOR_REQUEST_TIMEOUT_MS,

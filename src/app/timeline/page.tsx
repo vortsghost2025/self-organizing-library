@@ -27,7 +27,8 @@ export default function TimelinePage() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const res = await fetch('/api/events');
+        const { fetchWithRetry } = await import('../../lib/fetchWithRetry');
+    const res = await fetchWithRetry('/api/events');
         const data = await res.json();
         setEvents(data);
       } catch (e) {

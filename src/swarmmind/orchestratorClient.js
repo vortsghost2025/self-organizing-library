@@ -19,7 +19,8 @@ const { ARCHIVIST_ORCHESTRATOR_URL, ORCHESTRATOR_REQUEST_TIMEOUT_MS } = require(
  */
 async function reportFailure(payload, failureReason, retryCallback) {
   try {
-    const response = await fetch(ARCHIVIST_ORCHESTRATOR_URL, {
+    const { fetchWithRetry } = require('../lib/fetchWithRetry');
+    const response = await fetchWithRetry(ARCHIVIST_ORCHESTRATOR_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       timeout: ORCHESTRATOR_REQUEST_TIMEOUT_MS,

@@ -17,7 +17,8 @@ export default function HomeSystemStateStrip() {
     let cancelled = false;
     async function load() {
       try {
-        const res = await fetch("/api/graph-data");
+        const { fetchWithRetry } = await import('@/lib/fetchWithRetry');
+        const res = await fetchWithRetry('/api/graph-data');
         if (!res.ok) return;
         const data = await res.json();
         if (!cancelled) setNodes(data.nodes || []);
