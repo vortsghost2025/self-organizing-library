@@ -3,9 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { LaneDiscovery } = require('./util/lane-discovery');
-
-const discovery = new LaneDiscovery();
+const os = require('os');
 
 const cp = require('./completion-proof');
 const { ArtifactResolver } = require('./artifact-resolver');
@@ -45,6 +43,7 @@ function normalizeToAscii(str) {
 
 const SKIP_FILENAMES = new Set(['heartbeat.json', 'watcher.log', 'watcher.pid', 'readme.md']);
 const HEARTBEAT_PATTERN = /^heartbeat-.+\.json$/i;
+const LANE_WORKER_COPY_PATTERN = /\.lane-worker-\d{4}-\d{2}-\d{2}T/;
 
 const SESSION_ID = process.env.LANE_SESSION_ID || `sess_${Date.now().toString(36)}_${process.pid}`;
 const SESSION_EPOCH = new Date().toISOString();
@@ -85,12 +84,25 @@ const LANE_HINTS = [
   { hint: 'swarmmind', lane: 'swarmmind' },
 ];
 
-const LANE_ROOTS = {
-  archivist: discovery.getLocalPath('archivist'),
-  library: discovery.getLocalPath('library'),
-  kernel: discovery.getLocalPath('kernel'),
-  swarmmind: discovery.getLocalPath('swarmmind'),
-};
+const LANE_ROOTS = (function() {
+  // Platform-aware lane root resolution: match Archivist-Agent pattern
+  // On Windows, use S:/ drive paths. On Linux/Ubuntu, resolve via homedir.
+  if (process.platform === 'win32') {
+    return {
+      archivist: 'S:/Archivist-Agent',
+      library: 'S:/self-organizing-library',
+      kernel: 'S:/kernel-lane',
+      swarmmind: 'S:/SwarmMind',
+    };
+  }
+  const reposDir = path.join(os.homedir(), 'agent', 'repos');
+  return {
+    archivist: path.join(reposDir, 'Archivist-Agent'),
+    library: path.join(reposDir, 'self-organizing-library'),
+    kernel: path.join(reposDir, 'kernel-lane'),
+    swarmmind: path.join(reposDir, 'SwarmMind'),
+  };
+})();
 
 function nowIso() {
   return new Date().toISOString();
@@ -489,32 +501,34 @@ class LaneWorker {
     const files = [];
     const inboxDir = this.config.queues.inbox;
 
-    // Scan inbox root
-    if (fs.existsSync(inboxDir)) {
-      const entries = fs.readdirSync(inboxDir, { withFileTypes: true });
-      for (const ent of entries) {
-        if (!ent.isFile()) continue;
-        const lower = ent.name.toLowerCase();
-        if (!lower.endsWith('.json')) continue;
-        if (SKIP_FILENAMES.has(lower)) continue;
-        if (HEARTBEAT_PATTERN.test(lower)) continue;
-        files.push(path.join(inboxDir, ent.name));
-      }
+  // Scan inbox root
+  if (fs.existsSync(inboxDir)) {
+    const entries = fs.readdirSync(inboxDir, { withFileTypes: true });
+    for (const ent of entries) {
+      if (!ent.isFile()) continue;
+      const lower = ent.name.toLowerCase();
+      if (!lower.endsWith('.json')) continue;
+      if (SKIP_FILENAMES.has(lower)) continue;
+      if (HEARTBEAT_PATTERN.test(lower)) continue;
+      if (LANE_WORKER_COPY_PATTERN.test(ent.name)) continue;
+      files.push(path.join(inboxDir, ent.name));
     }
+  }
 
-    // Scan action-required subfolder (tasks awaiting agent execution)
-    const arDir = this.config.queues.actionRequired;
-    if (fs.existsSync(arDir)) {
-      const entries = fs.readdirSync(arDir, { withFileTypes: true });
-      for (const ent of entries) {
-        if (!ent.isFile()) continue;
-        const lower = ent.name.toLowerCase();
-        if (!lower.endsWith('.json')) continue;
-        if (SKIP_FILENAMES.has(lower)) continue;
-        if (HEARTBEAT_PATTERN.test(lower)) continue;
-        files.push(path.join(arDir, ent.name));
-      }
+  // Scan action-required subfolder (tasks awaiting agent execution)
+  const arDir = this.config.queues.actionRequired;
+  if (fs.existsSync(arDir)) {
+    const entries = fs.readdirSync(arDir, { withFileTypes: true });
+    for (const ent of entries) {
+      if (!ent.isFile()) continue;
+      const lower = ent.name.toLowerCase();
+      if (!lower.endsWith('.json')) continue;
+      if (SKIP_FILENAMES.has(lower)) continue;
+      if (HEARTBEAT_PATTERN.test(lower)) continue;
+      if (LANE_WORKER_COPY_PATTERN.test(ent.name)) continue;
+      files.push(path.join(arDir, ent.name));
     }
+  }
 
     return files.slice(0, this.maxFiles);
   }
@@ -869,7 +883,9 @@ _routeRaw(filePath, queueKey, meta) {
           if (rawRead2.ok) {
             sendNack(rawRead2.value, meta.reason, meta.detail, this.lane, this.lane);
           }
-        } catch (_) {}
+	} catch (loadErr) {
+		process.stderr.write(`[lane-worker] Identity enforcer module load failed: ${loadErr.message}\n`);
+	}
       }
     }
   return record;

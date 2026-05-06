@@ -5,20 +5,36 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const crypto = require('crypto');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
-const discovery = new LaneDiscovery();
+const LANE_ROOTS = (function() {
+  if (process.platform === 'win32') {
+    return {
+      archivist: 'S:/Archivist-Agent',
+      library: 'S:/self-organizing-library',
+      kernel: 'S:/kernel-lane',
+      swarmmind: 'S:/SwarmMind',
+    };
+  }
+  const reposDir = path.join(os.homedir(), 'agent', 'repos');
+  return {
+    archivist: path.join(reposDir, 'Archivist-Agent'),
+    library: path.join(reposDir, 'self-organizing-library'),
+    kernel: path.join(reposDir, 'kernel-lane'),
+    swarmmind: path.join(reposDir, 'SwarmMind'),
+  };
+})();
+
 const LOCAL_TRUST_STORE = path.join(__dirname, '..', 'lanes', 'broadcast', 'trust-store.json');
 const TRUST_STORE_SEARCH_PATHS = [
-LOCAL_TRUST_STORE,
-path.join(discovery.getBroadcastPath(), 'trust-store.json'),
+  LOCAL_TRUST_STORE,
+  path.join(LANE_ROOTS.library, 'lanes', 'broadcast', 'trust-store.json'),
 ];
 
 const ALLOWED_TRUST_STORE_ROOTS = [
-  discovery.getLocalPath('archivist'),
-  discovery.getLocalPath('kernel'),
-  discovery.getLocalPath('library'),
-  discovery.getLocalPath('swarmmind'),
+  LANE_ROOTS.archivist,
+  LANE_ROOTS.kernel,
+  LANE_ROOTS.library,
+  LANE_ROOTS.swarmmind,
 ];
 
 const TRUST_STORE_PRECOMMIT_CHECKS = [
