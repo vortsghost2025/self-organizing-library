@@ -38,7 +38,7 @@ fi
 UNCERTAINTY_SIGNALS="(uncertain|not sure|may need|i think|possibly|might be|could not determine|unable to|insufficient|recommend.*(stronger|higher)|escalate)"
 
 run_local() {
-bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
+  OLLAMA_HOST="${OLLAMA_HOST:-127.0.0.1:11434}" bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
 }
 
 run_strong() {
@@ -84,9 +84,9 @@ exit 0
 fi
 
 case "$TIER" in
-local|review-local|l)
-exec bash "$ROUTER_DIR/ollama-review.sh" "$prompt"
-;;
+  local|review-local|l)
+    run_local
+    ;;
 strong|review-strong|nvidia|n|s)
 exec bash "$ROUTER_DIR/nvidia-review.sh" "$prompt"
 ;;
@@ -103,7 +103,7 @@ help|--help|-h)
 echo "Usage: ai-review.sh [--auto] <tier> '<prompt>'"
 echo ""
 echo "Tiers:"
-echo " local (l) - Ollama qwen2.5-coder:7b on RTX 5060 (cheap, fast, small tasks)"
+  echo " local (l) - Ollama qwen2.5-coder:7b (local RTX 5060 or VPS via Tailscale fallback)"
 echo " strong (s,n) - NVIDIA NIM nemotron-3-super-120b (cloud, strong reasoning)"
 echo " openrouter (o) - OpenRouter free models (nemotron-3-super:free default)"
 echo " final (f) - Manual: Claude/GPT/GLM via agent provider (not scriptable)"
@@ -117,11 +117,15 @@ echo " bash scripts/ai-review.sh local 'Find bugs in this function'"
 echo " bash scripts/ai-review.sh strong 'Analyze this architecture for race conditions'"
 echo " bash scripts/ai-review.sh openrouter 'Deep review of this governance protocol'"
 echo " bash scripts/ai-review.sh --auto 'Review this complex patch'"
-echo " NVIDIA_MODEL=deepseek-ai/deepseek-v4-pro bash scripts/ai-review.sh strong 'Review'"
-echo ""
-echo "Guardrails (see ai-review-router.json):"
-echo " - Review only: no mutation authority, no file writes"
-echo " - API keys must be in .env.local (never committed)"
+  echo " NVIDIA_MODEL=deepseek-ai/deepseek-v4-pro bash scripts/ai-review.sh strong 'Review'"
+  echo " OLLAMA_HOST=100.95.40.99:11434 bash scripts/ai-review.sh local 'Review'"
+  echo ""
+  echo "Env vars:"
+  echo " OLLAMA_HOST - Ollama endpoint (default: 127.0.0.1:11434, auto-fallback: 100.95.40.99:11434)"
+  echo ""
+  echo "Guardrails (see ai-review-router.json):"
+  echo " - Review only: no mutation authority, no file writes"
+  echo " - API keys must be in .env.local (never committed)"
 echo ""
 echo "Config: $CONFIG"
 exit 0
