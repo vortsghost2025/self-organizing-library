@@ -44,9 +44,10 @@ const FORBIDDEN_PATHS = [
  * @returns {boolean} - True if forbidden, false otherwise
  */
 function isForbiddenPath(testPath) {
+  const resolvedTestPath = path.resolve(testPath);
   return FORBIDDEN_PATHS.some(forbidden => 
     testPath.includes(forbidden) || 
-    path.resolve(testPath).startsWith(path.resolve(__dirname, '../' + forbidden))
+    resolvedTestPath.startsWith(path.resolve(__dirname, '../', forbidden))
   );
 }
 
@@ -155,9 +156,22 @@ function countHumanRequiredItems() {
   // Check inbox for items requiring action
   const inboxDirs = [
     INBOX_PATH,
-    path.resolve(INBOX_PATH, 'processed'),
-    path.resolve(INBOX_PATH, 'resolved-20260428')
+    path.resolve(INBOX_PATH, 'processed')
   ];
+  
+  // Also check any resolved-* directories in the inbox
+  if (fs.existsSync(INBOX_PATH)) {
+    try {
+      const items = fs.readdirSync(INBOX_PATH);
+      items.forEach(item => {
+        if (item.startsWith('resolved-') && fs.statSync(path.join(INBOX_PATH, item)).isDirectory()) {
+          inboxDirs.push(path.join(INBOX_PATH, item));
+        }
+      });
+    } catch (readError) {
+      // Skip if we can't read the inbox directory
+    }
+  }
   
   inboxDirs.forEach(dir => {
     if (!fs.existsSync(dir)) return;
@@ -173,7 +187,7 @@ function countHumanRequiredItems() {
             const json = JSON.parse(content);
             // Check if requires_action is true or if there are NACKs requiring attention
             if (json.requires_action === true || 
-                json.nack_for_task_id !== null ||
+                json.nack_for_task_id != null ||
                 (json.body && json.body.includes('requires_action'))) {
               count++;
             }

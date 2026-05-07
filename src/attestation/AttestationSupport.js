@@ -119,7 +119,8 @@ try {
 
     const verificationResult = this.verify(signablePayload, item.signature, item.origin_lane);
     const reject = await this.shouldReject(verificationResult, item);
-    return reject ? { ...verificationResult, rejected: true } : verificationResult;
+    const result = reject ? { ...verificationResult, rejected: true } : verificationResult;
+    return { ...result, itemId: item.id };
   }
 
   /**
