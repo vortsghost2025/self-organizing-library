@@ -1,0 +1,6 @@
+{
+  "lane": "library",
+  "created": "2026-05-07T16:24:09.146Z",
+  "schema": "compact-audit-v1",
+  "initialized_by": "compact-restore-bridge"
+}
