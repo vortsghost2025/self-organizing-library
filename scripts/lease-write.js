@@ -17,11 +17,7 @@ function safeUnlink(filePath, context) {
   }
 }
 
-const { LaneDiscovery } = require('./util/lane-discovery');
-
-const discovery = new LaneDiscovery();
-const KERNEL_ROOT = discovery.getLocalPath('kernel');
-const { atomicWriteWithLease } = require(path.join(KERNEL_ROOT, 'scripts', 'atomic-write-util'));
+const { atomicWriteWithLease } = require('./util/atomic-write-util');
 
 function ensureParentDir(filePath) {
   const dir = path.dirname(filePath);
