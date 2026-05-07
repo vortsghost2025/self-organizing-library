@@ -70,3 +70,9 @@ logs/quarantine-tracker.json
 /public/pagefind/
 .vercel
 nul
+
+# Compact audit runtime artifacts
+.compact-audit/
+COMPACT_CONTEXT_HANDOFF.md
+lanes/*/state/traces/
+lanes/*/state/worker-audit.log
