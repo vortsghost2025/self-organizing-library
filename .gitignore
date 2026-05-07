@@ -76,3 +76,6 @@ nul
 COMPACT_CONTEXT_HANDOFF.md
 lanes/*/state/traces/
 lanes/*/state/worker-audit.log
+
+# WSL/Windows mount artifacts
+S:/
