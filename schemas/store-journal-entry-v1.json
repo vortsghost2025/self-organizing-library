@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://we4free.org/schemas/store-journal-entry-v1.json",
+  "title": "Store Journal Entry v1",
+  "description": "Append-only daily agent work journal entry. Prevents agent-over-agent overwrite and supports daily operational continuity across long-running headless agents.",
+  "type": "object",
+  "required": [
+    "timestamp",
+    "agent",
+    "lane",
+    "event",
+    "session_id",
+    "target",
+    "intent"
+  ],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this entry was written"
+    },
+    "agent": {
+      "type": "string",
+      "description": "The agent model or identity that performed the work (e.g. 'kilo-glm5', 'ubuntu-agent')"
+    },
+    "lane": {
+      "type": "string",
+      "enum": ["archivist", "library", "swarmmind", "kernel", "broadcast", "opencode"],
+      "description": "The governance lane where work was performed"
+    },
+    "host": {
+      "type": "string",
+      "description": "Hostname where agent ran",
+      "default": "unknown"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Unique session identifier"
+    },
+    "event": {
+      "type": "string",
+      "enum": [
+        "work_started",
+        "work_completed",
+        "file_ownership_claimed",
+        "file_ownership_released",
+        "test_result",
+        "compact_restore",
+        "sudo_action",
+        "provider_call",
+        "quarantine_event",
+        "handoff"
+      ],
+      "description": "Type of journal event"
+    },
+    "target": {
+      "type": "string",
+      "description": "Short description of what this work targets"
+    },
+    "intent": {
+      "type": "string",
+      "description": "What the agent intended to accomplish"
+    },
+    "work_type": {
+      "type": "string",
+      "enum": ["implementation", "review", "audit", "test", "deploy", "investigation", "governance", "maintenance", "handoff"],
+      "description": "Category of work performed"
+    },
+    "files_read": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files the agent read during this session"
+    },
+    "files_changed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files the agent modified"
+    },
+    "forbidden_paths_touched": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether agent touched any forbidden paths"
+    },
+    "tests_run": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["command", "result"],
+        "properties": {
+          "command": { "type": "string" },
+          "result": { "type": "string", "enum": ["PASS", "FAIL", "SKIP", "ERROR"] },
+          "summary": { "type": "string" }
+        }
+      },
+      "description": "Test results from this session"
+    },
+    "receipts_created": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Receipt paths created as proof of work"
+    },
+    "active_ownership": {
+      "type": "object",
+      "description": "Currently owned paths that other agents must NOT overwrite",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "File paths under active ownership (empty array = release all)"
+        },
+        "owner_agent": {
+          "type": "string",
+          "description": "Agent that owns these paths"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When ownership expires (null = indefinite)"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why these paths are locked"
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "description": "Handoff instructions for the next agent",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["complete", "blocked", "in_progress", "abandoned", "needs_review"],
+          "description": "Completion status of this work unit"
+        },
+        "next_action": {
+          "type": "string",
+          "description": "What the next agent should do"
+        },
+        "do_not_overwrite": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Files the next agent must NOT overwrite"
+        },
+        "human_required": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether human intervention is needed"
+        }
+      }
+    },
+    "_journal_id": {
+      "type": "string",
+      "description": "Auto-generated unique ID for this journal entry",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "event": { "enum": ["work_completed"] } }
+      },
+      "then": { "required": ["handoff"] }
+    },
+    {
+      "if": {
+        "properties": { "event": { "enum": ["file_ownership_claimed"] } }
+      },
+      "then": { "required": ["active_ownership"] }
+    }
+  ],
+  "_policy": {
+    "STORE_JOURNAL_POLICY_v1": {
+      "rule_1": "Every agent session writes work_started.",
+      "rule_2": "Every file-changing session writes work_completed.",
+      "rule_3": "Every compact/restart writes compact_restore event.",
+      "rule_4": "Every sudo command writes sudo_action event.",
+      "rule_5": "Every test run writes test_result event.",
+      "rule_6": "Every blocked/quarantine event writes quarantine_event.",
+      "rule_7": "Before editing, agents must check today's journal for active ownership.",
+      "rule_8": "If another agent owns the path, do not edit. Create a proposal instead.",
+      "rule_9": "Journal is append-only. Do not rewrite old entries.",
+      "rule_10": "Daily summary is generated from JSONL, not hand-edited as truth."
+    }
+  }
+}
