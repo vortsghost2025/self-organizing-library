@@ -20,11 +20,14 @@
   - `C:\Users\seand\ai-review.sh` — Unified tier router (local/strong/final dispatch)
   - `C:\Users\seand\nvidia-review.sh` — NVIDIA NIM cloud helper (nemotron-3-super-120b-a12b)
   - `C:\Users\seand\ai-review-router.json` — Router policy config (tiers, models, use-when rules)
-  - Tier mapping: local=Ollama(3B), strong=NVIDIA NIM(120B), final=Claude/GPT(manual)
-  - NVIDIA NIM API confirmed working via curl, model catalog fetched
-  - API keys stored in `.env.local` (NVIDIA_API_KEY, OPENROUTER_API_KEY)
+- Tier mapping: local=Ollama(7B), strong=NVIDIA NIM(120B, OpenAI SDK), final=Claude/GPT(manual)
+- NVIDIA NIM API confirmed working via curl, model catalog fetched
+- API keys stored in `.env.local` (NVIDIA_API_KEY, OPENROUTER_API_KEY)
 - [x] **NVIDIA NIM ECONNRESET bug FIXED**: Replaced raw `https.request` with Node.js `fetch()` API in `nvidia-review.sh`. Root cause: Node.js v25.9.0 https module had TLS/connection issue with NVIDIA endpoint; `fetch()` (undici-based) works correctly. Tested and confirmed working — nemotron-3-super-120b-a12b returns quality code review responses.
-- [x] **Full router pipeline verified**: `ai-review.sh strong 'prompt'` successfully routes through NVIDIA NIM and returns responses. Local tier pending (Ollama was down). Final tier is manual-only by design.
+- [x] **Full router pipeline verified**: All 3 tiers tested and working end-to-end.
+- [x] **OpenAI SDK integration**: Installed `openai@6.36.0`, rewrote `nvidia-review.sh` to use OpenAI SDK with streaming (cleaner than raw fetch). NVIDIA API key rotated.
+- [x] **Local model upgraded**: Default Ollama model changed from qwen2.5-coder:3b → qwen2.5-coder:7b (better quality, still fits 8GB VRAM). 3B available as fallback via `OLLAMA_MODEL` env var.
+- [x] **Router config updated**: `ai-review-router.json` now references 7B as default, 3B as fallback.
 
 
 **Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
