@@ -30,6 +30,17 @@
 - [x] **Router config updated**: `ai-review-router.json` now references 7B as default, 3B as fallback.
 
 
+- [x] **Four-tier AI Review Router integrated into repo** (Session 2026-05-06, cont.):
+  - `scripts/ai-review.sh` — stable entrypoint (portable paths via `$(dirname "$0")`)
+  - `scripts/ai-router/ollama-review.sh` — local tier (qwen2.5-coder:7b, RTX 5060)
+  - `scripts/ai-router/nvidia-review.sh` — strong tier (nemotron-3-super-120b, OpenAI SDK + streaming)
+  - `scripts/ai-router/openrouter-review.sh` — openrouter tier (free Nemotron:free default, 2 confirmed working free models)
+  - `scripts/ai-router/ai-review-router.json` — policy config with guardrails (review-only, no mutation, no file writes, keys env-only)
+  - Auto-escalation: `--auto` starts local, escalates to strong on uncertainty signals
+  - Original scripts at `C:\Users\seand\` remain as backup; repo scripts are canonical
+  - AGENTS.md updated with AI Review Router section + guardrails
+  - Tier tests + secret scan + integration report pending
+
 **Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
 
 The Library Lane serves as a verification-and-enforcement surface within a 4-lane AI governance lattice (Archivist, Library, SwarmMind, Kernel-Lane). All scheduled tasks (heartbeat + inbox watcher) are running on Windows Task Scheduler for all 4 lanes.
