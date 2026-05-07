@@ -239,6 +239,13 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
  - [x] **UX goal**: Non-technical user understands graph in <5 seconds. Accomplished: max 4 lines, emoji indicator, human phrasing.
  - [x] **All checks**: Typecheck, lint, sovereignty, gates all pass. Commit `686a460` pushed.
 
+### Session 2026-05-07 (Session 10): VPS Heartbeat + Linger + Inbox-Watcher Install
+- [x] **library-heartbeat.service installed and running on VPS**: Written to `~/.config/systemd/user/library-heartbeat.service`, daemon-reloaded, enabled+started. Status: active. Confirmed heartbeat files being written to `lanes/library/inbox/heartbeat-library.json` with 60s interval.
+- [x] **library-inbox-watcher.service installed on VPS** (disabled): Written to `~/.config/systemd/user/library-inbox-watcher.service`. Intentionally LEFT DISABLED because it conflicts with the already-running `library-lane-worker.service` (both process the same inbox). Inbox-watcher has priority-preemptive logic and is the eventual replacement; swap will happen when ready.
+- [x] **Linger enabled for we4free user**: `loginctl enable-linger we4free` executed and verified (`/var/lib/systemd/linger/we4free` exists). All user services now survive logout and reboot.
+- [x] **All 3 Library services confirmed active on VPS**: library-lane-worker (polling 20s), library-relay-daemon (watching 20s), library-heartbeat (60s interval). Inbox-watcher disabled but installed.
+- [x] **Typecheck + lint pass**: Both clean before commit.
+
 ### Session 2026-05-03 (cont.5): Homepage simplification per exterior-synthesis + /lanes 404 fix
 
  - [x] **Complete homepage rebuild** to exact spec: only Hero (title+subtext), How It Works (3 steps), Choose Your Path (3 cards). All other sections removed.
