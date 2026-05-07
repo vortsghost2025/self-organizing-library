@@ -16,6 +16,15 @@
 - [x] **Inbox processed — kernel summary NACK**: Kernel's ASCII summary message had no verifiable artifact. NACK'd with reason EVIDENCE_REQUIRED_NO_ARTIFACT, outbox response + evidence file created. Committed `b95e52c`.
 - [x] **Misrouted convergence proof archived**: Final-system-convergence-proof message was addressed to Archivist (not Library). Moved from stale-foreign/ to processed/ with note. Committed `b95e52c`.
 - [x] **Sovereignty + state sync**: sovereignty-report-latest.json and system_state.json updated. 0 violations across all 4 lanes. Committed `b95e52c`, pushed to origin.
+- [x] **Three-tier hybrid AI model router built** (shell tools, NOT in repo):
+  - `C:\Users\seand\ai-review.sh` — Unified tier router (local/strong/final dispatch)
+  - `C:\Users\seand\nvidia-review.sh` — NVIDIA NIM cloud helper (nemotron-3-super-120b-a12b)
+  - `C:\Users\seand\ai-review-router.json` — Router policy config (tiers, models, use-when rules)
+  - Tier mapping: local=Ollama(3B), strong=NVIDIA NIM(120B), final=Claude/GPT(manual)
+  - NVIDIA NIM API confirmed working via curl, model catalog fetched
+  - API keys stored in `.env.local` (NVIDIA_API_KEY, OPENROUTER_API_KEY)
+- [x] **NVIDIA NIM ECONNRESET bug FIXED**: Replaced raw `https.request` with Node.js `fetch()` API in `nvidia-review.sh`. Root cause: Node.js v25.9.0 https module had TLS/connection issue with NVIDIA endpoint; `fetch()` (undici-based) works correctly. Tested and confirmed working — nemotron-3-super-120b-a12b returns quality code review responses.
+- [x] **Full router pipeline verified**: `ai-review.sh strong 'prompt'` successfully routes through NVIDIA NIM and returns responses. Local tier pending (Ollama was down). Final tier is manual-only by design.
 
 
 **Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
