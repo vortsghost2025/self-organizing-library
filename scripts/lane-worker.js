@@ -10,6 +10,7 @@ const { ExecutionGate } = require('./execution-gate');
 const { evaluateVerificationDomain } = require('./verification-domain-gate');
 const { getCodeVersionHash } = require('./code-version-hash');
 const { getRoots } = require('./util/lane-discovery');
+const aiReview = require('./ai-review-caller');
 
 const ACTIONABLE_TYPES = new Set(['task', 'escalation', 'request']);
 const NON_ASCII_PATTERN = /[^\x00-\x7F]/;
@@ -407,8 +408,9 @@ class LaneWorker {
       dryRun: this.dryRun,
       resolver: this.artifactResolver,
     });
-    this.codeVersionHash = getCodeVersionHash(this.repoRoot);
-    this.lastRun = null;
+this.codeVersionHash = getCodeVersionHash(this.repoRoot);
+this.aiReview = aiReview;
+this.lastRun = null;
     this.sessionId = SESSION_ID;
     this.isOwner = false;
     if (!this.dryRun) {
@@ -906,9 +908,46 @@ _routeRaw(filePath, queueKey, meta) {
       timestamp: nowIso(),
     };
 
-    this.lastRun = summary;
-    return summary;
-  }
+this.lastRun = summary;
+return summary;
+}
+
+async reviewNeedsReviewQueue() {
+const nrDir = this.config.queues.needsReview;
+if (!nrDir || !fs.existsSync(nrDir)) return [];
+
+const files = fs.readdirSync(nrDir).filter(f => f.endsWith('.json'));
+const results = [];
+
+for (const filename of files) {
+const filePath = path.join(nrDir, filename);
+const rawRead = safeReadJson(filePath);
+if (!rawRead.ok) continue;
+
+const msg = rawRead.value;
+const reviewPrompt = [
+`Message from: ${msg.from || 'unknown'}`,
+`Type: ${msg.type || 'unknown'}`,
+`Priority: ${msg.priority || 'unknown'}`,
+`Body: ${(msg.body || '').slice(0, 2000)}`,
+].join('\n');
+
+try {
+const reviewResult = await this.aiReview.autoEscalate(reviewPrompt, {
+order: ['strong', 'openrouter'],
+});
+const enriched = { ...msg, ai_review: reviewResult };
+if (!this.dryRun) {
+fs.writeFileSync(filePath, JSON.stringify(enriched, null, 2), 'utf8');
+}
+results.push({ filename, tier: reviewResult.final_tier, reviewed: true });
+} catch (err) {
+results.push({ filename, reviewed: false, error: err.message });
+}
+}
+
+return results;
+}
 }
 
 async function sleep(ms) {
@@ -950,19 +989,37 @@ async function runCli() {
     return;
   }
 
-  while (true) {
-    const summary = worker.processOnce();
-    if (args.json) {
-      console.log(JSON.stringify(summary, null, 2));
-    } else {
-      console.log(
-        `[lane-worker] lane=${summary.lane} dry_run=${summary.dry_run} scanned=${summary.scanned} ` +
-        `processed=${summary.routed.processed} action-required=${summary.routed.action_required} ` +
-        `in-progress=${summary.routed.in_progress} blocked=${summary.routed.blocked} quarantine=${summary.routed.quarantine}`
-      );
-    }
-    await sleep(args.pollSeconds * 1000);
-  }
+while (true) {
+const summary = worker.processOnce();
+if (args.json) {
+console.log(JSON.stringify(summary, null, 2));
+} else {
+console.log(
+`[lane-worker] lane=${summary.lane} dry_run=${summary.dry_run} scanned=${summary.scanned} ` +
+`processed=${summary.routed.processed} action-required=${summary.routed.action_required} ` +
+`in-progress=${summary.routed.in_progress} blocked=${summary.routed.blocked} quarantine=${summary.routed.quarantine}`
+);
+}
+
+if (args.aiReview !== false) {
+try {
+const reviews = await worker.reviewNeedsReviewQueue();
+if (reviews.length > 0) {
+for (const r of reviews) {
+if (r.reviewed) {
+console.log(`[lane-worker] ai-review: ${r.filename} -> tier=${r.tier}`);
+} else {
+console.log(`[lane-worker] ai-review: ${r.filename} FAILED ${r.error}`);
+}
+}
+}
+} catch (err) {
+console.error(`[lane-worker] ai-review batch failed: ${err.message}`);
+}
+}
+
+await sleep(args.pollSeconds * 1000);
+}
 }
 
 if (require.main === module) {
