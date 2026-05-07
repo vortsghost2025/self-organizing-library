@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 model="${OLLAMA_MODEL:-qwen2.5-coder:7b}"
-ollama_host="${OLLAMA_HOST:-127.0.0.1:11434}"
+ollama_host="${OLLAMA_HOST:-100.95.40.99:11434}"
 ollama_host="${ollama_host#http://}"
 ollama_host="${ollama_host#https://}"
-vps_host="100.95.40.99:11434"
+local_host="127.0.0.1:11434"
 prompt="$*"
 
 if [ -z "$prompt" ]; then
   echo "Usage: ollama-review.sh 'your prompt here'"
   echo "Env: OLLAMA_MODEL (default: qwen2.5-coder:7b)"
-  echo "     OLLAMA_HOST (default: 127.0.0.1:11434, fallback: 100.95.40.99:11434)"
+echo " OLLAMA_HOST (default: 100.95.40.99:11434, fallback: 127.0.0.1:11434)"
   exit 1
 fi
 
@@ -39,12 +39,12 @@ const tryHost = (h, p) => new Promise((resolve, reject) => {
 });
 tryHost(hostname, port)
   .then(r=>{console.log(r);process.exit(0)})
-  .catch(e1=>{
-    if(hostname!=='100.95.40.99'){
-      console.error('Local Ollama failed ('+e1.message+'), trying VPS via Tailscale...');
-      tryHost('100.95.40.99',11434)
+ .catch(e1=>{
+ if(hostname!=='127.0.0.1'){
+ console.error('VPS Ollama failed ('+e1.message+'), trying local Windows Ollama...');
+ tryHost('127.0.0.1',11434)
         .then(r=>{console.log(r);process.exit(0)})
-        .catch(e2=>{console.error('VPS Ollama also failed:',e2.message);process.exit(2)});
+        .catch(e2=>{console.error('Local Ollama also failed:',e2.message);process.exit(2)});
     } else {
       console.error('Ollama call failed:',e1.message);process.exit(2);
     }
