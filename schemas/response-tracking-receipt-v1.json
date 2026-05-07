@@ -1,0 +1,113 @@
+{
+  "$id": "https://example.com/schemas/response-tracking-receipt-v1.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Response Tracking Receipt Schema v1",
+  "description": "Schema for tracking response status in the autonomous convergence system. Enables read-only inspection of message delivery and processing state.",
+  "type": "object",
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this receipt"
+    },
+    "parent_message_id": {
+      "type": "string",
+      "description": "ID of the parent message this receipt tracks"
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Correlation identifier for tracing message flows"
+    },
+    "from_lane": {
+      "type": "string",
+      "enum": [
+        "library",
+        "archivist",
+        "swarmmind",
+        "kernel"
+      ],
+      "description": "Source lane that originated the response"
+    },
+    "to_lane": {
+      "type": "string",
+      "enum": [
+        "library",
+        "archivist",
+        "swarmmind",
+        "kernel",
+        "all"
+      ],
+      "description": "Target lane for the response"
+    },
+    "response_path": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Path through lanes that this response has traversed"
+    },
+    "delivered": {
+      "type": "boolean",
+      "description": "Whether the response has been delivered"
+    },
+    "processed": {
+      "type": "boolean",
+      "description": "Whether the response has been processed"
+    },
+    "stale": {
+      "type": "boolean",
+      "description": "Whether this receipt has become stale and should be refreshed"
+    },
+    "quarantined": {
+      "type": "boolean",
+      "description": "Whether this receipt has been quarantined due to errors"
+    },
+    "checked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of last status check"
+    },
+    "next_action": {
+      "type": "string",
+      "enum": [
+        "none",
+        "review",
+        "escalate",
+        "archive",
+        "retry"
+      ],
+      "description": "Recommended next action for processing"
+    },
+    "human_required": {
+      "type": "boolean",
+      "description": "Whether human intervention is required"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Optional reason for current status"
+    },
+    "details": {
+      "type": "string",
+      "description": "Optional additional details about the response state"
+    },
+    "error_code": {
+      "type": "string",
+      "description": "Optional error code if an error occurred"
+    }
+  },
+  "required": [
+    "receipt_id",
+    "parent_message_id",
+    "correlation_id",
+    "from_lane",
+    "to_lane",
+    "response_path",
+    "delivered",
+    "processed",
+    "stale",
+    "quarantined",
+    "checked_at",
+    "next_action",
+    "human_required"
+  ]
+}

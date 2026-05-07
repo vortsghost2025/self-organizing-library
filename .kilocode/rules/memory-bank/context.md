@@ -66,6 +66,8 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 **CRITICAL CORRECTION (2026-04-23 evening)**: Kernel has TWO public keys — the on-disk `public.pem` (DER fingerprint `7f1a9fe931d1fbba`) differs from `snapshot.json` and old trust store entry (`6b39158e43688686`). The on-disk key is what would be used for actual signing. All trust stores updated to `7f1a9fe931d1fbba`. The Authority key_id `1a7741b8d353abee` is a MAPPING ERROR — it is Archivist's own OLD canonical-PEM hash, NOT Kernel's key_id. P0 contradiction escalation delivered to Archivist.
 
 ### Convergence Status
+- ✅ **Autonomous Self-Healing Roadmap CONVERGENCE RESPONSE SIGNED + DELIVERED** (2026-05-07): Library's convergence response signed with RSA key (key_id: 602c55bf817bedc5) and delivered to `S:/Archivist-Agent/lanes/archivist/inbox/library-to-archivist-convergence-response-2026-05-07.json`. Archivist's gap analysis moved to processed/. Awaiting Archivist's AMEND or RATIFY response.
+- ✅ **Schema compliance fix + re-sign** (Session 8, 2026-05-07): Convergence response rewritten to v1.3 schema (added `schema_version`, `task_id`, `idempotency_key`, changed `type` to `"response"`, `task_kind` to `"amendment"`, added `lease`, `retry`, `evidence`, `heartbeat` objects, fixed `execution.engine` to `"kilo"`, `execution.actor` to `"lane"`). Re-signed with current field values — JWT payload now correctly shows `type:"response"`, `task_kind:"amendment"`, `task_id:"convergence-response-2026-05-07"`. Delivery log moved from `outbox/` to `lanes/library/logs/` (delivery logs fail schema validation as non-message files). Both outbox source and Archivist inbox copy now have matching schema-compliant + correctly-signed content.
 - ✅ **Trust Store Convergence**: All 4 broadcast stores identical, correct key_ids, correct PEMs. 11/11 Archivist recovery.
 - ✅ **v1.1 Schema — Phase 2 COMPLETE**: All lanes APPROVE WITH AMENDMENTS. All amendments implemented. Phase 5 RATIFY received from Archivist.
 - ✅ **Lane 4 — Phase 2 COMPLETE**: Archivist + SwarmMind approved. Phase 5 RATIFY received.
@@ -236,6 +238,13 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
  - [x] **Placement**: Inserted into NexusGraph page just below ModeSelector and above toolbar/canvas.
  - [x] **UX goal**: Non-technical user understands graph in <5 seconds. Accomplished: max 4 lines, emoji indicator, human phrasing.
  - [x] **All checks**: Typecheck, lint, sovereignty, gates all pass. Commit `686a460` pushed.
+
+### Session 2026-05-07 (Session 10): VPS Heartbeat + Linger + Inbox-Watcher Install
+- [x] **library-heartbeat.service installed and running on VPS**: Written to `~/.config/systemd/user/library-heartbeat.service`, daemon-reloaded, enabled+started. Status: active. Confirmed heartbeat files being written to `lanes/library/inbox/heartbeat-library.json` with 60s interval.
+- [x] **library-inbox-watcher.service installed on VPS** (disabled): Written to `~/.config/systemd/user/library-inbox-watcher.service`. Intentionally LEFT DISABLED because it conflicts with the already-running `library-lane-worker.service` (both process the same inbox). Inbox-watcher has priority-preemptive logic and is the eventual replacement; swap will happen when ready.
+- [x] **Linger enabled for we4free user**: `loginctl enable-linger we4free` executed and verified (`/var/lib/systemd/linger/we4free` exists). All user services now survive logout and reboot.
+- [x] **All 3 Library services confirmed active on VPS**: library-lane-worker (polling 20s), library-relay-daemon (watching 20s), library-heartbeat (60s interval). Inbox-watcher disabled but installed.
+- [x] **Typecheck + lint pass**: Both clean before commit.
 
 ### Session 2026-05-03 (cont.5): Homepage simplification per exterior-synthesis + /lanes 404 fix
 
