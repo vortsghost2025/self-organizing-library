@@ -37,3 +37,5 @@
 {"timestamp":"2026-05-03T01:20:28.819Z","event":"QUARANTINE","item_id":"bad-jws-1","lane":"library","reason":"SIGNATURE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
 {"timestamp":"2026-05-03T01:20:28.922Z","event":"QUARANTINE","item_id":"lane-mismatch-1","lane":"swarmmind","reason":"LANE_MISMATCH","retry_count":1,"next_retry_in_ms":null}
 {"timestamp":"2026-05-03T01:20:30.016Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"test-lane","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-05-07T16:55:36.741Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"test-lane","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}
+{"timestamp":"2026-05-07T16:58:32.131Z","event":"QUARANTINE","item_id":"68aa79eba1e12a48","lane":"test-lane","reason":"MISSING_SIGNATURE","retry_count":1,"next_retry_in_ms":null}

@@ -2,7 +2,7 @@
   "name": "nextjs-template",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
+    "scripts": {
     "watch": "node scripts/inbox-watcher.js --watch",
     "watch:once": "node scripts/inbox-watcher.js",
     "heartbeat": "node scripts/heartbeat.js --continuous",
@@ -13,7 +13,6 @@
     "worker:parallel": "powershell -File scripts/start-workers.ps1 -Count 3",
     "worker:stop": "powershell -Command \"Get-Job -Name LibraryWorker* | Stop-Job -Force; Remove-Job -Name LibraryWorker*\"",
     "sub-lane:create": "node scripts/create-sub-lane.js",
-    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

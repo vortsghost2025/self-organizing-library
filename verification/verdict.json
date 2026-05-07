@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-23T02:35:25.767Z",
+  "generatedAt": "2026-05-07T16:59:40.438Z",
   "overall": {
     "status": "PASS",
     "totalTests": 20,
@@ -10,7 +10,7 @@
   "components": {
     "behavioral-test-results": {
       "status": "PASS",
-      "timestamp": "2026-04-20T17:03:17.374Z",
+      "timestamp": "2026-05-07T16:58:31.851Z",
       "summary": null,
       "details": [
         {
@@ -36,16 +36,16 @@
         {
           "name": "No bypass paths in verification flow",
           "passed": true,
-          "reason": "No high-risk bypass paths (2 total detected, all low/medium)"
+          "reason": "No high-risk bypass paths (1 total detected, all low/medium)"
         }
       ],
       "proof": {
-        "timestamp": "2026-04-20T17:03:17.374Z",
+        "timestamp": "2026-05-07T16:58:31.851Z",
         "proven": [
           {
             "probeId": "QuarantineManager.quarantine",
             "invokeCount": 1,
-            "lastInvoked": "2026-04-20T17:03:17.371Z"
+            "lastInvoked": "2026-05-07T16:58:31.850Z"
           }
         ],
         "notProven": [],
@@ -58,7 +58,7 @@
     },
     "hardening-drill-results": {
       "status": "PASS",
-      "timestamp": "2026-04-23T00:19:30.688Z",
+      "timestamp": "2026-05-07T16:58:32.146Z",
       "summary": null,
       "details": [
         {
@@ -106,7 +106,7 @@
     },
     "recovery-discipline-results": {
       "status": "PASS",
-      "timestamp": "2026-04-23T00:19:38.391Z",
+      "timestamp": "2026-05-03T01:20:36.470Z",
       "summary": null,
       "details": [
         {
@@ -145,6 +145,13 @@
           "reason": "Defer state correctly handles dependencies"
         }
       ],
+      "proof": null
+    },
+    "sync-gate-verify-latest": {
+      "status": "UNKNOWN",
+      "timestamp": "2026-04-23T19:04:09.107Z",
+      "summary": null,
+      "details": [],
       "proof": null
     },
     "usage-lane-complete-report": {
@@ -202,7 +209,7 @@
         "component": "behavioral-test-results",
         "probeId": "QuarantineManager.quarantine",
         "invokeCount": 1,
-        "lastInvoked": "2026-04-20T17:03:17.371Z"
+        "lastInvoked": "2026-05-07T16:58:31.850Z"
       },
       {
         "component": "usage-lane-complete-report",
@@ -229,7 +236,7 @@
     "warnings": []
   },
   "summary": {
-    "totalComponents": 5,
+    "totalComponents": 6,
     "passingComponents": 4,
     "failingComponents": 0
   }
