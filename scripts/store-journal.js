@@ -1,33 +1,47 @@
 #!/usr/bin/env node
 /**
- * STORE JOURNAL v1 — Append-Only Daily Agent Work Ledger
- * ======================================================
- * Purpose: Prevent agent-over-agent overwrite in long-running headless lanes.
+ * STORE JOURNAL v2 — Cross-Lane Real-Time Agent Work Ledger
+ * ===========================================================
+ * Purpose: Prevent agent-over-agent overwrite. Real-time cross-lane visibility.
+ *
+ * v2 additions over v1:
+ * - status: read all lanes' recent work in one command (cross-lane)
+ * - read: read any lane's journal entries
+ * - snapshot: write a cross-lane status snapshot for handoff
+ * - All journal reads are cross-lane by default using LaneDiscovery roots
  *
  * Each lane has its own journal at:
- *   lanes/<lane>/journal/YYYY-MM-DD.jsonl
+ * lanes/<lane>/journal/YYYY-MM-DD.jsonl
  *
  * Cross-lane daily summary:
- *   lanes/broadcast/journal/DAILY_YYYY-MM-DD.md
+ * lanes/broadcast/journal/DAILY_YYYY-MM-DD.md
+ *
+ * Cross-lane real-time snapshot:
+ * lanes/broadcast/journal/SNAPSHOT.json
  *
  * Commands:
- *   append     — Write a journal entry
- *   preflight  — Check file ownership/conflict before editing
- *   daily      — Generate broadcast daily summary
- *   active     — Show active ownerships and in-progress sessions
- *   help       — Show usage
+ * append   — Write a journal entry
+ * preflight— Check file ownership/conflict before editing
+ * daily    — Generate broadcast daily summary
+ * active   — Show active ownerships and in-progress sessions
+ * status   — Show all lanes' recent work (cross-lane, real-time) [v2]
+ * read     — Read any lane's journal for a date [v2]
+ * snapshot — Write cross-lane status snapshot JSON [v2]
+ * help     — Show usage
  *
- * POLICY (STORE_JOURNAL_POLICY_v1):
- *   1. Every agent session writes work_started.
- *   2. Every file-changing session writes work_completed.
- *   3. Every compact/restart writes compact_restore event.
- *   4. Every sudo command writes sudo_action event.
- *   5. Every test run writes test_result event.
- *   6. Every blocked/quarantine event writes quarantine_event.
- *   7. Before editing, agents must check today's journal for active ownership.
- *   8. If another agent owns the path, do not edit. Create a proposal instead.
- *   9. Journal is append-only. Do not rewrite old entries.
- *   10. Daily summary is generated from JSONL, not hand-edited as truth.
+ * POLICY (STORE_JOURNAL_POLICY_v2):
+ * 1. Every agent session writes work_started.
+ * 2. Every file-changing session writes work_completed.
+ * 3. Every compact/restart writes compact_restore event.
+ * 4. Every sudo command writes sudo_action event.
+ * 5. Every test run writes test_result event.
+ * 6. Every blocked/quarantine event writes quarantine_event.
+ * 7. Before editing, agents must check today's journal for active ownership.
+ * 8. If another agent owns the path, do not edit. Create a proposal instead.
+ * 9. Journal is append-only. Do not rewrite old entries.
+ * 10. Daily summary is generated from JSONL, not hand-edited as truth.
+ * 11. [v2] status command reads all lanes — use before starting work.
+ * 12. [v2] snapshot is regenerated on every append — always current.
  */
 'use strict';
 
@@ -122,14 +136,18 @@ function getArg(args, flag) {
 }
 
 function readJournal(lane, dateStr) {
-  const fp = journalPath(lane, dateStr);
+  let fp;
+  if (LANE_ROOTS[lane]) {
+    fp = path.join(LANE_ROOTS[lane], 'journal', `${dateStr}.jsonl`);
+  } else {
+    fp = journalPath(lane, dateStr);
+  }
   if (!fs.existsSync(fp)) return [];
   const lines = fs.readFileSync(fp, 'utf8').trim().split('\n');
   const entries = [];
   for (const line of lines) {
     if (line.trim() === '') continue;
-    try { entries.push(JSON.parse(line)); }
-    catch (_) { /* skip malformed lines */ }
+    try { entries.push(JSON.parse(line)); } catch (_) { }
   }
   return entries;
 }
@@ -295,8 +313,9 @@ function cmdAppend(args) {
     lane, event, path: fp, timestamp: entry.timestamp
   }, null, 2));
 
-  // Regenerate daily summary
+  // Regenerate daily summary and snapshot
   try { cmdDaily([dateStr]); } catch (_) { /* non-blocking */ }
+  try { cmdSnapshot([]); } catch (_) { /* non-blocking */ }
 }
 
 // ---------------------------------------------------------------------------
@@ -588,21 +607,122 @@ function cmdActive(args) {
 }
 
 // ---------------------------------------------------------------------------
+// COMMAND: STATUS (v2 — cross-lane real-time view)
+// ---------------------------------------------------------------------------
+
+function cmdStatus(args) {
+  const dateStr = todayISO();
+  const allLanes = readAllLanesForDate(dateStr);
+  const hoursBack = parseInt(getArg(args, '--hours') || '24', 10);
+  const cutoff = new Date(Date.now() - hoursBack * 3600000).toISOString();
+
+  const status = {
+    generated_at: utcISO(),
+    date: dateStr,
+    hours_back: hoursBack,
+    lanes: {}
+  };
+
+  for (const [lane, entries] of Object.entries(allLanes)) {
+    const recent = entries.filter(e => e.timestamp >= cutoff);
+    const completedIds = new Set(recent.filter(e => e.event === 'work_completed').map(e => e.session_id));
+    const inProgress = recent.filter(e => e.event === 'work_started' && !completedIds.has(e.session_id));
+    const ownershipState = buildOwnershipState(recent, lane);
+    const activeOwners = Object.entries(ownershipState).filter(([, s]) => s.is_active).map(([key, s]) => ({ path: key, owner: s.owner_agent, reason: s.reason, expires_at: s.expires_at }));
+    const filesChanged = [...new Set(recent.flatMap(e => e.files_changed || []))];
+    const lastEntry = recent.length > 0 ? recent[recent.length - 1] : null;
+
+    status.lanes[lane] = {
+      entries_today: recent.length,
+      in_progress_sessions: inProgress.map(e => ({ agent: e.agent, session_id: e.session_id, target: e.target, started_at: e.timestamp })),
+      active_ownerships: activeOwners,
+      files_changed: filesChanged,
+      last_activity: lastEntry ? lastEntry.timestamp : null,
+      last_event: lastEntry ? lastEntry.event : null,
+      last_agent: lastEntry ? lastEntry.agent : null
+    };
+  }
+
+  console.log(JSON.stringify(status, null, 2));
+}
+
+// ---------------------------------------------------------------------------
+// COMMAND: READ (v2 — read any lane's journal)
+// ---------------------------------------------------------------------------
+
+function cmdRead(args) {
+  const lane = getArg(args, '--lane');
+  const dateStr = getArg(args, '--date') || todayISO();
+  const lastN = parseInt(getArg(args, '--last') || '20', 10);
+
+  if (!lane) { console.error('ERROR: --lane is required'); process.exit(1); }
+  if (!KNOWN_LANES.includes(lane)) { console.error(`ERROR: Unknown lane '${lane}'`); process.exit(1); }
+
+  const entries = readJournal(lane, dateStr);
+  const recent = entries.slice(-lastN);
+
+  console.log(JSON.stringify({ lane, date: dateStr, total: entries.length, showing: recent.length, entries: recent }, null, 2));
+}
+
+// ---------------------------------------------------------------------------
+// COMMAND: SNAPSHOT (v2 — write cross-lane snapshot for handoff)
+// ---------------------------------------------------------------------------
+
+function cmdSnapshot(args) {
+  const dateStr = todayISO();
+  const allLanes = readAllLanesForDate(dateStr);
+
+  const snapshot = {
+    schema: 'store-journal-snapshot-v2',
+    generated_at: utcISO(),
+    host: hostname(),
+    date: dateStr,
+    lanes: {}
+  };
+
+  for (const [lane, entries] of Object.entries(allLanes)) {
+    const completedIds = new Set(entries.filter(e => e.event === 'work_completed').map(e => e.session_id));
+    const inProgress = entries.filter(e => e.event === 'work_started' && !completedIds.has(e.session_id));
+    const ownershipState = buildOwnershipState(entries, lane);
+    const activeOwners = Object.entries(ownershipState).filter(([, s]) => s.is_active).map(([key, s]) => ({ path: key, owner: s.owner_agent, reason: s.reason }));
+    const filesChanged = [...new Set(entries.flatMap(e => e.files_changed || []))];
+    const lastEntry = entries.length > 0 ? entries[entries.length - 1] : null;
+
+    snapshot.lanes[lane] = {
+      total_entries: entries.length,
+      in_progress: inProgress.map(e => ({ agent: e.agent, session_id: e.session_id, target: e.target, started_at: e.timestamp })),
+      active_ownerships: activeOwners,
+      files_changed_today: filesChanged,
+      last_activity: lastEntry ? { timestamp: lastEntry.timestamp, event: lastEntry.event, agent: lastEntry.agent } : null
+    };
+  }
+
+  const dir = broadcastJournalDir();
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  const fp = path.join(dir, 'SNAPSHOT.json');
+  fs.writeFileSync(fp, JSON.stringify(snapshot, null, 2), 'utf8');
+  console.log(JSON.stringify({ status: 'written', path: fp, generated_at: snapshot.generated_at }, null, 2));
+}
+
+// ---------------------------------------------------------------------------
 // HELP
 // ---------------------------------------------------------------------------
 
 function cmdHelp() {
-  console.log(`STORE JOURNAL v1 — Append-Only Daily Agent Work Ledger
+  console.log(`STORE JOURNAL v2 — Cross-Lane Real-Time Agent Work Ledger
 ===========================================================
 
 Usage: node scripts/store-journal.js <command> [options]
 
 Commands:
-  append       Append a journal entry to today's lane journal
-  preflight    Check if files are safe to edit (ownership/conflict)
-  daily        Generate daily summary for broadcast
-  active       Show active ownerships and in-progress sessions
-  help         Show this help
+  append    Append a journal entry to today's lane journal
+  preflight Check if files are safe to edit (ownership/conflict)
+  daily     Generate daily summary for broadcast
+  active    Show active ownerships and in-progress sessions
+  status    Show all lanes' recent work (cross-lane, real-time) [v2]
+  read      Read any lane's journal for a date [v2]
+  snapshot  Write cross-lane status snapshot JSON [v2]
+  help      Show this help
 
 APPEND:
   node scripts/store-journal.js append \\
@@ -611,8 +731,8 @@ APPEND:
     [--files <path1,path2,...>] [--tests '<json-array>'] [--data '<json>']
 
   Events: work_started, work_completed, file_ownership_claimed,
-          file_ownership_released, test_result, compact_restore,
-          sudo_action, provider_call, quarantine_event, handoff
+  file_ownership_released, test_result, compact_restore,
+  sudo_action, provider_call, quarantine_event, handoff
 
 PREFLIGHT:
   node scripts/store-journal.js preflight --lane <lane> --paths <path1,path2,...>
@@ -626,7 +746,22 @@ ACTIVE:
   node scripts/store-journal.js active [--lane <lane>]
   Shows active ownerships and in-progress sessions for today.
 
-POLICY (STORE_JOURNAL_POLICY_v1):
+STATUS (v2):
+  node scripts/store-journal.js status [--hours <N>]
+  Reads all lanes' journals, shows in-progress sessions,
+  active ownerships, files changed, last activity.
+  Use BEFORE starting work to see what's happening.
+
+READ (v2):
+  node scripts/store-journal.js read --lane <lane> [--date YYYY-MM-DD] [--last N]
+  Read a specific lane's journal entries.
+
+SNAPSHOT (v2):
+  node scripts/store-journal.js snapshot
+  Writes lanes/broadcast/journal/SNAPSHOT.json with cross-lane state.
+  Safe for other agents to read as handoff reference.
+
+POLICY (STORE_JOURNAL_POLICY_v2):
   1. Every agent session writes work_started.
   2. Every file-changing session writes work_completed.
   3. Every compact/restart writes compact_restore event.
@@ -636,7 +771,9 @@ POLICY (STORE_JOURNAL_POLICY_v1):
   7. Before editing, check today's journal for active ownership.
   8. If another agent owns the path, do not edit. Create a proposal.
   9. Journal is append-only. Do not rewrite old entries.
-  10. Daily summary is generated from JSONL, not hand-edited.`);
+  10. Daily summary is generated from JSONL, not hand-edited.
+  11. [v2] status command reads all lanes — use before starting work.
+  12. [v2] snapshot is regenerated on every append — always current.`);
 }
 
 // ---------------------------------------------------------------------------
@@ -649,10 +786,13 @@ if (require.main === module) {
   if (!cmd || cmd === 'help') { cmdHelp(); process.exit(0); }
   const cmdArgs = args.slice(1);
   switch (cmd) {
-    case 'append':    cmdAppend(cmdArgs); break;
+    case 'append': cmdAppend(cmdArgs); break;
     case 'preflight': cmdPreflight(cmdArgs); break;
-    case 'daily':     cmdDaily(cmdArgs); break;
-    case 'active':    cmdActive(cmdArgs); break;
+    case 'daily': cmdDaily(cmdArgs); break;
+    case 'active': cmdActive(cmdArgs); break;
+    case 'status': cmdStatus(cmdArgs); break;
+    case 'read': cmdRead(cmdArgs); break;
+    case 'snapshot': cmdSnapshot(cmdArgs); break;
     default:
       console.error(`ERROR: Unknown command '${cmd}'. Available: append, preflight, daily, active, help`);
       process.exit(1);
@@ -661,5 +801,6 @@ if (require.main === module) {
 
 module.exports = {
   readJournal, readAllLanesForDate, journalPath, journalDir,
-  broadcastJournalDir, dailySummaryPath, validateEntry, generateId, buildOwnershipState
+  broadcastJournalDir, dailySummaryPath, validateEntry, generateId,
+  buildOwnershipState, cmdStatus, cmdRead, cmdSnapshot
 };
