@@ -1,0 +1,7 @@
+{
+  "delivered_at": "2026-05-07T16:03:17.627Z",
+  "source": "lanes/library/outbox/library-to-archivist-convergence-response-2026-05-07.json",
+  "destination": "S:\\Archivist-Agent\\lanes\\archivist\\inbox\\library-to-archivist-convergence-response-2026-05-07.json",
+  "key_id": "602c55bf817bedc5",
+  "status": "delivered"
+}
