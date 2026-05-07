@@ -11,8 +11,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const { getRoots } = require('./util/lane-discovery');
-
 const { LaneDiscovery } = require('./util/lane-discovery');
 const _discovery = new LaneDiscovery();
 
@@ -30,15 +28,6 @@ for (const [pascalKey, laneId] of Object.entries(LANE_ID_MAP)) {
 
 const CURRENT_LANE = 'Library';
 const CURRENT_ROOT = LANES[CURRENT_LANE];
-
-if (process.platform !== 'win32') {
-  for (const [name, p] of Object.entries(LANES)) {
-    if (/^[A-Za-z]:[\\/]/.test(p)) {
-      console.error(`[sovereignty] FATAL: Windows path leak on ${process.platform}: ${name}=${p}`);
-      process.exit(1);
-    }
-  }
-}
 
 if (process.platform !== 'win32') {
   for (const [name, p] of Object.entries(LANES)) {
