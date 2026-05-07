@@ -2,44 +2,32 @@
 
 ## Current State
 
-### Recent Accomplishments (Session 2026-05-06)
+### Recent Accomplishments (Session 2026-05-06 → 2026-05-07)
 - [x] **Fetch retry utility added**: Implemented `src/lib/fetchWithRetry.ts` with exponential backoff, respects `Retry-After`, and integrated into client components.
 - [x] **Components updated**: Replaced direct `fetch` calls with `fetchWithRetry` in `LiveSystemPulse`, `HomeSystemStateStrip`, `SearchModal`, `graph/SwarmmindResiliencePanel`, `app/governance/page`, `components/MarkdownContent`, `swarmmind/orchestratorClient`, and `attestation/AttestationSupport`.
 - [x] **Dynamic imports**: Used dynamic import to keep client bundles lightweight.
 - [x] **All TypeScript checks pass** after changes.
-- [x] **Local Ollama shell helper created**: Two scripts for calling `qwen2.5-coder:3b-instruct-q4_K_M` (GPU-offloaded on RTX 5060) as a local code-review tool via `http://127.0.0.1:11434`:
-  - `C:\Users\seand\ollama-review.ps1` — PowerShell version
-  - `C:\Users\seand\ollama-review.sh` — Bash/Node version (for Kilo agent shell)
-  - Usage: `bash /c/Users/seand/ollama-review.sh "Review this code: <code>"`
-  - Scope: code review, log summarization, small patch critique, obvious bugs only
-  - Not final authority. Keep prompts under 200 lines.
-- [x] **Inbox processed — kernel summary NACK**: Kernel's ASCII summary message had no verifiable artifact. NACK'd with reason EVIDENCE_REQUIRED_NO_ARTIFACT, outbox response + evidence file created. Committed `b95e52c`.
-- [x] **Misrouted convergence proof archived**: Final-system-convergence-proof message was addressed to Archivist (not Library). Moved from stale-foreign/ to processed/ with note. Committed `b95e52c`.
-- [x] **Sovereignty + state sync**: sovereignty-report-latest.json and system_state.json updated. 0 violations across all 4 lanes. Committed `b95e52c`, pushed to origin.
-- [x] **Three-tier hybrid AI model router built** (shell tools, NOT in repo):
-  - `C:\Users\seand\ai-review.sh` — Unified tier router (local/strong/final dispatch)
-  - `C:\Users\seand\nvidia-review.sh` — NVIDIA NIM cloud helper (nemotron-3-super-120b-a12b)
-  - `C:\Users\seand\ai-review-router.json` — Router policy config (tiers, models, use-when rules)
-- Tier mapping: local=Ollama(7B), strong=NVIDIA NIM(120B, OpenAI SDK), final=Claude/GPT(manual)
-- NVIDIA NIM API confirmed working via curl, model catalog fetched
-- API keys stored in `.env.local` (NVIDIA_API_KEY, OPENROUTER_API_KEY)
-- [x] **NVIDIA NIM ECONNRESET bug FIXED**: Replaced raw `https.request` with Node.js `fetch()` API in `nvidia-review.sh`. Root cause: Node.js v25.9.0 https module had TLS/connection issue with NVIDIA endpoint; `fetch()` (undici-based) works correctly. Tested and confirmed working — nemotron-3-super-120b-a12b returns quality code review responses.
-- [x] **Full router pipeline verified**: All 3 tiers tested and working end-to-end.
-- [x] **OpenAI SDK integration**: Installed `openai@6.36.0`, rewrote `nvidia-review.sh` to use OpenAI SDK with streaming (cleaner than raw fetch). NVIDIA API key rotated.
-- [x] **Local model upgraded**: Default Ollama model changed from qwen2.5-coder:3b → qwen2.5-coder:7b (better quality, still fits 8GB VRAM). 3B available as fallback via `OLLAMA_MODEL` env var.
-- [x] **Router config updated**: `ai-review-router.json` now references 7B as default, 3B as fallback.
-
-
-- [x] **Four-tier AI Review Router integrated into repo** (Session 2026-05-06, cont.):
-  - `scripts/ai-review.sh` — stable entrypoint (portable paths via `$(dirname "$0")`)
-  - `scripts/ai-router/ollama-review.sh` — local tier (qwen2.5-coder:7b, RTX 5060)
+- [x] **Four-tier AI Review Router built and integrated into repo**:
+  - `scripts/ai-review.sh` — stable entrypoint with tier dispatch + auto-escalation
+  - `scripts/ai-router/ollama-review.sh` — local tier (qwen2.5-coder:7b, VPS via Tailscale primary, local RTX 5060 fallback)
   - `scripts/ai-router/nvidia-review.sh` — strong tier (nemotron-3-super-120b, OpenAI SDK + streaming)
   - `scripts/ai-router/openrouter-review.sh` — openrouter tier (free Nemotron:free default, 2 confirmed working free models)
-  - `scripts/ai-router/ai-review-router.json` — policy config with guardrails (review-only, no mutation, no file writes, keys env-only)
+  - `config/ai-review-router.json` — policy config with guardrails (review-only, no mutation, no file writes, keys env-only)
   - Auto-escalation: `--auto` starts local, escalates to strong on uncertainty signals
-  - Original scripts at `C:\Users\seand\` remain as backup; repo scripts are canonical
   - AGENTS.md updated with AI Review Router section + guardrails
-  - Tier tests + secret scan + integration report pending
+  - Lane-worker wired to call AI review on needs-review queue (commit `f6a7e5f`)
+- [x] **VPS Ollama deployed**: Installed on Hostinger KVM1 Ubuntu VPS (Tailscale-only at 100.95.40.99:11434), systemd service running, model qwen2.5-coder:7b pulled. NOT on public internet (security ✅).
+- [x] **VPS-as-default swap** (Session 4, 2026-05-07): VPS Ollama is now the primary local tier endpoint (default OLLAMA_HOST=100.95.40.99:11434). Windows local Ollama is the fallback. Rationale: VPS systemd service is always-on; Windows Ollama frequently times out or gets stuck.
+- [x] **Config moved to kernel-lane ownership** (Session 4): `ai-review-router.json` moved from `scripts/ai-router/` to `config/`. CONFIG path in `ai-review.sh` updated to `$SCRIPT_DIR/../config/ai-review-router.json`.
+- [x] **Bug fixes committed** (commit `98b12c4`):
+  - `http://` prefix strip in ollama-review.sh — OLLAMA_HOST env var includes `http://` prefix which breaks hostname parsing; now strips protocol prefix before use
+  - VPS auto-fallback in ollama-review.sh — Promise-based tryHost() tries VPS first (as of Session 4), falls back to 127.0.0.1:11434 on failure/timeout
+  - ai-review.sh case statement fix — direct `local` tier now calls `run_local` (passes OLLAMA_HOST) instead of broken `exec` path
+  - Help text updated with OLLAMA_HOST env var docs and VPS-as-default usage
+  - ai-review-router.json updated with ollama/ollama_local endpoints and VPS config section
+- [x] **All 4 tiers tested end-to-end**: local ✅ (VPS primary confirmed working), strong ✅, openrouter ✅, final ✅
+- [x] **Secret grep scan clean**: No API keys in committed files
+- [x] **OpenAI SDK integration**: Installed `openai@6.36.0`, NVIDIA NIM uses OpenAI SDK with streaming
 
 **Project Status:** Truth-routing + Governance Depth system LIVE on deliberateensemble.works/graph. 9,133 authority edges, 387 VERIFIED / 103 CONFLICTED / 28 QUARANTINED nodes. Governance depth: 73 constitutional, 247 operational, 106 theoretical, 71 historical, 1 evidence, 742 application_adjacent, 2429 unknown. Bridge states: 61 enforced, 42 verified, 16 partial, 1 documented_only, 169 contradicted, 104 obsolete, 3276 unknown. NexusGraph uses ref-based lifecycle (no WebGL teardown on interaction). The graph now presents three interaction modes (Understand, Explore, Full) to guide progressive exploration, with mode-based defaults for density, visibility, and entry points. Site has 685 pages, 662 Pagefind-indexed, 2,954 entries across 7 repos.
 

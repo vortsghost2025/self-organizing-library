@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROUTER_DIR="$SCRIPT_DIR/ai-router"
-CONFIG="$ROUTER_DIR/ai-review-router.json"
+CONFIG="$SCRIPT_DIR/../config/ai-review-router.json"
 
 AUTO_ESCALATE=false
 if [ "${1:-}" = "--auto" ] || [ "${1:-}" = "-a" ]; then
@@ -38,7 +38,7 @@ fi
 UNCERTAINTY_SIGNALS="(uncertain|not sure|may need|i think|possibly|might be|could not determine|unable to|insufficient|recommend.*(stronger|higher)|escalate)"
 
 run_local() {
-  OLLAMA_HOST="${OLLAMA_HOST:-127.0.0.1:11434}" bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
+  OLLAMA_HOST="${OLLAMA_HOST:-100.95.40.99:11434}" bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
 }
 
 run_strong() {
@@ -103,7 +103,7 @@ help|--help|-h)
 echo "Usage: ai-review.sh [--auto] <tier> '<prompt>'"
 echo ""
 echo "Tiers:"
-  echo " local (l) - Ollama qwen2.5-coder:7b (local RTX 5060 or VPS via Tailscale fallback)"
+  echo " local (l) - Ollama qwen2.5-coder:7b (VPS via Tailscale default, local RTX 5060 fallback)"
 echo " strong (s,n) - NVIDIA NIM nemotron-3-super-120b (cloud, strong reasoning)"
 echo " openrouter (o) - OpenRouter free models (nemotron-3-super:free default)"
 echo " final (f) - Manual: Claude/GPT/GLM via agent provider (not scriptable)"
@@ -121,7 +121,7 @@ echo " bash scripts/ai-review.sh --auto 'Review this complex patch'"
   echo " OLLAMA_HOST=100.95.40.99:11434 bash scripts/ai-review.sh local 'Review'"
   echo ""
   echo "Env vars:"
-  echo " OLLAMA_HOST - Ollama endpoint (default: 127.0.0.1:11434, auto-fallback: 100.95.40.99:11434)"
+  echo " OLLAMA_HOST - Ollama endpoint (default: 100.95.40.99:11434, fallback: 127.0.0.1:11434)"
   echo ""
   echo "Guardrails (see ai-review-router.json):"
   echo " - Review only: no mutation authority, no file writes"
