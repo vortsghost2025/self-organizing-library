@@ -1,0 +1,55 @@
+{
+  "tiers": {
+    "local": {
+      "command": "bash scripts/ai-router/ollama-review.sh",
+      "model": "qwen2.5-coder:7b",
+      "fallback_model": "qwen2.5-coder:3b-instruct-q4_K_M",
+      "max_lines": 200,
+      "role": "cheap_second_opinion",
+      "use_when": ["obvious_bugs", "log_summary", "lint_style", "small_patch_review"]
+    },
+    "strong": {
+      "command": "bash scripts/ai-router/nvidia-review.sh",
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "fallback_model": "deepseek-ai/deepseek-v4-pro",
+      "role": "strong_review_or_orchestration",
+      "use_when": ["local_model_uncertain", "architecture_review", "large_context_summary", "multi_file_reasoning", "contradiction_analysis"]
+    },
+    "openrouter": {
+      "command": "bash scripts/ai-router/openrouter-review.sh",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "fallback_models": [
+        "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+        "qwen/qwen3-coder:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "nousresearch/hermes-3-llama-3.1-405b:free"
+      ],
+      "role": "free_cloud_review",
+      "use_when": ["strong_tier_insufficient", "security_audit", "governance_review", "code_review_deep"],
+      "free_models": 29,
+      "note": "Free tier works. Paid models available if credits added."
+    },
+    "final": {
+      "command": null,
+      "role": "final_adjudication",
+      "use_when": ["governance_sensitive", "deployment_risk", "trust_store_key_changes", "contradiction_adjudication"],
+      "note": "Manual only — route to Claude/GPT/GLM via agent provider, not shell script. OpenRouter can substitute."
+    }
+  },
+  "routing": {
+    "default": "local",
+    "escalation": ["local", "strong", "openrouter", "final"],
+    "auto_escalate": false
+  },
+  "endpoints": {
+    "ollama": "http://127.0.0.1:11434/v1/chat/completions",
+    "nvidia": "https://integrate.api.nvidia.com/v1/chat/completions",
+    "openrouter": "https://openrouter.ai/api/v1/chat/completions"
+  },
+  "guardrails": {
+    "review_only": true,
+    "no_mutation_authority": true,
+    "no_file_write": true,
+    "api_keys_env_only": true
+  }
+}

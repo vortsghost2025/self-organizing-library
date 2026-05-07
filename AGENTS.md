@@ -157,6 +157,28 @@ Full spec: `GOVERNANCE.md`
 
 ---
 
+## AI Review Router
+
+A four-tier hybrid AI model router for shell-based code review. All tiers are **review-only** — no mutation authority, no file writes.
+
+**Entrypoint:** `bash scripts/ai-review.sh <tier> '<prompt>'`
+
+| Tier | Flag | Backend | Use When |
+|------|------|---------|----------|
+| **local** | `l` | Ollama qwen2.5-coder:7b (RTX 5060) | Obvious bugs, log summary, lint/style, small patches |
+| **strong** | `s`, `n` | NVIDIA NIM nemotron-3-super-120b | Architecture review, contradiction analysis, multi-file reasoning |
+| **openrouter** | `o`, `or` | OpenRouter free models | Security audit, governance review, when strong tier insufficient |
+| **final** | `f` | Manual Claude/GPT/GLM | Governance-sensitive, deployment-risk, trust-store/key changes |
+
+**Auto-escalation:** `bash scripts/ai-review.sh --auto '<prompt>'` — starts local, escalates to strong if uncertainty signals detected.
+
+**Guardrails** (enforced by policy in `scripts/ai-router/ai-review-router.json`):
+- Review only: no mutation authority, no file writes
+- API keys in `.env.local` only (never committed to repo)
+- Run `bash scripts/ai-review.sh help` for full usage
+
+---
+
 ## Need Help?
 
 - **Stuck on governance?** Read `GOVERNANCE.md` (full protocol) or ask Archivist.
