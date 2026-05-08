@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Absolute path to verification directory
-const VERIFICATION_DIR = 'S:/self-organizing-library/verification';
+const VERIFICATION_DIR = path.join(__dirname, '..', 'verification');
 // Write verdict.json to the verification directory itself
 const OUTPUT_FILE = path.join(VERIFICATION_DIR, 'verdict.json');
 

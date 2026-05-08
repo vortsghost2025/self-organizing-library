@@ -7,26 +7,36 @@ const path = require('path');
 const crypto = require('crypto');
 const { deriveKeyId } = require('../.global/deriveKeyId');
 
-const VERIFICATION_DIR = path.resolve('S:/self-organizing-library/verification');
+const isWin32 = process.platform === 'win32';
+const UBUNTU_ROOT = path.join(require('os').homedir(), 'agent', 'repos');
+
+function resolvePath(winPath) {
+  if (isWin32) return path.resolve(winPath);
+  const match = winPath.match(/^S:\/(.+)$/);
+  if (!match) return path.resolve(winPath);
+  return path.join(UBUNTU_ROOT, match[1]);
+}
+
+const VERIFICATION_DIR = resolvePath('S:/self-organizing-library/verification');
 
 const TRUST_STORE_CANDIDATES = [
-  path.resolve('S:/self-organizing-library/lanes/broadcast/trust-store.json'),
-  path.resolve('S:/kernel-lane/lanes/broadcast/trust-store.json'),
-  path.resolve('S:/Archivist-Agent/lanes/broadcast/trust-store.json'),
+  resolvePath('S:/self-organizing-library/lanes/broadcast/trust-store.json'),
+  resolvePath('S:/kernel-lane/lanes/broadcast/trust-store.json'),
+  resolvePath('S:/Archivist-Agent/lanes/broadcast/trust-store.json'),
 ];
 
 const LANE_SNAPSHOT_CANDIDATES = {
   archivist: [
-    path.resolve('S:/Archivist-Agent/.identity/snapshot.json'),
+    resolvePath('S:/Archivist-Agent/.identity/snapshot.json'),
   ],
   library: [
-    path.resolve('S:/self-organizing-library/.identity/snapshot.json'),
+    resolvePath('S:/self-organizing-library/.identity/snapshot.json'),
   ],
   kernel: [
-    path.resolve('S:/kernel-lane/.identity/snapshot.json'),
+    resolvePath('S:/kernel-lane/.identity/snapshot.json'),
   ],
   swarmmind: [
-    path.resolve('S:/SwarmMind/.identity/snapshot.json'),
+    resolvePath('S:/SwarmMind/.identity/snapshot.json'),
   ],
 };
 

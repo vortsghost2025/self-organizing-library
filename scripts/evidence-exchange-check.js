@@ -14,15 +14,40 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
-const discovery = new LaneDiscovery();
-const LANE_DIRS = {
-  archivist: discovery.getLocalPath('archivist'),
-  library: discovery.getLocalPath('library'),
-  swarmmind: discovery.getLocalPath('swarmmind'),
-  kernel: discovery.getLocalPath('kernel')
-};
+// Platform-aware path resolution: S:/ -> Ubuntu home path
+const isWin32 = process.platform === 'win32';
+const UBUNTU_ROOT = path.join(require('os').homedir(), 'agent', 'repos');
+
+function resolvePath(winPath) {
+  if (isWin32) return path.resolve(winPath);
+  const match = winPath.match(/^S:\/(.+)$/);
+  if (!match) return path.resolve(winPath);
+  return path.join(UBUNTU_ROOT, match[1]);
+}
+
+// Lane directories: try lane registry first, fall back to computed paths
+let LANE_DIRS;
+try {
+  // Try to load lane registry via LaneDiscovery if available
+  const { LaneDiscovery } = require('./util/lane-discovery');
+  const discovery = new LaneDiscovery();
+  LANE_DIRS = {
+    archivist: discovery.getLocalPath('archivist'),
+    library: discovery.getLocalPath('library'),
+    swarmmind: discovery.getLocalPath('swarmmind'),
+    kernel: discovery.getLocalPath('kernel')
+  };
+} catch (e) {
+  console.warn('Lane discovery unavailable, using computed fallback paths:', e.message);
+  const cwd = process.cwd();
+  LANE_DIRS = {
+    archivist: resolvePath('S:/Archivist-Agent'),
+    library: cwd,
+    swarmmind: resolvePath('S:/SwarmMind'),
+    kernel: resolvePath('S:/kernel-lane')
+  };
+}
 
 function loadMessage(filePath) {
   try {
