@@ -166,6 +166,13 @@ function buildGraph(
     forceAtlas2.assign(graph, { iterations, settings });
   }
 
+  // Sanitize positions: ForceAtlas2 can produce NaN/Infinity on degenerate graphs
+  for (const node of graph.nodes()) {
+    const attrs = graph.getNodeAttributes(node);
+    if (!isFinite(attrs.x)) attrs.x = 0;
+    if (!isFinite(attrs.y)) attrs.y = 0;
+  }
+
   return graph;
 }
 
@@ -228,12 +235,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
 
   // Fit camera to visible nodes on demand
   const fitAllNodes = useCallback(() => {
-    const sigma = sigmaRef.current;
-    const graph = graphRef.current;
-    if (!sigma || !graph) return;
+  const sigma = sigmaRef.current;
+  const graph = graphRef.current;
+  if (!sigma || !graph) return;
 
-    const container = containerRef.current;
-    if (!container) return;
+  const container = containerRef.current;
+  if (!container || container.clientWidth === 0 || container.clientHeight === 0) return;
 
     // Build clusterNodeIds map for visibility checks and store in ref for other effects
     const clusterNodeIds = new Map<string, Set<string>>();
@@ -242,24 +249,30 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     }
     clusterNodeIdsRef.current = clusterNodeIds;
 
-    // For initial full-graph fit, ignore entry-point/density filters — fit to ALL nodes
-    const visibleNodeIds: string[] = [];
-    for (const nodeId of graph.nodes()) {
-      visibleNodeIds.push(nodeId);
-    }
+  // For initial full-graph fit, ignore entry-point/density filters — fit to ALL nodes
+  const visibleNodeIds: string[] = [];
+  for (const nodeId of graph.nodes()) {
+    visibleNodeIds.push(nodeId);
+  }
 
-    if (visibleNodeIds.length === 0) {
-      console.debug("[fitAllNodes] no visible nodes");
-      return;
-    }
+  if (visibleNodeIds.length === 0) {
+    console.debug("[fitAllNodes] no visible nodes");
+    return;
+  }
 
-    const xs: number[] = [];
-    const ys: number[] = [];
-    for (const id of visibleNodeIds) {
-      const attrs = graph.getNodeAttributes(id);
+  const xs: number[] = [];
+  const ys: number[] = [];
+  for (const id of visibleNodeIds) {
+    const attrs = graph.getNodeAttributes(id);
+    if (isFinite(attrs.x) && isFinite(attrs.y)) {
       xs.push(attrs.x);
       ys.push(attrs.y);
     }
+  }
+  if (xs.length === 0) {
+    console.debug("[fitAllNodes] no valid node positions");
+    return;
+  }
     const minX = Math.min(...xs), maxX = Math.max(...xs);
     const minY = Math.min(...ys), maxY = Math.max(...ys);
     let width = maxX - minX;
@@ -302,13 +315,17 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       });
     }
 
-    const diag = `container=${container.clientWidth}x${container.clientHeight} adjWorld=${adjWidth.toFixed(0)}x${adjHeight.toFixed(0)} ratio=${ratio.toFixed(3)}`;
-    console.debug("[fitAllNodes]", diag);
-    lastFitDiagnosticsRef.current = diag;
-    fitCountRef.current += 1;
-    lastFitTimeRef.current = Date.now();
+  const diag = `container=${container.clientWidth}x${container.clientHeight} adjWorld=${adjWidth.toFixed(0)}x${adjHeight.toFixed(0)} ratio=${ratio.toFixed(3)}`;
+  console.debug("[fitAllNodes]", diag);
+  lastFitDiagnosticsRef.current = diag;
+  fitCountRef.current += 1;
+  lastFitTimeRef.current = Date.now();
 
-    const camera = sigma.getCamera() as any;
+  if (!isFinite(centerX) || !isFinite(centerY) || !isFinite(ratio) || ratio <= 0) {
+    console.debug("[fitAllNodes] invalid camera params, skipping");
+    return;
+  }
+  const camera = sigma.getCamera() as any;
     camera.x = centerX;
     camera.y = centerY;
     camera.ratio = ratio;
@@ -319,12 +336,12 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   }, []); // fitAllNodes
 
   const fitVisible = useCallback(() => {
-    const sigma = sigmaRef.current;
-    const graph = graphRef.current;
-    if (!sigma || !graph) return;
+  const sigma = sigmaRef.current;
+  const graph = graphRef.current;
+  if (!sigma || !graph) return;
 
-    const container = containerRef.current;
-    if (!container) return;
+  const container = containerRef.current;
+  if (!container || container.clientWidth === 0 || container.clientHeight === 0) return;
 
     // Build clusterNodeIds map for visibility checks
     const clusterNodeIds = new Map<string, Set<string>>();
@@ -413,22 +430,28 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       return true;
     };
 
-    const visibleNodeIds: string[] = [];
-    for (const nodeId of graph.nodes()) {
-      if (isNodeVisible(nodeId)) visibleNodeIds.push(nodeId);
-    }
-    if (visibleNodeIds.length === 0) {
-      console.debug("[fitVisible] no visible nodes");
-      return;
-    }
+  const visibleNodeIds: string[] = [];
+  for (const nodeId of graph.nodes()) {
+    if (isNodeVisible(nodeId)) visibleNodeIds.push(nodeId);
+  }
+  if (visibleNodeIds.length === 0) {
+    console.debug("[fitVisible] no visible nodes");
+    return;
+  }
 
-    const xs: number[] = [];
-    const ys: number[] = [];
-    for (const id of visibleNodeIds) {
-      const attrs = graph.getNodeAttributes(id);
+  const xs: number[] = [];
+  const ys: number[] = [];
+  for (const id of visibleNodeIds) {
+    const attrs = graph.getNodeAttributes(id);
+    if (isFinite(attrs.x) && isFinite(attrs.y)) {
       xs.push(attrs.x);
       ys.push(attrs.y);
     }
+  }
+  if (xs.length === 0) {
+    console.debug("[fitVisible] no valid node positions");
+    return;
+  }
     const minX = Math.min(...xs), maxX = Math.max(...xs);
     const minY = Math.min(...ys), maxY = Math.max(...ys);
     let width = maxX - minX;
@@ -483,65 +506,71 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       });
     }
 
-    const diag = `container=${container.clientWidth}x${container.clientHeight} adjWorld=${adjWidth.toFixed(0)}x${adjHeight.toFixed(0)} ratio=${ratio.toFixed(3)}`;
-    console.debug("[fitVisible]", diag);
-    lastFitDiagnosticsRef.current = diag;
-    fitCountRef.current += 1;
-    lastFitTimeRef.current = Date.now();
+  const diag = `container=${container.clientWidth}x${container.clientHeight} adjWorld=${adjWidth.toFixed(0)}x${adjHeight.toFixed(0)} ratio=${ratio.toFixed(3)}`;
+  console.debug("[fitVisible]", diag);
+  lastFitDiagnosticsRef.current = diag;
+  fitCountRef.current += 1;
+  lastFitTimeRef.current = Date.now();
 
-    const camera = sigma.getCamera() as any;
-    camera.x = centerX;
-    camera.y = centerY;
-    camera.ratio = ratio;
-    try {
-      sigma.setCamera(camera);
-    } catch {}
+  if (!isFinite(centerX) || !isFinite(centerY) || !isFinite(ratio) || ratio <= 0) {
+    console.debug("[fitVisible] invalid camera params, skipping");
+    return;
+  }
+  const camera = sigma.getCamera() as any;
+  camera.x = centerX;
+  camera.y = centerY;
+  camera.ratio = ratio;
+  try {
+  sigma.setCamera(camera);
+  } catch {}
     sigma.refresh();
   }, []); // fitVisible (respects filters)
 
   // Watchdog: ensure graph never drifts off-screen or stays blank
   useEffect(() => {
-    let rafId: number;
+    let intervalId: number;
     let lastCheck = Date.now();
     let consecutiveIssues = 0;
-    let userHasInteracted = false;
-    
+    let lastInteractionTime = 0;
+    const INTERACTION_COOLDOWN_MS = 10000;
+
     const checkGraphVisibility = () => {
       const sigma = sigmaRef.current;
       const container = containerRef.current;
       if (!sigma || !container) return;
-      
+
       const camera = sigma.getCamera() as any;
       if (!camera) return;
-      
+
       const now = Date.now();
       if (now - lastCheck < 2000) return;
       lastCheck = now;
-      
+
+      // Skip auto-correction if user has interacted recently
+      if (now - lastInteractionTime < INTERACTION_COOLDOWN_MS) return;
+
       try {
         const state = camera.getState ? camera.getState() : { x: camera.x, y: camera.y, ratio: camera.ratio };
-        
-        // Skip auto-correction if user has interacted recently (last 10s)
-        if (userHasInteracted) {
-          // Reset flag after 10 seconds of inactivity
-          setTimeout(() => { userHasInteracted = false; }, 10000);
-          return;
-        }
-        
+
         // Condition 1: Extremely zoomed in or out
-        // Upper bound raised to 50 to accommodate natural fit ratios for typical graph spreads
         if (state.ratio < 0.03 || state.ratio > 50) {
           console.debug("[watchdog] ratio out of range", state.ratio);
           fitVisible();
           consecutiveIssues = 0;
           return;
         }
-        
+
         // Condition 2: Graph loaded but camera looking at wrong place
         if (graphRef.current && graphRef.current.order > 0) {
           const anyNode = graphRef.current.nodes()[0];
           if (anyNode) {
             const nodePos = graphRef.current.getNodeAttributes(anyNode);
+            if (!isFinite(nodePos.x) || !isFinite(nodePos.y)) {
+              console.debug("[watchdog] node has NaN position, rebuilding");
+              fitVisible();
+              consecutiveIssues = 0;
+              return;
+            }
             const screenX = (nodePos.x - state.x) * state.ratio + container.clientWidth / 2;
             const screenY = (nodePos.y - state.y) * state.ratio + container.clientHeight / 2;
             // Node exists but is far outside viewport
@@ -554,7 +583,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
             }
           }
         }
-        
+
         consecutiveIssues = 0;
       } catch (err) {
         console.debug("[watchdog] error", err);
@@ -565,20 +594,20 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         }
       }
     };
-    
-    rafId = window.setInterval(checkGraphVisibility, 2000);
-    
-    const handleInteraction = () => { userHasInteracted = true; };
-    const containerForCleanup = containerRef.current;
-    containerForCleanup?.addEventListener('wheel', handleInteraction, { passive: true });
-    containerForCleanup?.addEventListener('mousedown', handleInteraction);
-    containerForCleanup?.addEventListener('touchstart', handleInteraction);
-    
+
+    intervalId = window.setInterval(checkGraphVisibility, 2000);
+
+    const handleInteraction = () => { lastInteractionTime = Date.now(); };
+    const el = containerRef.current;
+    el?.addEventListener('wheel', handleInteraction, { passive: true });
+    el?.addEventListener('mousedown', handleInteraction);
+    el?.addEventListener('touchstart', handleInteraction);
+
     return () => {
-      if (rafId) clearInterval(rafId);
-      containerForCleanup?.removeEventListener('wheel', handleInteraction);
-      containerForCleanup?.removeEventListener('mousedown', handleInteraction);
-      containerForCleanup?.removeEventListener('touchstart', handleInteraction);
+      if (intervalId) clearInterval(intervalId);
+      el?.removeEventListener('wheel', handleInteraction);
+      el?.removeEventListener('mousedown', handleInteraction);
+      el?.removeEventListener('touchstart', handleInteraction);
     };
   }, [fitVisible]);
 
@@ -1001,10 +1030,30 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         },
       });
       // Set initial camera position (Sigma v3: mutate camera object directly)
+      // Compute proper ratio from graph bounding box so the graph fills the viewport
       const camera = renderer.getCamera();
       camera.x = initCenterX;
       camera.y = initCenterY;
-      camera.ratio = 0.5;
+      let initRatio = 1;
+      if (nodeIdsArray.length > 1 && containerRef.current) {
+        let iMinX = Infinity, iMaxX = -Infinity, iMinY = Infinity, iMaxY = -Infinity;
+        for (const id of nodeIdsArray) {
+          const a = graph.getNodeAttributes(id);
+          if (!isFinite(a.x) || !isFinite(a.y)) continue;
+          if (a.x < iMinX) iMinX = a.x;
+          if (a.x > iMaxX) iMaxX = a.x;
+          if (a.y < iMinY) iMinY = a.y;
+          if (a.y > iMaxY) iMaxY = a.y;
+        }
+        const bw = iMaxX - iMinX;
+        const bh = iMaxY - iMinY;
+        const cw = containerRef.current.clientWidth;
+        const ch = containerRef.current.clientHeight;
+        if (bw > 0 && bh > 0 && cw > 0 && ch > 0) {
+          initRatio = Math.min((cw * 0.85) / bw, (ch * 0.85) / bh);
+        }
+      }
+      camera.ratio = initRatio;
       renderer.setCamera(camera);
       
       // Initial refresh and timestamp
@@ -1062,27 +1111,30 @@ const GraphCanvas = forwardRef(function GraphCanvas(
      sigmaRef.current = renderer;
      onGraphReadyRef.current?.(graph, renderer);
 
-     // Ensure container is laid out before fitting
-     const container = containerRef.current;
-     if (container && container.clientWidth > 0 && container.clientHeight > 0) {
-       // Use ResizeObserver to wait for final layout, then fit
-       const resizeObserver = new ResizeObserver(() => {
-         fitVisible();
-         renderer.refresh();
-         resizeObserver.disconnect();
-       });
-       resizeObserver.observe(container);
-       
-       // Also try immediate fit after a short delay as fallback
-       requestAnimationFrame(() => {
-         requestAnimationFrame(() => {
-           if (sigmaRef.current) {
-             fitVisible();
-             renderer.refresh();
-           }
-         });
-       });
-     }
+  // Ensure container is laid out before fitting
+  const container = containerRef.current;
+  if (container && container.clientWidth > 0 && container.clientHeight > 0) {
+    // Wait for layout to stabilize, then fit
+    const resizeObserver = new ResizeObserver(() => {
+      // Defer fit to next frame so Sigma camera state is consistent
+      requestAnimationFrame(() => {
+        if (sigmaRef.current) {
+          fitVisible();
+          renderer.refresh();
+        }
+        resizeObserver.disconnect();
+      });
+    });
+    resizeObserver.observe(container);
+
+    // Fallback fit after layout has had time to settle
+    setTimeout(() => {
+      if (sigmaRef.current) {
+        fitVisible();
+        renderer.refresh();
+      }
+    }, 150);
+  }
 
      return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);

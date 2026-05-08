@@ -101,6 +101,8 @@ class ArtifactResolver {
 
   hasPathTraversal(artifactPath) {
     if (!artifactPath || typeof artifactPath !== 'string') return true;
+    const normalized = artifactPath.replace(/\\/g, '/');
+    if (normalized.includes('..')) return true;
     try {
       const resolved = path.resolve(artifactPath);
       return !this.isWithinAllowedRoots(resolved);
@@ -129,8 +131,17 @@ class ArtifactResolver {
       return { exists: false, reason: 'EMPTY_PATH' };
     }
 
-    if (this.hasPathTraversal(artifactPath)) {
+    const hasDotDot = artifactPath.replace(/\\/g, '/').includes('..');
+    if (hasDotDot) {
       return { exists: false, reason: 'PATH_TRAVERSAL_REJECTED' };
+    }
+
+    if (!path.isAbsolute(artifactPath) && !this.isWithinAllowedRoots(path.resolve(artifactPath))) {
+      return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
+    }
+
+    if (path.isAbsolute(artifactPath) && !this.isWithinAllowedRoots(artifactPath)) {
+      return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
     }
 
     let resolvedPath = artifactPath;
@@ -140,8 +151,6 @@ class ArtifactResolver {
         return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
       }
       resolvedPath = resolved;
-    } else if (!this.isWithinAllowedRoots(artifactPath)) {
-      return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
     }
 
     if (this.dryRun) {

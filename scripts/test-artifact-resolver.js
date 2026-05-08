@@ -152,7 +152,7 @@ test('evidence_exchange artifact path missing -> blocked', (tmpRoot) => {
   const summary = worker.processOnce();
   assert.strictEqual(summary.routed.processed, 0, 'Must NOT route to processed');
   assert.strictEqual(summary.routed.blocked, 1, 'Must route to blocked');
-  assert.strictEqual(summary.routes[0].reason, 'EXECUTION_NOT_VERIFIED');
+  assert.strictEqual(summary.routes[0].reason, 'INVALID_DOMAIN_POST_EXECUTION', 'Domain gate should reject missing artifact');
 });
 
 // ============================================================

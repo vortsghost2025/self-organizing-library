@@ -1,0 +1,6 @@
+[claim-commit-guard] 2026-05-08T09:00:49.162Z BLOCK unknown: premature claim — evidence.evidence_path=lanes/library/evidence/execution-lineage-relevance-map-2026-05-08.json
+[claim-commit-guard] 2026-05-08T09:44:11.760Z BLOCK unknown: premature claim — evidence.evidence_path=lanes/library/evidence/execution-lineage-relevance-map-2026-05-08.json, evidence_exchange.artifact_path=lanes/library/evidence/execution-lineage-relevance-map-2026-05-08.json
+[claim-commit-guard] 2026-05-08T09:46:51.878Z BLOCK unknown: premature claim — evidence.evidence_path=lanes/library/evidence/execution-lineage-relevance-map-2026-05-08.json, evidence_exchange.artifact_path=lanes/library/evidence/execution-lineage-relevance-map-2026-05-08.json
+[claim-commit-guard] 2026-05-08T09:49:31.891Z PASS unknown: 0 claims verified
+[claim-commit-guard] 2026-05-08T09:55:32.251Z PASS unknown: 0 claims verified
+[claim-commit-guard] 2026-05-08T10:16:13.565Z BLOCK unknown: premature claim — evidence.evidence_path=lanes/library/evidence/execution-lineage-relevance-map-2026-05-08.json

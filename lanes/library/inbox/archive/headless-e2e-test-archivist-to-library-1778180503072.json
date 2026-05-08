@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "task_id": "headless-e2e-test-archivist-to-library-1778180503072",
+  "idempotency_key": "headless-e2e-test-1778180503072",
+  "from": "archivist",
+  "to": "library",
+  "type": "task",
+  "task_kind": "review",
+  "priority": "P0",
+  "subject": "Headless E2E Test: Archivist to Library Message Transport",
+  "body": "This is a test message from Archivist lane to Library lane for verifying headless automation message transport. It tests the complete flow: message creation, signing, outbox placement, relay delivery, inbox appearance, and processing readiness.",
+  "timestamp": "2026-05-07T19:01:43.072Z",
+  "requires_action": true,
+  "payload": {
+    "mode": "inline",
+    "compression": "none",
+    "path": null,
+    "chunk": {
+      "index": 0,
+      "count": 1,
+      "group_id": null
+    }
+  },
+  "execution": {
+    "mode": "manual",
+    "engine": "kilo",
+    "actor": "lane",
+    "session_id": null
+  },
+  "lease": {
+    "owner": "archivist",
+    "acquired_at": "2026-05-07T19:01:43.072Z",
+    "expires_at": null,
+    "renew_count": 0,
+    "max_renewals": 3
+  },
+  "retry": {
+    "attempt": 1,
+    "max_attempts": 3,
+    "last_error": null,
+    "last_attempt_at": null
+  },
+  "evidence": {
+    "required": true,
+    "evidence_path": "lanes/archivist/outbox/headless-e2e-test-archivist-to-library-1778180503072.json",
+    "verified": false,
+    "verified_by": null,
+    "verified_at": null
+  },
+  "heartbeat": {
+    "interval_seconds": 300,
+    "last_heartbeat_at": "2026-05-07T19:01:43.072Z",
+    "timeout_seconds": 900,
+    "status": "pending"
+  },
+  "id": "headless-e2e-test-archivist-to-library-1778180503072",
+  "content_hash": "sha256:0e130d78f8b7ab57c8dd8fcb6e303109d84f41246e5ab4c118005c66b0409174",
+  "signature": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjY1YWUwNWIyYTllNzQ5Y2IifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6MGUxMzBkNzhmOGI3YWI1N2M4ZGQ4ZmNiNmUzMDMxMDlkODRmNDEyNDZlNWFiNGMxMTgwMDVjNjZiMDQwOTE3NCIsImV4cCI6MTc3ODI2NjkwMywiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3ODE4MDUwMywiaWQiOiJoZWFkbGVzcy1lMmUtdGVzdC1hcmNoaXZpc3QtdG8tbGlicmFyeS0xNzc4MTgwNTAzMDcyIiwibGFuZSI6ImFyY2hpdmlzdCIsInByaW9yaXR5IjoiUDAiLCJ0YXNrX2lkIjoiaGVhZGxlc3MtZTJlLXRlc3QtYXJjaGl2aXN0LXRvLWxpYnJhcnktMTc3ODE4MDUwMzA3MiIsInRvIjoibGlicmFyeSJ9.Em_ygHRKoS5PHDm-G2N_3pRjwPg8OinNVTWE6D7h-Br2yyGB4nP1NgOEfaVJBXTUYXu11YruwCZRntnnTiC3RBsRA-1LDaB5XNl2bq21yxl9_IL0eN059J6Mim21IyetZ2fOs2daDx0fU1at3aZZO-pWxOEZEkFRJgFOu7i5d2vlGj6ss7HQejyY1OFTQm9nJLuga9mB_I_P-xOpF1KN1Ed2CUNZemV_Fu4o1pWy4oLbPfllmgoITch3s8KY0DMfypW8snyGK_xyUreyEdGV0RMdof0KH9QxlYQCY7RT4UjAAtyuprW0xXnvFDOOsPSxNNNAcFjG3v0CNbYfXQh5PQ",
+  "signature_alg": "RS256",
+  "key_id": "65ae05b2a9e749cb",
+  "session_identity": {
+    "session_id": "sess-1778180503070-808741dd",
+    "session_epoch_started_at": "2026-05-07T19:01:43.071Z",
+    "origin_runtime": "opencode",
+    "origin_workspace": "/home/we4free/agent/repos/Archivist-Agent"
+  },
+  "execution_verified": false,
+  "would_verify": false,
+  "_lane_worker": {
+    "lane": "library",
+    "routed_at": "2026-05-07T19:02:02.449Z",
+    "dry_run": false,
+    "route": "blocked",
+    "reason": "EVIDENCE_REQUIRED_NO_ARTIFACT",
+    "detail": "evidence.required=true but no evidence_exchange.artifact_path provided",
+    "schema_valid": true,
+    "signature_valid": true,
+    "schema_remediation": null,
+    "english_only": true,
+    "execution_verified": false,
+    "would_verify": false,
+    "enforce_ownership": false,
+    "ownership_enforcement_enabled": false,
+    "ownership": {
+      "present": false,
+      "malformed": false
+    },
+    "ownership_notes": [
+      "OWNERSHIP_MISSING"
+    ],
+    "domain_gate_executed": false,
+    "verification_outcome": null,
+    "domain_validation": null,
+    "verification_path": null,
+    "session_identity": {
+      "session_id": "sess_moupmfcl_4024233",
+      "session_epoch_started_at": "2026-05-06T23:50:08.181Z",
+      "origin_runtime": "opencode",
+      "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+    },
+    "output_provenance": {
+      "agent": "lane-worker-4024233",
+      "lane": "library",
+      "generated_at": "2026-05-07T19:02:02.449Z",
+      "session_id": "sess_moupmfcl_4024233"
+    }
+  }
+}

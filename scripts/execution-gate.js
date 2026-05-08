@@ -172,7 +172,9 @@ class ExecutionGate {
     const resolvedRoot = path.resolve(root);
     const isAllowed = DEFAULT_ALLOWED_ROOTS.some(allowedRoot => {
       const resolvedAllowed = path.resolve(allowedRoot);
-      return resolvedRoot === resolvedAllowed || resolvedRoot.startsWith(resolvedAllowed + path.sep);
+      const normRoot = resolvedRoot.replace(/\\/g, '/').toLowerCase();
+      const normAllowed = resolvedAllowed.replace(/\\/g, '/').toLowerCase();
+      return normRoot === normAllowed || normRoot.startsWith(normAllowed + '/');
     });
     if (!isAllowed) {
       throw new Error(`SECURITY: resolved path '${resolvedRoot}' for lane '${fromLane}' is outside allowed roots`);

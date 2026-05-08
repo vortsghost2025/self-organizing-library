@@ -1,0 +1,285 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "EXECUTION_LINEAGE_RELEVANCE_MAP",
+  "produced_by": {
+    "lane": "library",
+    "agent": "opencode",
+    "session_id": "graph-fix-execution-lineage-20260508",
+    "task_kind": "verification"
+  },
+  "timestamp": "2026-05-08T00:00:00Z",
+  "evidence": {
+    "evidence_path": "lanes/library/evidence/execution-lineage-relevance-map-2026-05-08.json",
+    "verified": true,
+    "verification_method": "paper_url_confirmed",
+    "verification_timestamp": "2026-05-08T00:00:00Z"
+  },
+  "paper": {
+    "arxiv_id": "2605.06365",
+    "title": "From Agent Loops to Deterministic Graphs: Execution Lineage for Reproducible AI-Native Work",
+    "authors": ["Josh Rosen", "Seth Rosen"],
+    "submitted": "2026-05-07",
+    "categories": ["cs.AI", "cs.MA", "cs.SE"],
+    "url": "https://arxiv.org/abs/2605.06365",
+    "url_verified": true,
+    "url_verified_at": "2026-05-08T00:00:00Z"
+  },
+  "paper_claims_verified": [
+    {
+      "claim": "Execution lineage (DAG of artifact-producing computations with explicit dependencies, stable intermediate boundaries, identity-based replay) prevents unrelated-branch contamination",
+      "applicability": "DIRECTLY_APPLICABLE",
+      "caution": "Paper tested on controlled policy-memo tasks, not multi-agent governance systems. Scale and failure-mode differences may affect generalizability."
+    },
+    {
+      "claim": "DAG replay preserved final memo exactly in unrelated-branch updates with zero churn and zero contamination",
+      "applicability": "APPLICABLE_AS_GOAL",
+      "caution": "Our system has more artifact types (code, config, schema, data) than the paper's text memos. Preservation guarantees may be harder for non-text artifacts."
+    },
+    {
+      "claim": "Final answer quality and maintained-state quality are distinct",
+      "applicability": "CRITICALLY_APPLICABLE",
+      "caution": "This is the key insight. Our system already has evidence of this: agents report 'fixed' while typecheck fails, graph packets claim completion when work is in-progress, heartbeat signing paths exist but are never called at runtime."
+    },
+    {
+      "claim": "Strong loop baselines can remain competitive at producing polished final outputs but mask partial state inconsistency",
+      "applicability": "DIRECTLY_OBSERVED_IN_OUR_SYSTEM",
+      "caution": "Our agent loops frequently produce acceptable immediate outputs while leaving stale graph packets, outdated sovereignty reports, and inconsistent cross-lane state."
+    }
+  ],
+  "core_mapping": {
+    "execution_lineage_dag": {
+      "paper_definition": "DAG of artifact-producing computations with explicit dependencies",
+      "system_equivalent": "Nexus graph / authority graph / lane evidence graph",
+      "match_strength": "strong",
+      "gap": "Our graph represents knowledge structure, not execution lineage. Adding lineage would require recording which computation produced each artifact, with what inputs."
+    },
+    "artifact_producing_computation": {
+      "paper_definition": "A node in the DAG that takes inputs and produces outputs",
+      "system_equivalent": "Lane task producing report/schema/packet/journal entry",
+      "match_strength": "strong",
+      "gap": "Lane tasks produce outputs but currently do not record their input artifact hashes or replay conditions."
+    },
+    "explicit_dependencies": {
+      "paper_definition": "Edges in the DAG showing which artifacts feed which computations",
+      "system_equivalent": "Authority edges / graph edges / verification evidence",
+      "match_strength": "partial",
+      "gap": "Our authority edges represent semantic relationships (VERIFIES, DERIVES_FROM) but not build/replay dependencies. A VERIFIES edge does not tell you which input hash was used."
+    },
+    "stable_intermediate_boundaries": {
+      "paper_definition": "Intermediate artifacts that act as stable checkpoints, not overwritten by unrelated changes",
+      "system_equivalent": "Graph packets, store-journal snapshots, convergence bundles",
+      "match_strength": "strong",
+      "gap": "Our intermediates exist but lack hash identity. Graph packets do not record which snapshot/script/schema produced them, so staleness is undetectable without manual comparison."
+    },
+    "identity_based_replay": {
+      "paper_definition": "Re-running a computation from its recorded inputs produces the same output",
+      "system_equivalent": "Signed messages, session IDs, phenotype IDs, artifact hashes",
+      "match_strength": "weak",
+      "gap": "We sign messages for authentication, not for replay. No artifact currently records a replay_command or input_hashes that would allow deterministic regeneration."
+    },
+    "unrelated_branch_contamination": {
+      "paper_definition": "Changes in one branch of the DAG should not affect artifacts in unrelated branches",
+      "system_equivalent": "Quarantine, scope gates, allowed-files rules",
+      "match_strength": "strong",
+      "gap": "Our contamination controls are prompt-based (allowed-files in agent instructions) not machine-checkable. The paper provides a formal basis for making scope boundaries verifiable."
+    },
+    "maintained_state_quality": {
+      "paper_definition": "Quality of the persistent state between revisions, distinct from final output quality",
+      "system_equivalent": "Sovereignty reports, graph state consistency, cross-lane message integrity",
+      "match_strength": "critical_match",
+      "gap": "We have no formal metric for this. Sovereignty reports check individual claims but do not assess whether the overall maintained state is consistent (e.g., graph packets match current code, heartbeat is wired correctly)."
+    }
+  },
+  "current_system_matches": [
+    {
+      "artifact": "data/graph-analysis-packets.json",
+      "current_lineage_fields": ["generated_at"],
+      "missing_lineage_fields": ["source_snapshot_hash", "builder_script_hash", "schema_hash", "replay_command", "input_artifact_hashes"],
+      "stale_if": "source code or site-index changes after generation without rebuild"
+    },
+    {
+      "artifact": "lanes/library/state/sovereignty-report-latest.json",
+      "current_lineage_fields": ["timestamp"],
+      "missing_lineage_fields": ["scan_scope_hash", "rules_version_hash", "replay_command"],
+      "stale_if": "governance rules change without re-scan"
+    },
+    {
+      "artifact": "data/site-index.json",
+      "current_lineage_fields": ["generated_at"],
+      "missing_lineage_fields": ["builder_script_hash", "input_repo_hashes", "replay_command"],
+      "stale_if": "repo content changes without re-index"
+    },
+    {
+      "artifact": "lanes/library/inbox/* messages",
+      "current_lineage_fields": ["task_id", "from", "to", "timestamp"],
+      "missing_lineage_fields": ["input_artifact_hashes", "produced_artifact_hashes", "replay_dependencies"],
+      "stale_if": "upstream artifact changes invalidate the task's assumptions"
+    },
+    {
+      "artifact": "src/components/graph/GraphCanvas.tsx",
+      "current_lineage_fields": "none",
+      "missing_lineage_fields": ["build_dependency_on_graph-types", "runtime_dependency_on_graphology-layout-forceatlas2"],
+      "stale_if": "graphology API changes or graph-types.ts changes without re-test"
+    }
+  ],
+  "gaps_from_recent_work": [
+    {
+      "gap": "No staleness detection for graph packets",
+      "example_from_recent_work": "Graph rendering shows empty/off-screen because graph-analysis-packets.json may be stale after code changes to GraphCanvas.tsx or graph-types.ts",
+      "proposed_fix": "Add lineage block to graph-analysis-packets.json with source_snapshot_hash, builder_script_hash, schema_hash. Check on load."
+    },
+    {
+      "gap": "No contamination control between agent tasks",
+      "example_from_recent_work": "Agent fixing graph rendering also touched unrelated files because allowed-files scope is prompt-based not enforced",
+      "proposed_fix": "Machine-checkable scope boundaries derived from execution lineage DAG. Agent task declares affected_artifacts, system verifies no write outside that set."
+    },
+    {
+      "gap": "No maintained-state quality metric",
+      "example_from_recent_work": "Agent reports 'graph fixed' but typecheck was not run, or graph packet claims fix complete when only in-progress",
+      "proposed_fix": "Convergence gate reports both final_answer_quality and maintained_state_quality as separate dimensions."
+    }
+  ],
+  "proposed_protocol": {
+    "execution_lineage_packet_v1": {
+      "fields": [
+        "artifact_id",
+        "artifact_type",
+        "produced_by.lane",
+        "produced_by.agent",
+        "produced_by.session_id",
+        "produced_by.command_or_task",
+        "inputs[].artifact_id",
+        "inputs[].path",
+        "inputs[].hash",
+        "inputs[].role",
+        "outputs[].artifact_id",
+        "outputs[].path",
+        "outputs[].hash",
+        "outputs[].role",
+        "dependencies.upstream[].artifact_id",
+        "dependencies.downstream[].artifact_id",
+        "replay.deterministic",
+        "replay.replay_command",
+        "replay.replay_scope.affected_artifacts",
+        "replay.replay_scope.unaffected_artifacts",
+        "replay.replay_required_when",
+        "preservation.should_not_change[].path",
+        "preservation.should_not_change[].reason",
+        "preservation.unchanged_verified[].path",
+        "preservation.unchanged_verified[].hash_before",
+        "preservation.unchanged_verified[].hash_after",
+        "status"
+      ],
+      "validation_rules": [
+        "artifact_id must be unique and stable",
+        "inputs[].hash must be SHA-256 of file content at time of computation",
+        "outputs[].hash must be SHA-256 of file content after computation",
+        "status must be one of: produced, verified, replay_needed, stale, conflicted, quarantined",
+        "replay_required_when must enumerate conditions that trigger replay",
+        "preservation.unchanged_verified requires hash_before == hash_after for each entry",
+        "dependencies.upstream and downstream must reference existing artifact_ids"
+      ],
+      "example_for_graph_packet": {
+        "artifact_id": "graph-analysis-packets-20260508",
+        "artifact_type": "data",
+        "produced_by": { "lane": "kernel", "agent": "build-script", "session_id": "graph-packet-build-001", "command_or_task": "node scripts/build-graph-packet.js" },
+        "inputs": [
+          { "artifact_id": "site-index-20260508", "path": "data/site-index.json", "hash": "sha256:...", "role": "source_data" },
+          { "artifact_id": "graph-packet-schema-v1", "path": "data/graph-packet-schema.json", "hash": "sha256:...", "role": "schema" }
+        ],
+        "outputs": [
+          { "artifact_id": "graph-analysis-packets-20260508", "path": "data/graph-analysis-packets.json", "hash": "sha256:...", "role": "primary_output" }
+        ],
+        "dependencies": {
+          "upstream": ["site-index-20260508", "graph-packet-schema-v1"],
+          "downstream": ["nexus-graph-render", "website-section-index"]
+        },
+        "replay": {
+          "deterministic": true,
+          "replay_command": "node scripts/build-graph-packet.js",
+          "replay_scope": {
+            "affected_artifacts": ["graph-analysis-packets.json"],
+            "unaffected_artifacts": ["sovereignty-report-latest.json", "site-index.json"]
+          },
+          "replay_required_when": ["input_hash_changed", "schema_changed", "builder_script_changed"]
+        },
+        "preservation": {
+          "should_not_change": [
+            { "path": "data/site-index.json", "reason": "graph packet build is read-only on source index" }
+          ],
+          "unchanged_verified": []
+        },
+        "status": "produced"
+      },
+      "example_for_heartbeat_signing_fix": {
+        "artifact_id": "heartbeat-signing-fix-20260508",
+        "artifact_type": "code",
+        "produced_by": { "lane": "library", "agent": "opencode", "session_id": "graph-fix-20260508", "command_or_task": "fix heartbeat signing path" },
+        "inputs": [
+          { "artifact_id": "heartbeat-js-current", "path": "scripts/heartbeat.js", "hash": "sha256:...", "role": "source_code" },
+          { "artifact_id": "governance-md", "path": "GOVERNANCE.md", "hash": "sha256:...", "role": "specification" }
+        ],
+        "outputs": [
+          { "artifact_id": "heartbeat-js-fixed", "path": "scripts/heartbeat.js", "hash": "sha256:...", "role": "patched_code" }
+        ],
+        "dependencies": {
+          "upstream": ["governance-md"],
+          "downstream": ["heartbeat-verification-output", "sovereignty-report"]
+        },
+        "replay": {
+          "deterministic": false,
+          "replay_command": null,
+          "replay_scope": {
+            "affected_artifacts": ["scripts/heartbeat.js"],
+            "unaffected_artifacts": ["src/components/graph/GraphCanvas.tsx", "data/graph-analysis-packets.json", "GOVERNANCE.md"]
+          },
+          "replay_required_when": ["specification_changed", "runtime_path_changed"]
+        },
+        "preservation": {
+          "should_not_change": [
+            { "path": "GOVERNANCE.md", "reason": "fix is implementation, not spec change" },
+            { "path": "src/components/graph/GraphCanvas.tsx", "reason": "unrelated to heartbeat" },
+            { "path": "data/graph-analysis-packets.json", "reason": "unrelated to heartbeat" }
+          ],
+          "unchanged_verified": []
+        },
+        "status": "produced"
+      }
+    }
+  },
+  "integration_points": [
+    {
+      "point": "data/graph-analysis-packets.json",
+      "change": "Add lineage block with source_snapshot_hash, builder_script_hash, schema_hash, replay_command",
+      "priority": "P0",
+      "reason": "Most immediate staleness risk — graph rendering depends on this file"
+    },
+    {
+      "point": "Store journal work_completed entries",
+      "change": "Add lineage.inputs (file hashes / message ids), lineage.outputs (paths written), lineage.downstream_replay_needed, lineage.unaffected_preserved",
+      "priority": "P1",
+      "reason": "Work tracking is the foundation for all downstream lineage"
+    },
+    {
+      "point": "Convergence gate",
+      "change": "Report both final_answer_quality and maintained_state_quality as separate dimensions; list stale_artifacts and replay_required",
+      "priority": "P1",
+      "reason": "Directly addresses the paper's key insight that these are distinct quality dimensions"
+    },
+    {
+      "point": "Lane inbox/outbox messages",
+      "change": "Add input_artifact_hashes and produced_artifact_hashes to message body",
+      "priority": "P2",
+      "reason": "Enables cross-lane staleness detection but requires all lanes to adopt"
+    },
+    {
+      "point": "AGENT_WEB_REVIEW_BRIEF.md",
+      "change": "Add lineage references so review agents know which artifacts are current and which are stale",
+      "priority": "P2",
+      "reason": "Review quality improves when agents can verify artifact freshness"
+    }
+  ],
+  "recommendation": "IMPLEMENT_FOR_GRAPH_PACKETS_FIRST",
+  "recommendation_rationale": "Graph packets are the most immediate pain point (empty/off-screen graphs are a maintained-state quality failure). Implementation is narrow (add lineage block to one JSON file), testable (verify hash mismatches trigger rebuild), and demonstrates the pattern before wider adoption. Store-journal and convergence gate can follow.",
+  "library_verification_note": "This artifact is a Library evidence document, not a ratified proposal. It verifies that: (1) the paper exists at the stated URL, (2) its abstract claims match the user's summary, (3) the concept mapping to our system is accurate per our codebase. Ratification of any proposed protocol changes requires Archivist action via the convergence protocol."
+}
