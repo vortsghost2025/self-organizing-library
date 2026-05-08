@@ -8,7 +8,6 @@ const { spawnSync } = require('child_process');
 const REPO_ROOT = path.resolve(__dirname, '..');
 const { ensureOutputProvenance, verifyOutputProvenance } = require(path.join(REPO_ROOT, 'scripts', 'output-provenance'));
 const LANE = 'swarmmind';
-const { ensureOutputProvenance, verifyOutputProvenance } = require(path.join(REPO_ROOT, 'scripts', 'output-provenance'));
 const ACTION_REQUIRED_DIR = path.join(REPO_ROOT, 'lanes', LANE, 'inbox', 'action-required');
 const IN_PROGRESS_DIR = path.join(REPO_ROOT, 'lanes', LANE, 'inbox', 'in-progress');
 const PROCESSED_DIR = path.join(REPO_ROOT, 'lanes', LANE, 'inbox', 'processed');
