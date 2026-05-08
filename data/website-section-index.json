@@ -1,0 +1,649 @@
+[
+  {
+    "page": "/",
+    "section": "Home",
+    "purpose": "Landing page introducing the Deliberate Ensemble system and providing navigation to key sections.",
+    "audience": [
+      "human operator",
+      "external reviewer",
+      "agent reviewer"
+    ],
+    "primary_claims": [
+      "The system is a multi-agent AI governance lattice",
+      "Every claim is verified, tracked, and challenged over time"
+    ],
+    "known_confusions": [
+      "System overview too dense; hard to grasp core idea quickly",
+      "Graph context not explained on first view"
+    ],
+    "agent_review_instructions": [
+      "Check that primary CTAs are visible and linked",
+      "Verify that the explanation is concise and accurate",
+      "Ensure accessibility contrast ratios meet WCAG AA"
+    ],
+    "source_files": [
+      "src/app/page.tsx",
+      "src/app/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/about",
+    "section": "About",
+    "purpose": "General information about the project and its goals.",
+    "audience": [
+      "visitor",
+      "researcher"
+    ],
+    "primary_claims": [
+      "Describes origin, mission, and core team"
+    ],
+    "known_confusions": [
+      "Content may be outdated"
+    ],
+    "agent_review_instructions": [
+      "Verify factual accuracy",
+      "Check links"
+    ],
+    "source_files": [
+      "src/app/about/page.tsx",
+      "src/app/about/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/agents",
+    "section": "Agents",
+    "purpose": "Agent registry and capabilities overview.",
+    "audience": [
+      "agent developer"
+    ],
+    "primary_claims": [
+      "Lists all active agents",
+      "Describes capabilities"
+    ],
+    "known_confusions": [
+      "Agent role boundaries"
+    ],
+    "agent_review_instructions": [
+      "Validate agent identity",
+      "Check capability declarations match behavior"
+    ],
+    "source_files": [
+      "src/app/agents/page.tsx",
+      "src/app/agents/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/archivist",
+    "section": "Archivist",
+    "purpose": "Archivist lane documentation and archival processes.",
+    "audience": [
+      "archivist",
+      "reviewer"
+    ],
+    "primary_claims": [
+      "Archivist preserves ratified artifacts",
+      "Maintains the canonical record"
+    ],
+    "known_confusions": [
+      "Ratification vs archiving distinction"
+    ],
+    "agent_review_instructions": [
+      "Verify that ratified artifacts are present",
+      "Check signature validity"
+    ],
+    "source_files": [
+      "src/app/archivist/page.tsx",
+      "src/app/archivist/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/categories",
+    "section": "Categories",
+    "purpose": "Content category taxonomy.",
+    "audience": [
+      "content editor",
+      "developer"
+    ],
+    "primary_claims": [
+      "Defines content types",
+      "Maps files to categories"
+    ],
+    "known_confusions": [
+      "Category vs type confusion"
+    ],
+    "agent_review_instructions": [
+      "Ensure every content file has a category",
+      "Review uncategorized entries"
+    ],
+    "source_files": [
+      "src/app/categories/page.tsx",
+      "src/app/categories/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/collections",
+    "section": "Collections",
+    "purpose": "Curated collections of related content grouped by theme.",
+    "audience": [
+      "researcher",
+      "new user"
+    ],
+    "primary_claims": [
+      "Thematic groupings of content",
+      "Curated by governance or agents"
+    ],
+    "known_confusions": [
+      "Collection vs category distinction"
+    ],
+    "agent_review_instructions": [
+      "Verify collection members are valid entries",
+      "Check for stale references"
+    ],
+    "source_files": [
+      "src/app/collections/page.tsx",
+      "src/app/collections/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/governance",
+    "section": "Governance",
+    "purpose": "Governance rules, policies, and decision-making processes.",
+    "audience": [
+      "operator",
+      "reviewer"
+    ],
+    "primary_claims": [
+      "Defines what we follow",
+      "Documents enforcement mechanisms"
+    ],
+    "known_confusions": [
+      "Governance layer semantics are subtle"
+    ],
+    "agent_review_instructions": [
+      "Cross-check with GOVERNANCE.md in repo",
+      "Ensure all policies have corresponding enforcement"
+    ],
+    "source_files": [
+      "src/app/governance/page.tsx",
+      "src/app/governance/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/governance/dual-plane-authority",
+    "section": "Dual Plane Authority",
+    "purpose": "Deep dive into the dual-plane authority model.",
+    "audience": [
+      "technical reviewer",
+      "governance analyst"
+    ],
+    "primary_claims": [
+      "Authority operates across two orthogonal planes",
+      "Plane crossing requires explicit verification"
+    ],
+    "known_confusions": [
+      "Terminology overlaps with other governance concepts"
+    ],
+    "agent_review_instructions": [
+      "Validate examples",
+      "Check consistency with core governance docs"
+    ],
+    "source_files": [
+      "src/app/governance/dual-plane-authority/page.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/graph",
+    "section": "Nexus Graph",
+    "purpose": "Interactive evidence graph visualizing governance, verification, contradiction, and execution state across all nodes.",
+    "audience": [
+      "human operator",
+      "agent reviewer"
+    ],
+    "primary_claims": [
+      "The graph maps claims, documents, repos, verification status, and contradictions",
+      "Edges represent authority derivations and shared tags"
+    ],
+    "known_confusions": [
+      "Repo-filtered views may hide cross-lane edges",
+      "Top counters may not match filtered status strip semantics"
+    ],
+    "agent_review_instructions": [
+      "Do not inspect raw graph JSON directly",
+      "Use GRAPH_ANALYSIS_PACKETS for summary",
+      "Separate UI bugs from data bugs"
+    ],
+    "source_files": [
+      "src/app/graph/page.tsx",
+      "src/app/graph/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/kernel",
+    "section": "Kernel",
+    "purpose": "Kernel lane infrastructure and execution details.",
+    "audience": [
+      "engineer",
+      "operator"
+    ],
+    "primary_claims": [
+      "Kernel runs the core services",
+      "Manages inter-lane communication"
+    ],
+    "known_confusions": [
+      "Kernel vs Library service boundaries"
+    ],
+    "agent_review_instructions": [
+      "Confirm service health endpoints",
+      "Check log aggregation"
+    ],
+    "source_files": [
+      "src/app/kernel/page.tsx",
+      "src/app/kernel/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/lanes",
+    "section": "Lanes",
+    "purpose": "Explanation of the 4-lane governance architecture.",
+    "audience": [
+      "all users"
+    ],
+    "primary_claims": [
+      "Describes each lane role",
+      "Shows how they interact"
+    ],
+    "known_confusions": [
+      "Lane responsibilities overlap"
+    ],
+    "agent_review_instructions": [
+      "Cross-check with lane-specific pages",
+      "Ensure each lane description is accurate"
+    ],
+    "source_files": [
+      "src/app/lanes/page.tsx",
+      "src/app/lanes/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/library",
+    "section": "Library",
+    "purpose": "Library lane verification and enforcement surface.",
+    "audience": [
+      "verifier",
+      "operator"
+    ],
+    "primary_claims": [
+      "Library verifies claims",
+      "Enforces schema and identity"
+    ],
+    "known_confusions": [
+      "Quarantine process is opaque"
+    ],
+    "agent_review_instructions": [
+      "Review quarantine reports",
+      "Check schema compliance logs"
+    ],
+    "source_files": [
+      "src/app/library/page.tsx",
+      "src/app/library/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/library/[id]",
+    "section": "Library Detail",
+    "purpose": "Individual library entry detail page with full metadata and verification status.",
+    "audience": [
+      "verifier",
+      "researcher"
+    ],
+    "primary_claims": [
+      "Shows full entry metadata",
+      "Displays verification status and evidence"
+    ],
+    "known_confusions": [
+      "Dynamic route — id parameter may be unstable",
+      "Not linked from main navigation"
+    ],
+    "agent_review_instructions": [
+      "Test with known entry IDs",
+      "Verify back-navigation works"
+    ],
+    "source_files": [
+      "src/app/library/[id]/page.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/logs",
+    "section": "Logs",
+    "purpose": "System logs and event streams.",
+    "audience": [
+      "operator",
+      "developer"
+    ],
+    "primary_claims": [
+      "Real-time system events",
+      "Historical logs"
+    ],
+    "known_confusions": [
+      "Logs may be overwhelming"
+    ],
+    "agent_review_instructions": [
+      "Verify log completeness",
+      "Check for error spikes"
+    ],
+    "source_files": [
+      "src/app/logs/page.tsx",
+      "src/app/logs/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/papers",
+    "section": "Papers",
+    "purpose": "Research papers and publications related to the system.",
+    "audience": [
+      "academic",
+      "researcher"
+    ],
+    "primary_claims": [
+      "Peer-reviewed content",
+      "Theoretical foundations"
+    ],
+    "known_confusions": [
+      "Paper versions may be outdated"
+    ],
+    "agent_review_instructions": [
+      "Verify citations",
+      "Check for errata"
+    ],
+    "source_files": [
+      "src/app/papers/page.tsx",
+      "src/app/papers/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/repos",
+    "section": "Repositories",
+    "purpose": "List of all repositories in the system.",
+    "audience": [
+      "developer",
+      "researcher"
+    ],
+    "primary_claims": [
+      "Shows all code and document repos",
+      "Links to GitHub"
+    ],
+    "known_confusions": [
+      "Repo purpose descriptions may be stale"
+    ],
+    "agent_review_instructions": [
+      "Verify each repo URL",
+      "Cross-check with site-index repo_roots"
+    ],
+    "source_files": [
+      "src/app/repos/page.tsx",
+      "src/app/repos/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/search",
+    "section": "Search",
+    "purpose": "Full-text search across all content.",
+    "audience": [
+      "all users"
+    ],
+    "primary_claims": [
+      "Fast search",
+      "Relevant results"
+    ],
+    "known_confusions": [
+      "Search ranking may be biased"
+    ],
+    "agent_review_instructions": [
+      "Test common queries",
+      "Check for missing results"
+    ],
+    "source_files": [
+      "src/app/search/page.tsx",
+      "src/app/search/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/search-catalog",
+    "section": "Search Catalog",
+    "purpose": "Browsable catalog of all indexed content with search and filtering.",
+    "audience": [
+      "researcher",
+      "content curator"
+    ],
+    "primary_claims": [
+      "Full catalog of site content",
+      "Filterable by type and category"
+    ],
+    "known_confusions": [
+      "May overlap with /search full-text search"
+    ],
+    "agent_review_instructions": [
+      "Verify catalog entries match site-index.json",
+      "Check filtering controls work"
+    ],
+    "source_files": [
+      "src/app/search-catalog/page.tsx",
+      "src/app/search-catalog/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/services",
+    "section": "Services",
+    "purpose": "External services and integrations status.",
+    "audience": [
+      "operator"
+    ],
+    "primary_claims": [
+      "Lists dependencies",
+      "Shows health"
+    ],
+    "known_confusions": [
+      "Service downtime not always reflected"
+    ],
+    "agent_review_instructions": [
+      "Check latest health timestamps",
+      "Validate service endpoints"
+    ],
+    "source_files": [
+      "src/app/services/page.tsx",
+      "src/app/services/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/sources",
+    "section": "Sources",
+    "purpose": "Source documents and provenance tracking for all content.",
+    "audience": [
+      "auditor",
+      "governance analyst"
+    ],
+    "primary_claims": [
+      "Every piece of content has a source",
+      "Provenance chain is traceable"
+    ],
+    "known_confusions": [
+      "Source vs origin distinction"
+    ],
+    "agent_review_instructions": [
+      "Verify source links resolve",
+      "Check provenance chain completeness"
+    ],
+    "source_files": [
+      "src/app/sources/page.tsx",
+      "src/app/sources/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/start-here",
+    "section": "Start Here",
+    "purpose": "Guided introduction for new users to understand the system gradually.",
+    "audience": [
+      "new user",
+      "human operator"
+    ],
+    "primary_claims": [
+      "Provides a step-by-step walkthrough",
+      "Explains core concepts in plain language"
+    ],
+    "known_confusions": [
+      "May overlap with homepage content"
+    ],
+    "agent_review_instructions": [
+      "Check for clarity and simplicity",
+      "Validate that links to deeper sections work"
+    ],
+    "source_files": [
+      "src/app/start-here/page.tsx",
+      "src/app/start-here/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/swarmmind",
+    "section": "SwarmMind",
+    "purpose": "SwarmMind lane overview and responsibilities.",
+    "audience": [
+      "agent developer",
+      "system operator"
+    ],
+    "primary_claims": [
+      "SwarmMind generates proposals and challenges",
+      "Autonomous improvement loops"
+    ],
+    "known_confusions": [
+      "Proposal lifecycle not always clear"
+    ],
+    "agent_review_instructions": [
+      "Verify proposal routing logic",
+      "Check challenge resolution records"
+    ],
+    "source_files": [
+      "src/app/swarmmind/page.tsx",
+      "src/app/swarmmind/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/tags",
+    "section": "Tags",
+    "purpose": "Tag index and usage statistics.",
+    "audience": [
+      "content curator",
+      "developer"
+    ],
+    "primary_claims": [
+      "All tags used across the site",
+      "Counts of tag mentions"
+    ],
+    "known_confusions": [
+      "Case-sensitivity issues"
+    ],
+    "agent_review_instructions": [
+      "Check for duplicate tags with different case",
+      "Verify tag normalization"
+    ],
+    "source_files": [
+      "src/app/tags/page.tsx",
+      "src/app/tags/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/timeline",
+    "section": "Timeline",
+    "purpose": "Chronological view of system evolution.",
+    "audience": [
+      "researcher",
+      "operator"
+    ],
+    "primary_claims": [
+      "Shows historical changes",
+      "Tracks governance events"
+    ],
+    "known_confusions": [
+      "Timeline gaps may exist"
+    ],
+    "agent_review_instructions": [
+      "Cross-check with git history",
+      "Validate timestamps"
+    ],
+    "source_files": [
+      "src/app/timeline/page.tsx",
+      "src/app/timeline/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/understand",
+    "section": "Understand",
+    "purpose": "Explanation of core concepts for first-time learners.",
+    "audience": [
+      "newcomer"
+    ],
+    "primary_claims": [
+      "Simplified overview",
+      "Builds mental model"
+    ],
+    "known_confusions": [
+      "May oversimplify complex topics"
+    ],
+    "agent_review_instructions": [
+      "Check for technical accuracy",
+      "Ensure links to deeper resources"
+    ],
+    "source_files": [
+      "src/app/understand/page.tsx",
+      "src/app/understand/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  },
+  {
+    "page": "/videos",
+    "section": "Videos",
+    "purpose": "Video content library.",
+    "audience": [
+      "learner"
+    ],
+    "primary_claims": [
+      "Educational videos",
+      "Demonstrations"
+    ],
+    "known_confusions": [
+      "Video descriptions may be minimal"
+    ],
+    "agent_review_instructions": [
+      "Verify video links work",
+      "Check transcripts if available"
+    ],
+    "source_files": [
+      "src/app/videos/page.tsx",
+      "src/app/videos/layout.tsx"
+    ],
+    "status": "needs-indexed-review"
+  }
+]

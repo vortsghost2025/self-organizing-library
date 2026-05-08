@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.1.0",
+  "output_path": "data/graph-analysis-packets.json",
+  "description": "Schema for per-snapshot graph analysis packets and aggregates",
+  "top_level": {
+    "generated_at": "string (ISO 8601 datetime) — when the packet was generated",
+    "source_snapshot": "string — relative path to the reduced snapshot file from project root",
+    "per_snapshot": "array of packet_schema objects — one per snapshot",
+    "per_repo": "object — keys are repo names, values are { node_count, total_connections, top_node: { id, title, connectionCount }, top_cc }",
+    "per_status": "object — keys: verified, unverified, conflicted, quarantined with integer counts",
+    "per_contradiction": "array of { id, title, contradictionCount, tags, category, repo, status } — nodes with contradictionCount > 0"
+  },
+  "packet_schema": {
+    "identity": {
+      "snapshot_id": "string",
+      "created_at": "string (ISO 8601 datetime)",
+      "filters": "object with filter parameters (may be empty if none applied)"
+    },
+    "counts": {
+      "visible_nodes": "integer",
+      "visible_edges": "integer",
+      "verified": "integer",
+      "unverified": "integer",
+      "conflicted": "integer",
+      "quarantined": "integer"
+    },
+    "top_nodes": {
+      "by_connection_count": "array of {id, title, repo, connectionCount, status}",
+      "by_verification_count": "array of {id, title, repo, verificationCount, status}",
+      "by_contradiction_count": "array of {id, title, repo, contradictionCount}",
+      "by_authority_depth": "array of {id, title, repo, authorityDepth, governanceLayer}"
+    },
+    "anomalies": "array of strings from predefined set: zero_edges_filtered_view, counter_mismatch, conflicted_nodes_present, quarantined_nodes_present, many_unverified_nodes",
+    "claim_status": {
+      "known_bugs": "array of { id, description, affected_nodes, detected_in } — confirmed bugs awaiting fix",
+      "fixes_in_progress": "array of { id, description, status } — fixes implemented but pending verification",
+      "accepted_fixes": "array of { id, description, verified_at } — fixes verified and accepted"
+    },
+    "interpretation": "string — human-readable summary of the snapshot",
+    "next_checks": "array of string — recommended next verification steps"
+  },
+  "required_fields": [
+    "identity",
+    "counts",
+    "top_nodes",
+    "anomalies",
+    "claim_status",
+    "interpretation",
+    "next_checks"
+  ],
+  "validation_rules": [
+    "visible_nodes must equal sum of status counts (verified+unverified+conflicted+quarantined) unless some nodes are hidden by filter",
+    "snapshot_id must be unique across all packets",
+    "top_nodes arrays must be sorted descending by their respective metric",
+    "anomalies must be from the predefined set",
+    "interpretation length should be < 500 characters",
+    "claim_status entries must have unique id within their array",
+    "a claim_status item should not appear in both known_bugs and fixes_in_progress for the same issue"
+  ]
+}
