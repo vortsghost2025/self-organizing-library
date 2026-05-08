@@ -277,8 +277,11 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
 
   const filteredNodeIds = useMemo(() => new Set(filteredNodes.map(n => n.id)), [filteredNodes]);
   const visibleEdgeCount = useMemo(() => {
+    if (filterMode === "repo" && filter !== "all") {
+      return edges.filter(e => filteredNodeIds.has(e.source) || filteredNodeIds.has(e.target)).length;
+    }
     return edges.filter(e => filteredNodeIds.has(e.source) && filteredNodeIds.has(e.target)).length;
-  }, [edges, filteredNodeIds]);
+  }, [edges, filteredNodeIds, filterMode, filter]);
 
   const activeEntryPointMeta = useMemo(
     () => (activeEntryPoint ? entryPoints.find((ep) => ep.id === activeEntryPoint) || null : null),
