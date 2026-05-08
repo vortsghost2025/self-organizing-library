@@ -80,11 +80,27 @@ function buildGraph(
     : filterMode === "repo"
     ? nodes.filter((n) => n.repo === filter)
     : nodes.filter((n) => n.type === filter);
-  const ids = new Set(filtered.map((n) => n.id));
+
+  // Base node set for the current filter (for repo mode: nodes in selected repo)
+  const baseNodeIds = new Set(filtered.map((n) => n.id));
+
+  // Expanded node set: base nodes + their neighbors (for repo mode cross-repo edges)
+  const ids = new Set(baseNodeIds);
+  if (filterMode === "repo" && filter !== "all") {
+    for (const edge of edges) {
+      if (baseNodeIds.has(edge.source) && !baseNodeIds.has(edge.target)) {
+        ids.add(edge.target);
+      } else if (baseNodeIds.has(edge.target) && !baseNodeIds.has(edge.source)) {
+        ids.add(edge.source);
+      }
+    }
+  }
 
   const graph = new Graph({ type: "undirected", multi: false });
 
-  for (const node of filtered) {
+  // Add all nodes in the expanded set
+  for (const node of nodes) {
+    if (!ids.has(node.id)) continue;
     const baseSize = node.type === "paper" ? 10 : node.type === "doc" ? 6 : 4;
     const color = filterMode === "repo"
       ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
@@ -111,7 +127,14 @@ function buildGraph(
   }
 
   for (const edge of edges) {
+    // Both endpoints must be in the expanded node set
     if (!ids.has(edge.source) || !ids.has(edge.target)) continue;
+
+    // In repo filter mode, only keep edges that touch the filtered repo
+    if (filterMode === "repo" && filter !== "all") {
+      if (!baseNodeIds.has(edge.source) && !baseNodeIds.has(edge.target)) continue;
+    }
+
     if (graph.hasNode(edge.source) && graph.hasNode(edge.target)) {
       if (!graph.hasEdge(edge.source, edge.target)) {
         const auth = edge.authority;

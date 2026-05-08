@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
  * STORE JOURNAL v2 — Cross-Lane Real-Time Agent Work Ledger
- * ===========================================================
- * Purpose: Prevent agent-over-agent overwrite. Real-time cross-lane visibility.
+ * ==================================================== * Purpose: Prevent agent-over-agent overwrite. Real-time cross-lane visibility.
  *
  * v2 additions over v1:
  * - status: read all lanes' recent work in one command (cross-lane)
@@ -78,8 +77,9 @@ try {
  swarmmind: path.join(_repoRoot, 'lanes', 'swarmmind'),
  kernel: path.join(_repoRoot, 'lanes', 'kernel'),
  opencode: path.join(_repoRoot, 'lanes', 'opencode'),
- };
+};
 }
+
 
 const KNOWN_LANES = Object.keys(LANE_ROOTS);
 
@@ -860,8 +860,7 @@ function cmdAutofix(args) {
 
 function cmdHelp() {
   console.log(`STORE JOURNAL v2 — Cross-Lane Real-Time Agent Work Ledger
-===========================================================
-
+====================================================
 Usage: node scripts/store-journal.js <command> [options]
 
 Commands:
