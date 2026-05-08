@@ -33,6 +33,24 @@ Repo-filtered views may show nodes but zero edges because strict both-endpoint f
 - Read `data/website-section-index.json` for per-route metadata (purpose, audience, claims, known confusions, review instructions, source file pointers).
 - Cross-reference top nodes with their source files for ground truth.
 
+## Lane division of labor
+
+| Lane | Role | Primary files | Authority |
+|------|------|---------------|-----------|
+| **Library** | Packet-first review | `docs/AGENT_WEB_REVIEW_BRIEF.md`, `data/graph-analysis-packets.json`, `data/graph-packet-schema.json` | Verify packet fields; distinguish verified facts vs known bugs vs proposed fixes vs accepted fixes. Do NOT inspect raw graph JSON unless escalation justified. |
+| **Archivist** | Ratification & taxonomy | `docs/AGENT_WEB_REVIEW_BRIEF.md`, `data/graph-analysis-packets.json` | P0 accepted as READY_FOR_REVIEW. Packet workflow is canonical review surface for /graph until superseded. Ratification wording, status taxonomy, accepted-fix criteria. Do NOT rewrite UI or graph generation. |
+| **SwarmMind** | Heuristics & proposals | `data/graph-analysis-packets.json`, `data/website-section-index.json`, `docs/AGENT_WEB_REVIEW_BRIEF.md` | Propose smarter agent review prompts, identify packet blind spots, suggest optional P1 refinements. Proposals are NOT accepted fixes. |
+| **Kernel** | Workflow enforcement | `docs/AGENT_WEB_REVIEW_BRIEF.md`, `data/graph-packet-schema.json` | Ensure agents start from packet files; block raw graph JSON access unless explicitly escalated; preserve separation between review state and mutation authority. |
+
+One-line for headless agents: **Review /graph from packet files first, not raw graph JSON. Start with AGENT_WEB_REVIEW_BRIEF.md, graph-analysis-packets.json, website-section-index.json, and graph-packet-schema.json. Separate verified facts, known bugs, proposed fixes, fixes in progress, and accepted fixes. Do not claim acceptance without verification.**
+
+## Known packet gaps (Archivist validation 2026-05-08)
+
+- per_repo only contains kernel-lane — missing archivist, swarmmind, library repos
+- claim_status: 1 known_bug (contradictionCount=39 tag-grouping artifact), 0 fixes_in_progress, 0 accepted_fixes
+- All website sections have status: needs-indexed-review (none reviewed yet)
+- Source snapshot is 8 days old (2026-04-30), no newer snapshot available
+
 ## Review workflow
 1. Load latest packet from `data/graph-analysis-packets.json` (per_snapshot[0]).
 2. Load website section index from `data/website-section-index.json`.
@@ -42,3 +60,4 @@ Repo-filtered views may show nodes but zero edges because strict both-endpoint f
 6. For each website section, follow agent_review_instructions from the section index.
 7. Validate next_checks against live UI.
 8. Report findings with evidence paths, not impressions.
+9. Route findings to the correct lane per division of labor above.
