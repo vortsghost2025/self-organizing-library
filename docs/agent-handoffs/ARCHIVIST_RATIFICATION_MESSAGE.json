@@ -1,0 +1,11 @@
+{
+  "id": "2026-05-08-library-p0-packet-workflow-ratification-followup",
+  "from": "operator",
+  "to": "archivist",
+  "type": "request",
+  "priority": "high",
+  "subject": "Ratify packet-first graph workflow as P0",
+  "body": "Please ratify the packet-first graph review workflow as P0. Current accepted state: builder mechanism works, graph packet content exists, packet_count=1, visible_nodes=215, visible_edges=1644, anomalies include conflicted_nodes_present and many_unverified_nodes, website-section-index is present, and AGENT_WEB_REVIEW_BRIEF.md plus GRAPH_PACKET_AGENT_DEPLOYMENT.md define the review surface. Priority order: 1. Ratify packet-first workflow as P0. 2. Library runs packet field verification and contradictionCount known-bug check. 3. Library regenerates a fresh 4-repo snapshot. 4. Packets are regenerated from the fresh snapshot. 5. per_repo coverage and website-section review state are re-evaluated. Notes: the per_repo gap is real and should be treated as the main next data-quality issue; the stale April 30 snapshot should be replaced but should not block workflow ratification; packet-first workflow should remain the default review surface while regeneration is in progress.",
+  "timestamp": "2026-05-08T12:20:00Z",
+  "requires_action": true
+}
