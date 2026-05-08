@@ -1,6 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Adjudication Proposal v1",
+  "$id": "adjudication-proposal-v1",
+  "title": "Adjudication Proposal Schema v1",
+  "description": "Schema for contradiction/adjudication proposals. This schema enables proposals only — it does NOT imply automatic truth mutation.",
   "type": "object",
   "required": [
     "proposal_id",
@@ -113,13 +115,15 @@
       "type": "boolean"
     },
     "rollback_plan": {
-      "type": "object"
+      "type": "object",
+      "description": "Optional rollback plan if the proposal is applied"
     },
     "forbidden_auto_apply": {
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "description": "Optional array of contexts where auto-apply is forbidden"
     }
   },
   "additionalProperties": false
