@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0.0",
-  "description": "Unified governance config for all agent runtimes. Read this file at session start. These rules are enforced by lane-worker daemons — violations get NACKed.",
+  "description": "Unified governance config for self-organizing-library runtime. Read this file at session start. These rules are enforced by lane-worker daemons — violations get NACKed.",
   "output_provenance": {
     "required": true,
     "fields": ["agent", "lane", "target"],
     "recommended_fields": ["generated_at", "session_id"],
-    "template": "OUTPUT_PROVENANCE:\nagent: <your-runtime-or-model>\nlane: <your-lane>\ntarget: <what-youre-working-on>\ngenerated_at: <ISO-8601>\nsession_id: <your-session>",
+  "template": "OUTPUT_PROVENANCE:\nagent: <your-runtime-or-model>\nlane: library\ntarget: <what-youre-working-on>\ngenerated_at: <ISO-8601>\nsession_id: <your-session>",
     "enforcement": "All outbound messages without OUTPUT_PROVENANCE in body are blocked by lane-worker with reason OUTPUT_PROVENANCE_MISSING. A NACK is sent back to the agent's inbox."
   },
   "lane_sovereignty": {

@@ -10,8 +10,8 @@ const { ExecutionGate } = require('./execution-gate');
 const { evaluateVerificationDomain } = require('./verification-domain-gate');
 const { getCodeVersionHash } = require('./code-version-hash');
 const { getRoots } = require('./util/lane-discovery');
-const aiReview = require('./ai-review-caller');
 const { verifyOutputProvenance } = require('./output-provenance');
+const aiReview = require('./ai-review-caller');
 
 const ACTIONABLE_TYPES = new Set(['task', 'escalation', 'request']);
 const NON_ASCII_PATTERN = /[^\x00-\x7F]/;
