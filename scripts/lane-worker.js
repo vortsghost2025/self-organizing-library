@@ -11,6 +11,7 @@ const { evaluateVerificationDomain } = require('./verification-domain-gate');
 const { getCodeVersionHash } = require('./code-version-hash');
 const { getRoots } = require('./util/lane-discovery');
 const aiReview = require('./ai-review-caller');
+const { verifyOutputProvenance } = require('./output-provenance');
 
 const ACTIONABLE_TYPES = new Set(['task', 'escalation', 'request']);
 const NON_ASCII_PATTERN = /[^\x00-\x7F]/;
@@ -518,9 +519,16 @@ this.lastRun = null;
     }
   if (!isEnglishOnly(msg)) {
     return { queue: 'quarantine', reason: 'FORMAT_VIOLATION_NON_ASCII', detail: 'Message contains non-ASCII content. Re-request in English per governance constraint.' };
-  }
+    }
 
-  // NFM-022 fix: skip hasUnresolvableEvidence for actionable tasks
+    if (typeof msg.body === 'string') {
+      var prov = verifyOutputProvenance(msg.body);
+      if (!prov.ok) {
+        return { queue: 'blocked', reason: 'OUTPUT_PROVENANCE_MISSING', detail: 'body lacks OUTPUT_PROVENANCE header. Missing: ' + prov.missing.join(', ') + '. All agent output must include OUTPUT_PROVENANCE:, agent:, lane:, target:.' };
+      }
+    }
+
+    // NFM-022 fix: skip hasUnresolvableEvidence for actionable tasks
   // A new task (requires_action=true) hasn't been executed yet, so
   // evidence.required=true with no artifact is expected, not a violation.
   if (!isActionable(msg) && cp.hasUnresolvableEvidence(msg)) {
