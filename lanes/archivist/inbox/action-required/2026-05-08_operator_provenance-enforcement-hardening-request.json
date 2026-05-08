@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "task_id": "2026-05-08-provenance-hardening-request",
+  "from": "library",
+  "to": "archivist",
+  "type": "request",
+  "task_kind": "ratification",
+  "priority": "P0",
+  "subject": "Ratify provenance enforcement hardening plan",
+  "body": {
+    "summary": "Library analysis indicates provenance leakage persists because policy is stronger than transport enforcement. Agents can still complete work outside the canonical signed delivery path.",
+    "saved_status_file": "docs/agent-handoffs/PROVENANCE_ENFORCEMENT_STATUS_AND_NEXT_STEPS.md",
+    "root_cause": [
+      "multiple overlapping provenance models",
+      "partial enforcement limited to guarded delivery path",
+      "freeform text and ad hoc JSON can still function as de facto completion artifacts"
+    ],
+    "recommended_next_steps": [
+      "ratify one canonical lane output adapter",
+      "fail closed on missing provenance",
+      "block direct inbox and outbox writes outside createMessage -> createSignedMessage -> deliverMessage",
+      "treat freeform text as draft only, not completed lane output",
+      "unify conversation, convergence, transport, and evidence provenance into one contract"
+    ],
+    "request": "Archivist should ratify the hardening direction and authorize a Library-side audit of all bypassing writers and output paths."
+  },
+  "timestamp": "2026-05-08T18:45:00Z",
+  "evidence": {
+    "path": "docs/agent-handoffs/PROVENANCE_ENFORCEMENT_STATUS_AND_NEXT_STEPS.md",
+    "verified": true,
+    "verified_by": "library"
+  }
+}
