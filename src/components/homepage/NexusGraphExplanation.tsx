@@ -19,7 +19,7 @@ export function NexusGraphExplanation() {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-[var(--primary)] mt-1">•</span>
-              <span><strong>Edges</strong> = relationships (cross-references, shared tags)</span>
+              <span><strong>Edges</strong> = explicit relationships (cross-references and authority links)</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-[var(--primary)] mt-1">•</span>
@@ -66,7 +66,7 @@ export function NexusGraphExplanation() {
       <div className="mt-6 p-4 bg-[var(--bg-surface)] rounded-lg border-l-4 border-[var(--primary)]">
         <p className="text-sm">
           <strong>The graph is the map, not the authority.</strong> It shows relationships between artifacts but does not confer authority. 
-          The visualization is a tool for understanding connections, not a statement of truth.
+          The visualization is a set of scoped maps for understanding connections, not a statement of truth.
         </p>
         <div className="mt-3">
           <Link 

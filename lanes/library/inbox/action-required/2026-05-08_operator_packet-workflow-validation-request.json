@@ -1,0 +1,11 @@
+{
+  "id": "2026-05-08-operator-packet-workflow-validation-request",
+  "from": "operator",
+  "to": "library",
+  "type": "handoff",
+  "priority": "high",
+  "subject": "Run packet-first /graph validation review",
+  "body": "Use packet-first review workflow immediately for /graph reviews. Required files: docs/AGENT_WEB_REVIEW_BRIEF.md, data/graph-analysis-packets.json, data/website-section-index.json, data/graph-packet-schema.json, docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md, docs/agent-handoffs/CURRENT_STATE_SUMMARY.md. Run one validation review using the deployment guide. Output using packet-grounded review only. Do not open raw graph JSON unless escalation is justified.",
+  "timestamp": "2026-05-08T12:00:00Z",
+  "requires_action": true
+}

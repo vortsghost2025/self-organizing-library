@@ -46,16 +46,16 @@ const MODES = [
   },
   {
     mode: "Full",
-    label: "Everything Indexed",
+    label: "Full Lens",
     color: "#EF4444",
-    what: "All nodes, all layers, all clusters. High density. Use for debugging or deep analysis.",
+    what: "All nodes in the selected lens, all layers, all statuses. High density. Use for debugging or deep analysis.",
   },
 ];
 
 const PAGES = [
   { href: "/start-here", label: "Start Here", desc: "Human-friendly intro to the archive" },
   { href: "/papers", label: "Papers", desc: "Rosetta Stone P1-P6 + external publications" },
-  { href: "/graph", label: "Nexus Graph", desc: "Interactive knowledge graph in 3 modes" },
+  { href: "/graph", label: "Nexus Graph", desc: "Interactive knowledge graph with multiple lenses and view modes" },
   { href: "/timeline", label: "Timeline", desc: "Chronological governance event history" },
   { href: "/governance", label: "Governance", desc: "Live system state and lane health dashboard" },
   { href: "/lanes", label: "Lane Architecture", desc: "4-lane visual diagram with authority levels" },

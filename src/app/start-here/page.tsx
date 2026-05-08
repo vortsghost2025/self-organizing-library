@@ -33,8 +33,8 @@ export default function StartHerePage() {
         <div className="card p-6 animate-fade-in stagger-3">
           <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-3">3. Explore the Nexus Graph</h2>
           <p className="text-[var(--text-secondary)] mb-4">
-            The interactive graph shows connections between documents based on shared tags and cross-references.
-            Filter by content type to focus on what matters.
+            The interactive graph is now split into lenses. Start with the Navigation Map, then switch to
+            authority, governance, paper, or canonical views depending on the question you are asking.
           </p>
           <Link href="/graph" className="text-[var(--success)] hover:underline text-sm">
             Go to Graph →

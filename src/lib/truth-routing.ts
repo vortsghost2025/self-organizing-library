@@ -36,6 +36,10 @@ export interface AuthorityEdge {
   authority: AuthorityEdgeType;
 }
 
+interface ComputeAuthorityEdgesOptions {
+  includeTagInferences?: boolean;
+}
+
 export interface NodeStatusEntry {
   id: string;
   status: NodeStatus;
@@ -208,7 +212,8 @@ function hasAnyTag(tags: string[], tagSet: Set<string>): boolean {
 export function computeAuthorityEdges(
   entries: Entry[],
   crossRefs: CrossRef[],
-  tagIndex: Record<string, string[]>
+  tagIndex: Record<string, string[]>,
+  options: ComputeAuthorityEdgesOptions = {}
 ): AuthorityEdge[] {
   const entryMap = new Map<string, Entry>();
   for (const e of entries) entryMap.set(e.id, e);
@@ -246,6 +251,11 @@ export function computeAuthorityEdges(
     } else {
       addEdge(ref.source, ref.target, "DEPENDS_ON");
     }
+  }
+
+  const includeTagInferences = options.includeTagInferences ?? true;
+  if (!includeTagInferences) {
+    return edges;
   }
 
 const TAG_GROUP_CAP = 40;

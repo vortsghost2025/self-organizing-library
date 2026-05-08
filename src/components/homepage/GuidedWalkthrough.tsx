@@ -20,7 +20,7 @@ const steps = [
   {
     id: 3,
     title: "Explore the Nexus Graph",
-    description: "The interactive graph shows connections between documents based on shared tags and cross-references. Filter by content type to focus on what matters.",
+    description: "The interactive graph is split into lenses so you can inspect the archive by navigation, authority, governance, papers, or full audit context.",
     link: "/graph",
     icon: "🔗"
   },

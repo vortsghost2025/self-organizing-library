@@ -6,7 +6,7 @@ export default function GraphLegend() {
   return (
     <div className="mt-4 card p-4 animate-fade-in" role="region" aria-label="Truth routing legend">
       <p className="text-sm text-[var(--text-secondary)] mb-3">
-        The graph visualizes artifacts and their relationships. Colors indicate verification status, governance layers, and bridge states.
+        The graph visualizes artifacts and their explicit relationships. Tag-inference edges are hidden by default and only appear in the canonical audit lens.
       </p>
       <div className="flex flex-wrap gap-x-6 gap-y-2 items-start">
         <div>

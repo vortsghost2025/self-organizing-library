@@ -164,8 +164,47 @@ export const BRIDGE_STATE_LABELS: Record<BridgeState, string> = {
 };
 
 export type GraphMode = "understand" | "explore" | "full";
+export type GraphLens = "navigation" | "authority" | "governance" | "papers" | "repos" | "full" | "canonical";
 
 export const DEFAULT_MODE: GraphMode = "understand";
+export const DEFAULT_LENS: GraphLens = "navigation";
+
+export const LENS_CONFIG: Record<GraphLens, {
+  label: string;
+  description: string;
+  advanced?: boolean;
+}> = {
+  navigation: {
+    label: "Navigation Map",
+    description: "Default map for people and agents: core archive, papers, and active issues.",
+  },
+  authority: {
+    label: "Authority Map",
+    description: "Explicit authority, verification, and bridge-state relationships.",
+  },
+  governance: {
+    label: "Governance Map",
+    description: "Governance rules, enforcement surfaces, and contradiction boundaries.",
+  },
+  papers: {
+    label: "Paper Map",
+    description: "Theory-to-implementation path from papers into the live system.",
+  },
+  repos: {
+    label: "Repository Map",
+    description: "High-signal view across the lane repositories.",
+  },
+  full: {
+    label: "Full Explicit Graph",
+    description: "All indexed nodes with explicit references only.",
+    advanced: true,
+  },
+  canonical: {
+    label: "Canonical Graph",
+    description: "Offline-grade graph including tag-derived inference edges.",
+    advanced: true,
+  },
+};
 
 export const MODE_CONFIG: Record<GraphMode, {
   label: string;
@@ -199,8 +238,8 @@ export const MODE_CONFIG: Record<GraphMode, {
     groupEntryPoints: "investigate",
   },
   full: {
-    label: "Everything Indexed",
-    description: "Advanced — all nodes and layers",
+    label: "Full Lens",
+    description: "All statuses inside the current graph lens",
     density: "focus",
     layers: ["structure", "conflicts", "verification", "execution", "governance"],
     showUnverified: true,
