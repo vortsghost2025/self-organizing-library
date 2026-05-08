@@ -18,11 +18,11 @@ const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
               Loading interactive graph...
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link href="/graph?mode=overview" className="px-4 py-2 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
-                Overview (lanes only)
+              <Link href="/graph?lens=navigation" className="px-4 py-2 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
+                Navigation Map
               </Link>
-              <Link href="/graph" className="px-4 py-2 border-2 border-[var(--primary)] text-[var(--text-primary)] rounded hover:bg-[var(--primary)]/10 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
-                Full graph
+              <Link href="/graph?lens=canonical&mode=full" className="px-4 py-2 border-2 border-[var(--primary)] text-[var(--text-primary)] rounded hover:bg-[var(--primary)]/10 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
+                Canonical Graph
               </Link>
             </div>
         </div>
@@ -41,9 +41,28 @@ function GraphContent() {
   const searchParams = useSearchParams();
   const filterMode = (searchParams.get("filterMode") as "type" | "repo" | null) || "type";
   const filter = searchParams.get("filter") || "all";
-  const mode = searchParams.get("mode");
+  const modeParam = searchParams.get("mode");
+  const mode = modeParam === "understand" || modeParam === "explore" || modeParam === "full"
+    ? modeParam
+    : undefined;
+  const lens = (searchParams.get("lens") as
+    | "navigation"
+    | "authority"
+    | "governance"
+    | "papers"
+    | "repos"
+    | "full"
+    | "canonical"
+    | null) || "navigation";
 
-  return <NexusGraph initialFilter={filter} initialFilterMode={filterMode} initialMode={mode ?? undefined} />;
+  return (
+    <NexusGraph
+      initialFilter={filter}
+      initialFilterMode={filterMode}
+      initialMode={mode}
+      initialLens={lens}
+    />
+  );
 }
 
 export default function GraphPage() {

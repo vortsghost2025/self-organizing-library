@@ -29,6 +29,7 @@ interface GraphCanvasProps {
   nodes: GraphNode[];
   edges: GraphEdge[];
   clusters: Cluster[];
+  activeEntryPointNodeIds?: string[];
   hoveredNodeId: string | null;
   selectedNodeId: string | null;
   focusedNodeId: string | null;
@@ -140,8 +141,6 @@ function buildGraph(
         const auth = edge.authority;
         const edgeColor = auth
           ? AUTHORITY_EDGE_COLORS[auth] || "#1E1E24"
-          : edge.type === "shared-tag"
-          ? "#1E1E24"
           : "#2A2A32";
         const edgeSize = auth
           ? AUTHORITY_EDGE_SIZE[auth] || 0.5
@@ -172,7 +171,7 @@ function buildGraph(
 
 const GraphCanvas = forwardRef(function GraphCanvas(
   {
-    nodes, edges, clusters, hoveredNodeId, selectedNodeId, focusedNodeId,
+    nodes, edges, clusters, activeEntryPointNodeIds, hoveredNodeId, selectedNodeId, focusedNodeId,
     pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
     activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
     visibleCount, coreNodeIds, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
@@ -207,6 +206,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const pathSourceRef = useRef(pathSource);
   const pathTargetRef = useRef(pathTarget);
   const clustersRef = useRef(clusters);
+  const activeEntryPointNodeIdsRef = useRef<Set<string>>(new Set(activeEntryPointNodeIds || []));
   const coreNodeIdsRef = useRef<string[]>(coreNodeIds || []);
   const visibleNodeIdsRef = useRef<Set<string>>(new Set());
   // Cluster Node IDs map ref (computed in fitVisible, but needed for quick check)
@@ -351,6 +351,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       }
       if (selected && nodeId === selected) return true;
       if (ep) {
+        if (activeEntryPointNodeIdsRef.current.has(nodeId)) return true;
         for (const cl of clustersRef.current) {
           if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
         }
@@ -596,6 +597,9 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   useEffect(() => { pathSourceRef.current = pathSource; }, [pathSource]);
   useEffect(() => { pathTargetRef.current = pathTarget; }, [pathTarget]);
   useEffect(() => { clustersRef.current = clusters; }, [clusters]);
+  useEffect(() => {
+    activeEntryPointNodeIdsRef.current = new Set(activeEntryPointNodeIds || []);
+  }, [activeEntryPointNodeIds]);
   useEffect(() => { coreNodeIdsRef.current = coreNodeIds || []; }, [coreNodeIds]);
 
   // Sync callback refs to latest props (prevents main effect from depending on callbacks)
@@ -703,6 +707,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       if (selected && nodeId === selected) return true;
 
       if (ep) {
+        if (activeEntryPointNodeIdsRef.current.has(nodeId)) return true;
         for (const cl of clustersRef.current) {
           if (("ep:" + cl.id) === ep && clusterNodeIds.get(cl.id)?.has(nodeId)) return true;
         }
@@ -807,7 +812,6 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         labelColor: { color: "#A1A1AA" },
         labelRenderedSizeThreshold: effectiveLabelThreshold,
         defaultEdgeColor: "#1E1E24",
-        defaultNodeType: "circle",
         minCameraRatio: 0.1,
         maxCameraRatio: 10,
         stagePadding: 20,

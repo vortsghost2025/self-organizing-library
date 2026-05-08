@@ -14,6 +14,8 @@ const LANES = [
     textColor: "#C4B5FD",
     icon: "⚖",
     repo: "Archivist-Agent",
+    pageHref: "/archivist",
+    readmeUrl: "https://github.com/vortsghost2025/Archivist-Agent",
     duties: ["Proposal ratification", "Policy enforcement", "Blocker management", "Convergence gate"],
   },
   {
@@ -27,6 +29,8 @@ const LANES = [
     textColor: "#67E8F9",
     icon: "⚡",
     repo: "SwarmMind",
+    pageHref: "/swarmmind",
+    readmeUrl: "https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
     duties: ["Parallel agent dispatch", "Code execution", "Feature implementation", "Task orchestration"],
   },
   {
@@ -40,6 +44,8 @@ const LANES = [
     textColor: "#6EE7B7",
     icon: "◈",
     repo: "self-organizing-library",
+    pageHref: "/library",
+    readmeUrl: "https://github.com/vortsghost2025/self-organizing-library",
     duties: ["Evidence verification", "Claim proof/rejection", "Convergence assessment", "Schema enforcement"],
   },
   {
@@ -53,6 +59,8 @@ const LANES = [
     textColor: "#FCD34D",
     icon: "⚙",
     repo: "kernel-lane",
+    pageHref: "/kernel",
+    readmeUrl: "https://github.com/vortsghost2025/kernel-lane",
     duties: ["GPU compute", "Model inference", "Infrastructure ops", "Runtime services"],
   },
 ];
@@ -185,11 +193,64 @@ export function LaneArchitecture() {
                 <div className="text-xs text-[var(--text-muted)]">
                   Repo: <span className="mono text-[var(--text-secondary)]">{lane.repo}</span>
                 </div>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <a
+                    href={lane.pageHref}
+                    className="text-sm text-[var(--primary-text)] hover:underline"
+                  >
+                    Read lane page
+                  </a>
+                  <a
+                    href={lane.readmeUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm text-[var(--text-secondary)] hover:text-[var(--primary-text)] hover:underline"
+                  >
+                    Open GitHub README
+                  </a>
+                </div>
               </>
             );
           })()}
         </div>
       )}
+
+      <div className="mt-5 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)]/40 p-4">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--text-primary)] mb-2">
+          Human-Friendly Lane Guides
+        </h3>
+        <p className="text-sm text-[var(--text-secondary)] mb-3">
+          If the system feels dense, start with the lane page for the role summary, then open the GitHub README for the full operational context.
+        </p>
+        <div className="grid gap-2 md:grid-cols-2">
+          {LANES.map((lane) => (
+            <div
+              key={`${lane.id}-guide`}
+              className="flex items-center justify-between gap-3 rounded-lg border border-[var(--border)] px-3 py-2"
+            >
+              <div className="min-w-0">
+                <div className="font-medium text-[var(--text-primary)]">
+                  {lane.icon} {lane.name}
+                </div>
+                <div className="text-xs text-[var(--text-muted)] truncate">{lane.role}</div>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-sm">
+                <a href={lane.pageHref} className="text-[var(--primary-text)] hover:underline">
+                  Page
+                </a>
+                <a
+                  href={lane.readmeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[var(--text-secondary)] hover:text-[var(--primary-text)] hover:underline"
+                >
+                  README
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="text-xs text-[var(--text-muted)] mt-2" role="note">
         Lanes communicate via signed cross-lane relay messages (JWS RS256). Click a lane to expand details.

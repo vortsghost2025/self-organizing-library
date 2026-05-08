@@ -18,7 +18,7 @@ export default function HomeSystemStateStrip() {
     async function load() {
       try {
         const { fetchWithRetry } = await import('@/lib/fetchWithRetry');
-        const res = await fetchWithRetry('/api/graph-data');
+        const res = await fetchWithRetry('/api/graph-data?lens=governance');
         if (!res.ok) return;
         const data = await res.json();
         if (!cancelled) setNodes(data.nodes || []);
@@ -56,4 +56,3 @@ export default function HomeSystemStateStrip() {
     />
   );
 }
-

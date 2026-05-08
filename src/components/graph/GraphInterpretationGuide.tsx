@@ -33,7 +33,7 @@ export default function GraphInterpretationGuide({
       lead: `This view shows ${coreVerified} verified node${coreVerified === 1 ? '' : 's'} — the trusted foundation of the system.`,
       tip: "Start with the largest green nodes; they carry the most authority.",
       hiddenNote: unverified > 0 || contradictions > 0 || quarantined > 0
-        ? `Unverified nodes (${unverified}), contradictions (${contradictions}), and quarantined items (${quarantined}) are hidden in this view. Switch to "Contradictions & Quarantine" or "Everything Indexed" to see them.`
+        ? `Unverified nodes (${unverified}), contradictions (${contradictions}), and quarantined items (${quarantined}) are hidden in this view. Switch to "Contradictions & Quarantine" or "Full Lens" to see them.`
         : undefined,
     },
     explore: {
@@ -43,9 +43,9 @@ export default function GraphInterpretationGuide({
       hiddenNote: undefined,
     },
     full: {
-      title: "Everything Indexed",
+      title: "Full Lens",
       lead: `This view shows all ${totalNodes} nodes across all repositories, with all statuses visible.`,
-      tip: "This is dense — use filters, search, and meaning-layer toggles to navigate.",
+      tip: "This can be dense — use filters, search, and meaning-layer toggles to navigate.",
       hiddenNote: undefined,
     },
   };
@@ -79,7 +79,7 @@ export default function GraphInterpretationGuide({
               <ul className="space-y-1 text-[var(--text-secondary)]">
                 <li>• Larger nodes have more authority/connections</li>
                 <li>• Blue edges are authority (VERIFIES, DERIVES_FROM)</li>
-                <li>• Faint gray edges show general co-occurrence</li>
+                <li>• Faint gray edges show explicit references/dependencies</li>
                 <li>• Click any node to see provenance details</li>
               </ul>
             </div>

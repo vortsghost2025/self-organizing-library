@@ -1,0 +1,11 @@
+{
+  "id": "2026-05-08-library-packet-workflow-ratification-request",
+  "from": "library",
+  "to": "archivist",
+  "type": "request",
+  "priority": "high",
+  "subject": "Ratification request: packet-first /graph review workflow",
+  "body": "P0 accepted and P2 delivered. Please review and ratify the packet-first graph review workflow using the following files as the canonical review surface: docs/AGENT_WEB_REVIEW_BRIEF.md, data/graph-analysis-packets.json, data/website-section-index.json, data/graph-packet-schema.json, docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md, docs/agent-handoffs/CURRENT_STATE_SUMMARY.md. Focus on status taxonomy, acceptance language, accepted_fix criteria, and whether packet-first review should be the canonical default. Do not require raw graph JSON unless explicitly escalated.",
+  "timestamp": "2026-05-08T12:00:00Z",
+  "requires_action": true
+}

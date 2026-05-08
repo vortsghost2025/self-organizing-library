@@ -5,6 +5,7 @@ import Graph from "graphology";
 import Sigma from "sigma";
 import { bidirectional } from "graphology-shortest-path";
 import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, EntryPoint } from "@/lib/graph-types";
+import type { GraphLensDefinitionSummary } from "@/lib/site-index";
 import { DEFAULT_LAYERS, STATUS_COLORS } from "@/lib/graph-types";
 import { computeClusters, computeEntryPoints, assignClusterIds } from "@/lib/graph-clusters";
 import GraphCanvas from "./graph/GraphCanvas";
@@ -13,7 +14,8 @@ import EntryPoints from "./graph/EntryPoints";
 import MeaningLayers from "./graph/MeaningLayers";
 import DensityControl from "./graph/DensityControl";
 import { ModeSelector } from "./graph/ModeSelector";
-import { GraphMode, MODE_CONFIG, DEFAULT_MODE } from "@/lib/graph-types";
+import LensSelector from "./graph/LensSelector";
+import { GraphMode, GraphLens, MODE_CONFIG, DEFAULT_MODE, DEFAULT_LENS, LENS_CONFIG } from "@/lib/graph-types";
 import ClusterSelector from "./graph/ClusterSelector";
 import NodeDetail from "./graph/NodeDetail";
  import GraphLegend from "./graph/GraphLegend";
@@ -27,9 +29,10 @@ interface NexusGraphProps {
   initialFilter?: string;
   initialFilterMode?: "type" | "repo";
   initialMode?: string;
+  initialLens?: GraphLens;
 }
 
-export default function NexusGraph({ initialFilter = "all", initialFilterMode = "type", initialMode }: NexusGraphProps) {
+export default function NexusGraph({ initialFilter = "all", initialFilterMode = "type", initialMode, initialLens = DEFAULT_LENS }: NexusGraphProps) {
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
@@ -49,13 +52,19 @@ export default function NexusGraph({ initialFilter = "all", initialFilterMode = 
   const [pathNodes, setPathNodes] = useState<Set<string>>(new Set());
   const [pathEdges, setPathEdges] = useState<Set<string>>(new Set());
 
-const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
+  const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
   const [density, setDensity] = useState<DensityLevel>("mid");
   const [graphMode, setGraphMode] = useState<GraphMode>(initialMode ? (initialMode as GraphMode) : DEFAULT_MODE);
+  const [graphLens, setGraphLens] = useState<GraphLens>(initialLens);
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
   const [cameraRatio, setCameraRatio] = useState(1);
   const [webglUnavailable, setWebglUnavailable] = useState(false);
+  const [lensDescription, setLensDescription] = useState<string>(LENS_CONFIG[initialLens].description);
+  const [lensDefinition, setLensDefinition] = useState<GraphLensDefinitionSummary | null>(null);
+  const [canonicalNodeCount, setCanonicalNodeCount] = useState(0);
+  const [canonicalEdgeCount, setCanonicalEdgeCount] = useState(0);
+  const [edgePolicy, setEdgePolicy] = useState<"explicit_only" | "explicit_plus_inference">("explicit_only");
 
   // Ref to expose GraphCanvas imperative methods
   const graphCanvasRef = useRef<{fitVisible: () => void}>(null);
@@ -78,6 +87,23 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
       setActiveEntryPoint(null);
     }
   }, [graphMode]);
+
+  useEffect(() => {
+    setActiveEntryPoint(null);
+    setActiveClusterId(null);
+    setSelectedNodeId(null);
+    setFocusedNodeId(null);
+    setPathSource(null);
+    setPathTarget(null);
+    setPathNodes(new Set());
+    setPathEdges(new Set());
+
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("lens", graphLens);
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [graphLens]);
 
   // Compute core nodes for highlighting in understand mode (computed from full nodes list)
   const coreNodeIds = useMemo(() => {
@@ -149,13 +175,17 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
   for (const n of filteredNodes) {
     if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
   }
+  const primaryInstability = filteredNodes
+    .filter((node) => node.contradictionCount > 0)
+    .sort((left, right) => right.contradictionCount - left.contradictionCount)[0] || null;
 
   useEffect(() => {
     let cancelled = false;
     async function load() {
+      if (!cancelled) setLoading(true);
       try {
         const { fetchWithRetry } = await import('@/lib/fetchWithRetry');
-        const res = await fetchWithRetry('/api/graph-data');
+        const res = await fetchWithRetry(`/api/graph-data?lens=${graphLens}`);
         const data = await res.json();
         if (cancelled) return;
         const rawClusters = computeClusters(data.nodes);
@@ -165,6 +195,11 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
         setEdges(data.edges);
         setClusters(rawClusters);
         setEntryPoints(eps);
+        setLensDescription(data.description || LENS_CONFIG[graphLens].description);
+        setLensDefinition(data.meta?.lensDefinition || null);
+        setCanonicalNodeCount(data.meta?.canonicalNodeCount || 0);
+        setCanonicalEdgeCount(data.meta?.canonicalEdgeCount || 0);
+        setEdgePolicy(data.meta?.edgePolicy || "explicit_only");
       } catch (e) {
         console.error("Failed to load graph data:", e);
       } finally {
@@ -173,7 +208,7 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
     }
     load();
     return () => { cancelled = true; };
-  }, []);
+  }, [graphLens]);
 
   const handleNodeClick = useCallback((nodeId: string) => {
     setSelectedNodeId(nodeId);
@@ -261,12 +296,12 @@ const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAY
 
   // Calculate visibleCount before using it in handleExportSnapshot
   const visibleCount = (() => {
-    if (density === "overview") return clusters.length;
     if (activeEntryPoint || activeClusterId) {
       const ep = entryPoints.find((e) => e.id === activeEntryPoint);
       const cl = clusters.find((c) => c.id === activeClusterId);
       return ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
     }
+    if (density === "overview") return clusters.length;
     if (focusedNodeId) return 20;
     return filteredNodes.length;
   })();
@@ -489,11 +524,10 @@ const handleCompareSnapshots = useCallback(() => {
        <div className="mb-6 animate-fade-in">
          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
          <p className="text-[var(--text-secondary)] mb-4">
-           This is a live system that:
-           <br />• organizes knowledge
-           <br />• detects contradictions
-           <br />• verifies truth over time
-           <br />Start with core nodes &rarr; explore connections &rarr; inspect conflicts.
+           This interface now loads a specific graph lens instead of one universal archive map.
+           <br />• choose a lens for the question you are asking
+           <br />• use modes to control trust and contradiction visibility inside that lens
+           <br />• reserve canonical/full views for audits, not first-pass navigation
          </p>
          <div className="text-sm text-[var(--text-secondary)]">
            <span className="font-medium">Legend:</span>{' '}
@@ -504,12 +538,15 @@ const handleCompareSnapshots = useCallback(() => {
        </div>
 
        <div className="mb-4">
+         <LensSelector lens={graphLens} onChange={setGraphLens} />
+       </div>
+       <div className="mb-4">
          <ModeSelector mode={graphMode} onChange={setGraphMode} />
        </div>
-       {graphMode === "full" && (
+       {(graphMode === "full" || graphLens === "full" || graphLens === "canonical") && (
          <div className="mb-4 text-sm text-amber-400 flex items-center gap-2" role="alert">
            <span aria-hidden="true">⚠</span>
-           <span>Advanced Mode: Full system state (high density, may be noisy)</span>
+           <span>Advanced dataset selected: high density, best used for audits and targeted investigation.</span>
          </div>
        )}
 
@@ -556,11 +593,41 @@ const handleCompareSnapshots = useCallback(() => {
        <SystemInterpretation
           viewModeLabel="FULL SYSTEM"
           visibleNodeCount={totalNodeCount}
-          conflictedCount={0}
-          quarantinedCount={0}
-          verifiedCount={0}
-          primaryInstability={null}
+          conflictedCount={statusCounts.CONFLICTED || 0}
+          quarantinedCount={statusCounts.QUARANTINED || 0}
+          verifiedCount={statusCounts.VERIFIED || 0}
+          primaryInstability={primaryInstability ? {
+            title: primaryInstability.title,
+            contradictionCount: primaryInstability.contradictionCount,
+          } : null}
         />
+        <div className="card p-3 mb-2 text-sm text-[var(--text-secondary)] animate-fade-in">
+          <span className="font-medium text-[var(--text-primary)]">{LENS_CONFIG[graphLens].label}:</span> {lensDescription}
+        </div>
+        {lensDefinition && (
+          <div className="card p-4 mb-2 text-sm animate-fade-in">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span className="font-medium text-[var(--text-primary)]">Lens purpose:</span>
+              <span className="text-[var(--text-secondary)]">{lensDefinition.purpose}</span>
+            </div>
+            <div className="grid md:grid-cols-2 gap-3 text-[var(--text-secondary)]">
+              <div>
+                <div><span className="font-medium text-[var(--text-primary)]">Current lens:</span> {totalNodeCount} nodes / {visibleEdgeCount} visible edges</div>
+                <div><span className="font-medium text-[var(--text-primary)]">Canonical graph:</span> {canonicalNodeCount} nodes / {canonicalEdgeCount} edges</div>
+                <div><span className="font-medium text-[var(--text-primary)]">Edge policy:</span> {edgePolicy === "explicit_only" ? "Explicit references only" : "Explicit references + inference edges"}</div>
+                <div><span className="font-medium text-[var(--text-primary)]">Budget:</span> {lensDefinition.maxRecommendedNodes} nodes / {lensDefinition.maxRecommendedEdges} edges</div>
+              </div>
+              <div>
+                <div><span className="font-medium text-[var(--text-primary)]">Included:</span> {lensDefinition.includedNodeTypes.join(", ")}</div>
+                <div><span className="font-medium text-[var(--text-primary)]">Edges:</span> {lensDefinition.includedEdgeTypes.join(", ")}</div>
+                <div><span className="font-medium text-[var(--text-primary)]">Excluded noise:</span> {lensDefinition.excludedNoise.join(", ")}</div>
+              </div>
+            </div>
+            <div className="mt-2 text-[var(--text-secondary)]">
+              <span className="font-medium text-[var(--text-primary)]">Agent instruction:</span> {lensDefinition.agentReviewInstruction}
+            </div>
+          </div>
+        )}
 
        <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
         {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
@@ -671,14 +738,15 @@ const handleCompareSnapshots = useCallback(() => {
                 ) : filteredNodes.length === 0 && !webglUnavailable ? (
                 <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
-<GraphCanvas
-                   ref={graphCanvasRef}
-                   nodes={filteredNodes}
-                   edges={edges}
-                   clusters={clusters}
-                   hoveredNodeId={hoveredNodeId}
-                   selectedNodeId={selectedNodeId}
-                   focusedNodeId={focusedNodeId}
+                <GraphCanvas
+                  ref={graphCanvasRef}
+                  nodes={filteredNodes}
+                  edges={edges}
+                  clusters={clusters}
+                  activeEntryPointNodeIds={activeEntryPointMeta?.nodeIds || []}
+                  hoveredNodeId={hoveredNodeId}
+                  selectedNodeId={selectedNodeId}
+                  focusedNodeId={focusedNodeId}
                    pathNodes={pathNodes}
                    pathEdges={pathEdges}
                    pathSource={pathSource}
@@ -736,7 +804,7 @@ const handleCompareSnapshots = useCallback(() => {
       </div>
 
       <p className="mt-4 text-sm text-[var(--text-muted)] text-center animate-fade-in">
-        Entry points replace explore mode &mdash; choose what to see. Toggle meaning layers to filter edge types. Adjust density for depth. Use Tab to focus the graph, arrow keys or WASD to pan, +/- to zoom, Escape to clear.
+        Pick a lens first, then scope it further with entry points, meaning layers, and density. Use Tab to focus the graph, arrow keys or WASD to pan, +/- to zoom, Escape to clear.
       </p>
 
       <GraphLegend />

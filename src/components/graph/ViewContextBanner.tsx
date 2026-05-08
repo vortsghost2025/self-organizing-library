@@ -37,7 +37,7 @@ export default function ViewContextBanner({
       explanation: `You are viewing ${verified} verified node${verified === 1 ? '' : 's'}${focusNodeTitle ? ` focused around "${focusNodeTitle}"` : ''}.`,
       suggestion: hiddenCategories.length > 0
         ? `Switch to "Contradictions & Quarantine" to see ${hiddenCategories.join(' and ')}.`
-        : "This is the fully verified foundation. Switch to 'Everything Indexed' to see the complete system.",
+        : "This is the fully verified foundation. Switch to 'Full Lens' to inspect the broader dataset.",
     },
     explore: {
       title: "Contradictions & Quarantine",
@@ -45,7 +45,7 @@ export default function ViewContextBanner({
       suggestion: "Click a red node to see what evidence conflicts. Switch to 'Verified Core' to see the trusted foundation.",
     },
     full: {
-      title: "Everything Indexed",
+      title: "Full Lens",
       explanation: `You are viewing all ${totalNodes} nodes across all repositories, including ${verified} verified, ${unverified} unverified, ${contradictions} contradictions, and ${quarantined} quarantined.`,
       suggestion: "This comprehensive view is dense. Use filters or switch to 'Verified Core' for a clearer starting point.",
     },
