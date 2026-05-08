@@ -70,15 +70,15 @@ try {
   if (discovery.getBroadcastPath) {
     BROADCAST_DIR = discovery.getBroadcastPath();
   }
-} catch (e) {
-  var repoRoot = path.resolve(__dirname, '..');
-  LANE_ROOTS = {
-    library: path.join(repoRoot, 'lanes', 'library'),
-    archivist: path.join(repoRoot, 'lanes', 'archivist'),
-    swarmmind: path.join(repoRoot, 'lanes', 'swarmmind'),
-    kernel: path.join(repoRoot, 'lanes', 'kernel'),
-    opencode: path.join(repoRoot, 'lanes', 'opencode'),
-  };
+ } catch (e) {
+ var _repoRoot = path.resolve(__dirname, '..');
+ LANE_ROOTS = {
+ library: path.join(_repoRoot, 'lanes', 'library'),
+ archivist: path.join(_repoRoot, 'lanes', 'archivist'),
+ swarmmind: path.join(_repoRoot, 'lanes', 'swarmmind'),
+ kernel: path.join(_repoRoot, 'lanes', 'kernel'),
+ opencode: path.join(_repoRoot, 'lanes', 'opencode'),
+ };
 }
 
 const KNOWN_LANES = Object.keys(LANE_ROOTS);
