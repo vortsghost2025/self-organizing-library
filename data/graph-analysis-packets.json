@@ -1,0 +1,290 @@
+{
+  "generated_at": "2026-05-08T06:09:53.204Z",
+  "source_snapshot": "evidence/graph-snapshots/graph-snapshot-2026-04-30T16-08-47-reduced.json",
+  "per_snapshot": [
+    {
+      "identity": {
+        "snapshot_id": "graph-snapshot-2026-04-30T16-08-47",
+        "created_at": "2026-04-30T16:08:47.095Z",
+        "filters": {}
+      },
+      "counts": {
+        "visible_nodes": 215,
+        "visible_edges": 1644,
+        "verified": 25,
+        "unverified": 186,
+        "conflicted": 4,
+        "quarantined": 0
+      },
+      "top_nodes": {
+        "by_connection_count": [
+          {
+            "id": "d9ccbb98728d5f78",
+            "t": "COVENANT.md — Values (What We Believe)",
+            "r": "kernel-lane",
+            "cc": 413,
+            "s": "CONFLICTED"
+          },
+          {
+            "id": "dd9b2967fd3393db",
+            "t": "WE4FREE Publication Roadmap",
+            "r": "kernel-lane",
+            "cc": 397,
+            "s": "CONFLICTED"
+          },
+          {
+            "id": "5cf7faa3d782bf43",
+            "t": "Lane Interaction API Documentation",
+            "r": "kernel-lane",
+            "cc": 320,
+            "s": "VERIFIED"
+          },
+          {
+            "id": "70b114487cb5823a",
+            "t": "4-Lane Rosetta Stone System - Architectu",
+            "r": "kernel-lane",
+            "cc": 314,
+            "s": "VERIFIED"
+          },
+          {
+            "id": "7c568ec4394d439f",
+            "t": "4-Lane Deep Code Review — Beyond the Fir",
+            "r": "kernel-lane",
+            "cc": 296,
+            "s": "VERIFIED"
+          }
+        ],
+        "by_verification_count": [
+          {
+            "id": "08565392922f5ee2",
+            "t": "4-Lane System Review — Execution Reality",
+            "r": "kernel-lane",
+            "vc": 79,
+            "s": "VERIFIED"
+          },
+          {
+            "id": "7c568ec4394d439f",
+            "t": "4-Lane Deep Code Review — Beyond the Fir",
+            "r": "kernel-lane",
+            "vc": 77,
+            "s": "VERIFIED"
+          },
+          {
+            "id": "c04ca6f8c0ccf0fb",
+            "t": "Unified 4-Lane Code Review & Operator Q&",
+            "r": "kernel-lane",
+            "vc": 77,
+            "s": "VERIFIED"
+          },
+          {
+            "id": "70b114487cb5823a",
+            "t": "4-Lane Rosetta Stone System - Architectu",
+            "r": "kernel-lane",
+            "vc": 70,
+            "s": "VERIFIED"
+          },
+          {
+            "id": "5cf7faa3d782bf43",
+            "t": "Lane Interaction API Documentation",
+            "r": "kernel-lane",
+            "vc": 70,
+            "s": "VERIFIED"
+          }
+        ],
+        "by_contradiction_count": [
+          {
+            "id": "6a9bd95ba806a410",
+            "t": "THE SINGLE ENTRY POINT",
+            "r": "kernel-lane",
+            "cdc": 39
+          },
+          {
+            "id": "d9ccbb98728d5f78",
+            "t": "COVENANT.md — Values (What We Believe)",
+            "r": "kernel-lane",
+            "cdc": 39
+          },
+          {
+            "id": "7372a72fe280b3a3",
+            "t": "CAISC 2026 Draft Paper Review Report",
+            "r": "kernel-lane",
+            "cdc": 39
+          },
+          {
+            "id": "dd9b2967fd3393db",
+            "t": "WE4FREE Publication Roadmap",
+            "r": "kernel-lane",
+            "cdc": 39
+          }
+        ],
+        "by_authority_depth": [
+          {
+            "id": "9e7e8b74b11d8f82",
+            "t": "aider chat started at 2026-04-27 23:05:4",
+            "r": "kernel-lane",
+            "ad": 75,
+            "gl": "unknown"
+          },
+          {
+            "id": "b9399d1741459ed8",
+            "t": "Autonomous Achievement: CUDA Kernel Opti",
+            "r": "kernel-lane",
+            "ad": 75,
+            "gl": "unknown"
+          },
+          {
+            "id": "88499690532c714c",
+            "t": "AGENTS.md - Kernel Lane Instructions",
+            "r": "kernel-lane",
+            "ad": 75,
+            "gl": "unknown"
+          },
+          {
+            "id": "6a9bd95ba806a410",
+            "t": "THE SINGLE ENTRY POINT",
+            "r": "kernel-lane",
+            "ad": 75,
+            "gl": "unknown"
+          },
+          {
+            "id": "d9ccbb98728d5f78",
+            "t": "COVENANT.md — Values (What We Believe)",
+            "r": "kernel-lane",
+            "ad": 75,
+            "gl": "theoretical"
+          }
+        ]
+      },
+      "anomalies": [
+        "conflicted_nodes_present",
+        "many_unverified_nodes"
+      ],
+      "claim_status": {
+        "known_bugs": [
+          {
+            "id": "contradictionCount-spurious-artifact",
+            "description": "contradictionCount=39 is a tag-grouping artifact (see GRAPH_SNAPSHOT_PROTOCOL.md), not genuine contradiction",
+            "affected_nodes": 4,
+            "detected_in": "graph-snapshot-2026-04-30T16-08-47"
+          }
+        ],
+        "fixes_in_progress": [],
+        "accepted_fixes": []
+      },
+      "interpretation": "Snapshot graph-snapshot-2026-04-30T16-08-47 shows 215 nodes and 1644 deduplicated edges (reduced view). Status: 25 verified, 186 unverified, 4 conflicted, 0 quarantined. Full analysis has 44097 total edge instances across all types. Top hub node has 413 connections.",
+      "next_checks": [
+        "Prioritize verification of high-connection nodes to reduce unverified ratio.",
+        "Review contradiction details for nodes with high contradictionCount.",
+        "Cross-check visible_node_count and visible_edge_count with UI counters.",
+        "Validate that active meaning layers match edge types present."
+      ]
+    }
+  ],
+  "per_repo": {
+    "kernel-lane": {
+      "node_count": 215,
+      "total_connections": 5870,
+      "top_node": {
+        "id": "d9ccbb98728d5f78",
+        "title": "COVENANT.md — Values (What We Believe)",
+        "connectionCount": 413
+      },
+      "top_cc": 413
+    }
+  },
+  "per_status": {
+    "visible_nodes": 215,
+    "visible_edges": 1644,
+    "verified": 25,
+    "unverified": 186,
+    "conflicted": 4,
+    "quarantined": 0
+  },
+  "per_contradiction": [
+    {
+      "id": "6a9bd95ba806a410",
+      "title": "THE SINGLE ENTRY POINT",
+      "contradictionCount": 39,
+      "tags": [
+        "Failure Mode",
+        "Multi-Agent",
+        "Covenant",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Kernel",
+        "Swarmmind",
+        "Archivist",
+        "Library"
+      ],
+      "category": "root-doc",
+      "repo": "kernel-lane",
+      "status": "CONFLICTED"
+    },
+    {
+      "id": "d9ccbb98728d5f78",
+      "title": "COVENANT.md — Values (What We Believe)",
+      "contradictionCount": 39,
+      "tags": [
+        "Covenant",
+        "Governance",
+        "Verification",
+        "Drift",
+        "Constraint Lattice"
+      ],
+      "category": "root-doc",
+      "repo": "kernel-lane",
+      "status": "CONFLICTED"
+    },
+    {
+      "id": "7372a72fe280b3a3",
+      "title": "CAISC 2026 Draft Paper Review Report",
+      "contradictionCount": 39,
+      "tags": [
+        "Failure Mode",
+        "Multi-Agent",
+        "CAISC 2026",
+        "Governance",
+        "Verification",
+        "Kernel"
+      ],
+      "category": "root-doc",
+      "repo": "kernel-lane",
+      "status": "CONFLICTED"
+    },
+    {
+      "id": "dd9b2967fd3393db",
+      "title": "WE4FREE Publication Roadmap",
+      "contradictionCount": 39,
+      "tags": [
+        "NFM-029",
+        "NFM-035",
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 11",
+        "Phase 8",
+        "Phase 5",
+        "Phase 13",
+        "Phase 23",
+        "Rosetta Stone",
+        "CAISC 2026",
+        "Governance",
+        "Drift",
+        "Ensemble",
+        "Constraint Lattice",
+        "Phenotype",
+        "WE4FREE",
+        "Kernel",
+        "Swarmmind",
+        "Archivist",
+        "Library",
+        "Federation"
+      ],
+      "category": "paper",
+      "repo": "kernel-lane",
+      "status": "CONFLICTED"
+    }
+  ]
+}

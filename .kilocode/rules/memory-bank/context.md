@@ -257,6 +257,22 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
  - [x] **/lanes 404 fixed**: Created `src/app/lanes/page.tsx` rendering LaneArchitecture to unbreak navigation link.
  - [x] **All quality gates**: sovereignty scan clean, Gate 2 pass, typecheck+lint pass. Commit `47c555f` pushed.
 
+### Session 2026-05-08 (cont.2): Indexer Hardening + Batch 003 Verification
+
+- [x] **8 indexer defects fixed in build-graph-packet.js**:
+  - Contradiction repo lookup: `per_contradiction` entries now resolve repo from reduced nodes via `nodeById` Map instead of hard-coded `"unknown"`
+  - Relative snapshot path: `source_snapshot` uses relative path from project root instead of absolute Windows path
+  - Forward-slash paths: `website-section-index.json` source_files always use `/` regardless of platform
+  - Edge count clarification: interpretation string distinguishes "deduplicated edges (reduced view)" from "total edge instances across all types"
+  - Missing routes: `/search-catalog`, `/collections`, `/sources`, `/library/[id]` added to ROUTE_METADATA (26 total routes now)
+  - Schema v1.1.0: Added `top_level` wrapper structure + `schema_version` field to graph-packet-schema.json
+  - Brief enrichment: Added generation timestamp, website-section-index.json reference, expanded to 8-step workflow
+  - Timestamp-based sorting: `findLatestSnapshot()` sorts by filename-embedded timestamp, not filesystem mtime
+- [x] **claim_status classification added**: Per-snapshot packets now include `claim_status` with three buckets: `known_bugs` (contradictionCount-spurious-artifact), `fixes_in_progress` (dual-edge-filter-mode), `accepted_fixes` (empty pending verification). Schema updated with validation rules.
+- [x] **analyze_graph.js lint error fixed**: Invalid escape sequences `\S` → proper string literals
+- [x] **All artifacts regenerated**: graph-analysis-packets.json, website-section-index.json, graph-packet-schema.json, AGENT_WEB_REVIEW_BRIEF.md
+- [x] **Quality gates**: typecheck + lint pass (indexer script and analyze_graph.js clean; 1 pre-existing error in store-journal.js is resolved)
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
