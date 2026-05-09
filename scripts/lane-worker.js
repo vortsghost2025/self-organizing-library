@@ -13,6 +13,22 @@ const { getRoots } = require('./util/lane-discovery');
 const { verifyOutputProvenance } = require('./output-provenance');
 const aiReview = require('./ai-review-caller');
 
+function runStoreJournalAppend(laneRoot, lane, event, subject, taskId) {
+  var scriptPath = path.join(laneRoot, 'scripts', 'store-journal.js');
+  if (!fs.existsSync(scriptPath)) return;
+  try {
+    var execSync = require('child_process').execSync;
+    var agent = (process.env.AGENT_INSTANCE_ID || 'lane-worker');
+    var safeSubject = String(subject || 'unknown').replace(/"/g, '').slice(0, 80);
+    var safeTaskId = String(taskId || 'unknown').replace(/"/g, '').slice(0, 60);
+    execSync('node "' + scriptPath + '" append --lane ' + lane +
+      ' --event ' + event +
+      ' --agent "' + agent + '"' +
+      ' --subject "' + safeSubject + '"' +
+      ' --task_id "' + safeTaskId + '"', { cwd: laneRoot, timeout: 10000 });
+  } catch (e) {}
+}
+
 const ACTIONABLE_TYPES = new Set(['task', 'escalation', 'request']);
 const NON_ASCII_PATTERN = /[^\x00-\x7F]/;
 
@@ -45,7 +61,6 @@ function normalizeToAscii(str) {
 
 const SKIP_FILENAMES = new Set(['heartbeat.json', 'watcher.log', 'watcher.pid', 'readme.md']);
 const HEARTBEAT_PATTERN = /^heartbeat-.+\.json$/i;
-const LANE_WORKER_COPY_PATTERN = /\.lane-worker-\d{4}-\d{2}-\d{2}T/;
 
 const SESSION_ID = process.env.LANE_SESSION_ID || `sess_${Date.now().toString(36)}_${process.pid}`;
 const SESSION_EPOCH = new Date().toISOString();
@@ -115,14 +130,41 @@ function logAudit(sourcePath, targetPath, reason, workerId, sessionId, context =
   }
 }
 
+// NFM-020: NACK chain prevention.
+// Guard 1: never send NACK to yourself (senderLane === targetLane).
+// Guard 2: never send NACK for a message that is already a NACK (nack_reason present).
+// Guard 3: never send NACK for a message that carries exempt_from_nack flag.
+// Guard 4: rate-limit — at most one NACK per (sender, original_task_id) per 60s window.
+const NACK_RATE_LIMIT = new Map(); // key: `${senderLane}::${originalTaskId}`, value: last_nack_timestamp
+const NACK_COOLDOWN_MS = 60000;
+
 function sendNack(originalMsg, rejectionReason, rejectionDetail, targetLane, fromLane) {
   try {
     const senderLane = String(originalMsg.from || fromLane || 'unknown').toLowerCase();
     if (senderLane === String(targetLane || '').toLowerCase()) {
       return null;
     }
-    if (originalMsg.type === 'notification' && originalMsg.task_kind === 'status' && originalMsg.nack_reason) {
+    // Guard 2: original is already a NACK — break the chain
+    if (originalMsg.nack_reason) {
       return null;
+    }
+    // Guard 3: message carries anti-chain exemption
+    if (originalMsg.exempt_from_nack === true) {
+      return null;
+    }
+    // Guard 4: rate-limit NACKs per (sender, original task_id)
+    const rateKey = `${senderLane}::${originalMsg.task_id || 'unknown'}`;
+    const lastNack = NACK_RATE_LIMIT.get(rateKey);
+    const now = Date.now();
+    if (lastNack && (now - lastNack) < NACK_COOLDOWN_MS) {
+      return null;
+    }
+    NACK_RATE_LIMIT.set(rateKey, now);
+    // Clean stale rate-limit entries periodically
+    if (NACK_RATE_LIMIT.size > 500) {
+      for (const [k, t] of NACK_RATE_LIMIT) {
+        if (now - t > NACK_COOLDOWN_MS * 2) NACK_RATE_LIMIT.delete(k);
+      }
     }
     const senderRoot = LANE_ROOTS[senderLane];
     if (!senderRoot) {
@@ -156,6 +198,7 @@ function sendNack(originalMsg, rejectionReason, rejectionDetail, targetLane, fro
       nack_for_task_id: originalMsg.task_id || null,
       nack_reason: rejectionReason,
       nack_detail: rejectionDetail || null,
+      exempt_from_nack: true,  // NFM-020: prevent NACK chains — NACKs are terminal
     };
     const nackPath = path.join(senderInbox, `nack-${nackMsg.task_id}.json`);
     fs.writeFileSync(nackPath, JSON.stringify(nackMsg, null, 2), 'utf8');
@@ -409,9 +452,8 @@ class LaneWorker {
       dryRun: this.dryRun,
       resolver: this.artifactResolver,
     });
-this.codeVersionHash = getCodeVersionHash(this.repoRoot);
-this.aiReview = aiReview;
-this.lastRun = null;
+    this.codeVersionHash = getCodeVersionHash(this.repoRoot);
+    this.lastRun = null;
     this.sessionId = SESSION_ID;
     this.isOwner = false;
     if (!this.dryRun) {
@@ -486,19 +528,18 @@ this.lastRun = null;
     const files = [];
     const inboxDir = this.config.queues.inbox;
 
-  // Scan inbox root
-  if (fs.existsSync(inboxDir)) {
-    const entries = fs.readdirSync(inboxDir, { withFileTypes: true });
-    for (const ent of entries) {
-      if (!ent.isFile()) continue;
-      const lower = ent.name.toLowerCase();
-      if (!lower.endsWith('.json')) continue;
-      if (SKIP_FILENAMES.has(lower)) continue;
-      if (HEARTBEAT_PATTERN.test(lower)) continue;
-      if (LANE_WORKER_COPY_PATTERN.test(ent.name)) continue;
-      files.push(path.join(inboxDir, ent.name));
+    // Scan inbox root
+    if (fs.existsSync(inboxDir)) {
+      const entries = fs.readdirSync(inboxDir, { withFileTypes: true });
+      for (const ent of entries) {
+        if (!ent.isFile()) continue;
+        const lower = ent.name.toLowerCase();
+        if (!lower.endsWith('.json')) continue;
+        if (SKIP_FILENAMES.has(lower)) continue;
+        if (HEARTBEAT_PATTERN.test(lower)) continue;
+        files.push(path.join(inboxDir, ent.name));
+      }
     }
-  }
 
   // action-required/ is NOT scanned — it is the executor's domain.
   // The lane-worker routes new tasks there; re-scanning would cause
@@ -517,8 +558,8 @@ this.lastRun = null;
     if (!signatureResult.valid) {
       return { queue: 'blocked', reason: 'SIGNATURE_INVALID', detail: signatureResult.reason || 'Signature validation failed' };
     }
-  if (!isEnglishOnly(msg)) {
-    return { queue: 'quarantine', reason: 'FORMAT_VIOLATION_NON_ASCII', detail: 'Message contains non-ASCII content. Re-request in English per governance constraint.' };
+    if (!isEnglishOnly(msg)) {
+      return { queue: 'quarantine', reason: 'FORMAT_VIOLATION_NON_ASCII', detail: 'Message contains non-ASCII content. Re-request in English per governance constraint.' };
     }
 
     if (typeof msg.body === 'string') {
@@ -528,7 +569,7 @@ this.lastRun = null;
       }
     }
 
-    // NFM-022 fix: skip hasUnresolvableEvidence for actionable tasks
+  // NFM-022 fix: skip hasUnresolvableEvidence for actionable tasks
   // A new task (requires_action=true) hasn't been executed yet, so
   // evidence.required=true with no artifact is expected, not a violation.
   if (!isActionable(msg) && cp.hasUnresolvableEvidence(msg)) {
@@ -595,17 +636,22 @@ this.lastRun = null;
   // Legacy artifact paths bypass the verification domain gate and go directly
   // to execution gate verification, since they lack the structured fields
   // (evidence_exchange, timestamps) that the domain gate validates.
-    if (gate.pass && cp.hasCompletionProof(msg)) {
-      const proofClassification = this.artifactResolver.classifyProof(msg);
-      const isLegacyPath = proofClassification.type === 'LEGACY_ARTIFACT_PATH';
+  if (gate.pass && cp.hasCompletionProof(msg)) {
+    const proofClassification = this.artifactResolver.classifyProof(msg);
+    const isLegacyPath = proofClassification.type === 'LEGACY_ARTIFACT_PATH';
 
-      if (!isLegacyPath) {
-        const domain = evaluateVerificationDomain(msg, {
-          resolver: this.artifactResolver,
-          localCodeVersionHash: this.codeVersionHash,
-          repoRoot: this.repoRoot,
-        });
-        if (!domain.domain_valid) {
+    if (!isLegacyPath) {
+      const domain = evaluateVerificationDomain(msg, {
+        resolver: this.artifactResolver,
+        localCodeVersionHash: this.codeVersionHash,
+        repoRoot: this.repoRoot,
+      });
+      if (!domain.domain_valid) {
+        // If the failure is due to observability (artifact not observable), allow execution verification to handle it.
+        if (domain.observability && !domain.observability.valid) {
+          // fall through to execution verification
+        } else {
+          // Fail-closed for other domain validation failures.
           return {
             queue: 'blocked',
             reason: domain.phase === 'post_execution' ? 'INVALID_DOMAIN_POST_EXECUTION' : 'INVALID_DOMAIN_PRE_EXECUTION',
@@ -613,35 +659,85 @@ this.lastRun = null;
             execution_verified: false,
             execution_would_verify: false,
             domain_gate_executed: true,
-            verification_outcome: 'INVALID_DOMAIN',
-            verification_path: ['domain_gate', 'execution_check', 'response_validation'],
-            domain_validation: domain,
+            verification_outcome: domain.verification_outcome || 'INVALID_DOMAIN',
             execution_preserved: domain.phase === 'post_execution',
+            domain_validation: domain,
+            verification_path: ['domain_gate', 'execution_check', 'response_validation'],
             ownership,
             ownership_notes: ownershipNotes,
           };
         }
       }
-
-      const executionResult = this.executionGate.verify(msg);
-      if (!executionResult.execution_verified) {
-        return {
-          queue: 'blocked',
-          reason: 'EXECUTION_NOT_VERIFIED',
-          detail: `Execution verification failed: type=${executionResult.verification_type} reason=${executionResult.reason} artifact_path=${executionResult.artifact_path || 'null'}`,
-          execution_verified: false,
-          execution_would_verify: executionResult.would_verify === true,
-          domain_gate_executed: !isLegacyPath,
-          verification_outcome: 'EXECUTION_FAIL',
-          verification_path: isLegacyPath ? ['execution_check', 'response_validation'] : ['domain_gate', 'execution_check', 'response_validation'],
-          domain_validation: isLegacyPath ? null : undefined,
-          ownership,
-          ownership_notes: ownershipNotes,
-        };
-      }
-
+    }
+    const executionResult = this.executionGate.verify(msg);
+    if (!executionResult.execution_verified) {
       return {
-        queue: 'processed',
+        queue: 'blocked',
+        reason: 'EXECUTION_NOT_VERIFIED',
+        detail: `Execution verification failed: type=${executionResult.verification_type} reason=${executionResult.reason} artifact_path=${executionResult.artifact_path || 'null'}`,
+        execution_verified: false,
+        execution_would_verify: executionResult.would_verify === true,
+        domain_gate_executed: !isLegacyPath,
+        verification_outcome: 'FAIL',
+        verification_path: isLegacyPath ? ['execution_check', 'response_validation'] : ['domain_gate', 'execution_check', 'response_validation'],
+        domain_validation: isLegacyPath ? null : undefined,
+        ownership,
+        ownership_notes: ownershipNotes,
+      };
+    }
+  }
+  // Non-actionable messages claiming completion without verifiable artifact = blocked
+  if (gate.pass && !isActionable(msg) && cp.hasCompletionProof(msg)) {
+    const proofClassification2 = this.artifactResolver.classifyProof(msg);
+    const isLegacyPath2 = proofClassification2.type === 'LEGACY_ARTIFACT_PATH';
+
+    if (!isLegacyPath2) {
+      const domain = evaluateVerificationDomain(msg, {
+        resolver: this.artifactResolver,
+        localCodeVersionHash: this.codeVersionHash,
+        repoRoot: this.repoRoot,
+      });
+      if (!domain.domain_valid) {
+        if (domain.observability && !domain.observability.valid) {
+          // fall through to execution verification
+        } else {
+          return {
+            queue: 'blocked',
+            reason: domain.phase === 'post_execution' ? 'INVALID_DOMAIN_POST_EXECUTION' : 'INVALID_DOMAIN_PRE_EXECUTION',
+            detail: domain.invalid_domain_reason,
+            execution_verified: false,
+            execution_would_verify: false,
+            domain_gate_executed: true,
+            verification_outcome: domain.verification_outcome || 'INVALID_DOMAIN',
+            execution_preserved: domain.phase === 'post_execution',
+            domain_validation: domain,
+            verification_path: ['domain_gate', 'execution_check', 'response_validation'],
+            ownership,
+            ownership_notes: ownershipNotes,
+          };
+        }
+      }
+    }
+    const executionResult = this.executionGate.verify(msg);
+    if (!executionResult.execution_verified) {
+      return {
+        queue: 'blocked',
+        reason: 'EXECUTION_NOT_VERIFIED',
+        detail: `Execution verification failed: type=${executionResult.verification_type} reason=${executionResult.reason} artifact_path=${executionResult.artifact_path || 'null'}`,
+        execution_verified: false,
+        execution_would_verify: executionResult.would_verify === true,
+        domain_gate_executed: !isLegacyPath2,
+        verification_outcome: 'FAIL',
+        verification_path: isLegacyPath2 ? ['execution_check', 'response_validation'] : ['domain_gate', 'execution_check', 'response_validation'],
+        domain_validation: isLegacyPath2 ? null : undefined,
+        ownership,
+        ownership_notes: ownershipNotes,
+      };
+    }
+  }
+
+    return {
+      queue: 'processed',
       reason: gate.reason,
       detail: gate.detail,
       execution_verified: cp.hasCompletionProof(msg),
@@ -652,20 +748,6 @@ this.lastRun = null;
       ownership,
       ownership_notes: ownershipNotes
     };
-  }
-
-  return {
-    queue: 'processed',
-    reason: gate.reason,
-    detail: gate.detail,
-    execution_verified: false,
-    execution_would_verify: false,
-    domain_gate_executed: false,
-    verification_outcome: 'NO_PROOF_REQUIRED',
-    verification_path: ['response_validation'],
-    ownership,
-    ownership_notes: ownershipNotes
-  };
   }
 
   _writeWithMetadata(targetPath, msg, decision, schemaResult, signatureResult, remediation = null) {
@@ -750,11 +832,10 @@ processFile(filePath) {
     };
   }
 
-      const isSelfMessage = msg.from === this.lane && msg.to === this.lane;
-      if (!isSelfMessage && msg._lane_worker && msg._lane_worker.session_identity && 
-          msg._lane_worker.session_identity.session_id && 
-          msg._lane_worker.session_identity.session_id !== SESSION_ID) {
-        if (!msg.allow_cross_instance && msg.requires_action === true) {
+  if (msg._lane_worker && msg._lane_worker.session_identity &&
+      msg._lane_worker.session_identity.session_id &&
+      msg._lane_worker.session_identity.session_id !== SESSION_ID) {
+    if (!msg.allow_cross_instance && msg.requires_action === true) {
       const staleDir = this.config.queues.staleForeign || path.join(path.dirname(filePath), 'stale-foreign');
       if (!fs.existsSync(staleDir)) fs.mkdirSync(staleDir, { recursive: true });
       const sfPath = uniquePath(path.join(staleDir, filename));
@@ -827,6 +908,11 @@ processFile(filePath) {
         lane: this.lane,
       });
       fs.unlinkSync(filePath);
+      var sjEvent = decision.queue === 'actionRequired' ? 'work_started' :
+                    decision.queue === 'processed' ? 'work_completed' :
+                    decision.queue === 'blocked' ? 'work_blocked' :
+                    decision.queue === 'quarantine' ? 'work_quarantined' : 'work_routed';
+      runStoreJournalAppend(this.repoRoot, this.lane, sjEvent, msg.subject || msg.task_id, msg.task_id);
       if (decision.queue === 'quarantine' || decision.queue === 'blocked') {
         sendNack(msg, decision.reason, decision.detail, this.lane, this.lane);
       }
@@ -865,9 +951,7 @@ _routeRaw(filePath, queueKey, meta) {
           if (rawRead2.ok) {
             sendNack(rawRead2.value, meta.reason, meta.detail, this.lane, this.lane);
           }
-	} catch (loadErr) {
-		process.stderr.write(`[lane-worker] Identity enforcer module load failed: ${loadErr.message}\n`);
-	}
+        } catch (_) {}
       }
     }
   return record;
@@ -916,46 +1000,9 @@ _routeRaw(filePath, queueKey, meta) {
       timestamp: nowIso(),
     };
 
-this.lastRun = summary;
-return summary;
-}
-
-async reviewNeedsReviewQueue() {
-const nrDir = this.config.queues.needsReview;
-if (!nrDir || !fs.existsSync(nrDir)) return [];
-
-const files = fs.readdirSync(nrDir).filter(f => f.endsWith('.json'));
-const results = [];
-
-for (const filename of files) {
-const filePath = path.join(nrDir, filename);
-const rawRead = safeReadJson(filePath);
-if (!rawRead.ok) continue;
-
-const msg = rawRead.value;
-const reviewPrompt = [
-`Message from: ${msg.from || 'unknown'}`,
-`Type: ${msg.type || 'unknown'}`,
-`Priority: ${msg.priority || 'unknown'}`,
-`Body: ${(msg.body || '').slice(0, 2000)}`,
-].join('\n');
-
-try {
-const reviewResult = await this.aiReview.autoEscalate(reviewPrompt, {
-order: ['strong', 'openrouter'],
-});
-const enriched = { ...msg, ai_review: reviewResult };
-if (!this.dryRun) {
-fs.writeFileSync(filePath, JSON.stringify(enriched, null, 2), 'utf8');
-}
-results.push({ filename, tier: reviewResult.final_tier, reviewed: true });
-} catch (err) {
-results.push({ filename, reviewed: false, error: err.message });
-}
-}
-
-return results;
-}
+    this.lastRun = summary;
+    return summary;
+  }
 }
 
 async function sleep(ms) {
@@ -997,37 +1044,19 @@ async function runCli() {
     return;
   }
 
-while (true) {
-const summary = worker.processOnce();
-if (args.json) {
-console.log(JSON.stringify(summary, null, 2));
-} else {
-console.log(
-`[lane-worker] lane=${summary.lane} dry_run=${summary.dry_run} scanned=${summary.scanned} ` +
-`processed=${summary.routed.processed} action-required=${summary.routed.action_required} ` +
-`in-progress=${summary.routed.in_progress} blocked=${summary.routed.blocked} quarantine=${summary.routed.quarantine}`
-);
-}
-
-if (args.aiReview !== false) {
-try {
-const reviews = await worker.reviewNeedsReviewQueue();
-if (reviews.length > 0) {
-for (const r of reviews) {
-if (r.reviewed) {
-console.log(`[lane-worker] ai-review: ${r.filename} -> tier=${r.tier}`);
-} else {
-console.log(`[lane-worker] ai-review: ${r.filename} FAILED ${r.error}`);
-}
-}
-}
-} catch (err) {
-console.error(`[lane-worker] ai-review batch failed: ${err.message}`);
-}
-}
-
-await sleep(args.pollSeconds * 1000);
-}
+  while (true) {
+    const summary = worker.processOnce();
+    if (args.json) {
+      console.log(JSON.stringify(summary, null, 2));
+    } else {
+      console.log(
+        `[lane-worker] lane=${summary.lane} dry_run=${summary.dry_run} scanned=${summary.scanned} ` +
+        `processed=${summary.routed.processed} action-required=${summary.routed.action_required} ` +
+        `in-progress=${summary.routed.in_progress} blocked=${summary.routed.blocked} quarantine=${summary.routed.quarantine}`
+      );
+    }
+    await sleep(args.pollSeconds * 1000);
+  }
 }
 
 if (require.main === module) {

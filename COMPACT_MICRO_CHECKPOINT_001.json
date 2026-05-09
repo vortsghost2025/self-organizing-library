@@ -1,0 +1,29 @@
+{
+  "output_provenance": {
+    "agent": "ChatGPT GPT-5.5",
+    "lane": "swarmmind",
+    "target": "bounded recursive governance micro-improvement loop",
+    "generated_at": "2026-05-08T12:00:00Z"
+  },
+  "batch_id": "001",
+  "mutation_performed": true,
+  "files_changed": ["docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md"],
+  "defect_class": "missing_OUTPUT_PROVENANCE",
+  "change_summary": "Added OUTPUT_PROVENANCE block to documentation file",
+  "verification": {
+    "commands_run": [
+      {
+        "command": "grep -m1 -n \"OUTPUT_PROVENANCE\" docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md",
+        "exit_code": 0,
+        "stdout_summary": "OUTPUT_PROVENANCE block present",
+        "stderr_summary": ""
+      }
+    ],
+    "passed": true
+  },
+  "risks": [],
+  "next_batch_allowed": true,
+  "stop_reason": "",
+  "commit_ready": false,
+  "push_ready": false
+}

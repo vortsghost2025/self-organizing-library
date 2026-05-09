@@ -11,20 +11,19 @@ const { ensureOutputProvenance, verifyOutputProvenance } = require('./output-pro
 
 const EXECUTOR_VERSION = '3.2.0';
 const FEATURE_FLAGS = {
-  v3_enabled: true,
-  nlp_routing: true,
-  timing_instrumentation: true,
-  safety_rails: true,
-  diff_size_limit: true,
+v3_enabled: true,
+nlp_routing: true,
+timing_instrumentation: true,
+safety_rails: true,
+diff_size_limit: true,
 };
 
-const discovery = new LaneDiscovery();
-
+const _discovery = new LaneDiscovery();
 const LANE_REGISTRY = {
-  archivist: { root: discovery.getLocalPath('archivist'), inbox_target: discovery.getInbox('archivist') },
-  kernel: { root: discovery.getLocalPath('kernel'), inbox_target: discovery.getInbox('archivist') },
-  library: { root: discovery.getLocalPath('library'), inbox_target: discovery.getInbox('archivist') },
-  swarmmind: { root: discovery.getLocalPath('swarmmind'), inbox_target: discovery.getInbox('archivist') },
+archivist: { root: _discovery.getLocalPath('archivist'), inbox_target: _discovery.getInbox('archivist') },
+kernel: { root: _discovery.getLocalPath('kernel'), inbox_target: _discovery.getInbox('archivist') },
+library: { root: _discovery.getLocalPath('library'), inbox_target: _discovery.getInbox('archivist') },
+swarmmind: { root: _discovery.getLocalPath('swarmmind'), inbox_target: _discovery.getInbox('archivist') },
 };
 
 const TRUTH_CRITICAL_PATH_MARKERS = [
@@ -673,7 +672,6 @@ function createResponse(originalMsg, executionResult, lane) {
   const resultJson = JSON.stringify(executionResult.results || {});
   const contentHash = 'sha256:' + crypto.createHash('sha256').update(resultJson).digest('hex');
   const codeVersionHash = getCodeVersionHash(LANE_REGISTRY[lane].root);
-  const taskId = `response-${originalMsg.task_id || Date.now()}`;
   const provBody = ensureOutputProvenance(executionResult.summary || 'Task completed.', {
     agent: 'generic-task-executor',
     lane: lane,
@@ -682,8 +680,7 @@ function createResponse(originalMsg, executionResult, lane) {
   });
   return {
     schema_version: '1.3',
-    id: taskId,
-    task_id: taskId,
+    task_id: `response-${originalMsg.task_id || Date.now()}`,
     idempotency_key: `resp-${Date.now()}-${(originalMsg.task_id || 'unknown').slice(0, 16)}`,
     from: lane,
     to: originalMsg.from || 'archivist',
@@ -696,7 +693,7 @@ function createResponse(originalMsg, executionResult, lane) {
     requires_action: false,
     payload: { mode: 'inline', compression: 'none' },
     execution: { mode: 'auto', engine: 'pipeline', actor: 'task-executor' },
-    lease: { owner: lane, acquired_at: nowIso(), expires_at: new Date(Date.now() + 30000).toISOString(), renewal_count: 0, max_renewals: 3 },
+    lease: { owner: lane, acquired_at: nowIso() },
     retry: { attempt: 1, max_attempts: 1 },
     evidence: { required: false, verified: true },
     evidence_exchange: {
@@ -725,7 +722,7 @@ function signAndDeliver(response, lane) {
       response._provenance_was_missing = prov.missing;
     }
   }
-  const root = LANE_REGISTRY[lane].root;
+  var root = LANE_REGISTRY[lane].root;
   const outboxDir = path.join(root, 'lanes', lane, 'outbox');
   ensureDir(outboxDir);
 

@@ -4,13 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const { loadPolicy, assertWatcherConfig } = require('./concurrency-policy');
 const { LANES: _DL } = require('./util/lane-discovery');
+const { createSignedMessage } = require(path.join(__dirname, 'create-signed-message.js'));
 
 const DEFAULT_CONFIG = {
+  agentMode: process.env.AGENT_MODE || 'governing',
   laneName: process.env.LANE_NAME || 'archivist',
   inboxPath: path.join(__dirname, '..', 'lanes', process.env.LANE_NAME || 'archivist', 'inbox'),
   intervalSeconds: 60,
   staleAfterSeconds: 900,
-  agentMode: process.env.AGENT_MODE || 'governing',
   canonicalPaths: {}
 };
 for (const [id, info] of Object.entries(_DL)) {
@@ -122,74 +123,102 @@ class Heartbeat {
       }
     } catch(_) {}
 
-    // Create idempotency key as SHA-256 of "heartbeat-{laneName}-fixed"
-    const crypto = require('crypto');
-    const idempotencyKey = crypto.createHash('sha256').update(`heartbeat-${this.config.laneName}-fixed`).digest('hex');
+  const crypto = require('crypto');
+  const idempotencyKey = crypto.createHash('sha256').update(`heartbeat-${this.config.laneName}-fixed`).digest('hex');
 
-    // Construct schema-compliant heartbeat message
-    const message = {
-      schema_version: "1.1",
-      task_id: `heartbeat-${this.config.laneName}`,
-      idempotency_key: idempotencyKey,
-      from: this.config.laneName,
-      to: this.config.laneName,
-      type: "heartbeat",
-      task_kind: "proposal",
-      priority: "P3",
-      subject: `Heartbeat from ${this.config.laneName} lane`,
-      body: JSON.stringify({
-        lane: this.config.laneName,
-        agent_mode: this.config.agentMode,
-        session_active: !this._shuttingDown,
-        uptime_seconds: uptimeSeconds,
-        messages_processed: this.messagesProcessed,
-        last_inbox_scan: now.toISOString(),
-        version: '1.0'
-      }),
-      timestamp: now.toISOString(),
-      requires_action: false,
-      payload: {
-        mode: "inline"
-      },
-      execution: {
-        mode: "manual",
-        engine: "opencode",
-        actor: "lane"
-      },
-      lease: {
-        owner: null,
-        acquired_at: null,
-        expires_at: null,
-        renew_count: 0,
-        max_renewals: 3
-      },
-      retry: {
-        attempt: 1,
-        max_attempts: 3,
-        last_error: null,
-        last_attempt_at: null
-      },
-      evidence: {
-        required: true,
-        evidence_path: null,
-        verified: false,
-        verified_by: null,
-        verified_at: null
-      },
-      heartbeat: {
-        interval_seconds: this.config.intervalSeconds,
-        last_heartbeat_at: now.toISOString(),
-        timeout_seconds: this.config.staleAfterSeconds,
-        status: heartbeatStatus
-      },
-    signature: "",
-    key_id: "",
+  // Build base message WITHOUT signature fields — createSignedMessage will add them
+  const baseMessage = {
+    schema_version: "1.3",
+    task_id: `heartbeat-${this.config.laneName}`,
+    idempotency_key: idempotencyKey,
+    from: this.config.laneName,
+    to: this.config.laneName,
+    type: "heartbeat",
+    task_kind: "heartbeat",
+    priority: "P3",
+    subject: `Heartbeat from ${this.config.laneName} lane`,
+    body: JSON.stringify({
+      lane: this.config.laneName,
+      agent_mode: this.config.agentMode,
+      session_active: !this._shuttingDown,
+      uptime_seconds: uptimeSeconds,
+      messages_processed: this.messagesProcessed,
+      last_inbox_scan: now.toISOString(),
+      version: '1.3',
+    }),
+    timestamp: now.toISOString(),
+    requires_action: false,
+    payload: {
+      mode: "inline",
+      compression: "none"
+    },
+    execution: {
+      mode: "manual",
+      engine: "kilo",
+      actor: "lane"
+    },
+    lease: {
+      owner: null,
+      acquired_at: null,
+      expires_at: null,
+      renew_count: 0,
+      max_renewals: 3
+    },
+    retry: {
+      attempt: 1,
+      max_attempts: 3,
+      last_error: null,
+      last_attempt_at: null
+    },
+    evidence: {
+      required: true,
+      evidence_path: null,
+      verified: false,
+      verified_by: null,
+      verified_at: null
+    },
+    heartbeat: {
+      interval_seconds: this.config.intervalSeconds,
+      last_heartbeat_at: now.toISOString(),
+      timeout_seconds: this.config.staleAfterSeconds,
+      status: heartbeatStatus
+    },
     system_state: systemState,
     active_contradictions: activeContradictions,
     processed_ok: processedOk,
     compaction_enabled: activeContradictions.length === 0,
     compaction_suspend_reason: activeContradictions.length > 0 ? 'Active contradictions present' : null
   };
+
+  // Attempt real RS256 signing; emit unsigned diagnostic if keys are missing
+  let message;
+  try {
+    message = createSignedMessage(baseMessage, this.config.laneName);
+    message.identity_status = 'ratified';
+    // Preserve governance fields that createSignedMessage doesn't know about
+    message.body = JSON.stringify({
+      ...JSON.parse(baseMessage.body),
+      identity_status: 'ratified'
+    });
+  } catch (err) {
+    // Keys not available — emit unsigned diagnostic heartbeat (no fake JWS, no fake RS256)
+    message = {
+      ...baseMessage,
+      signature: null,
+      signature_alg: null,
+      key_id: null,
+      content_hash: null,
+      session_identity: null,
+      identity_status: 'missing_identity_keys',
+      verification_status: 'unsigned_diagnostic_only',
+      error_code: 'MISSING_IDENTITY_KEYS',
+      error_message: 'Heartbeat signing keys are missing; signed heartbeat not emitted.',
+    };
+    message.body = JSON.stringify({
+      ...JSON.parse(baseMessage.body),
+      identity_status: 'missing_identity_keys'
+    });
+  }
 
     const dir = this.config.inboxPath;
     try {
@@ -215,38 +244,23 @@ class Heartbeat {
     for (let i = 0; i < laneNames.length; i++) {
       const laneName = laneNames[i];
       const inboxPath = this.config.canonicalPaths[laneName];
-      const primaryPath = path.join(inboxPath, `heartbeat-${laneName}.json`);
-      const observerPath = path.join(inboxPath, `heartbeat-${laneName}-observer.json`);
+      const laneSpecificPath = path.join(inboxPath, this._heartbeatFilename(laneName));
 
       try {
-        let data = null;
-        let source = 'none';
-
-        if (fs.existsSync(primaryPath)) {
-          const raw = fs.readFileSync(primaryPath, 'utf8');
-          data = JSON.parse(raw);
-          source = 'primary';
-        } else if (fs.existsSync(observerPath)) {
-          const raw = fs.readFileSync(observerPath, 'utf8');
-          data = JSON.parse(raw);
-          source = 'observer';
-        }
-
-        if (!data) {
-          lanes[laneName] = { status: 'unknown', last_heartbeat: null, stale_for_seconds: 0, source };
+        if (!fs.existsSync(laneSpecificPath)) {
+          lanes[laneName] = { status: 'unknown', last_heartbeat: null, stale_for_seconds: 0 };
           continue;
         }
 
+        const raw = fs.readFileSync(laneSpecificPath, 'utf8');
+        const data = JSON.parse(raw);
         const heartbeatTime = new Date(data.timestamp).getTime();
         const elapsed = Math.floor((now - heartbeatTime) / 1000);
-        const agentMode = (data.body && JSON.parse(data.body).agent_mode) || data.agent_mode || 'unknown';
 
         lanes[laneName] = {
           status: elapsed > this.config.staleAfterSeconds ? 'stale' : 'alive',
           last_heartbeat: data.timestamp,
-          stale_for_seconds: elapsed,
-          source,
-          agent_mode: agentMode
+          stale_for_seconds: elapsed
         };
       } catch (err) {
         lanes[laneName] = { status: 'unknown', last_heartbeat: null, stale_for_seconds: 0 };
@@ -265,9 +279,11 @@ if (require.main === module) {
   const laneName = laneArgIndex >= 0 && args[laneArgIndex + 1]
     ? String(args[laneArgIndex + 1]).toLowerCase()
     : DEFAULT_CONFIG.laneName;
+  const canonicalInbox = DEFAULT_CONFIG.canonicalPaths[laneName]
+    || path.join(__dirname, '..', 'lanes', laneName, 'inbox');
   const heartbeat = new Heartbeat({
     laneName,
-    inboxPath: path.join(__dirname, '..', 'lanes', laneName, 'inbox'),
+    inboxPath: canonicalInbox,
   });
 
   if (args.includes('--check')) {

@@ -1,0 +1,20 @@
+GRAPH_REPO_FILTER_EDGE_AUDIT:
+  generated_at: 2026-05-08T03:13:10.279Z
+  mutation_performed: false
+  repo_filter_tested: SwarmMind-Self-Optimizing-Multi-Agent-AI-System
+  node_counts:
+    total_available_nodes: 1668
+    visible_node_count: 258
+    swarm_mind_nodes: 258
+  edge_counts:
+    total_edges: 360
+    edges_before_filter: 360
+    edges_after_filter: 0
+    cross_repo_edges_dropped: 360
+  counter_mismatch:
+    top_counter_source: 0
+    status_strip_source: 8
+    cause: Top counter shows total verified edges (0) while status strip shows verified nodes in filtered view
+  root_cause: Repo filtering only keeps nodes from the specified repo but removes all edges where either endpoint is outside the filtered node set. This causes cross-lane edges to be dropped even when they represent meaningful relationships.
+  proposed_fix: Modify the edge filtering logic to preserve edges where at least one endpoint is in the filtered repo AND the edge type is allowed by active meaning layers, OR implement a separate cross-repo edge visibility setting.
+  risk: Low - change only affects visualization, not underlying data. May increase visual complexity but provides more accurate representation of cross-lane relationships.

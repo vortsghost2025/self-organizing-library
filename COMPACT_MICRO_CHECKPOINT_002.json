@@ -1,0 +1,52 @@
+{
+  "output_provenance": {
+    "agent": "openai/gpt-oss-120b",
+    "lane": "swarmmind",
+    "target": "bounded recursive governance micro-improvement loop batch 002",
+    "generated_at": "2026-05-08T12:05:00Z"
+  },
+  "batch_id": "002",
+  "mutation_performed": true,
+  "inventory_summary": {
+    "files_checked": [
+      "docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md",
+      "docs/agent-handoffs/LIBRARY_MESSAGE.md",
+      "docs/agent-handoffs/PROVENANCE_ENFORCEMENT_STATUS_AND_NEXT_STEPS.md",
+      "docs/graph-write-guard-VERIFICATION.md",
+      "docs/AGENT_WEB_REVIEW_BRIEF.md"
+    ],
+    "candidates_found": 5,
+    "defect_classes": ["missing_mutation_performed","missing_OUTPUT_PROVENANCE","missing_mutation_performed","missing_OUTPUT_PROVENANCE","missing_mutation_performed"]
+  },
+  "selected_defect": {
+    "file": "docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md",
+    "defect_class": "missing_mutation_performed",
+    "description": "Added mutation_performed: false field to documentation template"
+  },
+  "files_changed": ["docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md"],
+  "change_summary": "Inserted mutation_performed: false line after push_ready entry",
+  "verification": {
+    "commands_run": [
+      {
+        "command": "git diff --stat",
+        "exit_code": 0,
+        "stdout_summary": ".kilo/agent-manager.json | 2 +-\ndocs/GRAPH_PACKET_AGENT_DEPLOYMENT.md | 8 ++++++++\nfirebase-debug.log | 6 ++++++\n...",
+        "stderr_summary": ""
+      },
+      {
+        "command": "grep -n \"mutation_performed\" -R docs/GRAPH_PACKET_AGENT_DEPLOYMENT.md",
+        "exit_code": 0,
+        "stdout_summary": "113:- `mutation_performed: false`",
+        "stderr_summary": ""
+      }
+    ],
+    "passed": true
+  },
+  "risks": [],
+  "compact_checkpoint_read": "COMPACT_MICRO_CHECKPOINT_001.json",
+  "compact_checkpoint_written": "COMPACT_MICRO_CHECKPOINT_002.json",
+  "next_batch_allowed": true,
+  "stop_reason": "",
+  "commit_ready": false,
+  "push_ready": false
+}
