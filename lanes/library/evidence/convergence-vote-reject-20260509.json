@@ -1,0 +1,18 @@
+{
+  "verdict": "REJECT",
+  "artifacts_plausible_unverified": 2,
+  "details": {
+    "SCRIPT_COUNT": "100+_MATCHES_CLAIM_BUT_NO_EVIDENCE_MATRIX",
+    "OLLAMA_GATEWAY": "NOT_FOUND",
+    "CONVERGENCE_BRANCH": "NOT_FOUND_IN_GIT",
+    "SHARED_SCRIPT_OWNERSHIP_EVIDENCE": "NOT_FOUND",
+    "CONVERGENCE_STATUS": "NOT_FOUND",
+    "SYNC_ALL_LANES": "NOT_FOUND_CANNOT_VERIFY_C4",
+    "SCRIPT_CHAIN_JSON": "NOT_FOUND_DIR_MISSING"
+  },
+  "subject": "convergence-shared-script-ownership",
+  "artifacts_missing": 5,
+  "timestamp": "2026-05-09T00:02:50Z",
+  "scanner": "library-verification",
+  "artifacts_verified": 0
+}

@@ -1,0 +1,29 @@
+{
+  "scanner": "library-reverification",
+  "timestamp": "2026-05-09T00:15:00Z",
+  "subject": "convergence-shared-script-ownership-revote",
+  "previous_verdict": "REJECT",
+  "new_verdict": "AMEND",
+  "artifacts_verified": 5,
+  "artifacts_missing": 0,
+  "deficiencies_found": 4,
+  "details": {
+    "SHARED_SCRIPT_OWNERSHIP_EVIDENCE": "VERIFIED on kernel-lane convergence branch — has ownership map, failure examples, batch plan",
+    "CONVERGENCE_STATUS": "VERIFIED on kernel-lane convergence branch",
+    "AGENT_BOOTSTRAP_SCRIPT_CHAIN": "VERIFIED on kernel-lane convergence branch — 4486 bytes",
+    "local_ollama_review_ps1": "VERIFIED on kernel-lane convergence branch",
+    "convergence_branch": "VERIFIED via gh api repos/vortsghost2025/kernel-lane/branches"
+  },
+  "deficiencies": {
+    "L1_HIGH": "Root cause cites phantom sync-all-lanes.js — actual mtime logic in test-sync-all-lanes.js:177-178 and blocked-remediator.js:132,318",
+    "L2_HIGH": "Ownership map covers 12/130+ scripts — 118+ unclaimed",
+    "L3_MEDIUM": "Artifacts on kernel-lane repo not self-organizing-library — canonical repo ambiguous",
+    "L4_MEDIUM": "No rollback procedure for Batch 1 Freeze"
+  },
+  "ratification_blockers": [
+    "L1: Fix phantom file reference in root cause",
+    "L2: Expand ownership map to all scripts or mark unowned",
+    "L3: Clarify canonical repo",
+    "L4: Document Batch 1 rollback"
+  ]
+}
