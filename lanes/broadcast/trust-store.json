@@ -29,7 +29,7 @@
   "kernel": {
     "lane_id": "kernel",
     "key_id": "4ac54d4100323c71",
-    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkX8AvxiM/PhnI1HaejXj\nJ9eHH6V0NL62mXxv17EKdWBO3kESlSwOpgYPqyewzExY9HYnIBfDMhLuN1+yIp/\npFLsjp99kutsP7LppshsjtnLRyeQ1TtGgKNWBn/wOfUXImj8yrHFAL1mt7RGChZA\nLjxlJdjfpSB17+u3Corz+3ZFvGsURHvcUnlAEZp2bKsaluP4mstQL3JqD5f5cBMI\nmnG+tJHyvMvgZVGClLvZzZg0AWFpYpnGpt25pj7SXjbZPbUTe1/Ll2waBvQaooYA\nyBzkaU8JbDFAVUugdJp7+sCUhCZed7nhR83DL+GbLqA+zHQ0iVoFqWpcCkZpZVm1\nhQIDAQAB\n-----END PUBLIC KEY-----",
+    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkX8AvxiM/PhnI1HaejXj\nJ9eHH6V0NL62mXxv17EKdWBO3kESlSwOpgYPqyewzExY9HYnIBfDMHhLuN1+yIp/\npFLsjp99kutsP7LppshsjtnLRyeQ1TtGgKNWBn/wOfUXImj8yrHFAL1mt7RGChZA\nLjxlJdjfpSB17+u3Corz+3ZFvGsURHvcUnlAEZp2bKsaluP4mstQL3JqD5f5cBMI\nmnG+tJHyvMvgZVGClLvZzZg0AWFpYpnGpt25pj7SXjbZPbUTe1/Ll2waBvQaooYA\nyBzkaU8JbDFAVUugdJp7+sCUhCZed7nhR83DL+GbLqA+zHQ0iVoFqWpcCkZpZVm1\nhQIDAQAB\n-----END PUBLIC KEY-----",
     "algorithm": "RS256",
     "registered_at": "2026-05-10T19:25:00Z",
     "expires_at": null,
