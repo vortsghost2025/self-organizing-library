@@ -60,7 +60,6 @@ lanes/*/inbox/expired/
 lanes/*/broadcast/trust-store.json
 lanes/*/inbox/watcher.log
 lanes/*/inbox/heartbeat-*.json
-!lanes/*/inbox/heartbeat-library.json
 lanes/*/outbox/
 
 lanes/*/outbox/unsigned/
@@ -76,6 +75,8 @@ nul
 COMPACT_CONTEXT_HANDOFF.md
 lanes/*/state/traces/
 lanes/*/state/worker-audit.log
+lanes/*/state/sovereignty-report-*.json
+lanes/broadcast/system_state.json
 
 # WSL/Windows mount artifacts
 S:/
