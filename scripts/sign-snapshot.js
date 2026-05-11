@@ -64,7 +64,7 @@ throw new Error('Failed to load private key: ' + e.message);
 
 function getKeyIdFromTrustStore() {
 const trustStore = JSON.parse(fs.readFileSync(TRUST_STORE_PATH, 'utf8'));
-const libraryEntry = trustStore.keys?.library;
+const libraryEntry = trustStore.keys && trustStore.keys.library;
 if (!libraryEntry) {
 throw new Error('Library key not found in trust store');
 }
@@ -82,8 +82,8 @@ process.exit(1);
 const snapshot = JSON.parse(fs.readFileSync(SNAPSHOT_PATH, 'utf8'));
 console.log('Loaded snapshot.json');
 console.log(' Version:', snapshot.version);
-console.log(' Identity ID:', snapshot.identity?.id);
-console.log(' Lane:', snapshot.identity?.lane);
+console.log(' Identity ID:', snapshot.identity && snapshot.identity.id);
+    console.log(' Lane:', snapshot.identity && snapshot.identity.lane);
 
 const passphrase = getPassphrase();
 const privateKey = loadPrivateKeyLocal(passphrase);
@@ -93,7 +93,7 @@ console.log('\nPrivate key loaded (algorithm:', algoParams.alg + ')');
 const keyId = getKeyIdFromTrustStore();
 console.log('Key ID from trust store:', keyId);
 
-if (snapshot.identity?.key_id && snapshot.identity.key_id !== keyId) {
+if (snapshot.identity && snapshot.identity.key_id && snapshot.identity.key_id !== keyId) {
 console.error('WARNING: snapshot.key_id mismatch with trust store');
 console.error(' Snapshot:', snapshot.identity.key_id);
 console.error(' Trust store:', keyId);
