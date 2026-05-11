@@ -14,6 +14,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: node scripts/test-ci-signing.js
-        env:
-          LANE_ROOT: ${{ github.workspace }}
+- run: node scripts/test-ci-signing.js
+  env:
+    LANE_ROOT: ${{ github.workspace }}
+- run: node scripts/trust-store-mutation-guard.js
+  env:
+    LANE_ROOT: ${{ github.workspace }}
