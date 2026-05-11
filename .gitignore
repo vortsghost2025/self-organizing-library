@@ -80,3 +80,10 @@ lanes/broadcast/system_state.json
 
 # WSL/Windows mount artifacts
 S:/
+
+# Runtime archive and quarantine (ephemeral)
+lanes/*/inbox/archive/
+lanes/*/inbox/quarantine/
+lanes/broadcast/hygiene/
+lanes/broadcast/operator_alert_*.json
+lanes/broadcast/quarantine/
