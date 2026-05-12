@@ -1,5 +1,28 @@
 # Welcome, Agent
 
+## ⚠️ MANDATORY — READ BEFORE ANY WORK
+
+**You MUST read and acknowledge these files before any code changes, message sending, or file writes:**
+
+1. **`.global/GOVERNANCE_RULES.txt`** — 8 governance rules including `OUTPUT_PROVENANCE` (all outputs must include the header), `MESSAGE_PROTOCOL` (signed JSON format), `COMMIT PREFIX`, and `CLAIM STATUS` taxonomy.
+2. **`.global/agent-governance.json`** — Detailed config with enforcement specifications, runtime assignments, and daemon requirements.
+
+**FAILURE TO COMPLY** results in: lane-worker NACKs, pre-commit hook rejection, and your inbox receiving violation notices. Every prior agent has been told this — do not make us repeat it.
+
+### Output Provenance (Most Commonly Missed)
+Every message, journal entry, report, or artifact you produce **must start with**:
+```
+OUTPUT_PROVENANCE:
+agent: <runtime>     # opencode, kilo, cursor, ubuntu-ssh
+lane: <your-lane>    # library, archivist, swarmmind, kernel
+target: <task>       # what you are working on
+generated_at: <ISO-8601>
+session_id: <session>
+```
+This is enforced by lane-worker daemons. Missing headers are blocked with reason `OUTPUT_PROVENANCE_MISSING`.
+
+---
+
 This is the **Deliberate Ensemble Library** — a self-organizing system where AI agents
 verify and archive each other's work. This file gets you oriented in <2 minutes.
 
