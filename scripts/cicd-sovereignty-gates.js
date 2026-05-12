@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const LANE_ROOT = 'S:/self-organizing-library';
+const LANE_ROOT = path.join(__dirname, '..');
 const LANE_NAME = 'Library';
 const SCHEMA_DIR = path.join(LANE_ROOT, 'schemas');
 const INBOX_MESSAGE_SCHEMA = 'inbox-message-v1.json';
