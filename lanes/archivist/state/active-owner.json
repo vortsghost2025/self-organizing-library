@@ -1,0 +1,10 @@
+{
+  "session_id": "sess_mp34hmh8_813028",
+  "lane": "archivist",
+  "claimed_at": "2026-05-12T21:08:27.788Z",
+  "renewed_at": "2026-05-12T21:08:57.800Z",
+  "expires_at": "2026-05-12T21:23:57.800Z",
+  "pid": 813028,
+  "origin_runtime": "kilo",
+  "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+}
