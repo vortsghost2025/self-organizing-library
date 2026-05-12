@@ -16,6 +16,8 @@ interface GraphToolbarProps {
   nodeLimit: number | null;
   onNodeLimitChange: (n: number | null) => void;
   onFitVisible?: () => void;
+  onZoomIn?: () => void;
+  onZoomOut?: () => void;
 }
 
 const TYPE_FILTERS = [
@@ -48,6 +50,8 @@ export default function GraphToolbar({
   nodeLimit,
   onNodeLimitChange,
   onFitVisible,
+  onZoomIn,
+  onZoomOut,
 }: GraphToolbarProps) {
   const currentFilters = filterMode === "type" ? TYPE_FILTERS : REPO_FILTERS;
 
@@ -106,10 +110,30 @@ export default function GraphToolbar({
         )}
 
         <span className="ml-auto text-sm text-[var(--text-muted)] flex items-center gap-3" role="status">
+          {onZoomOut && (
+            <button
+              onClick={onZoomOut}
+              className="px-2 py-1 rounded text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+              title="Zoom out"
+              aria-label="Zoom out"
+            >
+              −
+            </button>
+          )}
+          {onZoomIn && (
+            <button
+              onClick={onZoomIn}
+              className="px-2 py-1 rounded text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+              title="Zoom in"
+              aria-label="Zoom in"
+            >
+              +
+            </button>
+          )}
           {onFitVisible && (
             <button
               onClick={onFitVisible}
-              className="px-2 py-1 rounded text-xs border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+              className="px-2 py-1 rounded text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
               title="Fit visible nodes to view"
             >
               Fit

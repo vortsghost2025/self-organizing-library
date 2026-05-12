@@ -8,7 +8,7 @@ import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, EntryPo
 import type { GraphLensDefinitionSummary } from "@/lib/site-index";
 import { DEFAULT_LAYERS, STATUS_COLORS } from "@/lib/graph-types";
 import { computeClusters, computeEntryPoints, assignClusterIds } from "@/lib/graph-clusters";
-import GraphCanvas from "./graph/GraphCanvas";
+import GraphCanvas, { type GraphCanvasImperativeHandle } from "./graph/GraphCanvas";
 import GraphToolbar from "./graph/GraphToolbar";
 import EntryPoints from "./graph/EntryPoints";
 import MeaningLayers from "./graph/MeaningLayers";
@@ -67,7 +67,7 @@ export default function NexusGraph({ initialFilter = "all", initialFilterMode = 
   const [edgePolicy, setEdgePolicy] = useState<"explicit_only" | "explicit_plus_inference">("explicit_only");
 
   // Ref to expose GraphCanvas imperative methods
-  const graphCanvasRef = useRef<{fitVisible: () => void}>(null);
+  const graphCanvasRef = useRef<GraphCanvasImperativeHandle>(null);
 
   const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
@@ -249,6 +249,14 @@ export default function NexusGraph({ initialFilter = "all", initialFilterMode = 
 
   const handleFitVisible = useCallback(() => {
     graphCanvasRef.current?.fitVisible();
+  }, []);
+
+  const handleZoomIn = useCallback(() => {
+    graphCanvasRef.current?.zoomIn();
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    graphCanvasRef.current?.zoomOut();
   }, []);
 
   const handleCameraUpdate = useCallback((ratio: number) => {
@@ -563,6 +571,8 @@ const handleCompareSnapshots = useCallback(() => {
           nodeLimit={null}
           onNodeLimitChange={() => {}}
           onFitVisible={handleFitVisible}
+          onZoomIn={handleZoomIn}
+          onZoomOut={handleZoomOut}
         />
 
       {(activeEntryPointMeta || activeClusterMeta) && (

@@ -42,7 +42,7 @@ export default function SystemInterpretation({
     <section className={`card p-4 mb-4 animate-fade-in ${className || ""}`} role="status" aria-live="polite">
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-lg font-semibold text-[var(--text-primary)]">Live System State</h2>
-        <span className="text-xs text-[var(--text-muted)]" title="Last graph data refresh">
+        <span className="text-sm text-[var(--text-muted)]" title="Last graph data refresh">
           Updated {lastUpdated}
         </span>
       </div>
@@ -54,7 +54,7 @@ export default function SystemInterpretation({
       <div>
         <div className="text-2xl font-bold text-[var(--error)]">{loading ? "..." : conflictedCount}</div>
         <div className="text-sm text-[var(--text-muted)]">Active Contradictions</div>
-        <div className="text-xs text-[var(--text-muted)]">in current filtered view</div>
+        <div className="text-sm text-[var(--text-muted)]">in current filtered view</div>
         </div>
         <div>
           <div className="text-2xl font-bold text-[var(--warning)]">{loading ? "..." : quarantinedCount}</div>

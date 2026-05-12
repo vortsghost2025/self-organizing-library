@@ -95,7 +95,7 @@ export default function GraphContextPanel({
         <span className="text-[var(--text-primary)] font-semibold">What am I looking at?</span>
         <button
           onClick={handleDismiss}
-          className="text-[var(--text-muted)] hover:text-[var(--text-secondary)] text-xs ml-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 rounded px-1"
+          className="text-[var(--text-muted)] hover:text-[var(--text-secondary)] text-sm ml-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 rounded px-1"
           aria-label="Dismiss context panel"
         >
           Dismiss

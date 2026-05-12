@@ -72,8 +72,10 @@ interface GraphCanvasProps {
   onWebGLUnavailable?: () => void;
 }
 
-interface GraphCanvasImperativeHandle {
+export interface GraphCanvasImperativeHandle {
   fitVisible: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
 }
 
 const DIM_COLOR = "#2A2A38";
@@ -606,7 +608,23 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     };
   }, [fitVisible]);
 
-  useImperativeHandle(ref, () => ({ fitVisible }), [fitVisible]);
+  const zoomIn = useCallback(() => {
+    const sigma = sigmaRef.current;
+    if (!sigma) return;
+    const camera = sigma.getCamera() as any;
+    const dur = getReducedMotionDurations();
+    camera.animatedZoom({ duration: dur.camera });
+  }, []);
+
+  const zoomOut = useCallback(() => {
+    const sigma = sigmaRef.current;
+    if (!sigma) return;
+    const camera = sigma.getCamera() as any;
+    const dur = getReducedMotionDurations();
+    camera.animatedUnzoom({ duration: dur.camera });
+  }, []);
+
+  useImperativeHandle(ref, () => ({ fitVisible, zoomIn, zoomOut }), [fitVisible, zoomIn, zoomOut]);
 
   useEffect(() => { activeLayersRef.current = activeLayers; }, [activeLayers]);
   useEffect(() => { densityRef.current = density; }, [density]);

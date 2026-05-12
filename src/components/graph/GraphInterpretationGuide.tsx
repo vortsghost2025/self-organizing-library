@@ -93,7 +93,7 @@ export default function GraphInterpretationGuide({
           )}
 
           {isFiltered && filterLabel && (
-            <p className="text-xs text-[var(--text-muted)]">
+            <p className="text-sm text-[var(--text-muted)]">
               Active filter: <span className="font-mono px-1.5 py-0.5 rounded bg-[var(--surface)]">{filterLabel}</span>
             </p>
           )}

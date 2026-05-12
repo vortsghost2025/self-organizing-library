@@ -2,6 +2,8 @@ import { getEntryById, getRepoRoots } from "@/lib/site-index";
 import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { serialize } from "next-mdx-remote/serialize";
+import remarkGfm from "remark-gfm";
 
 const RENDERABLE_EXTENSIONS = new Set([
   ".md",
@@ -54,8 +56,25 @@ export async function GET(
   try {
     const filePath = join(repoRoot, entry.path);
     const content = await readFile(filePath, "utf-8");
+
+    let mdxSource: string | null = null;
+    if (entry.extension === ".mdx") {
+      try {
+        const compiled = await serialize(content, {
+          mdxOptions: {
+            remarkPlugins: [remarkGfm],
+            format: "mdx",
+          },
+        });
+        mdxSource = compiled.compiledSource;
+      } catch {
+        mdxSource = null;
+      }
+    }
+
     return NextResponse.json({
       content,
+      mdxSource,
       renderable: true,
       extension: entry.extension,
       truncated: false,

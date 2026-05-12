@@ -49,7 +49,7 @@ export default function SwarmmindResiliencePanel() {
         ? "text-rose-300 border-rose-500/30 bg-rose-500/10"
         : "text-zinc-300 border-zinc-500/30 bg-zinc-500/10";
     return (
-      <span className={`px-2 py-1 rounded border text-xs ${color}`}>
+      <span className={`px-2 py-1 rounded border text-sm ${color}`}>
         {name}: {value || "unknown"}
       </span>
     );
@@ -72,7 +72,7 @@ export default function SwarmmindResiliencePanel() {
             <span className="text-[var(--text-secondary)]">
               {data.driftScore === null ? "unavailable" : data.driftScore.toFixed(3)}
             </span>
-            <span className="text-xs text-[var(--text-muted)]">
+            <span className="text-sm text-[var(--text-muted)]">
               (0.45 decision / 0.35 tool / 0.20 violation)
             </span>
           </div>
@@ -86,19 +86,19 @@ export default function SwarmmindResiliencePanel() {
           <div className="grid md:grid-cols-2 gap-3">
             <div className="rounded border border-[var(--border)] p-3">
               <p className="font-medium mb-1">Trace / Checkpoints</p>
-              <p className="text-[var(--text-secondary)] text-xs">Path: {data.trace.path}</p>
-              <p className="text-[var(--text-secondary)] text-xs">Files: {data.trace.fileCount}</p>
-              <p className="text-[var(--text-secondary)] text-xs">
+              <p className="text-[var(--text-secondary)] text-sm">Path: {data.trace.path}</p>
+              <p className="text-[var(--text-secondary)] text-sm">Files: {data.trace.fileCount}</p>
+              <p className="text-[var(--text-secondary)] text-sm">
                 Latest: {data.trace.latestFile || "none"}
               </p>
             </div>
             <div className="rounded border border-[var(--border)] p-3">
               <p className="font-medium mb-1">Resilience Policy</p>
-              <p className="text-[var(--text-secondary)] text-xs">Path: {data.policy.path}</p>
-              <p className="text-[var(--text-secondary)] text-xs">
+              <p className="text-[var(--text-secondary)] text-sm">Path: {data.policy.path}</p>
+              <p className="text-[var(--text-secondary)] text-sm">
                 Domains: {data.policy.available ? data.policy.domainCount : "unavailable"}
               </p>
-              <p className="text-[var(--text-secondary)] text-xs truncate">
+              <p className="text-[var(--text-secondary)] text-sm truncate">
                 {data.policy.available && data.policy.domains.length > 0
                   ? data.policy.domains.join(", ")
                   : "Policy not present in this build"}
