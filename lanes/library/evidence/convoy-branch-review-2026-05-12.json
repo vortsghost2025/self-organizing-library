@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "review_id": "convoy-branch-review-2026-05-12",
+  "reviewed_by": "library",
+  "reviewed_at": "2026-05-12T11:24:00Z",
+  "subject": "Gastown/polecat convoy branch review (May 9-11 offline period)",
+  "verdict": "conditional",
+  "branches_reviewed": [
+    {
+      "branch": "origin/convoy/fix-rig-state-issues/db28d1a3/head",
+      "assessment": "DANGEROUS — do NOT merge wholesale",
+      "evidence": "79 files changed, -6580/+1712 lines. Deletes critical files present on main: test-ci-signing.js (110 tests), trust-store-mutation-guard.js (1B protection), journal entries for May 8-12, evidence files, governance docs. Branch appears to have diverged from an older or incomplete state.",
+      "salvageable_changes": [
+        {
+          "file": "src/components/graph/GraphCanvas.tsx",
+          "change": "Removes redundant NaN/Infinity sanitization in buildGraph() and fitAllNodes/fitVisible. Removes isFinite guards that duplicate ForceAtlas2's own handling. Simplifies container dimension checks. Simplifies watchdog interaction cooldown (boolean flag vs timestamp tracking). Simplifies initial camera ratio (0.5 vs computed bounding box ratio). Simplifies ResizeObserver fitting logic.",
+          "risk": "LOW — ForceAtlas2 should not produce NaN in normal operation. The removed guards were defensive but could mask layout bugs. The simplified camera ratio (0.5 hardcoded) is less optimal than the computed bounding-box ratio but avoids edge cases with empty/minimal graphs."
+        }
+      ],
+      "recommendation": "Cherry-pick GraphCanvas changes only. Verify with `bun build` and visual test on /graph."
+    },
+    {
+      "branch": "origin/convoy/graph-analysis-worker-system-recovery-ph/2ca78082/head",
+      "assessment": "SAFE — new files only, no conflicts with main",
+      "evidence": "Adds 2 new TypeScript modules in src/lib/analysis/: contradiction-filter.ts (206 lines) and graph-snapshot-watcher.ts (280 lines). No modifications to existing files.",
+      "salvageable_changes": [
+        {
+          "file": "src/lib/analysis/contradiction-filter.ts",
+          "change": "Filters spurious contradiction findings before storage/API. Two heuristics: (1) tag-group stride-sampling artifact (CDC=39 pattern from K(40) complete graph), (2) cluster homogeneity heuristic (>90% identical patterns = structural, not semantic).",
+          "risk": "LOW — Pure utility function, well-typed, no side effects. Default thresholds reasonable."
+        },
+        {
+          "file": "src/lib/analysis/graph-snapshot-watcher.ts",
+          "change": "Polls lanes/broadcast/graph-snapshots/ for new -reduced.json files, validates snapshot format (must have nodes AND edges arrays), processes via registered SnapshotProcessor callback, tracks state in .cache/.",
+          "risk": "MEDIUM — Uses require('fs').readdirSync (not imported), no unit tests, .cache/ directory not in .gitignore. But it's a standalone Node.js utility, not imported by any frontend code."
+        }
+      ],
+      "recommendation": "Cherry-pick both files. Add .cache/ to .gitignore. Fix require→import in watcher. Run typecheck."
+    },
+    {
+      "branch": "origin/convoy/graph-analysis-worker-system-for-constan/a7d1e4b1/head",
+      "assessment": "PARTIAL — useful scripts but branch has many divergent changes",
+      "evidence": "Adds library-graph-analyzer.js (452 lines) and library-snapshot-watcher.js (190 lines) in scripts/. Also modifies signing scripts, identity scripts, governance files, deletes CI workflow. Many changes conflict with main's current state.",
+      "salvageable_changes": [
+        {
+          "file": "scripts/library-graph-analyzer.js",
+          "change": "Node.js CLI that analyzes graph snapshots for Library lane concerns: bad link edges, tag normalization issues, missing cross-repo edges, isolated nodes, edge semantics. Outputs findings JSON to lanes/library/evidence/.",
+          "risk": "LOW — Standalone CLI script, no imports from other scripts. But overlaps with TS modules in recovery-ph branch."
+        },
+        {
+          "file": "scripts/library-snapshot-watcher.js",
+          "change": "Node.js file watcher that detects new graph snapshots and runs library-graph-analyzer.js automatically.",
+          "risk": "LOW — Standalone utility. Overlaps with graph-snapshot-watcher.ts in recovery-ph branch."
+        }
+      ],
+      "recommendation": "Cherry-pick the two script files if the TS analysis modules are NOT adopted. Prefer TS modules for src/ integration. These Node.js scripts are better for CLI/cron usage. Both can coexist — TS modules for frontend pipeline, JS scripts for CLI analysis."
+    }
+  ],
+  "overall_recommendation": "Do NOT merge any convoy branch wholesale. Cherry-pick specific files in this order: (1) contradiction-filter.ts and graph-snapshot-watcher.ts from recovery-ph, (2) GraphCanvas.tsx changes from fix-rig-state-issues, (3) library-graph-analyzer.js from for-constan if CLI analysis is wanted. Verify each with typecheck + build before committing."
+}

@@ -78,6 +78,9 @@ lanes/*/state/worker-audit.log
 lanes/*/state/sovereignty-report-*.json
 lanes/broadcast/system_state.json
 
+# Graph snapshot watcher state
+.cache/
+
 # WSL/Windows mount artifacts
 S:/
 
