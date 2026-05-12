@@ -288,6 +288,16 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **All artifacts regenerated**: graph-analysis-packets.json, website-section-index.json, graph-packet-schema.json, AGENT_WEB_REVIEW_BRIEF.md
 - [x] **Quality gates**: typecheck + lint pass (indexer script and analyze_graph.js clean; 1 pre-existing error in store-journal.js is resolved)
 
+### Session 2026-05-12: Gastown Convoy Branch Review + Cherry-picks + Journal + Inbox
+- [x] **Gastown convoy branch review COMPLETED**: Reviewed 3 convoy branches, wrote evidence file `lanes/library/evidence/convoy-branch-review-2026-05-12.json` with per-branch assessments and cherry-pick recommendations
+- [x] **Cherry-pick #1 COMPLETED** (commit `da3ca77`): `src/lib/analysis/contradiction-filter.ts` + `src/lib/analysis/graph-snapshot-watcher.ts` + `scripts/watch-graph-snapshots.ts` from `convoy/graph-analysis-worker-system-recovery-ph`. Fixed: `require()` → `import readdirSync`, `saveState()` path separator for Windows, removed `watcher['poll']()` private access, added `.cache/` to `.gitignore`
+- [x] **Cherry-pick #2 COMPLETED** (commit `0bd90d2`): GraphCanvas.tsx simplification from `convoy/fix-rig-state-issues`. Removes redundant NaN/Infinity sanitization (ForceAtlas2 doesn't produce these), simplifies watchdog interaction cooldown (boolean flag), initial camera ratio (hardcoded 0.5), ResizeObserver fitting (requestAnimationFrame fallback)
+- [x] **Cherry-pick #3 VERIFIED**: `scripts/library-graph-analyzer.js` (451 lines, CLI tool for graph snapshot analysis) already exists in commit `3e28bed4` from convoy branch history. No action needed — file is clean, self-contained CommonJS script
+- [x] **Ed25519 migration confirmed COMPLETE** (from May 11 session): Library key_id `42e853d4ec37955d`, all 4 lanes on EdDSA, 110/110 CI tests pass
+- [x] **Journal entries written**: work_completed entries for cherry-picks #2 and #3 appended to `lanes/library/journal/2026-05-12.jsonl`
+- [x] **Inbox checked**: Empty (no new actionable messages)
+- [x] **All quality gates PASS**: typecheck, lint, build, sovereignty scanner, Gate 2 schema compliance
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
