@@ -8,7 +8,6 @@
     "heartbeat": "node scripts/heartbeat.js --continuous",
     "heartbeat:check": "node scripts/heartbeat.js --check",
     "heartbeat:once": "node scripts/heartbeat.js",
-    "dev": "next dev",
     "worker": "node scripts/lane-worker.js --watch --apply --poll-seconds 60",
     "worker:parallel": "powershell -File scripts/start-workers.ps1 -Count 3",
     "worker:stop": "powershell -Command \"Get-Job -Name LibraryWorker* | Stop-Job -Force; Remove-Job -Name LibraryWorker*\"",
@@ -18,6 +17,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "identity:export": "node scripts/export-identity.js",
     "identity:import": "node scripts/import-identity.js",
     "governed-start": "node scripts/governed-start.js",
@@ -68,6 +68,7 @@
     "eslint-config-next": "^16.0.0",
     "pagefind": "^1.5.2",
     "tailwindcss": "^4.1.17",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.6"
   }
 }

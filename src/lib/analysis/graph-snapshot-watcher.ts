@@ -43,6 +43,7 @@ export interface WatcherOptions {
   snapshotDir?: string;
   pollInterval?: number;
   logger?: (msg: string) => void;
+  stateFile?: string;
 }
 
 export interface WatcherState {
@@ -74,7 +75,7 @@ export class GraphSnapshotWatcher {
     this.snapshotDir = options.snapshotDir || join(process.cwd(), 'lanes', 'broadcast', 'graph-snapshots');
     this.pollInterval = options.pollInterval || 30;
     this.logger = options.logger || console.log;
-    this.stateFile = join(process.cwd(), '.cache', 'graph-snapshot-watcher-state.json');
+    this.stateFile = options.stateFile || join(process.cwd(), '.cache', 'graph-snapshot-watcher-state.json');
     this.state = this.loadState();
   }
 
@@ -90,12 +91,12 @@ export class GraphSnapshotWatcher {
     return { processed: {} };
   }
 
-	private saveState(): void {
-		const cacheDir = join(process.cwd(), '.cache');
-		if (!existsSync(cacheDir)) {
-			mkdirSync(cacheDir, { recursive: true });
-		}
-    writeFileSync(this.stateFile, JSON.stringify(this.state, null, 2));
+  private saveState(): void {
+  const stateDir = join(this.stateFile, '..');
+  if (!existsSync(stateDir)) {
+  mkdirSync(stateDir, { recursive: true });
+  }
+  writeFileSync(this.stateFile, JSON.stringify(this.state, null, 2));
   }
 
   private isValidSnapshotFile(filename: string): boolean {
@@ -179,7 +180,10 @@ export class GraphSnapshotWatcher {
     }
 
     this.logger(`[${new Date().toISOString()}] Processing snapshot: ${fileName}`);
-    this.logger(`  Nodes: ${snapshot.nodes.length}, Edges: ${snapshot.edges.length}`);
+    this.logger(` Nodes: ${snapshot.nodes.length}, Edges: ${snapshot.edges.length}`);
+
+    this.state.processed[fileName] = statSync(filePath).mtimeMs;
+    this.saveState();
 
     if (!this.processor) {
       this.logger(`[WARN] No processor registered, skipping analysis`);
@@ -188,8 +192,6 @@ export class GraphSnapshotWatcher {
 
     try {
       const result = await this.processor(snapshot, filePath);
-      this.state.processed[fileName] = statSync(filePath).mtimeMs;
-      this.saveState();
       return result;
     } catch (err) {
       this.logger(`[ERROR] Processing error for ${fileName}: ${(err as Error).message}`);
