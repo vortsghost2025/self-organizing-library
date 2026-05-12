@@ -288,7 +288,14 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **All artifacts regenerated**: graph-analysis-packets.json, website-section-index.json, graph-packet-schema.json, AGENT_WEB_REVIEW_BRIEF.md
 - [x] **Quality gates**: typecheck + lint pass (indexer script and analyze_graph.js clean; 1 pre-existing error in store-journal.js is resolved)
 
-### Session 2026-05-12: Gastown Convoy Branch Review + Cherry-picks + Journal + Inbox
+### Session 2026-05-12: Gastown Convoy Branch Review + Cherry-picks + Journal + Inbox + Unit Tests
+- [x] **Unit tests for contradiction-filter.ts** (14/14 pass): Tests tag-group stride-sampling artifact (CDC=39) and cluster homogeneity (>90% identical pattern) heuristics
+- [x] **Unit tests for graph-snapshot-watcher.ts** (13/13 pass): Tests parse, validate, process, state isolation, processor registration, error handling. Fixed: duplicate try/catch block in processSnapshot, missing `repo_filter` in test helper, added `stateFile` option for test isolation, moved state recording before processor check
+- [x] **Vitest installed and configured**: `vitest@4.1.6` as devDependency, `vitest.config.ts` with `src/**/*.test.ts` include pattern and `@/*` path alias
+- [x] **Test script added**: `"test": "vitest run"` in package.json
+- [x] **Duplicate `dev` script removed**: package.json had duplicate `"dev": "next dev"` entries (lines 11 and 16)
+- [x] **All quality gates PASS**: typecheck, lint, 27/27 tests, trust store mutation guard, 110/110 CI signing tests
+- [x] **Committed as `1bc4991f`**: Pushed to main
 - [x] **Gastown convoy branch review COMPLETED**: Reviewed 3 convoy branches, wrote evidence file `lanes/library/evidence/convoy-branch-review-2026-05-12.json` with per-branch assessments and cherry-pick recommendations
 - [x] **Cherry-pick #1 COMPLETED** (commit `da3ca77`): `src/lib/analysis/contradiction-filter.ts` + `src/lib/analysis/graph-snapshot-watcher.ts` + `scripts/watch-graph-snapshots.ts` from `convoy/graph-analysis-worker-system-recovery-ph`. Fixed: `require()` → `import readdirSync`, `saveState()` path separator for Windows, removed `watcher['poll']()` private access, added `.cache/` to `.gitignore`
 - [x] **Cherry-pick #2 COMPLETED** (commit `0bd90d2`): GraphCanvas.tsx simplification from `convoy/fix-rig-state-issues`. Removes redundant NaN/Infinity sanitization (ForceAtlas2 doesn't produce these), simplifies watchdog interaction cooldown (boolean flag), initial camera ratio (hardcoded 0.5), ResizeObserver fitting (requestAnimationFrame fallback)
