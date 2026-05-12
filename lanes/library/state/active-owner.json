@@ -1,8 +1,10 @@
 {
-  "session_id": "sess_mozs1ro6_23448",
+  "session_id": "sess_mp22b0v8_418804",
   "lane": "library",
-  "claimed_at": "2026-05-10T12:56:54.189Z",
-  "pid": 23448,
-  "origin_runtime": "opencode",
+  "claimed_at": "2026-05-12T03:19:34.436Z",
+  "renewed_at": "2026-05-12T03:19:34.440Z",
+  "expires_at": "2026-05-12T03:34:34.440Z",
+  "pid": 418804,
+  "origin_runtime": "kilo",
   "origin_workspace": "S:\\self-organizing-library"
 }

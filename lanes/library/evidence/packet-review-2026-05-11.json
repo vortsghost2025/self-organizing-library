@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "task_id": "packet-review-assignment-001",
+  "review_type": "packet-first",
+  "reviewer": "library",
+  "reviewed_at": "2026-05-12T01:37:41Z",
+  "source_artifact": "data/graph-analysis-packets.json",
+  "source_schema": "data/graph-packet-schema.json",
+  "findings": {
+    "schema_compliance": {
+      "verdict": "PARTIAL",
+      "required_fields_present": ["identity", "counts", "top_nodes", "anomalies", "claim_status", "interpretation", "next_checks"],
+      "count_consistency": {
+        "check": "visible_nodes == verified+unverified+conflicted+quarantined",
+        "expected": 215,
+        "actual": 215,
+        "pass": true
+      },
+      "anomalies_from_predefined_set": true,
+      "defects": [
+        {
+          "id": "field-name-minification",
+          "severity": "P1",
+          "description": "top_nodes entries use abbreviated keys (t, r, cc, s, vc, cdc, ad, gl) instead of schema-defined names (title, repo, connectionCount, status, verificationCount, contradictionCount, authorityDepth, governanceLayer)",
+          "affected_arrays": ["by_connection_count", "by_verification_count", "by_contradiction_count", "by_authority_depth"],
+          "status": "known_bug",
+          "remediation": "Packet generator must use full field names matching schema v1.1.0"
+        },
+        {
+          "id": "by_verification_count-missing-status",
+          "severity": "P2",
+          "description": "by_verification_count entries include status field in schema but it is present in packet data as 's' key (minified)",
+          "status": "known_bug",
+          "remediation": "Same as field-name-minification fix"
+        }
+      ]
+    },
+    "conflicted_nodes_cross_check": {
+      "verdict": "STALE",
+      "packet_shows": {
+        "conflicted_count": 4,
+        "all_have_contradictionCount": 39,
+        "nodes": [
+          {"id": "6a9bd95ba806a410", "title": "THE SINGLE ENTRY POINT", "category": "root-doc"},
+          {"id": "d9ccbb98728d5f78", "title": "COVENANT.md -- Values (What We Believe)", "category": "root-doc"},
+          {"id": "7372a72fe280b3a3", "title": "CAISC 2026 Draft Paper Review Report", "category": "root-doc"},
+          {"id": "dd9b2967fd3393db", "title": "WE4FREE Publication Roadmap", "category": "paper"}
+        ]
+      },
+      "current_system_state": {
+        "source": "lanes/broadcast/system_state.json",
+        "timestamp": "2026-05-12T01:41:18.813Z",
+        "active_contradictions": 0,
+        "total_contradictions": 0,
+        "system_status": "consistent"
+      },
+      "conclusion": "Packet data is STALE (pre-May-1 verification sweep). The 4 CONFLICTED nodes were resolved as tag-overlap false positives during the May 1 global verification sweep. Packet needs regeneration from current graph state."
+    },
+    "known_bug_verification": {
+      "id": "contradictionCount-spurious-artifact",
+      "verdict": "CONFIRMED_ACCURATE",
+      "claim": "contradictionCount=39 is a tag-grouping artifact, not genuine contradiction",
+      "evidence": "system_state.json shows 0 active contradictions; all 199 pre-sweep CONFLICTED nodes resolved as false positives; the 39 count matches tag-group overlap in the graph clustering algorithm",
+      "still_accurate": true,
+      "note": "Bug is accurate but the underlying data has been resolved. The bug entry should be updated to reflect post-sweep status or closed if a new packet is generated."
+    },
+    "per_repo_gap": {
+      "verdict": "CONFIRMED",
+      "present_repos": ["kernel-lane"],
+      "missing_repos": ["archivist", "swarmmind", "library"],
+      "impact": "Single-repo view; cross-lane edge analysis is incomplete; node count represents only kernel-lane subset",
+      "status": "known_gap"
+    },
+    "stale_snapshot": {
+      "verdict": "CRITICAL",
+      "snapshot_date": "2026-04-30T16:08:47.095Z",
+      "age_days": 11,
+      "newer_snapshot_exists": false,
+      "impact": "Packet does not reflect post-May-1 verification sweep results. All CONFLICTED status entries are outdated. Unverified count (186) is likely inflated."
+    }
+  },
+  "claim_status_audit": {
+    "known_bugs": 1,
+    "fixes_in_progress": 0,
+    "accepted_fixes": 0,
+    "verified_facts": [
+      "visible_nodes count is consistent (215 = 25+186+4+0)",
+      "anomalies are from predefined set",
+      "known_bug contradictionCount-spurious-artifact is accurate",
+      "packet schema required fields are present"
+    ],
+    "known_bugs_list": [
+      {
+        "id": "contradictionCount-spurious-artifact",
+        "status": "CONFIRMED_ACCURATE but data is stale",
+        "action": "Close if new snapshot generated; otherwise keep"
+      },
+      {
+        "id": "field-name-minification",
+        "status": "NEWLY_IDENTIFIED",
+        "action": "Add to known_bugs in next packet generation"
+      }
+    ],
+    "proposed_fixes": [],
+    "fixes_in_progress_list": [],
+    "accepted_fixes_list": []
+  },
+  "recommendations": [
+    "P0: Regenerate graph-analysis-packets.json from a post-May-1 snapshot to reflect current system state (0 CONFLICTED nodes)",
+    "P1: Fix field-name minification in packet generator to match schema v1.1.0 full key names",
+    "P1: Populate per_repo with archivist, swarmmind, library repos for complete cross-lane view",
+    "P2: Create new graph snapshot (evidence/graph-snapshots/) from current live graph state"
+  ],
+  "escalation": {
+    "raw_json_opened": false,
+    "reason": null
+  },
+  "ratification_acknowledgment": {
+    "packet_workflow_ratified": true,
+    "status_taxonomy_accepted": true,
+    "accepted_fix_criteria_accepted": true,
+    "escalation_protocol_accepted": true
+  }
+}

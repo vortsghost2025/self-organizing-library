@@ -257,6 +257,21 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
  - [x] **/lanes 404 fixed**: Created `src/app/lanes/page.tsx` rendering LaneArchitecture to unbreak navigation link.
  - [x] **All quality gates**: sovereignty scan clean, Gate 2 pass, typecheck+lint pass. Commit `47c555f` pushed.
 
+### Session 2026-05-11: Ed25519 Migration Confirmation + Inbox Processing + Lint Fixes + Outbox Re-sign
+- [x] **Pre-flight checks ALL PASS**: Trust store mutation guard PASS (4 EdDSA current keys, 4 archived RSA), CI signing 110/110 PASS, no active blockers, system consistent with 0 contradictions
+- [x] **Ed25519 migration confirmed COMPLETE**: Library key_id `42e853d4ec37955d` (EdDSA), old RSA `2eec06be0befc8d5` archived. All 4 lanes on EdDSA.
+- [x] **Inbox processed**: 9 messages total — 5 stale RS256 archived, 2 actionable completed, 1 heartbeat compliant, 80 NACK files cleaned up and organized into nack-archive/ subdirectories
+- [x] **Quarantine + blocked cleanup**: 7 quarantine messages archived to `archive-20260511/`, 1 blocked heartbeat archived
+- [x] **Packet review completed**: `lanes/library/evidence/packet-review-2026-05-11.json` — PARTIAL_COMPLIANCE verdict (stale data from 2026-04-30, field-name minification, missing per_repo entries)
+- [x] **Schema enum fixed**: `inbox-message-v1.json` `signature_alg` enum updated from `["RS256"]` to `["RS256", "EdDSA"]` with default `"EdDSA"` — was the systemic blocker for all post-migration signed messages
+- [x] **sign-outbox-message.js bug fixed**: `atomicWriteWithLease()` was receiving object instead of string — added `JSON.stringify(signed, null, 2)` before write
+- [x] **Outbox message schema violations fixed**: `task_kind` changed `"verification"`→`"report"`, added `body` field, added `requires_action: false`
+- [x] **Outbox message re-signed with EdDSA**: key_id=42e853d4ec37955d, signature valid over updated content
+- [x] **Status report delivered to Archivist**: `S:/Archivist-Agent/lanes/archivist/inbox/library-status-report-20260511.json`
+- [x] **executor-watcher.js lint fix**: Removed extra `}` at line 206 that prematurely closed `tick()` function, stranding `totalExecuted`/`totalErrors` summary code outside tick scope
+- [x] **store-journal.js lint fix**: Renamed `function repoRoot()` → `function getRepoRoot()` to resolve strict-mode duplicate declaration conflict with `var repoRoot` on line 74. Updated call sites at lines 101, 108, 930.
+- [x] **All quality gates pass**: typecheck clean, lint clean
+
 ### Session 2026-05-08 (cont.2): Indexer Hardening + Batch 003 Verification
 
 - [x] **8 indexer defects fixed in build-graph-packet.js**:

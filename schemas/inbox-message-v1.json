@@ -403,11 +403,12 @@
     },
     "signature_alg": {
       "type": "string",
-      "description": "v1.2: Signature algorithm. Must be RS256.",
+      "description": "v1.2: Signature algorithm. Supports RS256 (legacy) and EdDSA (current).",
       "enum": [
-        "RS256"
+        "RS256",
+        "EdDSA"
       ],
-      "default": "RS256"
+      "default": "EdDSA"
     },
   "key_id": {
     "type": "string",

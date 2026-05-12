@@ -200,11 +200,10 @@ function watchLoop(discovery, lanes) {
           if (err.uncertainty) {
             console.log(' UNCERTAINTY: level=' + err.uncertainty.level + ' why=' + (err.uncertainty.why || '').slice(0, 80));
           }
-        }
-      }
       }
     }
-    if (totalExecuted > 0 || totalErrors > 0) {
+  }
+  if (totalExecuted > 0 || totalErrors > 0) {
       console.log(nowIso() + ' [executor-watcher] total: executed=' + totalExecuted + ' errors=' + totalErrors);
     }
   }

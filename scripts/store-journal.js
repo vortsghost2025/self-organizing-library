@@ -87,7 +87,7 @@ const KNOWN_LANES = Object.keys(LANE_ROOTS);
 // UTILITY
 // ---------------------------------------------------------------------------
 
-function repoRoot() {
+function getRepoRoot() {
   return path.resolve(__dirname, '..');
 }
 
@@ -98,14 +98,14 @@ function journalDir(lane) {
   if (LANE_ROOTS[lane]) {
     return path.join(LANE_ROOTS[lane], 'journal');
   }
-  return path.join(repoRoot(), 'lanes', lane, 'journal');
+  return path.join(getRepoRoot(), 'lanes', lane, 'journal');
 }
 
 function broadcastJournalDir() {
   if (BROADCAST_DIR) {
     return path.join(BROADCAST_DIR, 'journal');
   }
-  return path.join(repoRoot(), 'lanes', 'broadcast', 'journal');
+  return path.join(getRepoRoot(), 'lanes', 'broadcast', 'journal');
 }
 
 function journalPath(lane, dateStr) {
@@ -927,7 +927,7 @@ function cmdAutofix(args) {
     }
   }
 
-  var repoRt = repoRoot();
+  var repoRt = getRepoRoot();
   for (var _l2 = 0; _l2 < KNOWN_LANES.length; _l2++) {
     var ln = KNOWN_LANES[_l2];
     var ownerPath = path.join(LANE_ROOTS[ln] ? LANE_ROOTS[ln] : path.join(repoRt, 'lanes', ln), 'state', 'active-owner.json');

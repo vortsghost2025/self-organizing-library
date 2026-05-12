@@ -172,8 +172,8 @@ throw new Error(`PASSPHRASE_MISSING: no passphrase found for lane ${effectiveLan
 const { privateKey, keyId, algoParams } = loadKeyMaterial(identityDir, effectiveLane, passphrase);
 const signed = signInboxShape(msg, effectiveLane, privateKey, keyId, algoParams);
 
-// Atomic write with mandatory lease
-await atomicWriteWithLease(absolutePath, signed, effectiveLane, 30000);
+  // Atomic write with mandatory lease
+  await atomicWriteWithLease(absolutePath, JSON.stringify(signed, null, 2), effectiveLane, 30000);
 console.log(`[sign-outbox] Signed ${absolutePath} with key_id=${keyId}`);
 }
 
