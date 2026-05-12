@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "report_type": "monitor-follow-up",
+  "generated_at": "2026-05-12T10:46:00Z",
+  "lane": "library",
+  "findings": [
+    {
+      "id": "F1",
+      "subject": "active-owner.json deletion",
+      "monitor_question": "Was the active-owner deletion intentional housekeeping or a claim bug?",
+      "verdict": "intentional_housekeeping",
+      "evidence": {
+        "stale_session": "sess_mp22b0v8_418804",
+        "pid": 418804,
+        "pid_alive": false,
+        "claimed_at": "2026-05-12T03:19:34Z",
+        "expires_at": "2026-05-12T03:34:34Z",
+        "age_at_cleanup": "6.9 hours",
+        "cleanup_tool": "store-journal.js autofix --apply",
+        "cleanup_criteria": "dead PID + older than 4 hours = stale",
+        "kernel_lane_also_cleaned": {
+          "session": "kernel stale owner",
+          "pid": 362580,
+          "pid_alive": false,
+          "age_at_cleanup": "6.9 hours"
+        }
+      },
+      "explanation": "The active-owner.json claimed by session sess_mp22b0v8_418804 (PID 418804) had been dead for ~6.9 hours and was 6.75 hours past its 15-minute expiry. The store-journal.js autofix --apply command identified this as stale using its published criteria (dead PID + age > 4h) and deleted the file. This is standard housekeeping, not a claim bug. No current session was displaced — the current heartbeat session (sess-1778580541786-b875da94, origin opencode) never claimed active-owner because no exclusive work was being performed."
+    },
+    {
+      "id": "F2",
+      "subject": "journal gap of 3 days",
+      "monitor_question": "Journal continuity follow-up needed?",
+      "verdict": "gap_closed",
+      "evidence": {
+        "gap_period": "2026-05-10 through 2026-05-11",
+        "last_entry_before_gap": "2026-05-09T00:09:20Z (git post-commit auto-journal)",
+        "root_cause": "May 11-12 session did significant work but never wrote journal entries before committing. May 10 was a true idle day.",
+        "remediation": {
+          "2026-05-10.jsonl": "Created with idle-day marker entries (no Library work that day)",
+          "2026-05-11.jsonl": "Created with backfilled work_started and work_completed entries documenting schema fix, script bugfixes, packet review, NACK cleanup, and commit d521072",
+          "2026-05-12.jsonl": "Current session entries (autofix + monitor follow-up)"
+        }
+      },
+      "explanation": "The 3-day journal gap was caused by a session that performed work but failed to write journal entries before its git commit. This has been remediated by creating per-day journal files for May 10 (idle) and May 11 (backfilled from session records and git history). The journal is now continuous from May 7 onward."
+    }
+  ],
+  "actions_taken": [
+    "Ran store-journal.js autofix --apply to clean stale active-owners",
+    "Created 2026-05-10.jsonl with idle-day markers",
+    "Created 2026-05-11.jsonl with backfilled session entries",
+    "Rewrote 2026-05-12.jsonl with only current session entries (removed misfiled backfills)",
+    "Commit 7d5f0bf pushed with autofix changes"
+  ],
+  "next_commit": "Will include this evidence file + journal reorganization"
+}
