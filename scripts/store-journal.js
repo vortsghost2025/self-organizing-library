@@ -348,11 +348,28 @@ if (reviewArg && !entry.review) {
   catch (e) { console.error('ERROR: Invalid --review JSON: ' + e.message); process.exit(1); }
 }
 
-const priorAttemptsArg = getArg(args, '--prior-attempts');
-if (priorAttemptsArg && !entry.prior_attempts) {
-  try { entry.prior_attempts = JSON.parse(priorAttemptsArg); }
-  catch (e) { console.error('ERROR: Invalid --prior-attempts JSON: ' + e.message); process.exit(1); }
-}
+  const priorAttemptsArg = getArg(args, '--prior-attempts');
+  if (priorAttemptsArg && !entry.prior_attempts) {
+    try { entry.prior_attempts = JSON.parse(priorAttemptsArg); }
+    catch (e) { console.error('ERROR: Invalid --prior-attempts JSON: ' + e.message); process.exit(1); }
+  }
+
+  const handoffStatusArg = getArg(args, '--handoff-status');
+  if (handoffStatusArg && !entry.handoff) {
+    entry.handoff = { status: handoffStatusArg };
+  }
+  const handoffNextActionArg = getArg(args, '--handoff-next-action');
+  if (handoffNextActionArg && entry.handoff) {
+    entry.handoff.next_action = handoffNextActionArg;
+  }
+  const handoffDoNotOverwriteArg = getArg(args, '--handoff-do-not-overwrite');
+  if (handoffDoNotOverwriteArg && entry.handoff) {
+    entry.handoff.do_not_overwrite = handoffDoNotOverwriteArg.split(',').map(f => f.trim()).filter(Boolean);
+  }
+  const handoffHumanRequired = args.includes('--handoff-human-required');
+  if (handoffHumanRequired && entry.handoff) {
+    entry.handoff.human_required = true;
+  }
 
   const errors = validateEntry(entry);
   if (errors.length > 0) {
@@ -989,7 +1006,9 @@ APPEND:
   node scripts/store-journal.js append \\
     --lane <lane> --event <event> [--agent <name>] [--session-id <id>] \\
     [--target <description>] [--intent <description>] \\
-    [--files <path1,path2,...>] [--tests '<json-array>'] [--data '<json>']
+    [--files <path1,path2,...>] [--tests '<json-array>'] [--data '<json>'] \\
+    [--handoff-status <status>] [--handoff-next-action <action>] \\
+    [--handoff-do-not-overwrite <path1,path2,...>] [--handoff-human-required]
 
   Events: work_started, work_completed, file_ownership_claimed,
   file_ownership_released, test_result, compact_restore,
