@@ -1,6 +1,16 @@
 "use client";
 
-import { STATUS_COLORS, AUTHORITY_EDGE_COLORS, GOVERNANCE_LAYER_COLORS, GOVERNANCE_LAYER_LABELS, BRIDGE_STATE_COLORS, BRIDGE_STATE_LABELS } from "@/lib/graph-types";
+import { STATUS_COLORS, AUTHORITY_EDGE_COLORS, GOVERNANCE_LAYER_COLORS, GOVERNANCE_LAYER_LABELS, BRIDGE_STATE_COLORS, BRIDGE_STATE_LABELS, TYPE_COLORS, NODE_SHAPE_MAP, SHAPE_LABELS } from "@/lib/graph-types";
+
+function ShapeIndicator({ shape, color }: { shape: string; color: string }) {
+  if (shape === "square") {
+    return <span className="w-2.5 h-2.5 inline-block" style={{ backgroundColor: color, borderRadius: 2 }} aria-hidden="true" />;
+  }
+  if (shape === "border") {
+    return <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: color, border: "2px solid #fff" }} aria-hidden="true" />;
+  }
+  return <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: color }} aria-hidden="true" />;
+}
 
 export default function GraphLegend() {
   return (
@@ -9,6 +19,20 @@ export default function GraphLegend() {
         The graph visualizes artifacts and their explicit relationships. Tag-inference edges are hidden by default and only appear in the canonical audit lens.
       </p>
       <div className="flex flex-wrap gap-x-6 gap-y-2 items-start">
+        <div>
+      <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-1">Node Types</h3>
+      <div className="flex gap-3 text-sm flex-wrap">
+            {Object.entries(TYPE_COLORS).map(([type, color]) => {
+              const shape = NODE_SHAPE_MAP[type] || "";
+              return (
+                <span key={type} className="flex items-center gap-1">
+                  <ShapeIndicator shape={shape} color={color} />
+                  <span className="text-[var(--text-secondary)]">{type} ({SHAPE_LABELS[shape] || "Circle"})</span>
+                </span>
+              );
+            })}
+          </div>
+        </div>
         <div>
       <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-1">Node Status</h3>
       <div className="flex gap-3 text-sm">

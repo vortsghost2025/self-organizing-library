@@ -7,7 +7,25 @@ import Sigma from "sigma";
 import { circular } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
 import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState } from "@/lib/graph-types";
-import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS } from "@/lib/graph-types";
+import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS, NODE_SHAPE_MAP, NODE_BORDER_COLORS } from "@/lib/graph-types";
+import { NodeSquareProgram } from "@sigma/node-square";
+import { createNodeBorderProgram } from "@sigma/node-border";
+import { NodeCircleProgram } from "sigma/rendering";
+
+const NodeBorderProgram = typeof window !== "undefined"
+  ? createNodeBorderProgram({
+      borders: [{
+        color: { attribute: "borderColor", defaultValue: "#888888" },
+        size: { value: 3 },
+      }],
+    })
+  : null;
+
+const NODE_PROGRAMS: Record<string, any> = {
+  ...(NodeSquareProgram ? { square: NodeSquareProgram } : {}),
+  ...(NodeBorderProgram ? { border: NodeBorderProgram } : {}),
+  default: NodeCircleProgram,
+};
 
 let _webglAvailable: boolean | undefined;
 
@@ -106,6 +124,11 @@ function buildGraph(
     const color = filterMode === "repo"
       ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
       : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
+    const shapeType = NODE_SHAPE_MAP[node.type] || "default";
+    const extraAttrs: Record<string, any> = { type: shapeType };
+    if (shapeType === "border") {
+      extraAttrs.borderColor = NODE_BORDER_COLORS[node.type] || "#ffffff";
+    }
     graph.addNode(node.id, {
       label: node.title,
       x: 0,
@@ -113,6 +136,7 @@ function buildGraph(
       size: Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
       color,
       nodeType: node.type,
+      ...extraAttrs,
       category: node.category,
       repo: node.repo,
       connectionCount: node.connectionCount,
@@ -811,6 +835,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         labelWeight: "500",
         labelColor: { color: "#A1A1AA" },
         labelRenderedSizeThreshold: effectiveLabelThreshold,
+        nodeProgramClasses: NODE_PROGRAMS,
         defaultEdgeColor: "#1E1E24",
         minCameraRatio: 0.1,
         maxCameraRatio: 10,

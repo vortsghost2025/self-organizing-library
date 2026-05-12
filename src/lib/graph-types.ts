@@ -80,6 +80,26 @@ export const TYPE_COLORS: Record<string, string> = {
   "test-data": "#F97316",
 };
 
+export const NODE_SHAPE_MAP: Record<string, string> = {
+  paper: "",
+  doc: "border",
+  code: "square",
+  data: "square",
+  config: "",
+  schema: "square",
+  "test-data": "",
+};
+
+export const NODE_BORDER_COLORS: Record<string, string> = {
+  doc: "#ffffff",
+};
+
+export const SHAPE_LABELS: Record<string, string> = {
+  "": "Circle",
+  square: "Square",
+  border: "Bordered Circle",
+};
+
 export const REPO_COLORS: Record<string, string> = {
   "self-organizing-library": "#7C3AED",
   "Archivist-Agent": "#06B6D4",

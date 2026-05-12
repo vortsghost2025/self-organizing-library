@@ -41,6 +41,8 @@
     "@kilocode/app-builder-db": "github:Kilo-Org/app-builder-db#main",
     "@react-sigma/core": "^5.0.6",
     "@react-sigma/layout-forceatlas2": "^5.0.6",
+    "@sigma/node-border": "^3.0.0",
+    "@sigma/node-square": "^3.0.0",
     "drizzle-orm": "^0.45.2",
     "graphology": "^0.26.0",
     "graphology-generators": "^0.11.2",
