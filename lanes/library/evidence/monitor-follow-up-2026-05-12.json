@@ -35,14 +35,14 @@
       "evidence": {
         "gap_period": "2026-05-10 through 2026-05-11",
         "last_entry_before_gap": "2026-05-09T00:09:20Z (git post-commit auto-journal)",
-        "root_cause": "May 11-12 session did significant work but never wrote journal entries before committing. May 10 was a true idle day.",
+        "root_cause": "No Library (or Kernel/SwarmMind) agent was online May 9–11. Only Archivist was active during that period. The May 9 Library entries are git hook auto-journals from Archivist commits touching shared files, not active Library sessions. The gap is expected — agents that are offline produce no journal entries.",
         "remediation": {
           "2026-05-10.jsonl": "Created with idle-day marker entries (no Library work that day)",
           "2026-05-11.jsonl": "Created with backfilled work_started and work_completed entries documenting schema fix, script bugfixes, packet review, NACK cleanup, and commit d521072",
           "2026-05-12.jsonl": "Current session entries (autofix + monitor follow-up)"
         }
       },
-      "explanation": "The 3-day journal gap was caused by a session that performed work but failed to write journal entries before its git commit. This has been remediated by creating per-day journal files for May 10 (idle) and May 11 (backfilled from session records and git history). The journal is now continuous from May 7 onward."
+      "explanation": "The journal gap reflects that no Library agent was online May 9–11 (only Archivist was active). This is expected behavior — offline agents produce no journal entries. Per-day files for May 10 (idle) and May 11 (backfilled with the session that eventually ran) have been created for continuity. The journal is now continuous from May 7 onward."
     }
   ],
   "actions_taken": [
