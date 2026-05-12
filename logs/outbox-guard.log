@@ -1,1 +1,3 @@
 {"timestamp":"2026-04-29T21:01:43.293Z","event":"OUTBOX_WRITE_BLOCKED","filename":"msg-1777496503293.json","id":null,"from":"archivist","errors":["MISSING_ID","MISSING_LEASE_ACQUIRED_AT"]}
+{"timestamp":"2026-05-12T14:35:14.629Z","event":"OUTBOX_WRITE_BLOCKED","filename":"msg-1778596514629.json","id":"library-unit-test-completion-20260512","from":"library","errors":["MISSING_LEASE_OWNER","MISSING_LEASE_ACQUIRED_AT"]}
+{"timestamp":"2026-05-12T14:36:09.152Z","event":"OUTBOX_WRITE_BLOCKED","filename":"msg-1778596569152.json","id":"library-unit-test-completion-20260512","from":"library","errors":["MISSING_LEASE_OWNER"]}
