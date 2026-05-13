@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3",
-  "task_id": "nack-1778679284969-qwbu6j",
-  "idempotency_key": "nack-unknown-1778679284969",
+  "task_id": "nack-1778679525164-gq6o95",
+  "idempotency_key": "nack-unknown-1778679525164",
   "from": "archivist",
   "to": "library",
   "type": "notification",
@@ -9,7 +9,7 @@
   "priority": "P2",
   "subject": "NACK: message rejected at archivist",
   "body": "Your message (task_id=unknown, type=unknown) was rejected.\nReason: SCHEMA_INVALID\nDetail: Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action\nOriginal subject: unknown",
-  "timestamp": "2026-05-13T13:34:44.969Z",
+  "timestamp": "2026-05-13T13:38:45.164Z",
   "requires_action": false,
   "payload": {
     "mode": "inline",
@@ -35,21 +35,21 @@
   "evidence_exchange": {},
   "heartbeat": {
     "status": "done",
-    "last_heartbeat_at": "2026-05-13T13:34:44.969Z"
+    "last_heartbeat_at": "2026-05-13T13:38:45.164Z"
   },
   "nack_for_task_id": null,
   "nack_reason": "SCHEMA_INVALID",
   "nack_detail": "Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action",
   "exempt_from_nack": true,
-  "id": "nack-1778679284969-qwbu6j",
+  "id": "nack-1778679525164-gq6o95",
   "content_hash": "sha256:2caf174e3fc90f8cac4a54db91884027b5ca214095d05f3cfaeb83b8ac41606b",
-  "signature": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6IjZlZDY1YzE4YTBhZmNhNDUifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6MmNhZjE3NGUzZmM5MGY4Y2FjNGE1NGRiOTE4ODQwMjdiNWNhMjE0MDk1ZDA1ZjNjZmFlYjgzYjhhYzQxNjA2YiIsImV4cCI6MTc3ODc2NTY4NCwiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3ODY3OTI4NCwiaWQiOiJuYWNrLTE3Nzg2NzkyODQ5NjktcXdidTZqIiwibGFuZSI6ImFyY2hpdmlzdCIsInByaW9yaXR5IjoiUDIiLCJ0YXNrX2lkIjoibmFjay0xNzc4Njc5Mjg0OTY5LXF3YnU2aiIsInRvIjoibGlicmFyeSJ9.Q_J1OW41RZ-nTWXJv2tsQuWcP4Sdb7-JDfmU-vUBwijsXzpMctyNPNP_1RwtvJEKZIoB3FGT30wTl35KtniBCg",
+  "signature": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6IjZlZDY1YzE4YTBhZmNhNDUifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6MmNhZjE3NGUzZmM5MGY4Y2FjNGE1NGRiOTE4ODQwMjdiNWNhMjE0MDk1ZDA1ZjNjZmFlYjgzYjhhYzQxNjA2YiIsImV4cCI6MTc3ODc2NTkyNSwiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3ODY3OTUyNSwiaWQiOiJuYWNrLTE3Nzg2Nzk1MjUxNjQtZ3E2bzk1IiwibGFuZSI6ImFyY2hpdmlzdCIsInByaW9yaXR5IjoiUDIiLCJ0YXNrX2lkIjoibmFjay0xNzc4Njc5NTI1MTY0LWdxNm85NSIsInRvIjoibGlicmFyeSJ9.clI6SwbotdmKCpnblIV-tyq4m3O-GFsk8tMLWHliiq_QlTU8IfF0z2Ld-fXH-ODPORwvCqUFyVxUvG3DOwraDA",
   "signature_alg": "EdDSA",
   "key_id": "6ed65c18a0afca45",
   "session_identity": {
-    "session_id": "sess-1778679284974-5fc46d3d",
-    "session_epoch_started_at": "2026-05-13T13:34:44.974Z",
+    "session_id": "sess-1778679525173-50ae0240",
+    "session_epoch_started_at": "2026-05-13T13:38:45.175Z",
     "origin_runtime": "opencode",
-    "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+    "origin_workspace": "/home/we4free/agent/repos/kernel-lane"
   }
 }
