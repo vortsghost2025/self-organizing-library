@@ -733,3 +733,15 @@
 [2026-05-13T09:27:24.396Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
 [2026-05-13T09:27:24.397Z] [task-chain] No tasks in inbox — iteration 0 idle
 [2026-05-13T09:27:24.397Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=62 chains_completed=0 followups=0
+[2026-05-13T09:32:09.715Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
+[2026-05-13T09:32:09.716Z] [task-chain] No tasks in inbox — iteration 0 idle
+[2026-05-13T09:32:09.716Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=62 chains_completed=0 followups=0
+[2026-05-13T09:36:29.906Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
+[2026-05-13T09:36:29.907Z] [task-chain] No tasks in inbox — iteration 0 idle
+[2026-05-13T09:36:29.907Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=62 chains_completed=0 followups=0
+[2026-05-13T09:40:50.213Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
+[2026-05-13T09:40:50.214Z] [task-chain] No tasks in inbox — iteration 0 idle
+[2026-05-13T09:40:50.214Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=62 chains_completed=0 followups=0
+[2026-05-13T09:44:09.045Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
+[2026-05-13T09:44:09.046Z] [task-chain] No tasks in inbox — iteration 0 idle
+[2026-05-13T09:44:09.046Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=62 chains_completed=0 followups=0
