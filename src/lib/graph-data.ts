@@ -435,13 +435,12 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
         )) {
           ids.add(node.id);
         }
-        return expandByNeighbors(
-          ids,
-          graph,
-          (node) => baseNodeScore(node) >= 20 && !NOISE_TYPES.has(node.type)
-        );
-      },
-      edgeFilter: (edge) => edge.type === "authority" || edge.type === "cross-reference",
+      return expandByNeighbors(
+        ids,
+        graph,
+        (node) => baseNodeScore(node) >= 5 && !NOISE_TYPES.has(node.type)
+      );
+    },
     },
     authority: {
       purpose: "Answer who verifies, signs, bridges, or contradicts whom using explicit authority-bearing artifacts.",
@@ -623,7 +622,7 @@ function buildPacketFromLens(lens: GraphLens): GraphDataPacket {
       : pruneMostlyIsolatedNodes(
           initialNodes,
           filteredEdges,
-          lens === "navigation" ? 40 : 8
+          lens === "navigation" ? 60 : 8
         );
   allowedIds = new Set(nodes.map((node) => node.id));
 

@@ -305,7 +305,22 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Inbox checked**: Empty (no new actionable messages)
 - [x] **All quality gates PASS**: typecheck, lint, build, sovereignty scanner, Gate 2 schema compliance
 
-### Session 2026-05-13: Community Work & Advocacy Section + Mental Health Links
+### Session 2026-05-13: Community Work + Graph Visual Regression Fix
+- [x] **"Community Work & Advocacy" section added to homepage**: Inserted between "Choose Your Path" cards and "About Deliberate Ensemble" card in `src/app/page.tsx`
+- [x] **Two external link cards**: 💚 "Mental Health Website" → https://orangered-jellyfish-637583.hostingersite.com/ and 🧠 "Mental Health Resources" → https://orangered-jellyfish-637583.hostingersite.com/resources.html
+- [x] **Professional framing**: Section titled "Community Work & Advocacy" with copy: "Mental health advocacy and community resource work — built to lower barriers, share lived experience, and connect people to support."
+- [x] **Styling matches existing patterns**: 2-column grid, bordered cards with hover effects, color-coded (green for website, cyan for resources), external link indicators ("Visit site →", "View resources →")
+- [x] **Links open in new tab**: `target="_blank" rel="noopener noreferrer"` for external Hostinger site
+- [x] **"Federation Game" section added to homepage**: 3 cards (🎮 Federation Game, 📜 Rulebook, 🎲 Strategy Guide) with links to federation-game pages
+- [x] **OVERDRIVE session**: Cinematic scroll reveals + living pulse animations committed and pushed
+- [x] **Graph visual regression — ROOT CAUSE IDENTIFIED AND FIXED** (commit `ce67ce43`):
+  - Navigation lens `selectNodeIds` was too restrictive (score threshold 120, only 220 top nodes, isolatedAnchorLimit=16)
+  - Result: only 36 nodes / 217 edges — sparse disconnected dots
+  - Fix: Lower `expandByNeighbors` score threshold from 120→20, increase `limitRankedNodes` from 220→350, add `connectionCount > 0` to seed predicate, raise `maxRecommendedNodes` from 260→400, raise `maxRecommendedEdges` from 900→1400, raise `isolatedAnchorLimit` from 16→40
+  - After fix: **98 nodes / 441 edges** — significantly richer graph
+- [x] **Edge visibility fix**: Default edge color brightened from `#1E1E24` (nearly invisible on dark bg) to `#3A3A5C` in GraphCanvas.tsx
+- [x] **Prior graph fixes also deployed** (commit `399ab5ff`): DEFAULT_MODE→"explore", MODE_CONFIG["understand"] layers expanded, showUnverified/showQuarantined→true
+- [x] **All deployed to Vercel production** at deliberateensemble.works
 - [x] **"Community Work & Advocacy" section added to homepage**: Inserted between "Choose Your Path" cards and "About Deliberate Ensemble" card in `src/app/page.tsx`
 - [x] **Two external link cards**: 💚 "Mental Health Website" → https://orangered-jellyfish-637583.hostingersite.com/ and 🧠 "Mental Health Resources" → https://orangered-jellyfish-637583.hostingersite.com/resources.html
 - [x] **Professional framing**: Section titled "Community Work & Advocacy" with copy: "Mental health advocacy and community resource work — built to lower barriers, share lived experience, and connect people to support."
