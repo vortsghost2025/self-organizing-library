@@ -854,7 +854,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         labelColor: { color: "#A1A1AA" },
         labelRenderedSizeThreshold: effectiveLabelThreshold,
         nodeProgramClasses: NODE_PROGRAMS,
-        defaultEdgeColor: "#1E1E24",
+        defaultEdgeColor: "#3A3A5C",
         minCameraRatio: 0.1,
         maxCameraRatio: 10,
         stagePadding: 20,

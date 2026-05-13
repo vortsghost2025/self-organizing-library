@@ -414,8 +414,8 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["doc", "paper", "code"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "VERIFIES", "DERIVES_FROM", "CONTRADICTS", "SIGNED_BY"],
       excludedNoise: ["config files", "test data", "historical scratch artifacts", "tag-only inferred edges"],
-      maxRecommendedNodes: 260,
-      maxRecommendedEdges: 900,
+      maxRecommendedNodes: 400,
+      maxRecommendedEdges: 1400,
       agentReviewInstruction: "Use this lens to orient first. If a claim matters, jump from here into authority, governance, or papers.",
       selectNodeIds: (graph) => {
         const ids = collectNodeIds(graph, (node) =>
@@ -426,18 +426,19 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
           ((PAPER_REPOS.has(node.repo) || node.category === "paper") &&
             (BRIDGED_STATES.has(node.bridgeState) || node.status === "VERIFIED")) ||
           node.contradictionCount > 0 ||
-          node.bridgeState === "enforced"
+          node.bridgeState === "enforced" ||
+          node.connectionCount > 0
         );
         for (const node of limitRankedNodes(
           graph.nodes.filter((node) => !NOISE_CATEGORIES.has(node.category)),
-          220
+          350
         )) {
           ids.add(node.id);
         }
         return expandByNeighbors(
           ids,
           graph,
-          (node) => baseNodeScore(node) >= 120 && !NOISE_TYPES.has(node.type)
+          (node) => baseNodeScore(node) >= 20 && !NOISE_TYPES.has(node.type)
         );
       },
       edgeFilter: (edge) => edge.type === "authority" || edge.type === "cross-reference",
@@ -622,7 +623,7 @@ function buildPacketFromLens(lens: GraphLens): GraphDataPacket {
       : pruneMostlyIsolatedNodes(
           initialNodes,
           filteredEdges,
-          lens === "navigation" ? 16 : 8
+          lens === "navigation" ? 40 : 8
         );
   allowedIds = new Set(nodes.map((node) => node.id));
 
