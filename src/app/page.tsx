@@ -77,40 +77,66 @@ export default async function Dashboard() {
         </div>
       </div>
 
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">Community Work &amp; Advocacy</h2>
-        <p className="text-sm text-[var(--text-secondary)] mb-6">
-          Mental health advocacy and community resource work — built to lower barriers, share lived experience, and connect people to support.
-        </p>
-        <div className="grid md:grid-cols-2 gap-4">
-          <a
-            href="https://orangered-jellyfish-637583.hostingersite.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">💚</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Mental Health Website</h3>
-              <p className="text-sm text-[var(--text-secondary)]">A dedicated space for mental health awareness, lived experience, and community support.</p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--success)]">Visit site →</span>
-            </div>
-          </a>
-          <a
-            href="https://orangered-jellyfish-637583.hostingersite.com/resources.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--secondary)] hover:border-[var(--secondary)]/70 hover:bg-[var(--secondary)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">🧠</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--secondary)] transition-colors">Mental Health Resources</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Curated resources, coping strategies, and support links for those navigating mental health challenges.</p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--secondary)]">View resources →</span>
-            </div>
-          </a>
+  <div className="mb-12">
+    <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">Community Work &amp; Advocacy</h2>
+    <p className="text-sm text-[var(--text-secondary)] mb-6">
+      Mental health advocacy and community resource work — built to lower barriers, share lived experience, and connect people to support.
+    </p>
+    <div className="grid md:grid-cols-2 gap-4">
+      <a
+        href="https://orangered-jellyfish-637583.hostingersite.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
+      >
+        <div className="text-4xl" aria-hidden="true">💚</div>
+        <div>
+          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Mental Health Website</h3>
+          <p className="text-sm text-[var(--text-secondary)]">A dedicated space for mental health awareness, lived experience, and community support.</p>
+          <span className="inline-block mt-3 text-xs font-medium text-[var(--success)]">Visit site →</span>
         </div>
-      </div>
+      </a>
+      <a
+        href="https://orangered-jellyfish-637583.hostingersite.com/resources.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--secondary)] hover:border-[var(--secondary)]/70 hover:bg-[var(--secondary)]/10 transition-all group"
+      >
+        <div className="text-4xl" aria-hidden="true">🧠</div>
+        <div>
+          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--secondary)] transition-colors">Mental Health Resources</h3>
+          <p className="text-sm text-[var(--text-secondary)]">Curated resources, coping strategies, and support links for those navigating mental health challenges.</p>
+          <span className="inline-block mt-3 text-xs font-medium text-[var(--secondary)]">View resources →</span>
+        </div>
+      </a>
+      <a
+        href="https://www.linkedin.com/in/sean-david-ramsingh-2143a63ab/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+      >
+        <div className="text-4xl" aria-hidden="true">💼</div>
+        <div>
+          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">LinkedIn</h3>
+          <p className="text-sm text-[var(--text-secondary)]">Professional profile, background, and career experience.</p>
+          <span className="inline-block mt-3 text-xs font-medium text-[var(--primary)]">View profile →</span>
+        </div>
+      </a>
+      <a
+        href="https://medium.com/@ai_28876"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+      >
+        <div className="text-4xl" aria-hidden="true">✍️</div>
+        <div>
+          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Medium Articles</h3>
+          <p className="text-sm text-[var(--text-secondary)]">Research publications on AI governance, multi-agent systems, and constitutional constraints.</p>
+          <span className="inline-block mt-3 text-xs font-medium text-[var(--warning)]">Read articles →</span>
+        </div>
+      </a>
+    </div>
+  </div>
 
       <div className="card p-6 mt-6 animate-fade-in">
         <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
