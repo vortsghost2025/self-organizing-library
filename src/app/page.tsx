@@ -4,8 +4,10 @@ import { HeroSection } from "@/components/homepage/HeroSection";
 import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
 import SystemOverview from "@/components/SystemOverview";
+import { getStats } from "@/lib/site-index";
 
 export default async function Dashboard() {
+  const stats = getStats();
   const heroTitle = "An AI system that proves what it knows.";
   const heroTagline = "Most AI gives answers. This one verifies them.";
 
@@ -209,9 +211,9 @@ export default async function Dashboard() {
           <span>•</span>
           <span>Lanes: 4 active</span>
           <span>•</span>
-          <span>Documents: 2,954</span>
-          <span>•</span>
-          <span>Tags: 1,744</span>
+        <span>Documents: {stats.totalFiles.toLocaleString()}</span>
+        <span>•</span>
+        <span>Tags: {stats.tagCount.toLocaleString()}</span>
         </div>
       </div>
     </div>
