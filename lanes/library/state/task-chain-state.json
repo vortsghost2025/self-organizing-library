@@ -1,126 +1,5 @@
 {
-  "active_chains": {
-    "nack-1778699135758-s4jgx4": {
-      "chain_id": "nack-1778699135758-s4jgx4",
-      "origin_task": "nack-1778699135758-s4jgx4",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:05:41.174Z",
-      "last_task": "nack-1778699135758-s4jgx4",
-      "last_updated": "2026-05-13T19:05:41.174Z"
-    },
-    "nack-1778699140391-svdph4": {
-      "chain_id": "nack-1778699140391-svdph4",
-      "origin_task": "nack-1778699140391-svdph4",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:05:41.175Z",
-      "last_task": "nack-1778699140391-svdph4",
-      "last_updated": "2026-05-13T19:05:41.175Z"
-    },
-    "nack-1778699733191-ymjd9m": {
-      "chain_id": "nack-1778699733191-ymjd9m",
-      "origin_task": "nack-1778699733191-ymjd9m",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:15:51.235Z",
-      "last_task": "nack-1778699733191-ymjd9m",
-      "last_updated": "2026-05-13T19:15:51.235Z"
-    },
-    "nack-1778699738304-dkavjm": {
-      "chain_id": "nack-1778699738304-dkavjm",
-      "origin_task": "nack-1778699738304-dkavjm",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:15:51.237Z",
-      "last_task": "nack-1778699738304-dkavjm",
-      "last_updated": "2026-05-13T19:15:51.237Z"
-    },
-    "nack-1778699742989-xbrhb9": {
-      "chain_id": "nack-1778699742989-xbrhb9",
-      "origin_task": "nack-1778699742989-xbrhb9",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:15:51.237Z",
-      "last_task": "nack-1778699742989-xbrhb9",
-      "last_updated": "2026-05-13T19:15:51.237Z"
-    },
-    "nack-1778699750638-ahk208": {
-      "chain_id": "nack-1778699750638-ahk208",
-      "origin_task": "nack-1778699750638-ahk208",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:15:51.237Z",
-      "last_task": "nack-1778699750638-ahk208",
-      "last_updated": "2026-05-13T19:15:51.237Z"
-    },
-    "nack-1778700630177-3995kz": {
-      "chain_id": "nack-1778700630177-3995kz",
-      "origin_task": "nack-1778700630177-3995kz",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:30:38.050Z",
-      "last_task": "nack-1778700630177-3995kz",
-      "last_updated": "2026-05-13T19:30:38.050Z"
-    },
-    "nack-1778700636117-cfi4y3": {
-      "chain_id": "nack-1778700636117-cfi4y3",
-      "origin_task": "nack-1778700636117-cfi4y3",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T19:30:38.051Z",
-      "last_task": "nack-1778700636117-cfi4y3",
-      "last_updated": "2026-05-13T19:30:38.051Z"
-    },
-    "nack-1778702887586-4onzze": {
-      "chain_id": "nack-1778702887586-4onzze",
-      "origin_task": "nack-1778702887586-4onzze",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T20:08:12.246Z",
-      "last_task": "nack-1778702887586-4onzze",
-      "last_updated": "2026-05-13T20:08:12.246Z"
-    },
-    "nack-1778703976235-plqscb": {
-      "chain_id": "nack-1778703976235-plqscb",
-      "origin_task": "nack-1778703976235-plqscb",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T20:26:29.267Z",
-      "last_task": "nack-1778703976235-plqscb",
-      "last_updated": "2026-05-13T20:26:29.268Z"
-    },
-    "nack-1778703981724-mkll7a": {
-      "chain_id": "nack-1778703981724-mkll7a",
-      "origin_task": "nack-1778703981724-mkll7a",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T20:26:29.268Z",
-      "last_task": "nack-1778703981724-mkll7a",
-      "last_updated": "2026-05-13T20:26:29.268Z"
-    },
-    "nack-1778703986695-qsab7q": {
-      "chain_id": "nack-1778703986695-qsab7q",
-      "origin_task": "nack-1778703986695-qsab7q",
-      "origin_priority": "P2",
-      "depth": 1,
-      "followups": [],
-      "started_at": "2026-05-13T20:26:29.268Z",
-      "last_task": "nack-1778703986695-qsab7q",
-      "last_updated": "2026-05-13T20:26:29.268Z"
-    }
-  },
+  "active_chains": {},
   "completed_chains": [
     {
       "compacted_at": "2026-05-13T18:52:00Z",
@@ -134,7 +13,20 @@
       "all_no_followups": true,
       "all_priority_P2": true,
       "all_exempt_from_nack": true
+    },
+    {
+      "compacted_at": "2026-05-13T20:28:00Z",
+      "reason": "bulk-compaction-stale-nack-chains",
+      "compacted_by": "kilo-library-agent",
+      "chain_count": 11,
+      "chain_ids_compacted": "nack-1778699135758-s4jgx4 through nack-1778703986695-qsab7q",
+      "earliest_started": "2026-05-13T19:05:41.174Z",
+      "latest_started": "2026-05-13T20:26:29.268Z",
+      "all_depth_1": true,
+      "all_no_followups": true,
+      "all_priority_P2": true,
+      "all_exempt_from_nack": true
     }
   ],
-  "last_run": "2026-05-13T20:31:21.435Z"
+  "last_run": "2026-05-13T20:28:00.000Z"
 }
