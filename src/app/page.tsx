@@ -42,36 +42,36 @@ export default async function Dashboard() {
 
       <div className="mb-12">
         <div className="grid md:grid-cols-3 gap-4">
-          <a
-            href="/start-here"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">🟢</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Understand the idea</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Start with the foundational concepts.</p>
-            </div>
-          </a>
-          <a
-            href="/timeline"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">🔵</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">See the evolution</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Explore the chronological time-lapse of the system.</p>
-            </div>
-          </a>
-          <a
-            href="/papers"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">🟣</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Read the theory</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Deep technical papers and specs.</p>
-            </div>
-          </a>
+    <Link
+      href="/start-here"
+      className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
+    >
+      <div className="text-4xl" aria-hidden="true">🟢</div>
+      <div>
+        <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Understand the idea</h3>
+        <p className="text-sm text-[var(--text-secondary)]">Start with the foundational concepts.</p>
+      </div>
+    </Link>
+    <Link
+      href="/timeline"
+      className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+    >
+      <div className="text-4xl" aria-hidden="true">🔵</div>
+      <div>
+        <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">See the evolution</h3>
+        <p className="text-sm text-[var(--text-secondary)]">Explore the chronological time-lapse of the system.</p>
+      </div>
+    </Link>
+    <Link
+      href="/papers"
+      className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+    >
+      <div className="text-4xl" aria-hidden="true">🟣</div>
+      <div>
+        <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Read the theory</h3>
+        <p className="text-sm text-[var(--text-secondary)]">Deep technical papers and specs.</p>
+      </div>
+    </Link>
         </div>
       </div>
 
