@@ -748,3 +748,8 @@
 [2026-05-13T09:47:33.661Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
 [2026-05-13T09:47:33.662Z] [task-chain] No tasks in inbox — iteration 0 idle
 [2026-05-13T09:47:33.662Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=62 chains_completed=0 followups=0
+[2026-05-13T09:51:36.362Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
+[2026-05-13T09:51:36.364Z] [task-chain] Iteration 0: 1 tasks in inbox
+[2026-05-13T09:51:36.364Z] [task-chain] Processing task nack-1778665893335-z4cq08 chain=nack-1778665893335-z4cq08 depth=0
+[2026-05-13T09:51:36.365Z] [task-chain] No tasks in inbox — iteration 1 idle
+[2026-05-13T09:51:36.365Z] [task-chain] Run complete: iterations=2 processed=1 chains_active=63 chains_completed=0 followups=0
