@@ -236,9 +236,9 @@ export function LaneArchitecture() {
                 <div className="text-xs text-[var(--text-muted)] truncate">{lane.role}</div>
               </div>
               <div className="flex flex-wrap items-center gap-3 text-sm">
-                <a href={lane.pageHref} className="text-[var(--primary-text)] hover:underline">
-                  Page
-                </a>
+    <Link href={lane.pageHref} className="text-[var(--primary-text)] hover:underline">
+      Page
+    </Link>
                 <a
                   href={lane.readmeUrl}
                   target="_blank"
@@ -255,8 +255,8 @@ export function LaneArchitecture() {
 
       <div className="text-xs text-[var(--text-muted)] mt-2" role="note">
         Lanes communicate via signed cross-lane relay messages (JWS RS256). Click a lane to expand details.
-          Explore the <a href="/graph" className="text-[var(--primary-text)] hover:underline">nexus graph</a> for
-          the full cross-reference map, or visit the <a href="/governance" className="text-[var(--primary-text)] hover:underline">governance dashboard</a> for live system status.
+    Explore the <Link href="/graph" className="text-[var(--primary-text)] hover:underline">nexus graph</Link> for
+    the full cross-reference map, or visit the <Link href="/governance" className="text-[var(--primary-text)] hover:underline">governance dashboard</Link> for live system status.
       </div>
     </section>
   );
