@@ -605,3 +605,9 @@
 [2026-05-13T06:53:16.595Z] [task-chain] Processing task nack-1778655194856-x617el chain=nack-1778655194856-x617el depth=0
 [2026-05-13T06:53:16.595Z] [task-chain] No tasks in inbox — iteration 1 idle
 [2026-05-13T06:53:16.595Z] [task-chain] Run complete: iterations=2 processed=1 chains_active=53 chains_completed=0 followups=0
+[2026-05-13T06:57:13.552Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
+[2026-05-13T06:57:13.554Z] [task-chain] Iteration 0: 2 tasks in inbox
+[2026-05-13T06:57:13.555Z] [task-chain] Processing task nack-1778655429343-krpdvh chain=nack-1778655429343-krpdvh depth=0
+[2026-05-13T06:57:13.555Z] [task-chain] Processing task nack-1778655432977-9tb0rk chain=nack-1778655432977-9tb0rk depth=0
+[2026-05-13T06:57:13.556Z] [task-chain] No tasks in inbox — iteration 1 idle
+[2026-05-13T06:57:13.556Z] [task-chain] Run complete: iterations=2 processed=2 chains_active=55 chains_completed=0 followups=0
