@@ -195,12 +195,12 @@ export function LaneArchitecture() {
                   Repo: <span className="mono text-[var(--text-secondary)]">{lane.repo}</span>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-3">
-                  <a
-                    href={lane.pageHref}
-                    className="text-sm text-[var(--primary-text)] hover:underline"
-                  >
-                    Read lane page
-                  </a>
+    <Link
+      href={lane.pageHref}
+      className="text-sm text-[var(--primary-text)] hover:underline"
+    >
+      Read lane page
+    </Link>
                   <a
                     href={lane.readmeUrl}
                     target="_blank"
