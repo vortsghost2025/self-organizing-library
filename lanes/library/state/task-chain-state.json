@@ -1,5 +1,26 @@
 {
-  "active_chains": {},
+  "active_chains": {
+    "nack-1778699135758-s4jgx4": {
+      "chain_id": "nack-1778699135758-s4jgx4",
+      "origin_task": "nack-1778699135758-s4jgx4",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T19:05:41.174Z",
+      "last_task": "nack-1778699135758-s4jgx4",
+      "last_updated": "2026-05-13T19:05:41.174Z"
+    },
+    "nack-1778699140391-svdph4": {
+      "chain_id": "nack-1778699140391-svdph4",
+      "origin_task": "nack-1778699140391-svdph4",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T19:05:41.175Z",
+      "last_task": "nack-1778699140391-svdph4",
+      "last_updated": "2026-05-13T19:05:41.175Z"
+    }
+  },
   "completed_chains": [
     {
       "compacted_at": "2026-05-13T18:52:00Z",
@@ -15,5 +36,5 @@
       "all_exempt_from_nack": true
     }
   ],
-  "last_run": "2026-05-13T19:01:11.210Z"
+  "last_run": "2026-05-13T19:05:41.176Z"
 }
