@@ -82,9 +82,9 @@ export default async function Dashboard() {
     <p className="text-sm text-[var(--text-secondary)] mb-6">
       Mental health advocacy and community resource work — built to lower barriers, share lived experience, and connect people to support.
     </p>
-    <div className="grid md:grid-cols-2 gap-4">
-      <a
-        href="https://orangered-jellyfish-637583.hostingersite.com/"
+        <div className="grid md:grid-cols-3 gap-4">
+          <a
+            href="https://orangered-jellyfish-637583.hostingersite.com/"
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
@@ -122,21 +122,82 @@ export default async function Dashboard() {
           <span className="inline-block mt-3 text-xs font-medium text-[var(--primary)]">View profile →</span>
         </div>
       </a>
-      <a
-        href="https://medium.com/@ai_28876"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
-      >
-        <div className="text-4xl" aria-hidden="true">✍️</div>
-        <div>
-          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Medium Articles</h3>
-          <p className="text-sm text-[var(--text-secondary)]">Research publications on AI governance, multi-agent systems, and constitutional constraints.</p>
-          <span className="inline-block mt-3 text-xs font-medium text-[var(--warning)]">Read articles →</span>
+          <a
+            href="https://medium.com/@ai_28876"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+          >
+            <div className="text-4xl" aria-hidden="true">✍️</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Medium Articles</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Research publications on AI governance, multi-agent systems, and constitutional constraints.</p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--warning)]">Read articles →</span>
+            </div>
+          </a>
+          <a
+            href="https://osf.io/n3tya"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--text-primary)] hover:border-[var(--text-primary)]/70 hover:bg-[var(--text-primary)]/10 transition-all group"
+          >
+            <div className="text-4xl" aria-hidden="true">📄</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--text-primary)] transition-colors">OSF Research Papers</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Open Science Framework preprints and publications on deliberate ensembles, AI governance, and multi-agent systems.</p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--text-primary)]">View papers →</span>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-  </div>
+      </div>
+
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">Federation Game</h2>
+        <p className="text-sm text-[var(--text-secondary)] mb-6">
+          Interactive simulations exploring deliberation, governance, and multi-agent coordination in a game environment.
+        </p>
+        <div className="grid md:grid-cols-3 gap-4">
+          <a
+            href="https://federation-game.deliberatefederation.cloud/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+          >
+            <div className="text-4xl" aria-hidden="true">🎮</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">Federation Game</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Main game environment — explore deliberation and governance through interactive play.</p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--primary)]">Play now →</span>
+            </div>
+          </a>
+          <a
+            href="https://federation-game.deliberatefederation.cloud/adult.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--secondary)] hover:border-[var(--secondary)]/70 hover:bg-[var(--secondary)]/10 transition-all group"
+          >
+            <div className="text-4xl" aria-hidden="true">🧩</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--secondary)] transition-colors">Adult Module</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Advanced scenarios with complex governance dilemmas and constitutional constraints.</p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--secondary)]">Enter →</span>
+            </div>
+          </a>
+          <a
+            href="https://federation-game.deliberatefederation.cloud/command-deck/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+          >
+            <div className="text-4xl" aria-hidden="true">🖥️</div>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Command Deck</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Operational control interface — monitor and direct multi-agent system coordination in real time.</p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--warning)]">Access →</span>
+            </div>
+          </a>
+        </div>
+      </div>
 
       <div className="card p-6 mt-6 animate-fade-in">
         <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
