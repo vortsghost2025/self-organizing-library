@@ -229,8 +229,68 @@
       "started_at": "2026-05-13T03:51:12.859Z",
       "last_task": "nack-1778644263409-87mn8h",
       "last_updated": "2026-05-13T03:51:12.859Z"
+    },
+    "nack-1778645559912-j9xl4a": {
+      "chain_id": "nack-1778645559912-j9xl4a",
+      "origin_task": "nack-1778645559912-j9xl4a",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T04:12:52.542Z",
+      "last_task": "nack-1778645559912-j9xl4a",
+      "last_updated": "2026-05-13T04:12:52.542Z"
+    },
+    "nack-1778645563269-0lwnwl": {
+      "chain_id": "nack-1778645563269-0lwnwl",
+      "origin_task": "nack-1778645563269-0lwnwl",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T04:12:52.542Z",
+      "last_task": "nack-1778645563269-0lwnwl",
+      "last_updated": "2026-05-13T04:12:52.542Z"
+    },
+    "nack-1778645566612-99j34f": {
+      "chain_id": "nack-1778645566612-99j34f",
+      "origin_task": "nack-1778645566612-99j34f",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T04:12:52.543Z",
+      "last_task": "nack-1778645566612-99j34f",
+      "last_updated": "2026-05-13T04:12:52.543Z"
+    },
+    "nack-1778645761224-sbigqz": {
+      "chain_id": "nack-1778645761224-sbigqz",
+      "origin_task": "nack-1778645761224-sbigqz",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T04:16:12.159Z",
+      "last_task": "nack-1778645761224-sbigqz",
+      "last_updated": "2026-05-13T04:16:12.159Z"
+    },
+    "nack-1778645764314-sb8nkx": {
+      "chain_id": "nack-1778645764314-sb8nkx",
+      "origin_task": "nack-1778645764314-sb8nkx",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T04:16:12.159Z",
+      "last_task": "nack-1778645764314-sb8nkx",
+      "last_updated": "2026-05-13T04:16:12.159Z"
+    },
+    "nack-1778645767440-asw2sm": {
+      "chain_id": "nack-1778645767440-asw2sm",
+      "origin_task": "nack-1778645767440-asw2sm",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T04:16:12.160Z",
+      "last_task": "nack-1778645767440-asw2sm",
+      "last_updated": "2026-05-13T04:16:12.160Z"
     }
   },
   "completed_chains": [],
-  "last_run": "2026-05-13T04:09:28.672Z"
+  "last_run": "2026-05-13T04:16:12.160Z"
 }
