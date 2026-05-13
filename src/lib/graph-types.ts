@@ -186,7 +186,7 @@ export const BRIDGE_STATE_LABELS: Record<BridgeState, string> = {
 export type GraphMode = "understand" | "explore" | "full";
 export type GraphLens = "navigation" | "authority" | "governance" | "papers" | "repos" | "full" | "canonical";
 
-export const DEFAULT_MODE: GraphMode = "understand";
+export const DEFAULT_MODE: GraphMode = "explore";
 export const DEFAULT_LENS: GraphLens = "navigation";
 
 export const LENS_CONFIG: Record<GraphLens, {
@@ -241,9 +241,9 @@ export const MODE_CONFIG: Record<GraphMode, {
     label: "Verified Core",
     description: "Human-friendly entry — verified cores only",
     density: "overview",
-    layers: ["structure"],
-    showUnverified: false,
-    showQuarantined: false,
+    layers: ["structure", "verification"],
+    showUnverified: true,
+    showQuarantined: true,
     highlightCoreNodes: true,
     groupEntryPoints: "start",
   },

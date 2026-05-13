@@ -305,6 +305,15 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Inbox checked**: Empty (no new actionable messages)
 - [x] **All quality gates PASS**: typecheck, lint, build, sovereignty scanner, Gate 2 schema compliance
 
+### Session 2026-05-13: Community Work & Advocacy Section + Mental Health Links
+- [x] **"Community Work & Advocacy" section added to homepage**: Inserted between "Choose Your Path" cards and "About Deliberate Ensemble" card in `src/app/page.tsx`
+- [x] **Two external link cards**: 💚 "Mental Health Website" → https://orangered-jellyfish-637583.hostingersite.com/ and 🧠 "Mental Health Resources" → https://orangered-jellyfish-637583.hostingersite.com/resources.html
+- [x] **Professional framing**: Section titled "Community Work & Advocacy" with copy: "Mental health advocacy and community resource work — built to lower barriers, share lived experience, and connect people to support."
+- [x] **Styling matches existing patterns**: 2-column grid, bordered cards with hover effects, color-coded (green for website, cyan for resources), external link indicators ("Visit site →", "View resources →")
+- [x] **Links open in new tab**: `target="_blank" rel="noopener noreferrer"` for external Hostinger site
+- [x] **Deployed to Vercel production**: Commit `e9352a8e`, build succeeded, deployment initiated
+- [x] **All quality gates pass**: typecheck, lint, sovereignty scanner, pre-commit hooks
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)
