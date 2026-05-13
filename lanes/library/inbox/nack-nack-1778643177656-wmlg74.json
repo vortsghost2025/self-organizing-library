@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3",
-  "task_id": "nack-1778642966411-496u2w",
-  "idempotency_key": "nack-unknown-1778642966411",
+  "task_id": "nack-1778643177656-wmlg74",
+  "idempotency_key": "nack-unknown-1778643177656",
   "from": "archivist",
   "to": "library",
   "type": "notification",
@@ -9,7 +9,7 @@
   "priority": "P2",
   "subject": "NACK: message rejected at archivist",
   "body": "Your message (task_id=unknown, type=unknown) was rejected.\nReason: SCHEMA_INVALID\nDetail: Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action\nOriginal subject: unknown",
-  "timestamp": "2026-05-13T03:29:26.411Z",
+  "timestamp": "2026-05-13T03:32:57.656Z",
   "requires_action": false,
   "payload": {
     "mode": "inline",
@@ -35,20 +35,20 @@
   "evidence_exchange": {},
   "heartbeat": {
     "status": "done",
-    "last_heartbeat_at": "2026-05-13T03:29:26.411Z"
+    "last_heartbeat_at": "2026-05-13T03:32:57.656Z"
   },
   "nack_for_task_id": null,
   "nack_reason": "SCHEMA_INVALID",
   "nack_detail": "Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action",
   "exempt_from_nack": true,
-  "id": "nack-1778642966411-496u2w",
+  "id": "nack-1778643177656-wmlg74",
   "content_hash": "sha256:2caf174e3fc90f8cac4a54db91884027b5ca214095d05f3cfaeb83b8ac41606b",
-  "signature": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6IjZlZDY1YzE4YTBhZmNhNDUifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6MmNhZjE3NGUzZmM5MGY4Y2FjNGE1NGRiOTE4ODQwMjdiNWNhMjE0MDk1ZDA1ZjNjZmFlYjgzYjhhYzQxNjA2YiIsImV4cCI6MTc3ODcyOTM2NiwiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3ODY0Mjk2NiwiaWQiOiJuYWNrLTE3Nzg2NDI5NjY0MTEtNDk2dTJ3IiwibGFuZSI6ImFyY2hpdmlzdCIsInByaW9yaXR5IjoiUDIiLCJ0YXNrX2lkIjoibmFjay0xNzc4NjQyOTY2NDExLTQ5NnUydyIsInRvIjoibGlicmFyeSJ9.vFn2ujOUbe0flkOTlrHws3kz4lO1ofPkNLmLLb0f-XUqDYqOybfz8MmxusvtGIKVp7-UqjjVgMz5zlxJAo0xBA",
+  "signature": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6IjZlZDY1YzE4YTBhZmNhNDUifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6MmNhZjE3NGUzZmM5MGY4Y2FjNGE1NGRiOTE4ODQwMjdiNWNhMjE0MDk1ZDA1ZjNjZmFlYjgzYjhhYzQxNjA2YiIsImV4cCI6MTc3ODcyOTU3NywiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3ODY0MzE3NywiaWQiOiJuYWNrLTE3Nzg2NDMxNzc2NTYtd21sZzc0IiwibGFuZSI6ImFyY2hpdmlzdCIsInByaW9yaXR5IjoiUDIiLCJ0YXNrX2lkIjoibmFjay0xNzc4NjQzMTc3NjU2LXdtbGc3NCIsInRvIjoibGlicmFyeSJ9.b_Xtz8d95glixLy-ruTeBu6Pn9hGxD0d40XpbMql9xZAtny_S4EYck9CQYaAW0A74kVjDKFsYwRiYq8qyRhsAA",
   "signature_alg": "EdDSA",
   "key_id": "6ed65c18a0afca45",
   "session_identity": {
-    "session_id": "sess-1778642966416-12eeee79",
-    "session_epoch_started_at": "2026-05-13T03:29:26.416Z",
+    "session_id": "sess-1778643177661-8fe0308b",
+    "session_epoch_started_at": "2026-05-13T03:32:57.661Z",
     "origin_runtime": "opencode",
     "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
   }
