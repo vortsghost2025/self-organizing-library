@@ -46,7 +46,7 @@ export default function SystemInterpretation({
           Updated {lastUpdated}
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-4 mb-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
         <div>
           <div className="text-2xl font-bold text-[var(--text-primary)]">{loading ? "..." : visibleNodeCount}</div>
           <div className="text-sm text-[var(--text-muted)]">Total Nodes</div>

@@ -87,7 +87,7 @@ export default function LibraryClient({
   const hasFilters = activeCategory || activeTag || activeType || activeRepo || search;
 
   return (
-    <div className="p-8" data-pagefind-body>
+    <div className="p-4 md:p-8" data-pagefind-body>
       <a href="#library-filters" className="skip-to-content">
         Skip to filters
       </a>
@@ -176,8 +176,8 @@ export default function LibraryClient({
         ))}
       </div>
 
-      <div className="grid grid-cols-4 gap-6">
-        <div className="col-span-1" id="library-filters">
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div className="col-span-2 md:col-span-1" id="library-filters">
         <div className="card p-4 mb-4">
           <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3" id="category-filter-heading">Categories</h3>
           <div className="space-y-1" role="group" aria-labelledby="category-filter-heading">
@@ -220,7 +220,7 @@ export default function LibraryClient({
           </div>
         </div>
 
-        <div className="col-span-3">
+        <div className="col-span-2 md:col-span-3">
           <div className="grid grid-cols-1 gap-3">
             {filtered.length > 0 ? (
     filtered.slice(0, 100).map((doc, i) => (

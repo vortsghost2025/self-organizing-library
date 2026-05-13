@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { useA11y } from "@/components/AccessibilityProvider";
 
 interface SidebarStats {
@@ -16,6 +17,7 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/", icon: "◈", label: "Dashboard", ariaLabel: "Dashboard - overview and stats" },
+  { href: "/system-pulse", icon: "◉", label: "System Pulse", ariaLabel: "System Pulse - public live progress across lanes and surfaces" },
   { href: "/library", icon: "☰", label: "Library", ariaLabel: "Library - browse all documents" },
   { href: "/search-catalog", icon: "⊗", label: "Search Index", ariaLabel: "Search index - full document catalog" },
   { href: "/repos", icon: "⊕", label: "Repos", ariaLabel: "Repositories - browse by repo" },
@@ -33,16 +35,34 @@ const navItems = [
 export function Sidebar({ stats }: SidebarProps) {
   const pathname = usePathname();
   const { mode, cycleMode } = useA11y();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const modeLabel = mode === "high-contrast" ? "High Contrast" : mode === "large-text" ? "Large Text" : "Default";
 
   return (
-  <aside
-  className="fixed left-0 top-0 h-screen w-[280px] bg-[var(--bg-surface)] border-r border-[var(--border)] flex flex-col z-40"
-  role="navigation"
-  aria-label="Main navigation"
-  data-pagefind-ignore
->
-      <div className="p-6 border-b border-[var(--border)]">
+    <>
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="fixed top-4 left-4 z-50 md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-primary)] shadow-lg"
+        aria-label="Open navigation menu"
+      >
+        <span aria-hidden="true" className="text-xl">☰</span>
+      </button>
+
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={`fixed left-0 top-0 h-screen w-[280px] bg-[var(--bg-surface)] border-r border-[var(--border)] flex flex-col z-40 transition-transform duration-200 -translate-x-full md:translate-x-0 ${mobileOpen ? "translate-x-0" : ""}`}
+        role="navigation"
+        aria-label="Main navigation"
+        data-pagefind-ignore
+      >
+      <div className="p-6 border-b border-[var(--border)] flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3" aria-label="Deliberate Ensemble - go to dashboard">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center text-xl font-bold" aria-hidden="true">
             DE
@@ -52,6 +72,13 @@ export function Sidebar({ stats }: SidebarProps) {
             <p className="text-xs text-[var(--text-muted)]">Research Archive</p>
           </div>
         </Link>
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="md:hidden flex items-center justify-center w-8 h-8 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+          aria-label="Close navigation menu"
+        >
+          <span aria-hidden="true" className="text-xl">✕</span>
+        </button>
       </div>
 
       <nav className="flex-1 p-4 space-y-1" aria-label="Site navigation">
@@ -63,7 +90,8 @@ export function Sidebar({ stats }: SidebarProps) {
               href={item.href}
               aria-label={item.ariaLabel}
               aria-current={isActive ? "page" : undefined}
-               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+               onClick={() => setMobileOpen(false)}
+          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                  isActive
                    ? "bg-[var(--primary)] text-white"
                    : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-primary)]"
@@ -113,5 +141,6 @@ export function Sidebar({ stats }: SidebarProps) {
         </button>
       </div>
     </aside>
+    </>
   );
 }

@@ -34,8 +34,8 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
   );
 
   return (
-    <div className="flex">
-    <div className="flex-1 p-8" data-pagefind-body>
+    <div className="flex flex-col md:flex-row">
+    <div className="flex-1 p-4 md:p-8" data-pagefind-body>
         <div className="mb-6 animate-fade-in" data-pagefind-ignore>
           <Link href="/library" className="text-[var(--text-muted)] hover:text-[var(--primary)] text-sm">
             ← Back to Library
@@ -161,7 +161,7 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
         </div>
       </div>
 
-      <aside className="w-[320px] border-l border-[var(--border)] p-6 bg-[var(--bg-surface)]" data-pagefind-ignore>
+      <aside className="w-full md:w-[320px] border-t md:border-t-0 md:border-l border-[var(--border)] p-6 bg-[var(--bg-surface)]" data-pagefind-ignore>
         <div className="mb-6">
           <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-4">
             Related by Tag

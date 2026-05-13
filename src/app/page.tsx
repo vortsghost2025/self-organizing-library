@@ -12,7 +12,7 @@ export default async function Dashboard() {
   const heroTagline = "Most AI gives answers. This one verifies them.";
 
   return (
-    <div className="p-8" data-pagefind-body>
+    <div className="p-4 md:p-8" data-pagefind-body>
     <HeroSection
         title={heroTitle}
         tagline={heroTagline}

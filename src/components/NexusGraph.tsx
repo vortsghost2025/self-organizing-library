@@ -519,7 +519,7 @@ const handleCompareSnapshots = useCallback(() => {
     : "Zoom: Overview — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)";
 
   return (
-    <div className="p-8" data-pagefind-ignore>
+    <div className="p-4 md:p-8" data-pagefind-ignore>
       <a href="#nexus-graph-canvas" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--primary)] focus:text-white focus:rounded">
         Skip to graph canvas
       </a>
@@ -678,8 +678,8 @@ const handleCompareSnapshots = useCallback(() => {
         </div>
       )}
 
-      <div className="flex gap-4 animate-fade-in">
-        <nav aria-label="Graph sidebar controls" className="w-56 flex-shrink-0 space-y-4">
+      <div className="flex flex-col md:flex-row gap-4 animate-fade-in">
+        <nav aria-label="Graph sidebar controls" className="w-full md:w-56 flex-shrink-0 space-y-4">
           {/* Density and MeaningLayers always visible */}
           <div className="card p-3">
             <DensityControl density={density} onChange={setDensity} />
@@ -742,7 +742,7 @@ const handleCompareSnapshots = useCallback(() => {
 
         <main className="flex-1 min-w-0 flex gap-4" id="nexus-graph-canvas">
           <div className="flex-1 min-w-0">
-        <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "500px" }}>
+        <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "300px" }}>
                 {loading ? (
                   <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status" aria-live="polite">Loading graph data...</div>
                 ) : filteredNodes.length === 0 && !webglUnavailable ? (

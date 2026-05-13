@@ -94,7 +94,7 @@ export function LaneArchitecture() {
         aria-label="Lane architecture diagram showing 4 lanes arranged horizontally with relay connections: Archivist (authority 100), Library (authority 90), SwarmMind (authority 80), Kernel (authority 40). Arrows show directive, ratification, evidence, and compute flows between lanes."
       >
         <svg
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
           style={{ zIndex: 0 }}
           viewBox="0 0 800 200"
           preserveAspectRatio="xMidYMid meet"
@@ -132,7 +132,7 @@ export function LaneArchitecture() {
           <button
             key={lane.id}
             onClick={() => setExpanded(expanded === lane.id ? null : lane.id)}
-            className="relative z-10 flex-1 flex flex-col items-center text-center p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] hover:border-[var(--primary)] transition-all cursor-pointer focus-visible:outline-3 focus-visible:outline-[var(--secondary)]"
+            className="relative z-10 flex-1 flex flex-col items-center text-center p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] hover:border-[var(--primary)] transition-all cursor-pointer focus-visible:outline-3 focus-visible:outline-[var(--secondary)] min-w-0"
             style={{ minWidth: 0 }}
             aria-expanded={expanded === lane.id}
             aria-label={`${lane.name} lane — Position ${lane.position}, Authority ${lane.authority}, Role: ${lane.role}. Click to expand details.`}

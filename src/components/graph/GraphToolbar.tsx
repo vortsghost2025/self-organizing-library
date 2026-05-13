@@ -70,7 +70,7 @@ export default function GraphToolbar({
             placeholder="Search nodes..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="px-3 py-1.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] w-48 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+            className="px-3 py-1.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
           />
         </div>
 

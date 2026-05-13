@@ -32,7 +32,7 @@ export default function ReposClient({
   const [tab, setTab] = useState<"lanes" | "all">("lanes");
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="mb-8 animate-fade-in">
         <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Repositories</h1>
         <p className="text-[var(--text-secondary)]">
@@ -75,7 +75,7 @@ export default function ReposClient({
         <div className="lanes-tab-content">
           {/* Lane cards grid with full info inline */}
           <div
-            className="grid grid-cols-4 gap-4 mb-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
             role="tabpanel"
             aria-labelledby="tab-lanes"
           >
@@ -289,7 +289,7 @@ export default function ReposClient({
       {/* Index stats (shown on both tabs) */}
       <div className="card p-6 mt-8 animate-fade-in">
         <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">Index Stats</h2>
-        <div className="grid grid-cols-4 gap-4 text-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div>
             <div className="text-2xl font-bold text-[var(--primary)]">{index.entries.length}</div>
             <div className="text-sm text-[var(--text-muted)]">Total Documents</div>

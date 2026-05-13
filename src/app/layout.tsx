@@ -18,12 +18,15 @@ export default function RootLayout({
   const stats = getStats();
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
     <body className="min-h-screen">
     <AccessibilityProvider>
       <a href="#main-content" className="skip-to-content">Skip to main content</a>
       <div className="flex min-h-screen">
         <Sidebar stats={stats} />
-        <main id="main-content" className="flex-1 ml-[280px] min-h-screen" role="main">
+        <main id="main-content" className="flex-1 ml-0 md:ml-[280px] min-h-screen" role="main">
           {children}
         </main>
       </div>
