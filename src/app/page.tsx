@@ -11,9 +11,7 @@ export default async function Dashboard() {
 
   return (
     <div className="p-8" data-pagefind-body>
-      <div id="build-marker" style={{background:'#000',color:'#0f0',padding:'8px 16px',fontFamily:'monospace',fontSize:'14px',textAlign:'center',letterSpacing:'1px'}}>BUILD_MARKER_2026_05_05</div>
-
-      <HeroSection
+    <HeroSection
         title={heroTitle}
         tagline={heroTagline}
       />
