@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3",
-  "task_id": "nack-1778682240237-s74wlb",
-  "idempotency_key": "nack-unknown-1778682240237",
+  "task_id": "nack-1778682460682-vmxbyt",
+  "idempotency_key": "nack-unknown-1778682460682",
   "from": "archivist",
   "to": "library",
   "type": "notification",
@@ -9,7 +9,7 @@
   "priority": "P2",
   "subject": "NACK: message rejected at archivist",
   "body": "Your message (task_id=unknown, type=unknown) was rejected.\nReason: SCHEMA_INVALID\nDetail: Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action\nOriginal subject: unknown",
-  "timestamp": "2026-05-13T14:24:00.237Z",
+  "timestamp": "2026-05-13T14:27:40.682Z",
   "requires_action": false,
   "payload": {
     "mode": "inline",
@@ -35,21 +35,21 @@
   "evidence_exchange": {},
   "heartbeat": {
     "status": "done",
-    "last_heartbeat_at": "2026-05-13T14:24:00.237Z"
+    "last_heartbeat_at": "2026-05-13T14:27:40.682Z"
   },
   "nack_for_task_id": null,
   "nack_reason": "SCHEMA_INVALID",
   "nack_detail": "Missing to; Missing type; Missing timestamp; Missing id; Missing priority; Missing requires_action",
   "exempt_from_nack": true,
-  "id": "nack-1778682240237-s74wlb",
+  "id": "nack-1778682460682-vmxbyt",
   "content_hash": "sha256:2caf174e3fc90f8cac4a54db91884027b5ca214095d05f3cfaeb83b8ac41606b",
-  "signature": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6IjZlZDY1YzE4YTBhZmNhNDUifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6MmNhZjE3NGUzZmM5MGY4Y2FjNGE1NGRiOTE4ODQwMjdiNWNhMjE0MDk1ZDA1ZjNjZmFlYjgzYjhhYzQxNjA2YiIsImV4cCI6MTc3ODc2ODY0MCwiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3ODY4MjI0MCwiaWQiOiJuYWNrLTE3Nzg2ODIyNDAyMzctczc0d2xiIiwibGFuZSI6ImFyY2hpdmlzdCIsInByaW9yaXR5IjoiUDIiLCJ0YXNrX2lkIjoibmFjay0xNzc4NjgyMjQwMjM3LXM3NHdsYiIsInRvIjoibGlicmFyeSJ9.5JYd0OKncCgDE_A6-JxZj767KbmKvMJSsj-NL6yKwwVQfHsoTc9BHYo4viQXYhBp42stFlF1STYLXqB4i567Ag",
+  "signature": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6IjZlZDY1YzE4YTBhZmNhNDUifQ.eyJjb250ZW50X2hhc2giOiJzaGEyNTY6MmNhZjE3NGUzZmM5MGY4Y2FjNGE1NGRiOTE4ODQwMjdiNWNhMjE0MDk1ZDA1ZjNjZmFlYjgzYjhhYzQxNjA2YiIsImV4cCI6MTc3ODc2ODg2MCwiZnJvbSI6ImFyY2hpdmlzdCIsImlhdCI6MTc3ODY4MjQ2MCwiaWQiOiJuYWNrLTE3Nzg2ODI0NjA2ODItdm14Ynl0IiwibGFuZSI6ImFyY2hpdmlzdCIsInByaW9yaXR5IjoiUDIiLCJ0YXNrX2lkIjoibmFjay0xNzc4NjgyNDYwNjgyLXZteGJ5dCIsInRvIjoibGlicmFyeSJ9.A5LeoDVFO5OAUQE7pl7eDlEdX5RsECjR06eaGZWXCWYIRu8Z6Eusib_I-YdRfxRBs_s0Ob4b7li67j1ELsYSBA",
   "signature_alg": "EdDSA",
   "key_id": "6ed65c18a0afca45",
   "session_identity": {
-    "session_id": "sess-1778682240245-954b8752",
-    "session_epoch_started_at": "2026-05-13T14:24:00.246Z",
+    "session_id": "sess-1778682460688-93a9f2e2",
+    "session_epoch_started_at": "2026-05-13T14:27:40.688Z",
     "origin_runtime": "opencode",
-    "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+    "origin_workspace": "/home/we4free/agent/repos/SwarmMind"
   }
 }
