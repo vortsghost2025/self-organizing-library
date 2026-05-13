@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/homepage/HeroSection";
 import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
 import SystemOverview from "@/components/SystemOverview";
+import { ScrollRevealWrapper } from "@/components/ScrollRevealWrapper";
 
 export default async function Dashboard() {
   const heroTitle = "An AI system that proves what it knows.";
@@ -22,7 +23,7 @@ export default async function Dashboard() {
       <HomeSystemStateStrip />
       <SystemOverview />
 
-      <div className="card p-6 mb-12 animate-fade-in">
+      <ScrollRevealWrapper className="card p-6 mb-12">
         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">How It Works</h2>
         <div className="grid md:grid-cols-3 gap-4 text-center">
           <div>
@@ -38,46 +39,52 @@ export default async function Dashboard() {
             <h3 className="font-medium text-[var(--text-primary)] mb-2">The system tracks what survives</h3>
           </div>
         </div>
-      </div>
+      </ScrollRevealWrapper>
 
       <LaneArchitecture />
 
-      <div className="mb-12">
+<ScrollRevealWrapper className="mb-12">
         <div className="grid md:grid-cols-3 gap-4">
-          <a
-            href="/start-here"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">🟢</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Understand the idea</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Start with the foundational concepts.</p>
-            </div>
-          </a>
-          <a
-            href="/timeline"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">🔵</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">See the evolution</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Explore the chronological time-lapse of the system.</p>
-            </div>
-          </a>
-          <a
-            href="/papers"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">🟣</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Read the theory</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Deep technical papers and specs.</p>
-            </div>
-          </a>
+          <div data-revealed className="reveal-delay-1">
+            <a
+              href="/start-here"
+              className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
+            >
+              <div className="text-4xl" aria-hidden="true">🟢</div>
+              <div>
+                <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Understand the idea</h3>
+                <p className="text-sm text-[var(--text-secondary)]">Start with the foundational concepts.</p>
+              </div>
+            </a>
+          </div>
+          <div data-revealed className="reveal-delay-2">
+            <a
+              href="/timeline"
+              className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+            >
+              <div className="text-4xl" aria-hidden="true">🔵</div>
+              <div>
+                <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">See the evolution</h3>
+                <p className="text-sm text-[var(--text-secondary)]">Explore the chronological time-lapse of the system.</p>
+              </div>
+            </a>
+          </div>
+          <div data-revealed className="reveal-delay-3">
+            <a
+              href="/papers"
+              className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+            >
+              <div className="text-4xl" aria-hidden="true">🟣</div>
+              <div>
+                <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Read the theory</h3>
+                <p className="text-sm text-[var(--text-secondary)]">Deep technical papers and specs.</p>
+              </div>
+            </a>
+          </div>
         </div>
-      </div>
+      </ScrollRevealWrapper>
 
-      <div className="card p-6 mt-6 animate-fade-in">
+      <ScrollRevealWrapper className="card p-6 mt-6">
         <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
         <p className="text-[var(--text-secondary)] mb-4 text-sm">
           This is a living archive. It&apos;s not a finished product — it&apos;s the record of how the system
@@ -93,7 +100,7 @@ export default async function Dashboard() {
           <span>•</span>
           <span>Tags: 1,744</span>
         </div>
-      </div>
+      </ScrollRevealWrapper>
     </div>
   );
 }

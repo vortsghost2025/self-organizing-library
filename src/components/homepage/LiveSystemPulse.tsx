@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useScrollReveal } from '@/lib/useScrollReveal';
 
 interface SystemEvent {
   id: string;
@@ -15,6 +16,7 @@ interface SystemEvent {
 export function LiveSystemPulse() {
   const [latestEvent, setLatestEvent] = useState<SystemEvent | null>(null);
   const [loading, setLoading] = useState(true);
+  const ref = useScrollReveal<HTMLDivElement>();
 
   useEffect(() => {
     async function fetchPulse() {
@@ -38,12 +40,14 @@ export function LiveSystemPulse() {
   if (!latestEvent) return null;
 
   return (
-    <div className="mt-6 p-4 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] animate-fade-in">
+    <div ref={ref} className="mt-6 p-4 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] breathe" data-revealed>
       <div className="flex items-center gap-2 text-xs font-mono text-[var(--primary)] mb-2">
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-        </span>
+        <div className="pulse-ripple-container" style={{ color: '#22c55e' }}>
+          <div className="pulse-ripple-ring" />
+          <div className="pulse-ripple-ring" />
+          <div className="pulse-ripple-ring" />
+          <div className="pulse-ripple-dot" />
+        </div>
         LIVE SYSTEM PULSE
       </div>
       <div className="flex justify-between items-start gap-4">
@@ -51,7 +55,7 @@ export function LiveSystemPulse() {
           <h4 className="text-sm font-semibold text-[var(--text-primary)]">{latestEvent.title}</h4>
           <p className="text-xs text-[var(--text-secondary)] line-clamp-1">{latestEvent.description}</p>
         </div>
-        <Link 
+        <Link
           href={`/library?path=${encodeURIComponent(latestEvent.evidencePath)}`}
           className="text-[10px] px-2 py-1 rounded bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)]/20 transition-colors mono"
         >

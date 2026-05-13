@@ -172,6 +172,110 @@ button {
 .stagger-4 { animation-delay: 0.2s; }
 .stagger-5 { animation-delay: 0.25s; }
 
+[data-revealed] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--text-primary) 0%,
+    var(--text-primary) 40%,
+    var(--primary) 50%,
+    var(--text-primary) 60%,
+    var(--text-primary) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2.5s ease-in-out 0.5s 1 forwards;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.pulse-ripple-container {
+  position: relative;
+  width: 12px;
+  height: 12px;
+}
+
+.pulse-ripple-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  animation: ripple 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.pulse-ripple-ring:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.pulse-ripple-ring:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.pulse-ripple-dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  top: 3px;
+  left: 3px;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.breathe {
+  animation: breathe 2.5s ease-in-out infinite;
+}
+
+.auth-bar-fill {
+  width: 0 !important;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-revealed="true"] .auth-bar-fill {
+  width: var(--auth-width) !important;
+}
+
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+
 .skip-to-content {
   position: absolute;
   left: -9999px;

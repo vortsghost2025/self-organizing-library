@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useScrollReveal } from "@/lib/useScrollReveal";
 
 const LANES = [
   {
@@ -76,9 +77,10 @@ const RELAY_FLOWS = [
 
 export function LaneArchitecture() {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const sectionRef = useScrollReveal<HTMLElement>();
 
   return (
-    <section aria-label="4-Lane Architecture" className="card p-6 animate-fade-in">
+    <section ref={sectionRef} aria-label="4-Lane Architecture" className="card p-6" data-revealed>
       <h2 className="text-xl font-semibold mb-2 text-[var(--text-primary)]">
         4-Lane Constitutional Architecture
       </h2>
@@ -127,38 +129,39 @@ export function LaneArchitecture() {
           </defs>
         </svg>
 
-        {LANES.map((lane) => (
-          <button
-            key={lane.id}
-            onClick={() => setExpanded(expanded === lane.id ? null : lane.id)}
-            className="relative z-10 flex-1 flex flex-col items-center text-center p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] hover:border-[var(--primary)] transition-all cursor-pointer focus-visible:outline-3 focus-visible:outline-[var(--secondary)]"
-            style={{ minWidth: 0 }}
-            aria-expanded={expanded === lane.id}
-            aria-label={`${lane.name} lane — Position ${lane.position}, Authority ${lane.authority}, Role: ${lane.role}. Click to expand details.`}
-          >
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-xl mb-2"
-              style={{ background: `${lane.color}22`, border: `2px solid ${lane.color}`, color: "#FFFFFF" }}
-              aria-hidden="true"
+        {LANES.map((lane, i) => (
+          <div key={lane.id} data-revealed className={`reveal-delay-${i + 1}`}>
+            <button
+              onClick={() => setExpanded(expanded === lane.id ? null : lane.id)}
+              className="relative z-10 flex-1 flex flex-col items-center text-center p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] hover:border-[var(--primary)] transition-all cursor-pointer focus-visible:outline-3 focus-visible:outline-[var(--secondary)]"
+              style={{ minWidth: 0, '--auth-width': `${lane.authority * 0.4}px` } as React.CSSProperties}
+              aria-expanded={expanded === lane.id}
+              aria-label={`${lane.name} lane — Position ${lane.position}, Authority ${lane.authority}, Role: ${lane.role}. Click to expand details.`}
             >
-              {lane.icon}
-            </div>
-            <div className="font-semibold text-[var(--text-primary)] text-sm">{lane.name}</div>
-            <div className="text-xs text-[var(--text-muted)] mt-1">{lane.role}</div>
-            <div className="mt-2 flex items-center gap-1">
-              <span className="text-xs text-[var(--text-muted)]">Auth</span>
               <div
-                className="h-2 rounded-full"
-                style={{ width: `${lane.authority * 0.4}px`, background: lane.color }}
-                role="progressbar"
-                aria-valuenow={lane.authority}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label={`Authority level ${lane.authority} out of 100`}
-              />
-              <span className="text-xs mono" style={{ color: lane.textColor }}>{lane.authority}</span>
-            </div>
-          </button>
+                className="w-12 h-12 rounded-full flex items-center justify-center text-xl mb-2"
+                style={{ background: `${lane.color}22`, border: `2px solid ${lane.color}`, color: "#FFFFFF" }}
+                aria-hidden="true"
+              >
+                {lane.icon}
+              </div>
+              <div className="font-semibold text-[var(--text-primary)] text-sm">{lane.name}</div>
+              <div className="text-xs text-[var(--text-muted)] mt-1">{lane.role}</div>
+              <div className="mt-2 flex items-center gap-1">
+                <span className="text-xs text-[var(--text-muted)]">Auth</span>
+                <div
+                  className="h-2 rounded-full auth-bar-fill"
+                  style={{ background: lane.color }}
+                  role="progressbar"
+                  aria-valuenow={lane.authority}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label={`Authority level ${lane.authority} out of 100`}
+                />
+                <span className="text-xs mono" style={{ color: lane.textColor }}>{lane.authority}</span>
+              </div>
+            </button>
+          </div>
         ))}
       </div>
 
@@ -254,8 +257,8 @@ export function LaneArchitecture() {
 
       <div className="text-xs text-[var(--text-muted)] mt-2" role="note">
         Lanes communicate via signed cross-lane relay messages (JWS RS256). Click a lane to expand details.
-          Explore the <a href="/graph" className="text-[var(--primary-text)] hover:underline">nexus graph</a> for
-          the full cross-reference map, or visit the <a href="/governance" className="text-[var(--primary-text)] hover:underline">governance dashboard</a> for live system status.
+        Explore the <a href="/graph" className="text-[var(--primary-text)] hover:underline">nexus graph</a> for
+        the full cross-reference map, or visit the <a href="/governance" className="text-[var(--primary-text)] hover:underline">governance dashboard</a> for live system status.
       </div>
     </section>
   );

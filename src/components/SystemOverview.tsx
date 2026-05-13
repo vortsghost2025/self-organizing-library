@@ -1,18 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import { useScrollReveal } from "@/lib/useScrollReveal";
 
 export default function SystemOverview() {
+  const sectionRef = useScrollReveal<HTMLElement>();
+
   return (
-    <section className="card p-6 mb-12 animate-fade-in" aria-label="System overview">
+    <section ref={sectionRef} className="card p-6 mb-12" data-revealed aria-label="System overview">
       <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-6">
         System Overview
       </h2>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Left column: What & Who */}
         <div className="space-y-6">
-          <div>
+          <div data-revealed className="reveal-delay-1">
             <h3 className="text-lg font-medium text-[var(--text-primary)] mb-2">
               What Is This?
             </h3>
@@ -28,7 +30,7 @@ export default function SystemOverview() {
               The 4 Lanes
             </h3>
             <div className="space-y-3">
-              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
+              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]" data-revealed>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xl">🟢</span>
                   <span className="font-semibold text-[var(--success)]">Archivist</span>
@@ -38,7 +40,7 @@ export default function SystemOverview() {
                   the canonical record.
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
+              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] reveal-delay-1" data-revealed>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xl">🔵</span>
                   <span className="font-semibold text-[var(--primary)]">SwarmMind</span>
@@ -48,7 +50,7 @@ export default function SystemOverview() {
                   competitive evaluation.
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
+              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] reveal-delay-2" data-revealed>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xl">🟣</span>
                   <span className="font-semibold text-[var(--warning)]">Library</span>
@@ -58,7 +60,7 @@ export default function SystemOverview() {
                   enforcement checks before anything is ratified.
                 </p>
               </div>
-              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
+              <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] reveal-delay-3" data-revealed>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xl">⚫</span>
                   <span className="font-semibold text-[var(--accent)]">Kernel</span>
@@ -72,35 +74,34 @@ export default function SystemOverview() {
           </div>
         </div>
 
-        {/* Right column: How & Where */}
         <div className="space-y-6">
           <div>
             <h3 className="text-lg font-medium text-[var(--text-primary)] mb-3">
               How Information Flows
             </h3>
             <div className="relative border-l-2 border-[var(--border)] ml-4 pl-6 space-y-4">
-              <div className="relative animate-fade-in">
+              <div className="relative" data-revealed>
                 <div className="absolute -left-[41px] top-1 w-3 h-3 rounded-full bg-[var(--bg-surface)] border-2 border-[var(--primary)]" />
                 <div className="font-medium text-[var(--text-primary)]">1. Generate</div>
                 <p className="text-sm text-[var(--text-secondary)]">
                   Any agent proposes a change or creates content
                 </p>
               </div>
-              <div className="relative animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <div className="relative reveal-delay-1" data-revealed>
                 <div className="absolute -left-[41px] top-1 w-3 h-3 rounded-full bg-[var(--bg-surface)] border-2 border-[var(--success)]" />
                 <div className="font-medium text-[var(--text-primary)]">2. Challenge</div>
                 <p className="text-sm text-[var(--text-secondary)]">
                   Other agents review, test, and surface contradictions
                 </p>
               </div>
-              <div className="relative animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <div className="relative reveal-delay-2" data-revealed>
                 <div className="absolute -left-[41px] top-1 w-3 h-3 rounded-full bg-[var(--bg-surface)] border-2 border-[var(--warning)]" />
                 <div className="font-medium text-[var(--text-primary)]">3. Verify</div>
                 <p className="text-sm text-[var(--text-secondary)]">
                   Library runs automated checks and gathers evidence
                 </p>
               </div>
-              <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="relative reveal-delay-3" data-revealed>
                 <div className="absolute -left-[41px] top-1 w-3 h-3 rounded-full bg-[var(--bg-surface)] border-2 border-[var(--accent)]" />
                 <div className="font-medium text-[var(--text-primary)]">4. Archive</div>
                 <p className="text-sm text-[var(--text-secondary)]">
@@ -149,34 +150,33 @@ export default function SystemOverview() {
         </div>
       </div>
 
-      {/* Key concepts */}
       <div className="mt-8 pt-6 border-t border-[var(--border)]">
         <h3 className="text-lg font-medium text-[var(--text-primary)] mb-3">
           Key Concepts (at a glance)
         </h3>
         <div className="grid md:grid-cols-4 gap-4 text-sm">
-          <div>
+          <div data-revealed>
             <div className="font-semibold text-[var(--primary)] mb-1">Meaning Layers</div>
             <p className="text-[var(--text-secondary)]">
               Semantic grouping of nodes (governance, technical, semantic). Toggle visibility
               in the Nexus Graph.
             </p>
           </div>
-          <div>
+          <div className="reveal-delay-1" data-revealed>
             <div className="font-semibold text-[var(--success)] mb-1">Density</div>
             <p className="text-[var(--text-secondary)]">
               Zoom-driven detail level: overview (clusters), normal (key nodes), detailed
               (everything).
             </p>
           </div>
-          <div>
+          <div className="reveal-delay-2" data-revealed>
             <div className="font-semibold text-[var(--warning)] mb-1">Entry Points</div>
             <p className="text-[var(--text-secondary)]">
               Quick filters for common views: by cluster, by authority nodes, by repo or
               document type.
             </p>
           </div>
-          <div>
+          <div className="reveal-delay-3" data-revealed>
             <div className="font-semibold text-[var(--accent)] mb-1">Governance Layers</div>
             <p className="text-[var(--text-secondary)]">
               Vertical slices (SWARM, ARCHIVE, VERIFY, KERNEL) that cross-cut all nodes and
@@ -186,7 +186,6 @@ export default function SystemOverview() {
         </div>
       </div>
 
-      {/* Start here */}
       <div className="mt-8 pt-6 border-t border-[var(--border)]">
         <h3 className="text-lg font-medium text-[var(--text-primary)] mb-4">
           Start Here (recommended reading order)
@@ -194,7 +193,7 @@ export default function SystemOverview() {
         <div className="grid md:grid-cols-3 gap-4">
           <Link
             href="/start-here"
-            className="flex items-start gap-4 p-5 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+            className="flex items-start gap-4 p-5 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group" data-revealed
           >
             <div className="text-4xl" aria-hidden="true">📖</div>
             <div>
@@ -208,7 +207,7 @@ export default function SystemOverview() {
           </Link>
           <Link
             href="/graph"
-            className="flex items-start gap-4 p-5 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
+            className="flex items-start gap-4 p-5 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group reveal-delay-1" data-revealed
           >
             <div className="text-4xl" aria-hidden="true">🕸️</div>
             <div>
@@ -222,7 +221,7 @@ export default function SystemOverview() {
           </Link>
           <Link
             href="/timeline"
-            className="flex items-start gap-4 p-5 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+            className="flex items-start gap-4 p-5 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group reveal-delay-2" data-revealed
           >
             <div className="text-4xl" aria-hidden="true">📜</div>
             <div>
