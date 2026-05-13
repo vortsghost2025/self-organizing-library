@@ -589,8 +589,38 @@
       "started_at": "2026-05-13T07:40:55.165Z",
       "last_task": "nack-1778658047024-4du34g",
       "last_updated": "2026-05-13T07:40:55.165Z"
+    },
+    "nack-1778663720510-pflf0j": {
+      "chain_id": "nack-1778663720510-pflf0j",
+      "origin_task": "nack-1778663720510-pflf0j",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T09:15:33.215Z",
+      "last_task": "nack-1778663720510-pflf0j",
+      "last_updated": "2026-05-13T09:15:33.215Z"
+    },
+    "nack-1778663724678-s6yxj1": {
+      "chain_id": "nack-1778663724678-s6yxj1",
+      "origin_task": "nack-1778663724678-s6yxj1",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T09:15:33.216Z",
+      "last_task": "nack-1778663724678-s6yxj1",
+      "last_updated": "2026-05-13T09:15:33.216Z"
+    },
+    "nack-1778663732094-dp92vm": {
+      "chain_id": "nack-1778663732094-dp92vm",
+      "origin_task": "nack-1778663732094-dp92vm",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T09:15:33.216Z",
+      "last_task": "nack-1778663732094-dp92vm",
+      "last_updated": "2026-05-13T09:15:33.216Z"
     }
   },
   "completed_chains": [],
-  "last_run": "2026-05-13T09:11:46.151Z"
+  "last_run": "2026-05-13T09:15:33.216Z"
 }
