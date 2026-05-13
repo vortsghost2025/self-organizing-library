@@ -1,10 +1,10 @@
 {
-  "session_id": "sess_mp2oyb9m_1107433",
+  "session_id": "sess_mp3ownso_878807",
   "lane": "library",
-  "claimed_at": "2026-05-12T13:53:32.554Z",
-  "renewed_at": "2026-05-13T06:35:28.899Z",
-  "expires_at": "2026-05-13T06:50:28.899Z",
-  "pid": 1107433,
+  "claimed_at": "2026-05-13T06:40:01.656Z",
+  "renewed_at": "2026-05-13T06:40:01.674Z",
+  "expires_at": "2026-05-13T06:55:01.674Z",
+  "pid": 878807,
   "origin_runtime": "kilo",
-  "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
+  "origin_workspace": "/home/we4free"
 }
