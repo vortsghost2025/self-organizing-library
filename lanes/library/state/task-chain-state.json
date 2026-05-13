@@ -869,8 +869,18 @@
       "started_at": "2026-05-13T12:37:22.371Z",
       "last_task": "nack-1778675839365-5xjtzt",
       "last_updated": "2026-05-13T12:37:22.371Z"
+    },
+    "nack-1778676314648-hvb29h": {
+      "chain_id": "nack-1778676314648-hvb29h",
+      "origin_task": "nack-1778676314648-hvb29h",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T12:45:18.685Z",
+      "last_task": "nack-1778676314648-hvb29h",
+      "last_updated": "2026-05-13T12:45:18.685Z"
     }
   },
   "completed_chains": [],
-  "last_run": "2026-05-13T12:40:44.898Z"
+  "last_run": "2026-05-13T12:45:18.686Z"
 }
