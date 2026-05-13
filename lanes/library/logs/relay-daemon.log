@@ -1,0 +1,5 @@
+[relay-daemon] lane=library watching every 60s
+ERROR: Invalid event 'message_delivered'
+ERROR: Invalid event 'message_delivered'
+ERROR: Invalid event 'message_delivered'
+[relay-daemon] lane=library tick=1 outbound: delivered=3 incoming: collected=0 cross_inbox: collected=0
