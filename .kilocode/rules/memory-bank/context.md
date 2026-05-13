@@ -288,20 +288,6 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **All artifacts regenerated**: graph-analysis-packets.json, website-section-index.json, graph-packet-schema.json, AGENT_WEB_REVIEW_BRIEF.md
 - [x] **Quality gates**: typecheck + lint pass (indexer script and analyze_graph.js clean; 1 pre-existing error in store-journal.js is resolved)
 
-### Session 2026-05-13: OVERDRIVE — Cinematic Scroll Reveal + Living Pulse Dashboard
-- [x] **Direction C (Both A+B) OVERDRIVE implemented**: ~200 lines new CSS + 2 small React hooks, zero new dependencies
-- [x] **`useScrollReveal` hook created** (`src/lib/useScrollReveal.ts`): IntersectionObserver hook, returns `[ref, dataRevealed]`, sets `data-revealed="true"` on intersect, respects `prefers-reduced-motion`
-- [x] **`useCountUp` hook created** (`src/lib/useCountUp.ts`): Ref-based DOM write via rAF, returns `[elementRef, start] as const`, elastic spring easing, no useState (avoids React 19 strict lint), respects `prefers-reduced-motion`
-- [x] **`ScrollRevealWrapper` created** (`src/components/ScrollRevealWrapper.tsx`): Client component wrapper for server component sections, accepts `className` and `delay` prop
-- [x] **Part A — Cinematic Scroll Reveal**: Hero title shimmer (`hero-shimmer` class, 2.5s gradient animation), staggered `data-revealed` + `reveal-delay-N` on all homepage sections (hero, how-it-works, choose-your-path, about), lane architecture cards stagger sequentially, system overview sections stagger
-- [x] **Part B — Living Pulse Dashboard**: Pulse ripple effect (3 concentric rings expanding outward via `pulse-ripple-container/ring/dot`), breathe animation on pulse container (2.5s scale oscillation), auth-bar-fill width animation from 0→value on scroll-in (CSS custom property `--auth-width`), count-up animation on SystemInterpretation counters (spring easing via rAF)
-- [x] **7 component files updated**: `HeroSection.tsx`, `LiveSystemPulse.tsx`, `SystemInterpretation.tsx`, `LaneArchitecture.tsx`, `SystemOverview.tsx`, `page.tsx`, `globals.css`
-- [x] **globals.css additions**: `@keyframes shimmer`, `@keyframes ripple`, `@keyframes breathe`, `[data-revealed]` transition system, `.reveal-delay-1` through `-5`, `.hero-shimmer`, `.pulse-ripple-*`, `.auth-bar-fill`, `.count-up`
-- [x] **Polish iteration completed**: Shimmer timing narrowed (20% highlight band), ripple scale/opacity/border adjusted, breathe amplitude increased, data-revealed translateY/duration tuned, reveal-delay spacing widened
-- [x] **`prefers-reduced-motion` coverage verified**: Global CSS `!important` rule kills all animations/transitions; both JS hooks check `matchMedia` and skip animation/instant-set-final-value
-- [x] **Browser visual verification** (2 passes): All 33 data-revealed elements working, hero shimmer active, 3 ripple rings animating, breathe active, auth bars at correct widths, count-ups populated
-- [x] **All quality gates PASS**: typecheck + lint clean
-
 ### Session 2026-05-12: Gastown Convoy Branch Review + Cherry-picks + Journal + Inbox + Unit Tests
 - [x] **Unit tests for contradiction-filter.ts** (14/14 pass): Tests tag-group stride-sampling artifact (CDC=39) and cluster homogeneity (>90% identical pattern) heuristics
 - [x] **Unit tests for graph-snapshot-watcher.ts** (13/13 pass): Tests parse, validate, process, state isolation, processor registration, error handling. Fixed: duplicate try/catch block in processSnapshot, missing `repo_filter` in test helper, added `stateFile` option for test isolation, moved state recording before processor check

@@ -1,8 +1,10 @@
 {
-  "session_id": "sess_mp2xsu77_314024",
+  "session_id": "sess_mp45c80q_2881773",
   "lane": "library",
-  "claimed_at": "2026-05-12T18:01:13.709Z",
-  "pid": 314024,
-  "origin_runtime": "opencode",
-  "origin_workspace": "S:\\self-organizing-library"
+  "claimed_at": "2026-05-13T14:20:01.562Z",
+  "renewed_at": "2026-05-13T14:20:01.584Z",
+  "expires_at": "2026-05-13T14:35:01.584Z",
+  "pid": 2881773,
+  "origin_runtime": "kilo",
+  "origin_workspace": "/home/we4free"
 }

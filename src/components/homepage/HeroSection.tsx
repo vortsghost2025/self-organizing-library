@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useScrollReveal } from "@/lib/useScrollReveal";
 
 interface HeroSectionProps {
   title: string;
@@ -10,18 +9,16 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ title, tagline, onStartWalkthrough }: HeroSectionProps) {
-  const ref = useScrollReveal<HTMLDivElement>();
-
   return (
-    <div ref={ref} className="mb-12" data-revealed>
-      <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4 hero-shimmer">
+    <div className="mb-12 animate-fade-in">
+      <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
         {title}
       </h1>
-      <p className="text-lg text-[var(--text-secondary)] max-w-3xl mb-8 reveal-delay-1" data-revealed>
+      <p className="text-lg text-[var(--text-secondary)] max-w-3xl mb-8">
         {tagline}
       </p>
 
-      <div className="flex flex-wrap gap-4 mb-8 reveal-delay-2" data-revealed>
+      <div className="flex flex-wrap gap-4 mb-8">
         <Link
           href="/start-here"
           className="px-6 py-3 bg-[var(--primary)] text-white rounded-lg font-medium hover:bg-[var(--primary)]/90 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
