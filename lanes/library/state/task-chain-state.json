@@ -629,8 +629,28 @@
       "started_at": "2026-05-13T09:51:36.364Z",
       "last_task": "nack-1778665893335-z4cq08",
       "last_updated": "2026-05-13T09:51:36.364Z"
+    },
+    "nack-1778668493523-7smded": {
+      "chain_id": "nack-1778668493523-7smded",
+      "origin_task": "nack-1778668493523-7smded",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T10:35:00.307Z",
+      "last_task": "nack-1778668493523-7smded",
+      "last_updated": "2026-05-13T10:35:00.307Z"
+    },
+    "nack-1778668498126-nye8v7": {
+      "chain_id": "nack-1778668498126-nye8v7",
+      "origin_task": "nack-1778668498126-nye8v7",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T10:35:00.308Z",
+      "last_task": "nack-1778668498126-nye8v7",
+      "last_updated": "2026-05-13T10:35:00.308Z"
     }
   },
   "completed_chains": [],
-  "last_run": "2026-05-13T10:27:35.532Z"
+  "last_run": "2026-05-13T10:35:00.308Z"
 }
