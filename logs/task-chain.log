@@ -711,3 +711,6 @@
 [2026-05-13T09:03:58.618Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
 [2026-05-13T09:03:58.619Z] [task-chain] No tasks in inbox — iteration 0 idle
 [2026-05-13T09:03:58.619Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=59 chains_completed=0 followups=0
+[2026-05-13T09:08:19.714Z] [task-chain] Starting task-chain-engine run (lane=library, dry_run=false)
+[2026-05-13T09:08:19.715Z] [task-chain] No tasks in inbox — iteration 0 idle
+[2026-05-13T09:08:19.715Z] [task-chain] Run complete: iterations=1 processed=0 chains_active=59 chains_completed=0 followups=0
