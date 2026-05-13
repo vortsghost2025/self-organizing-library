@@ -149,8 +149,18 @@
       "started_at": "2026-05-13T01:37:38.055Z",
       "last_task": "nack-1778636256609-sdh1g8",
       "last_updated": "2026-05-13T01:37:38.055Z"
+    },
+    "nack-1778637077706-1ghz74": {
+      "chain_id": "nack-1778637077706-1ghz74",
+      "origin_task": "nack-1778637077706-1ghz74",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-13T01:51:33.715Z",
+      "last_task": "nack-1778637077706-1ghz74",
+      "last_updated": "2026-05-13T01:51:33.715Z"
     }
   },
   "completed_chains": [],
-  "last_run": "2026-05-13T01:41:08.154Z"
+  "last_run": "2026-05-13T01:58:46.896Z"
 }
