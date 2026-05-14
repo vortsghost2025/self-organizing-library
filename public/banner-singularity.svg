@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="500" viewBox="0 0 1920 500">
+  <defs>
+    <radialGradient id="nexus-core" cx="50%" cy="45%" r="35%" fx="50%" fy="45%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="15%" stop-color="#C4B5FD" stop-opacity="0.7"/>
+      <stop offset="35%" stop-color="#8B5CF6" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#0D0D0F" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0D0D0F" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="deep-space" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0a0a0f"/>
+    </radialGradient>
+
+    <radialGradient id="glow-green" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glow-purple" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glow-teal" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glow-amber" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="blur-heavy">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="blur-med">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="blur-light">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+
+    <pattern id="micro-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="0.5" fill="rgba(255,255,255,0.08)"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#deep-space)"/>
+
+  <rect width="100%" height="100%" fill="url(#micro-grid)"/>
+
+  <!-- Library lane stream — left, heavier (authority) -->
+  <ellipse cx="400" cy="225" rx="280" ry="120" fill="url(#glow-green)" filter="url(#blur-heavy)" opacity="0.8"/>
+  <path d="M 120 225 Q 400 180 960 225" stroke="#10B981" stroke-width="3" fill="none" opacity="0.5" filter="url(#blur-light)"/>
+  <path d="M 180 250 Q 420 210 960 230" stroke="#10B981" stroke-width="2.5" fill="none" opacity="0.4"/>
+  <path d="M 80 200 Q 360 160 960 220" stroke="#10B981" stroke-width="2" fill="none" opacity="0.3"/>
+  <!-- Library node clusters along stream -->
+  <circle cx="320" cy="210" r="4" fill="#10B981" opacity="0.9"/>
+  <circle cx="380" cy="195" r="3" fill="#10B981" opacity="0.7"/>
+  <circle cx="440" cy="208" r="5" fill="#10B981" opacity="0.8"/>
+  <circle cx="520" cy="218" r="3.5" fill="#10B981" opacity="0.6"/>
+  <circle cx="600" cy="222" r="4.5" fill="#10B981" opacity="0.7"/>
+  <circle cx="680" cy="215" r="3" fill="#10B981" opacity="0.5"/>
+  <circle cx="760" cy="220" r="4" fill="#10B981" opacity="0.6"/>
+  <circle cx="840" cy="225" r="3.5" fill="#10B981" opacity="0.5"/>
+
+  <!-- Archivist lane stream — right, heavier (authority) -->
+  <ellipse cx="1520" cy="225" rx="280" ry="120" fill="url(#glow-purple)" filter="url(#blur-heavy)" opacity="0.8"/>
+  <path d="M 1800 225 Q 1520 180 960 225" stroke="#7C3AED" stroke-width="3" fill="none" opacity="0.5" filter="url(#blur-light)"/>
+  <path d="M 1740 250 Q 1500 210 960 230" stroke="#7C3AED" stroke-width="2.5" fill="none" opacity="0.4"/>
+  <path d="M 1840 200 Q 1560 160 960 220" stroke="#7C3AED" stroke-width="2" fill="none" opacity="0.3"/>
+  <!-- Archivist node clusters -->
+  <circle cx="1600" cy="210" r="4" fill="#7C3AED" opacity="0.9"/>
+  <circle cx="1540" cy="195" r="3" fill="#7C3AED" opacity="0.7"/>
+  <circle cx="1480" cy="208" r="5" fill="#7C3AED" opacity="0.8"/>
+  <circle cx="1400" cy="218" r="3.5" fill="#7C3AED" opacity="0.6"/>
+  <circle cx="1320" cy="222" r="4.5" fill="#7C3AED" opacity="0.7"/>
+  <circle cx="1240" cy="215" r="3" fill="#7C3AED" opacity="0.5"/>
+  <circle cx="1160" cy="220" r="4" fill="#7C3AED" opacity="0.6"/>
+  <circle cx="1080" cy="225" r="3.5" fill="#7C3AED" opacity="0.5"/>
+
+  <!-- SwarmMind lane stream — top-left, lighter -->
+  <ellipse cx="600" cy="80" rx="220" ry="80" fill="url(#glow-teal)" filter="url(#blur-heavy)" opacity="0.6"/>
+  <path d="M 200 80 Q 500 120 960 210" stroke="#06B6D4" stroke-width="2" fill="none" opacity="0.35"/>
+  <path d="M 300 60 Q 550 100 960 200" stroke="#06B6D4" stroke-width="1.5" fill="none" opacity="0.25"/>
+  <!-- SwarmMind scattered particles -->
+  <circle cx="300" cy="90" r="2.5" fill="#06B6D4" opacity="0.6"/>
+  <circle cx="380" cy="100" r="2" fill="#06B6D4" opacity="0.5"/>
+  <circle cx="460" cy="115" r="3" fill="#06B6D4" opacity="0.4"/>
+  <circle cx="540" cy="135" r="2" fill="#06B6D4" opacity="0.5"/>
+  <circle cx="620" cy="150" r="2.5" fill="#06B6D4" opacity="0.4"/>
+  <circle cx="700" cy="168" r="2" fill="#06B6D4" opacity="0.3"/>
+  <circle cx="780" cy="185" r="2.5" fill="#06B6D4" opacity="0.4"/>
+  <circle cx="860" cy="200" r="2" fill="#06B6D4" opacity="0.3"/>
+
+  <!-- Kernel lane stream — bottom-right, lighter -->
+  <ellipse cx="1320" cy="400" rx="220" ry="80" fill="url(#glow-amber)" filter="url(#blur-heavy)" opacity="0.55"/>
+  <path d="M 1720 400 Q 1420 370 960 260" stroke="#F59E0B" stroke-width="2" fill="none" opacity="0.35"/>
+  <path d="M 1620 420 Q 1380 380 960 270" stroke="#F59E0B" stroke-width="1.5" fill="none" opacity="0.25"/>
+  <!-- Kernel orbital nodes -->
+  <circle cx="1620" cy="390" r="2.5" fill="#F59E0B" opacity="0.6"/>
+  <circle cx="1540" cy="380" r="2" fill="#F59E0B" opacity="0.5"/>
+  <circle cx="1460" cy="370" r="3" fill="#F59E0B" opacity="0.4"/>
+  <circle cx="1380" cy="360" r="2" fill="#F59E0B" opacity="0.5"/>
+  <circle cx="1300" cy="345" r="2.5" fill="#F59E0B" opacity="0.4"/>
+  <circle cx="1220" cy="330" r="2" fill="#F59E0B" opacity="0.3"/>
+  <circle cx="1140" cy="310" r="2.5" fill="#F59E0B" opacity="0.4"/>
+  <circle cx="1060" cy="290" r="2" fill="#F59E0B" opacity="0.3"/>
+
+  <!-- Central nexus core glow -->
+  <ellipse cx="960" cy="225" rx="160" ry="160" fill="url(#nexus-core)" filter="url(#blur-med)" opacity="0.9"/>
+
+  <!-- High-density node cluster at center (the singularity) -->
+  <g opacity="0.9">
+    <circle cx="960" cy="225" r="12" fill="#FFFFFF" opacity="0.15"/>
+    <circle cx="960" cy="225" r="6" fill="#FFFFFF" opacity="0.4"/>
+    <circle cx="960" cy="225" r="2.5" fill="#FFFFFF" opacity="0.9"/>
+  </g>
+
+  <!-- Inner convergence nodes -->
+  <g filter="url(#blur-light)">
+    <circle cx="940" cy="210" r="2" fill="#10B981" opacity="0.8"/>
+    <circle cx="980" cy="210" r="2" fill="#7C3AED" opacity="0.8"/>
+    <circle cx="950" cy="240" r="2" fill="#06B6D4" opacity="0.7"/>
+    <circle cx="970" cy="240" r="2" fill="#F59E0B" opacity="0.7"/>
+  </g>
+
+  <!-- Outer ring of convergence nodes -->
+  <circle cx="930" cy="200" r="1.5" fill="#10B981" opacity="0.6"/>
+  <circle cx="990" cy="200" r="1.5" fill="#7C3AED" opacity="0.6"/>
+  <circle cx="920" cy="225" r="1.5" fill="#10B981" opacity="0.5"/>
+  <circle cx="1000" cy="225" r="1.5" fill="#7C3AED" opacity="0.5"/>
+  <circle cx="935" cy="250" r="1.5" fill="#06B6D4" opacity="0.5"/>
+  <circle cx="985" cy="250" r="1.5" fill="#F59E0B" opacity="0.5"/>
+  <circle cx="945" cy="195" r="1" fill="#C4B5FD" opacity="0.4"/>
+  <circle cx="975" cy="195" r="1" fill="#C4B5FD" opacity="0.4"/>
+  <circle cx="945" cy="255" r="1" fill="#34D399" opacity="0.4"/>
+  <circle cx="975" cy="255" r="1" fill="#FBBF24" opacity="0.4"/>
+
+  <!-- Fine connection lines from convergence nodes to core -->
+  <line x1="940" y1="210" x2="960" y2="225" stroke="#10B981" stroke-width="0.8" opacity="0.4"/>
+  <line x1="980" y1="210" x2="960" y2="225" stroke="#7C3AED" stroke-width="0.8" opacity="0.4"/>
+  <line x1="950" y1="240" x2="960" y2="225" stroke="#06B6D4" stroke-width="0.8" opacity="0.3"/>
+  <line x1="970" y1="240" x2="960" y2="225" stroke="#F59E0B" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Subtle vignette edges -->
+  <rect width="100%" height="100%" fill="url(#deep-space)" opacity="0.3" style="mix-blend-mode:multiply"/>
+</svg>

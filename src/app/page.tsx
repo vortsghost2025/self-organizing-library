@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
@@ -200,20 +201,33 @@ export default async function Dashboard() {
       </div>
 
       <div className="card p-6 mt-6 animate-fade-in">
-        <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
-        <p className="text-[var(--text-secondary)] mb-4 text-sm">
-          This is a living archive. It&apos;s not a finished product — it&apos;s the record of how the system
-          was built, why decisions were made, and what constraints are enforced. Every governance
-          artifact, every test result, and every failure mode is preserved here for audit.
-        </p>
-        <div className="flex flex-wrap gap-4 text-xs text-[var(--text-muted)] mono">
-          <span>Status: Operational</span>
-          <span>•</span>
-          <span>Lanes: 4 active</span>
-          <span>•</span>
-        <span>Documents: {stats.totalFiles.toLocaleString()}</span>
-        <span>•</span>
-        <span>Tags: {stats.tagCount.toLocaleString()}</span>
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
+            <p className="text-[var(--text-secondary)] mb-4 text-sm">
+              This is a living archive. It&apos;s not a finished product — it&apos;s the record of how the system
+              was built, why decisions were made, and what constraints are enforced. Every governance
+              artifact, every test result, and every failure mode is preserved here for audit.
+            </p>
+            <div className="flex flex-wrap gap-4 text-xs text-[var(--text-muted)] mono">
+              <span>Status: Operational</span>
+              <span>•</span>
+              <span>Lanes: 4 active</span>
+              <span>•</span>
+              <span>Documents: {stats.totalFiles.toLocaleString()}</span>
+              <span>•</span>
+              <span>Tags: {stats.tagCount.toLocaleString()}</span>
+            </div>
+          </div>
+          <div className="w-full md:w-48 h-32 md:h-auto flex-shrink-0 rounded-lg overflow-hidden border border-[var(--border)]">
+            <Image
+              src="/ss.jpg"
+              alt="Human-AI partnership: the convergence point where human intent meets machine verification"
+              width={192}
+              height={128}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </div>
     </div>
