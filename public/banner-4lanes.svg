@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="500" viewBox="0 0 1920 500">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#0a0a0f"/>
+  
+  <!-- Grid overlay -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  </pattern>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+  
+  <!-- Lane sections (4 equal vertical strips) -->
+  
+  <!-- Archivist: purple -->
+  <g transform="translate(0,0)">
+    <defs>
+      <linearGradient id="archivist-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.1"/>
+      </linearGradient>
+    </defs>
+    <rect width="480" height="500" fill="url(#archivist-grad)"/>
+    <!-- Seal icon -->
+    <circle cx="240" cy="200" r="80" fill="none" stroke="#7C3AED" stroke-width="6"/>
+    <circle cx="240" cy="200" r="50" fill="none" stroke="#7C3AED" stroke-width="4"/>
+    <line x1="200" y1="200" x2="280" y2="200" stroke="#7C3AED" stroke-width="4"/>
+    <line x1="240" y1="160" x2="240" y2="240" stroke="#7C3AED" stroke-width="4"/>
+  </g>
+  
+  <!-- SwarmMind: teal -->
+  <g transform="translate(480,0)">
+    <defs>
+      <linearGradient id="swarm-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#06B6D4" stop-opacity="0.1"/>
+      </linearGradient>
+    </defs>
+    <rect width="480" height="500" fill="url(#swarm-grad)"/>
+    <!-- Swarm particles forming thought bubble -->
+    <g fill="#06B6D4">
+      <circle cx="240" cy="180" r="30"/>
+      <circle cx="200" cy="220" r="25"/>
+      <circle cx="280" cy="220" r="25"/>
+      <circle cx="180" cy="260" r="20"/>
+      <circle cx="300" cy="260" r="20"/>
+      <circle cx="220" cy="260" r="20"/>
+    </g>
+  </g>
+  
+  <!-- Library: green -->
+  <g transform="translate(960,0)">
+    <defs>
+      <linearGradient id="library-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#10B981" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#10B981" stop-opacity="0.1"/>
+      </linearGradient>
+    </defs>
+    <rect width="480" height="500" fill="url(#library-grad)"/>
+    <!-- Knowledge repository: stacked books -->
+    <g fill="#10B981">
+      <rect x="210" y="170" width="60" height="120" rx="4"/>
+      <rect x="240" y="150" width="60" height="140" rx="4"/>
+      <rect x="270" y="180" width="60" height="110" rx="4"/>
+    </g>
+  </g>
+  
+  <!-- Kernel: amber -->
+  <g transform="translate(1440,0)">
+    <defs>
+      <linearGradient id="kernel-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.1"/>
+      </linearGradient>
+    </defs>
+    <rect width="480" height="500" fill="url(#kernel-grad)"/>
+    <!-- System core: concentric rings -->
+    <circle cx="240" cy="200" r="70" fill="none" stroke="#F59E0B" stroke-width="8"/>
+    <circle cx="240" cy="200" r="40" fill="none" stroke="#F59E0B" stroke-width="8"/>
+    <circle cx="240" cy="200" r="10" fill="#F59E0B"/>
+  </g>
+  
+  <!-- Central dividing lines -->
+  <line x1="480" y1="0" x2="480" y2="500" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <line x1="960" y1="0" x2="960" y2="500" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <line x1="1440" y1="0" x2="1440" y2="500" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  
+  <!-- Title overlay -->
+  <text x="960" y="400" text-anchor="middle" fill="white" font-size="48" font-weight="bold" style="text-shadow: 0 2px 12px rgba(0,0,0,0.9); font-family: system-ui, sans-serif;">DELIBERATE ENSEMBLE</text>
+  <text x="960" y="460" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="26" style="text-shadow: 0 2px 12px rgba(0,0,0,0.9); font-family: system-ui, sans-serif;">Four-Lane Constitutional Governance</text>
+</svg>

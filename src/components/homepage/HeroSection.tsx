@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 interface HeroSectionProps {
   title: string;
@@ -12,10 +13,13 @@ export function HeroSection({ title, tagline, onStartWalkthrough }: HeroSectionP
   return (
     <div className="mb-12 animate-fade-in">
       <div className="mb-8 w-full h-64 md:h-80 overflow-hidden rounded-lg border border-[var(--border)]">
-        <img
-          src="/sigularity2.jpg"
-          alt="Deliberate Ensemble banner"
-          className="w-full h-full object-center object-cover"
+        <Image
+          src="/banner-4lanes.svg"
+          alt="Deliberate Ensemble 4-lane governance system: Archivist, SwarmMind, Library, Kernel"
+          width={1920}
+          height={500}
+          priority
+          className="w-full h-full object-cover"
         />
       </div>
       <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
