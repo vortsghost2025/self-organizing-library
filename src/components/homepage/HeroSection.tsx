@@ -11,11 +11,11 @@ interface HeroSectionProps {
 export function HeroSection({ title, tagline, onStartWalkthrough }: HeroSectionProps) {
   return (
     <div className="mb-12 animate-fade-in">
-      <div className="mb-8 w-full h-48 md:h-64 overflow-hidden rounded-lg border border-[var(--border)]">
+      <div className="mb-8 w-full h-64 md:h-80 overflow-hidden rounded-lg border border-[var(--border)]">
         <img
           src="/sigularity2.jpg"
           alt="Deliberate Ensemble banner"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-center object-cover"
         />
       </div>
       <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
