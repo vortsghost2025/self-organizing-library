@@ -90,3 +90,9 @@ lanes/*/inbox/quarantine/
 lanes/broadcast/hygiene/
 lanes/broadcast/operator_alert_*.json
 lanes/broadcast/quarantine/
+
+# Large graph/data snapshots
+data/snapshots/
+
+# Local library copies (duplicates of public/ assets)
+library/
