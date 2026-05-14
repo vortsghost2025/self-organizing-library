@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+!.identity/public.pem
 
 # debug
 npm-debug.log*
@@ -40,10 +41,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Identity keys (NEVER commit)
-.identity/
+# Identity keys (NEVER commit private keys)
+.identity/private.pem
+.identity/ed25519_private.pem
+.identity/snapshot.jws
 *.key
-keys.json
 
 # Context buffer (working notes, not source)
 /context-buffer/
