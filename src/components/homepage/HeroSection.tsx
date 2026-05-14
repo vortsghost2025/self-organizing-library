@@ -13,7 +13,7 @@ export function HeroSection({ title, tagline, onStartWalkthrough }: HeroSectionP
     <div className="mb-12 animate-fade-in">
       <div className="mb-8 w-full h-48 md:h-64 overflow-hidden rounded-lg border border-[var(--border)]">
         <img
-          src="/ss.jpg"
+          src="/sigularity2.jpg"
           alt="Deliberate Ensemble banner"
           className="w-full h-full object-cover"
         />
