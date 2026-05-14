@@ -15,6 +15,23 @@ paths-ignore:
   - "lanes/broadcast/**/*.json"
   - "lanes/library/state/*.json"
   - "lanes/archivist/state/*.json"
+  - "lanes/swarmmind/state/*.json"
+  - "lanes/kernel/state/*.json"
+  - "lanes/library/journal/*.jsonl"
+
+# ── Trust store (public keys only) ─────────────────────────────────────
+# trust-store.json contains Ed25519/RSA PUBLIC keys for all 4 lanes.
+# These are verification keys, NOT private keys. GitGuardian flags
+# the PEM blocks but they are all public keys.
+  - "lanes/broadcast/trust-store.json"
+
+# ── Identity directory ─────────────────────────────────────────────────
+# .identity/ is gitignored but some files were tracked before gitignore.
+# snapshot.json contains public key metadata only.
+# sign-snapshot.js is a signing script (loads key from env at runtime).
+# keys.json and snapshot.jws have been untracked as of 2026-05-14.
+  - ".identity/snapshot.json"
+  - ".identity/sign-snapshot.js"
 
 # ── Guard seals ─────────────────────────────────────────────────────────
 # Seal files contain content hashes for integrity verification,
@@ -23,10 +40,25 @@ paths-ignore:
 
 # ── Graph write guard logs ──────────────────────────────────────────────
 # Audit logs may reference file paths that look like hex secrets.
-  - "logs/.c6aa8d7abf14d09ccba825952e0e8c9f1153f0ed-audit.json"
+  - "logs/*.json"
 
 # ── Site index content snippets ─────────────────────────────────────────
 # site-index.json contains document content excerpts that may
 # mention "secret" or "password" in documentation text.
 # These are excerpts from markdown docs, not actual secrets.
   - "data/site-index.json"
+
+# ── Governance documents ────────────────────────────────────────────────
+# Governance JSON files may contain JWS signatures, key fingerprints,
+# and hex-encoded identifiers that trigger detectors.
+  - "governance/**/*.json"
+
+# ── Schemas ─────────────────────────────────────────────────────────────
+# Schema files may contain example JWT/JWS structures for documentation.
+  - "schemas/**/*.json"
+
+# ── CI auto-commit state files ──────────────────────────────────────────
+# The library lane-worker auto-commits state syncs every 5 minutes.
+# These state files contain task chain data and active-owner records
+# with hex identifiers that trigger detectors.
+  - "logs/task-chain.log"
