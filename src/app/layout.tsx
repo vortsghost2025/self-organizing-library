@@ -8,6 +8,34 @@ import { getStats } from "@/lib/site-index";
 export const metadata: Metadata = {
   title: "Deliberate Ensemble - Research Archive",
   description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
+  openGraph: {
+    title: "Deliberate Ensemble - Research Archive",
+    description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
+    url: "https://deliberateensemble.works",
+    siteName: "Deliberate Ensemble",
+    images: [
+      {
+        url: "/sigularity2.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Deliberate Ensemble - human-AI partnership",
+      },
+      {
+        url: "/ss.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Deliberate Ensemble - research archive",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Deliberate Ensemble - Research Archive",
+    description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
+    images: ["/sigularity2.jpg"],
+  },
 };
 
 export default function RootLayout({

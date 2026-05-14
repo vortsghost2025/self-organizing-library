@@ -1,0 +1,32 @@
+# GitGuardian configuration
+# This file suppresses false positives from lane protocol artifacts.
+
+version: 2
+
+# ── Lane relay messages ────────────────────────────────────────────────
+# Cross-lane messages (inbox/outbox) contain EdDSA JWT signatures
+# as part of the lane relay protocol (JWS RS256 / EdDSA).
+# These are NOT secrets — they are verifiable message signatures
+# embedded intentionally for authentication.
+# The corresponding private keys are in .identity/ (gitignored).
+paths-ignore:
+  - "lanes/*/inbox/*.json"
+  - "lanes/*/outbox/*.json"
+  - "lanes/broadcast/**/*.json"
+  - "lanes/library/state/*.json"
+  - "lanes/archivist/state/*.json"
+
+# ── Guard seals ─────────────────────────────────────────────────────────
+# Seal files contain content hashes for integrity verification,
+# not secrets. The path is hex-encoded (not identifying).
+  - ".guard-seals/*.json"
+
+# ── Graph write guard logs ──────────────────────────────────────────────
+# Audit logs may reference file paths that look like hex secrets.
+  - "logs/.c6aa8d7abf14d09ccba825952e0e8c9f1153f0ed-audit.json"
+
+# ── Site index content snippets ─────────────────────────────────────────
+# site-index.json contains document content excerpts that may
+# mention "secret" or "password" in documentation text.
+# These are excerpts from markdown docs, not actual secrets.
+  - "data/site-index.json"

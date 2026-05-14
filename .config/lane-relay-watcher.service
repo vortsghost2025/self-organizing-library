@@ -1,0 +1,17 @@
+[Unit]
+Description=Lane Message Relay Watcher
+Author=Library Agent
+After=network-online.target sshfs.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=we4free
+ExecStart=/home/we4free/agent/scripts/lane-relay-watcher.sh
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

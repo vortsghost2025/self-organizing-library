@@ -68,7 +68,7 @@ export const MEANING_LAYER_EDGES: Record<MeaningLayer, AuthorityEdgeType[]> = {
   governance: ["VERIFIES", "SIGNED_BY", "CONTRADICTS", "DERIVES_FROM"],
 };
 
-export const DEFAULT_LAYERS: MeaningLayer[] = ["structure", "verification"];
+export const DEFAULT_LAYERS: MeaningLayer[] = ["structure", "verification", "execution", "governance"];
 
 export const TYPE_COLORS: Record<string, string> = {
   doc: "#7C3AED",
@@ -240,8 +240,8 @@ export const MODE_CONFIG: Record<GraphMode, {
   understand: {
     label: "Verified Core",
     description: "Human-friendly entry — verified cores only",
-    density: "overview",
-    layers: ["structure", "verification"],
+    density: "mid",
+    layers: ["structure", "verification", "execution", "governance"],
     showUnverified: true,
     showQuarantined: true,
     highlightCoreNodes: true,
@@ -251,7 +251,7 @@ export const MODE_CONFIG: Record<GraphMode, {
     label: "Contradictions & Quarantine",
     description: "See how system detects and isolates problems",
     density: "mid",
-    layers: ["structure", "verification", "conflicts"],
+    layers: ["structure", "verification", "conflicts", "execution", "governance"],
     showUnverified: true,
     showQuarantined: true,
     highlightCoreNodes: false,
