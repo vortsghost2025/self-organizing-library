@@ -87,7 +87,7 @@ const KNOWN_LANES = Object.keys(LANE_ROOTS);
 // UTILITY
 // ---------------------------------------------------------------------------
 
-function getRepoRoot() {
+function repoRoot() {
   return path.resolve(__dirname, '..');
 }
 
@@ -98,14 +98,14 @@ function journalDir(lane) {
   if (LANE_ROOTS[lane]) {
     return path.join(LANE_ROOTS[lane], 'journal');
   }
-  return path.join(getRepoRoot(), 'lanes', lane, 'journal');
+  return path.join(repoRoot(), 'lanes', lane, 'journal');
 }
 
 function broadcastJournalDir() {
   if (BROADCAST_DIR) {
     return path.join(BROADCAST_DIR, 'journal');
   }
-  return path.join(getRepoRoot(), 'lanes', 'broadcast', 'journal');
+  return path.join(repoRoot(), 'lanes', 'broadcast', 'journal');
 }
 
 function journalPath(lane, dateStr) {
@@ -296,11 +296,15 @@ function cmdAppend(args) {
     process.exit(1);
   }
   const event = args[eventIdx + 1];
-  const validEvents = [
-    'work_started', 'work_completed', 'file_ownership_claimed',
-    'file_ownership_released', 'test_result', 'compact_restore',
-    'sudo_action', 'provider_call', 'quarantine_event', 'handoff'
-  ];
+const validEvents = [
+  'work_started', 'work_completed', 'work_quarantined',
+  'file_ownership_claimed', 'file_ownership_released',
+  'test_result', 'compact_restore', 'sudo_action',
+  'provider_call', 'quarantine_event', 'handoff',
+  'message_delivered', 'message_sent', 'heartbeat',
+  'adjudication', 'blocker_set', 'blocker_cleared',
+  'governance_check', 'convergence_sync'
+];
   if (!validEvents.includes(event)) {
     console.error(`ERROR: Invalid event '${event}'`);
     process.exit(1);
@@ -348,28 +352,11 @@ if (reviewArg && !entry.review) {
   catch (e) { console.error('ERROR: Invalid --review JSON: ' + e.message); process.exit(1); }
 }
 
-  const priorAttemptsArg = getArg(args, '--prior-attempts');
-  if (priorAttemptsArg && !entry.prior_attempts) {
-    try { entry.prior_attempts = JSON.parse(priorAttemptsArg); }
-    catch (e) { console.error('ERROR: Invalid --prior-attempts JSON: ' + e.message); process.exit(1); }
-  }
-
-  const handoffStatusArg = getArg(args, '--handoff-status');
-  if (handoffStatusArg && !entry.handoff) {
-    entry.handoff = { status: handoffStatusArg };
-  }
-  const handoffNextActionArg = getArg(args, '--handoff-next-action');
-  if (handoffNextActionArg && entry.handoff) {
-    entry.handoff.next_action = handoffNextActionArg;
-  }
-  const handoffDoNotOverwriteArg = getArg(args, '--handoff-do-not-overwrite');
-  if (handoffDoNotOverwriteArg && entry.handoff) {
-    entry.handoff.do_not_overwrite = handoffDoNotOverwriteArg.split(',').map(f => f.trim()).filter(Boolean);
-  }
-  const handoffHumanRequired = args.includes('--handoff-human-required');
-  if (handoffHumanRequired && entry.handoff) {
-    entry.handoff.human_required = true;
-  }
+const priorAttemptsArg = getArg(args, '--prior-attempts');
+if (priorAttemptsArg && !entry.prior_attempts) {
+  try { entry.prior_attempts = JSON.parse(priorAttemptsArg); }
+  catch (e) { console.error('ERROR: Invalid --prior-attempts JSON: ' + e.message); process.exit(1); }
+}
 
   const errors = validateEntry(entry);
   if (errors.length > 0) {
@@ -944,7 +931,7 @@ function cmdAutofix(args) {
     }
   }
 
-  var repoRt = getRepoRoot();
+  var repoRt = repoRoot();
   for (var _l2 = 0; _l2 < KNOWN_LANES.length; _l2++) {
     var ln = KNOWN_LANES[_l2];
     var ownerPath = path.join(LANE_ROOTS[ln] ? LANE_ROOTS[ln] : path.join(repoRt, 'lanes', ln), 'state', 'active-owner.json');
@@ -1006,9 +993,7 @@ APPEND:
   node scripts/store-journal.js append \\
     --lane <lane> --event <event> [--agent <name>] [--session-id <id>] \\
     [--target <description>] [--intent <description>] \\
-    [--files <path1,path2,...>] [--tests '<json-array>'] [--data '<json>'] \\
-    [--handoff-status <status>] [--handoff-next-action <action>] \\
-    [--handoff-do-not-overwrite <path1,path2,...>] [--handoff-human-required]
+    [--files <path1,path2,...>] [--tests '<json-array>'] [--data '<json>']
 
   Events: work_started, work_completed, file_ownership_claimed,
   file_ownership_released, test_result, compact_restore,
