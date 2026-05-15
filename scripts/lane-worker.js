@@ -455,9 +455,6 @@ function createDefaultConfig(repoRoot, lane) {
   };
 }
 
-const NACK_FILE_PATTERN = /^nack-nack-/;
-const NACK_MAX_AGE_MS = 3600000;
-
 class LaneWorker {
   constructor(options = {}) {
     this.repoRoot = options.repoRoot || path.resolve(__dirname, '..');
@@ -466,7 +463,6 @@ class LaneWorker {
     this.maxFiles = options.maxFiles || 200;
     this.manualCadence = options.manualCadence === true;
     this.enforceOwnership = options.enforceOwnership === true;
-    this.nackMaxAgeMs = options.nackMaxAgeMs || NACK_MAX_AGE_MS;
     this.config = options.config || createDefaultConfig(this.repoRoot, this.lane);
     this.schemaValidator = options.schemaValidator || this._loadSchemaValidator();
     this.signatureValidator = options.signatureValidator || this._loadSignatureValidator();
@@ -551,46 +547,6 @@ class LaneWorker {
     ensureDir(q.quarantine);
   }
 
-  purgeStaleNacks() {
-    const now = Date.now();
-    const maxAge = this.nackMaxAgeMs;
-    const queues = ['blocked', 'processed'];
-    let purged = 0;
-    let scanned = 0;
-
-    for (const qKey of queues) {
-      const qDir = this.config.queues[qKey];
-      if (!qDir || !fs.existsSync(qDir)) continue;
-      const entries = fs.readdirSync(qDir, { withFileTypes: true });
-      for (const ent of entries) {
-        if (!ent.isFile() || !ent.name.endsWith('.json')) continue;
-        if (!NACK_FILE_PATTERN.test(ent.name)) continue;
-        scanned++;
-        const fullPath = path.join(qDir, ent.name);
-        let fileAge = Infinity;
-        const tsMatch = ent.name.match(/^nack-nack-(\d+)/);
-        if (tsMatch) {
-          const embedded = Number(tsMatch[1]);
-          if (embedded > 0) fileAge = now - embedded;
-        }
-        if (fileAge === Infinity) {
-          try {
-            const stat = fs.statSync(fullPath);
-            fileAge = now - stat.mtimeMs;
-          } catch (_) { continue; }
-        }
-        if (fileAge > maxAge) {
-          if (!this.dryRun) {
-            try { fs.unlinkSync(fullPath); } catch (_) { continue; }
-          }
-          purged++;
-        }
-      }
-    }
-
-    return { scanned, purged, max_age_ms: maxAge };
-  }
-
   listInboxFiles() {
     const files = [];
     const inboxDir = this.config.queues.inbox;
@@ -624,6 +580,17 @@ class LaneWorker {
     }
     if (!signatureResult.valid) {
       return { queue: 'blocked', reason: 'SIGNATURE_INVALID', detail: signatureResult.reason || 'Signature validation failed' };
+    }
+    // Law 5: Confidence Ratings Mandatory check
+    const confidence = msg && typeof msg === 'object' ? msg.confidence : null;
+    if (confidence === null || typeof confidence !== 'number' || confidence < 1 || confidence > 10 || !Number.isInteger(confidence)) {
+      return { queue: 'quarantine', reason: 'CONFIDENCE_REQUIRED', detail: 'Assessment must include confidence rating as integer between 1-10' };
+    }
+    if (confidence < 7) {
+      const investigation = msg && typeof msg === 'object' ? msg.investigation : null;
+      if (!investigation || typeof investigation !== 'string' || investigation.trim() === '') {
+        return { queue: 'blocked', reason: 'LOW_CONFIDENCE_NO_INVESTIGATION', detail: 'Assessment with confidence < 7 requires investigation evidence' };
+      }
     }
     if (!isEnglishOnly(msg)) {
       return { queue: 'quarantine', reason: 'FORMAT_VIOLATION_NON_ASCII', detail: 'Message contains non-ASCII content. Re-request in English per governance constraint.' };
