@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "IDLE_STATE_DECISION_MATRIX",
+  "produced_by": {
+    "lane": "library",
+    "agent": "opencode",
+    "session_id": "day17-audit",
+    "task_kind": "verification"
+  },
+  "timestamp": "2026-05-16T14:50:00Z",
+  "evidence": {
+    "evidence_path": "lanes/library/evidence/DAY17_FALSE_COMPLETION_AUDIT.md",
+    "verified": true
+  },
+  "states": [
+    {
+      "id": 1,
+      "name": "INBOX_EMPTY",
+      "definition": "No messages in the primary action-required or in-progress inbox directories.",
+      "evidence_required": [
+        "lanes/library/inbox/action-required/ is empty",
+        "lanes/library/inbox/in-progress/ is empty"
+      ],
+      "permissible_output": [
+        "Primary inbox is empty.",
+        "No actionable messages in inbox.",
+        "Inbox contains no tasks."
+      ],
+      "forbidden_output": [
+        "All done.",
+        "Nothing to do.",
+        "No work exists.",
+        "Work complete."
+      ],
+      "day17_actual": true
+    },
+    {
+      "id": 2,
+      "name": "CURRENT_TASK_QUEUE_EMPTY",
+      "definition": "No tasks explicitly assigned to this session, and no self-initiated task is in progress.",
+      "evidence_required": [
+        "INBOX_EMPTY conditions met",
+        "No active task assignment in lanes/library/state/ or session context"
+      ],
+      "permissible_output": [
+        "No task is currently assigned to this session.",
+        "No active task in progress.",
+        "Primary inbox empty and no session task active."
+      ],
+      "forbidden_output": [
+        "All done.",
+        "Nothing to do right now.",
+        "No work exists."
+      ],
+      "day17_actual": true
+    },
+    {
+      "id": 3,
+      "name": "NO_SAFE_AUTONOMOUS_WORK_AUTHORIZED",
+      "definition": "Standing duties exist in the system, but none can be safely performed by this agent without external input, permission, or dependency resolution.",
+      "evidence_required": [
+        "INBOX_EMPTY conditions met",
+        "CURRENT_TASK_QUEUE_EMPTY conditions met",
+        "Standing duties scan performed and results documented",
+        "Each standing duty assessed for safety and found blocked or unsafe"
+      ],
+      "permissible_output": [
+        "Standing duties exist but are blocked pending [specific dependency].",
+        "I can identify N standing duties but none are safe to perform autonomously at this time.",
+        "Primary inbox empty. Standing duties blocked on [external input]. Awaiting [condition]."
+      ],
+      "forbidden_output": [
+        "All done.",
+        "Nothing to do.",
+        "No work exists."
+      ],
+      "day17_actual": false,
+      "day17_note": "FALSE — multiple safe autonomous tasks existed (see audit §E)"
+    },
+    {
+      "id": 4,
+      "name": "NO_WORK_EXISTS",
+      "definition": "No legitimate Library work of any kind remains in the system. All standing duties are resolved, all evidence is current, all contradictions are addressed, and no prep work is pending.",
+      "evidence_required": [
+        "INBOX_EMPTY conditions met",
+        "CURRENT_TASK_QUEUE_EMPTY conditions met",
+        "Standing duties scan performed and returned zero results",
+        "Productivity tracker has no pending requests",
+        "Convergence deficiencies all resolved",
+        "Quarantine backlog classified and archived",
+        "Contradiction register swept within last 7 days",
+        "Dashboard truth check current within last 24 hours",
+        "Evidence index has no unfilled templates for active campaigns"
+      ],
+      "permissible_output": [
+        "All done. No Library work exists. [with evidence citations]",
+        "Nothing to do. Standing duties resolved. [with evidence citations]"
+      ],
+      "forbidden_output": [
+        "All done. [without evidence citations]"
+      ],
+      "day17_actual": false,
+      "day17_note": "FALSE — 6 categories of standing work existed (see audit §E)"
+    }
+  ],
+  "standing_duty_checklist": [
+    {
+      "id": "SD-1",
+      "surface": "Productivity tracker pending requests",
+      "path": "lanes/library/state/productivity-report-tracker.json",
+      "check": "Verify all requests have status != 'pending'",
+      "day17_status": "VIOLATED — 2 pending requests since 2026-04-30"
+    },
+    {
+      "id": "SD-2",
+      "surface": "Convergence vote deficiencies",
+      "path": "lanes/library/evidence/convergence-revote-amend-20260509.json",
+      "check": "Verify ratification_blockers list is empty",
+      "day17_status": "VIOLATED — L1-L4 blockers unresolved"
+    },
+    {
+      "id": "SD-3",
+      "surface": "Quarantine NACK backlog",
+      "path": "lanes/library/inbox/quarantine/",
+      "check": "Verify quarantine file count is stable or decreasing, and no unclassified files older than 7 days",
+      "day17_status": "VIOLATED — 199 files, never classified"
+    },
+    {
+      "id": "SD-4",
+      "surface": "KuCoin pre-arrival dossier",
+      "path": "lanes/library/evidence/kucoin-bot/",
+      "check": "Verify templates are filled where local data permits",
+      "day17_status": "VIOLATED — 7 templates created but unfilled"
+    },
+    {
+      "id": "SD-5",
+      "surface": "Stale-claim sweep",
+      "path": "lanes/broadcast/contradictions.json",
+      "check": "Verify last sweep date within 7 days and no new claims contradict resolved entries",
+      "day17_status": "VIOLATED — no sweep since 2026-04-25 (21 days)"
+    },
+    {
+      "id": "SD-6",
+      "surface": "Dashboard truth check",
+      "path": "src/lib/system-pulse-public.ts, src/app/api/governance/lanes/route.ts",
+      "check": "Verify dashboard code surfaces match current heartbeat data",
+      "day17_status": "VIOLATED — no check after identity-status fix"
+    }
+  ],
+  "validation_rule": "An agent claiming state N must have evidence for all conditions of states 1 through N. Claims of state 4 require all standing-duty checklist items to pass. Claims exceeding the evidenced state are classified as FALSE_COMPLETION.",
+  "enforcement": {
+    "mechanism": "lane_worker",
+    "action_on_violation": "NACK with reason FALSE_COMPLETION_OVERCLAIM",
+    "auto_escalation": true
+  }
+}
