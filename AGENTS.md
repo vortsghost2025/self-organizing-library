@@ -128,6 +128,27 @@ S:/self-organizing-library/
 
 ---
 
+## Idle-State Protocol
+
+When your primary inbox is empty and no explicit task is assigned, you MUST:
+
+1. **Scan standing verification surfaces** before declaring idle (see checklist below)
+2. **State precisely** which idle state applies: INBOX_EMPTY, CURRENT_TASK_QUEUE_EMPTY, NO_SAFE_AUTONOMOUS_WORK, or NO_WORK_EXISTS
+3. **NEVER** use language like "All done" or "Nothing to do" unless you have evidence for NO_WORK_EXISTS — this was a Day 17 false completion failure (see `lanes/library/evidence/DAY17_FALSE_COMPLETION_AUDIT.md`)
+
+Standing-duty checklist — scan before declaring NO_WORK_EXISTS:
+
+- [ ] **Productivity tracker:** no pending requests (`lanes/library/state/productivity-report-tracker.json`)
+- [ ] **Convergence deficiencies:** all resolved (`lanes/library/evidence/convergence-revote-amend-20260509.json`)
+- [ ] **Quarantine inbox:** classified and stable (`lanes/library/inbox/quarantine/`)
+- [ ] **Campaign templates:** filled where local data permits (e.g., `lanes/library/evidence/kucoin-bot/`)
+- [ ] **Contradiction sweep:** performed within 7 days (`lanes/broadcast/contradictions.json`)
+- [ ] **Dashboard truth:** verified within 24 hours (code paths in `src/lib/system-pulse-public.ts`, `src/app/api/governance/lanes/route.ts`)
+
+Decision matrix: `lanes/library/evidence/DAY17_IDLE_STATE_DECISION_MATRIX.json`
+
+---
+
 ## Governance at a Glance
 
 All cross-lane communication uses **signed JSON messages** with this structure:
