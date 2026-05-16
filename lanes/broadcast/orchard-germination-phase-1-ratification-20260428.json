@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "archivist",
+    "target": "orchard-germination-phase-1-ratification-20260428",
+    "generated_at": "2026-04-28T13:40:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.3",
   "task_id": "evolution-orchard-phase-1-ratification",
   "idempotency_key": "orchard-evolution-phase-1-v3",

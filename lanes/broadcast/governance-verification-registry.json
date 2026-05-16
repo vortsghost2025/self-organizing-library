@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "governance-verification-registry",
+    "generated_at": "2026-04-22T12:47:44.357Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "description": "Governance message verification registry - tracks critical messages and their acknowledgments",
   "schema_version": "1.0",
   "messages": {

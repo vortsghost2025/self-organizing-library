@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "last-recovery",
+    "generated_at": "2026-04-30T18:10:34.746Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.0",
   "artifact": "last-recovery",
   "timestamp": "2026-04-30T18:10:34.746Z",

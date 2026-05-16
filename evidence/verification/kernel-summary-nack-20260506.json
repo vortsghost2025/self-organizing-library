@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "kernel-summary-nack-20260506",
+    "generated_at": "2026-05-06T23:03:31.000Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.0",
   "verification_type": "inbox-review",
   "task_id": "kernel-summary-ascii-20260501T214200Z",

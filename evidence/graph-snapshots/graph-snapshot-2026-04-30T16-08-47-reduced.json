@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "graph-snapshot-reduced-2026-04-30",
+    "generated_at": "2026-04-30T16:08:47Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "nodes": [
     {
       "id": "9e7e8b74b11d8f82",

@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "codex",
+    "lane": "kernel",
+    "target": "code-review-summary-20260428",
+    "generated_at": "2026-04-28T14:01:10-04:00",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.3",
   "task_id": "code-review-summary-20260428",
   "idempotency_key": "code-review-summary-20260428",

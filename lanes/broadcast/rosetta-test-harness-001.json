@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "archivist",
+    "target": "rosetta-test-harness-001",
+    "generated_at": "2026-04-23T01:34:09.167Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.3",
   "task_kind": "evidence",
   "id": "rosetta-invariant-test-001",

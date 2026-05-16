@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "codex",
+    "lane": "kernel",
+    "target": "kernel-autopilot-summary-20260428",
+    "generated_at": "2026-04-28T12:45:00-04:00",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.3",
   "id": "msg-kernel-autopilot-summary-20260428",
   "task_id": "kernel-autopilot-orchestration-report-20260428",

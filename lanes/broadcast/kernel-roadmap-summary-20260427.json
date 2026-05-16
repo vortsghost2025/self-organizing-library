@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "codex",
+    "lane": "kernel",
+    "target": "kernel-roadmap-summary-20260427",
+    "generated_at": "2026-04-27T23:13:04-04:00",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.3",
   "task_id": "kernel-roadmap-summary-20260427",
   "idempotency_key": "roadmap-summary-20260427T231304",

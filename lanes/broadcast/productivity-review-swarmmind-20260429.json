@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "kilo",
+    "lane": "swarmmind",
+    "target": "productivity-review-swarmmind-20260429",
+    "generated_at": "2026-04-29T15:03:01.009Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.3",
   "task_id": "swarmmind-productivity-review-response-20260429",
   "idempotency_key": "swarmmind-productivity-review-response-20260429-v1",

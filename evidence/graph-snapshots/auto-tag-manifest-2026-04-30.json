@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "auto-tag-manifest-2026-04-30",
+    "generated_at": "2026-04-30T16:52:13.876569Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "generated_at": "2026-04-30T16:52:13.876569Z",
   "source_snapshot": "graph-snapshot-2026-04-30T16-08-47-full.json",
   "total_nodes": 215,

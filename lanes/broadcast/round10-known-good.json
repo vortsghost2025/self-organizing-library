@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "round10-known-good",
+    "generated_at": "2026-04-22T16:26:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "snapshot_id": "round10-known-good",
   "timestamp": "2026-04-22T16:26:00Z",
   "source": "archivist",

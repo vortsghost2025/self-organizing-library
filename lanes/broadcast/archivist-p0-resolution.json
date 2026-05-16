@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "archivist",
+    "target": "archivist-p0-resolution",
+    "generated_at": "2026-04-28T00:00:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "lane": "archivist",
   "resolved_at": "2026-04-22T22:35:00Z",
   "p0_resolution": [

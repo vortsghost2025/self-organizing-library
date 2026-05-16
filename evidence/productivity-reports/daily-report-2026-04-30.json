@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "daily-productivity-report-2026-04-30",
+    "generated_at": "2026-04-30T14:15:27.414Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.3",
   "task_id": "productivity-report-library-2026-04-30",
   "idempotency_key": "prod-report-library-0e219d51-0c8a-4175-bccf-68ae58ae24bb",

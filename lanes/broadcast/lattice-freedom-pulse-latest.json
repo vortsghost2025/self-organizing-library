@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "lattice-freedom-pulse-latest",
+    "generated_at": "2026-04-28T19:34:36.144Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "generated_at": "2026-04-28T19:34:36.144Z",
   "source": "scripts/publish-lattice-freedom-pulse.js",
   "metrics": [

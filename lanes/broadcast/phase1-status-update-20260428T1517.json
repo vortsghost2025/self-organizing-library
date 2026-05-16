@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "codex",
+    "lane": "kernel",
+    "target": "phase1-status-update-20260428T1517",
+    "generated_at": "2026-04-28T15:17:00-04:00",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.1",
   "task_id": "phase1-status-update-20260428T1517",
   "idempotency_key": "phase1-status-20260428-1517",
