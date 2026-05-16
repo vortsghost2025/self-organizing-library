@@ -39,7 +39,8 @@ function enforceInvariant(laneId, root) {
   
   // 2. Load contradictions
   const contraPath = path.join(BROADCAT_PATH, 'contradictions.json');
-  const contradictions = loadJSON(contraPath);
+  const contraRaw = loadJSON(contraPath);
+  const contradictions = Array.isArray(contraRaw) ? contraRaw : (contraRaw?.contradictions || []);
   const activeContra = contradictions ? contradictions.filter(c => c.status === 'active') : [];
   const contraCount = activeContra.length;
   
