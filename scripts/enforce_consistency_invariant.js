@@ -12,14 +12,14 @@ function loadJSON(p) {
 }
 
 const state = loadJSON(STATE_PATH);
-const contradictions = loadJSON(CONTRA_PATH);
+const contraRaw = loadJSON(CONTRA_PATH);
+const contradictions = Array.isArray(contraRaw) ? contraRaw : (contraRaw?.contradictions || []);
 
 if (!state || !contradictions) {
   console.error('[invariant] Cannot load state or contradictions');
   process.exit(1);
 }
 
-// Hard invariant: system may not claim "consistent" or "aligned" if any active contradictions exist
 const activeContradictions = contradictions.filter(c => c.status === 'active');
 if ((state.status === 'consistent' || state.status === 'aligned') && activeContradictions.length > 0) {
   console.error('[invariant] CONSISTENCY VIOLATION – active contradictions present while system reports', state.status);
