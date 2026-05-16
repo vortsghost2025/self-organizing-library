@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "day17-idle-state-decision-matrix",
+    "generated_at": "2026-05-16T14:50:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.0",
   "artifact_type": "IDLE_STATE_DECISION_MATRIX",
   "produced_by": {
@@ -75,7 +82,7 @@
         "No work exists."
       ],
       "day17_actual": false,
-      "day17_note": "FALSE — multiple safe autonomous tasks existed (see audit §E)"
+      "day17_note": "FALSE \u2014 multiple safe autonomous tasks existed (see audit \u00a7E)"
     },
     {
       "id": 4,
@@ -100,7 +107,7 @@
         "All done. [without evidence citations]"
       ],
       "day17_actual": false,
-      "day17_note": "FALSE — 6 categories of standing work existed (see audit §E)"
+      "day17_note": "FALSE \u2014 6 categories of standing work existed (see audit \u00a7E)"
     }
   ],
   "standing_duty_checklist": [
@@ -109,42 +116,42 @@
       "surface": "Productivity tracker pending requests",
       "path": "lanes/library/state/productivity-report-tracker.json",
       "check": "Verify all requests have status != 'pending'",
-      "day17_status": "VIOLATED — 2 pending requests since 2026-04-30"
+      "day17_status": "VIOLATED \u2014 2 pending requests since 2026-04-30"
     },
     {
       "id": "SD-2",
       "surface": "Convergence vote deficiencies",
       "path": "lanes/library/evidence/convergence-revote-amend-20260509.json",
       "check": "Verify ratification_blockers list is empty",
-      "day17_status": "VIOLATED — L1-L4 blockers unresolved"
+      "day17_status": "VIOLATED \u2014 L1-L4 blockers unresolved"
     },
     {
       "id": "SD-3",
       "surface": "Quarantine NACK backlog",
       "path": "lanes/library/inbox/quarantine/",
       "check": "Verify quarantine file count is stable or decreasing, and no unclassified files older than 7 days",
-      "day17_status": "VIOLATED — 199 files, never classified"
+      "day17_status": "VIOLATED \u2014 199 files, never classified"
     },
     {
       "id": "SD-4",
       "surface": "KuCoin pre-arrival dossier",
       "path": "lanes/library/evidence/kucoin-bot/",
       "check": "Verify templates are filled where local data permits",
-      "day17_status": "VIOLATED — 7 templates created but unfilled"
+      "day17_status": "VIOLATED \u2014 7 templates created but unfilled"
     },
     {
       "id": "SD-5",
       "surface": "Stale-claim sweep",
       "path": "lanes/broadcast/contradictions.json",
       "check": "Verify last sweep date within 7 days and no new claims contradict resolved entries",
-      "day17_status": "VIOLATED — no sweep since 2026-04-25 (21 days)"
+      "day17_status": "VIOLATED \u2014 no sweep since 2026-04-25 (21 days)"
     },
     {
       "id": "SD-6",
       "surface": "Dashboard truth check",
       "path": "src/lib/system-pulse-public.ts, src/app/api/governance/lanes/route.ts",
       "check": "Verify dashboard code surfaces match current heartbeat data",
-      "day17_status": "VIOLATED — no check after identity-status fix"
+      "day17_status": "VIOLATED \u2014 no check after identity-status fix"
     }
   ],
   "validation_rule": "An agent claiming state N must have evidence for all conditions of states 1 through N. Claims of state 4 require all standing-duty checklist items to pass. Claims exceeding the evidenced state are classified as FALSE_COMPLETION.",

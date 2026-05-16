@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "task-chain-state",
+    "generated_at": "2026-05-16T15:49:06.659Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "active_chains": {
     "nack-1778705466013-1q8og4": {
       "chain_id": "nack-1778705466013-1q8og4",
@@ -719,5 +726,5 @@
       "all_exempt_from_nack": true
     }
   ],
-  "last_run": "2026-05-16T15:35:24.197Z"
+  "last_run": "2026-05-16T15:52:02.534Z"
 }

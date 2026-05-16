@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "graph-analysis-packet-review",
+    "generated_at": "2026-05-12T01:37:41Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.0",
   "task_id": "packet-review-assignment-001",
   "review_type": "packet-first",
@@ -9,7 +16,15 @@
   "findings": {
     "schema_compliance": {
       "verdict": "PARTIAL",
-      "required_fields_present": ["identity", "counts", "top_nodes", "anomalies", "claim_status", "interpretation", "next_checks"],
+      "required_fields_present": [
+        "identity",
+        "counts",
+        "top_nodes",
+        "anomalies",
+        "claim_status",
+        "interpretation",
+        "next_checks"
+      ],
       "count_consistency": {
         "check": "visible_nodes == verified+unverified+conflicted+quarantined",
         "expected": 215,
@@ -22,7 +37,12 @@
           "id": "field-name-minification",
           "severity": "P1",
           "description": "top_nodes entries use abbreviated keys (t, r, cc, s, vc, cdc, ad, gl) instead of schema-defined names (title, repo, connectionCount, status, verificationCount, contradictionCount, authorityDepth, governanceLayer)",
-          "affected_arrays": ["by_connection_count", "by_verification_count", "by_contradiction_count", "by_authority_depth"],
+          "affected_arrays": [
+            "by_connection_count",
+            "by_verification_count",
+            "by_contradiction_count",
+            "by_authority_depth"
+          ],
           "status": "known_bug",
           "remediation": "Packet generator must use full field names matching schema v1.1.0"
         },
@@ -41,10 +61,26 @@
         "conflicted_count": 4,
         "all_have_contradictionCount": 39,
         "nodes": [
-          {"id": "6a9bd95ba806a410", "title": "THE SINGLE ENTRY POINT", "category": "root-doc"},
-          {"id": "d9ccbb98728d5f78", "title": "COVENANT.md -- Values (What We Believe)", "category": "root-doc"},
-          {"id": "7372a72fe280b3a3", "title": "CAISC 2026 Draft Paper Review Report", "category": "root-doc"},
-          {"id": "dd9b2967fd3393db", "title": "WE4FREE Publication Roadmap", "category": "paper"}
+          {
+            "id": "6a9bd95ba806a410",
+            "title": "THE SINGLE ENTRY POINT",
+            "category": "root-doc"
+          },
+          {
+            "id": "d9ccbb98728d5f78",
+            "title": "COVENANT.md -- Values (What We Believe)",
+            "category": "root-doc"
+          },
+          {
+            "id": "7372a72fe280b3a3",
+            "title": "CAISC 2026 Draft Paper Review Report",
+            "category": "root-doc"
+          },
+          {
+            "id": "dd9b2967fd3393db",
+            "title": "WE4FREE Publication Roadmap",
+            "category": "paper"
+          }
         ]
       },
       "current_system_state": {
@@ -66,8 +102,14 @@
     },
     "per_repo_gap": {
       "verdict": "CONFIRMED",
-      "present_repos": ["kernel-lane"],
-      "missing_repos": ["archivist", "swarmmind", "library"],
+      "present_repos": [
+        "kernel-lane"
+      ],
+      "missing_repos": [
+        "archivist",
+        "swarmmind",
+        "library"
+      ],
       "impact": "Single-repo view; cross-lane edge analysis is incomplete; node count represents only kernel-lane subset",
       "status": "known_gap"
     },

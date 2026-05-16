@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "sovereignty-report",
+    "generated_at": "2026-05-02T18:41:28.222Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "lane_id": "library",
   "timestamp": "2026-05-02T18:41:28.222Z",
   "scan_scope": "scripts/",

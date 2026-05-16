@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "monitor-follow-up",
+    "generated_at": "2026-05-12T10:46:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.0",
   "report_type": "monitor-follow-up",
   "generated_at": "2026-05-12T10:46:00Z",
@@ -25,7 +32,7 @@
           "age_at_cleanup": "6.9 hours"
         }
       },
-      "explanation": "The active-owner.json claimed by session sess_mp22b0v8_418804 (PID 418804) had been dead for ~6.9 hours and was 6.75 hours past its 15-minute expiry. The store-journal.js autofix --apply command identified this as stale using its published criteria (dead PID + age > 4h) and deleted the file. This is standard housekeeping, not a claim bug. No current session was displaced — the current heartbeat session (sess-1778580541786-b875da94, origin opencode) never claimed active-owner because no exclusive work was being performed."
+      "explanation": "The active-owner.json claimed by session sess_mp22b0v8_418804 (PID 418804) had been dead for ~6.9 hours and was 6.75 hours past its 15-minute expiry. The store-journal.js autofix --apply command identified this as stale using its published criteria (dead PID + age > 4h) and deleted the file. This is standard housekeeping, not a claim bug. No current session was displaced \u2014 the current heartbeat session (sess-1778580541786-b875da94, origin opencode) never claimed active-owner because no exclusive work was being performed."
     },
     {
       "id": "F2",
@@ -35,14 +42,14 @@
       "evidence": {
         "gap_period": "2026-05-10 through 2026-05-11",
         "last_entry_before_gap": "2026-05-09T00:09:20Z (git post-commit auto-journal)",
-        "root_cause": "No Library (or Kernel/SwarmMind) agent was online May 9–11. Only Archivist was active during that period. The May 9 Library entries are git hook auto-journals from Archivist commits touching shared files, not active Library sessions. The gap is expected — agents that are offline produce no journal entries.",
+        "root_cause": "No Library (or Kernel/SwarmMind) agent was online May 9\u201311. Only Archivist was active during that period. The May 9 Library entries are git hook auto-journals from Archivist commits touching shared files, not active Library sessions. The gap is expected \u2014 agents that are offline produce no journal entries.",
         "remediation": {
           "2026-05-10.jsonl": "Created with idle-day marker entries (no Library work that day)",
           "2026-05-11.jsonl": "Created with backfilled work_started and work_completed entries documenting schema fix, script bugfixes, packet review, NACK cleanup, and commit d521072",
           "2026-05-12.jsonl": "Current session entries (autofix + monitor follow-up)"
         }
       },
-      "explanation": "The journal gap reflects that no Library agent was online May 9–11 (only Archivist was active). This is expected behavior — offline agents produce no journal entries. Per-day files for May 10 (idle) and May 11 (backfilled with the session that eventually ran) have been created for continuity. The journal is now continuous from May 7 onward."
+      "explanation": "The journal gap reflects that no Library agent was online May 9\u201311 (only Archivist was active). This is expected behavior \u2014 offline agents produce no journal entries. Per-day files for May 10 (idle) and May 11 (backfilled with the session that eventually ran) have been created for continuity. The journal is now continuous from May 7 onward."
     }
   ],
   "actions_taken": [

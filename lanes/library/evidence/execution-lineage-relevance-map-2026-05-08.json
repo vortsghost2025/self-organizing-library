@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "execution-lineage-relevance-map",
+    "generated_at": "2026-05-08T00:00:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.0",
   "artifact_type": "EXECUTION_LINEAGE_RELEVANCE_MAP",
   "produced_by": {
@@ -17,9 +24,16 @@
   "paper": {
     "arxiv_id": "2605.06365",
     "title": "From Agent Loops to Deterministic Graphs: Execution Lineage for Reproducible AI-Native Work",
-    "authors": ["Josh Rosen", "Seth Rosen"],
+    "authors": [
+      "Josh Rosen",
+      "Seth Rosen"
+    ],
     "submitted": "2026-05-07",
-    "categories": ["cs.AI", "cs.MA", "cs.SE"],
+    "categories": [
+      "cs.AI",
+      "cs.MA",
+      "cs.SE"
+    ],
     "url": "https://arxiv.org/abs/2605.06365",
     "url_verified": true,
     "url_verified_at": "2026-05-08T00:00:00Z"
@@ -93,32 +107,64 @@
   "current_system_matches": [
     {
       "artifact": "data/graph-analysis-packets.json",
-      "current_lineage_fields": ["generated_at"],
-      "missing_lineage_fields": ["source_snapshot_hash", "builder_script_hash", "schema_hash", "replay_command", "input_artifact_hashes"],
+      "current_lineage_fields": [
+        "generated_at"
+      ],
+      "missing_lineage_fields": [
+        "source_snapshot_hash",
+        "builder_script_hash",
+        "schema_hash",
+        "replay_command",
+        "input_artifact_hashes"
+      ],
       "stale_if": "source code or site-index changes after generation without rebuild"
     },
     {
       "artifact": "lanes/library/state/sovereignty-report-latest.json",
-      "current_lineage_fields": ["timestamp"],
-      "missing_lineage_fields": ["scan_scope_hash", "rules_version_hash", "replay_command"],
+      "current_lineage_fields": [
+        "timestamp"
+      ],
+      "missing_lineage_fields": [
+        "scan_scope_hash",
+        "rules_version_hash",
+        "replay_command"
+      ],
       "stale_if": "governance rules change without re-scan"
     },
     {
       "artifact": "data/site-index.json",
-      "current_lineage_fields": ["generated_at"],
-      "missing_lineage_fields": ["builder_script_hash", "input_repo_hashes", "replay_command"],
+      "current_lineage_fields": [
+        "generated_at"
+      ],
+      "missing_lineage_fields": [
+        "builder_script_hash",
+        "input_repo_hashes",
+        "replay_command"
+      ],
       "stale_if": "repo content changes without re-index"
     },
     {
       "artifact": "lanes/library/inbox/* messages",
-      "current_lineage_fields": ["task_id", "from", "to", "timestamp"],
-      "missing_lineage_fields": ["input_artifact_hashes", "produced_artifact_hashes", "replay_dependencies"],
+      "current_lineage_fields": [
+        "task_id",
+        "from",
+        "to",
+        "timestamp"
+      ],
+      "missing_lineage_fields": [
+        "input_artifact_hashes",
+        "produced_artifact_hashes",
+        "replay_dependencies"
+      ],
       "stale_if": "upstream artifact changes invalidate the task's assumptions"
     },
     {
       "artifact": "src/components/graph/GraphCanvas.tsx",
       "current_lineage_fields": "none",
-      "missing_lineage_fields": ["build_dependency_on_graph-types", "runtime_dependency_on_graphology-layout-forceatlas2"],
+      "missing_lineage_fields": [
+        "build_dependency_on_graph-types",
+        "runtime_dependency_on_graphology-layout-forceatlas2"
+      ],
       "stale_if": "graphology API changes or graph-types.ts changes without re-test"
     }
   ],
@@ -182,30 +228,68 @@
       "example_for_graph_packet": {
         "artifact_id": "graph-analysis-packets-20260508",
         "artifact_type": "data",
-        "produced_by": { "lane": "kernel", "agent": "build-script", "session_id": "graph-packet-build-001", "command_or_task": "node scripts/build-graph-packet.js" },
+        "produced_by": {
+          "lane": "kernel",
+          "agent": "build-script",
+          "session_id": "graph-packet-build-001",
+          "command_or_task": "node scripts/build-graph-packet.js"
+        },
         "inputs": [
-          { "artifact_id": "site-index-20260508", "path": "data/site-index.json", "hash": "sha256:...", "role": "source_data" },
-          { "artifact_id": "graph-packet-schema-v1", "path": "data/graph-packet-schema.json", "hash": "sha256:...", "role": "schema" }
+          {
+            "artifact_id": "site-index-20260508",
+            "path": "data/site-index.json",
+            "hash": "sha256:...",
+            "role": "source_data"
+          },
+          {
+            "artifact_id": "graph-packet-schema-v1",
+            "path": "data/graph-packet-schema.json",
+            "hash": "sha256:...",
+            "role": "schema"
+          }
         ],
         "outputs": [
-          { "artifact_id": "graph-analysis-packets-20260508", "path": "data/graph-analysis-packets.json", "hash": "sha256:...", "role": "primary_output" }
+          {
+            "artifact_id": "graph-analysis-packets-20260508",
+            "path": "data/graph-analysis-packets.json",
+            "hash": "sha256:...",
+            "role": "primary_output"
+          }
         ],
         "dependencies": {
-          "upstream": ["site-index-20260508", "graph-packet-schema-v1"],
-          "downstream": ["nexus-graph-render", "website-section-index"]
+          "upstream": [
+            "site-index-20260508",
+            "graph-packet-schema-v1"
+          ],
+          "downstream": [
+            "nexus-graph-render",
+            "website-section-index"
+          ]
         },
         "replay": {
           "deterministic": true,
           "replay_command": "node scripts/build-graph-packet.js",
           "replay_scope": {
-            "affected_artifacts": ["graph-analysis-packets.json"],
-            "unaffected_artifacts": ["sovereignty-report-latest.json", "site-index.json"]
+            "affected_artifacts": [
+              "graph-analysis-packets.json"
+            ],
+            "unaffected_artifacts": [
+              "sovereignty-report-latest.json",
+              "site-index.json"
+            ]
           },
-          "replay_required_when": ["input_hash_changed", "schema_changed", "builder_script_changed"]
+          "replay_required_when": [
+            "input_hash_changed",
+            "schema_changed",
+            "builder_script_changed"
+          ]
         },
         "preservation": {
           "should_not_change": [
-            { "path": "data/site-index.json", "reason": "graph packet build is read-only on source index" }
+            {
+              "path": "data/site-index.json",
+              "reason": "graph packet build is read-only on source index"
+            }
           ],
           "unchanged_verified": []
         },
@@ -214,32 +298,75 @@
       "example_for_heartbeat_signing_fix": {
         "artifact_id": "heartbeat-signing-fix-20260508",
         "artifact_type": "code",
-        "produced_by": { "lane": "library", "agent": "opencode", "session_id": "graph-fix-20260508", "command_or_task": "fix heartbeat signing path" },
+        "produced_by": {
+          "lane": "library",
+          "agent": "opencode",
+          "session_id": "graph-fix-20260508",
+          "command_or_task": "fix heartbeat signing path"
+        },
         "inputs": [
-          { "artifact_id": "heartbeat-js-current", "path": "scripts/heartbeat.js", "hash": "sha256:...", "role": "source_code" },
-          { "artifact_id": "governance-md", "path": "GOVERNANCE.md", "hash": "sha256:...", "role": "specification" }
+          {
+            "artifact_id": "heartbeat-js-current",
+            "path": "scripts/heartbeat.js",
+            "hash": "sha256:...",
+            "role": "source_code"
+          },
+          {
+            "artifact_id": "governance-md",
+            "path": "GOVERNANCE.md",
+            "hash": "sha256:...",
+            "role": "specification"
+          }
         ],
         "outputs": [
-          { "artifact_id": "heartbeat-js-fixed", "path": "scripts/heartbeat.js", "hash": "sha256:...", "role": "patched_code" }
+          {
+            "artifact_id": "heartbeat-js-fixed",
+            "path": "scripts/heartbeat.js",
+            "hash": "sha256:...",
+            "role": "patched_code"
+          }
         ],
         "dependencies": {
-          "upstream": ["governance-md"],
-          "downstream": ["heartbeat-verification-output", "sovereignty-report"]
+          "upstream": [
+            "governance-md"
+          ],
+          "downstream": [
+            "heartbeat-verification-output",
+            "sovereignty-report"
+          ]
         },
         "replay": {
           "deterministic": false,
           "replay_command": null,
           "replay_scope": {
-            "affected_artifacts": ["scripts/heartbeat.js"],
-            "unaffected_artifacts": ["src/components/graph/GraphCanvas.tsx", "data/graph-analysis-packets.json", "GOVERNANCE.md"]
+            "affected_artifacts": [
+              "scripts/heartbeat.js"
+            ],
+            "unaffected_artifacts": [
+              "src/components/graph/GraphCanvas.tsx",
+              "data/graph-analysis-packets.json",
+              "GOVERNANCE.md"
+            ]
           },
-          "replay_required_when": ["specification_changed", "runtime_path_changed"]
+          "replay_required_when": [
+            "specification_changed",
+            "runtime_path_changed"
+          ]
         },
         "preservation": {
           "should_not_change": [
-            { "path": "GOVERNANCE.md", "reason": "fix is implementation, not spec change" },
-            { "path": "src/components/graph/GraphCanvas.tsx", "reason": "unrelated to heartbeat" },
-            { "path": "data/graph-analysis-packets.json", "reason": "unrelated to heartbeat" }
+            {
+              "path": "GOVERNANCE.md",
+              "reason": "fix is implementation, not spec change"
+            },
+            {
+              "path": "src/components/graph/GraphCanvas.tsx",
+              "reason": "unrelated to heartbeat"
+            },
+            {
+              "path": "data/graph-analysis-packets.json",
+              "reason": "unrelated to heartbeat"
+            }
           ],
           "unchanged_verified": []
         },
@@ -252,7 +379,7 @@
       "point": "data/graph-analysis-packets.json",
       "change": "Add lineage block with source_snapshot_hash, builder_script_hash, schema_hash, replay_command",
       "priority": "P0",
-      "reason": "Most immediate staleness risk — graph rendering depends on this file"
+      "reason": "Most immediate staleness risk \u2014 graph rendering depends on this file"
     },
     {
       "point": "Store journal work_completed entries",

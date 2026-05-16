@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "convergence-shared-script-ownership-vote-reject",
+    "generated_at": "2026-05-09T00:02:50Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "verdict": "REJECT",
   "artifacts_plausible_unverified": 2,
   "details": {

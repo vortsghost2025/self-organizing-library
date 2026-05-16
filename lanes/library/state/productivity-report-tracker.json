@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "productivity-report-tracker",
+    "generated_at": "2026-05-16T15:30:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "previous_requests": [
     {
       "request_id": "3309b44d-2e7a-4164-856a-ec75b547f630",

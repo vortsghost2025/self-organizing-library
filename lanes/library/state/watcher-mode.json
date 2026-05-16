@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "watcher-mode",
+    "generated_at": "2026-04-30T03:26:02.713Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "mode": "auto",
   "lane": "library",
   "set_at": "2026-04-30T03:26:02.713Z",
