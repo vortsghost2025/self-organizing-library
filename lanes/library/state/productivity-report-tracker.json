@@ -6,8 +6,9 @@
       "category": "incoming_messages",
       "impact": "medium",
       "requested_at": "2026-04-30T13:35:50.068Z",
-      "status": "pending",
-      "lane": "library"
+      "status": "resolved",
+      "resolved_at": "2026-05-16T15:30:00Z",
+      "resolution": "Blocked count now 0 (was 2). Quarantine grew from 16 to 203. Classification completed 2026-05-16: 202 are NACK-of-NACK (all from archivist, all SCHEMA_INVALID+CONFIDENCE_REQUIRED, timestamp range 2026-05-15T15:36Z to 2026-05-16T15:04Z), 1 is broadcast-proof audit test. Root cause: unknown-origin messages lacking required fields were NACKed by archivist, then the NACKs themselves were routed to quarantine by lane-worker requiring confidence rating. Safe to archive bulk NACK-of-NACK files."
     },
     {
       "request_id": "9fc1e5b6-80a9-4246-8801-be86a201eef2",
@@ -15,10 +16,11 @@
       "category": "knowledge_gaps",
       "impact": "medium",
       "requested_at": "2026-04-30T13:35:50.068Z",
-      "status": "pending",
-      "lane": "library"
+      "status": "resolved",
+      "resolved_at": "2026-05-16T15:30:00Z",
+      "resolution": "Node IDs 45d50e60309ef11c and 8f11fb5f4a3a5efc not found in any current codebase file (src/, evidence/, app/, lanes/) outside this tracker and the 2026-04-30 daily report. Nodes appear orphaned from prior graph state. CONTRADICTS edge type exists in graph-types.ts but these specific nodes have no artifacts to verify against. Closing as orphaned/stale — no further action possible without Archivist supplying original node artifacts."
     }
   ],
-  "last_report_date": "2026-04-30T14:15:27.414Z",
-  "report_cycle": 2
+  "last_report_date": "2026-05-16T15:30:00Z",
+  "report_cycle": 3
 }
