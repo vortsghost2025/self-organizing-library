@@ -130,8 +130,9 @@ class Heartbeat {
     const broadcastDir = path.join(REPO_ROOT, 'lanes', 'broadcast');
     const contraPath = path.join(broadcastDir, 'contradictions.json');
     if (fs.existsSync(contraPath)) {
-      const cd = JSON.parse(fs.readFileSync(contraPath, 'utf8'));
-      activeContradictions = cd.filter(c => c.status === 'active' || c.status === 'resolving').map(c => c.id);
+    const cd = JSON.parse(fs.readFileSync(contraPath, 'utf8'));
+    const contraList = Array.isArray(cd) ? cd : (cd.contradictions || []);
+    activeContradictions = contraList.filter(c => c.status === 'active' || c.status === 'resolving').map(c => c.id);
     }
       if (activeContradictions.length > 0) systemState = 'degraded';
   this._writeSystemState(systemState, activeContradictions, processedOk);
