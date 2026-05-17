@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "archivist",
+    "lane": "archivist",
+    "target": "headless-e2e-test",
+    "generated_at": "2026-05-07T19:01:43.072Z",
+    "session_id": "headless-e2e-1778180503072"
+  },
   "schema_version": "1.0",
   "task_id": "headless-e2e-test-archivist-to-library-1778180503072",
   "idempotency_key": "headless-e2e-test-1778180503072",

@@ -926,6 +926,56 @@
       "started_at": "2026-05-17T11:54:12.173Z",
       "last_task": "nack-1779018850716-ciblbh",
       "last_updated": "2026-05-17T11:54:12.173Z"
+    },
+    "nack-1779023208404-223hr8": {
+      "chain_id": "nack-1779023208404-223hr8",
+      "origin_task": "nack-1779023208404-223hr8",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-17T13:06:56.622Z",
+      "last_task": "nack-1779023208404-223hr8",
+      "last_updated": "2026-05-17T13:06:56.622Z"
+    },
+    "nack-1779023211586-z1uj4a": {
+      "chain_id": "nack-1779023211586-z1uj4a",
+      "origin_task": "nack-1779023211586-z1uj4a",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-17T13:06:56.624Z",
+      "last_task": "nack-1779023211586-z1uj4a",
+      "last_updated": "2026-05-17T13:06:56.624Z"
+    },
+    "nack-1779023215412-falrpf": {
+      "chain_id": "nack-1779023215412-falrpf",
+      "origin_task": "nack-1779023215412-falrpf",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-17T13:06:56.625Z",
+      "last_task": "nack-1779023215412-falrpf",
+      "last_updated": "2026-05-17T13:06:56.625Z"
+    },
+    "nack-1779024042207-iml4ex": {
+      "chain_id": "nack-1779024042207-iml4ex",
+      "origin_task": "nack-1779024042207-iml4ex",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-17T13:20:51.047Z",
+      "last_task": "nack-1779024042207-iml4ex",
+      "last_updated": "2026-05-17T13:20:51.047Z"
+    },
+    "nack-1779024043535-sttdrs": {
+      "chain_id": "nack-1779024043535-sttdrs",
+      "origin_task": "nack-1779024043535-sttdrs",
+      "origin_priority": "P2",
+      "depth": 1,
+      "followups": [],
+      "started_at": "2026-05-17T13:20:51.048Z",
+      "last_task": "nack-1779024043535-sttdrs",
+      "last_updated": "2026-05-17T13:20:51.048Z"
     }
   },
   "completed_chains": [
@@ -956,5 +1006,5 @@
       "all_exempt_from_nack": true
     }
   ],
-  "last_run": "2026-05-17T12:58:00.548Z"
+  "last_run": "2026-05-17T13:30:25.731Z"
 }

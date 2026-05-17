@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "swarmmind",
+    "lane": "swarmmind",
+    "target": "identity-restore-complete",
+    "generated_at": "2026-04-22T23:54:09.415Z",
+    "session_id": "identity-restore-1776902049421"
+  },
   "schema_version": "1.3",
   "task_id": "swarmmind-identity-restore-complete",
   "idempotency_key": "b5537629d0afd72fc603d32286d2533288aac42711eb7e9ba54f3f82e0312a21",
