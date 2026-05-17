@@ -1,4 +1,5 @@
 {
+  "OUTPUT_PROVENANCE": { "agent": "kernel", "lane": "kernel", "target": "p0-emergency-nudge", "generated_at": "2026-04-28T15:54:55-04:00", "session_id": "p0-nudge-20260428" },
   "schema_version": "1.3",
   "task_id": "p0-nudge-emergency-20260428",
   "idempotency_key": "p0-nudge-emergency-20260428",

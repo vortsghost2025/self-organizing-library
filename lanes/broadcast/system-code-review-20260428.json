@@ -1,4 +1,5 @@
 {
+  "OUTPUT_PROVENANCE": { "agent": "kernel", "lane": "kernel", "target": "system-code-review", "generated_at": "2026-04-28T14:01:10-04:00", "session_id": "system-code-review-20260428" },
   "schema_version": "1.3",
   "task_id": "system-code-review-20260428",
   "idempotency_key": "system-code-review-20260428",

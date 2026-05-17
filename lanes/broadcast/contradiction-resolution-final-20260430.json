@@ -1,4 +1,5 @@
 {
+  "OUTPUT_PROVENANCE": { "agent": "archivist", "lane": "archivist", "target": "contradiction-final-adjudication", "generated_at": "2026-04-30T13:30:00Z", "session_id": "contradiction-final-20260430" },
   "schema_version": "1.3",
   "task_id": "contradiction-resolution-final-20260430",
   "idempotency_key": "contradiction-final-a9145b5d-c209-4666-8711-5e1908c3c086",
