@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "library",
+    "lane": "library",
+    "target": "contradiction-reduction-20-graph-work-path-library",
+    "generated_at": "2026-05-03T19:59:23Z",
+    "session_id": "contradiction-reduction-20-graph-work-path-library"
+  },
   "schema_version": "1.0",
   "task_id": "contradiction-reduction-20-graph-work-path-library",
   "idempotency_key": "f32c36e8b37fe7c862b369ca3b120acad0bf9edb78a1dace77bdd073f767479b",

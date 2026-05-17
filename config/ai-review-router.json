@@ -42,8 +42,8 @@
     "auto_escalate": false
   },
   "endpoints": {
-    "ollama": "http://100.95.40.99:11434/v1/chat/completions",
-    "ollama_local": "http://127.0.0.1:11434/v1/chat/completions",
+    "ollama": "http://100.95.92.117:11434/v1/chat/completions",
+    "ollama_local": "http://100.95.92.117:11434/v1/chat/completions",
     "nvidia": "https://integrate.api.nvidia.com/v1/chat/completions",
     "openrouter": "https://openrouter.ai/api/v1/chat/completions"
   },

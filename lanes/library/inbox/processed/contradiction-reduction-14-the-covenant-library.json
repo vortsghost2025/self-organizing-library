@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "library",
+    "lane": "library",
+    "target": "contradiction-reduction-14-the-covenant-library",
+    "generated_at": "2026-05-03T19:59:23Z",
+    "session_id": "contradiction-reduction-14-the-covenant-library"
+  },
   "schema_version": "1.0",
   "task_id": "contradiction-reduction-14-the-covenant-library",
   "idempotency_key": "66e835c8a41ddac88a8cf8859cb65dcf1dfb1a5a92ea482262954fa6a39dd84e",

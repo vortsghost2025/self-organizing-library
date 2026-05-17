@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 model="${OLLAMA_MODEL:-qwen2.5-coder:7b}"
-ollama_host="${OLLAMA_HOST:-100.95.40.99:11434}"
+ollama_host="${OLLAMA_HOST:-100.95.92.117:11434}"
 ollama_host="${ollama_host#http://}"
 ollama_host="${ollama_host#https://}"
 local_host="127.0.0.1:11434"
@@ -9,7 +9,7 @@ prompt="$*"
 if [ -z "$prompt" ]; then
   echo "Usage: ollama-review.sh 'your prompt here'"
   echo "Env: OLLAMA_MODEL (default: qwen2.5-coder:7b)"
-echo " OLLAMA_HOST (default: 100.95.40.99:11434, fallback: 127.0.0.1:11434)"
+echo " OLLAMA_HOST (default: 100.95.92.117:11434, fallback: 127.0.0.1:11434)"
   exit 1
 fi
 

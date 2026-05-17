@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "library",
+    "lane": "library",
+    "target": "contradiction-reduction-8-seven-commits-library",
+    "generated_at": "2026-05-03T19:59:23Z",
+    "session_id": "contradiction-reduction-8-seven-commits-library"
+  },
   "schema_version": "1.0",
   "task_id": "contradiction-reduction-8-seven-commits-library",
   "idempotency_key": "5007f666f8e029efd0c1bf826f2b0ac95ce1d93dbc06d5666f326b68c5c0f17c",

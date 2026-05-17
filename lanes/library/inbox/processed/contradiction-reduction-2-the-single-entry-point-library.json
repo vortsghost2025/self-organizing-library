@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "library",
+    "lane": "library",
+    "target": "contradiction-reduction-2-the-single-entry-point-library",
+    "generated_at": "2026-05-03T19:59:23Z",
+    "session_id": "contradiction-reduction-2-the-single-entry-point-library"
+  },
   "schema_version": "1.0",
   "task_id": "contradiction-reduction-2-the-single-entry-point-library",
   "idempotency_key": "7869c83c29c14a494e9b8668439c259ee8130f24eb055fad9740bd165f7162de",

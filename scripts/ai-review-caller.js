@@ -26,7 +26,7 @@ loadEnv();
 const SYSTEM_PROMPT = 'You are a code-review and reasoning assistant. Be thorough, identify bugs, architectural risks, and concrete fixes. Do not claim to have changed files.';
 
 async function callLocal(prompt, opts = {}) {
-  const baseUrl = process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434';
+  const baseUrl = process.env.OLLAMA_BASE_URL || 'http://100.95.92.117:11434';
   const model = process.env.OLLAMA_MODEL || 'qwen2.5-coder:7b';
   const timeout = opts.timeout || 60000;
 

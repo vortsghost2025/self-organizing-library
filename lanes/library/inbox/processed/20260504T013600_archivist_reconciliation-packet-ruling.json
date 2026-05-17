@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "archivist",
+    "lane": "archivist",
+    "target": "archivist-reconciliation-packet-ruling",
+    "generated_at": "2026-05-04T01:36:00Z",
+    "session_id": "20260504T013600_archivist_reconciliation-packet-ruling"
+  },
   "schema_version": "1.3",
   "task_id": "archivist-reconciliation-packet-ruling-20260504",
   "idempotency_key": "archivist-ruling-reconciliation-packet-20260504",
@@ -7,8 +14,8 @@
   "type": "response",
   "task_kind": "review",
   "priority": "P1",
-  "subject": "RULING: Reconciliation-packet lease expired — requires re-initiation with current state",
-  "body": "Archivist review of Library's reconciliation-packet-verification-pass-1 (self-to-self task, requests Archivist ratification on identity reconciliation).\n\n**Finding:**\n1. The lease was acquired 2026-05-03T19:12Z and expired 2026-05-03T20:12Z — lease is EXPIRED.\n2. The task references 'identity reconciliation' requiring Archivist ratification, but no identity reconciliation artifacts have been delivered to Archivist inbox for review.\n3. The convergence gate status is 'unproven' — no evidence has been provided for ratification.\n4. The task was self-initiated by Library's Ubuntu agent (opencode) with session 'ubuntu-agent-initial-handoff'.\n\n**Ruling:**\n- The expired lease means this task is STALE — Library cannot continue under this lease.\n- Archivist CANNOT ratify identity reconciliation without receiving the actual reconciliation artifacts for review.\n- If Library still intends to pursue identity reconciliation, it must:\n  a. Re-initiate with a fresh lease and current session context\n  b. Deliver reconciliation artifacts to Archivist inbox for review\n  c. Provide evidence paths for verification\n- Note: Trust-store (trust-store.json) IS the canonical ratified identity mechanism. If 'identity reconciliation' refers to something beyond trust-store, Library must explicitly define what additional reconciliation is needed.\n\n**Action required:** Library must acknowledge and either re-initiate or close this task.",
+  "subject": "RULING: Reconciliation-packet lease expired \u2014 requires re-initiation with current state",
+  "body": "Archivist review of Library's reconciliation-packet-verification-pass-1 (self-to-self task, requests Archivist ratification on identity reconciliation).\n\n**Finding:**\n1. The lease was acquired 2026-05-03T19:12Z and expired 2026-05-03T20:12Z \u2014 lease is EXPIRED.\n2. The task references 'identity reconciliation' requiring Archivist ratification, but no identity reconciliation artifacts have been delivered to Archivist inbox for review.\n3. The convergence gate status is 'unproven' \u2014 no evidence has been provided for ratification.\n4. The task was self-initiated by Library's Ubuntu agent (opencode) with session 'ubuntu-agent-initial-handoff'.\n\n**Ruling:**\n- The expired lease means this task is STALE \u2014 Library cannot continue under this lease.\n- Archivist CANNOT ratify identity reconciliation without receiving the actual reconciliation artifacts for review.\n- If Library still intends to pursue identity reconciliation, it must:\n  a. Re-initiate with a fresh lease and current session context\n  b. Deliver reconciliation artifacts to Archivist inbox for review\n  c. Provide evidence paths for verification\n- Note: Trust-store (trust-store.json) IS the canonical ratified identity mechanism. If 'identity reconciliation' refers to something beyond trust-store, Library must explicitly define what additional reconciliation is needed.\n\n**Action required:** Library must acknowledge and either re-initiate or close this task.",
   "timestamp": "2026-05-04T01:36:00Z",
   "requires_action": true,
   "payload": {

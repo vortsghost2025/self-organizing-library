@@ -38,7 +38,7 @@ fi
 UNCERTAINTY_SIGNALS="(uncertain|not sure|may need|i think|possibly|might be|could not determine|unable to|insufficient|recommend.*(stronger|higher)|escalate)"
 
 run_local() {
-  OLLAMA_HOST="${OLLAMA_HOST:-100.95.40.99:11434}" bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
+  OLLAMA_HOST="${OLLAMA_HOST:-100.95.92.117:11434}" bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
 }
 
 run_strong() {
@@ -118,10 +118,10 @@ echo " bash scripts/ai-review.sh strong 'Analyze this architecture for race cond
 echo " bash scripts/ai-review.sh openrouter 'Deep review of this governance protocol'"
 echo " bash scripts/ai-review.sh --auto 'Review this complex patch'"
   echo " NVIDIA_MODEL=deepseek-ai/deepseek-v4-pro bash scripts/ai-review.sh strong 'Review'"
-  echo " OLLAMA_HOST=100.95.40.99:11434 bash scripts/ai-review.sh local 'Review'"
+  echo " OLLAMA_HOST=100.95.92.117:11434 bash scripts/ai-review.sh local 'Review'"
   echo ""
   echo "Env vars:"
-  echo " OLLAMA_HOST - Ollama endpoint (default: 100.95.40.99:11434, fallback: 127.0.0.1:11434)"
+  echo " OLLAMA_HOST - Ollama endpoint (default: 100.95.92.117:11434, fallback: 127.0.0.1:11434)"
   echo ""
   echo "Guardrails (see ai-review-router.json):"
   echo " - Review only: no mutation authority, no file writes"

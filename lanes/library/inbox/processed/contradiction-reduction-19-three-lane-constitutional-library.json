@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "library",
+    "lane": "library",
+    "target": "contradiction-reduction-19-three-lane-constitutional-library",
+    "generated_at": "2026-05-03T19:59:23Z",
+    "session_id": "contradiction-reduction-19-three-lane-constitutional-library"
+  },
   "schema_version": "1.0",
   "task_id": "contradiction-reduction-19-three-lane-constitutional-library",
   "idempotency_key": "3cbd30b3c473a6f063fddc5e42feffe4483aeced0fcf8a819bd37cadb7843585",
