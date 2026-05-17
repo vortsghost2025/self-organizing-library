@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "archivist",
+    "lane": "archivist",
+    "target": "archivist-001",
+    "generated_at": "2026-04-20T19:00:00Z",
+    "session_id": "2026-04-20T19-00-00Z-archivist-001"
+  },
   "id": "2026-04-20T19-00-00Z-archivist-001",
   "from": "archivist",
   "to": "library",

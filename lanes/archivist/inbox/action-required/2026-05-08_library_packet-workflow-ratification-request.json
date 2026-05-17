@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "library",
+    "lane": "library",
+    "target": "packet-workflow-ratification-request",
+    "generated_at": "2026-05-08T00:00:00Z",
+    "session_id": "2026-05-08_library_packet-workflow-ratification-request"
+  },
   "id": "2026-05-08-library-packet-workflow-ratification-request",
   "from": "library",
   "to": "archivist",
