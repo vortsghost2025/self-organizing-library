@@ -75,21 +75,29 @@ export default function NexusGraph({ initialFilter = "all", initialFilterMode = 
   const graphRef = useRef<Graph | null>(null);
   const sigmaRef = useRef<Sigma | null>(null);
 
-  // Sync density and layers when mode changes, and auto-select entry point
-  useEffect(() => {
-    const config = MODE_CONFIG[graphMode];
-    setDensity(config.density);
-    setActiveLayers(config.layers);
+const isInitialMount = useRef(true);
 
-    // Auto-select appropriate entry point per mode
-    if (graphMode === "understand") {
-      setActiveEntryPoint("ep:authority");
-    } else if (graphMode === "explore") {
-      setActiveEntryPoint("ep:contradictions");
-    } else {
-      setActiveEntryPoint(null);
-    }
-  }, [graphMode]);
+// Sync density and layers when mode changes, and auto-select entry point
+useEffect(() => {
+  const config = MODE_CONFIG[graphMode];
+  setDensity(config.density);
+  setActiveLayers(config.layers);
+
+  if (isInitialMount.current) {
+    isInitialMount.current = false;
+    setActiveEntryPoint(null);
+    return;
+  }
+
+  // Auto-select appropriate entry point per mode (only on explicit mode change)
+  if (graphMode === "understand") {
+    setActiveEntryPoint("ep:authority");
+  } else if (graphMode === "explore") {
+    setActiveEntryPoint("ep:contradictions");
+  } else {
+    setActiveEntryPoint(null);
+  }
+}, [graphMode]);
 
   useEffect(() => {
     setActiveEntryPoint(null);
