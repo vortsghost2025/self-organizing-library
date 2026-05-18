@@ -1,0 +1,10 @@
+{
+  "session_id": null,
+  "lane": "kernel",
+  "claimed_at": null,
+  "renewed_at": null,
+  "expires_at": null,
+  "pid": null,
+  "origin_runtime": null,
+  "origin_workspace": null
+}

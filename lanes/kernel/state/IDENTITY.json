@@ -1,0 +1,14 @@
+{
+  "lane": "kernel",
+  "role": "Infrastructure and cross-lane coordination",
+  "responsibilities": [
+    "System health monitoring",
+    "Cross-lane message routing",
+    "Infrastructure provisioning",
+    "Service coordination",
+    "Lane heartbeat tracking"
+  ],
+  "authority": "infrastructure-only",
+  "created_at": "2026-05-18T17:09:00Z",
+  "status": "structural-initialization"
+}
