@@ -78,6 +78,8 @@ COMPACT_CONTEXT_HANDOFF.md
 lanes/*/state/traces/
 lanes/*/state/worker-audit.log
 lanes/*/state/sovereignty-report-*.json
+lanes/*/state/task-chain-state.json
+lanes/*/logs/heartbeat*.log
 lanes/broadcast/system_state.json
 
 # Graph snapshot watcher state

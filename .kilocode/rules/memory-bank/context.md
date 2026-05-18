@@ -329,6 +329,19 @@ The Library Lane serves as a verification-and-enforcement surface within a 4-lan
 - [x] **Deployed to Vercel production**: Commit `e9352a8e`, build succeeded, deployment initiated
 - [x] **All quality gates pass**: typecheck, lint, sovereignty scanner, pre-commit hooks
 
+### Session 2026-05-17: Standing-Duty Task Packet (Missions 1-5 + partial 6)
+- [x] **Mission 1 — KuCoin Evidence Intake**: All local KuCoin artifacts classified STALE/SHUTDOWN/TEST. No live session on local surface. SESSION_STATE.json is test artifact (cycle=0, DryRunExecutor, status=test). Both heartbeats shutdown. Monitoring snapshot confirms stale state. Missing artifacts (latest-monitoring-snapshot.md, session markdown, heartbeats JSONL) likely only on headless. Deliverable: `docs/intake/KUCOIN_HEADLESS_OBSERVABILITY_EVIDENCE_2026-05-17.md`
+- [x] **Mission 2 — CP↔KuCoin Convergence Verification**: CP fully implemented KuCoin live session consumer. `cp-supervise.ps1` (1062 lines) computes FRESH/AGING/STALE/NO_DATA labels, drift flags, LIVE/PARTIAL/STALE_ONLY/NO_DATA availability. Stale-vs-live distinction preserved. Campaign at Phase D passed awaiting Phase E, live trading FORBIDDEN. Decision gate at PHASE_D_PASSED_AWAITING_PHASE_E. No new contradiction. Deliverable: `docs/intake/CONTROL_PLANE_KUCOIN_LIVE_SESSION_CONVERGENCE_2026-05-17.md`
+- [x] **Mission 3 — Local/Headless Reconciliation**: self-organizing-library (main, 49 dirty, HEAD d1926713), kucoin-lane (main, 46 dirty, HEAD 1862addb), WE4FREE-Control-Plane (main, 38 dirty, HEAD adf314ba). All even with origin but significant uncommitted changes. Headless kucoin-lane HEAD=561f4a3 DIVERGES from local 1862addb. Deliverable: `docs/status/LOCAL_HEADLESS_RECONCILIATION_2026-05-17.md`
+- [x] **Mission 4 — Trajectory Continuity Research Note**: Documented distinction between state persistence (files survive restart) vs trajectory-based adaptive continuity (agent resumes intent after compaction/reload). Existing continuity spec covers state-level verification (fingerprints, lineage). Gap analysis explicitly notes session memory verification is missing. Library's own 2026-04-27 evidence shows observational trajectory continuity. Formal research hypothesis documented. Deliverable: `docs/research/TRAJECTORY_CONTINUITY_LIBRARY_EVIDENCE_NOTE_2026-05-17.md`
+- [x] **Mission 5 — Journal + Memory-bank update**: Journal entries written to `lanes/library/journal/2026-05-17.jsonl`. Context.md updated (this entry).
+- [x] **Provenance retrofit completed**: 79 files received OUTPUT_PROVENANCE headers. 7 daemon-blocked files exempted (actively rewritten by workers/daemons, making headers impractical).
+- [x] **Identity key discrepancy noted**: Library key_id `42e853d4ec37955d` (current in memory-bank) vs headless-observations report `33daff393bc73937` from May 15 — needs investigation.
+- [x] **Mission 6A — Provenance Exception Taxonomy**: 3 categories (DAEMON_REWRITTEN, DAEMON_APPENDED, EPHEMERAL_STATE), 7 files classified, treatments recommended. Deliverable: `docs/intake/PROVENANCE_EXCEPTION_TAXONOMY_2026-05-17.md`
+- [x] **Mission 6B — KuCoin Standing-Duty Recommendation**: 5 recommendations (evidence collection, HEAD divergence resolution, Phase E tests, monitoring continuity, live trading FORBIDDEN). Deliverable: `docs/intake/KUCOIN_STANDING_DUTY_RECOMMENDATION_2026-05-17.md`
+- [x] **Mission 6C — Operator Return Dashboard**: Concise briefing with what changed, what's proven, what needs operator call, which agent first, which threads safe to continue. Deliverable: `docs/intake/OPERATOR_RETURN_DASHBOARD_2026-05-17.md`
+- [x] **End Report**: 12-section structured standing-duty end report. Deliverable: `docs/intake/STANDING_DUTY_END_REPORT_2026-05-17.md`
+
 ## Still Not Done
 - 🔲 Hardening drill scheduled task (needs admin privileges)
 - 🔲 Decide policy for previously-signed messages with now-stale key_ids (they will fail verification)

@@ -18,6 +18,10 @@ export type MeaningLayer = "structure" | "conflicts" | "verification" | "executi
 
 export type DensityLevel = "overview" | "mid" | "focus";
 
+export type GraphSection = "core" | "exterior";
+export type AuthorityWeight = "normal" | "0";
+export type ExteriorRole = "pattern_donor" | "origin_artifact" | "simulation" | "history" | "";
+
 export interface GraphNode {
   id: string;
   title: string;
@@ -33,6 +37,9 @@ export interface GraphNode {
   governanceLayer: GovernanceLayer;
   authorityDepth: number;
   bridgeState: BridgeState;
+  graphSection: GraphSection;
+  authorityWeight: AuthorityWeight;
+  exteriorRole: ExteriorRole;
 }
 
 export interface GraphEdge {
@@ -80,25 +87,67 @@ export const TYPE_COLORS: Record<string, string> = {
   "test-data": "#F97316",
 };
 
-export const NODE_SHAPE_MAP: Record<string, string> = {
-  paper: "",
-  doc: "border",
-  code: "square",
-  data: "square",
-  config: "",
-  schema: "square",
-  "test-data": "",
+export const TYPE_RING_COLORS: Record<string, string> = {
+  doc: "#A78BFA",
+  paper: "#22D3EE",
+  code: "#34D399",
+  data: "#FBBF24",
+  config: "#F472B6",
+  schema: "#A78BFA",
+  "test-data": "#FB923C",
 };
 
-export const NODE_BORDER_COLORS: Record<string, string> = {
-  doc: "#ffffff",
+export const RING_SIZE = 2.5;
+
+export const CONFLICT_CANDIDATE_THRESHOLD = 1;
+
+export const STATUS_GLYPHS: Record<string, string> = {
+  CONFLICTED: "⚠",
+  CONFLICT_CANDIDATE: "⚠",
+  QUARANTINED: "⧖",
+};
+
+export const CONFLICT_KIND_COLORS = {
+  candidate: "#FCA5A5",
+  adjudicated: "#EF4444",
+} as const;
+
+export const NODE_SHAPE_MAP: Record<string, string> = {
+  paper: "ring",
+  doc: "ring",
+  code: "ring",
+  data: "ring",
+  config: "ring",
+  schema: "ring",
+  "test-data": "ring",
 };
 
 export const SHAPE_LABELS: Record<string, string> = {
   "": "Circle",
-  square: "Square",
-  border: "Bordered Circle",
+  ring: "Ringed Circle",
 };
+
+export const COLLAPSE_FAMILY_GLYPH = "⊞";
+export const COLLAPSE_FAMILY_COLOR = "#60A5FA";
+export const COLLAPSE_STATUS_PRIORITY: Record<NodeStatus, number> = {
+  VERIFIED: 0,
+  UNVERIFIED: 1,
+  CONFLICTED: 2,
+  QUARANTINED: 3,
+};
+
+export interface CollapseFamilyData {
+  representativeId: string;
+  title: string;
+  memberIds: string[];
+  memberCount: number;
+  bestStatus: NodeStatus;
+  dominantType: string;
+  dominantRepo: string;
+  mergedTags: string[];
+  maxVerificationCount: number;
+  maxContradictionCount: number;
+}
 
 export const REPO_COLORS: Record<string, string> = {
   "self-organizing-library": "#7C3AED",

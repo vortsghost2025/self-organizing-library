@@ -1,0 +1,15 @@
+{
+  "sessionId": "sess-1776624850842-4d9e56ac",
+  "laneId": "library",
+  "createdAt": "2026-04-19T18:54:10.842Z",
+  "events": [
+    {
+      "timestamp": "2026-04-19T19:06:15.565Z",
+      "type": "lane-repaired",
+      "details": {
+        "previousLaneId": "{\n  \"$schema\": \"https://archivist.dev/schemas/session-mode.json\",\n  \"version\": \"2.0.0\",\n\n  \"lane_identity\": {\n    \"lane_id\": \"library\",\n    \"authority\": 60,\n    \"role\": \"memory-layer\",\n    \"position\": 3,\n    \"session_authority\": false\n  },\n\n  \"session_rules\": {\n    \"can_generate_session_id\": false,\n    \"must_read_before_start\": [\"SESSION_REGISTRY.json\", \".session-mode\"],\n    \"self_verification_sequence\": [\n      \"1. Read .session-mode (this file)\",\n      \"2. Extract: lane_id, authority, role, position\",\n      \"3. Verify: I am Lane 3 with authority 60\",\n      \"4. Read SESSION_REGISTRY.json currentSession\",\n      \"5. Use currentSession.id as my session ID\",\n      \"6. Register in laneStates.library\",\n      \"7. Begin operation\"\n    ]\n  },\n\n  \"forbidden_actions\": [\n    \"Generate session ID\",\n    \"Modify currentSession\",\n    \"Override higher authority lanes\",\n    \"Infer identity from working directory\"\n  ]\n}",
+        "repairedLaneId": "library"
+      }
+    }
+  ]
+}

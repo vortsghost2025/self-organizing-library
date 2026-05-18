@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "sessionId": "sess-1776554725677-9300f0f1",
+  "laneId": "library",
+  "createdAt": "2026-04-19T18:47:08.460Z",
+  "updatedAt": "2026-05-15T22:25:00Z",
+  "trustStateHash": "bf1a36b307412618bd0cb236322b003b5571d34eeec52fe6e64bfdf594f795cd",
+  "identityKeyFingerprint": "33daff393bc73937aa0afbbc4ddad88551439d295ba983bbeeadff36f8c0b4c0",
+  "keyDeclaredLaneId": "self-organizing-library",
+  "lastKnownContext": {},
+  "events": [
+    {
+      "timestamp": "2026-04-19T18:47:08.460Z",
+      "type": "identity-initialized",
+      "details": {
+        "source": "IdentityStore.initialize"
+      }
+    },
+    {
+      "timestamp": "2026-04-19T18:47:08.460Z",
+      "type": "lane-alias-detected",
+      "details": {
+        "canonicalLaneId": "library",
+        "keyDeclaredLaneId": "self-organizing-library"
+      }
+    },
+    {
+      "timestamp": "2026-05-15T22:25:00Z",
+      "type": "ed25519-migration-complete",
+      "details": {
+        "source": "library-lane-agent",
+        "previous_key_id": "42e853d4ec37955d",
+        "new_key_id": "33daff393bc73937",
+        "reason": "Completed incomplete Ed25519 migration - previous Ed25519 private key was lost"
+      }
+    }
+  ]
+}

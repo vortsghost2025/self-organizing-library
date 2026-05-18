@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "exportedAt": "2026-04-19T18:47:08.467Z",
+  "identity": {
+    "version": "1.0.0",
+    "sessionId": "sess-1776554725677-9300f0f1",
+    "laneId": "library",
+    "createdAt": "2026-04-19T18:47:08.460Z",
+    "updatedAt": "2026-04-19T18:47:08.462Z",
+    "trustStateHash": "bf1a36b307412618bd0cb236322b003b5571d34eeec52fe6e64bfdf594f795cd",
+    "identityKeyFingerprint": "7b62d74bb9a1202c243ab125f9fe0e1eb0d0f1d43d73059429d2ba4a190c587b",
+    "keyDeclaredLaneId": "self-organizing-library",
+    "lastKnownContext": {},
+    "events": [
+      {
+        "timestamp": "2026-04-19T18:47:08.460Z",
+        "type": "identity-initialized",
+        "details": {
+          "source": "IdentityStore.initialize"
+        }
+      },
+      {
+        "timestamp": "2026-04-19T18:47:08.460Z",
+        "type": "lane-alias-detected",
+        "details": {
+          "canonicalLaneId": "library",
+          "keyDeclaredLaneId": "self-organizing-library"
+        }
+      }
+    ]
+  },
+  "attestation": {
+    "payload": {
+      "version": "1.0.0",
+      "purpose": "model-switch-export",
+      "laneId": "library",
+      "sessionId": "sess-1776554725677-9300f0f1",
+      "issuedAt": "2026-04-19T18:47:08.463Z",
+      "identityHash": "f1a17fd65c15aecc93112856c1ca2c44b9d4f858824f38484bae8c6c9c98b6d3"
+    },
+    "signature": "VDjvWV3JbGOmYyAsCiNI7J8vXgqb8LJs9dqt/7bLgQYlWIphPQhW52zmLdAcdGoF6QxU0waJipkULjaEUDnuAg==",
+    "algorithm": "ed25519",
+    "keyFingerprint": "7b62d74bb9a1202c243ab125f9fe0e1eb0d0f1d43d73059429d2ba4a190c587b",
+    "laneId": "library"
+  }
+}

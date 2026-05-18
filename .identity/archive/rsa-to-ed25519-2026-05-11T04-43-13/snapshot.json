@@ -1,0 +1,17 @@
+{
+  "lane": "library",
+  "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkuJ5L9o+h9s2AZfo1g9u\nnsw2Rbw7rCdqGyITNkA/yRsthzcgP/OYQWickU+XBy+bXudRiHYA/HzttAmB6SxK\n/ap/XHHWc36F/XN5qvYTgeS7FSlwkE8dxUL0zFCHtyjkKsZb3v/SJB0gbF630dKR\ns3vx2uiCa7jsgD0nZy4fF47BZlOnkN8v3ltJS1cHfKsSl4CL73VGC7yeSxn1ToQV\n2mQ1vgV8E1m5URQ9T2c87XKIn70JyvDtMKIklj3dhnsP3UBFNtN46fgdHHLBfPOy\nQF4KW0w/jTcpgQvJTcoUg9PidFw0/xHEwMfK/C+i1F5NS8vPGpP8rpwh5x8b4lsn\nTwIDAQAB\n-----END PUBLIC KEY-----\n",
+  "key_id": "a5a5f5c2edbee56a",
+  "created_at": "2026-04-24T21:15:47.279Z",
+  "expires_at": null,
+  "metadata": {
+    "version": "3.0",
+    "reason": "key_convergence_20260505",
+    "previous_key_id": "ea2a75bab220adc2",
+    "derivation_method": "DER-SPKI-SHA256",
+    "convergence_source": "archivist-ratification-session"
+  },
+  "last_heartbeat_at": "2026-05-06T00:44:26.723Z",
+  "status": "alive",
+  "revoked_key_id": "cb3e57dd7818da3d"
+}

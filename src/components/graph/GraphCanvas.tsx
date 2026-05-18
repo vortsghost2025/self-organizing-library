@@ -6,24 +6,22 @@ import Graph from "graphology";
 import Sigma from "sigma";
 import { circular } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
-import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState } from "@/lib/graph-types";
-import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS, NODE_SHAPE_MAP, NODE_BORDER_COLORS } from "@/lib/graph-types";
-import { NodeSquareProgram } from "@sigma/node-square";
+import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState, GraphLens, CollapseFamilyData } from "@/lib/graph-types";
+import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, TYPE_RING_COLORS, RING_SIZE, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS, NODE_SHAPE_MAP, STATUS_GLYPHS, CONFLICT_CANDIDATE_THRESHOLD, CONFLICT_KIND_COLORS, COLLAPSE_FAMILY_GLYPH, COLLAPSE_FAMILY_COLOR } from "@/lib/graph-types";
 import { createNodeBorderProgram } from "@sigma/node-border";
 import { NodeCircleProgram } from "sigma/rendering";
 
-const NodeBorderProgram = typeof window !== "undefined"
+const NodeRingProgram = typeof window !== "undefined"
   ? createNodeBorderProgram({
       borders: [{
         color: { attribute: "borderColor", defaultValue: "#888888" },
-        size: { value: 3 },
+        size: { value: RING_SIZE },
       }],
     })
   : null;
 
 const NODE_PROGRAMS: Record<string, any> = {
-  ...(NodeSquareProgram ? { square: NodeSquareProgram } : {}),
-  ...(NodeBorderProgram ? { border: NodeBorderProgram } : {}),
+  ...(NodeRingProgram ? { ring: NodeRingProgram } : {}),
   default: NodeCircleProgram,
 };
 
@@ -64,6 +62,9 @@ interface GraphCanvasProps {
   filter: string;
   visibleCount: number;
   coreNodeIds?: string[];
+  graphLens?: GraphLens;
+  showAnchorLabels?: boolean;
+  collapsedFamilies?: CollapseFamilyData[];
   onNodeClick: (nodeId: string) => void;
   onNodeHover: (nodeId: string | null) => void;
   onStageClick: () => void;
@@ -83,6 +84,8 @@ const HOVER_DIM_COLOR = "#353540";
 const HOVER_DIM_EDGE = "#252530";
 const PATH_HIGHLIGHT = "#F59E0B";
 const PATH_EDGE_COLOR = "#FBBF24";
+const QUIET_EDGE_COLOR = "#1E1E28";
+const QUIET_EDGE_SIZE = 0.3;
 
 function getReducedMotionDurations() {
   if (typeof window === "undefined") return { camera: 200, pan: 150 };
@@ -94,13 +97,21 @@ function buildGraph(
   nodes: GraphNode[],
   edges: GraphEdge[],
   filter: string,
-  filterMode: "type" | "repo"
+  filterMode: "type" | "repo",
+  collapsedFamilies?: CollapseFamilyData[]
 ): Graph {
   const filtered = filter === "all"
     ? nodes
     : filterMode === "repo"
     ? nodes.filter((n) => n.repo === filter)
     : nodes.filter((n) => n.type === filter);
+
+  const collapseMap = new Map<string, CollapseFamilyData>();
+  if (collapsedFamilies) {
+    for (const fam of collapsedFamilies) {
+      collapseMap.set(fam.representativeId, fam);
+    }
+  }
 
   // Base node set for the current filter (for repo mode: nodes in selected repo)
   const baseNodeIds = new Set(filtered.map((n) => n.id));
@@ -126,16 +137,38 @@ function buildGraph(
     const color = filterMode === "repo"
       ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
       : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
-    const shapeType = NODE_SHAPE_MAP[node.type] || "default";
-    const extraAttrs: Record<string, any> = { type: shapeType };
-    if (shapeType === "border") {
-      extraAttrs.borderColor = NODE_BORDER_COLORS[node.type] || "#ffffff";
+  const shapeType = NODE_SHAPE_MAP[node.type] || "default";
+  const collapseFamily = collapseMap.get(node.id);
+  const collapseGlyph = collapseFamily ? `${COLLAPSE_FAMILY_GLYPH} ` : "";
+  const collapseCount = collapseFamily ? collapseFamily.memberCount : 0;
+  const extraAttrs: Record<string, any> = { type: shapeType };
+  if (shapeType === "ring") {
+    if (collapseFamily) {
+      extraAttrs.borderColor = COLLAPSE_FAMILY_COLOR;
+    } else {
+      const isCandidate = node.status === "CONFLICTED" && node.contradictionCount <= CONFLICT_CANDIDATE_THRESHOLD;
+      const isAdjudicated = node.status === "CONFLICTED" && node.contradictionCount > CONFLICT_CANDIDATE_THRESHOLD;
+      if (isAdjudicated) {
+        extraAttrs.borderColor = CONFLICT_KIND_COLORS.adjudicated;
+      } else if (isCandidate) {
+        extraAttrs.borderColor = CONFLICT_KIND_COLORS.candidate;
+      } else {
+        extraAttrs.borderColor = TYPE_RING_COLORS[node.type] || "#888888";
+      }
     }
-    graph.addNode(node.id, {
-      label: node.title,
-      x: 0,
-      y: 0,
-      size: Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
+  }
+  const isCandidate = node.status === "CONFLICTED" && node.contradictionCount <= CONFLICT_CANDIDATE_THRESHOLD;
+  const statusGlyph = isCandidate
+    ? STATUS_GLYPHS.CONFLICT_CANDIDATE
+    : (STATUS_GLYPHS[node.status] || "");
+  const isExterior = node.graphSection === "exterior";
+  const isZeroWeight = node.authorityWeight === "0";
+  const exteriorAlpha = isExterior ? (isZeroWeight ? 0.4 : 0.7) : 1.0;
+  graph.addNode(node.id, {
+    label: `${collapseGlyph}${statusGlyph ? `${statusGlyph} ` : ""}${node.title}`,
+    x: 0,
+    y: 0,
+    size: collapseCount > 0 ? Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)) + Math.min(collapseCount, 5) * 1.5 : Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
       color,
       nodeType: node.type,
       ...extraAttrs,
@@ -150,7 +183,13 @@ function buildGraph(
       governanceLayer: node.governanceLayer || "unknown",
       authorityDepth: node.authorityDepth || 0,
       bridgeState: node.bridgeState || "unknown",
-    });
+      graphSection: node.graphSection,
+      authorityWeight: node.authorityWeight,
+      exteriorRole: node.exteriorRole,
+    conflictKind: isCandidate ? "candidate" : (node.status === "CONFLICTED" ? "adjudicated" : "none"),
+    exteriorAlpha,
+    collapseCount,
+  });
   }
 
   for (const edge of edges) {
@@ -189,10 +228,34 @@ function buildGraph(
     settings.scalingRatio = 4;
     settings.barnesHutOptimize = graph.order > 100;
     const iterations = graph.order > 200 ? 300 : graph.order > 50 ? 200 : 100;
-    forceAtlas2.assign(graph, { iterations, settings });
-  }
+      forceAtlas2.assign(graph, { iterations, settings });
+    }
 
-  return graph;
+    // Core/exterior spatial separation: push exterior nodes radially outward
+    let cx = 0, cy = 0, nodeCount = 0;
+    graph.forEachNode((node, attrs) => {
+      cx += attrs.x || 0;
+      cy += attrs.y || 0;
+      nodeCount++;
+    });
+    if (nodeCount > 0) {
+      cx /= nodeCount;
+      cy /= nodeCount;
+      graph.forEachNode((node, attrs) => {
+        const section = (attrs as any).graphSection as string | undefined;
+        if (section === "exterior") {
+          const dx = (attrs.x || 0) - cx;
+          const dy = (attrs.y || 0) - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const weight = (attrs as any).authorityWeight as string | undefined;
+          const push = weight === "0" ? 1.8 : 1.3;
+          graph.setNodeAttribute(node, "x", cx + dx * push);
+          graph.setNodeAttribute(node, "y", cy + dy * push);
+        }
+      });
+    }
+
+    return graph;
 }
 
 const GraphCanvas = forwardRef(function GraphCanvas(
@@ -200,8 +263,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     nodes, edges, clusters, activeEntryPointNodeIds, hoveredNodeId, selectedNodeId, focusedNodeId,
     pathNodes, pathEdges, pathSource, pathTarget, activeLayers, density,
     activeEntryPoint, activeClusterId, searchQuery, filterMode, filter,
-    visibleCount, coreNodeIds, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
-    onWebGLUnavailable,
+  visibleCount, coreNodeIds, graphLens, showAnchorLabels, collapsedFamilies, onNodeClick, onNodeHover, onStageClick, onCameraUpdate, onGraphReady,
+  onWebGLUnavailable,
   }: GraphCanvasProps,
   ref: React.Ref<GraphCanvasImperativeHandle>
 ) {
@@ -234,6 +297,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const clustersRef = useRef(clusters);
   const activeEntryPointNodeIdsRef = useRef<Set<string>>(new Set(activeEntryPointNodeIds || []));
   const coreNodeIdsRef = useRef<string[]>(coreNodeIds || []);
+  const showAnchorLabelsRef = useRef(showAnchorLabels ?? true);
+  const collapsedFamiliesRef = useRef(collapsedFamilies ?? []);
   const visibleNodeIdsRef = useRef<Set<string>>(new Set());
   // Cluster Node IDs map ref (computed in fitVisible, but needed for quick check)
   const clusterNodeIdsRef = useRef<Map<string, Set<string>>>(new Map());
@@ -608,6 +673,23 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     };
   }, [fitVisible]);
 
+  // Keep Sigma's internal dimensions in sync with container resizes
+  // Sigma doesn't use ResizeObserver internally — without this, any layout
+  // change (sidebar toggle, window resize) leaves Sigma with stale viewport
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const ro = new ResizeObserver(() => {
+      const sigma = sigmaRef.current;
+      if (sigma) {
+        sigma.resize();
+        sigma.refresh();
+      }
+    });
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, []);
+
   const zoomIn = useCallback(() => {
     const sigma = sigmaRef.current;
     if (!sigma) return;
@@ -643,6 +725,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     activeEntryPointNodeIdsRef.current = new Set(activeEntryPointNodeIds || []);
   }, [activeEntryPointNodeIds]);
   useEffect(() => { coreNodeIdsRef.current = coreNodeIds || []; }, [coreNodeIds]);
+  useEffect(() => { showAnchorLabelsRef.current = showAnchorLabels ?? true; }, [showAnchorLabels]);
+  useEffect(() => { collapsedFamiliesRef.current = collapsedFamilies ?? []; }, [collapsedFamilies]);
 
   // Sync callback refs to latest props (prevents main effect from depending on callbacks)
   useEffect(() => { onNodeClickRef.current = onNodeClick; }, [onNodeClick]);
@@ -718,7 +802,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       sigmaRef.current = null;
     }
 
-    const graph = buildGraph(nodes, edges, filter, filterMode);
+    const graph = buildGraph(nodes, edges, filter, filterMode, collapsedFamiliesRef.current);
     if (graph.order === 0) {
       console.debug("[GraphCanvas] built graph has 0 nodes");
       return;
@@ -935,13 +1019,32 @@ const GraphCanvas = forwardRef(function GraphCanvas(
             return res;
           }
 
-        if (nodeStatus === "CONFLICTED") {
-          res.color = STATUS_COLORS.CONFLICTED;
-          res.zIndex = 5;
-        } else if (nodeStatus === "QUARANTINED") {
-          res.color = STATUS_COLORS.QUARANTINED;
-          res.zIndex = 5;
-        }
+  if (nodeStatus === "CONFLICTED") {
+    const conflictKind = (data as any).conflictKind as "candidate" | "adjudicated" | "none";
+    if (conflictKind === "adjudicated") {
+      res.color = CONFLICT_KIND_COLORS.adjudicated;
+      res.zIndex = 6;
+    } else {
+      res.color = CONFLICT_KIND_COLORS.candidate;
+      res.zIndex = 5;
+    }
+  } else if (nodeStatus === "QUARANTINED") {
+    res.color = STATUS_COLORS.QUARANTINED;
+    res.zIndex = 5;
+  }
+
+  const extAlpha = (data as any).exteriorAlpha as number | undefined;
+  if (extAlpha !== undefined && extAlpha < 1.0) {
+    const baseColor = res.color as string;
+    if (baseColor.startsWith("#") && baseColor.length === 7) {
+      const r = parseInt(baseColor.slice(1, 3), 16);
+      const g = parseInt(baseColor.slice(3, 5), 16);
+      const b = parseInt(baseColor.slice(5, 7), 16);
+      const bg = 18;
+      const blend = (c: number) => Math.round(c * extAlpha + bg * (1 - extAlpha));
+      res.color = `#${blend(r).toString(16).padStart(2, "0")}${blend(g).toString(16).padStart(2, "0")}${blend(b).toString(16).padStart(2, "0")}`;
+    }
+  }
 
         if (activeLayersRef.current.includes("governance")) {
           const gl = (data as any).governanceLayer as GovernanceLayer;
@@ -960,21 +1063,24 @@ const GraphCanvas = forwardRef(function GraphCanvas(
           }
         }
 
-          if (selected && node === selected) {
-            res.highlighted = true;
-            res.zIndex = 10;
-          }
+  if (selected && node === selected) {
+    res.highlighted = true;
+    res.zIndex = 10;
+  }
 
-          const d = densityRef.current;
-          if (d === "overview") {
-            const isRep = clustersRef.current.some((cl) => cl.representativeId === node);
-            if (!isRep) {
-              res.label = "";
-            }
-          } else if (d === "mid") {
-            const degree = graph.degree(node);
-            if (degree < 8) res.label = "";
-          }
+  const anchorLabelsOn = showAnchorLabelsRef.current;
+  const anchorIds = coreNodeIdsRef.current;
+
+  const d = densityRef.current;
+  if (d === "overview") {
+    const isRep = clustersRef.current.some((cl) => cl.representativeId === node);
+    if (!isRep && !(anchorLabelsOn && anchorIds.includes(node))) {
+      res.label = "";
+    }
+  } else if (d === "mid") {
+    const degree = graph.degree(node);
+    if (degree < 8 && !(anchorLabelsOn && anchorIds.includes(node))) res.label = "";
+  }
 
           return res;
         },
@@ -1030,10 +1136,19 @@ const GraphCanvas = forwardRef(function GraphCanvas(
             return res;
           }
 
-          if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
-            res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
-            res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
-          }
+      if (authority && AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType]) {
+        const isAuthorityBearing = authority === "VERIFIES" || authority === "SIGNED_BY" || authority === "CONTRADICTS";
+        if (isAuthorityBearing) {
+          res.color = AUTHORITY_EDGE_COLORS[authority as AuthorityEdgeType];
+          res.size = AUTHORITY_EDGE_SIZE[authority as AuthorityEdgeType];
+        } else {
+          res.color = QUIET_EDGE_COLOR;
+          res.size = QUIET_EDGE_SIZE;
+        }
+      } else {
+        res.color = QUIET_EDGE_COLOR;
+        res.size = QUIET_EDGE_SIZE;
+      }
 
           // Boost edge visibility in overview/representative mode
           if (densityRef.current === "overview") {
@@ -1105,27 +1220,31 @@ const GraphCanvas = forwardRef(function GraphCanvas(
      sigmaRef.current = renderer;
      onGraphReadyRef.current?.(graph, renderer);
 
-     // Ensure container is laid out before fitting
-     const container = containerRef.current;
-     if (container && container.clientWidth > 0 && container.clientHeight > 0) {
-       // Use ResizeObserver to wait for final layout, then fit
-       const resizeObserver = new ResizeObserver(() => {
-         fitVisible();
-         renderer.refresh();
-         resizeObserver.disconnect();
-       });
-       resizeObserver.observe(container);
-       
-       // Also try immediate fit after a short delay as fallback
-       requestAnimationFrame(() => {
-         requestAnimationFrame(() => {
-           if (sigmaRef.current) {
-             fitVisible();
-             renderer.refresh();
-           }
-         });
-       });
-     }
+  // Ensure container is laid out before fitting
+  // CRITICAL: Sigma reads container dimensions in its constructor via this.resize().
+  // If the container isn't fully laid out yet, Sigma has stale viewport dimensions.
+  // We must call sigma.resize() before fitting so Sigma's internal coordinate system
+  // matches the actual container size.
+  const container = containerRef.current;
+  if (container && container.clientWidth > 0 && container.clientHeight > 0) {
+    const resizeObserver = new ResizeObserver(() => {
+      renderer.resize();
+      fitVisible();
+      renderer.refresh();
+      resizeObserver.disconnect();
+    });
+    resizeObserver.observe(container);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (sigmaRef.current) {
+          sigmaRef.current.resize();
+          fitVisible();
+          renderer.refresh();
+        }
+      });
+    });
+  }
 
      return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
@@ -1135,7 +1254,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         sigmaRef.current = null;
       }
     };
-   }, [nodes, edges, clusters, filter, filterMode, density, fitVisible]);
+   }, [nodes, edges, clusters, filter, filterMode, density, fitVisible, collapsedFamilies]);
   // Note: density intentionally included because label size/threshold depend on it
 
   // Debug overlay for ?debugGraph=1

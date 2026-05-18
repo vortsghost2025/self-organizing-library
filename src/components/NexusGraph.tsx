@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Graph from "graphology";
 import Sigma from "sigma";
 import { bidirectional } from "graphology-shortest-path";
-import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, EntryPoint } from "@/lib/graph-types";
+import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, EntryPoint, CollapseFamilyData } from "@/lib/graph-types";
+import { COLLAPSE_STATUS_PRIORITY, COLLAPSE_FAMILY_GLYPH } from "@/lib/graph-types";
 import type { GraphLensDefinitionSummary } from "@/lib/site-index";
 import { DEFAULT_LAYERS, STATUS_COLORS } from "@/lib/graph-types";
 import { computeClusters, computeEntryPoints, assignClusterIds } from "@/lib/graph-clusters";
@@ -56,6 +57,8 @@ export default function NexusGraph({ initialFilter = "all", initialFilterMode = 
   const [density, setDensity] = useState<DensityLevel>("mid");
   const [graphMode, setGraphMode] = useState<GraphMode>(initialMode ? (initialMode as GraphMode) : DEFAULT_MODE);
   const [graphLens, setGraphLens] = useState<GraphLens>(initialLens);
+  const [showAnchorLabels, setShowAnchorLabels] = useState(true);
+  const [collapseFamilies, setCollapseFamilies] = useState(false);
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
   const [cameraRatio, setCameraRatio] = useState(1);
@@ -165,10 +168,62 @@ export default function NexusGraph({ initialFilter = "all", initialFilterMode = 
     }
 
     return result;
-  }, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
+}, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
+
+  const { collapsedNodes, collapsedFamilies } = useMemo(() => {
+    if (!collapseFamilies) {
+      return { collapsedNodes: filteredNodes, collapsedFamilies: [] as CollapseFamilyData[] };
+    }
+    const families = new Map<string, GraphNode[]>();
+    for (const n of filteredNodes) {
+      const key = n.title.toLowerCase().trim();
+      if (!key) continue;
+      let arr = families.get(key);
+      if (!arr) { arr = []; families.set(key, arr); }
+      arr.push(n);
+    }
+    const familyData: CollapseFamilyData[] = [];
+    const keepIds = new Set<string>();
+    for (const [, members] of families) {
+      if (members.length < 2) {
+        for (const m of members) keepIds.add(m.id);
+        continue;
+      }
+      members.sort((a, b) => (COLLAPSE_STATUS_PRIORITY[a.status] ?? 9) - (COLLAPSE_STATUS_PRIORITY[b.status] ?? 9));
+      const rep = members[0];
+      const typeCounts = new Map<string, number>();
+      const repoCounts = new Map<string, number>();
+      const tagSet = new Set<string>();
+      let maxVerif = 0, maxContra = 0;
+      for (const m of members) {
+        typeCounts.set(m.type, (typeCounts.get(m.type) || 0) + 1);
+        repoCounts.set(m.repo, (repoCounts.get(m.repo) || 0) + 1);
+        for (const t of m.tags) tagSet.add(t);
+        if (m.verificationCount > maxVerif) maxVerif = m.verificationCount;
+        if (m.contradictionCount > maxContra) maxContra = m.contradictionCount;
+      }
+      const dominantType = [...typeCounts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+      const dominantRepo = [...repoCounts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+      keepIds.add(rep.id);
+      familyData.push({
+        representativeId: rep.id,
+        title: rep.title,
+        memberIds: members.map(m => m.id),
+        memberCount: members.length,
+        bestStatus: rep.status,
+        dominantType,
+        dominantRepo,
+        mergedTags: [...tagSet],
+        maxVerificationCount: maxVerif,
+        maxContradictionCount: maxContra,
+      });
+    }
+    const result = filteredNodes.filter(n => keepIds.has(n.id));
+    return { collapsedNodes: result, collapsedFamilies: familyData };
+  }, [filteredNodes, collapseFamilies]);
 
   const selectedNode = selectedNodeId
-    ? filteredNodes.find((n) => n.id === selectedNodeId) || null
+? collapsedNodes.find((n) => n.id === selectedNodeId) || null
     : null;
 
   const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
@@ -558,22 +613,26 @@ const handleCompareSnapshots = useCallback(() => {
          </div>
        )}
 
-        <GraphToolbar
-          filter={filter}
-          filterMode={filterMode}
-          searchQuery={searchQuery}
-          onFilterChange={setFilter}
-          onFilterModeChange={setFilterMode}
-          onSearchChange={setSearchQuery}
-          nodeCount={totalNodeCount}
-          edgeCount={visibleEdgeCount}
-          visibleCount={displayedVisibleCount}
-          nodeLimit={null}
-          onNodeLimitChange={() => {}}
-          onFitVisible={handleFitVisible}
-          onZoomIn={handleZoomIn}
-          onZoomOut={handleZoomOut}
-        />
+      <GraphToolbar
+        filter={filter}
+        filterMode={filterMode}
+        searchQuery={searchQuery}
+        onFilterChange={setFilter}
+        onFilterModeChange={setFilterMode}
+        onSearchChange={setSearchQuery}
+        nodeCount={totalNodeCount}
+        edgeCount={visibleEdgeCount}
+        visibleCount={displayedVisibleCount}
+        nodeLimit={null}
+        onNodeLimitChange={() => {}}
+        onFitVisible={handleFitVisible}
+        onZoomIn={handleZoomIn}
+        onZoomOut={handleZoomOut}
+  showAnchorLabels={showAnchorLabels}
+  onToggleAnchorLabels={() => setShowAnchorLabels(v => !v)}
+  collapseFamilies={collapseFamilies}
+  onToggleCollapseFamilies={() => setCollapseFamilies(v => !v)}
+      />
 
       {(activeEntryPointMeta || activeClusterMeta) && (
         <div className="card p-3 mb-2 flex flex-wrap items-center gap-2 text-sm animate-fade-in" role="status" aria-live="polite">
@@ -745,41 +804,44 @@ const handleCompareSnapshots = useCallback(() => {
         <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "300px" }}>
                 {loading ? (
                   <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status" aria-live="polite">Loading graph data...</div>
-                ) : filteredNodes.length === 0 && !webglUnavailable ? (
+                ) : collapsedNodes.length === 0 && !webglUnavailable ? (
                 <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
               ) : (
-                <GraphCanvas
-                  ref={graphCanvasRef}
-                  nodes={filteredNodes}
-                  edges={edges}
-                  clusters={clusters}
-                  activeEntryPointNodeIds={activeEntryPointMeta?.nodeIds || []}
-                  hoveredNodeId={hoveredNodeId}
-                  selectedNodeId={selectedNodeId}
-                  focusedNodeId={focusedNodeId}
-                   pathNodes={pathNodes}
-                   pathEdges={pathEdges}
-                   pathSource={pathSource}
-                   pathTarget={pathTarget}
-                   activeLayers={activeLayers}
-                   density={density}
-                   activeEntryPoint={activeEntryPoint}
-                   activeClusterId={activeClusterId}
-                   searchQuery={searchQuery}
-                   filterMode={filterMode}
-                   filter={filter}
-                   visibleCount={displayedVisibleCount}
-                   coreNodeIds={Array.from(coreNodeIds)}
-                   onNodeClick={handleNodeClick}
-                   onNodeHover={handleNodeHover}
-                   onStageClick={handleStageClick}
-                   onCameraUpdate={handleCameraUpdate}
-                   onGraphReady={handleGraphReady}
-           onWebGLUnavailable={() => setWebglUnavailable(true)}
-                 />
+        <GraphCanvas
+          ref={graphCanvasRef}
+  nodes={collapsedNodes}
+  edges={edges}
+  clusters={clusters}
+  activeEntryPointNodeIds={activeEntryPointMeta?.nodeIds || []}
+  hoveredNodeId={hoveredNodeId}
+  selectedNodeId={selectedNodeId}
+  focusedNodeId={focusedNodeId}
+  pathNodes={pathNodes}
+  pathEdges={pathEdges}
+  pathSource={pathSource}
+  pathTarget={pathTarget}
+  activeLayers={activeLayers}
+  density={density}
+  activeEntryPoint={activeEntryPoint}
+  activeClusterId={activeClusterId}
+  searchQuery={searchQuery}
+  filterMode={filterMode}
+  filter={filter}
+  visibleCount={displayedVisibleCount}
+  coreNodeIds={Array.from(coreNodeIds)}
+  graphLens={graphLens}
+  showAnchorLabels={showAnchorLabels}
+  collapsedFamilies={collapsedFamilies}
+        onNodeClick={handleNodeClick}
+          onNodeHover={handleNodeHover}
+          onStageClick={handleStageClick}
+          onCameraUpdate={handleCameraUpdate}
+          onGraphReady={handleGraphReady}
+          onWebGLUnavailable={() => setWebglUnavailable(true)}
+        />
               )}
               <GraphContextPanel
-                nodeCount={filteredNodes.length}
+                nodeCount={collapseFamilies ? collapsedNodes.length : filteredNodes.length}
                 edgeCount={visibleEdgeCount}
                 visibleCount={displayedVisibleCount}
                 density={density}

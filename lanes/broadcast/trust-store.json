@@ -17,10 +17,10 @@
   },
   "library": {
     "lane_id": "library",
-    "key_id": "42e853d4ec37955d",
-    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAw9w42sDe8qPJ1LKRsFcQ+2/ptA/N+grOA3TGz+xQPpU=\n-----END PUBLIC KEY-----",
+    "key_id": "33daff393bc73937",
+    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEArtl2yESFsQOMEbcAhD7hykQmZafiNcumykultFfiYS8=\n-----END PUBLIC KEY-----",
     "algorithm": "EdDSA",
-    "registered_at": "2026-05-11T04:43:13.806Z",
+    "registered_at": "2026-05-15T22:25:00Z",
     "expires_at": null,
     "revoked_at": null
   },
@@ -43,10 +43,10 @@
     "revoked_at": null
   },
   "key_lineage": {
-    "reconciled_at": "2026-05-06T00:44:26.725Z",
-    "reconciled_by": "archivist",
+    "reconciled_at": "2026-05-15T22:25:00Z",
+    "reconciled_by": "library-lane-agent",
     "source_machine": "windows-desktop-S-drive",
-    "reason": "Key convergence ratification 2026-05-05. All 4 lanes now aligned with fresh working key pairs. Library passphrase was lost - generated fresh key pair. SwarmMind/Kernel keys from Ubuntu headless. Archivist key already aligned.",
+    "reason": "Library Ed25519 migration completed - previous Ed25519 private key was lost during original migration",
     "rotations": {
       "archivist": {
         "previous_key_id": "65ae05b2a9e749cb",
@@ -55,10 +55,10 @@
         "rotated_at": "2026-05-11"
       },
       "library": {
-        "previous_key_id": "a5a5f5c2edbee56a",
-        "current_key_id": "42e853d4ec37955d",
-        "reason": "Ed25519 migration (Option D). Previous RSA key archived.",
-        "rotated_at": "2026-05-11"
+        "previous_key_id": "42e853d4ec37955d",
+        "current_key_id": "33daff393bc73937",
+        "reason": "Ed25519 migration completed (regenerated - original private key lost)",
+        "rotated_at": "2026-05-15"
       },
       "swarmmind": {
         "previous_key_id": "ec467e7103736c28",
@@ -114,6 +114,16 @@
       "archived_at": "2026-05-11T04:43:13.806Z",
       "archived_reason": "ed25519-migration",
       "superseded_by": "42e853d4ec37955d"
+    },
+    "42e853d4ec37955d": {
+      "lane_id": "library",
+      "key_id": "42e853d4ec37955d",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAw9w42sDe8qPJ1LKRsFcQ+2/ptA/N+grOA3TGz+xQPpU=\n-----END PUBLIC KEY-----",
+      "algorithm": "EdDSA",
+      "registered_at": "2026-05-11T04:43:13.806Z",
+      "archived_at": "2026-05-15T22:25:00Z",
+      "archived_reason": "ed25519-private-key-lost-regenerated",
+      "superseded_by": "33daff393bc73937"
     }
   },
   "rotation_policy": {

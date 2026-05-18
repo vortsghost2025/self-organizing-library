@@ -22,6 +22,9 @@ function makeNode(id: string): GraphNode {
     governanceLayer: 'operational',
     authorityDepth: 0,
     bridgeState: 'unknown',
+    graphSection: 'core',
+    authorityWeight: 'normal',
+    exteriorRole: '',
   };
 }
 

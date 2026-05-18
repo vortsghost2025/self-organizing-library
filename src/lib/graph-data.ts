@@ -1,4 +1,5 @@
 import siteIndex from "../../data/site-index.json";
+import type { GraphSection, AuthorityWeight, ExteriorRole } from "@/lib/graph-types";
 import {
   computeAuthorityEdges,
   computeGovernanceDepths,
@@ -78,6 +79,9 @@ export interface GraphNodeRecord {
   governanceLayer: string;
   authorityDepth: number;
   bridgeState: string;
+  graphSection: "core" | "exterior";
+  authorityWeight: "normal" | "0";
+  exteriorRole: "pattern_donor" | "origin_artifact" | "simulation" | "history" | "";
 }
 
 export interface GraphEdgeRecord {
@@ -235,6 +239,20 @@ function buildGraphData(includeTagInferences: boolean): BuiltGraphData {
   const statusMap = new Map(nodeStatuses.map((status) => [status.id, status]));
   const governanceMap = new Map(governanceDepths.map((depth) => [depth.id, depth]));
 
+  const sectionMap = new Map<string, "core" | "exterior">();
+  const weightMap = new Map<string, "normal" | "0">();
+  const roleMap = new Map<string, "pattern_donor" | "origin_artifact" | "simulation" | "history" | "">();
+  for (const [tagKey, ids] of Object.entries(index.tag_index)) {
+    if (tagKey === "graph_section:core") ids.forEach((id) => sectionMap.set(id, "core"));
+    else if (tagKey === "graph_section:exterior") ids.forEach((id) => sectionMap.set(id, "exterior"));
+    else if (tagKey === "authority_weight:normal") ids.forEach((id) => weightMap.set(id, "normal"));
+    else if (tagKey === "authority_weight:0") ids.forEach((id) => weightMap.set(id, "0"));
+    else if (tagKey === "exterior_role:pattern_donor") ids.forEach((id) => roleMap.set(id, "pattern_donor"));
+    else if (tagKey === "exterior_role:origin_artifact") ids.forEach((id) => roleMap.set(id, "origin_artifact"));
+    else if (tagKey === "exterior_role:simulation") ids.forEach((id) => roleMap.set(id, "simulation"));
+    else if (tagKey === "exterior_role:history") ids.forEach((id) => roleMap.set(id, "history"));
+  }
+
   const crossRefEdges = index.cross_references.map((ref) => ({
     source: ref.source,
     target: ref.target,
@@ -286,6 +304,9 @@ function buildGraphData(includeTagInferences: boolean): BuiltGraphData {
       governanceLayer: governance?.governanceLayer || "unknown",
       authorityDepth: governance?.authorityDepth || 0,
       bridgeState: governance?.bridgeState || "unknown",
+      graphSection: (sectionMap.get(entry.id) || "core") as GraphSection,
+      authorityWeight: (weightMap.get(entry.id) || "normal") as AuthorityWeight,
+      exteriorRole: (roleMap.get(entry.id) || "") as ExteriorRole,
     };
   });
 
@@ -414,33 +435,15 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["doc", "paper", "code"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "VERIFIES", "DERIVES_FROM", "CONTRADICTS", "SIGNED_BY"],
       excludedNoise: ["config files", "test data", "historical scratch artifacts", "tag-only inferred edges"],
-      maxRecommendedNodes: 400,
-      maxRecommendedEdges: 1400,
+      maxRecommendedNodes: explicitGraph.nodes.length,
+      maxRecommendedEdges: explicitGraph.combinedEdges.length,
       agentReviewInstruction: "Use this lens to orient first. If a claim matters, jump from here into authority, governance, or papers.",
       selectNodeIds: (graph) => {
         const ids = collectNodeIds(graph, (node) =>
-          (LANE_REPOS.has(node.repo) &&
-            (CORE_GOVERNANCE_LAYERS.has(node.governanceLayer) ||
-              node.status !== "UNVERIFIED" ||
-              GOVERNANCE_CATEGORIES.has(node.category))) ||
-          ((PAPER_REPOS.has(node.repo) || node.category === "paper") &&
-            (BRIDGED_STATES.has(node.bridgeState) || node.status === "VERIFIED")) ||
-          node.contradictionCount > 0 ||
-          node.bridgeState === "enforced" ||
-          node.connectionCount > 0
+          !NOISE_CATEGORIES.has(node.category) && !NOISE_TYPES.has(node.type)
         );
-        for (const node of limitRankedNodes(
-          graph.nodes.filter((node) => !NOISE_CATEGORIES.has(node.category)),
-          350
-        )) {
-          ids.add(node.id);
-        }
-      return expandByNeighbors(
-        ids,
-        graph,
-        (node) => baseNodeScore(node) >= 5 && !NOISE_TYPES.has(node.type)
-      );
-    },
+        return ids;
+      },
     },
     authority: {
       purpose: "Answer who verifies, signs, bridges, or contradicts whom using explicit authority-bearing artifacts.",
@@ -622,7 +625,7 @@ function buildPacketFromLens(lens: GraphLens): GraphDataPacket {
       : pruneMostlyIsolatedNodes(
           initialNodes,
           filteredEdges,
-          lens === "navigation" ? 60 : 8
+          lens === "navigation" ? 500 : 8
         );
   allowedIds = new Set(nodes.map((node) => node.id));
 

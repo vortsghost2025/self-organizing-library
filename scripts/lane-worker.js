@@ -620,7 +620,7 @@ class LaneWorker {
     }
 
   const OUTPUT_PROV_EXEMPT_TYPES = new Set(['task', 'escalation', 'request']);
-  if (typeof msg.body === 'string' && !OUTPUT_PROV_EXEMPT_TYPES.has(String(msg.type || '').toLowerCase()) && !isActionable(msg) && cp.hasCompletionProof(msg)) {
+  if (typeof msg.body === 'string' && !OUTPUT_PROV_EXEMPT_TYPES.has(String(msg.type || '').toLowerCase()) && !isActionable(msg)) {
     var prov = verifyOutputProvenance(msg.body);
     if (!prov.ok) {
       return { queue: 'blocked', reason: 'OUTPUT_PROVENANCE_MISSING', detail: 'body lacks OUTPUT_PROVENANCE header. Missing: ' + prov.missing.join(', ') + '. All agent output must include OUTPUT_PROVENANCE:, agent:, lane:, target:.' };
@@ -745,7 +745,7 @@ class LaneWorker {
     }
   }
   // Non-actionable messages claiming completion without verifiable artifact = blocked
-  if (gate.pass && !isActionable(msg) && cp.hasCompletionProof(msg)) {
+  if (gate.pass && !isActionable(msg)) {
     const proofClassification2 = this.artifactResolver.classifyProof(msg);
     const isLegacyPath2 = proofClassification2.type === 'LEGACY_ARTIFACT_PATH';
 
@@ -1134,4 +1134,5 @@ module.exports = {
   hasFakeProof: cp.hasFakeProof,
   hasUnresolvableEvidence: cp.hasUnresolvableEvidence,
 };
+
 

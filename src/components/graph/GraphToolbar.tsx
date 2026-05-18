@@ -18,6 +18,10 @@ interface GraphToolbarProps {
   onFitVisible?: () => void;
   onZoomIn?: () => void;
   onZoomOut?: () => void;
+  showAnchorLabels?: boolean;
+  onToggleAnchorLabels?: () => void;
+  collapseFamilies?: boolean;
+  onToggleCollapseFamilies?: () => void;
 }
 
 const TYPE_FILTERS = [
@@ -52,6 +56,10 @@ export default function GraphToolbar({
   onFitVisible,
   onZoomIn,
   onZoomOut,
+  showAnchorLabels,
+  onToggleAnchorLabels,
+  collapseFamilies,
+  onToggleCollapseFamilies,
 }: GraphToolbarProps) {
   const currentFilters = filterMode === "type" ? TYPE_FILTERS : REPO_FILTERS;
 
@@ -136,10 +144,38 @@ export default function GraphToolbar({
               className="px-2 py-1 rounded text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
               title="Fit visible nodes to view"
             >
-              Fit
-            </button>
-          )}
-          <div className="flex items-center gap-2">
+        Fit
+      </button>
+    )}
+    {onToggleAnchorLabels && (
+      <button
+        onClick={onToggleAnchorLabels}
+        className={`px-2 py-1 rounded text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 ${
+          showAnchorLabels
+            ? "border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/10"
+            : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+        }`}
+        title={showAnchorLabels ? "Hide anchor labels" : "Show anchor labels"}
+        aria-pressed={showAnchorLabels}
+      >
+      ⊙
+    </button>
+  )}
+  {onToggleCollapseFamilies && (
+    <button
+      onClick={onToggleCollapseFamilies}
+      className={`px-2 py-1 rounded text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 ${
+        collapseFamilies
+          ? "border-[#60A5FA] text-[#60A5FA] bg-[#60A5FA]/10"
+          : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+      }`}
+      title={collapseFamilies ? "Expand duplicate families" : "Collapse duplicate families"}
+      aria-pressed={collapseFamilies}
+    >
+      ⊞
+    </button>
+  )}
+    <div className="flex items-center gap-2">
             <label className="text-[var(--text-muted)]">Show top:</label>
             <select
               value={nodeLimit ?? "all"}
