@@ -205,6 +205,11 @@ class TaskChainEngine {
       followups = [];
     }
 
+    if (msgType === 'nack' || taskKind === 'nack') {
+      this._completeChain(chainId, 'nack_received', 'Nack received for ' + (msg.task_id || msg.id));
+      followups = [];
+    }
+
     return followups;
   }
 
