@@ -1,10 +1,10 @@
 {
-  "session_id": "sess_mp5wnvdr_1061103",
+  "session_id": "sess_mpfoiz14_2649",
   "lane": "library",
-  "claimed_at": "2026-05-14T19:52:40.863Z",
-  "renewed_at": "2026-05-20T19:05:46.192Z",
-  "expires_at": "2026-05-20T19:20:46.192Z",
-  "pid": 1061103,
+  "claimed_at": "2026-05-21T16:02:37.144Z",
+  "renewed_at": "2026-05-21T19:33:46.657Z",
+  "expires_at": "2026-05-21T19:48:46.657Z",
+  "pid": 2649,
   "origin_runtime": "kilo",
   "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
 }
