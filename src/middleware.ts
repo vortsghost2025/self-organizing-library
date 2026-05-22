@@ -9,6 +9,7 @@ const PUBLIC_API_ROUTES = [
   '/api/governance',
   '/api/health',
   '/api/search',
+  '/api/system-pulse',
   '/api/system-timeline',
 ];
 
