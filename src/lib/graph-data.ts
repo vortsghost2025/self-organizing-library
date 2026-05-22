@@ -450,8 +450,8 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["doc", "paper", "code", "data"],
       includedEdgeTypes: ["authority", ...AUTHORITY_EDGE_TYPES],
       excludedNoise: ["ordinary file references", "inactive unverified nodes", "tag-only inferred edges"],
-      maxRecommendedNodes: 220,
-      maxRecommendedEdges: 700,
+      maxRecommendedNodes: 600,
+      maxRecommendedEdges: 2000,
       agentReviewInstruction: "Use this lens for trust, provenance, or ratification questions. Ignore ordinary archive traversal here.",
       selectNodeIds: (graph) => {
         const seedIds = collectNodeIds(graph, (node) =>
@@ -483,8 +483,8 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["doc", "data", "code"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "VERIFIES", "CONTRADICTS", "SIGNED_BY", "DERIVES_FROM"],
       excludedNoise: ["application-adjacent assets", "low-signal operational files", "tag-only inferred edges"],
-      maxRecommendedNodes: 240,
-      maxRecommendedEdges: 850,
+      maxRecommendedNodes: 500,
+      maxRecommendedEdges: 2000,
       agentReviewInstruction: "Use this lens for policy, enforcement, contradiction, and runtime-governance questions.",
       selectNodeIds: (graph) => {
         const ids = collectNodeIds(graph, (node) =>
@@ -497,7 +497,7 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
         return expandByNeighbors(
           ids,
           graph,
-          (node) => GOVERNANCE_CATEGORIES.has(node.category) || node.bridgeState === "enforced"
+          (node) => GOVERNANCE_CATEGORIES.has(node.category) || node.bridgeState === "enforced" || !NOISE_CATEGORIES.has(node.category)
         );
       },
       edgeFilter: (edge) => edge.type === "authority" || edge.type === "cross-reference",
@@ -507,8 +507,8 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["paper", "doc", "code"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "DERIVES_FROM", "VERIFIES"],
       excludedNoise: ["pure repo plumbing", "test data", "tag-only inferred edges"],
-      maxRecommendedNodes: 180,
-      maxRecommendedEdges: 550,
+      maxRecommendedNodes: 500,
+      maxRecommendedEdges: 1500,
       agentReviewInstruction: "Use this lens when asking which papers support which runtime artifacts, and what evidence bridges theory into practice.",
       selectNodeIds: (graph) => {
         const ids = collectNodeIds(graph, (node) =>
@@ -530,17 +530,15 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["doc", "code", "data"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "VERIFIES", "DERIVES_FROM", "EXECUTES"],
       excludedNoise: ["small local files", "historical scratch artifacts", "tag-only inferred edges"],
-      maxRecommendedNodes: 240,
-      maxRecommendedEdges: 750,
+      maxRecommendedNodes: 600,
+      maxRecommendedEdges: 2000,
       agentReviewInstruction: "Use this lens to compare lane roles and repo-level structure. Do not use it for deep paper or contradiction analysis.",
       selectNodeIds: (graph) => {
         const seedIds = collectNodeIds(graph, (node) =>
-          LANE_REPOS.has(node.repo) &&
-          (node.status !== "UNVERIFIED" ||
-            node.connectionCount >= 1 ||
-            CORE_GOVERNANCE_LAYERS.has(node.governanceLayer))
+          LANE_REPOS.has(node.repo)
         );
-        const edgeBound = collectEdgeBoundNodeIds(
+        const edgeBound = new Set(seedIds);
+        for (const nodeId of collectEdgeBoundNodeIds(
           graph,
           seedIds,
           (edge) => edge.type === "authority" || edge.type === "cross-reference",
@@ -550,13 +548,16 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
             GOVERNANCE_CATEGORIES.has(node.category) ||
             CORE_GOVERNANCE_LAYERS.has(node.governanceLayer) ||
             node.status === "CONFLICTED"
-        );
+        )) {
+          edgeBound.add(nodeId);
+        }
         const expanded = expandByNeighbors(edgeBound, graph, (node) =>
           LANE_REPOS.has(node.repo) ||
           PAPER_REPOS.has(node.repo) ||
-          GOVERNANCE_CATEGORIES.has(node.category)
+          GOVERNANCE_CATEGORIES.has(node.category) ||
+          !NOISE_CATEGORIES.has(node.category)
         );
-        return limitToSet(expanded, 240, graph);
+        return limitToSet(expanded, 600, graph);
       },
       edgeFilter: (edge) => edge.type === "authority" || edge.type === "cross-reference",
     },
@@ -625,7 +626,7 @@ function buildPacketFromLens(lens: GraphLens): GraphDataPacket {
       : pruneMostlyIsolatedNodes(
           initialNodes,
           filteredEdges,
-          lens === "navigation" ? 500 : 8
+          500
         );
   allowedIds = new Set(nodes.map((node) => node.id));
 

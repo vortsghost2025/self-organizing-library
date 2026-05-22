@@ -220,16 +220,28 @@ function buildGraph(
     }
   }
 
-  circular.assign(graph, { scale: 300 });
+  const n = graph.order;
+  const initialScale = n > 1000 ? 1000 : n > 200 ? 500 : 300;
+  circular.assign(graph, { scale: initialScale });
 
-  if (graph.order > 0) {
+  if (n > 0) {
     const settings = forceAtlas2.inferSettings(graph);
-    settings.gravity = 0.5;
-    settings.scalingRatio = 4;
-    settings.barnesHutOptimize = graph.order > 100;
-    const iterations = graph.order > 200 ? 300 : graph.order > 50 ? 200 : 100;
-      forceAtlas2.assign(graph, { iterations, settings });
+    if (n > 2000) {
+      settings.gravity = 0.001;
+      settings.scalingRatio = 10;
+    } else if (n > 500) {
+      settings.gravity = 0.01;
+      settings.scalingRatio = 6;
+    } else if (n > 100) {
+      settings.gravity = 0.05;
+      settings.scalingRatio = 4;
+    } else {
+      settings.gravity = 0.1;
+      settings.scalingRatio = 2;
     }
+    settings.barnesHutOptimize = n > 100;
+    const iterations = n > 2000 ? 500 : n > 200 ? 300 : n > 50 ? 200 : 100;
+    forceAtlas2.assign(graph, { iterations, settings });
 
     // Core/exterior spatial separation: push exterior nodes radially outward
     let cx = 0, cy = 0, nodeCount = 0;
@@ -254,8 +266,9 @@ function buildGraph(
         }
       });
     }
+  }
 
-    return graph;
+  return graph;
 }
 
 const GraphCanvas = forwardRef(function GraphCanvas(
@@ -271,6 +284,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   const containerRef = useRef<HTMLDivElement>(null);
   const sigmaRef = useRef<Sigma | null>(null);
   const graphRef = useRef<Graph | null>(null);
+  const pendingFallbackRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [baseLabelSize, setBaseLabelSize] = useState(() => {
     if (typeof window === "undefined") return 12;
     const zoomLevel = Math.round(window.devicePixelRatio * 100) / 100;
@@ -1244,10 +1258,21 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         }
       });
     });
+
+    // Fallback: ensure fitVisible runs even if ResizeObserver or rAF timing misses
+    const fallbackTimer = setTimeout(() => {
+      if (sigmaRef.current) {
+        sigmaRef.current.resize();
+        fitVisible();
+        sigmaRef.current.refresh();
+      }
+    }, 200);
+    pendingFallbackRef.current = fallbackTimer;
   }
 
      return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      if (pendingFallbackRef.current) clearTimeout(pendingFallbackRef.current);
       camera.removeListener("updated", handleCameraUpdate);
       if (sigmaRef.current) {
         sigmaRef.current.kill();
