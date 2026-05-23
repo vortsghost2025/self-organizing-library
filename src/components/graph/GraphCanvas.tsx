@@ -922,21 +922,37 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       initCenterX = sumX / nodeIdsArray.length;
       initCenterY = sumY / nodeIdsArray.length;
     }
-    let renderer: Sigma;
-    try {
-      renderer = new Sigma(graph, containerRef.current, {
-        renderLabels: true,
-        renderEdgeLabels: false,
-        labelFont: "DM Sans",
-        labelSize: effectiveLabelSize,
-        labelWeight: "500",
-        labelColor: { color: "#A1A1AA" },
-        labelRenderedSizeThreshold: effectiveLabelThreshold,
-        nodeProgramClasses: NODE_PROGRAMS,
-        defaultEdgeColor: "#3A3A5C",
-        minCameraRatio: 0.1,
-        maxCameraRatio: 5000,
-        stagePadding: 20,
+  let renderer: Sigma;
+  try {
+    renderer = new Sigma(graph, containerRef.current, {
+      renderLabels: true,
+      renderEdgeLabels: false,
+      labelFont: "DM Sans",
+      labelSize: effectiveLabelSize,
+      labelWeight: "500",
+      labelColor: { color: "#A1A1AA" },
+      labelRenderedSizeThreshold: effectiveLabelThreshold,
+      nodeProgramClasses: NODE_PROGRAMS,
+      defaultEdgeColor: "#3A3A5C",
+      minCameraRatio: 0.1,
+      maxCameraRatio: 5000,
+      stagePadding: 20,
+    });
+
+    // Force the camera to a default position and zoom level to ensure nodes are visible
+    renderer.getCamera().setState({
+      x: 0,
+      y: 0,
+      ratio: 1,
+      angle: 0,
+    });
+
+    // Log graph data for debugging
+    console.log("Graph data loaded:", { nodes: graph.nodes().length, edges: graph.edges().length });
+
+    // Force Sigma to re-render
+    renderer.refresh();
+    window.dispatchEvent(new Event('resize'));
         nodeReducer: (node, data) => {
           const res = { ...data };
           const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
