@@ -7,21 +7,10 @@ import Sigma from "sigma";
 import { circular } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
 import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, AuthorityEdgeType, GovernanceLayer, BridgeState, GraphLens, CollapseFamilyData } from "@/lib/graph-types";
-import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, TYPE_RING_COLORS, RING_SIZE, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS, NODE_SHAPE_MAP, STATUS_GLYPHS, CONFLICT_CANDIDATE_THRESHOLD, CONFLICT_KIND_COLORS, COLLAPSE_FAMILY_GLYPH, COLLAPSE_FAMILY_COLOR } from "@/lib/graph-types";
-import { createNodeBorderProgram } from "@sigma/node-border";
+import { MEANING_LAYER_EDGES, AUTHORITY_EDGE_COLORS, AUTHORITY_EDGE_SIZE, STATUS_COLORS, TYPE_COLORS, REPO_COLORS, GOVERNANCE_LAYER_COLORS, BRIDGE_STATE_COLORS, STATUS_GLYPHS, CONFLICT_CANDIDATE_THRESHOLD, CONFLICT_KIND_COLORS, COLLAPSE_FAMILY_GLYPH } from "@/lib/graph-types";
 import { NodeCircleProgram } from "sigma/rendering";
 
-const NodeRingProgram = typeof window !== "undefined"
-  ? createNodeBorderProgram({
-      borders: [{
-        color: { attribute: "borderColor", defaultValue: "#888888" },
-        size: { value: RING_SIZE },
-      }],
-    })
-  : null;
-
 const NODE_PROGRAMS: Record<string, any> = {
-  ...(NodeRingProgram ? { ring: NodeRingProgram } : {}),
   default: NodeCircleProgram,
 };
 
@@ -137,26 +126,9 @@ function buildGraph(
     const color = filterMode === "repo"
       ? (REPO_COLORS[node.repo] || TYPE_COLORS[node.type] || TYPE_COLORS.doc)
       : (TYPE_COLORS[node.type] || TYPE_COLORS.doc);
-  const shapeType = NODE_SHAPE_MAP[node.type] || "default";
   const collapseFamily = collapseMap.get(node.id);
   const collapseGlyph = collapseFamily ? `${COLLAPSE_FAMILY_GLYPH} ` : "";
   const collapseCount = collapseFamily ? collapseFamily.memberCount : 0;
-  const extraAttrs: Record<string, any> = { type: shapeType };
-  if (shapeType === "ring") {
-    if (collapseFamily) {
-      extraAttrs.borderColor = COLLAPSE_FAMILY_COLOR;
-    } else {
-      const isCandidate = node.status === "CONFLICTED" && node.contradictionCount <= CONFLICT_CANDIDATE_THRESHOLD;
-      const isAdjudicated = node.status === "CONFLICTED" && node.contradictionCount > CONFLICT_CANDIDATE_THRESHOLD;
-      if (isAdjudicated) {
-        extraAttrs.borderColor = CONFLICT_KIND_COLORS.adjudicated;
-      } else if (isCandidate) {
-        extraAttrs.borderColor = CONFLICT_KIND_COLORS.candidate;
-      } else {
-        extraAttrs.borderColor = TYPE_RING_COLORS[node.type] || "#888888";
-      }
-    }
-  }
   const isCandidate = node.status === "CONFLICTED" && node.contradictionCount <= CONFLICT_CANDIDATE_THRESHOLD;
   const statusGlyph = isCandidate
     ? STATUS_GLYPHS.CONFLICT_CANDIDATE
@@ -171,7 +143,6 @@ function buildGraph(
     size: collapseCount > 0 ? Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)) + Math.min(collapseCount, 5) * 1.5 : Math.max(baseSize, 3 + Math.min(node.connectionCount * 0.5, 8)),
       color,
       nodeType: node.type,
-      ...extraAttrs,
       category: node.category,
       repo: node.repo,
       connectionCount: node.connectionCount,
@@ -227,18 +198,21 @@ function buildGraph(
   if (n > 0) {
     const settings = forceAtlas2.inferSettings(graph);
     if (n > 2000) {
-      settings.gravity = 0.001;
-      settings.scalingRatio = 10;
+      settings.gravity = 0.005;
+      settings.scalingRatio = 3;
     } else if (n > 500) {
-      settings.gravity = 0.01;
-      settings.scalingRatio = 6;
+      settings.gravity = 0.02;
+      settings.scalingRatio = 2.5;
     } else if (n > 100) {
-      settings.gravity = 0.05;
-      settings.scalingRatio = 4;
-    } else {
-      settings.gravity = 0.1;
+      settings.gravity = 0.08;
       settings.scalingRatio = 2;
+    } else {
+      settings.gravity = 0.15;
+      settings.scalingRatio = 1.5;
     }
+    settings.linLogMode = true;
+    settings.outboundAttractionDistribution = true;
+    settings.adjustSizes = true;
     settings.barnesHutOptimize = n > 100;
     const iterations = n > 2000 ? 500 : n > 200 ? 300 : n > 50 ? 200 : 100;
     forceAtlas2.assign(graph, { iterations, settings });
@@ -365,8 +339,15 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       xs.push(attrs.x);
       ys.push(attrs.y);
     }
-    const minX = Math.min(...xs), maxX = Math.max(...xs);
-    const minY = Math.min(...ys), maxY = Math.max(...ys);
+
+    // Use percentile-based bounding box (5th–95th) to exclude extreme outliers
+    // from forcing the camera to zoom out too far
+    xs.sort((a, b) => a - b);
+    ys.sort((a, b) => a - b);
+    const loIdx = Math.floor(xs.length * 0.05);
+    const hiIdx = Math.ceil(xs.length * 0.95);
+    const minX = xs[loIdx], maxX = xs[hiIdx];
+    const minY = ys[loIdx], maxY = ys[hiIdx];
     let width = maxX - minX;
     let height = maxY - minY;
     if (width <= 0 || height <= 0) {
@@ -374,7 +355,6 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       return;
     }
 
-    // Use natural spread (no clamp) for full graph
     const adjMinX = minX, adjMaxX = maxX, adjMinY = minY, adjMaxY = maxY;
     const adjWidth = adjMaxX - adjMinX;
     const adjHeight = adjMaxY - adjMinY;
@@ -383,11 +363,9 @@ const GraphCanvas = forwardRef(function GraphCanvas(
 
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
-    const padding = 0.85;
-    const ratio = Math.min(
-      (containerWidth * padding) / adjWidth,
-      (containerHeight * padding) / adjHeight
-    );
+
+    // Show ~50% of bbox so nodes are clearly visible on first load.
+    const ratio = Math.max(adjWidth, adjHeight) * 0.5;
 
     // Debug logging for ?debugGraph=1
     const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
@@ -534,8 +512,14 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       xs.push(attrs.x);
       ys.push(attrs.y);
     }
-    const minX = Math.min(...xs), maxX = Math.max(...xs);
-    const minY = Math.min(...ys), maxY = Math.max(...ys);
+
+    // Use percentile-based bounding box (5th–95th) to exclude extreme outliers
+    xs.sort((a, b) => a - b);
+    ys.sort((a, b) => a - b);
+    const loIdx = Math.floor(xs.length * 0.05);
+    const hiIdx = Math.ceil(xs.length * 0.95);
+    const minX = xs[loIdx], maxX = xs[hiIdx];
+    const minY = ys[loIdx], maxY = ys[hiIdx];
     let width = maxX - minX;
     let height = maxY - minY;
     if (width <= 0 || height <= 0) {
@@ -564,11 +548,8 @@ const GraphCanvas = forwardRef(function GraphCanvas(
 
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
-    const padding = 0.85;
-    const ratio = Math.min(
-      (containerWidth * padding) / adjWidth,
-      (containerHeight * padding) / adjHeight
-    );
+
+    const ratio = Math.max(adjWidth, adjHeight) * 0.5;
 
     // Debug logging for ?debugGraph=1
     const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
@@ -954,7 +935,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         nodeProgramClasses: NODE_PROGRAMS,
         defaultEdgeColor: "#3A3A5C",
         minCameraRatio: 0.1,
-        maxCameraRatio: 10,
+        maxCameraRatio: 5000,
         stagePadding: 20,
         nodeReducer: (node, data) => {
           const res = { ...data };
@@ -1232,6 +1213,9 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     camera.on("updated", handleCameraUpdate);
 
      sigmaRef.current = renderer;
+     (window as any).__sigmaRef = renderer;
+     (window as any).__graphRef = graph;
+     (window as any).__graphCanvasContainer = containerRef.current;
      onGraphReadyRef.current?.(graph, renderer);
 
   // Ensure container is laid out before fitting
@@ -1243,7 +1227,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
   if (container && container.clientWidth > 0 && container.clientHeight > 0) {
     const resizeObserver = new ResizeObserver(() => {
       renderer.resize();
-      fitVisible();
+      fitAllNodes();
       renderer.refresh();
       resizeObserver.disconnect();
     });
@@ -1253,17 +1237,17 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       requestAnimationFrame(() => {
         if (sigmaRef.current) {
           sigmaRef.current.resize();
-          fitVisible();
+          fitAllNodes();
           renderer.refresh();
         }
       });
     });
 
-    // Fallback: ensure fitVisible runs even if ResizeObserver or rAF timing misses
+    // Fallback: ensure fitAllNodes runs even if ResizeObserver or rAF timing misses
     const fallbackTimer = setTimeout(() => {
       if (sigmaRef.current) {
         sigmaRef.current.resize();
-        fitVisible();
+        fitAllNodes();
         sigmaRef.current.refresh();
       }
     }, 200);
