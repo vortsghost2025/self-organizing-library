@@ -924,6 +924,13 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     }
   let renderer: Sigma;
   try {
+    if (!containerRef.current) {
+      console.error("Graph container not found!");
+      return;
+    }
+    
+    console.log("Initializing Sigma with graph data:", { nodes: graph.nodes().length, edges: graph.edges().length });
+    
     renderer = new Sigma(graph, containerRef.current, {
       renderLabels: true,
       renderEdgeLabels: false,
@@ -1044,7 +1051,13 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     console.log("Camera state after reset:", camera.getState());
 
     // Call fitAllNodes() immediately to ensure the graph is visible
-    fitAllNodes();
+    try {
+      console.log("Calling fitAllNodes()...");
+      fitAllNodes();
+      console.log("fitAllNodes() completed successfully.");
+    } catch (error) {
+      console.error("Error in fitAllNodes():", error);
+    }
 
     // Add a camera sanity check to detect invalid ratios
     if (camera.ratio > 1e6 || camera.ratio < 1e-6) {
