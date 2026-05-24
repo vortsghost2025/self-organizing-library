@@ -547,11 +547,13 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const adjHeight = adjMaxY - adjMinY;
     const centerX = (adjMinX + adjMaxX) / 2;
     const centerY = (adjMinY + adjMaxY) / 2;
-
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
-    const ratio = Math.max(adjWidth, adjHeight) * 0.5;
+    // In Sigma.js, ratio = worldSize / viewportSize (smaller = more zoomed in)
+    // To fit graph with 90% padding: ratio = max(adjWidth, adjHeight) / min(containerWidth, containerHeight) * 0.9
+    // Add 20% padding to prevent edges at viewport borders
+    const ratio = Math.max(adjWidth / containerWidth, adjHeight / containerHeight) * 1.2;
 
     // Debug logging for ?debugGraph=1
     const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
