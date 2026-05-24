@@ -364,8 +364,10 @@ const GraphCanvas = forwardRef(function GraphCanvas(
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
-    // Show ~50% of bbox so nodes are clearly visible on first load.
-    const ratio = Math.max(adjWidth, adjHeight) * 0.5;
+    // In Sigma.js, ratio = worldSize / viewportSize (smaller = more zoomed in)
+    // To fit graph with 90% padding: ratio = max(adjWidth, adjHeight) / min(containerWidth, containerHeight) * 0.9
+    // Add 20% padding to prevent edges at viewport borders
+    const ratio = Math.max(adjWidth / containerWidth, adjHeight / containerHeight) * 1.2;
 
     // Debug logging for ?debugGraph=1
     const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
@@ -1071,13 +1073,7 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       fitAllNodes();
     }
 
-    // Set initial camera position (Sigma v3: mutate camera object directly)
-    camera.x = initCenterX;
-    camera.y = initCenterY;
-    camera.ratio = 0.5;
-    renderer.setCamera(camera);
-    
-    // Initial refresh and timestamp
+    // Initial refresh and timestamp (fitAllNodes already set camera correctly)
     renderer.refresh();
     lastRefreshTimeRef.current = Date.now();
     
