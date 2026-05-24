@@ -937,22 +937,132 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       minCameraRatio: 0.1,
       maxCameraRatio: 5000,
       stagePadding: 20,
-    });
+      nodeReducer: (node, data) => {
+        const res = { ...data };
+        const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
+        const hovered = hoveredNodeIdRef.current;
+        const selected = selectedNodeIdRef.current;
+        const focused = focusedNodeIdRef.current;
+        const pNodes = pathNodesRef.current;
+        const pSource = pathSourceRef.current;
+        const pTarget = pathTargetRef.current;
+        const visible = isVisible(node);
 
-    // Force the camera to a default position and zoom level to ensure nodes are visible
-    renderer.getCamera().setState({
-      x: 0,
-      y: 0,
-      ratio: 1,
-      angle: 0,
+        if (!visible) {
+          res.color = DIM_COLOR;
+          res.size = 0.5;
+          res.label = "";
+          return res;
+        }
+
+        // Core node highlighting for understand mode (initial load)
+        const coreNodes = coreNodeIdsRef.current;
+        const hasInteraction = hovered || selected || focused || pathNodesRef.current.size > 0;
+        if (coreNodes.length > 0 && !hasInteraction) {
+          if (coreNodes.includes(node)) {
+            res.highlighted = true;
+            res.zIndex = 9;
+            res.color = "#FDE047"; // Yellow highlight for core nodes
+            res.size = (res.size || 6) * 1.2;
+          } else {
+            // Fade non-core nodes on initial load
+            res.color = "#2A2A38";
+            res.label = "";
+          }
+          return res;
+        }
+
+        if (pNodes.size > 0) {
+          if (pNodes.has(node)) {
+            res.highlighted = true;
+            res.zIndex = 10;
+            if (node === pSource || node === pTarget) {
+              res.color = PATH_HIGHLIGHT;
+              res.size = (res.size || 6) * 1.5;
+            }
+          } else {
+            res.color = DIM_COLOR;
+            res.label = "";
+          }
+          return res;
+        }
+
+        if (focused && graph.hasNode(focused)) {
+          const neighbors = new Set(graph.neighbors(focused));
+          if (neighbors.has(node) || node === focused) {
+            if (node === focused) {
+              res.highlighted = true;
+              res.zIndex = 10;
+              res.size = (res.size || 6) * 1.3;
+            }
+          } else {
+            res.color = DIM_COLOR;
+            res.label = "";
+          }
+          return res;
+        }
+
+        return res;
+      },
+      edgeReducer: (edge, data) => {
+        const res = { ...data };
+        const authority = (data as any).authority as string | null;
+        const hovered = hoveredNodeIdRef.current;
+        const focused = focusedNodeIdRef.current;
+        const pEdges = pathEdgesRef.current;
+
+        if (!isEdgeInActiveLayer(authority)) {
+          res.hidden = true;
+          return res;
+        }
+
+        if (pEdges.has(edge)) {
+          res.color = PATH_HIGHLIGHT;
+          res.size = (res.size || 2) * 1.2;
+          res.zIndex = 10;
+          res.type = "parallel";
+        }
+        return res;
+      },
     });
 
     // Log graph data for debugging
     console.log("Graph data loaded:", { nodes: graph.nodes().length, edges: graph.edges().length });
 
+    // Force a resize event to ensure the container is properly sized
+    window.dispatchEvent(new Event('resize'));
+
+    // Force the camera to a default position and zoom level
+    const camera = renderer.getCamera();
+    console.log("Camera state before reset:", camera.getState());
+    camera.setState({
+      x: 0,
+      y: 0,
+      ratio: 1,
+      angle: 0,
+    });
+    console.log("Camera state after reset:", camera.getState());
+
+    // Call fitAllNodes() immediately to ensure the graph is visible
+    fitAllNodes();
+
+    // Add a camera sanity check to detect invalid ratios
+    if (camera.ratio > 1e6 || camera.ratio < 1e-6) {
+      console.warn("Camera ratio is invalid. Resetting camera and forcing fitAllNodes().");
+      camera.setState({
+        x: 0,
+        y: 0,
+        ratio: 1,
+        angle: 0,
+      });
+      fitAllNodes();
+    }
+
     // Force Sigma to re-render
     renderer.refresh();
-    window.dispatchEvent(new Event('resize'));
+
+    // Force Sigma to re-render
+    renderer.refresh();
         nodeReducer: (node, data) => {
           const res = { ...data };
           const nodeStatus = (data as any).nodeStatus || "UNVERIFIED";
@@ -1095,12 +1205,18 @@ const GraphCanvas = forwardRef(function GraphCanvas(
 
           return res;
         },
-        edgeReducer: (edge, data) => {
-          const res = { ...data };
-          const authority = (data as any).authority as string | null;
-          const hovered = hoveredNodeIdRef.current;
-          const focused = focusedNodeIdRef.current;
-          const pEdges = pathEdgesRef.current;
+edgeReducer: (edge, data) => {
+  const res = { ...data };
+  const authority = (data as any).authority as string | null;
+  const hovered = hoveredNodeIdRef.current;
+  const focused = focusedNodeIdRef.current;
+  const pEdges = pathEdgesRef.current;
+
+  if (!isEdgeInActiveLayer(authority)) {
+    res.hidden = true;
+    return res;
+  }
+},
 
           if (!isEdgeInActiveLayer(authority)) {
             res.hidden = true;
