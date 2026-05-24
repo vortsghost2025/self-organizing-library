@@ -236,7 +236,7 @@ export type GraphMode = "understand" | "explore" | "full";
 export type GraphLens = "navigation" | "authority" | "governance" | "papers" | "repos" | "full" | "canonical";
 
 export const DEFAULT_MODE: GraphMode = "explore";
-export const DEFAULT_LENS: GraphLens = "navigation";
+export const DEFAULT_LENS: GraphLens = "authority";
 
 export const LENS_CONFIG: Record<GraphLens, {
   label: string;
