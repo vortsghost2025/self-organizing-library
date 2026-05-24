@@ -1071,32 +1071,25 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       fitAllNodes();
     }
 
-      // Set initial camera position (Sigma v3: mutate camera object directly)
-
-      camera.x = initCenterX;
-      camera.y = initCenterY;
-      camera.ratio = 0.5;
-      renderer.setCamera(camera);
-      
-      // Initial refresh and timestamp
-      renderer.refresh();
-      lastRefreshTimeRef.current = Date.now();
-      
-      // Debug: log initial state
-      const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
-      if (urlParams.has('debugGraph')) {
-        console.log("[GraphCanvas] init", {
-          graphNodes: graph.order,
-          container: containerRef.current ? { w: containerRef.current.clientWidth, h: containerRef.current.clientHeight } : null,
-          camera: { x: camera.x, y: camera.y, ratio: camera.ratio },
-          sigma: !!renderer,
-        });
-      }
-    } catch (err) {
-    console.error("Sigma renderer creation failed:", err);
-    _webglAvailable = false;
-    onWebGLUnavailableRef.current?.();
-      return;
+    // Set initial camera position (Sigma v3: mutate camera object directly)
+    camera.x = initCenterX;
+    camera.y = initCenterY;
+    camera.ratio = 0.5;
+    renderer.setCamera(camera);
+    
+    // Initial refresh and timestamp
+    renderer.refresh();
+    lastRefreshTimeRef.current = Date.now();
+    
+    // Debug: log initial state
+    const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+    if (urlParams.has('debugGraph')) {
+      console.log("[GraphCanvas] init", {
+        graphNodes: graph.order,
+        container: containerRef.current ? { w: containerRef.current.clientWidth, h: containerRef.current.clientHeight } : null,
+        camera: { x: camera.x, y: camera.y, ratio: camera.ratio },
+        sigma: !!renderer,
+      });
     }
 
     renderer.on("clickNode", ({ node }) => {
@@ -1124,55 +1117,54 @@ const GraphCanvas = forwardRef(function GraphCanvas(
       onStageClickRef.current?.();
     });
 
-    const camera = renderer.getCamera() as any;
     const handleCameraUpdate = () => {
       onCameraUpdateRef.current?.(camera.ratio);
     };
     camera.on("updated", handleCameraUpdate);
 
-     sigmaRef.current = renderer;
-     (window as any).__sigmaRef = renderer;
-     (window as any).__graphRef = graph;
-     (window as any).__graphCanvasContainer = containerRef.current;
-     onGraphReadyRef.current?.(graph, renderer);
+    sigmaRef.current = renderer;
+    (window as any).__sigmaRef = renderer;
+    (window as any).__graphRef = graph;
+    (window as any).__graphCanvasContainer = containerRef.current;
+    onGraphReadyRef.current?.(graph, renderer);
 
-  // Ensure container is laid out before fitting
-  // CRITICAL: Sigma reads container dimensions in its constructor via this.resize().
-  // If the container isn't fully laid out yet, Sigma has stale viewport dimensions.
-  // We must call sigma.resize() before fitting so Sigma's internal coordinate system
-  // matches the actual container size.
-  const container = containerRef.current;
-  if (container && container.clientWidth > 0 && container.clientHeight > 0) {
-    const resizeObserver = new ResizeObserver(() => {
-      renderer.resize();
-      fitAllNodes();
-      renderer.refresh();
-      resizeObserver.disconnect();
-    });
-    resizeObserver.observe(container);
+    // Ensure container is laid out before fitting
+    // CRITICAL: Sigma reads container dimensions in its constructor via this.resize().
+    // If the container isn't fully laid out yet, Sigma has stale viewport dimensions.
+    // We must call sigma.resize() before fitting so Sigma's internal coordinate system
+    // matches the actual container size.
+    const container = containerRef.current;
+    if (container && container.clientWidth > 0 && container.clientHeight > 0) {
+      const resizeObserver = new ResizeObserver(() => {
+        renderer.resize();
+        fitAllNodes();
+        renderer.refresh();
+        resizeObserver.disconnect();
+      });
+      resizeObserver.observe(container);
 
-    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (sigmaRef.current) {
+            sigmaRef.current.resize();
+            fitAllNodes();
+            renderer.refresh();
+          }
+        });
+      });
+
+      // Fallback: ensure fitAllNodes runs even if ResizeObserver or rAF timing misses
+      const fallbackTimer = setTimeout(() => {
         if (sigmaRef.current) {
           sigmaRef.current.resize();
           fitAllNodes();
-          renderer.refresh();
+          sigmaRef.current.refresh();
         }
-      });
-    });
+      }, 200);
+      pendingFallbackRef.current = fallbackTimer;
+    }
 
-    // Fallback: ensure fitAllNodes runs even if ResizeObserver or rAF timing misses
-    const fallbackTimer = setTimeout(() => {
-      if (sigmaRef.current) {
-        sigmaRef.current.resize();
-        fitAllNodes();
-        sigmaRef.current.refresh();
-      }
-    }, 200);
-    pendingFallbackRef.current = fallbackTimer;
-  }
-
-     return () => {
+    return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       if (pendingFallbackRef.current) clearTimeout(pendingFallbackRef.current);
       camera.removeListener("updated", handleCameraUpdate);
@@ -1181,7 +1173,13 @@ const GraphCanvas = forwardRef(function GraphCanvas(
         sigmaRef.current = null;
       }
     };
-   }, [nodes, edges, clusters, filter, filterMode, density, fitVisible, collapsedFamilies]);
+  } catch (err) {
+    console.error("Sigma renderer creation failed:", err);
+    _webglAvailable = false;
+    onWebGLUnavailableRef.current?.();
+    return;
+  }
+}, [nodes, edges, clusters, filter, filterMode, density, fitVisible, collapsedFamilies]);
   // Note: density intentionally included because label size/threshold depend on it
 
   // Debug overlay for ?debugGraph=1

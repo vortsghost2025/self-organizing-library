@@ -14,6 +14,14 @@ export async function GET(request: Request) {
     lens = "repos";
   }
 
-  const graphData = getGraphData(lens);
-  return NextResponse.json(graphData);
+// Get graph data for the requested lens
+let graphData = getGraphData(lens);
+
+// Fallback to authority lens if navigation lens is empty
+if (lens === "navigation" && (!graphData.nodes?.length || !graphData.edges?.length)) {
+  console.warn("Navigation lens is empty. Falling back to authority lens.");
+  graphData = getGraphData("authority");
+}
+
+return NextResponse.json(graphData);
 }

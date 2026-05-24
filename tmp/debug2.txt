@@ -1,0 +1,1 @@
+FIXED:n=507,e=10|navi=871|auth=287|gove=500|pape=123|repo=507
