@@ -35,14 +35,18 @@
     "generate-index": "node scripts/generate-site-index.js",
     "deploy:prod": "vercel --prod --yes",
     "deploy:preview": "vercel --yes",
-    "postbuild": "npx pagefind --site .next/server/app --output-path public/pagefind"
+    "postbuild": "npx pagefind --site .next/server/app --output-path public/pagefind",
+    "observability:init-db": "node scripts/init-observability-db.js",
+    "observability:test": "node scripts/observability-wrapper.js \"npm test\" --strategy=unit",
+    "observability:test:integration": "node scripts/observability-wrapper.js \"node scripts/test-lane-consistency.js\" --strategy=integration",
+    "test:observed": "node scripts/observability-wrapper.js \"npm run test\" --strategy=unit --suite=vitest"
   },
   "dependencies": {
     "@kilocode/app-builder-db": "github:Kilo-Org/app-builder-db#main",
     "@mdx-js/react": "^3.1.1",
     "@react-sigma/core": "^5.0.6",
- "@react-sigma/layout-forceatlas2": "^5.0.6",
- "@sigma/node-border": "^3.0.0",
+    "@react-sigma/layout-forceatlas2": "^5.0.6",
+    "@sigma/node-border": "^3.0.0",
     "drizzle-orm": "^0.45.2",
     "graphology": "^0.26.0",
     "graphology-generators": "^0.11.2",
