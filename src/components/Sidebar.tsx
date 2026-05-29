@@ -30,6 +30,7 @@ const navItems = [
   { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour" },
   { href: "/governance", icon: "⚖", label: "Governance", ariaLabel: "Governance - 4-lane system dashboard" },
   { href: "/governance/dual-plane-authority", icon: "⬡", label: "Dual-Plane", ariaLabel: "Dual-plane authority - initiation vs execution" },
+  { href: "/observability", icon: "📊", label: "Observability", ariaLabel: "Observability - test monitoring and error classification" },
 ];
 
 export function Sidebar({ stats }: SidebarProps) {

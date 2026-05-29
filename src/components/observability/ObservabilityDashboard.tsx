@@ -1,31 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-interface TestRun {
+interface Run {
   id: string;
   timestamp: string;
   runner: string;
@@ -34,7 +11,9 @@ interface TestRun {
   totalTests: number | null;
   passedTests: number | null;
   failedTests: number | null;
+  skippedTests: number | null;
   durationMs: number | null;
+  suite?: string;
 }
 
 interface ErrorLog {
@@ -46,20 +25,28 @@ interface ErrorLog {
   level: string;
 }
 
-interface Stats {
+interface StatsData {
+  period: { startDate: string; endDate: string; days: number };
   runsByStatusStrategy: Array<{ status: string; strategy: string; count: number }>;
   passFailByDay: Array<{ date: string; passed: number; failed: number; total: number }>;
   errorClassification: Array<{ classification: string; count: number }>;
-  slowestRuns: TestRun[];
+  slowestRuns: Run[];
   frequentErrors: Array<{ message: string; count: number }>;
-  latestRuns: TestRun[];
+  latestRuns: Run[];
+}
+
+interface RunDetailData {
+  run: Run;
+  results: any[];
+  errors: ErrorLog[];
+  errorSummary: Record<string, { count: number; errors: ErrorLog[] }>;
 }
 
 export default function ObservabilityDashboard() {
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [stats, setStats] = useState<StatsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(7);
-  const [selectedRun, setSelectedRun] = useState<TestRun | null>(null);
+  const [selectedRun, setSelectedRun] = useState<RunDetailData | null>(null);
 
   useEffect(() => {
     fetchStats();
@@ -84,7 +71,7 @@ export default function ObservabilityDashboard() {
     const response = await fetch(`/api/observability/results?runId=${runId}`);
     const data = await response.json();
     if (data.success) {
-      setSelectedRun({ ...data.data.run, results: data.data.results, errors: data.data.errors });
+      setSelectedRun(data.data);
     }
   };
 
@@ -104,54 +91,13 @@ export default function ObservabilityDashboard() {
     return <div className="p-8 text-red-600">Failed to load statistics</div>;
   }
 
-  // Prepare chart data
-  const passFailChartData = {
-    labels: stats.passFailByDay.map(d => d.date).reverse(),
-    datasets: [
-      {
-        label: 'Passed',
-        data: stats.passFailByDay.map(d => d.passed).reverse(),
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        borderColor: 'rgb(34, 197, 94)',
-        fill: true,
-      },
-      {
-        label: 'Failed',
-        data: stats.passFailByDay.map(d => d.failed).reverse(),
-        backgroundColor: 'rgba(239, 68, 68, 0.2)',
-        borderColor: 'rgb(239, 68, 68)',
-        fill: true,
-      },
-    ],
-  };
-
-  const errorClassificationData = {
-    labels: stats.errorClassification.map(e => e.classification),
-    datasets: [
-      {
-        label: 'Errors by Classification',
-        data: stats.errorClassification.map(e => e.count),
-        backgroundColor: [
-          'rgba(239, 68, 68, 0.6)',   // detection
-          'rgba(251, 146, 60, 0.6)', // decision
-          'rgba(59, 130, 246, 0.6)', // handling
-          'rgba(16, 185, 129, 0.6)', // recovery
-          'rgba(139, 92, 246, 0.6)', // system
-        ],
-      },
-    ],
-  };
-
-  // Map resilience classifications to workflow phases
-  const phaseDescriptions = {
-    detection: 'System identified abnormal condition (timeout, invalid response, failed validation)',
-    decision: 'Determined appropriate handling strategy (retry, failover, degrade, skip, abort)',
-    handling: 'Executed mitigation or fallback action',
-    recovery: 'System recovered successfully',
-    observability: 'Logging and monitoring event',
-    system: 'System-level error (infrastructure)',
-    unknown: 'Unclassified error requiring investigation',
-  };
+  // Calculate key metrics
+  const totalRuns = stats.latestRuns.length;
+  const passRate = stats.passFailByDay.length > 0 
+    ? Math.round((stats.passFailByDay.reduce((sum, d) => sum + d.passed, 0) / 
+        stats.passFailByDay.reduce((sum, d) => sum + d.total, 0)) * 100)
+    : 0;
+  const totalErrors = stats.errorClassification.reduce((sum, e) => sum + e.count, 0);
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
@@ -176,46 +122,47 @@ export default function ObservabilityDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow border">
           <h3 className="text-sm font-medium text-gray-500">Total Test Runs</h3>
-          <p className="text-3xl font-bold mt-2">
-            {stats.latestRuns.length > 0 ? 
-              stats.runsByStatusStrategy.reduce((sum, r) => sum + r.count, 0) : 0}
-          </p>
+          <p className="text-3xl font-bold mt-2">{totalRuns}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow border">
           <h3 className="text-sm font-medium text-gray-500">Pass Rate</h3>
-          <p className="text-3xl font-bold mt-2 text-green-600">
-            {(() => {
-              const total = stats.runsByStatusStrategy.reduce((sum, r) => sum + r.count, 0);
-              const passed = stats.runsByStatusStrategy
-                .filter(r => r.status === 'passed')
-                .reduce((sum, r) => sum + r.count, 0);
-              return total > 0 ? `${Math.round((passed / total) * 100)}%` : 'N/A';
-            })()}
+          <p className={`text-3xl font-bold mt-2 ${passRate >= 80 ? 'text-green-600' : passRate >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
+            {passRate}%
           </p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow border">
           <h3 className="text-sm font-medium text-gray-500">Recent Errors</h3>
-          <p className="text-3xl font-bold mt-2 text-red-600">
-            {stats.errorClassification.reduce((sum, e) => sum + e.count, 0)}
-          </p>
+          <p className="text-3xl font-bold mt-2 text-red-600">{totalErrors}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow border">
-          <h3 className="text-sm font-medium text-gray-500">Avg Duration</h3>
-          <p className="text-3xl font-bold mt-2 text-blue-600">
-            {(() => {
-              const runsWithDuration = stats.slowestRuns.filter(r => r.durationMs);
-              if (runsWithDuration.length === 0) return 'N/A';
-              const avg = runsWithDuration.reduce((sum, r) => sum + (r.durationMs || 0), 0) / runsWithDuration.length;
-              return `${Math.round(avg / 1000)}s`;
-            })()}
-          </p>
+          <h3 className="text-sm font-medium text-gray-500">Day Range</h3>
+          <p className="text-2xl font-bold mt-2 text-blue-600">{days}</p>
         </div>
       </div>
+
+      {/* Error Classification Breakdown */}
+      {stats.errorClassification.length > 0 && (
+        <div className="bg-white rounded-lg shadow border mb-8">
+          <div className="p-6 border-b">
+            <h2 className="text-xl font-bold">Errors by Resilience Classification</h2>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {stats.errorClassification.map((item) => (
+                <div key={item.classification} className="p-4 border rounded">
+                  <div className="text-2xl font-bold">{item.count}</div>
+                  <div className="text-sm text-gray-600 capitalize">{item.classification}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Latest Test Runs Table */}
       <div className="bg-white rounded-lg shadow border mb-8">
         <div className="p-6 border-b">
-          <h2 className="text-xl font-bold">Recent Test Runs</h2>
+          <h2 className="text-xl font-bold">Latest Test Runs</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -223,6 +170,7 @@ export default function ObservabilityDashboard() {
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Timestamp</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Strategy</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Suite</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tests</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Duration</th>
@@ -240,6 +188,7 @@ export default function ObservabilityDashboard() {
                       {run.strategy}
                     </span>
                   </td>
+                  <td className="px-6 py-4 text-sm text-gray-900">{run.suite || '—'}</td>
                   <td className="px-6 py-4 text-sm">
                     <span className={`px-2 py-1 rounded text-xs font-medium ${
                       run.status === 'passed' ? 'bg-green-100 text-green-800' :
@@ -261,7 +210,7 @@ export default function ObservabilityDashboard() {
                       onClick={() => fetchRunDetails(run.id)}
                       className="text-blue-600 hover:text-blue-800 font-medium"
                     >
-                      View Details
+                      View
                     </button>
                   </td>
                 </tr>
@@ -290,65 +239,66 @@ export default function ObservabilityDashboard() {
                 <dl className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <dt className="font-medium text-gray-500">ID</dt>
-                    <dd className="text-gray-900">{selectedRun.id}</dd>
+                    <dd className="text-gray-900 font-mono text-xs">{selectedRun.run.id}</dd>
                   </div>
                   <div>
                     <dt className="font-medium text-gray-500">Timestamp</dt>
-                    <dd className="text-gray-900">{selectedRun.timestamp}</dd>
+                    <dd className="text-gray-900">{selectedRun.run.timestamp}</dd>
                   </div>
                   <div>
                     <dt className="font-medium text-gray-500">Strategy</dt>
-                    <dd className="text-gray-900">{selectedRun.strategy}</dd>
+                    <dd className="text-gray-900">{selectedRun.run.strategy}</dd>
                   </div>
                   <div>
                     <dt className="font-medium text-gray-500">Status</dt>
-                    <dd className="text-gray-900">{selectedRun.status}</dd>
+                    <dd className="text-gray-900">{selectedRun.run.status}</dd>
                   </div>
                 </dl>
               </div>
 
-              {(selectedRun as any).results && (
-                <div>
-                  <h3 className="font-bold mb-2">Test Results</h3>
-                  <div className="space-y-2">
-                    {(selectedRun as any).results.map((result: any) => (
-                      <div key={result.id} className="p-3 border rounded">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <p className="font-medium">{result.testCase?.name}</p>
-                            <p className="text-sm text-gray-500">{result.testCase?.file_path}</p>
-                          </div>
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${
-                            result.status === 'passed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                          }`}>
-                            {result.status}
-                          </span>
+              <div>
+                <h3 className="font-bold mb-2">Test Results ({selectedRun.results.length})</h3>
+                <div className="space-y-2">
+                  {selectedRun.results.map((result) => (
+                    <div key={result.id} className="p-3 border rounded">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium">{result.testName}</p>
+                          <p className="text-sm text-gray-500">{result.filePath}</p>
                         </div>
-                        {result.error_message && (
-                          <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-sm">
-                            <p className="font-medium text-red-800">Error:</p>
-                            <pre className="whitespace-pre-wrap font-mono text-red-700">
-                              {result.error_message}
-                            </pre>
-                            {result.resilience_classification && (
-                              <p className="mt-1">
-                                <span className="font-medium">Resilience Phase:</span>{' '}
-                                {result.resilience_classification}
-                              </p>
-                            )}
-                          </div>
-                        )}
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          result.status === 'passed' ? 'bg-green-100 text-green-800' : 
+                          result.status === 'failed' ? 'bg-red-100 text-red-800' :
+                          result.status === 'skipped' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {result.status}
+                        </span>
                       </div>
-                    ))}
-                  </div>
+                      {result.errorMessage && (
+                        <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-sm">
+                          <p className="font-medium text-red-800">Error:</p>
+                          <pre className="whitespace-pre-wrap font-mono text-red-700">
+                            {result.errorMessage}
+                          </pre>
+                          {result.resilienceClassification && (
+                            <p className="mt-1">
+                              <span className="font-medium">Resilience Phase:</span>{' '}
+                              {result.resilienceClassification} → {result.resilienceAction}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
 
-              {(selectedRun as any).errors && (
+              {selectedRun.errors.length > 0 && (
                 <div className="mt-6">
-                  <h3 className="font-bold mb-2">Error Logs</h3>
+                  <h3 className="font-bold mb-2">Error Logs ({selectedRun.errors.length})</h3>
                   <div className="space-y-2">
-                    {(selectedRun as any).errors.map((error: ErrorLog) => (
+                    {selectedRun.errors.map((error) => (
                       <div key={error.id} className="p-3 border rounded">
                         <div className="flex justify-between">
                           <span className="text-sm font-medium">{error.classification}</span>

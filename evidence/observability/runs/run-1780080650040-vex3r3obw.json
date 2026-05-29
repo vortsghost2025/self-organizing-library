@@ -1,0 +1,63 @@
+{
+  "id": "run-1780080650040-vex3r3obw",
+  "timestamp": "2026-05-29T18:50:50.040Z",
+  "runner": "wrapper",
+  "strategy": "unit",
+  "suite": "demo",
+  "environment": "development",
+  "status": "partial",
+  "totalTests": 3,
+  "passedTests": 2,
+  "failedTests": 1,
+  "skippedTests": 0,
+  "durationMs": 109,
+  "gitCommit": "",
+  "gitBranch": "",
+  "metadata": {
+    "command": "node -e \"console.log('✓ test1'); console.log('✓ test2'); console.log('✖ test3')\"",
+    "options": {
+      "strategy": "unit",
+      "suite": "demo"
+    }
+  },
+  "results": [
+    {
+      "id": "run-1780080650149-sflvupvnp",
+      "testName": "test1",
+      "filePath": "unknown",
+      "status": "passed",
+      "executionTimeMs": null,
+      "errorMessage": null,
+      "errorStack": null,
+      "category": "general",
+      "resilienceClassification": null,
+      "resilienceAction": null
+    },
+    {
+      "id": "run-1780080650149-lectynbsk",
+      "testName": "test2",
+      "filePath": "unknown",
+      "status": "passed",
+      "executionTimeMs": null,
+      "errorMessage": null,
+      "errorStack": null,
+      "category": "general",
+      "resilienceClassification": null,
+      "resilienceAction": null
+    },
+    {
+      "id": "run-1780080650149-wv5cl6qs0",
+      "testName": "test3",
+      "filePath": "unknown",
+      "status": "failed",
+      "executionTimeMs": null,
+      "errorMessage": null,
+      "errorStack": null,
+      "category": "general",
+      "resilienceClassification": null,
+      "resilienceAction": null
+    }
+  ],
+  "errors": [],
+  "completedAt": "2026-05-29T18:50:50.149Z"
+}

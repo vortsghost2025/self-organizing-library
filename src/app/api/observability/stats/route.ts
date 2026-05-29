@@ -57,14 +57,14 @@ export async function GET(request: NextRequest) {
     }
     const statusStrategyArr = Object.values(runsByStatusStrategy);
 
-    // Pass/fail by day
+    // Pass/fail by day (aggregate test results)
     const byDay: Record<string, { passed: number; failed: number; total: number }> = {};
     for (const run of filtered) {
       const day = run.timestamp.split('T')[0];
       if (!byDay[day]) byDay[day] = { passed: 0, failed: 0, total: 0 };
-      byDay[day].total++;
-      if (run.status === 'passed') byDay[day].passed++;
-      else if (run.status === 'failed') byDay[day].failed++;
+      byDay[day].passed += run.passedTests || 0;
+      byDay[day].failed += run.failedTests || 0;
+      byDay[day].total += run.totalTests || 0;
     }
     const passFailByDay = Object.entries(byDay)
       .map(([date, stats]) => ({ date, ...stats }))
