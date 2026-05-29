@@ -666,7 +666,7 @@ class LaneWorker {
         };
         try {
           const cpsPath = path.join(this.laneRoot || path.resolve(__dirname, '..'), 'context-buffer', 'cps_log.jsonl');
-           fs.appendFileSync(cpsPath, JSON.stringify(cpsEntry) + '\n');
+          fs.appendFileSync(cpsPath, JSON.stringify(cpsEntry) + '\n');
         } catch (_) {}
       }
     }
