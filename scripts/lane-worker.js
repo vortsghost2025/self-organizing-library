@@ -163,7 +163,7 @@ function sendNack(originalMsg, rejectionReason, rejectionDetail, targetLane, fro
       return null;
     }
     // Guard 4: rate-limit NACKs per (sender, original task_id)
-    const rateKey = `${senderLane}::${originalMsg.task_id || 'unknown'}`;
+    const rateKey = `${senderLane}::${originalMsg.task_id || originalMsg.idempotency_key || 'unknown'}`;
     const lastNack = NACK_RATE_LIMIT.get(rateKey);
     const now = Date.now();
     if (lastNack && (now - lastNack) < NACK_COOLDOWN_MS) {
