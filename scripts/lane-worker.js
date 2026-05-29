@@ -352,7 +352,7 @@ function isActionable(msg) {
   );
 }
 
-const NON_ASCII_PATTERN = /[^\x20-\x7E]/;
+const NON_ASCII_PATTERN = /[^\x20-\x7E\n\r\t]/;
 
 function isEnglishOnly(msg) {
   if (!msg || typeof msg !== 'object') return true;
