@@ -6,8 +6,6 @@ const path = require('path');
 
 const cp = require('./completion-proof');
 const { ArtifactResolver } = require('./artifact-resolver');
-const { validateEvidence } = require("./evidence-validator");
-const { validateEvidence } = require("./evidence-validator");
 const { ExecutionGate } = require('./execution-gate');
 const { evaluateVerificationDomain } = require('./verification-domain-gate');
 const { getCodeVersionHash } = require('./code-version-hash');
@@ -750,28 +748,6 @@ if (msg.confidence !== undefined && msg.confidence >= 7) {
       };
     }
 
-    // EVIDENCE VALIDATION: Validate evidence claims
-    const evidenceValidation = validateEvidence(msg);
-    if (!evidenceValidation.valid) {
-      return {
-        queue: "blocked",
-        reason: evidenceValidation.reason,
-        detail: evidenceValidation.detail,
-        ownership: evaluateOwnership(msg),
-        ownership_notes: []
-      };
-    }
-    // EVIDENCE VALIDATION: Validate evidence claims
-    const evidenceValidation = validateEvidence(msg);
-    if (!evidenceValidation.valid) {
-      return {
-        queue: "blocked",
-        reason: evidenceValidation.reason,
-        detail: evidenceValidation.detail,
-        ownership: evaluateOwnership(msg),
-        ownership_notes: []
-      };
-    }
     const gate = completionGateApprove(msg);
     if (isActionable(msg) && !cp.hasCompletionProof(msg)) {
       if (!this.manualCadence && shouldAutoStart(msg)) {
