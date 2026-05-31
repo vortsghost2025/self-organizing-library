@@ -761,7 +761,6 @@ if (msg.confidence !== undefined && msg.confidence >= 7) {
       };
     }
     // EVIDENCE VALIDATION: Validate evidence claims
-    const evidenceValidation = validateEvidence(msg);
     if (!evidenceValidation.valid) {
       return {
         queue: "blocked",
