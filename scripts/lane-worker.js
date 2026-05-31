@@ -6,12 +6,12 @@ const path = require('path');
 
 const cp = require('./completion-proof');
 const { ArtifactResolver } = require('./artifact-resolver');
-const { validateEvidence } = require("./evidence-validator");
 const { ExecutionGate } = require('./execution-gate');
 const { evaluateVerificationDomain } = require('./verification-domain-gate');
 const { getCodeVersionHash } = require('./code-version-hash');
 const { getRoots } = require('./util/lane-discovery');
 const { verifyOutputProvenance } = require('./output-provenance');
+const { validateEvidence } = require("./evidence-validator");
 
 function runStoreJournalAppend(laneRoot, lane, event, subject, taskId) {
   var scriptPath = path.join(laneRoot, 'scripts', 'store-journal.js');
@@ -165,7 +165,7 @@ function sendNack(originalMsg, rejectionReason, rejectionDetail, targetLane, fro
       return null;
     }
     // Guard 4: rate-limit NACKs per (sender, original task_id)
-    const rateKey = `${senderLane}::${originalMsg.task_id || originalMsg.idempotency_key || 'unknown'}`;
+    const rateKey = `${senderLane}::${originalMsg.task_id || 'unknown'}`;
     const lastNack = NACK_RATE_LIMIT.get(rateKey);
     const now = Date.now();
     if (lastNack && (now - lastNack) < NACK_COOLDOWN_MS) {
@@ -353,7 +353,7 @@ function isActionable(msg) {
   );
 }
 
-const NON_ASCII_PATTERN = /[^\x20-\x7E\n\r\t]/;
+const NON_ASCII_PATTERN = /[^\x20-\x7E]/;
 
 function isEnglishOnly(msg) {
   if (!msg || typeof msg !== 'object') return true;
@@ -628,7 +628,6 @@ class LaneWorker {
     if (!signatureResult.valid) {
       return { queue: 'blocked', reason: 'SIGNATURE_INVALID', detail: signatureResult.reason || 'Signature validation failed' };
     }
-
     // Law 5: Confidence Ratings Mandatory check
     // Exempt system message types (notification, heartbeat, status) from confidence requirement
     const exemptTypes = new Set(['notification', 'heartbeat', 'status']);
@@ -647,6 +646,23 @@ class LaneWorker {
       }
     }
 
+
+    // Evidence validation (Library-specific)
+    const evidenceValidation = validateEvidence(msg);
+    if (!evidenceValidation.valid) {
+      return {
+        queue: 'blocked',
+        reason: 'EVIDENCE_INVALID',
+        detail: evidenceValidation.reason || 'Evidence validation failed',
+        execution_verified: false,
+        would_verify: false,
+        domain_gate_executed: false,
+        verification_outcome: 'FAIL',
+        verification_path: ['evidence_validation'],
+        ownership: { present: false },
+        ownership_notes: [],
+      };
+    }
     // CONFIDENCE_DERIVATION_CONTRACT enforcement (graduated: flag, don't block yet)
     // High confidence (>=7) without derivation is performative confidence — a governance violation.
     // Per S:/.global/CONFIDENCE_DERIVATION_CONTRACT.md Rule 1: confidence MUST include
@@ -668,31 +684,10 @@ class LaneWorker {
         };
         try {
           const cpsPath = path.join(this.laneRoot || path.resolve(__dirname, '..'), 'context-buffer', 'cps_log.jsonl');
-           fs.appendFileSync(cpsPath, JSON.stringify(cpsEntry) + '\n');
+          fs.appendFileSync(cpsPath, JSON.stringify(cpsEntry) + '\n');
         } catch (_) {}
       }
     }
-// CONFIDENCE_DERIVATION_CONTRACT: Flag performative confidence (≥7 without derivation)
-if (msg.confidence !== undefined && msg.confidence >= 7) {
-    const derivation = msg.confidence_derivation;
-    if (!derivation || typeof derivation !== 'object' || !derivation.measured || !derivation.how_measured) {
-        if (!msg._governance_flags) msg._governance_flags = [];
-        msg._governance_flags.push('PERFORMATIVE_CONFIDENCE');
-        const cpsEntry = {
-            timestamp: new Date().toISOString(),
-            event: 'PERFORMATIVE_CONFIDENCE',
-            agent: msg.from || 'unknown',
-            task_id: msg.task_id || 'unknown',
-            confidence: msg.confidence,
-        };
-        const cpsPath = path.join(repoRoot, 'context-buffer', 'cps_log.jsonl');
-        try {
-            fs.appendFileSync(cpsPath, JSON.stringify(cpsEntry) + '\n');
-        } catch (e) {
-            process.stderr.write(`[lane-worker] CPS log failed: ${e.message}\n`);
-        }
-    }
-}
   if (!isEnglishOnly(msg)) {
       return { queue: 'quarantine', reason: 'FORMAT_VIOLATION_NON_ASCII', detail: 'Message contains non-ASCII content. Re-request in English per governance constraint.' };
     }
@@ -749,27 +744,6 @@ if (msg.confidence !== undefined && msg.confidence >= 7) {
       };
     }
 
-    // EVIDENCE VALIDATION: Validate evidence claims
-    const evidenceValidation = validateEvidence(msg);
-    if (!evidenceValidation.valid) {
-      return {
-        queue: "blocked",
-        reason: evidenceValidation.reason,
-        detail: evidenceValidation.detail,
-        ownership: evaluateOwnership(msg),
-        ownership_notes: []
-      };
-    }
-    // EVIDENCE VALIDATION: Validate evidence claims
-    if (!evidenceValidation.valid) {
-      return {
-        queue: "blocked",
-        reason: evidenceValidation.reason,
-        detail: evidenceValidation.detail,
-        ownership: evaluateOwnership(msg),
-        ownership_notes: []
-      };
-    }
     const gate = completionGateApprove(msg);
     if (isActionable(msg) && !cp.hasCompletionProof(msg)) {
       if (!this.manualCadence && shouldAutoStart(msg)) {
@@ -844,7 +818,7 @@ if (msg.confidence !== undefined && msg.confidence >= 7) {
     }
   }
   // Non-actionable messages claiming completion without verifiable artifact = blocked
-   if (gate.pass && !isActionable(msg) && !cp.isTerminalInformational(msg)) {
+  if (gate.pass && !isActionable(msg) && !cp.isTerminalInformational(msg)) {
     const proofClassification2 = this.artifactResolver.classifyProof(msg);
     const isLegacyPath2 = proofClassification2.type === 'LEGACY_ARTIFACT_PATH';
 
@@ -954,6 +928,23 @@ if (msg.confidence !== undefined && msg.confidence >= 7) {
     fs.writeFileSync(targetPath, JSON.stringify(enriched, null, 2), 'utf8');
   }
 
+
+  logEvent(event) {
+    try {
+      const laneRoot = path.resolve(this.config.queues.inbox, '..', '..', '..');
+      const logDir = path.join(laneRoot, 'lanes', this.lane, 'state');
+      if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+      const logFile = path.join(logDir, 'events.log');
+      const entry = {
+        timestamp: nowIso(),
+        lane: this.lane,
+        event,
+      };
+      fs.appendFileSync(logFile, JSON.stringify(entry) + '\n', 'utf8');
+    } catch (err) {
+      process.stderr.write(`[lane-worker] Event logging failed: ${err.message}\n`);
+    }
+  }
 processFile(filePath) {
   const filename = path.basename(filePath);
   const rawRead = safeReadJson(filePath);
@@ -967,7 +958,7 @@ processFile(filePath) {
   }
 
   let msg = rawRead.value;
-  this.logEvent(msg);
+    this.logEvent(msg);
 
   if (!this.isOwner && msg.requires_action === true) {
     const needsReviewDir = this.config.queues.needsReview || path.join(path.dirname(filePath), 'needs-review');
@@ -1013,6 +1004,7 @@ processFile(filePath) {
         has_completion_proof: false, dry_run: this.dryRun,
       };
     }
+  }
 
   let schemaResult = this.schemaValidator(msg);
   const signatureResult = this.signatureValidator(msg);
@@ -1160,24 +1152,8 @@ _routeRaw(filePath, queueKey, meta) {
     };
 
     this.lastRun = summary;
+    this.writeSnapshot();
     return summary;
-  }
-
-  logEvent(event) {
-    try {
-      const laneRoot = path.resolve(this.config.queues.inbox, '..', '..', '..');
-      const logDir = path.join(laneRoot, 'lanes', this.lane, 'state');
-      if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
-      const logFile = path.join(logDir, 'events.log');
-      const entry = {
-        timestamp: nowIso(),
-        lane: this.lane,
-        event,
-      };
-      fs.appendFileSync(logFile, JSON.stringify(entry) + '\n', 'utf8');
-    } catch (err) {
-      process.stderr.write(`[lane-worker] Event logging failed: ${err.message}\n`);
-    }
   }
   logResourceMetrics() {
     try {
@@ -1195,11 +1171,39 @@ _routeRaw(filePath, queueKey, meta) {
           rss: mem.rss,
           heapTotal: mem.heapTotal,
           heapUsed: mem.heapUsed,
+          external: mem.external,
+          arrayBuffers: mem.arrayBuffers,
         },
       };
       fs.appendFileSync(metricsFile, JSON.stringify(entry) + '\n', 'utf8');
+          // Alerting: check thresholds
+          const cpuUsageMs = cpu.user + cpu.system;
+          const cpuThresholdMs = 80000; // 80ms as example threshold (adjust as needed)
+          const memThresholdBytes = 100 * 1024 * 1024; // 100 MB
+          if (cpuUsageMs > cpuThresholdMs || mem.rss > memThresholdBytes) {
+            const alertLine = `${new Date().toISOString()},lane=${this.lane},pid=${process.pid},cpu=${cpuUsageMs}µs,mem=${mem.rss}bytes`;
+            const alertDir = path.join(this.repoRoot, 'lanes', this.lane, 'state');
+            if (!fs.existsSync(alertDir)) fs.mkdirSync(alertDir, { recursive: true });
+            const alertFile = path.join(alertDir, 'alerts.log');
+            fs.appendFileSync(alertFile, alertLine + '\n', 'utf8');
+          }
     } catch (err) {
       process.stderr.write(`[lane-worker] Resource metrics logging failed: ${err.message}\n`);
+    }
+  }
+
+  writeSnapshot() {
+    try {
+      const snapshotDir = path.join(this.repoRoot, 'lanes', this.lane, 'state', 'snapshots');
+      if (!fs.existsSync(snapshotDir)) fs.mkdirSync(snapshotDir, { recursive: true });
+      const snapshotFile = path.join(snapshotDir, 'latest.json');
+      const snapshot = {
+        timestamp: nowIso(),
+        lastRun: this.lastRun,
+      };
+      fs.writeFileSync(snapshotFile, JSON.stringify(snapshot, null, 2), 'utf8');
+    } catch (err) {
+      process.stderr.write(`[lane-worker] Snapshot write failed: ${err.message}\n`);
     }
   }
 }
