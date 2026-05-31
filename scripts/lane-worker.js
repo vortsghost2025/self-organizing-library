@@ -1014,7 +1014,6 @@ processFile(filePath) {
         has_completion_proof: false, dry_run: this.dryRun,
       };
     }
-  }
 
   let schemaResult = this.schemaValidator(msg);
   const signatureResult = this.signatureValidator(msg);
