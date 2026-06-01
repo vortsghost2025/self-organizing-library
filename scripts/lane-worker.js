@@ -12,6 +12,7 @@ const { getCodeVersionHash } = require('./code-version-hash');
 const { getRoots } = require('./util/lane-discovery');
 const { verifyOutputProvenance } = require('./output-provenance');
 const { validateEvidence } = require("./evidence-validator");
+const { AdaptiveCpuAlerts } = require('./adaptive-cpu-alerts');
 
 function runStoreJournalAppend(laneRoot, lane, event, subject, taskId) {
   var scriptPath = path.join(laneRoot, 'scripts', 'store-journal.js');
