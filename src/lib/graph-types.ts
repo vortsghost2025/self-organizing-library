@@ -25,6 +25,7 @@ export type ExteriorRole = "pattern_donor" | "origin_artifact" | "simulation" | 
 export interface GraphNode {
   id: string;
   title: string;
+  path?: string;
   type: string;
   category: string;
   repo: string;
@@ -245,7 +246,7 @@ export const LENS_CONFIG: Record<GraphLens, {
 }> = {
   navigation: {
     label: "Navigation Map",
-    description: "Default map for people and agents: core archive, papers, and active issues.",
+    description: "Curated architecture map for the self-organizing-library runtime, graph engine, and evidence flow.",
   },
   authority: {
     label: "Authority Map",

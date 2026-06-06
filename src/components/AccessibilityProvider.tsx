@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode, useCallback, useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 
 type A11yMode = "default" | "high-contrast" | "large-text";
 
@@ -52,8 +53,10 @@ function applyMode(m: A11yMode) {
 }
 
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const storedMode = useSyncExternalStore(subscribeToStorage, getStoredMode, (): A11yMode => "default");
   const [liveMode, setLiveMode] = useState<A11yMode>("default");
+  const compactControls = pathname === "/graph";
 
   const mode: A11yMode = liveMode !== "default" ? liveMode : storedMode;
 
@@ -73,13 +76,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     <A11yContext.Provider value={{ mode, setMode, cycleMode }}>
       {children}
       <div
-        className="fixed bottom-4 right-4 z-50 flex items-center gap-2"
+        className={`fixed bottom-3 right-3 z-50 flex items-center ${compactControls ? "gap-1.5" : "gap-2"}`}
         role="group"
         aria-label="Accessibility controls"
       >
         <button
           onClick={() => setMode("high-contrast")}
-          className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
+          className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
             mode === "high-contrast"
 ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
   : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
@@ -88,11 +91,11 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
           aria-label="High Contrast mode"
           title="High Contrast"
         >
-          ◐ High Contrast
+          {compactControls ? "◐" : "◐ High Contrast"}
         </button>
         <button
           onClick={() => setMode("large-text")}
-          className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
+          className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
             mode === "large-text"
 ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
   : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
@@ -101,12 +104,12 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
           aria-label="Large Text mode"
           title="Large Text"
         >
-          Aa Large Text
+          {compactControls ? "Aa" : "Aa Large Text"}
         </button>
         {mode !== "default" && (
           <button
             onClick={() => setMode("default")}
-            className="px-2 py-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-all text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
+            className={`${compactControls ? "px-2 py-1.5 text-xs" : "px-2 py-2 text-sm"} rounded-lg bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]`}
             aria-label="Reset to default display mode"
             title="Reset to Default"
           >

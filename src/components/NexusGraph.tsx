@@ -1,893 +1,216 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import Graph from "graphology";
-import Sigma from "sigma";
-import { bidirectional } from "graphology-shortest-path";
-import type { GraphNode, GraphEdge, MeaningLayer, DensityLevel, Cluster, EntryPoint, CollapseFamilyData } from "@/lib/graph-types";
-import { COLLAPSE_STATUS_PRIORITY, COLLAPSE_FAMILY_GLYPH } from "@/lib/graph-types";
-import type { GraphLensDefinitionSummary } from "@/lib/site-index";
-import { DEFAULT_LAYERS, STATUS_COLORS } from "@/lib/graph-types";
-import { computeClusters, computeEntryPoints, assignClusterIds } from "@/lib/graph-clusters";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 import GraphCanvas, { type GraphCanvasImperativeHandle } from "./graph/GraphCanvas";
 import GraphToolbar from "./graph/GraphToolbar";
-import EntryPoints from "./graph/EntryPoints";
-import MeaningLayers from "./graph/MeaningLayers";
-import DensityControl from "./graph/DensityControl";
-import { ModeSelector } from "./graph/ModeSelector";
-import LensSelector from "./graph/LensSelector";
-import { GraphMode, GraphLens, MODE_CONFIG, DEFAULT_MODE, DEFAULT_LENS, LENS_CONFIG } from "@/lib/graph-types";
-import ClusterSelector from "./graph/ClusterSelector";
-import NodeDetail from "./graph/NodeDetail";
- import GraphLegend from "./graph/GraphLegend";
- import GraphContextPanel from "./graph/GraphContextPanel";
- import { createSnapshotFromGraphState, parseSnapshot, createRepoSnapshot, downloadJson, generateContradictionHubReport } from "@/lib/graph-snapshot";
- import type { GraphSnapshot } from "@/lib/graph-snapshot";
- import { compareSnapshots } from "@/lib/graph-snapshot-compare";
- import SystemInterpretation from "./graph/SystemInterpretation";
+import type { GraphEdge, GraphLens, GraphNode } from "@/lib/graph-types";
+import { LENS_CONFIG } from "@/lib/graph-types";
 
 interface NexusGraphProps {
   initialFilter?: string;
   initialFilterMode?: "type" | "repo";
   initialMode?: string;
   initialLens?: GraphLens;
+  onLensChange?: (lens: GraphLens) => void;
 }
 
-export default function NexusGraph({ initialFilter = "all", initialFilterMode = "type", initialMode, initialLens = DEFAULT_LENS }: NexusGraphProps) {
+function formatRepoLabel(repo: string): string {
+  return repo
+    .replace(/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/g, "SwarmMind")
+    .replace(/-/g, " ");
+}
+
+function buildSearchText(node: GraphNode): string {
+  return [
+    node.id,
+    node.title,
+    node.repo,
+    node.type,
+    node.category,
+    ...node.tags,
+  ]
+    .join(" ")
+    .toLowerCase();
+}
+
+export default function NexusGraph({
+  initialLens = "navigation",
+  onLensChange,
+}: NexusGraphProps) {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [nodes, setNodes] = useState<GraphNode[]>([]);
   const [edges, setEdges] = useState<GraphEdge[]>([]);
-  const [clusters, setClusters] = useState<Cluster[]>([]);
-  const [entryPoints, setEntryPoints] = useState<EntryPoint[]>([]);
-
-  const [filter, setFilter] = useState("all");
-  const [filterMode, setFilterMode] = useState<"type" | "repo">("type");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
-  const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null);
-
-  const [pathSource, setPathSource] = useState<string | null>(null);
-  const [pathTarget, setPathTarget] = useState<string | null>(null);
-  const [pathNodes, setPathNodes] = useState<Set<string>>(new Set());
-  const [pathEdges, setPathEdges] = useState<Set<string>>(new Set());
-
-  const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>([...DEFAULT_LAYERS]);
-  const [density, setDensity] = useState<DensityLevel>("mid");
-  const [graphMode, setGraphMode] = useState<GraphMode>(initialMode ? (initialMode as GraphMode) : DEFAULT_MODE);
   const [graphLens, setGraphLens] = useState<GraphLens>(initialLens);
-  const [showAnchorLabels, setShowAnchorLabels] = useState(true);
-  const [collapseFamilies, setCollapseFamilies] = useState(false);
-  const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
-  const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
-  const [cameraRatio, setCameraRatio] = useState(1);
-  const [webglUnavailable, setWebglUnavailable] = useState(false);
-  const [lensDescription, setLensDescription] = useState<string>(LENS_CONFIG[initialLens].description);
-  const [lensDefinition, setLensDefinition] = useState<GraphLensDefinitionSummary | null>(null);
-  const [canonicalNodeCount, setCanonicalNodeCount] = useState(0);
-  const [canonicalEdgeCount, setCanonicalEdgeCount] = useState(0);
-  const [edgePolicy, setEdgePolicy] = useState<"explicit_only" | "explicit_plus_inference">("explicit_only");
-
-  // Ref to expose GraphCanvas imperative methods
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [lensDescription, setLensDescription] = useState(LENS_CONFIG[initialLens].description);
   const graphCanvasRef = useRef<GraphCanvasImperativeHandle>(null);
-
-  const graphRef = useRef<Graph | null>(null);
-  const sigmaRef = useRef<Sigma | null>(null);
-
-const isInitialMount = useRef(true);
-
-// Sync density and layers when mode changes, and auto-select entry point
-useEffect(() => {
-  const config = MODE_CONFIG[graphMode];
-  setDensity(config.density);
-  setActiveLayers(config.layers);
-
-  if (isInitialMount.current) {
-    isInitialMount.current = false;
-    setActiveEntryPoint(null);
-    return;
-  }
-
-  // Auto-select appropriate entry point per mode (only on explicit mode change)
-  if (graphMode === "understand") {
-    setActiveEntryPoint("ep:authority");
-  } else if (graphMode === "explore") {
-    setActiveEntryPoint("ep:contradictions");
-  } else {
-    setActiveEntryPoint(null);
-  }
-}, [graphMode]);
-
-  useEffect(() => {
-    setActiveEntryPoint(null);
-    setActiveClusterId(null);
-    setSelectedNodeId(null);
-    setFocusedNodeId(null);
-    setPathSource(null);
-    setPathTarget(null);
-    setPathNodes(new Set());
-    setPathEdges(new Set());
-
-    if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      url.searchParams.set("lens", graphLens);
-      window.history.replaceState({}, "", url.toString());
-    }
-  }, [graphLens]);
-
-  // Compute core nodes for highlighting in understand mode (computed from full nodes list)
-  const coreNodeIds = useMemo(() => {
-    if (graphMode !== "understand") return new Set<string>();
-    const scored = nodes
-      .filter(n => n.status === "VERIFIED" && (n.authorityDepth >= 50 || n.verificationCount >= 5))
-      .map(n => ({ id: n.id, score: n.authorityDepth + n.verificationCount }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 10)
-      .map(s => s.id);
-    return new Set(scored);
-  }, [graphMode, nodes]);
-
-  const filteredNodes = useMemo(() => {
-    let result = nodes;
-
-    // Apply type/repo filter
-    if (filter === "all") {
-      result = nodes;
-    } else if (filterMode === "repo") {
-      result = nodes.filter((n) => n.repo === filter);
-    } else {
-      result = nodes.filter((n) => n.type === filter);
-    }
-
-    // Apply data visibility policy based on mode
-    const modeConfig = MODE_CONFIG[graphMode];
-    if (!modeConfig.showUnverified) {
-      result = result.filter((n) => n.status === "VERIFIED");
-    }
-    if (!modeConfig.showQuarantined) {
-      result = result.filter((n) => n.status !== "QUARANTINED");
-    }
-
-    // Apply search query
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(n =>
-        n.title.toLowerCase().includes(q) ||
-        n.tags.some(t => t.toLowerCase().includes(q)) ||
-        n.repo.toLowerCase().includes(q)
-      );
-    }
-
-    // Apply entry point filter
-    if (activeEntryPoint) {
-      const ep = entryPoints.find(e => e.id === activeEntryPoint);
-      if (ep) {
-        result = result.filter(n => ep.nodeIds.includes(n.id));
-      }
-    }
-
-    // Apply cluster filter
-    if (activeClusterId) {
-      const cluster = clusters.find(c => c.id === activeClusterId);
-      if (cluster) {
-        result = result.filter(n => cluster.nodeIds.includes(n.id));
-      }
-    }
-
-    return result;
-}, [nodes, filter, filterMode, searchQuery, activeEntryPoint, activeClusterId, entryPoints, clusters, graphMode]);
-
-  const { collapsedNodes, collapsedFamilies } = useMemo(() => {
-    if (!collapseFamilies) {
-      return { collapsedNodes: filteredNodes, collapsedFamilies: [] as CollapseFamilyData[] };
-    }
-    const families = new Map<string, GraphNode[]>();
-    for (const n of filteredNodes) {
-      const key = n.title.toLowerCase().trim();
-      if (!key) continue;
-      let arr = families.get(key);
-      if (!arr) { arr = []; families.set(key, arr); }
-      arr.push(n);
-    }
-    const familyData: CollapseFamilyData[] = [];
-    const keepIds = new Set<string>();
-    for (const [, members] of families) {
-      if (members.length < 2) {
-        for (const m of members) keepIds.add(m.id);
-        continue;
-      }
-      members.sort((a, b) => (COLLAPSE_STATUS_PRIORITY[a.status] ?? 9) - (COLLAPSE_STATUS_PRIORITY[b.status] ?? 9));
-      const rep = members[0];
-      const typeCounts = new Map<string, number>();
-      const repoCounts = new Map<string, number>();
-      const tagSet = new Set<string>();
-      let maxVerif = 0, maxContra = 0;
-      for (const m of members) {
-        typeCounts.set(m.type, (typeCounts.get(m.type) || 0) + 1);
-        repoCounts.set(m.repo, (repoCounts.get(m.repo) || 0) + 1);
-        for (const t of m.tags) tagSet.add(t);
-        if (m.verificationCount > maxVerif) maxVerif = m.verificationCount;
-        if (m.contradictionCount > maxContra) maxContra = m.contradictionCount;
-      }
-      const dominantType = [...typeCounts.entries()].sort((a, b) => b[1] - a[1])[0][0];
-      const dominantRepo = [...repoCounts.entries()].sort((a, b) => b[1] - a[1])[0][0];
-      keepIds.add(rep.id);
-      familyData.push({
-        representativeId: rep.id,
-        title: rep.title,
-        memberIds: members.map(m => m.id),
-        memberCount: members.length,
-        bestStatus: rep.status,
-        dominantType,
-        dominantRepo,
-        mergedTags: [...tagSet],
-        maxVerificationCount: maxVerif,
-        maxContradictionCount: maxContra,
-      });
-    }
-    const result = filteredNodes.filter(n => keepIds.has(n.id));
-    return { collapsedNodes: result, collapsedFamilies: familyData };
-  }, [filteredNodes, collapseFamilies]);
-
-  const selectedNode = selectedNodeId
-? collapsedNodes.find((n) => n.id === selectedNodeId) || null
-    : null;
-
-  const statusCounts = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 } as Record<string, number>;
-  for (const n of filteredNodes) {
-    if (statusCounts[n.status] !== undefined) statusCounts[n.status]++;
-  }
-  const primaryInstability = filteredNodes
-    .filter((node) => node.contradictionCount > 0)
-    .sort((left, right) => right.contradictionCount - left.contradictionCount)[0] || null;
 
   useEffect(() => {
     let cancelled = false;
-    async function load() {
-      if (!cancelled) setLoading(true);
+
+    async function loadGraph() {
+      setLoading(true);
+      setError(null);
+
       try {
-        const { fetchWithRetry } = await import('@/lib/fetchWithRetry');
-        const res = await fetchWithRetry(`/api/graph-data?lens=${graphLens}`);
-        const data = await res.json();
+        const { fetchWithRetry } = await import("@/lib/fetchWithRetry");
+        const response = await fetchWithRetry(`/api/graph-data?lens=${graphLens}`);
+        const data = await response.json();
+
         if (cancelled) return;
-        const rawClusters = computeClusters(data.nodes);
-        const enrichedNodes = assignClusterIds(data.nodes, rawClusters);
-        const eps = computeEntryPoints(data.nodes, rawClusters, data.authorityEdges || []);
-        setNodes(enrichedNodes);
-        setEdges(data.edges);
-        setClusters(rawClusters);
-        setEntryPoints(eps);
+
+        setNodes(data.nodes || []);
+        setEdges(data.edges || []);
         setLensDescription(data.description || LENS_CONFIG[graphLens].description);
-        setLensDefinition(data.meta?.lensDefinition || null);
-        setCanonicalNodeCount(data.meta?.canonicalNodeCount || 0);
-        setCanonicalEdgeCount(data.meta?.canonicalEdgeCount || 0);
-        setEdgePolicy(data.meta?.edgePolicy || "explicit_only");
-      } catch (e) {
-        console.error("Failed to load graph data:", e);
+      } catch (loadError) {
+        if (cancelled) return;
+        setError(loadError instanceof Error ? loadError.message : "Failed to load graph data.");
       } finally {
         if (!cancelled) setLoading(false);
       }
     }
-    load();
-    return () => { cancelled = true; };
+
+    loadGraph();
+
+    return () => {
+      cancelled = true;
+    };
   }, [graphLens]);
 
-  const handleNodeClick = useCallback((nodeId: string) => {
-    setSelectedNodeId(nodeId);
-    if (pathSource && !pathTarget && nodeId !== pathSource && graphRef.current) {
-      setPathTarget(nodeId);
-      const path = bidirectional(graphRef.current, pathSource, nodeId);
-      if (path) {
-        setPathNodes(new Set(path));
-        const edgeSet = new Set<string>();
-        for (let i = 0; i < path.length - 1; i++) {
-          const edge = graphRef.current.edge(path[i], path[i + 1]);
-          if (edge) edgeSet.add(edge);
-        }
-        setPathEdges(edgeSet);
-      } else {
-        setPathNodes(new Set());
-        setPathEdges(new Set());
-      }
-    }
-    if (density === "focus" || focusedNodeId) {
-      setFocusedNodeId(nodeId);
-    }
-  }, [pathSource, pathTarget, density, focusedNodeId]);
-
-  const handleNodeHover = useCallback((nodeId: string | null) => {
-    setHoveredNodeId(nodeId);
-  }, []);
-
-  const handleStageClick = useCallback(() => {
-    setSelectedNodeId(null);
-    setHoveredNodeId(null);
-    setFocusedNodeId(null);
-    setPathSource(null);
-    setPathTarget(null);
-    setPathNodes(new Set());
-    setPathEdges(new Set());
-  }, []);
-
-  const handleFitVisible = useCallback(() => {
-    graphCanvasRef.current?.fitVisible();
-  }, []);
-
-  const handleZoomIn = useCallback(() => {
-    graphCanvasRef.current?.zoomIn();
-  }, []);
-
-  const handleZoomOut = useCallback(() => {
-    graphCanvasRef.current?.zoomOut();
-  }, []);
-
-  const handleCameraUpdate = useCallback((ratio: number) => {
-    setCameraRatio(ratio);
-  }, []);
-
-  const handleGraphReady = useCallback((graph: Graph, sigma: Sigma) => {
-    graphRef.current = graph;
-    sigmaRef.current = sigma;
-  }, []);
-
-  // Auto-fit camera when visible node set changes (filter, search, density, entry point, cluster)
   useEffect(() => {
-    // Small delay to ensure GraphCanvas has processed prop changes
-    const timer = setTimeout(() => {
-      graphCanvasRef.current?.fitVisible();
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [filter, filterMode, searchQuery, density, activeEntryPoint, activeClusterId, nodes, edges, clusters, entryPoints]);
+    setSelectedNodeId(null);
+  }, [graphLens]);
 
-  const handleFocusNode = useCallback((id: string) => {
-    setFocusedNodeId(id);
-    setDensity("focus");
-  }, []);
+  useEffect(() => {
+    if (!loading) {
+      const timer = window.setTimeout(() => {
+        graphCanvasRef.current?.fitVisible();
+      }, 80);
 
-  const handleTracePath = useCallback((id: string) => {
-    if (!pathSource) {
-      setPathSource(id);
-    } else if (id !== pathSource) {
-      setPathTarget(id);
-      if (graphRef.current) {
-        const path = bidirectional(graphRef.current, pathSource, id);
-        if (path) {
-          setPathNodes(new Set(path));
-          const edgeSet = new Set<string>();
-          for (let i = 0; i < path.length - 1; i++) {
-            const edge = graphRef.current.edge(path[i], path[i + 1]);
-            if (edge) edgeSet.add(edge);
-          }
-          setPathEdges(edgeSet);
-        }
-      }
+      return () => window.clearTimeout(timer);
     }
-  }, [pathSource]);
+  }, [loading, nodes, edges, graphLens]);
 
-  // Calculate visibleCount before using it in handleExportSnapshot
-  const visibleCount = (() => {
-    if (activeEntryPoint || activeClusterId) {
-      const ep = entryPoints.find((e) => e.id === activeEntryPoint);
-      const cl = clusters.find((c) => c.id === activeClusterId);
-      return ep?.nodeIds.length || cl?.nodeIds.length || filteredNodes.length;
-    }
-    if (density === "overview") return clusters.length;
-    if (focusedNodeId) return 20;
-    return filteredNodes.length;
-  })();
-
-  const totalNodeCount = nodes.length;
-
-  const displayedVisibleCount = Math.min(visibleCount, filteredNodes.length);
-
-  const filteredNodeIds = useMemo(() => new Set(filteredNodes.map(n => n.id)), [filteredNodes]);
-  const visibleEdgeCount = useMemo(() => {
-    if (filterMode === "repo" && filter !== "all") {
-      return edges.filter(e => filteredNodeIds.has(e.source) || filteredNodeIds.has(e.target)).length;
-    }
-    return edges.filter(e => filteredNodeIds.has(e.source) && filteredNodeIds.has(e.target)).length;
-  }, [edges, filteredNodeIds, filterMode, filter]);
-
-  const activeEntryPointMeta = useMemo(
-    () => (activeEntryPoint ? entryPoints.find((ep) => ep.id === activeEntryPoint) || null : null),
-    [activeEntryPoint, entryPoints]
-  );
-  const activeClusterMeta = useMemo(
-    () => (activeClusterId ? clusters.find((c) => c.id === activeClusterId) || null : null),
-    [activeClusterId, clusters]
+  const selectedNode = useMemo(
+    () => nodes.find((node) => node.id === selectedNodeId) || null,
+    [nodes, selectedNodeId],
   );
 
-  const [importError, setImportError] = useState<string | null>(null);
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+  const searchMatches = useMemo(() => {
+    if (!normalizedSearchQuery) return nodes.length;
+    return nodes.filter((node) => buildSearchText(node).includes(normalizedSearchQuery)).length;
+  }, [nodes, normalizedSearchQuery]);
 
-  const handleExportSnapshot = useCallback(() => {
-    // Get status counts
-    const statusCounts = {
-      verified: 0,
-      unverified: 0,
-      conflicted: 0,
-      quarantined: 0,
-    };
-    
-    for (const n of filteredNodes) {
-      const nodeStatus = n.status.toLowerCase() as keyof typeof statusCounts;
-      if (nodeStatus in statusCounts) {
-        statusCounts[nodeStatus] += 1;
-      }
-    }
+  const handleLensChange = useCallback(
+    (lens: GraphLens) => {
+      setGraphLens(lens);
+      onLensChange?.(lens);
+    },
+    [onLensChange],
+  );
 
-    // Create snapshot data from current graph state
-    const snapshot = createSnapshotFromGraphState({
-      repoFilter: filterMode === "repo" && filter !== "all" ? [filter] : [],
-      typeFilter: filterMode === "type" && filter !== "all" ? [filter] : undefined,
-      entryPointFilter: activeEntryPoint || undefined,
-      meaningLayersEnabled: activeLayers,
-      densityMode: density,
-      zoomMode: cameraRatio.toString(),
-      visibleNodeCap: undefined,
-    visibleNodeCount: displayedVisibleCount,
-    visibleEdgeCount: visibleEdgeCount,
-      totalAvailableNodes: nodes.length,
-      totalAvailableEdges: edges.length,
-      statusCounts: statusCounts,
-      selectedNodeIds: selectedNodeId ? [selectedNodeId] : [],
-      selectedEdgeIds: pathEdges.size > 0 ? Array.from(pathEdges) : [],
-      nodes: filteredNodes,
-      edges,
-      clusters,
-      entryPoints,
-    });
-
-    // Create download link
-    const dataStr = JSON.stringify(snapshot, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-    
-    const fileName = `graph-snapshot-${new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '')}.json`;
-    
-    const exportFileDefaultName = fileName;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
-  }, [filter, filterMode, activeEntryPoint, activeLayers, density, cameraRatio, filteredNodes, nodes, edges, selectedNodeId, pathEdges, displayedVisibleCount, visibleEdgeCount, clusters, entryPoints]);
-
-  const handleImportSnapshot = useCallback(() => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".json";
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const text = ev.target?.result as string;
-        const snapshot = parseSnapshot(text);
-        if (!snapshot) {
-          setImportError("Invalid snapshot file: missing nodes, edges, or snapshot_id");
-          return;
-        }
-        setNodes(snapshot.nodes);
-        setEdges(snapshot.edges);
-        setClusters(snapshot.clusters);
-        setEntryPoints(snapshot.entry_points);
-        if (snapshot.repo_filter.length > 0) {
-          setFilterMode("repo");
-          setFilter(snapshot.repo_filter[0]);
-        } else if (snapshot.type_filter?.length) {
-          setFilterMode("type");
-          setFilter(snapshot.type_filter[0]);
-        }
-        if (snapshot.meaning_layers_enabled) {
-          setActiveLayers(snapshot.meaning_layers_enabled as MeaningLayer[]);
-        }
-        if (snapshot.density_mode) {
-          setDensity(snapshot.density_mode as DensityLevel);
-        }
-        if (snapshot.selected_node_ids.length > 0) {
-          setSelectedNodeId(snapshot.selected_node_ids[0]);
-        }
-        setImportError(null);
-      };
-      reader.readAsText(file);
-    };
-    input.click();
+  const handleNodeClick = useCallback((nodeId: string) => {
+    setSelectedNodeId((current) => (current === nodeId ? null : nodeId));
   }, []);
 
-  const handleExportAllRepos = useCallback(() => {
-    const repoNames = [...new Set(nodes.map(n => n.repo))];
-    const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
-    for (const repoName of repoNames) {
-      const snapshot = createRepoSnapshot(repoName, nodes, edges, clusters, entryPoints);
-      const safeName = repoName.replace(/[^a-zA-Z0-9]/g, '-');
-      downloadJson(snapshot, `graph-snapshot-${safeName}-${ts}.json`);
-    }
-  }, [nodes, edges, clusters, entryPoints]);
-
-const handleExportContradictionHub = useCallback(() => {
- const report = generateContradictionHubReport(nodes);
- const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
- downloadJson(report, `contradiction-hub-report-${ts}.json`);
-}, [nodes]);
-
-const handleCompareSnapshots = useCallback(() => {
- let snapshotA: GraphSnapshot | null = null;
-
- const loadFileB = () => {
-   const inputB = document.createElement("input");
-   inputB.type = "file";
-   inputB.accept = ".json";
-   inputB.onchange = (e) => {
-     const file = (e.target as HTMLInputElement).files?.[0];
-     if (!file) return;
-     const reader = new FileReader();
-     reader.onload = (ev) => {
-       const text = ev.target?.result as string;
-       const snapshotB = parseSnapshot(text);
-       if (!snapshotB) {
-         setImportError("Snapshot B is invalid: missing nodes, edges, or snapshot_id");
-         return;
-       }
-       if (!snapshotA) return;
-       const result = compareSnapshots(snapshotA, snapshotB);
-       const ts = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '-').replace('Z', '');
-       downloadJson(result, `snapshot-compare-${ts}.json`);
-       setImportError(null);
-     };
-     reader.readAsText(file);
-   };
-   document.body.appendChild(inputB);
-   inputB.click();
-   document.body.removeChild(inputB);
- };
-
- const inputA = document.createElement("input");
- inputA.type = "file";
- inputA.accept = ".json";
- inputA.onchange = (e) => {
-   const file = (e.target as HTMLInputElement).files?.[0];
-   if (!file) return;
-   const reader = new FileReader();
-   reader.onload = (ev) => {
-     const text = ev.target?.result as string;
-     const parsed = parseSnapshot(text);
-     if (!parsed) {
-       setImportError("Snapshot A is invalid: missing nodes, edges, or snapshot_id");
-       return;
-     }
-     snapshotA = parsed;
-     loadFileB();
-   };
-   reader.readAsText(file);
- };
- document.body.appendChild(inputA);
- inputA.click();
- document.body.removeChild(inputA);
-}, []);
-
-  const handleLayerToggle = useCallback((layer: MeaningLayer) => {
-    setActiveLayers((prev) =>
-      prev.includes(layer) ? prev.filter((l) => l !== layer) : [...prev, layer]
-    );
-  }, []);
-
-  const zoomLabel = cameraRatio < 0.3
-    ? "Zoom: Deep — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
-    : cameraRatio < 0.6
-    ? "Zoom: Close — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
-    : cameraRatio < 1.2
-    ? "Zoom: Normal — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
-    : cameraRatio < 3
-    ? "Zoom: Far — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)"
-    : "Zoom: Overview — showing " + displayedVisibleCount + " filtered nodes (" + totalNodeCount + " total)";
+  const workspaceSummary = selectedNode
+    ? selectedNode.title
+    : searchQuery
+    ? `${searchMatches} matching ${searchMatches === 1 ? "node" : "nodes"}`
+    : lensDescription;
 
   return (
-    <div className="p-4 md:p-8" data-pagefind-ignore>
-      <a href="#nexus-graph-canvas" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--primary)] focus:text-white focus:rounded">
-        Skip to graph canvas
-      </a>
-      <div aria-live="polite" aria-atomic="true" className="sr-only">
-        {loading ? "Loading graph data" : ""}
-        {focusedNodeId ? "Focused on " + (selectedNode?.title || focusedNodeId) : ""}
-        {pathSource && !pathTarget ? "Path trace: select target node" : ""}
-        {pathSource && pathTarget ? "Path trace: " + (pathNodes.size - 1) + " hops" : ""}
-      </div>
-       <div className="mb-6 animate-fade-in">
-         <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Nexus Graph</h1>
-         <p className="text-[var(--text-secondary)] mb-4">
-           This interface now loads a specific graph lens instead of one universal archive map.
-           <br />• choose a lens for the question you are asking
-           <br />• use modes to control trust and contradiction visibility inside that lens
-           <br />• reserve canonical/full views for audits, not first-pass navigation
-         </p>
-         <div className="text-sm text-[var(--text-secondary)]">
-           <span className="font-medium">Legend:</span>{' '}
-           <span className="text-[#22C55E]">Blue/Green</span> &rarr; Verified (trusted structure){' '}
-           <span className="text-[#EF4444]">Red</span> &rarr; Contradictions (requires resolution){' '}
-           <span className="text-[#9CA3AF]">Gray</span> &rarr; Unverified (untested)
-         </div>
-       </div>
-
-       <div className="mb-4">
-         <LensSelector lens={graphLens} onChange={setGraphLens} />
-       </div>
-       <div className="mb-4">
-         <ModeSelector mode={graphMode} onChange={setGraphMode} />
-       </div>
-       {(graphMode === "full" || graphLens === "full" || graphLens === "canonical") && (
-         <div className="mb-4 text-sm text-amber-400 flex items-center gap-2" role="alert">
-           <span aria-hidden="true">⚠</span>
-           <span>Advanced dataset selected: high density, best used for audits and targeted investigation.</span>
-         </div>
-       )}
-
-      <GraphToolbar
-        filter={filter}
-        filterMode={filterMode}
-        searchQuery={searchQuery}
-        onFilterChange={setFilter}
-        onFilterModeChange={setFilterMode}
-        onSearchChange={setSearchQuery}
-        nodeCount={totalNodeCount}
-        edgeCount={visibleEdgeCount}
-        visibleCount={displayedVisibleCount}
-        nodeLimit={null}
-        onNodeLimitChange={() => {}}
-        onFitVisible={handleFitVisible}
-        onZoomIn={handleZoomIn}
-        onZoomOut={handleZoomOut}
-  showAnchorLabels={showAnchorLabels}
-  onToggleAnchorLabels={() => setShowAnchorLabels(v => !v)}
-  collapseFamilies={collapseFamilies}
-  onToggleCollapseFamilies={() => setCollapseFamilies(v => !v)}
-      />
-
-      {(activeEntryPointMeta || activeClusterMeta) && (
-        <div className="card p-3 mb-2 flex flex-wrap items-center gap-2 text-sm animate-fade-in" role="status" aria-live="polite">
-          <span className="text-[var(--text-secondary)] font-medium">Active scope:</span>
-          {activeEntryPointMeta && (
-            <span className="px-2 py-1 rounded bg-[var(--primary)]/15 text-[var(--text-primary)] border border-[var(--primary)]/30">
-              Entry Point: {activeEntryPointMeta.label} ({activeEntryPointMeta.nodeIds.length})
-            </span>
-          )}
-          {activeClusterMeta && (
-            <span className="px-2 py-1 rounded bg-[var(--secondary)]/15 text-[var(--text-primary)] border border-[var(--secondary)]/30">
-              Cluster: {activeClusterMeta.label} ({activeClusterMeta.nodeIds.length})
-            </span>
-          )}
-          <button
-            onClick={() => {
-              setActiveEntryPoint(null);
-              setActiveClusterId(null);
-            }}
-            className="ml-auto px-3 py-1.5 rounded text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/40"
-          >
-            Clear Scope
-          </button>
-        </div>
-      )}
-
-       <SystemInterpretation
-          viewModeLabel="FULL SYSTEM"
-          visibleNodeCount={totalNodeCount}
-          conflictedCount={statusCounts.CONFLICTED || 0}
-          quarantinedCount={statusCounts.QUARANTINED || 0}
-          verifiedCount={statusCounts.VERIFIED || 0}
-          primaryInstability={primaryInstability ? {
-            title: primaryInstability.title,
-            contradictionCount: primaryInstability.contradictionCount,
-          } : null}
-        />
-        <div className="card p-3 mb-2 text-sm text-[var(--text-secondary)] animate-fade-in">
-          <span className="font-medium text-[var(--text-primary)]">{LENS_CONFIG[graphLens].label}:</span> {lensDescription}
-        </div>
-        {lensDefinition && (
-          <div className="card p-4 mb-2 text-sm animate-fade-in">
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="font-medium text-[var(--text-primary)]">Lens purpose:</span>
-              <span className="text-[var(--text-secondary)]">{lensDefinition.purpose}</span>
+    <div className="px-4 py-5 md:px-6 md:py-6" data-pagefind-ignore>
+      <div className="mx-auto max-w-[1180px]">
+        <section className="rounded-[22px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,22,31,0.98),rgba(12,15,22,1))] p-4 shadow-[0_18px_54px_rgba(0,0,0,0.28)] md:p-5">
+          <div className="mb-4 space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#8f95a8]">
+                Nexus Graph
+              </span>
+              <span className="rounded-full border border-[#4f8df733] bg-[#4f8df714] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#7aa7ff]">
+                {LENS_CONFIG[graphLens].label}
+              </span>
             </div>
-            <div className="grid md:grid-cols-2 gap-3 text-[var(--text-secondary)]">
-              <div>
-                <div><span className="font-medium text-[var(--text-primary)]">Current lens:</span> {totalNodeCount} nodes / {visibleEdgeCount} visible edges</div>
-                <div><span className="font-medium text-[var(--text-primary)]">Canonical graph:</span> {canonicalNodeCount} nodes / {canonicalEdgeCount} edges</div>
-                <div><span className="font-medium text-[var(--text-primary)]">Edge policy:</span> {edgePolicy === "explicit_only" ? "Explicit references only" : "Explicit references + inference edges"}</div>
-                <div><span className="font-medium text-[var(--text-primary)]">Budget:</span> {lensDefinition.maxRecommendedNodes} nodes / {lensDefinition.maxRecommendedEdges} edges</div>
-              </div>
-              <div>
-                <div><span className="font-medium text-[var(--text-primary)]">Included:</span> {lensDefinition.includedNodeTypes.join(", ")}</div>
-                <div><span className="font-medium text-[var(--text-primary)]">Edges:</span> {lensDefinition.includedEdgeTypes.join(", ")}</div>
-                <div><span className="font-medium text-[var(--text-primary)]">Excluded noise:</span> {lensDefinition.excludedNoise.join(", ")}</div>
-              </div>
-            </div>
-            <div className="mt-2 text-[var(--text-secondary)]">
-              <span className="font-medium text-[var(--text-primary)]">Agent instruction:</span> {lensDefinition.agentReviewInstruction}
+            <div>
+              <h1 className="text-[1.95rem] font-semibold tracking-[-0.03em] text-[#f1f4fb]">
+                self-organizing-library
+              </h1>
+              <p className="mt-2 max-w-3xl text-sm text-[#9fa7bc]">
+                Cleaner network view with straight-edge relationships and a quieter frame.
+              </p>
             </div>
           </div>
-        )}
 
-       <div className="card p-3 mb-2 flex gap-3 items-center text-sm animate-fade-in" role="status" aria-label="Node status summary">
-        {Object.entries(statusCounts).filter(([, cnt]) => cnt > 0).map(([status, count]) => (
-          <span key={status} className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: STATUS_COLORS[status as keyof typeof STATUS_COLORS] }} aria-hidden="true" />
-            <span className="text-[var(--text-secondary)]">{status}: {count}</span>
-          </span>
-        ))}
-      </div>
+          <div className="rounded-[20px] border border-white/10 bg-[#0f131b] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] md:p-4">
+            <GraphToolbar
+              graphLens={graphLens}
+              searchQuery={searchQuery}
+              nodeCount={nodes.length}
+              edgeCount={edges.length}
+              highlightedCount={searchMatches}
+              onLensChange={handleLensChange}
+              onSearchChange={setSearchQuery}
+              onFitVisible={() => graphCanvasRef.current?.fitVisible()}
+              onZoomIn={() => graphCanvasRef.current?.zoomIn()}
+              onZoomOut={() => graphCanvasRef.current?.zoomOut()}
+            />
 
-      {(pathSource || focusedNodeId) && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 animate-fade-in" role="status" aria-live="polite">
-          <div className="flex items-center gap-3 text-sm">
-            {focusedNodeId && (
-              <>
-                <span className="text-[var(--primary)] font-medium">Focus</span>
-                <span className="text-[var(--text-muted)]">
-                  on <span className="text-[var(--text-primary)]">{selectedNode?.title || focusedNodeId}</span>
+            <div className="mb-3 mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8f95a8]">
+                  self-organizing-library network
+                </div>
+                <div className="mt-1.5 text-sm text-[#c3c8d9]">
+                  {selectedNode
+                    ? `${selectedNode.title} · ${selectedNode.connectionCount} connections`
+                    : workspaceSummary}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 text-[11px]">
+                <span className="rounded-full border border-white/8 bg-white/5 px-3 py-1 text-[#dfe3ef]">
+                  {nodes.length} nodes
                 </span>
-        <button onClick={handleStageClick} className="ml-auto text-[var(--primary)] hover:text-[var(--primary)]/80 text-sm underline focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 rounded">
-          Exit Focus
-        </button>
-              </>
-            )}
-            {pathSource && (
-              <>
-                <span className="text-amber-400 font-medium">Path Trace</span>
-                {pathSource && <span className="text-[var(--text-muted)]">Source: <span className="text-[var(--text-primary)]">{filteredNodes.find((n) => n.id === pathSource)?.title || pathSource}</span></span>}
-                {pathTarget && <span className="text-[var(--text-muted)]">Target: <span className="text-[var(--text-primary)]">{filteredNodes.find((n) => n.id === pathTarget)?.title || pathTarget}</span></span>}
-                {pathNodes.size > 0 && <span className="text-amber-300 font-medium">{pathNodes.size - 1} hops</span>}
-                {!pathTarget && <span className="text-[var(--text-muted)]">Click another node</span>}
-                <button onClick={handleStageClick} className="ml-auto text-amber-400 hover:text-amber-300 text-sm underline focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:ring-offset-1 rounded">
-                  Exit Path
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
-      <div className="flex flex-col md:flex-row gap-4 animate-fade-in">
-        <nav aria-label="Graph sidebar controls" className="w-full md:w-56 flex-shrink-0 space-y-4">
-          {/* Density and MeaningLayers always visible */}
-          <div className="card p-3">
-            <DensityControl density={density} onChange={setDensity} />
-          </div>
-          <div className="card p-3">
-            <MeaningLayers
-              activeLayers={activeLayers}
-              onToggle={handleLayerToggle}
-              onExportSnapshot={handleExportSnapshot}
-              onImportSnapshot={handleImportSnapshot}
-              onExportAllRepos={handleExportAllRepos}
-              onExportContradictionHub={handleExportContradictionHub}
-              onCompareSnapshots={handleCompareSnapshots}
-              importError={importError}
-            />
-          </div>
-
-          {/* Start Here – Understand mode */}
-          {graphMode === "understand" && (
-            <section className="space-y-2">
-              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Start Here</h3>
-              <div className="card p-2">
-                <EntryPoints
-                  entryPoints={entryPoints.filter(ep => ep.id === "ep:authority" || ep.id === "ep:gov-core")}
-                  activeEntryPoint={activeEntryPoint}
-                  onSelect={setActiveEntryPoint}
-                />
-              </div>
-            </section>
-          )}
-
-          {/* Investigate – Explore mode */}
-          {graphMode === "explore" && (
-            <section className="space-y-2">
-              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Investigate</h3>
-              <div className="card p-2">
-                <EntryPoints
-                  entryPoints={entryPoints.filter(ep =>
-                    ep.id === "ep:contradictions" ||
-                    ep.id === "ep:gov-unenforced" ||
-                    ep.id === "ep:gov-authority-mismatch"
-                  )}
-                  activeEntryPoint={activeEntryPoint}
-                  onSelect={setActiveEntryPoint}
-                />
-              </div>
-            </section>
-          )}
-
-          {/* Advanced – Full mode */}
-          {graphMode === "full" && (
-            <section className="space-y-2">
-              <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] px-1">Advanced</h3>
-              <div className="card p-3 max-h-64 overflow-y-auto">
-                <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
-              </div>
-            </section>
-          )}
-        </nav>
-
-        <main className="flex-1 min-w-0 flex gap-4" id="nexus-graph-canvas">
-          <div className="flex-1 min-w-0">
-        <div className="card relative overflow-hidden" style={{ height: "calc(100vh - 300px)", minHeight: "300px" }}>
-                {loading ? (
-                  <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status" aria-live="polite">Loading graph data...</div>
-                ) : collapsedNodes.length === 0 && !webglUnavailable ? (
-                <div className="flex items-center justify-center h-full text-[var(--text-muted)]" role="status">No graph data available</div>
-              ) : (
-        <GraphCanvas
-          ref={graphCanvasRef}
-  nodes={collapsedNodes}
-  edges={edges}
-  clusters={clusters}
-  activeEntryPointNodeIds={activeEntryPointMeta?.nodeIds || []}
-  hoveredNodeId={hoveredNodeId}
-  selectedNodeId={selectedNodeId}
-  focusedNodeId={focusedNodeId}
-  pathNodes={pathNodes}
-  pathEdges={pathEdges}
-  pathSource={pathSource}
-  pathTarget={pathTarget}
-  activeLayers={activeLayers}
-  density={density}
-  activeEntryPoint={activeEntryPoint}
-  activeClusterId={activeClusterId}
-  searchQuery={searchQuery}
-  filterMode={filterMode}
-  filter={filter}
-  visibleCount={displayedVisibleCount}
-  coreNodeIds={Array.from(coreNodeIds)}
-  graphLens={graphLens}
-  showAnchorLabels={showAnchorLabels}
-  collapsedFamilies={collapsedFamilies}
-        onNodeClick={handleNodeClick}
-          onNodeHover={handleNodeHover}
-          onStageClick={handleStageClick}
-          onCameraUpdate={handleCameraUpdate}
-          onGraphReady={handleGraphReady}
-          onWebGLUnavailable={() => setWebglUnavailable(true)}
-        />
-              )}
-              <GraphContextPanel
-                nodeCount={collapseFamilies ? collapsedNodes.length : filteredNodes.length}
-                edgeCount={visibleEdgeCount}
-                visibleCount={displayedVisibleCount}
-                density={density}
-                activeLayers={activeLayers}
-                filter={filter}
-                filterMode={filterMode}
-                activeEntryPoint={activeEntryPoint}
-                activeClusterId={activeClusterId}
-                focusedNodeId={focusedNodeId}
-                selectedNodeTitle={selectedNode?.title || null}
-                searchQuery={searchQuery}
-              />
-              <div className="absolute top-3 right-3 px-2 py-1 rounded bg-[var(--bg-surface)]/80 text-sm text-[var(--text-muted)] backdrop-blur-sm" aria-live="polite">
-                {zoomLabel}
+                <span className="rounded-full border border-white/8 bg-white/5 px-3 py-1 text-[#dfe3ef]">
+                  {edges.length} edges
+                </span>
               </div>
             </div>
+
+            <div className="h-[78vh] min-h-[620px] max-h-[900px] overflow-hidden rounded-[18px] border border-white/8 bg-[#0b0e14]">
+              {loading ? (
+                <div className="flex h-full items-center justify-center text-sm text-[#9ea5ba]">
+                  Rendering graph workspace...
+                </div>
+              ) : error ? (
+                <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#ef9090]">
+                  {error}
+                </div>
+              ) : nodes.length === 0 ? (
+                <div className="flex h-full items-center justify-center text-sm text-[#9ea5ba]">
+                  No graph data is available for this view.
+                </div>
+              ) : (
+                <GraphCanvas
+                  ref={graphCanvasRef}
+                  nodes={nodes}
+                  edges={edges}
+                  graphLens={graphLens}
+                  searchQuery={searchQuery}
+                  selectedNodeId={selectedNodeId}
+                  onNodeClick={handleNodeClick}
+                  onCameraUpdate={() => {}}
+                />
+              )}
+            </div>
           </div>
-
-          {selectedNode && (
-            <NodeDetail
-              node={selectedNode}
-              interactionMode={focusedNodeId ? "focus" : pathSource ? "path" : "entry"}
-              focusedNodeId={focusedNodeId}
-              pathSource={pathSource}
-              pathTarget={pathTarget}
-              onFocusNode={handleFocusNode}
-              onTracePath={handleTracePath}
-              onClose={handleStageClick}
-            />
-          )}
-        </main>
+        </section>
       </div>
-
-      <p className="mt-4 text-sm text-[var(--text-muted)] text-center animate-fade-in">
-        Pick a lens first, then scope it further with entry points, meaning layers, and density. Use Tab to focus the graph, arrow keys or WASD to pan, +/- to zoom, Escape to clear.
-      </p>
-
-      <GraphLegend />
     </div>
   );
 }

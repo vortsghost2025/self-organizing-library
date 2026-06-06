@@ -1,10 +1,10 @@
 {
-  "session_id": "sess_mpig5p7y_23988",
+  "session_id": "sess_mpxnk3rt_12664",
   "lane": "library",
-  "claimed_at": "2026-05-23T14:31:39.502Z",
-  "renewed_at": "2026-05-24T16:03:52.186Z",
-  "expires_at": "2026-05-24T16:18:52.186Z",
-  "pid": 23988,
+  "claimed_at": "2026-06-03T05:55:21.497Z",
+  "renewed_at": "2026-06-03T07:11:22.150Z",
+  "expires_at": "2026-06-03T07:26:22.150Z",
+  "pid": 12664,
   "origin_runtime": "kilo",
   "origin_workspace": "S:\\self-organizing-library"
 }

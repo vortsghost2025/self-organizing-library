@@ -100,3 +100,35 @@ data/snapshots/
 
 # Local library copies (duplicates of public/ assets)
 library/
+
+# Graph debug screenshots and temp logs
+graph-*.png
+*.tmp-graph-*.log
+.tmp-graph-*.log
+graph_area_*.png
+nav_graph_*.png
+graph_canvas.png
+
+# Debug/dev scripts (one-off)
+scripts/capture_graph.js
+scripts/debug_graph.js
+
+# Playwright CLI cache
+.playwright-cli/
+
+# Test results
+test-results/
+
+# Superpowers session state
+.superpowers/
+
+# Firebase debug log
+firebase-debug.log
+
+# Old clone readme
+README-OLD-WINDOWS-CLONE.txt
+
+# Screenshots
+*.png
+# Firebase debug
+firebase-debug.log

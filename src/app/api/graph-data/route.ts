@@ -7,7 +7,8 @@ export async function GET(request: Request) {
   const mode = url.searchParams.get("mode");
   const allowedLenses = new Set(getAvailableGraphLenses().map((lens) => lens.id));
 
-  let lens: GraphLens = "navigation";
+  let lens: GraphLens = "authority";
+  // Use authority lens by default to ensure graph has data
   if (requestedLens && allowedLenses.has(requestedLens as GraphLens)) {
     lens = requestedLens as GraphLens;
   } else if (mode === "overview") {
@@ -17,9 +18,9 @@ export async function GET(request: Request) {
 // Get graph data for the requested lens
 let graphData = getGraphData(lens);
 
-// Fallback to authority lens if navigation lens is empty
-if (lens === "navigation" && (!graphData.nodes?.length || !graphData.edges?.length)) {
-  console.warn("Navigation lens is empty. Falling back to authority lens.");
+// If the requested lens yields no nodes, fall back to the authority lens which always has data.
+if (!graphData.nodes?.length) {
+  console.warn(`Lens "${lens}" produced no data; falling back to authority lens.`);
   graphData = getGraphData("authority");
 }
 

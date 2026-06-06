@@ -1,219 +1,121 @@
 "use client";
 
-import type { MeaningLayer } from "@/lib/graph-types";
-import { TYPE_COLORS, REPO_COLORS } from "@/lib/graph-types";
+import type { GraphLens } from "@/lib/graph-types";
+import { LENS_CONFIG } from "@/lib/graph-types";
 
 interface GraphToolbarProps {
-  filter: string;
-  filterMode: "type" | "repo";
+  graphLens: GraphLens;
   searchQuery: string;
-  onFilterChange: (filter: string) => void;
-  onFilterModeChange: (mode: "type" | "repo") => void;
-  onSearchChange: (query: string) => void;
   nodeCount: number;
   edgeCount: number;
-  visibleCount: number;
-  nodeLimit: number | null;
-  onNodeLimitChange: (n: number | null) => void;
+  highlightedCount: number;
+  onLensChange: (lens: GraphLens) => void;
+  onSearchChange: (query: string) => void;
   onFitVisible?: () => void;
   onZoomIn?: () => void;
   onZoomOut?: () => void;
-  showAnchorLabels?: boolean;
-  onToggleAnchorLabels?: () => void;
-  collapseFamilies?: boolean;
-  onToggleCollapseFamilies?: () => void;
 }
 
-const TYPE_FILTERS = [
-  { key: "all", label: "All", color: "#F4F4F5" },
-  { key: "doc", label: "Docs", color: TYPE_COLORS.doc },
-  { key: "config", label: "Config", color: TYPE_COLORS.config },
-  { key: "data", label: "Data", color: TYPE_COLORS.data },
-  { key: "test-data", label: "Test Data", color: TYPE_COLORS["test-data"] },
+const LENS_OPTIONS: GraphLens[] = [
+  "navigation",
+  "authority",
+  "governance",
+  "canonical",
 ];
 
-const REPO_FILTERS = [
-  { key: "all", label: "All Repos", color: "#F4F4F5" },
-  ...Object.entries(REPO_COLORS).map(([key, color]) => ({
-    key,
-    label: key.replace(/-/g, " ").replace(/SwarmMind Self Optimizing Multi Agent AI System/g, "SwarmMind"),
-    color,
-  })),
-];
+const TOOLBAR_LENS_LABELS: Partial<Record<GraphLens, string>> = {
+  navigation: "Force-Directed",
+  authority: "Authority",
+  governance: "Governance",
+  canonical: "Canonical",
+};
 
 export default function GraphToolbar({
-  filter,
-  filterMode,
+  graphLens,
   searchQuery,
-  onFilterChange,
-  onFilterModeChange,
-  onSearchChange,
   nodeCount,
   edgeCount,
-  visibleCount,
-  nodeLimit,
-  onNodeLimitChange,
+  highlightedCount,
+  onLensChange,
+  onSearchChange,
   onFitVisible,
   onZoomIn,
   onZoomOut,
-  showAnchorLabels,
-  onToggleAnchorLabels,
-  collapseFamilies,
-  onToggleCollapseFamilies,
 }: GraphToolbarProps) {
-  const currentFilters = filterMode === "type" ? TYPE_FILTERS : REPO_FILTERS;
+  const searchLabel = searchQuery
+    ? `${highlightedCount} matching ${highlightedCount === 1 ? "node" : "nodes"}`
+    : `${nodeCount} nodes`;
 
   return (
-    <>
-      <div
-        className="card p-4 mb-2 flex gap-4 animate-fade-in flex-wrap items-center"
-        role="toolbar"
-        aria-label="Graph controls"
-      >
-        <div className="flex items-center gap-2">
-          <label htmlFor="graph-search" className="sr-only">Search nodes</label>
+    <div className="flex flex-col gap-3 rounded-[18px] border border-white/8 bg-[#151922] px-3 py-3 shadow-[0_10px_28px_rgba(0,0,0,0.18)] md:flex-row md:items-center">
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={onFitVisible}
+          className="inline-flex h-9 min-w-9 items-center justify-center rounded-[10px] border border-white/10 bg-[#1b202b] px-3 text-sm font-medium text-[#e6e8ef] transition hover:border-white/20 hover:bg-[#222734]"
+          aria-label="Fit graph to view"
+          title="Fit to view"
+        >
+          Zoom Fit
+        </button>
+        <button
+          type="button"
+          onClick={onZoomOut}
+          className="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border border-white/10 bg-[#1b202b] text-lg text-[#e6e8ef] transition hover:border-white/20 hover:bg-[#222734]"
+          aria-label="Zoom out"
+          title="Zoom out"
+        >
+          −
+        </button>
+        <button
+          type="button"
+          onClick={onZoomIn}
+          className="inline-flex h-9 w-9 items-center justify-center rounded-[10px] border border-white/10 bg-[#1b202b] text-lg text-[#e6e8ef] transition hover:border-white/20 hover:bg-[#222734]"
+          aria-label="Zoom in"
+          title="Zoom in"
+        >
+          +
+        </button>
+      </div>
+
+      <div className="flex min-w-0 flex-1 flex-col gap-2 md:flex-row md:items-center">
+        <label className="flex min-w-[200px] flex-col gap-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#7d859a]">
+          Layout
+          <select
+            value={graphLens}
+            onChange={(event) => onLensChange(event.target.value as GraphLens)}
+            className="h-9 rounded-[10px] border border-white/10 bg-[#1b202b] px-3 text-sm font-medium tracking-normal text-[#edf0f7] outline-none transition focus:border-[#4f8df7]"
+            aria-label="Choose graph layout lens"
+          >
+            {LENS_OPTIONS.map((lens) => (
+              <option key={lens} value={lens}>
+                {TOOLBAR_LENS_LABELS[lens] ?? LENS_CONFIG[lens].label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex min-w-0 flex-1 flex-col gap-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#7d859a]">
+          Search Nodes
           <input
-            id="graph-search"
             type="search"
-            placeholder="Search nodes..."
             value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="px-3 py-1.5 rounded-lg text-sm bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder="Find nodes"
+            className="h-9 rounded-[10px] border border-white/10 bg-[#1b202b] px-3 text-sm text-[#edf0f7] outline-none transition placeholder:text-[#6f768b] focus:border-[#4f8df7]"
+            aria-label="Search graph nodes"
           />
-        </div>
+        </label>
+      </div>
 
-        <span className="text-[var(--text-muted)] text-sm mx-1" aria-hidden="true">|</span>
-
-        <button
-          onClick={() => { onFilterModeChange("type"); onFilterChange("all"); }}
-          aria-pressed={filterMode === "type"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
-            filterMode === "type" ? "bg-[var(--primary)] text-white" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          By Type
-        </button>
-        <button
-          onClick={() => { onFilterModeChange("repo"); onFilterChange("all"); }}
-          aria-pressed={filterMode === "repo"}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--secondary)]/50 focus:ring-offset-1 ${
-            filterMode === "repo" ? "bg-[var(--secondary)] text-white" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-          By Repo
-        </button>
-
-        {/* Active filter indicator */}
-        {filterMode === "repo" && filter !== "all" && (
-          <span className="ml-2 px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--border)] text-sm text-[var(--text-primary)]">
-            Showing: <strong className="capitalize">{filter.replace(/-/g, " ")}</strong>
-            <button
-              onClick={() => onFilterChange("all")}
-              className="ml-2 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-              title="Clear filter"
-            >
-              ×
-            </button>
-          </span>
-        )}
-
-        <span className="ml-auto text-sm text-[var(--text-muted)] flex items-center gap-3" role="status">
-          {onZoomOut && (
-            <button
-              onClick={onZoomOut}
-              className="px-2 py-1 rounded text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
-              title="Zoom out"
-              aria-label="Zoom out"
-            >
-              −
-            </button>
-          )}
-          {onZoomIn && (
-            <button
-              onClick={onZoomIn}
-              className="px-2 py-1 rounded text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
-              title="Zoom in"
-              aria-label="Zoom in"
-            >
-              +
-            </button>
-          )}
-          {onFitVisible && (
-            <button
-              onClick={onFitVisible}
-              className="px-2 py-1 rounded text-sm border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
-              title="Fit visible nodes to view"
-            >
-        Fit
-      </button>
-    )}
-    {onToggleAnchorLabels && (
-      <button
-        onClick={onToggleAnchorLabels}
-        className={`px-2 py-1 rounded text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 ${
-          showAnchorLabels
-            ? "border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/10"
-            : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-        }`}
-        title={showAnchorLabels ? "Hide anchor labels" : "Show anchor labels"}
-        aria-pressed={showAnchorLabels}
-      >
-      ⊙
-    </button>
-  )}
-  {onToggleCollapseFamilies && (
-    <button
-      onClick={onToggleCollapseFamilies}
-      className={`px-2 py-1 rounded text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 ${
-        collapseFamilies
-          ? "border-[#60A5FA] text-[#60A5FA] bg-[#60A5FA]/10"
-          : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-      }`}
-      title={collapseFamilies ? "Expand duplicate families" : "Collapse duplicate families"}
-      aria-pressed={collapseFamilies}
-    >
-      ⊞
-    </button>
-  )}
-    <div className="flex items-center gap-2">
-            <label className="text-[var(--text-muted)]">Show top:</label>
-            <select
-              value={nodeLimit ?? "all"}
-              onChange={(e) => onNodeLimitChange(e.target.value === "all" ? null : parseInt(e.target.value))}
-              className="bg-[var(--bg-surface)] border border-[var(--border)] rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
-            >
-              <option value="all">All ({nodeCount})</option>
-              <option value="200">200</option>
-              <option value="150">150</option>
-              <option value="100">100</option>
-              <option value="50">50</option>
-            </select>
-          </div>
-          <span>
-            {nodeLimit ? `${visibleCount}/${nodeLimit} nodes` : `${visibleCount}/${nodeCount} nodes`} &middot; {edgeCount} edges
-          </span>
+      <div className="flex min-w-[170px] flex-col items-start gap-1 rounded-[12px] border border-white/8 bg-[#11151d] px-3 py-2 text-sm md:items-end">
+        <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#7d859a]">
+          {searchLabel}
+        </span>
+        <span className="text-xs text-[#d8dbe5]">
+          {edgeCount} edges
         </span>
       </div>
-
-      <div
-        className="card p-4 mb-2 flex gap-4 animate-fade-in stagger-1 flex-wrap"
-        role="toolbar"
-        aria-label={`${filterMode === "type" ? "Type" : "Repo"} filters`}
-      >
-      {currentFilters.map((tf) => (
-        <button
-          key={tf.key}
-          onClick={() => onFilterChange(tf.key)}
-          aria-pressed={filter === tf.key}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
-            filter === tf.key ? "bg-[var(--bg-surface-hover)] text-[var(--text-primary)]" : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-        >
-            <span className="w-3 h-3 rounded-full inline-block" style={{ backgroundColor: tf.color }} aria-hidden="true" />
-            {tf.label}
-          </button>
-        ))}
-      </div>
-    </>
+    </div>
   );
 }
