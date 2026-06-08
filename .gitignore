@@ -112,6 +112,15 @@ graph_canvas.png
 # Debug/dev scripts (one-off)
 scripts/capture_graph.js
 scripts/debug_graph.js
+deliver-*.js
+
+# Temp scratch directory
+tmp/
+
+# Scratch/analysis files at root
+analyze_graph.js
+analyze.js
+test-library-signing.js
 
 # Playwright CLI cache
 .playwright-cli/
@@ -130,5 +139,15 @@ README-OLD-WINDOWS-CLONE.txt
 
 # Screenshots
 *.png
+
 # Firebase debug
 firebase-debug.log
+
+# Scratch/output files at root
+answer.txt
+output.txt
+test-write-permission.txt
+verdict.json
+build.log
+load-context.js
+nul
