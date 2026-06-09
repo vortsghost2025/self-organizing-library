@@ -35,7 +35,11 @@
     "generate-index": "node scripts/generate-site-index.js",
     "deploy:prod": "vercel --prod --yes",
     "deploy:preview": "vercel --yes",
-    "postbuild": "npx pagefind --site .next/server/app --output-path public/pagefind"
+    "postbuild": "npx pagefind --site .next/server/app --output-path public/pagefind",
+    "observability:init-db": "node scripts/init-observability-db.js",
+    "observability:test": "node scripts/observability-wrapper.js \"npm test\" --strategy=unit",
+    "observability:test:integration": "node scripts/observability-wrapper.js \"node scripts/test-lane-consistency.js\" --strategy=integration",
+    "test:observed": "node scripts/observability-wrapper.js \"npm run test\" --strategy=unit --suite=vitest"
   },
   "dependencies": {
     "@kilocode/app-builder-db": "github:Kilo-Org/app-builder-db#main",

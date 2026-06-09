@@ -5,9 +5,17 @@
     "lmstudio",
     "ollama"
   ],
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "tail_turns": 5,
+    "preserve_recent_tokens": 30000,
+    "reserved": 8000
+  },
   "agent": {
     "orchestrator": {
       "model": "kilo/kilo-auto/free",
+      "steps": 50,
       "permission": {
         "question": "allow",
         "read": "allow",
@@ -22,25 +30,32 @@
       }
     },
     "plan": {
-      "model": "nvidia/openai/gpt-oss-120b"
+      "model": "nvidia/openai/gpt-oss-120b",
+      "steps": 30
     },
     "code": {
-      "model": "nvidia/z-ai/glm-5.1"
+      "model": "nvidia/z-ai/glm-5.1",
+      "steps": 40
     },
     "build": {
-      "model": "kilo/kilo-auto/free"
+      "model": "kilo/kilo-auto/free",
+      "steps": 35
     },
     "debug": {
-      "model": "nvidia/openai/gpt-oss-120b"
+      "model": "nvidia/openai/gpt-oss-120b",
+      "steps": 40
     },
     "ask": {
-      "model": "kilo/kilo-auto/free"
+      "model": "kilo/kilo-auto/free",
+      "steps": 15
     },
     "general": {
-      "model": "kilo/kilo-auto/free"
+      "model": "kilo/kilo-auto/free",
+      "steps": 40
     },
     "code-reviewer": {
-      "model": "nvidia/openai/gpt-oss-120b"
+      "model": "nvidia/openai/gpt-oss-120b",
+      "steps": 25
     }
   },
   "provider": {
