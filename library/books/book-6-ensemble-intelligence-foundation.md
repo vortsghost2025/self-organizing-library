@@ -610,6 +610,10 @@ node scripts/post-compact-audit.js
 ```
 Expected output: all checks pass, status = consistent.
 
+> **Replication invitation.** The empirical evidence in §6.3 documents convergence across eight rounds in a single system operated by a single human over twelve weeks. Replicating the self-correcting loop on a second independent system — ideally with a different operator composition and a different constraint domain — is the natural next step. We provide the executable test specifications in Steps 1–8 so that replication can begin from this artifact alone. We invite refutation as well as confirmation: where the loop fails to converge under controlled replication, the theory is wrong, and the failure mode itself becomes evidence for the §2.2 taxonomy.
+>
+> Preliminary second-system implementation evidence is available from the Genesis Kernel World Sim project (active CI pipeline with a growing pure-module test suite, phase-gated deterministic pipeline). While this is internal engineering replication — not external independent reproduction — it provides early support for the claim that the self-correcting loop operates across distinct architectures when constraints are explicitly specified.
+
 ### 6.2 Failure Mode Reproducibility
 
 Each NFM can be independently triggered and observed:
