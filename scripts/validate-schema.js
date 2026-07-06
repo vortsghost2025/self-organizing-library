@@ -11,23 +11,19 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
+const discovery = new LaneDiscovery();
 const LOG = { info: '[i]', success: '[+]', warning: '[!]', error: '[-]', test: '[T]' };
 function log(message, level = 'info') {
   console.log(`${LOG[level] || ''} ${message}`);
 }
 
-const REPO_ROOT = path.resolve(__dirname, '..');
-const LANE_ROOTS = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'config', 'lane-roots.json'), 'utf8'));
-const isWin32 = process.platform === 'win32';
-const BASE = isWin32 ? LANE_ROOTS.base_paths.windows : LANE_ROOTS.base_paths.unix;
-function lanePath(laneId) { return path.join(BASE, LANE_ROOTS.lanes[laneId]); }
-
-const SCHEMAS_DIR = path.join(REPO_ROOT, 'schemas');
+const SCHEMAS_DIR = path.join(discovery.getLocalPath('archivist'), 'schemas');
 const LANES = {
-  'archivist-agent': lanePath('archivist'),
-  'swarmmind': lanePath('swarmmind'),
-  'library': lanePath('library')
+  'archivist-agent': discovery.getLocalPath('archivist'),
+  'swarmmind': discovery.getLocalPath('swarmmind'),
+  'library': discovery.getLocalPath('library')
 };
 
 /**

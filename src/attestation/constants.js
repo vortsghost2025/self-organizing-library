@@ -1,65 +1,66 @@
 /**
- * constants.js - Phase 4.3 Canonical Attestation Constants
- *
- * Shared across all three lanes (Archivist, SwarmMind, Library).
+ * Library‑side constants for communicating with the Archivist attestation
+ * recovery orchestrator. The orchestrator is owned exclusively by Archivist; the
+ * Library only acts as a client hook that forwards verification failures.
  */
 
-const path = require('path');
+// Base URL for the Archivist orchestrator endpoint. In production this should
+// point at the Archivist service; during local development it defaults to the
+// localhost address used by the test harness.
+const ARCHIVIST_ORCHESTRATOR_URL =
+  process.env.ARCHIVIST_ORCHESTRATOR_URL ||
+  'http://localhost:3000/orchestrate/recovery';
 
-const TRUST_STORE_PATH =
-  process.env.ATTESTATION_TRUST_STORE ||
-  path.join('S:', 'Archivist-Agent', 'lanes', 'broadcast', 'trust-store.json');
+// Optional request timeout (ms). Adjust as needed for your environment.
+const ORCHESTRATOR_REQUEST_TIMEOUT_MS = 5000;
 
+/**
+ * Path to the Archivist trust store containing public keys for all lanes.
+ * Library reads from this location to verify signatures.
+ */
+const ARCHIVIST_TRUST_STORE_PATH =
+  'S:/self-organizing-library/lanes/broadcast/trust-store.json';
+
+const TRUST_STORE_PATH = 
+  process.env.TRUST_STORE_PATH || 'S:/self-organizing-library/lanes/broadcast/trust-store.json';
+
+/**
+ * Path to the Library's own key pair (generated on first run).
+ */
+const LANE_KEY_PATH =
+  process.env.LANE_KEY_PATH ||
+  'S:/self-organizing-library/.trust/library.json';
+
+/**
+ * Trust store version (must match what's in keys.json)
+ */
 const TRUST_STORE_VERSION = '1.0';
 
-const MIGRATION_MODE = {
-  DUAL: 'dual',
-  HMAC_ONLY: 'hmac-only',
-  RSA_ONLY: 'rsa-only'
-};
+/**
+ * Lane identifier for Library
+ */
+const LANE_ID = process.env.LANE_ID || 'library';
 
+/**
+ * Verification reasons
+ */
 const VERIFY_REASON = {
-  VERIFIED: 'VERIFIED',
-  SCHEMA_MISMATCH: 'SCHEMA_MISMATCH',
-  TRUST_STORE_MISSING: 'TRUST_STORE_MISSING',
-  UNKNOWN_LANE: 'UNKNOWN_LANE',
-  KEY_NOT_FOUND: 'KEY_NOT_FOUND',
-  KEY_ID_MISMATCH: 'KEY_ID_MISMATCH',
-  KEY_REVOKED: 'KEY_REVOKED',
-  INVALID_KEY: 'INVALID_KEY',
-  UNSUPPORTED_ALGORITHM: 'UNSUPPORTED_ALGORITHM',
   MISSING_SIGNATURE: 'MISSING_SIGNATURE',
   MISSING_LANE: 'MISSING_LANE',
-  MISSING_HMAC: 'MISSING_HMAC',
-  SIGNATURE_MISMATCH: 'SIGNATURE_MISMATCH',
   LANE_MISMATCH: 'LANE_MISMATCH',
-  DEPRECATED_HMAC: 'DEPRECATED_HMAC',
-  MIGRATION_HMAC_ONLY: 'MIGRATION_HMAC_ONLY',
-  VERIFICATION_ERROR: 'VERIFICATION_ERROR',
+  KEY_NOT_FOUND: 'KEY_NOT_FOUND',
+  SIGNATURE_MISMATCH: 'SIGNATURE_MISMATCH',
   QUARANTINED: 'QUARANTINED',
-  QUARANTINE_RELEASED: 'QUARANTINE_RELEASED',
   QUARANTINE_MAX_RETRIES: 'QUARANTINE_MAX_RETRIES'
 };
 
-const ALG_MAP = {
-  'rsa-sha256': 'RSA-SHA256',
-  'RS256': 'RSA-SHA256',
-  'rsa_sha256': 'RSA-SHA256'
-};
-
-const QUARANTINE_MAX_RETRIES = 3;
-const QUARANTINE_BACKOFF_MS = 5000;
-const QUARANTINE_LOG_PATH = path.join('S:', 'Archivist-Agent', 'logs', 'quarantine.log');
-const HANDOFF_SIGNAL_FILE = 'AGENT_HANDOFF_REQUIRED.md';
-
 module.exports = {
+  ARCHIVIST_ORCHESTRATOR_URL,
+  ORCHESTRATOR_REQUEST_TIMEOUT_MS,
+  ARCHIVIST_TRUST_STORE_PATH,
   TRUST_STORE_PATH,
+  LANE_KEY_PATH,
+  LANE_ID,
   TRUST_STORE_VERSION,
-  MIGRATION_MODE,
-  VERIFY_REASON,
-  ALG_MAP,
-  QUARANTINE_MAX_RETRIES,
-  QUARANTINE_BACKOFF_MS,
-  QUARANTINE_LOG_PATH,
-  HANDOFF_SIGNAL_FILE
+  VERIFY_REASON
 };

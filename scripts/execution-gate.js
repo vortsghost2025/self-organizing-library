@@ -11,10 +11,10 @@ const _discovery = new LaneDiscovery();
 const _validLanes = new Set(_discovery.listLanes());
 
 const DEFAULT_ALLOWED_ROOTS = [
-'S:/Archivist-Agent',
-'S:/kernel-lane',
-'S:/self-organizing-library',
-'S:/SwarmMind',
+_discovery.getLocalPath('archivist'),
+_discovery.getLocalPath('kernel'),
+_discovery.getLocalPath('library'),
+_discovery.getLocalPath('swarmmind'),
 ];
 
 const COMPLETION_WINDOW_MS = 5 * 60 * 1000;
@@ -172,7 +172,9 @@ class ExecutionGate {
     const resolvedRoot = path.resolve(root);
     const isAllowed = DEFAULT_ALLOWED_ROOTS.some(allowedRoot => {
       const resolvedAllowed = path.resolve(allowedRoot);
-      return resolvedRoot === resolvedAllowed || resolvedRoot.startsWith(resolvedAllowed + path.sep);
+      const normRoot = resolvedRoot.replace(/\\/g, '/').toLowerCase();
+      const normAllowed = resolvedAllowed.replace(/\\/g, '/').toLowerCase();
+      return normRoot === normAllowed || normRoot.startsWith(normAllowed + '/');
     });
     if (!isAllowed) {
       throw new Error(`SECURITY: resolved path '${resolvedRoot}' for lane '${fromLane}' is outside allowed roots`);

@@ -61,16 +61,15 @@ function acquireWatcherLock({ repoRoot, laneName, policy, agentMode }) {
   const staleAfterSeconds = Number(lockCfg.stale_after_seconds || 900);
   const lockFile = filePattern.replace('{lane}', laneName);
   const lockPath = path.join(lockDir, lockFile);
-
   const mode = agentMode || process.env.AGENT_MODE || 'governing';
-
-  if (mode === 'observer') {
-    console.log(`[lock] Observer mode: skipping lock acquisition for ${laneName}`);
-    return () => {};
-  }
 
   if (!fs.existsSync(lockDir)) {
     fs.mkdirSync(lockDir, { recursive: true });
+  }
+
+  if (mode === 'observer') {
+    console.log(`[lock] Observer mode: skipping lock acquisition for ${laneName}`);
+    return () => {}; 
   }
 
   const owner = {

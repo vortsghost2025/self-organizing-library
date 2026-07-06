@@ -1,4 +1,4 @@
-import { eq, ne, gt, gte, lt, lte, like, notLike, ilike, notIlike, inArray, notInArray, desc, asc, and, or, sql } from 'drizzle-orm';
+import { eq, ne, gt, gte, lt, lte, like, notLike, ilike, notILike, inArray, notInArray, desc, asc, and, or, sql } from 'drizzle-orm';
 import { getDb, saveDatabase, tables, type TestRun, type TestCase, type TestResult, type ErrorLog } from '../../db';
 import { randomUUID } from 'crypto';
 
@@ -174,9 +174,9 @@ export async function recordTestResult(params: {
       message: params.errorMessage,
       stack: params.errorStack,
       source: 'test_result',
-      classification: (params.resilienceClassification || 'unknown') as any,
+      classification: params.resilienceClassification || 'unknown',
       category: params.errorMetadata?.category || 'test_failure',
-      context: params.errorMetadata ? JSON.stringify(params.errorMetadata) : undefined,
+      context: params.errorMetadata ? JSON.stringify(params.errorMetadata) : null,
       blastRadius: params.errorMetadata?.blastRadius || 'isolated',
     });
   }
@@ -195,7 +195,7 @@ export async function logError(params: {
   level: 'error' | 'warning' | 'info' | 'debug';
   message: string;
   source: string;
-  classification: 'detection' | 'decision' | 'handling' | 'recovery' | 'system' | 'unknown' | 'observability';
+  classification: 'detection' | 'decision' | 'handling' | 'recovery' | 'system' | 'unknown';
   stack?: string;
   testResultId?: string;
   category?: string;
@@ -242,7 +242,7 @@ export function classifyError(error: {
   code?: string;
   category?: string;
 }): {
-  classification: 'detection' | 'decision' | 'handling' | 'recovery' | 'system' | 'unknown' | 'observability';
+  classification: 'detection' | 'decision' | 'handling' | 'recovery' | 'system' | 'unknown';
   action: 'retry' | 'failover' | 'degrade' | 'skip' | 'abort' | 'none';
   description: string;
 } {

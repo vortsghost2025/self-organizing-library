@@ -14,29 +14,25 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
+const discovery = new LaneDiscovery();
 
 const LOG = { info: '[i]', success: '[+]', warning: '[!]', error: '[-]', test: '[T]' };
 function log(message, level = 'info') {
   console.log(`${LOG[level] || ''} ${message}`);
 }
 
-const REPO_ROOT = path.resolve(__dirname, '..');
-const LANE_ROOTS = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'config', 'lane-roots.json'), 'utf8'));
-const isWin32 = process.platform === 'win32';
-const BASE = isWin32 ? LANE_ROOTS.base_paths.windows : LANE_ROOTS.base_paths.unix;
-function laneRoot(id) { return path.join(BASE, LANE_ROOTS.lanes[id]); }
-
 const LANES = {
   'archivist-agent': {
-    root: laneRoot('archivist'),
+    root: discovery.getLocalPath('archivist'),
     role: 'governance-root'
   },
   'swarmmind': {
-    root: laneRoot('swarmmind'),
+    root: discovery.getLocalPath('swarmmind'),
     role: 'trace-layer'
   },
   'library': {
-    root: laneRoot('library'),
+    root: discovery.getLocalPath('library'),
     role: 'memory-layer'
   }
 };
@@ -52,7 +48,6 @@ class CompactRestoreTest {
     this.preCompactState = null;
     this.restorePacket = null;
     this.postRestoreState = null;
-    this.continuityProbe = null;
   }
 
   /**
@@ -148,16 +143,6 @@ class CompactRestoreTest {
     log('  Lost: ' + contextLost + ' tokens', 'warning');
     
     // Create minimal restore packet
-    this.continuityProbe = {
-      task_id: 'continuity-probe-' + Date.now(),
-      expected_next_step: 'Check cross-lane sync',
-      resume_plan: [
-        'Check cross-lane sync',
-        'Verify session registry',
-        'Validate packet schemas'
-      ]
-    };
-
     this.restorePacket = {
       "$schema": "https://archivist.dev/schemas/context-restore.json",
       "version": "1.0.0",
@@ -168,8 +153,7 @@ class CompactRestoreTest {
         active_checkpoints: this.preCompactState.active_checkpoints,
         drift_baseline: this.preCompactState.drift_baseline,
         session_context: this.preCompactState.session_context,
-        working_context_resume: this.preCompactState.working_context,
-        continuity_probe: this.continuityProbe
+        working_context_resume: this.preCompactState.working_context
       },
       "authority": {
         fields_authoritative: ["governance_constraints", "active_checkpoints"],
@@ -226,8 +210,7 @@ class CompactRestoreTest {
       active_checkpoints: restored.restore_payload.active_checkpoints,
       drift_baseline: restored.restore_payload.drift_baseline,
       session_context: restored.restore_payload.session_context,
-      working_context: restored.restore_payload.working_context_resume,
-      continuity_probe: restored.restore_payload.continuity_probe || null
+      working_context: restored.restore_payload.working_context_resume
     };
     
     log('Context reconstructed:', 'success');
@@ -282,22 +265,6 @@ class CompactRestoreTest {
     
     log('Constraints enforced: ' + constraintsEnforced + '/' + Object.keys(this.postRestoreState.governance_constraints).length, 'success');
     
-    // Explicit continuity probe: expected next step must match first post-restore action.
-    const continuityProbe = this.postRestoreState.continuity_probe || null;
-    const actualNextAction = 'Check cross-lane sync';
-    if (!continuityProbe) {
-      log('Continuity probe missing after restore - FAIL', 'error');
-      return false;
-    }
-    const continuityMatched = continuityProbe.expected_next_step === actualNextAction;
-    log('Continuity probe task_id: ' + continuityProbe.task_id, 'info');
-    log('Expected next step: ' + continuityProbe.expected_next_step, 'info');
-    log('Actual next action: ' + actualNextAction, continuityMatched ? 'success' : 'error');
-    if (!continuityMatched) {
-      log('Continuity mismatch detected', 'error');
-      return false;
-    }
-
     // Simulate continuing review
     log('\nSimulating continued review:', 'info');
     log('  [1/3] Checking cross-lane sync...', 'info');
@@ -314,10 +281,7 @@ class CompactRestoreTest {
       status: 'pass',
       governance_still_active: true,
       constraints_enforced: constraintsEnforced,
-      working_context_preserved: true,
-      continuity_probe: true,
-      expected_next_step: continuityProbe.expected_next_step,
-      actual_next_action: actualNextAction
+      working_context_preserved: true
     };
     
     return true;

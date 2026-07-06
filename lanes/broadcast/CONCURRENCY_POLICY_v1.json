@@ -1,4 +1,11 @@
 {
+  "OUTPUT_PROVENANCE": {
+    "agent": "opencode",
+    "lane": "library",
+    "target": "CONCURRENCY_POLICY_v1",
+    "generated_at": "2026-04-28T00:00:00Z",
+    "session_id": "sess-20260516-library-opencode"
+  },
   "schema_version": "1.0",
   "policy_id": "concurrency-policy-v1",
   "status": "ACTIVE",

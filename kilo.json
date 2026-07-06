@@ -1,6 +1,6 @@
 {
   "$schema": "https://app.kilo.ai/config.json",
-  "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+  "model": "kilo/kilo-auto/free",
   "disabled_providers": [
     "lmstudio",
     "ollama"
@@ -14,7 +14,7 @@
   },
   "agent": {
     "orchestrator": {
-      "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+      "model": "kilo/kilo-auto/free",
       "steps": 50,
       "permission": {
         "question": "allow",
@@ -30,7 +30,7 @@
       }
     },
     "plan": {
-      "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+      "model": "nvidia/openai/gpt-oss-120b",
       "steps": 30
     },
     "code": {
@@ -38,23 +38,23 @@
       "steps": 40
     },
     "build": {
-      "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+      "model": "kilo/kilo-auto/free",
       "steps": 35
     },
     "debug": {
-      "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+      "model": "nvidia/openai/gpt-oss-120b",
       "steps": 40
     },
     "ask": {
-      "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+      "model": "kilo/kilo-auto/free",
       "steps": 15
     },
     "general": {
-      "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+      "model": "kilo/kilo-auto/free",
       "steps": 40
     },
     "code-reviewer": {
-      "model": "nvidia/mistralai/mistral-large-3-675b-instruct-2512",
+      "model": "nvidia/openai/gpt-oss-120b",
       "steps": 25
     }
   },

@@ -1,4 +1,4 @@
-import { drizzle } from 'drizzle-orm/sql-js';
+import { drizzle } from 'drizzle-orm/sqlite';
 import initSqlJs from 'sql.js';
 import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
 import path from 'path';
@@ -36,7 +36,7 @@ export const testRuns = sqliteTable('test_runs', {
   gitCommit: text('git_commit'),
   gitBranch: text('git_branch'),
   metadata: text('metadata'),
-  created_at: integer('created_at', { mode: 'timestamp' }).$default(() => new Date()),
+  created_at: integer('created_at', { mode: 'timestamp' }).default(() => Math.floor(Date.now() / 1000)),
 });
 
 export const testCases = sqliteTable('test_cases', {
@@ -62,7 +62,7 @@ export const testResults = sqliteTable('test_results', {
   resilienceClassification: text('resilience_classification'),
   resilienceAction: text('resilience_action'),
   errorMetadata: text('error_metadata'),
-  created_at: integer('created_at', { mode: 'timestamp' }).$default(() => new Date()),
+  created_at: integer('created_at', { mode: 'timestamp' }).default(() => Math.floor(Date.now() / 1000)),
 });
 
 export const errorLogs = sqliteTable('error_logs', {
@@ -215,7 +215,7 @@ export async function getDb() {
   sqliteDb.run(`CREATE INDEX IF NOT EXISTS error_logs_run_idx ON error_logs(run_id);`);
   sqliteDb.run(`CREATE INDEX IF NOT EXISTS error_logs_classification_idx ON error_logs(classification);`);
 
-  dbInstance = drizzle(sqliteDb, { schema: { testRuns, testCases, testResults, errorLogs, improvements } });
+  dbInstance = drizzle(sqliteDb, { schema });
   return dbInstance;
 }
 
@@ -236,5 +236,3 @@ export type TestCase = typeof testCases.$inferSelect;
 export type TestResult = typeof testResults.$inferSelect;
 export type ErrorLog = typeof errorLogs.$inferSelect;
 export type Improvement = typeof improvements.$inferSelect;
-
-export const tables = { testRuns, testCases, testResults, errorLogs, improvements };

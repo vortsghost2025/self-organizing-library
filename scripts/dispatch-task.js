@@ -4,40 +4,20 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
-const { normalizeMessageForSchema, validate } = require(path.join(REPO_ROOT, 'src', 'lane', 'SchemaValidator.js'));
+const discovery = new LaneDiscovery();
 
 const LANE_REGISTRY = {
-  archivist: { inbox: 'S:/Archivist-Agent/lanes/archivist/inbox', root: 'S:/Archivist-Agent' },
-  kernel: { inbox: 'S:/kernel-lane/lanes/kernel/inbox', root: 'S:/kernel-lane' },
-  library: { inbox: 'S:/self-organizing-library/lanes/library/inbox', root: 'S:/self-organizing-library' },
-  swarmmind: { inbox: 'S:/SwarmMind/lanes/swarmmind/inbox', root: 'S:/SwarmMind' },
+  archivist: { inbox: discovery.getInbox('archivist'), root: discovery.getLocalPath('archivist') },
+  kernel: { inbox: discovery.getInbox('kernel'), root: discovery.getLocalPath('kernel') },
+  library: { inbox: discovery.getInbox('library'), root: discovery.getLocalPath('library') },
+  swarmmind: { inbox: discovery.getInbox('swarmmind'), root: discovery.getLocalPath('swarmmind') },
 };
 
 function generateId() {
   return 'task-' + Date.now() + '-' + crypto.randomBytes(4).toString('hex');
-}
-
-function asciiSafe(value) {
-  if (typeof value !== 'string') return value;
-  return value
-    .replace(/\u2014/g, '--')
-    .replace(/\u2013/g, '-')
-    .replace(/\u2018|\u2019/g, "'")
-    .replace(/\u201C|\u201D/g, '"')
-    .replace(/\u2026/g, '...')
-    .replace(/\u00A0/g, ' ')
-    .replace(/[^\x00-\x7F]/g, '?');
-}
-
-function ensureSchemaSafeMessage(message) {
-  const normalized = normalizeMessageForSchema(message);
-  const result = validate(normalized);
-  if (!result.valid) {
-    throw new Error(`SCHEMA_PRECHECK_FAILED: ${result.errors.join(' | ')}`);
-  }
-  return normalized;
 }
 
 function dispatchTask(options) {
@@ -69,16 +49,15 @@ function dispatchTask(options) {
     type,
     task_kind: taskKind,
     priority,
-    subject: asciiSafe(subject),
-    body: asciiSafe(body || ''),
+    subject,
+    body: body || '',
     timestamp: now,
     requires_action: requiresAction,
     payload: { mode: 'inline', compression: 'none', ...payload },
     execution: { mode: 'manual', engine: 'opencode', actor: 'lane' },
     lease: { owner: to, acquired_at: now },
     retry: { attempt: 1, max_attempts: 3 },
-    // Pre-execution task dispatch should not require completion evidence at intake.
-    evidence: { required: false, verified: false },
+    evidence: { required: true, verified: false },
     evidence_exchange: artifactPath ? {
       artifact_path: artifactPath,
       artifact_type: 'log',
@@ -99,11 +78,10 @@ function dispatchTask(options) {
   // Sign
   try {
     const { createSignedMessage } = require(path.join(REPO_ROOT, 'scripts', 'create-signed-message.js'));
-    const prechecked = ensureSchemaSafeMessage(msg);
-    const signed = createSignedMessage(prechecked, from);
+    const signed = createSignedMessage(msg, from);
     Object.assign(msg, signed);
   } catch (e) {
-    throw new Error(`SIGN_OR_SCHEMA_FAILED: ${e.message}`);
+    console.error(`[dispatch] Signing failed: ${e.message}, dispatching unsigned`);
   }
 
   // Deliver

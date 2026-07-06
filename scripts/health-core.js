@@ -14,22 +14,24 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
-const ARCHIVIST_ROOT = 'S:/Archivist-Agent';
-const LIBRARY_ROOT = 'S:/self-organizing-library';
-const SWARMIND_ROOT = 'S:/SwarmMind';
+const discovery = new LaneDiscovery();
+const ARCHIVIST_ROOT = discovery.getLocalPath('archivist');
+const LIBRARY_ROOT = discovery.getLocalPath('library');
+const SWARMIND_ROOT = discovery.getLocalPath('swarmmind');
 
 const checks = [
   // Trust Store
   { 
     category: 'Trust Store',
-  name: 'trust-store.json',
-  path: `${ARCHIVIST_ROOT}/lanes/broadcast/trust-store.json`,
-  required: true,
-  validate: (content) => {
-    const data = JSON.parse(content);
-    return data.keys && data.keys.archivist && data.keys.library && data.keys.swarmmind && data.keys.kernel;
-  }
+    name: 'keys.json',
+    path: `${ARCHIVIST_ROOT}/.trust/keys.json`,
+    required: true,
+    validate: (content) => {
+      const data = JSON.parse(content);
+      return data.keys && data.keys.archivist && data.keys.library && data.keys.swarmmind;
+    }
   },
   
   // System Anchor

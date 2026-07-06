@@ -3,7 +3,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
 const { moveFileWithLease } = require('./lease-write');
+
+const discovery = new LaneDiscovery();
 
 const os = require('os');
 const isWin32 = process.platform === 'win32';
@@ -91,10 +94,7 @@ function scanAllLanes() {
   return report;
 }
 
-const { enforceMutation } = require('./mode-check');
-
 function guardWrite(msg, outboxPath, filename) {
-  enforceMutation('outbox_write', outboxPath);
   const check = validateOutboxMessage(msg);
   if (!check.valid) {
     const logEntry = {

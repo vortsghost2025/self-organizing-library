@@ -18,7 +18,7 @@ export const testRuns = sqliteTable('test_runs', {
   gitCommit: text('git_commit'), // commit hash when test was run
   gitBranch: text('git_branch'),
   metadata: text('metadata'), // JSON string for additional context
-  createdAt: integer('created_at', { mode: 'timestamp' }).$default(() => new Date()),
+  createdAt: integer('created_at', { mode: 'timestamp' }).default(() => new Date().getTime()),
 });
 
 // Test Cases table - definitions of individual tests
@@ -46,7 +46,7 @@ export const testResults = sqliteTable('test_results', {
   resilienceClassification: text('resilience_classification'), // detection, decision, handling, recovery, none
   resilienceAction: text('resilience_action'), // retry, failover, degrade, skip, abort
   errorMetadata: text('error_metadata'), // JSON with error details (type, code, etc.)
-  createdAt: integer('created_at', { mode: 'timestamp' }).$default(() => new Date()),
+  createdAt: integer('created_at', { mode: 'timestamp' }).default(() => new Date().getTime()),
 });
 
 // Errors table - detailed error logs with full context

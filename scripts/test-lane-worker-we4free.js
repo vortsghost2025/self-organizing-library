@@ -285,12 +285,11 @@ test('requires_action=true without proof routes to action-required', (tmpRoot) =
     type: 'task',
     priority: 'P1',
     timestamp: new Date().toISOString(),
-  requires_action: true,
-  subject: 'Actionable task',
-  body: 'No completion proof provided',
-  confidence: 8,
-};
-writeMsg(config.queues.inbox, '2026-01-01_actionnoproof.json', msg);
+    requires_action: true,
+    subject: 'Actionable task',
+    body: 'No completion proof provided',
+  };
+  writeMsg(config.queues.inbox, '2026-01-01_actionnoproof.json', msg);
 
   const summary = worker.processOnce();
   assert.strictEqual(summary.routed.action_required, 1);
@@ -312,10 +311,9 @@ test('fake terminal_decision without artifact routes to blocked', (tmpRoot) => {
     requires_action: true,
     subject: 'Fake completion',
     body: 'Has terminal_decision but no artifact',
-  terminal_decision: 'completed',
-  disposition: 'resolved',
-  confidence: 8,
-};
+    terminal_decision: 'completed',
+    disposition: 'resolved',
+  };
   writeMsg(config.queues.inbox, '2026-01-01_fakeproof.json', msg);
 
   const summary = worker.processOnce();
@@ -342,10 +340,9 @@ test('evidence.required=true without artifact_path routes to blocked', (tmpRoot)
     requires_action: true,
     subject: 'Missing artifact path',
     body: 'evidence.required but no evidence_exchange.artifact_path',
-  evidence: { required: true },
-  terminal_decision: 'done',
-  confidence: 8,
-};
+    evidence: { required: true },
+    terminal_decision: 'done',
+  };
   writeMsg(config.queues.inbox, '2026-01-01_evidencenoartifact.json', msg);
 
   const summary = worker.processOnce();
@@ -366,10 +363,9 @@ test('valid terminal informational routes to processed', (tmpRoot) => {
     priority: 'P3',
     timestamp: new Date().toISOString(),
     requires_action: false,
-  subject: 'Acknowledgment',
-  body: 'Terminal informational message',
-  confidence: 8,
-};
+    subject: 'Acknowledgment',
+    body: 'Terminal informational message',
+  };
   writeMsg(config.queues.inbox, '2026-01-01_terminalack.json', msg);
 
   const summary = worker.processOnce();
@@ -439,12 +435,11 @@ test('signed message missing known default fields -> remediated + processed', (t
     to: 'archivist',
     type: 'ack',
     priority: 'P2',
-  requires_action: false,
-  subject: 'Remediation path',
-  body: 'Missing known defaults only',
-  confidence: 8,
-};
-writeMsg(config.queues.inbox, '2026-01-01_signed_remediate_known.json', msg);
+    requires_action: false,
+    subject: 'Remediation path',
+    body: 'Missing known defaults only',
+  };
+  writeMsg(config.queues.inbox, '2026-01-01_signed_remediate_known.json', msg);
 
   const summary = worker.processOnce();
   assert.strictEqual(summary.routed.processed, 1, 'Remediated signed message should process');
@@ -540,10 +535,9 @@ test('remediated message includes schema_remediation audit metadata', (tmpRoot) 
     type: 'ack',
     priority: 'P2',
     requires_action: false,
-  subject: 'Audit metadata',
-  body: 'Expect schema_remediation in metadata',
-  confidence: 8,
-};
+    subject: 'Audit metadata',
+    body: 'Expect schema_remediation in metadata',
+  };
   writeMsg(config.queues.inbox, '2026-01-01_signed_remediation_audit.json', msg);
 
   worker.processOnce();

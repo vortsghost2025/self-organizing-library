@@ -9,7 +9,7 @@ export function classifyError(error: {
   code?: string;
   category?: string;
 }): {
-  classification: 'detection' | 'decision' | 'handling' | 'recovery' | 'system' | 'unknown' | 'observability';
+  classification: 'detection' | 'decision' | 'handling' | 'recovery' | 'system' | 'unknown';
   action: 'retry' | 'failover' | 'degrade' | 'skip' | 'abort' | 'none';
   description: string;
 } {

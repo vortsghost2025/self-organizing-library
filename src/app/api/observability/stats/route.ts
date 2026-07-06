@@ -4,7 +4,7 @@ import path from 'path';
 
 const EVIDENCE_DIR = path.join(process.cwd(), 'evidence', 'observability', 'runs');
 
-function getDaysAgo(date: string, days: number) {
+function getDaysAgo(date, days) {
   const d = new Date(date);
   d.setDate(d.getDate() - days);
   return d.toISOString();

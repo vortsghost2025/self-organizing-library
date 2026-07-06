@@ -2,23 +2,17 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const { LaneDiscovery } = require('./util/lane-discovery');
+const discovery = new LaneDiscovery();
 
 const LANES = [
-  { name: 'archivist', dir: 'S:/Archivist-Agent' },
-  { name: 'kernel', dir: 'S:/kernel-lane' },
-  { name: 'library', dir: 'S:/self-organizing-library' },
-  { name: 'swarmmind', dir: 'S:/SwarmMind' }
+  { name: 'archivist', dir: discovery.getLocalPath('archivist') },
+  { name: 'kernel', dir: discovery.getLocalPath('kernel') },
+  { name: 'library', dir: discovery.getLocalPath('library') },
+  { name: 'swarmmind', dir: discovery.getLocalPath('swarmmind') }
 ];
 
-const SUBDIRS_TO_REMOVE = [
-  'processed', 'expired', 'quarantine', 'invalid-schema',
-  'pending', 'duplicates', 'unsigned', 'unsigned-archive',
-  'blocked',           // NFM-020: nack-nack cascade accumulates here
-  'archive',           // NFM-020: summary broadcast spam accumulates here
-  'stale-foreign',     // NFM-020: stale-foreign cleanup
-];
-
-const ARCHIVE_SUFFIX = '.bak';  // NFM-020: handle renamed .bak files
+const SUBDIRS_TO_REMOVE = ['processed', 'expired', 'quarantine', 'invalid-schema', 'pending', 'duplicates', 'unsigned', 'unsigned-archive'];
 
 for (const lane of LANES) {
   for (const box of ['inbox', 'outbox']) {
@@ -33,10 +27,8 @@ for (const lane of LANES) {
       }
     }
 
-    // Remove .json files AND .bak-* files from inbox/outbox root
-    const rootFiles = fs.readdirSync(boxDir).filter(f => {
-      return f.endsWith('.json') || f.includes(ARCHIVE_SUFFIX);
-    });
+    // Remove all .json files from inbox/outbox root
+    const rootFiles = fs.readdirSync(boxDir).filter(f => f.endsWith('.json'));
     for (const f of rootFiles) {
       fs.unlinkSync(path.join(boxDir, f));
     }

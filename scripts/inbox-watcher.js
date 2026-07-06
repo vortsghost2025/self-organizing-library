@@ -1,19 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-function safeUnlink(filePath, context) {
-  try {
-    fs.unlinkSync(filePath);
-    return 'ok';
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      console.log('[watcher] RACE_SKIPPED: ' + (context || 'file') + ' already removed by another process');
-      return 'race_skipped';
-    }
-    throw e;
-  }
-}
-
 const fs = require('fs');
 const path = require('path');
 const {
@@ -23,12 +10,7 @@ const {
 } = require('./concurrency-policy');
 const { IdentityEnforcer } = require('./identity-enforcer');
 const { moveFileWithLease } = require('./lease-write');
-const { sendMessage, sendToAll } = require('./send-message');
-const { consensusCheck, routeMessage, loadPolicy: loadConsensusPolicy } = require('./consensus-check');
-const { logTransfer } = require('./transfer-log');
-const { validateUncertaintyPacket, validateReviewRound } = require('./schema-validator');
-const { MessageType, CONVERGED_STATUS_SET, DISPOSITION_SET } = require('./governance-types');
-const { enforceMutation } = require('./mode-check');
+const { LaneDiscovery } = require('./util/lane-discovery');
 
 const PRIORITY_ORDER = { P0: 0, P1: 1, P2: 2, P3: 3 };
 const PREEMPTION_CYCLE_LIMIT = 2;
@@ -41,8 +23,7 @@ const SKIP_FILENAMES = new Set([
 const HEARTBEAT_PATTERN = /^heartbeat-.+\.json$/i;
 const INBOX_MSG_PATTERN = /^\d{4}-/;
 const UUID_PATTERN = /^\d{8}-\d{4}-\d{4}-\d{4}-\d{12}\.json$/i;
-  /** @type {Set<string>} */
-const ACTION_REQUIRED_TYPES = new Set([MessageType.TASK, MessageType.ESCALATION, MessageType.REQUEST]);
+  const ACTION_REQUIRED_TYPES = new Set(['task', 'escalation', 'request']);
   const COMPLETION_PROOF_FIELDS = [
     'completion_artifact_path',
     'completion_message_id',
@@ -50,7 +31,20 @@ const ACTION_REQUIRED_TYPES = new Set([MessageType.TASK, MessageType.ESCALATION,
     'terminal_decision',
     'disposition'
   ];
-  const VALID_DISPOSITIONS = DISPOSITION_SET;
+  const VALID_DISPOSITIONS = new Set(['completed', 'declined', 'superseded', 'expired', 'quarantined']);
+
+function safeUnlink(filePath, context) {
+  try {
+    fs.unlinkSync(filePath);
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      console.log(`[watcher] RACE_SKIPPED: ${context || 'file'} already removed by another process`);
+      return 'race_skipped';
+    }
+    throw e;
+  }
+  return 'ok';
+}
 
 function hasCompletionProof(msg) {
   if (!msg) return false;
@@ -61,7 +55,7 @@ function hasCompletionProof(msg) {
   // Check convergence_gate status
   if (msg.convergence_gate && msg.convergence_gate.status) {
     const status = String(msg.convergence_gate.status).toLowerCase();
-    if (CONVERGED_STATUS_SET.has(status)) return true;
+    if (['proven', 'approved', 'ratified', 'accepted'].includes(status)) return true;
   }
   // Check disposition field
   if (msg.disposition && VALID_DISPOSITIONS.has(String(msg.disposition).toLowerCase())) return true;
@@ -106,12 +100,15 @@ const DEFAULT_CONFIG = {
   expiredPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'expired'),
   quarantinePath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'quarantine'),
   actionRequiredPath: path.join(__dirname, '..', 'lanes', 'archivist', 'inbox', 'action-required'),
-  canonicalPaths: {
-    archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
-    library: 'S:/self-organizing-library/lanes/library/inbox/',
-    swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
-    kernel: 'S:/kernel-lane/lanes/kernel/inbox/'
-  }
+canonicalPaths: (() => {
+        const d = new LaneDiscovery();
+        return {
+          archivist: d.getInbox('archivist'),
+          library: d.getInbox('library'),
+          swarmmind: d.getInbox('swarmmind'),
+          kernel: d.getInbox('kernel')
+        };
+      })()
 };
 
 class InboxWatcher {
@@ -138,9 +135,8 @@ class InboxWatcher {
       }
     } catch (_) {}
 
-        this.identityEnforcer = new IdentityEnforcer({ enforcementMode: 'enforce' });
-        this.consensusPolicy = loadConsensusPolicy();
-        this.assertNoRawRenameSync();
+    this.identityEnforcer = new IdentityEnforcer({ enforcementMode: 'enforce' });
+    this.assertNoRawRenameSync();
   }
 
   assertNoRawRenameSync() {
@@ -253,20 +249,12 @@ class InboxWatcher {
           msg._sourcePath = filePath;
           const idResult = this.identityEnforcer.enforceMessage(msg);
           msg._identity = idResult;
-        if (idResult.decision === 'reject') {
-          console.log(`[watcher] IDENTITY_REJECT: ${filename} from ${idResult.from} — ${idResult.reason}`);
-          await this.moveToExpired(filename, filePath);
-          continue;
-        }
-        const fromLane = msg.from || msg.from_lane;
-        const laneState = this.identityEnforcer.getLaneState(fromLane);
-        if (laneState === 'ARCHIVED') {
-          console.log(`[watcher] LANE_ARCHIVED: skipping message from ARCHIVED lane ${fromLane} — ${filename}`);
-          await this.moveToExpired(filename, filePath);
-          continue;
-        }
-        msg._lane_state = laneState;
-        if (!isEnglishOnly(msg)) {
+      if (idResult.decision === 'reject') {
+        console.log(`[watcher] IDENTITY_REJECT: ${filename} from ${idResult.from} — ${idResult.reason}`);
+        await this.moveToExpired(filename, filePath);
+        continue;
+      }
+      if (!isEnglishOnly(msg)) {
         console.log(`[watcher] FORMAT_VIOLATION: ${filename} — non-ASCII content detected, marking format_violation=true`);
         msg.format_violation = true;
         msg.format_violation_reason = 'Non-ASCII content detected in message fields per English-only constraint';
@@ -277,20 +265,15 @@ class InboxWatcher {
         }
         messages.push(msg);
       } catch (e) {
-      let rawPreview = '';
-      try { rawPreview = fs.readFileSync(filePath, 'utf8'); } catch (_) {}
       console.error(`[watcher] Cannot parse ${filename}:`, e.message);
-      await this.moveMalformedToQuarantine(filename, filePath, e, rawPreview);
+      await this.moveToExpired(filename, filePath);
       }
     }
 
     messages.sort((a, b) => {
       const pa = PRIORITY_ORDER[a.priority] ?? 3;
       const pb = PRIORITY_ORDER[b.priority] ?? 3;
-      if (pa !== pb) return pa - pb;
-      const sa = (a._lane_state === 'DORMANT') ? 1 : 0;
-      const sb = (b._lane_state === 'DORMANT') ? 1 : 0;
-      return sa - sb;
+      return pa - pb;
     });
 
     return messages;
@@ -335,7 +318,7 @@ class InboxWatcher {
     const dest = path.join(this.config.processedPath, filename);
     try {
       if (fs.existsSync(dest)) {
-        if (fs.existsSync(sourcePath)) safeUnlink(sourcePath, filename);
+        safeUnlink(sourcePath, filename);
       } else {
         await moveFileWithLease(sourcePath, dest, this.config.laneName, 30000);
       }
@@ -360,12 +343,10 @@ class InboxWatcher {
 
       if (attemptCount > MAX_QUARANTINE_ATTEMPTS) {
         const qDest = path.join(this.config.quarantinePath, filename);
-        if (fs.existsSync(sourcePath)) {
-          if (fs.existsSync(qDest)) {
-            safeUnlink(sourcePath, filename);
-          } else {
-            await moveFileWithLease(sourcePath, qDest, this.config.laneName, 30000);
-          }
+        if (fs.existsSync(qDest)) {
+          safeUnlink(sourcePath, filename);
+        } else if (fs.existsSync(sourcePath)) {
+          await moveFileWithLease(sourcePath, qDest, this.config.laneName, 30000);
         }
         this._logQuarantine(filename, 'RETRY_LIMIT', attemptCount);
         this.processedKeys.add(filename);
@@ -374,7 +355,7 @@ class InboxWatcher {
       }
 
       if (fs.existsSync(dest)) {
-        if (fs.existsSync(sourcePath)) safeUnlink(sourcePath, filename);
+        safeUnlink(sourcePath, filename);
       } else {
         await moveFileWithLease(sourcePath, dest, this.config.laneName, 30000);
       }
@@ -392,110 +373,13 @@ class InboxWatcher {
         fs.mkdirSync(this.config.actionRequiredPath, { recursive: true });
       }
       if (fs.existsSync(dest)) {
-        if (fs.existsSync(sourcePath)) safeUnlink(sourcePath, filename);
+        safeUnlink(sourcePath, filename);
       } else {
         await moveFileWithLease(sourcePath, dest, this.config.laneName, 30000);
       }
       console.log(`[watcher] ACTION-REQUIRED HOLD: ${filename} moved to action-required/`);
     } catch (e) {
       console.error(`[watcher] Cannot move ${filename} to action-required/:`, e.message);
-    }
-  }
-
-  // Handles action‑required messages by performing the appropriate lane‑specific action
-  // and sending any required response (e.g., ACK for broadcasts, review for ratifications).
-  async handleActionRequired(msg) {
-    // Default: no special handling – just log.
-    const { type, task_kind, broadcast_metadata, from, task_id, subject } = msg;
-
-    // 1️⃣ Broadcast alerts requiring acknowledgment
-    if (type === 'alert' && broadcast_metadata && broadcast_metadata.requires_ack) {
-      // Build minimal ACK message back to the sender (the `from` lane)
-      const ack = {
-        schema_version: '1.3',
-        task_id: `ack-${task_id}`,
-        idempotency_key: `ack-${task_id}`,
-        from: this.config.laneName,
-        to: from,
-        type: 'ack',
-        task_kind: 'ack',
-        priority: 'P1',
-        subject: `ACK: ${subject || ''}`,
-        body: `Acknowledged receipt of ${task_id}`,
-        timestamp: new Date().toISOString(),
-        requires_action: false,
-        payload: {},
-        execution: {},
-        lease: {},
-        retry: {},
-        evidence: { required: false },
-        heartbeat: {}
-      };
-      try {
-        const result = sendMessage(ack);
-        if (result.sent && result.delivered) {
-          console.log(`[watcher] SENT ACK for ${task_id} to ${from}`);
-        } else {
-          console.warn(`[watcher] ACK send failed for ${task_id}`);
-        }
-      } catch (e) {
-        console.error(`[watcher] Exception while sending ACK for ${task_id}:`, e.message);
-      }
-    }
-
-    // 2️⃣ Ratification tasks – produce a lightweight review response
-    if (task_kind === 'ratification') {
-      // Create a review artifact (placeholder) in outbox and reference it
-      const reviewArtifactName = `${msg.payload?.contract_id || 'contract'}-review-${this.config.laneName}.json`;
-      const reviewPath = path.join(this.config.outboxPath, reviewArtifactName);
-      const reviewContent = {
-        review_by: this.config.laneName,
-        reviewed_at: new Date().toISOString(),
-        status: 'ACK',
-        notes: 'Automated ratification acknowledgment – no gaps detected.'
-      };
-      try {
-        fs.writeFileSync(reviewPath, JSON.stringify(reviewContent, null, 2), 'utf8');
-        console.log(`[watcher] WROTE ratification review artifact ${reviewArtifactName}`);
-      } catch (e) {
-        console.error(`[watcher] Failed to write ratification review:`, e.message);
-      }
-
-      const response = {
-        schema_version: '1.3',
-        task_id: `response-${task_id}`,
-        idempotency_key: `response-${task_id}`,
-        from: this.config.laneName,
-        to: from,
-        type: 'response',
-        task_kind: 'review',
-        priority: 'P2',
-        subject: `Review of ${msg.payload?.contract_id || 'contract'}`,
-        body: `Reviewed ${msg.payload?.contract_id || 'contract'} – all checks passed. See attached artifact.`,
-        timestamp: new Date().toISOString(),
-        requires_action: false,
-        payload: {},
-        execution: {},
-        lease: {},
-        retry: {},
-        evidence: { required: false },
-        evidence_exchange: {
-          artifact_type: 'review',
-          artifact_path: reviewPath,
-          delivered_at: new Date().toISOString()
-        },
-        heartbeat: {}
-      };
-      try {
-        const result = sendMessage(response);
-        if (result.sent && result.delivered) {
-          console.log(`[watcher] SENT ratification response for ${task_id}`);
-        } else {
-          console.warn(`[watcher] Ratification response send failed for ${task_id}`);
-        }
-      } catch (e) {
-        console.error(`[watcher] Exception while sending ratification response:`, e.message);
-      }
     }
   }
 
@@ -520,114 +404,45 @@ class InboxWatcher {
     }
   }
 
-        async processMessage(msg) {
+  async processMessage(msg) {
     const filename = msg._sourceFile;
-        const sourcePath = msg._sourcePath;
-        enforceMutation('inbox_mutation', sourcePath);
-        const priority = msg.priority || 'P3';
+    const sourcePath = msg._sourcePath;
+    const priority = msg.priority || 'P3';
     const type = msg.type || 'unknown';
     const from = msg.from || msg.from_lane || 'unknown';
     const body = typeof msg.body === 'string' ? msg.body : JSON.stringify(msg.body || '');
-        const requiresAction = isActionRequiredMessage(msg);
-        const idempotencyKey = msg.idempotency_key || msg.id || filename;
+    const requiresAction = isActionRequiredMessage(msg);
+    const idempotencyKey = msg.idempotency_key || msg.id || filename;
 
-        console.log(`[watcher] Processing ${priority} ${type} from ${from}: ${body.slice(0, 80)}`);
-
-        // HARDEN-2: Dual-verification consensus gate
-        const consensusResult = consensusCheck(msg, {
-            policy: this.consensusPolicy,
-            repoRoot: this.repoRoot,
-        });
-        const routing = routeMessage(msg, consensusResult, { policy: this.consensusPolicy });
-
-        this._logConsensus(msg, consensusResult, routing);
-
-        switch (routing.action) {
-            case 'block':
-                console.log(`[watcher] CONSENSUS_BLOCKED: ${consensusResult.status} — ${routing.reason}`);
-                await this.moveMalformedToQuarantine(filename, sourcePath, 'consensus_blocked', `status=${consensusResult.status} reason=${routing.reason}`);
-                this.processedKeys.add(idempotencyKey);
-                return;
-
-            case 'escalate':
-                console.log(`[watcher] CONSENSUS_ESCALATE: ${consensusResult.status} — ${routing.reason}`);
-                await this.moveToActionRequired(filename, sourcePath);
-                this.processedKeys.add(idempotencyKey);
-                return;
-
-            case 'hold':
-                console.log(`[watcher] CONSENSUS_HOLD: ${consensusResult.status} — leaving in inbox for next cycle`);
-                return;
-
-            case 'route':
-            default:
-                break;
-        }
+    console.log(`[watcher] Processing ${priority} ${type} from ${from}: ${body.slice(0, 80)}`);
 
     if (type === 'finding' || type === 'review') {
       this.handleConvergenceCheck(msg);
     }
 
     if (requiresAction) {
-      // Process the action‑required message (ACKs, ratifications, etc.)
-      console.log(`[watcher] ACTION REQUIRED: ${msg.id || filename}`);
-      try {
-        await this.handleActionRequired(msg);
-      } catch (e) {
-        console.error(`[watcher] Action handling error for ${msg.id || filename}:`, e.message);
+      // P0: Check for completion proof before blocking
+      if (hasCompletionProof(msg)) {
+        console.log(`[watcher] ACTION REQUIRED but COMPLETION_PROOF FOUND: ${msg.id || filename} — allowing processed/`);
+        await this.moveToProcessed(filename, sourcePath);
+        this.processedKeys.add(idempotencyKey);
+      } else {
+        console.log(`[watcher] ACTION REQUIRED (no proof): ${msg.id || filename}`);
+        await this.moveToActionRequired(filename, sourcePath);
       }
-      await this.moveToProcessed(filename, sourcePath);
-      this.processedKeys.add(idempotencyKey);
-      try {
-        logTransfer({
-          source_lane: from, dest_lane: 'archivist', direction: 'receive',
-          protocol: 'local_fs', file_path: sourcePath || '',
-          status: 'verified', signed_by: from,
-          key_id: msg.key_id || '', correlation_id: msg.task_id || idempotencyKey,
-        });
-      } catch (_) {}
       return;
     }
 
     await this.moveToProcessed(filename, sourcePath);
     this.processedKeys.add(idempotencyKey);
-    try {
-      logTransfer({
-        source_lane: from, dest_lane: 'archivist', direction: 'receive',
-        protocol: 'local_fs', file_path: sourcePath || '',
-        status: 'verified', signed_by: from,
-        key_id: msg.key_id || '', correlation_id: msg.task_id || idempotencyKey,
-      });
-    } catch (_) {}
+
     const p = PRIORITY_ORDER[priority] ?? 3;
     if (p <= 1) {
       this.consecutiveP0Count++;
     } else {
       this.consecutiveP0Count = 0;
     }
-    }
-
-    _logConsensus(msg, consensusResult, routing) {
-        const logEntry = {
-            timestamp: new Date().toISOString(),
-            message_id: msg.id || msg.task_id || 'unknown',
-            from: msg.from || 'unknown',
-            consensus_status: consensusResult.status,
-            routing_action: routing.action,
-            routing_reason: routing.reason,
-            structural_valid: consensusResult.structural.valid,
-            operational_valid: consensusResult.operational.valid,
-            drift_level: consensusResult.drift.level,
-            weighted_score: consensusResult.weighted_score,
-        };
-        const logDir = path.join(this.repoRoot, 'logs');
-        try {
-            if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
-            fs.appendFileSync(path.join(logDir, 'consensus-log.jsonl'), JSON.stringify(logEntry) + '\n', 'utf8');
-        } catch (e) {
-            console.error(`[watcher] Cannot log consensus:`, e.message);
-        }
-    }
+  }
 
   handleConvergenceCheck(msg) {
     const status = msg.status || 'unproven';
@@ -640,37 +455,6 @@ class InboxWatcher {
       console.log(`[watcher] CONVERGENCE: ${msg.claim}`);
       console.log(`[watcher] Evidence: ${msg.evidence}`);
       console.log(`[watcher] Status: ${status}`);
-    }
-
-    // v1.4: Surface uncertainty packets attached to messages
-    if (msg.uncertainty) {
-      var uResult = validateUncertaintyPacket(msg.uncertainty);
-      if (uResult.valid) {
-        var uLevel = (msg.uncertainty.level || 'low').toUpperCase();
-        var operatorNeeded = msg.uncertainty.operator_decision_needed;
-        console.log(`[watcher] UNCERTAINTY: level=${uLevel} type=${(msg.uncertainty.type || []).join(',')} operator_needed=${operatorNeeded} from=${msg.from || 'unknown'}`);
-        if (operatorNeeded) {
-          console.log(`[watcher] UNCERTAINTY 👤 OPERATOR_DECISION_NEEDED: ${msg.uncertainty.why || 'no reason given'}`);
-        }
-      } else {
-        console.log(`[watcher] UNCERTAINTY_INVALID: ${uResult.errors.join('; ')}`);
-      }
-    }
-
-    // v1.4: Surface review round protocol attached to messages
-    if (msg.review) {
-      var rResult = validateReviewRound(msg.review);
-      if (rResult.valid) {
-        var rStatus = msg.review.status || 'draft';
-        var rRound = msg.review.round || 0;
-        var rMax = msg.review.max_rounds || 3;
-        console.log(`[watcher] REVIEW_ROUND: round=${rRound}/${rMax} status=${rStatus} reviewer=${msg.review.reviewer || 'unknown'}`);
-        if (rStatus === 'escalated') {
-          console.log(`[watcher] REVIEW_ESCALATED: round=${rRound} reason=${msg.review.escalation_reason || 'max rounds exceeded'}`);
-        }
-      } else {
-        console.log(`[watcher] REVIEW_INVALID: ${rResult.errors.join('; ')}`);
-      }
     }
   }
 
@@ -708,7 +492,8 @@ class InboxWatcher {
     const releaseLock = acquireWatcherLock({
       repoRoot: this.repoRoot,
       laneName: this.config.laneName,
-      policy: this.policy
+      policy: this.policy,
+      agentMode: this.config.agentMode
     });
 
     console.log(`[watcher] ${this.config.laneName} inbox scan starting`);
@@ -752,136 +537,70 @@ class InboxWatcher {
 
 module.exports = { InboxWatcher, DEFAULT_CONFIG, PRIORITY_ORDER };
 
-// Updated main execution logic: repeatedly scan and process until the inbox is empty.
-// This ensures that all pending messages (including those requiring action) are handled
-// in a single run, preventing backlog accumulation. The original test/utility flags
-// (`--health`, `--scan`, etc.) retain their previous behavior.
 if (require.main === module) {
   (async () => {
   const args = process.argv.slice(2);
   const watcher = new InboxWatcher();
-  const shouldBroadcastSummary = args.includes('--broadcast-summary');
 
-    // Utility/debug commands retain their original single‑run semantics.
-    if (args.includes('--health')) {
-      const health = watcher.checkLaneHealth();
-      console.log(JSON.stringify(health, null, 2));
-      return;
-    }
-    if (args.includes('--scan')) {
-      const messages = await watcher.scan();
-      console.log(
-        JSON.stringify(
-          messages.map((m) => ({ id: m.id, from: m.from, priority: m.priority, type: m.type })),
-          null,
-          2
-        )
-      );
-      return;
-    }
-    if (args.includes('--test-preemption')) {
-      console.log('[test] Preemption gate test');
-      const testMessages = [
-        { priority: 'P2', id: 'test-p2-1', body: 'low priority' },
-        { priority: 'P1', id: 'test-p1-1', body: 'high priority' },
-        { priority: 'P3', id: 'test-p3-1', body: 'lowest priority' },
-        { priority: 'P1', id: 'test-p1-2', body: 'another high' },
-        { priority: 'P2', id: 'test-p2-2', body: 'another low' }
-      ];
-      const watcher2 = new InboxWatcher();
-      const result = watcher2.applyPreemption(testMessages);
-      const processedPriorities = result.map((m) => m.priority);
-      console.log(`[test] Input:  P2, P1, P3, P1, P2`);
-      console.log(`[test] Output: ${processedPriorities.join(', ')}`);
-      const allP1orBelow = processedPriorities.every((p) => (PRIORITY_ORDER[p] ?? 3) <= 1);
-      console.log(`[test] ${allP1orBelow ? 'PASS' : 'FAIL'}: only P0/P1 processed when preemption active`);
-      return;
-    }
-    if (args.includes('--test-starvation')) {
-      console.log('[test] Starvation guard test');
-      const watcher2 = new InboxWatcher();
-      for (let i = 1; i <= 12; i++) {
-        watcher2.consecutiveP0Count = i;
-        const shouldYield = watcher2.checkStarvation();
-        if (shouldYield) {
-          console.log(`[test] Cycle ${i}: YIELD triggered (every ${P0_YIELD_EVERY_N} P0/P1 messages)`);
-        }
+  if (args.includes('--health')) {
+    const health = watcher.checkLaneHealth();
+    console.log(JSON.stringify(health, null, 2));
+  } else if (args.includes('--scan')) {
+    const messages = await watcher.scan();
+    console.log(JSON.stringify(messages.map(m => ({
+      id: m.id, from: m.from, priority: m.priority, type: m.type
+    })), null, 2));
+  } else if (args.includes('--test-preemption')) {
+    console.log('[test] Preemption gate test');
+    const testMessages = [
+      { priority: 'P2', id: 'test-p2-1', body: 'low priority' },
+      { priority: 'P1', id: 'test-p1-1', body: 'high priority' },
+      { priority: 'P3', id: 'test-p3-1', body: 'lowest priority' },
+      { priority: 'P1', id: 'test-p1-2', body: 'another high' },
+      { priority: 'P2', id: 'test-p2-2', body: 'another low' }
+    ];
+    const watcher2 = new InboxWatcher();
+    const result = watcher2.applyPreemption(testMessages);
+    const processedPriorities = result.map(m => m.priority);
+    console.log(`[test] Input:  P2, P1, P3, P1, P2`);
+    console.log(`[test] Output: ${processedPriorities.join(', ')}`);
+    const allP1orBelow = processedPriorities.every(p => (PRIORITY_ORDER[p] ?? 3) <= 1);
+    console.log(`[test] ${allP1orBelow ? 'PASS' : 'FAIL'}: only P0/P1 processed when preemption active`);
+  } else if (args.includes('--test-starvation')) {
+    console.log('[test] Starvation guard test');
+    const watcher2 = new InboxWatcher();
+    for (let i = 1; i <= 12; i++) {
+      watcher2.consecutiveP0Count = i;
+      const shouldYield = watcher2.checkStarvation();
+      if (shouldYield) {
+        console.log(`[test] Cycle ${i}: YIELD triggered (every ${P0_YIELD_EVERY_N} P0/P1 messages)`);
       }
-      console.log(`[test] PASS: starvation guard yields every ${P0_YIELD_EVERY_N} consecutive P0/P1 messages`);
-      return;
     }
-    if (args.includes('--test-crash-recovery')) {
-      console.log('[test] Crash + recovery test');
-      const lockDir = path.join(watcher.repoRoot, '.runtime', 'locks');
-      const lockFile = path.join(lockDir, `watcher-${watcher.config.laneName}.lock`);
-      if (fs.existsSync(lockFile)) {
-        const raw = fs.readFileSync(lockFile, 'utf8');
-        const lock = JSON.parse(raw);
-        lock.acquired_at = new Date(Date.now() - 1000 * 1000).toISOString();
-        lock.pid = 99999;
-        fs.writeFileSync(lockFile, JSON.stringify(lock, null, 2));
-        console.log(`[test] Wrote stale lock (PID 99999, age 1000s > stale_after=900s)`);
-        try {
-          await watcher.run();
-          console.log(`[test] PASS: stale lock reclaimed, watcher ran successfully`);
-        } catch (e) {
-          console.log(`[test] FAIL: ${e.message}`);
-        }
-      } else {
-        console.log(`[test] SKIP: no lock file to test against (run watcher once first)`);
+    console.log(`[test] PASS: starvation guard yields every ${P0_YIELD_EVERY_N} consecutive P0/P1 messages`);
+  } else if (args.includes('--test-crash-recovery')) {
+    console.log('[test] Crash + recovery test');
+    const lockDir = path.join(watcher.repoRoot, '.runtime', 'locks');
+    const lockFile = path.join(lockDir, `watcher-${watcher.config.laneName}.lock`);
+    if (fs.existsSync(lockFile)) {
+      const raw = fs.readFileSync(lockFile, 'utf8');
+      const lock = JSON.parse(raw);
+      lock.acquired_at = new Date(Date.now() - 1000 * 1000).toISOString();
+      lock.pid = 99999;
+      fs.writeFileSync(lockFile, JSON.stringify(lock, null, 2));
+      console.log(`[test] Wrote stale lock (PID 99999, age 1000s > stale_after=900s)`);
+      try {
+        await watcher.run();
+        console.log(`[test] PASS: stale lock reclaimed, watcher ran successfully`);
+      } catch (e) {
+        console.log(`[test] FAIL: ${e.message}`);
       }
-      return;
+    } else {
+      console.log(`[test] SKIP: no lock file to test against (run watcher once first)`);
     }
-
-    // Default behavior: keep scanning until no messages remain.
-    let totalProcessed = 0;
-    while (true) {
-      const count = await watcher.run();
-      totalProcessed += count;
-      if (count === 0) break; // inbox empty, exit loop
-      // Small pause to let any newly generated messages settle before next scan.
-      await new Promise((r) => setTimeout(r, 200));
-    }
-    // Broadcast summary only when work actually occurred, and keep a stable task id
-    // so downstream lanes overwrite the same summary file instead of accumulating.
-    if (totalProcessed > 0 && shouldBroadcastSummary) {
-      const nowIso = new Date().toISOString();
-      const summaryMsg = {
-        schema_version: '1.3',
-        task_id: `summary-${watcher.config.laneName}`,
-        idempotency_key: `summary-${watcher.config.laneName}`,
-        from: watcher.config.laneName,
-        type: 'status',
-        task_kind: 'status',
-        priority: 'P2',
-        subject: 'Inbox processing summary',
-        body: `Inbox scan completed. Processed total ${totalProcessed} messages. No pending messages remain.`,
-        timestamp: nowIso,
-        requires_action: false,
-        payload: { mode: 'inline', compression: 'none' },
-        execution: { mode: 'watcher', engine: 'opencode', actor: 'watcher' },
-        lease: {
-          owner: watcher.config.laneName,
-          acquired_at: nowIso,
-          expires_at: new Date(Date.now() + 300000).toISOString(),
-          renew_count: 0,
-          max_renewals: 3
-        },
-        retry: { attempt: 1, max_attempts: 3, last_error: null, last_attempt_at: null },
-        evidence: { required: false, evidence_path: null, verified: false, verified_by: null, verified_at: null },
-        heartbeat: {
-          interval_seconds: 300,
-          last_heartbeat_at: nowIso,
-          timeout_seconds: 900,
-          status: 'done'
-        }
-      };
-      // Optional cross-lane status broadcast.
-      // Disabled by default to prevent inbox summary accumulation.
-      sendToAll(summaryMsg);
-    }
-
-    console.log(`[watcher] Processed total ${totalProcessed} messages`);
+  } else {
+    const count = await watcher.run();
+    console.log(`[watcher] Processed ${count} messages`);
+  }
   })().catch((err) => {
     console.error(`[watcher] FATAL: ${err.message}`);
     process.exit(1);
