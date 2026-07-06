@@ -218,12 +218,48 @@ function InternalPaperCard({
 }
 
 export default async function PapersPage() {
-  const internalPapers = getEntries({ contentType: "doc", limit: 200 }).filter(
-    (e) =>
+  let internalPapers = getEntries({ limit: 1000 }).filter((e) => {
+    const path = e.path.toLowerCase();
+    const title = (e.title || "").toLowerCase();
+    return (
       e.category === "paper" ||
-      e.path.toLowerCase().includes("paper") ||
-      e.path.toLowerCase().includes("rosetta")
-  );
+      e.content_type === "paper" ||
+      path.includes("paper") ||
+      path.includes("rosetta") ||
+      path.includes("caisc") ||
+      path.includes("book-6") ||
+      title.includes("paper f")
+    );
+  }).filter((e) => {
+    const path = e.path;
+    return (
+      !path.startsWith("src/app/papers/") &&
+      !path.includes("scripts/extract-paper-structure") &&
+      !path.includes("docs/graph/snapshots/") &&
+      !path.includes("docs/archive/quarantine-pre-convergence/") &&
+      !path.includes("compare-papers") &&
+      !path.includes("snapshot-papers") &&
+      !path.includes("contradiction-hub-papers")
+    );
+  });
+
+  const seen = new Set<string>();
+  internalPapers = internalPapers.filter((e) => {
+    const key = e.path;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  internalPapers.sort((a, b) => {
+    const titleA = (a.title || "").toLowerCase();
+    const titleB = (b.title || "").toLowerCase();
+    const aIsPriority = titleA.includes("paper f") || titleA.includes("caisc");
+    const bIsPriority = titleB.includes("paper f") || titleB.includes("caisc");
+    if (aIsPriority && !bIsPriority) return -1;
+    if (!aIsPriority && bIsPriority) return 1;
+    return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+  });
 
   return (
     <div className="p-8 max-w-5xl">
@@ -259,7 +295,7 @@ export default async function PapersPage() {
         ))}
         {internalPapers.length > 0 && (
           <a
-            href="#section-rosetta-stone-papers"
+            href="#section-internal-research-library"
             className="inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border border-[var(--border)] hover:border-[var(--primary)] transition-colors text-[var(--primary)]"
           >
             <span className="w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold bg-[var(--primary)] text-white">
@@ -273,21 +309,20 @@ export default async function PapersPage() {
       {internalPapers.length > 0 && (
         <section
           className="mb-12"
-          aria-labelledby="section-rosetta-stone-papers"
+          aria-labelledby="section-internal-research-library"
         >
           <div className="mb-4">
             <h2
-              id="section-rosetta-stone-papers"
+              id="section-internal-research-library"
               className="text-xl font-semibold text-[var(--text-primary)] mb-1"
             >
-              Rosetta Stone Papers
+              Internal Research Library
               <span className="ml-2 text-sm font-normal text-[var(--primary)]">
                 ({internalPapers.length})
               </span>
             </h2>
             <p className="text-sm text-[var(--text-secondary)] max-w-[65ch]">
-              Internal papers indexed from the site library — Rosetta Stone
-              series and foundational research
+              Internal papers indexed from the site library — Papers A–F, CAISC material, Rosetta Stone / WE4FREE research, and supporting theory documents.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-4">
