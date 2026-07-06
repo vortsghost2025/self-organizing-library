@@ -347,7 +347,10 @@ Together, they form a complete constraint on the theory's applicability:
 | Enforcement (Paper F) | Within a process | "Enforcement ensures compliance" |
 | Observability (Paper F) | Between lanes | "System state is knowable" |
 | Autonomy (Paper F) | Between lanes | "One lane can fix another" |
-| Autonomy - delegation (Paper F) | Delegation boundary | "A subagent's read scope is scoped to its dispatching lane" |
+| &nbsp;&nbsp;&nbsp;&nbsp;AL-1: Identity regeneration | Between lanes | "One lane can regenerate another's identity" |
+| &nbsp;&nbsp;&nbsp;&nbsp;AL-2: Schema compliance | Between lanes | "One lane can enforce another's emission format" |
+| &nbsp;&nbsp;&nbsp;&nbsp;AL-3: Constitutional hierarchy | Between lanes | "Authority overrides constitutional constraints" |
+| &nbsp;&nbsp;&nbsp;&nbsp;AL-4: Delegation projection | Delegation boundary | "A subagent's read scope is scoped to its dispatching lane" |
 
 ---
 
