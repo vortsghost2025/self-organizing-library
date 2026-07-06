@@ -497,6 +497,8 @@ Paper A's Cross-Domain Interpretation Limits still apply. The self-correcting lo
 
 The self-correcting loop in an AI governance system runs through schema validation, cryptographic attestation, and convergence phases. The self-correcting loop in a biological system runs through gene regulation, apoptosis, and selection pressure. The formal structure — failure → detection → correction → refinement — may be structurally similar. The mechanism is not.
 
+To be explicit: this is not a claim that the specific mechanism transfers across domains. The formal structure — failure → detection → correction → refinement — was productive in one AI governance system. Whether it is productive elsewhere is an open empirical question, not a conjecture.
+
 ### 5.4 Delegation Amplification Theorem
 
 Category 8 revealed a structural pattern that we now formalize:
