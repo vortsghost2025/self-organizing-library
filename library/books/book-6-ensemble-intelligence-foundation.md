@@ -227,6 +227,21 @@ Source-of-truth precedence was hardcoded into GOVERNANCE.md:
 
 This is now an invariant: *a live active lane must not classify itself — or any other lane — as terminated from stale artifacts without first checking current runtime state.*
 
+```text
+function check_alive(agent_id):
+    // Step 1: Am I alive? (self-state verification)
+    if runtime.now() is active:
+        return ALIVE
+    // Step 2: Is my lock fresh?
+    if lock_file.exists() and lock_file.timestamp > (now - 1h):
+        return ALIVE  // lock verified fresh, trust advisory
+    // Step 3: What does the registry say? (advisory only)
+    if SESSION_REGISTRY[agent_id].status == "terminated":
+        return CONFLICTED  // registry is not authoritative over runtime
+    // Step 4: Historical records (never authoritative)
+    return TERMINATED  // fallback when no liveness signal
+```
+
 ### 2.4 What Paper E's Failure Mode Taxonomy Missed
 
 Paper E §12.2 listed three failure modes. The implementation produced thirty-five. The gap is not that Paper E was careless — it is that Paper E's taxonomy was *theoretical*. It listed failures that the theory predicted, not failures that the system produced.
