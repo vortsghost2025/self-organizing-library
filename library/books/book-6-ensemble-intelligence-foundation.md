@@ -543,6 +543,10 @@ The system's cryptographic trust layer (Paper E §8.3, Appendix D) provides iden
 
 - **NFM-028 (replay attack):** A previously valid signed message can be re-delivered. No timestamp freshness check prevents re-processing.
 
+> **Network topology and partition assumption.** The source-of-truth precedence rule (runtime > lock > registry > history) and the trust store convergence mechanism assume a Security Posture Level 1 topology: lanes share a synchronized filesystem or reliable local broadcast repository (lanes/broadcast/trust-store.json). Under true network partitions across distributed physical machines (Level 2 or Level 3), two isolated lanes cannot unilaterally determine whose "live runtime" is authoritative without a traditional distributed consensus protocol (e.g., Raft leases, Byzantine fault tolerance, or cryptographic quorums).
+>
+> This is an operational boundary condition, not an implementation gap. Trust Layer V1 is scoped to Level 1; distributed consensus under partition is listed as future work. This is also a *falsifiable architectural prediction*: if a future Level 2 deployment with a shared filesystem exhibits equivalent convergence, the shared-git hypothesis is supported. If it splits, the partitioned-consensus requirement is confirmed.
+
 We state explicitly: **the current system is verifiable but not secure.** It can prove that a message was signed by a known key. It cannot prove that the signer was authorized, that the trust store is consistent, that keys have not been compromised, or that messages are fresh. These are not implementation bugs — they are security posture constraints. At Level 1, the single-operator assumption makes them safe. At Level 2+, they require mitigation.
 
 This honesty is not a weakness. Overclaiming security is a more serious failure than underclaiming it. A system that claims to be secure but is not is a trap for its users. A system that honestly states its security boundaries allows users to make informed decisions about trust.
