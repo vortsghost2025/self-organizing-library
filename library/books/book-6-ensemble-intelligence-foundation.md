@@ -505,6 +505,8 @@ Category 8 revealed a structural pattern that we now formalize:
 
 > **Delegation Amplification Theorem:** Given a constrained agent system S with failure class set C = {c1, c2, ..., cn}, introducing a delegated execution surface D increases the reachable failure set F(S) ⊆ C without introducing fundamentally new failure classes. That is, F(S ∪ D) = F(S) ∪ P(C), where P(C) is the projection of existing failure classes onto the delegation boundary.
 
+> **Proof sketch.** For any failure class c_i in C reachable in system S, projecting c_i across the delegation boundary D yields a delegated failure mode N in P(C) that preserves the underlying structural constraint violation while altering the execution syntax. The empirical mapping table below demonstrates this: NFM-029 is the delegation projection of NFM-019 (schema-behavior mismatch at dispatch rather than at admission), NFM-030/035 are projections of NFM-014 (platform atomicity failures at the subagent boundary), and NFM-032 is a projection of NFM-020 (cross-boundary observability, now at the subagent scope boundary rather than the lane scope boundary). No Category 8 NFM lacks a precursor in Categories 1–7.
+
 The evidence for this theorem is the mapping between Category 8 and the earlier categories:
 
 | Category 8 NFM | Mirrors | Category |
@@ -522,6 +524,12 @@ Every Category 8 failure mode is a projection of an existing category onto the d
 This theorem is falsifiable: if a future delegation boundary produces a failure mode that does not map to any of the 8 existing categories, the theorem is refuted. We invite refutation.
 
 **Implication:** The theorem predicts that adding a new execution verb to the Subagent Contract will produce new NFMs that map to existing categories. It also predicts that other delegation surfaces (API boundaries, plugin systems, RPC interfaces) will exhibit the same amplification pattern. The constraint lattice is fractal: the same failure classes recur at every boundary, and each new boundary re-exposes them.
+
+> **Remark (Syntactic Bounding vs. Semantic Drift).** The Subagent Contract (SBC v2.0) constrains execution to 7 bounded verbs: status, read_file, write_file, run_script, git, grep, and consistency_check. These verbs successfully bound deterministic OS and git operations — the 8-task validation batch achieved 0% error rate because every operation was syntactic (parameterized, bounded, verifiable by schema gates).
+>
+> Semantic drift is the boundary condition of this approach. When the delegated task requires open-ended multi-step reasoning, code synthesis, or ambiguous semantic decision-making, the syntactic schema gates cannot verify correctness — only conformance. A subagent call that satisfies the schema may produce semantically incorrect output. Syntactic gates enforce *operational bounding* (preventing system destruction or unauthorized scope access). Semantic verification requires higher-order constitutional evaluation or multi-model convergence checks (Paper A), which remain outside the subagent contract's scope.
+>
+> This is not a limitation of the subagent contract — it is a structural boundary between syntactic determinism and semantic inference. The contract is designed for bounded automation; it does not claim to bound reasoning.
 
 ### 5.5 Trust Layer: Verifiable but Not Secure
 
