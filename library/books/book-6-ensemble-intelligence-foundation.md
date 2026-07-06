@@ -41,13 +41,15 @@ Paper E (WE4FREE Framework) was rushed. Its author has stated this explicitly. T
 
 5. **"Functorial Recovery Protocol" assumes clean state.** Paper E §5.2 loads checkpoint → verify hash → verify propagation → run CPS → verify equivalence. Real recovery encountered stale session locks, divergent keys, corrupted PEMs, missing `.identity/` directories, and batch-stamped completion proofs.
 
-6. **No source-of-truth precedence.** Paper E never addresses what happens when artifacts disagree. The real system required explicit precedence: runtime > lock > registry > history.
+6. **No source-of-truth invariance.** Paper E never addresses what happens when artifacts disagree. The real system required an explicit precedence invariant: runtime > lock > registry > history. This is now enforced as an invariant, not a heuristic: a live active lane must not classify itself or any other lane from stale artifacts without first checking current runtime state.
 
 7. **CPS thresholds don't match implementation.** Paper E uses ≥0.70 valid, 0.50–0.70 warning, 0.30–0.50 critical, <0.30 collapsed. The real system uses ≥0.80 STABLE, 0.70–0.79 DRIFT WARNING, <0.70 UNSTABLE. The 0.70 threshold was too permissive — it permitted states that the implementation proved unstable.
 
 8. **"Two-Tier Architecture" was abandoned.** Paper E §9.3 describes anchor (no CPS) vs public (CPS enforced) branches. The real system moved to a 4-lane constitutional lattice with different authority levels.
 
 These errors share a pattern: Paper E described the system as designed, not as deployed. The gap between design and deployment is where the failures live.
+
+> **Evidence baseline migration.** The empirical record cited in Papers A–E (Feb 14–28, 2026 — 3-day window in some sections; broader Feb window in others — reporting "100+ session recoveries, zero drift alerts") predates both the convergence progression framework and the cryptographic-identity layer (RSA-2048 / HMAC-SHA-512 / JWS / DER fingerprints, NFM-005–017) introduced in Paper F. Paper F's empirical record (Jan–Apr 2026, 8 rounds over 12 weeks, 147 cross-lane messages, 11/11 recovery tests) is the *post-deployment* evidence base. The Feb record is a valid existence proof of the self-correcting loop in a simpler form; the Apr record is the operational validation of the full architecture. The two records are not contradictory; they are sequential stages of the same system.
 
 ### 1.2 Why This Is Not a Problem
 
@@ -66,6 +68,8 @@ This paper maintains the framing established in Papers A–D:
 - **Empirically shown to be interpretable across multiple architectures within a domain** is the validated claim (multi-model convergence). Extending this to all domains without qualification is a different, unsubstantiated claim.
 
 Paper F extends this framing: the theory's own failures are domain-specific evidence, not universal truths. Self-state aliasing happened in an AI governance system. It may happen in other agent systems. It does not automatically apply to biological regulation, economic markets, or cellular signaling. The constraint *may be* isomorphic; the semantics are not.
+
+This is not a claim that the specific mechanism — schema validation, cryptographic attestation, convergence phases — transfers across domains. The formal structure may be productive in one domain (AI governance); whether it is productive elsewhere is an open empirical question, not a conjecture.
 
 ---
 
