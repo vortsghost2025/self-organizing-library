@@ -3,6 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const SCHEMA_PATH = path.resolve(__dirname, '../../schemas/inbox-message-v1.json');
+const SCHEMA_RATIFICATION_FILE = path.resolve(__dirname, '../../lanes/broadcast/schema-ratification-lock.json');
 
 // Updated REQUIRED_FIELDS for v1.3 schema. task_kind is now optional for non-task message types.
 const REQUIRED_FIELDS = [
@@ -31,8 +32,8 @@ const REQUIRED_FIELDS = [
 const ENUM_CONSTRAINTS = {
   // v1.3 adds support for schema_version 1.3
   schema_version: ['1.0', '1.1', '1.2', '1.3'],
-  // Updated canonical target names (includes broadcast and all for multi-lane messaging)
-  to: ['archivist', 'library', 'swarmmind', 'kernel', 'broadcast', 'all'],
+  // Updated canonical target name for kernel lane
+  to: ['archivist', 'library', 'swarmmind', 'kernel', 'authority'],
   type: ['task', 'response', 'heartbeat', 'escalation', 'handoff', 'ack', 'alert', 'notification', 'status'],
   // NFM-019 fix: extend task_kind to cover task lifecycle + alert + notification + heartbeat
   // Governance process: proposal, review, amendment, ratification
@@ -69,10 +70,69 @@ const TYPE_CHECKS = {
   evidence: 'object',
   evidence_exchange: 'object',
   heartbeat: 'object',
+  confidence_derivation: 'object',
 };
 
 const ISO8601_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
 const SHA256_PATTERN = /^[a-f0-9]{64}$/;
+
+function checkSchemaRatification(proposedChange) {
+  let lock;
+  try {
+    if (fs.existsSync(SCHEMA_RATIFICATION_FILE)) {
+      lock = JSON.parse(fs.readFileSync(SCHEMA_RATIFICATION_FILE, 'utf8'));
+    }
+  } catch (_) {}
+
+  if (!lock) {
+    lock = {
+      version: 1,
+      policy: 'Schema changes require convergence protocol: proposal -> review -> ratification by archivist.',
+      pending_changes: [],
+      ratified_changes: [],
+      last_updated: new Date().toISOString(),
+    };
+  }
+
+  const changeId = `${proposedChange.field}:${proposedChange.action}:${proposedChange.value}`;
+  const alreadyRatified = (lock.ratified_changes || []).some(
+    (c) => c.id === changeId && c.status === 'ratified'
+  );
+  const alreadyPending = (lock.pending_changes || []).some(
+    (c) => c.id === changeId && c.status === 'pending'
+  );
+
+  if (alreadyRatified) {
+    return { allowed: true, reason: 'Change previously ratified', changeId };
+  }
+
+  if (alreadyPending) {
+    return { allowed: false, reason: `Change "${changeId}" is pending ratification. Wait for convergence protocol completion.`, changeId };
+  }
+
+  if (!lock.pending_changes) lock.pending_changes = [];
+  lock.pending_changes.push({
+    id: changeId,
+    field: proposedChange.field,
+    action: proposedChange.action,
+    value: proposedChange.value,
+    proposed_at: new Date().toISOString(),
+    proposed_by: proposedChange.lane || 'unknown',
+    status: 'pending',
+    review_lanes: ['swarmmind', 'kernel', 'library'],
+    approvals: [],
+    ratification_required: true,
+  });
+  lock.last_updated = new Date().toISOString();
+
+  try {
+    const dir = path.dirname(SCHEMA_RATIFICATION_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(SCHEMA_RATIFICATION_FILE, JSON.stringify(lock, null, 2), 'utf8');
+  } catch (_) {}
+
+  return { allowed: false, reason: `Schema change "${changeId}" requires convergence protocol ratification. Proposal recorded. Other lanes must review before archivist ratifies.`, changeId };
+}
 
 function getTypeName(val) {
   if (val === null) return 'null';
@@ -322,7 +382,7 @@ function createMessage(template = {}) {
   message.delivery_verification = {
     verified: false,
     verified_at: null,
-    retries: template.delivery_verification?.retries || 0,
+    retries: (template.delivery_verification && template.delivery_verification.retries) || 0,
   };
 
   // Recompute idempotency_key if not explicitly provided
@@ -366,48 +426,13 @@ function loadSchema() {
  * Returns { delivered: boolean, schema_valid: boolean, verified: boolean,
  *           path: string, error: string|null, validation_errors: string[]|null }
  */
-function deliverMessage(message, canonicalPath, signingOptions) {
+function deliverMessage(message, canonicalPath) {
   const normalizedMessage = normalizeMessageForSchema(message);
   // VALIDATE BEFORE WRITE — Bug 1 fix: never stamp verified=true without schema check
   const validationResult = validate(normalizedMessage);
   const schemaValid = validationResult.valid;
 
-  let signedMessage = normalizedMessage;
-
-  if (signingOptions && signingOptions.signer && signingOptions.privateKey && signingOptions.keyId) {
-    try {
-      signedMessage = signingOptions.signer.signInboxMessage(normalizedMessage, signingOptions.privateKey, signingOptions.keyId);
-    } catch (signErr) {
-      return {
-        delivered: false,
-        schema_valid: schemaValid,
-        verified: false,
-        path: null,
-        error: `SIGNING_FAILED: ${signErr.message}`,
-        validation_errors: schemaValid ? null : validationResult.errors,
-      };
-    }
-  }
-
-  const hasSignature = !!(signedMessage.signature && signedMessage.key_id);
-  if (!hasSignature) {
-    try {
-      const { guardWrite } = require('../../scripts/outbox-write-guard');
-      const filename = `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
-      guardWrite(signedMessage, canonicalPath, filename);
-    } catch (guardErr) {
-      return {
-        delivered: false,
-        schema_valid: schemaValid,
-        verified: false,
-        path: null,
-        error: guardErr.code === 'OUTBOX_GUARD_REJECTED' ? `OUTBOX_WRITE_BLOCKED: ${guardErr.errors ? guardErr.errors.join(', ') : guardErr.message}` : guardErr.message,
-        validation_errors: schemaValid ? null : validationResult.errors,
-      };
-    }
-  }
-
-  const filename = `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
+  const filename = `${normalizedMessage.task_id || normalizedMessage.message_id || `msg-${Date.now()}`}.json`;
   const fullPath = path.join(canonicalPath, filename);
 
   try {
@@ -415,36 +440,36 @@ function deliverMessage(message, canonicalPath, signingOptions) {
     fs.mkdirSync(canonicalPath, { recursive: true });
 
     // Pre-stamp delivery_verification with schema result
-    if (signedMessage.delivery_verification) {
-      signedMessage.delivery_verification.verified = false; // will be set to true only if both checks pass
-      signedMessage.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
+    if (normalizedMessage.delivery_verification) {
+      normalizedMessage.delivery_verification.verified = false; // will be set to true only if both checks pass
+      normalizedMessage.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
     }
 
     // Write message — even if schema-invalid, for audit trail
-    fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
+    fs.writeFileSync(fullPath, JSON.stringify(normalizedMessage, null, 2), 'utf8');
 
     // Verify delivery (v1.1 requirement) — file landed on disk
     const exists = fs.existsSync(fullPath);
 
     if (exists) {
       // delivery_verification.verified = true ONLY if both schema valid AND file landed
-      if (signedMessage.delivery_verification) {
-        signedMessage.delivery_verification.verified = schemaValid;
-        signedMessage.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
+      if (normalizedMessage.delivery_verification) {
+        normalizedMessage.delivery_verification.verified = schemaValid;
+        normalizedMessage.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
         // Clean up validation_errors if valid (no errors to report)
         if (schemaValid) {
-          delete signedMessage.delivery_verification.validation_errors;
+          delete normalizedMessage.delivery_verification.validation_errors;
         }
       }
 
       // Re-write with updated verification stamps
-      fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
+      fs.writeFileSync(fullPath, JSON.stringify(normalizedMessage, null, 2), 'utf8');
     }
 
     if (!schemaValid) {
       console.warn(`[SchemaValidator] deliverMessage: WARNING — message written but schema-invalid:`);
       for (const err of validationResult.errors) {
-        console.warn(` - ${err}`);
+        console.warn(`  - ${err}`);
       }
     }
 
@@ -490,6 +515,7 @@ module.exports = {
   loadSchema,
   deliverMessage,
   getCanonicalPath,
+  checkSchemaRatification,
   REQUIRED_FIELDS,
   ENUM_CONSTRAINTS,
 };

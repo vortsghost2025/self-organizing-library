@@ -3,21 +3,18 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
-function safeUnlink(filePath, context) {
-  try {
-    fs.unlinkSync(filePath);
-    return 'ok';
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      console.log(`[lease-write] RACE_SKIPPED: ${context || 'file'} already removed by another process`);
-      return 'race_skipped';
-    }
-    throw e;
-  }
+const isWin32 = process.platform === 'win32';
+const UBUNTU_ROOT = path.join(os.homedir(), 'agent', 'repos');
+function _resolve(winPath) {
+  if (isWin32) return winPath;
+  const m = winPath.match(/^S:\/(.+)$/);
+  return m ? path.join(UBUNTU_ROOT, m[1]) : winPath;
 }
 
-const { atomicWriteWithLease } = require('./util/atomic-write-util');
+const KERNEL_ROOT = _resolve('S:/kernel-lane');
+const { atomicWriteWithLease } = require(path.join(KERNEL_ROOT, 'scripts', 'atomic-write-util'));
 
 function ensureParentDir(filePath) {
   const dir = path.dirname(filePath);
@@ -43,27 +40,10 @@ async function moveFileWithLease(sourcePath, destPath, laneId, timeoutMs = 30000
     return { moved: false, reason: 'DEST_EXISTS_SOURCE_DROPPED', sourcePath, destPath };
   }
 
-  const claimPath = sourcePath + '.processing';
-  try {
-    fs.renameSync(sourcePath, claimPath);
-  } catch (e) {
-    if (e.code === 'ENOENT' || e.code === 'EPERM') {
-      return { moved: false, reason: 'CLAIM_FAILED', sourcePath, destPath };
-    }
-    throw e;
-  }
-
-  try {
-    const content = fs.readFileSync(claimPath, 'utf8');
-    await writeWithLease(destPath, content, laneId, timeoutMs);
-    fs.unlinkSync(claimPath);
-    return { moved: true, sourcePath, destPath };
-  } catch (e) {
-    try {
-      fs.renameSync(claimPath, sourcePath);
-    } catch (_) {}
-    throw e;
-  }
+  const content = fs.readFileSync(sourcePath, 'utf8');
+  await writeWithLease(destPath, content, laneId, timeoutMs);
+  fs.unlinkSync(sourcePath);
+  return { moved: true, sourcePath, destPath };
 }
 
 module.exports = {

@@ -84,10 +84,10 @@ export async function queryRuns(params: {
   let runs = await listRuns();
   
   if (params.startDate) {
-    runs = runs.filter(r => r.timestamp >= params.startDate);
+    runs = runs.filter(r => r.timestamp >= params.startDate!);
   }
   if (params.endDate) {
-    runs = runs.filter(r => r.timestamp <= params.endDate);
+    runs = runs.filter(r => r.timestamp <= params.endDate!);
   }
   if (params.strategy) {
     runs = runs.filter(r => r.strategy === params.strategy);

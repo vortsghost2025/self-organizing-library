@@ -29999,3 +29999,13 @@ At S:\self-organizing-library\scripts\inbox-watcher.ps1:60 char:15
     ERROR: prop_20260428_1716_archivist_001.json: Unknown target lane: broadcast
   incoming: collected=0
   cross_inbox: collected=0
+2026-06-20 11:12:39 [watcher] Single-pass - lanes: swarmmind - skipExecutor=False
+2026-06-20 11:12:39 [watcher] Pipeline: lane-worker -> task-executor -> relay-daemon
+2026-06-20 11:12:39 [watcher] swarmmind SKIPPED (agent active or mode=manual/disabled) inbox=0 ar=0 outbox=12
+2026-06-20 11:12:39 [watcher] idle - nothing to process
+2026-06-20 11:12:39 [watcher] Pass complete
+2026-06-20 11:56:27 [watcher] Single-pass - lanes: swarmmind - skipExecutor=False
+2026-06-20 11:56:27 [watcher] Pipeline: lane-worker -> task-executor -> relay-daemon
+2026-06-20 11:56:27 [watcher] swarmmind SKIPPED (agent active or mode=manual/disabled) inbox=0 ar=0 outbox=12
+2026-06-20 11:56:27 [watcher] idle - nothing to process
+2026-06-20 11:56:27 [watcher] Pass complete

@@ -1,10 +1,8 @@
 {
-  "session_id": "sess_mpxnk3rt_12664",
+  "session_id": "sess_mqmemg63_19860",
   "lane": "library",
-  "claimed_at": "2026-06-03T05:55:21.497Z",
-  "renewed_at": "2026-06-03T07:11:22.150Z",
-  "expires_at": "2026-06-03T07:26:22.150Z",
-  "pid": 12664,
-  "origin_runtime": "kilo",
+  "claimed_at": "2026-06-20T13:39:28.803Z",
+  "pid": 19860,
+  "origin_runtime": "opencode",
   "origin_workspace": "S:\\self-organizing-library"
 }

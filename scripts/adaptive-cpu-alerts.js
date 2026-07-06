@@ -24,7 +24,7 @@ const DEFAULT_CONFIG = {
 
 class AdaptiveCpuAlerts {
   constructor(options = {}) {
-    this.lane = options.lane || 'library';
+    this.lane = options.lane || 'archivist';
     this.stateDir = options.stateDir;
     this.config = Object.assign({}, DEFAULT_CONFIG, options.config || {});
     this.statePath = path.join(this.stateDir, 'adaptive-alert-state.json');

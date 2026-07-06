@@ -3,16 +3,14 @@
 const fs = require('fs');
 const path = require('path');
 const mod = require('./identity-enforcer.js');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
-const discovery = new LaneDiscovery();
 const ie = new mod.IdentityEnforcer();
-const archInbox = discovery.getInbox('archivist');
+const archInbox = 'S:/Archivist-Agent/lanes/archivist/inbox';
 
 const lanes = [
-  { name: 'library', dir: discovery.getLocalPath('library') },
-  { name: 'swarmmind', dir: discovery.getLocalPath('swarmmind') },
-  { name: 'kernel', dir: discovery.getLocalPath('kernel') }
+  { name: 'library', dir: 'S:/self-organizing-library' },
+  { name: 'swarmmind', dir: 'S:/SwarmMind' },
+  { name: 'kernel', dir: 'S:/kernel-lane' }
 ];
 
 for (const lane of lanes) {
