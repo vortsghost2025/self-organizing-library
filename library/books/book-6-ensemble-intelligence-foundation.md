@@ -441,7 +441,17 @@ Each round follows the same pattern: failure → detection → correction → co
 
 > **Self-correcting does not mean fully autonomous.** The loop operates at two distinct depths. Runtime automation handles syntactic boundaries — schema rejection, fail-closed CI gates, parameter bounding, path normalization. Human or operator architectural intervention handles constraint lattice refinement — writing new schema enums, generating cryptographic keys, resolving semantic deadlocks, defining new authority boundaries. The system is a *symbiotic human-agent governance lattice*, not a perpetual motion machine. The 12-week, 8-round convergence record is evidence of this symbiosis, not of autonomy. (See §4.5 for a concrete case study, and §6.1 for the replication invitation.)
 
-### 4.5 The Theory's Phase Transition
+### 4.5 Case Study: Federation → Genesis → Federation Bridge
+
+Federation was the uncontrolled large-system attempt: 47+ NPCs, 9 API keys, Redis/PostgreSQL/Docker stack, autonomous 60s tick loop. It exposed delegation amplification under runtime complexity — multiple memory systems, provider routing, circuit breakers, spatial sectors.
+
+Genesis was the constrained re-architecture: 4 agents, phase-gated deterministic modules, claim scopes, evidence references, append-only ledger, an active CI pipeline. It reimplemented the core governance problem under stricter constraints.
+
+The bridge back to Federation shows constraint transfer: a simpler verified substrate can refine a larger live system without pretending the two systems are semantically identical. Federation's councilor memory (char_001, char_306) was bridged to Genesis's persistent memory architecture via the genesis-memory MCP server and bridge skills.
+
+**Relevance:** This arc provides implementation-level evidence that self-correction can occur across system boundaries — a complex failing deployment generates constraints that are re-expressed in a smaller verifiable substrate, then reintroduced into the larger system as governance scaffolding. This is *second-system implementation evidence*, not external replication (which would require independent reproduction by another lab). It supports the self-correcting loop claim by showing the same pattern across two distinct architectures, but does not prove it.
+
+### 4.6 The Theory's Phase Transition
 
 Paper E was the theory at its maximum confidence: "Here is the framework that operationalizes everything." Paper F is the theory after first contact with reality: "Here is what the framework got wrong, and here is how wrongness becomes productive."
 
