@@ -439,6 +439,8 @@ Each round follows the same pattern: failure → detection → correction → co
 
 **Self-correcting does not mean the theory is complete.** The thirty-five named failure modes are the ones that were observed. More will emerge. The theory predicts this: persistent failure reveals missing constraints. The theory is *predictive about its own incompleteness.*
 
+> **Self-correcting does not mean fully autonomous.** The loop operates at two distinct depths. Runtime automation handles syntactic boundaries — schema rejection, fail-closed CI gates, parameter bounding, path normalization. Human or operator architectural intervention handles constraint lattice refinement — writing new schema enums, generating cryptographic keys, resolving semantic deadlocks, defining new authority boundaries. The system is a *symbiotic human-agent governance lattice*, not a perpetual motion machine. The 12-week, 8-round convergence record is evidence of this symbiosis, not of autonomy. (See §4.5 for a concrete case study, and §6.1 for the replication invitation.)
+
 ### 4.5 The Theory's Phase Transition
 
 Paper E was the theory at its maximum confidence: "Here is the framework that operationalizes everything." Paper F is the theory after first contact with reality: "Here is what the framework got wrong, and here is how wrongness becomes productive."
