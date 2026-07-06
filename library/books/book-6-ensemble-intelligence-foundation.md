@@ -649,6 +649,8 @@ The enforcement layer has been exercised in production since 2026-04-20. Current
 
 The zero post-convergence quarantine rate is not evidence that the schema is complete — it is evidence that the current schema covers the system's operational vocabulary. New message types may produce new quarantine events, which would be diagnostic (NFM-024 class).
 
+These statistics describe a non-adversarial operator environment (Security Posture Level 1). The cryptographic attestation NFM inventory in §5.5 documents the attack surface and failure modes that emerge above Level 1.
+
 ### 6.4 Test Specification for Critical NFMs
 
 Two NFMs deserve executable test specifications because they represent the boundary between verifiability and security:
