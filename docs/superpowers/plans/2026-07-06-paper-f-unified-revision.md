@@ -424,9 +424,9 @@ Insert:
 Insert:
 
 ```
-> **Remark (Syntactic Bounding vs. Semantic Drift).** The Subagent Contract (SBC v2.0) constrains execution to 7 bounded verbs: status, 
-ead_file, write_file, 
-un_script, git, grep, and consistency_check. These verbs successfully bound deterministic OS and git operations — the 8-task validation batch achieved 0% error rate because every operation was syntactic (parameterized, bounded, verifiable by schema gates).
+> **Remark (Syntactic Bounding vs. Semantic Drift).** The Subagent Contract (SBC v2.0) constrains execution to 7 bounded verbs: status,
+read_file, write_file,
+run_script, git, grep, and consistency_check. These verbs successfully bound deterministic OS and git operations — the 8-task validation batch achieved 0% error rate because every operation was syntactic (parameterized, bounded, verifiable by schema gates).
 >
 > Semantic drift is the boundary condition of this approach. When the delegated task requires open-ended multi-step reasoning, code synthesis, or ambiguous semantic decision-making, the syntactic schema gates cannot verify correctness — only conformance. A subagent call that satisfies the schema may produce semantically incorrect output. Syntactic gates enforce *operational bounding* (preventing system destruction or unauthorized scope access). Semantic verification requires higher-order constitutional evaluation or multi-model convergence checks (Paper A), which remain outside the subagent contract's scope.
 >
