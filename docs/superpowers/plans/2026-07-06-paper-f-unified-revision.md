@@ -36,10 +36,10 @@ Check each NFM's Category column against this mapping before writing the new col
 
 - [ ] **Commit the clean baseline**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "checkpoint: pre-edit baseline at 855 lines"
-`
+```
 
 ---
 
@@ -53,30 +53,30 @@ Three changes in §1:
 **Change A — Evidence baseline migration (after line 49):**
 Insert a new paragraph after error 8 ("The gap between design and deployment is where the failures live."):
 
-`
+```
 > **Evidence baseline migration.** The empirical record cited in Papers A–E (Feb 14–28, 2026 — 3-day window in some sections; broader Feb window in others — reporting "100+ session recoveries, zero drift alerts") predates both the convergence progression framework and the cryptographic-identity layer (RSA-2048 / HMAC-SHA-512 / JWS / DER fingerprints, NFM-005–017) introduced in Paper F. Paper F's empirical record (Jan–Apr 2026, 8 rounds over 12 weeks, 147 cross-lane messages, 11/11 recovery tests) is the *post-deployment* evidence base. The Feb record is a valid existence proof of the self-correcting loop in a simpler form; the Apr record is the operational validation of the full architecture. The two records are not contradictory; they are sequential stages of the same system.
-`
+```
 
 **Change B — Source-of-truth as invariant (line 47):**
 Replace 6. **No source-of-truth precedence.** with:
 
-`
+```
 6. **No source-of-truth invariance.** Paper E never addresses what happens when artifacts disagree. The real system required an explicit precedence invariant: runtime > lock > registry > history. This is now enforced as an invariant, not a heuristic: a live active lane must not classify itself or any other lane from stale artifacts without first checking current runtime state.
-`
+```
 
 **Change C — Cross-domain non-claim (after line 68):**
 Append after §1.3 end:
 
-`
+```
 This is not a claim that the specific mechanism — schema validation, cryptographic attestation, convergence phases — transfers across domains. The formal structure may be productive in one domain (AI governance); whether it is productive elsewhere is an open empirical question, not a conjecture.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§1: add evidence baseline migration, source-of-truth invariant, cross-domain non-claim"
-`
+```
 
 ---
 
@@ -136,10 +136,10 @@ Add a 5th column: Invariant Tested.
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§2.1: add NFM→Invariant Trace column to NFM table"
-"
+```
 
 ---
 
@@ -150,7 +150,7 @@ git commit -m "§2.1: add NFM→Invariant Trace column to NFM table"
 
 Prepend **Structural criterion:** as the first sentence (bold) of each category description:
 
-`
+```
 **Structural criterion: enforcement boundaries where the constraint lattice can be bypassed via lower-level API access (process, filesystem, batch authority).**
 **Structural criterion: identity verification boundaries where cryptographic attestation depends on unverified preconditions (key generation, format convergence, directory existence, PEM validity).**
 **Structural criterion: temporal boundaries where an artifact claims a state that the runtime has not verified at the point of evaluation.**
@@ -159,14 +159,14 @@ Prepend **Structural criterion:** as the first sentence (bold) of each category 
 **Structural criterion: semantic boundaries where the schema does not cover the system's full behavioral vocabulary, and observational boundaries where the verifier cannot access evidence.**
 **Structural criterion: identity boundaries where cryptographic trust infrastructure has its own failure modes (compromise, divergence, rotation, replay) that are not captured by message-level verification.**
 **Structural criterion: projection boundaries where failure classes from Categories 1–7 are re-exposed at the delegation boundary between dispatcher and subagent.**
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§2.2: add structural criterion sentences to all 8 category descriptions"
-`
+```
 
 ---
 
@@ -177,20 +177,20 @@ git commit -m "§2.2: add structural criterion sentences to all 8 category descr
 
 Replace the current condition blockquote with a formally named theorem:
 
-`
+```
 > **Theorem (Lattice Constraint Validity).** A constraint admits only valid evaluations if and only if its satisfaction conditions are temporally reachable, semantically covered by the schema, and observably accessible to the verifier.
 >
 > **Forward direction** (what the paper states): if any condition is violated, the constraint produces false negatives.
 >
 > **Converse** (testable claim): if all three conditions are satisfied, the constraint produces only true positives. The empirical evidence (three relay loop passes after NFM-018/019/020 fixes, §2.2.1 lines 182-190) supports the converse but does not prove it. We invite falsification.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§2.2.1: elevate constraint validity condition to formally named theorem with converse"
-`
+```
 
 ---
 
@@ -201,7 +201,7 @@ git commit -m "§2.2.1: elevate constraint validity condition to formally named 
 
 After the invariant statement on line 220, append a fenced code block:
 
-`	ext
+```text
 function check_alive(agent_id):
     // Step 1: Am I alive? (self-state verification)
     if runtime.now() is active:
@@ -214,14 +214,14 @@ function check_alive(agent_id):
         return CONFLICTED  // registry is not authoritative over runtime
     // Step 4: Historical records (never authoritative)
     return TERMINATED  // fallback when no liveness signal
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§2.3: add self-state aliasing pseudo-code for check_alive"
-"
+```
 
 ---
 
@@ -232,16 +232,16 @@ git commit -m "§2.3: add self-state aliasing pseudo-code for check_alive"
 
 After "Result: 22 messages recovered, 3 with genuine proof, 42 never actionable." insert:
 
-`
+```
 > NFM-036 (ungoverned derivation trust gap) provides a self-applied instance of this limit. The verification infrastructure itself has a trust-boundary problem: 82% of system-wide nodes are UNVERIFIED and 62% of CONFLICTED nodes cluster at the FreeAgent→governed boundary. The verification system experiences the same boundary trust problems it theorizes about. This is not a contradiction — it is the theory applying to itself, consistent with the recursive verification framing in §7.1.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§3.2: add NFM-036 as self-applied theory paragraph"
-"
+```
 
 ---
 
@@ -252,16 +252,16 @@ git commit -m "§3.2: add NFM-036 as self-applied theory paragraph"
 
 After the AL-4 paragraph end, insert:
 
-`
+```
 If unstable behavior in a similar constrained system were observed to be random — that is, failures not pointing to specific missing constraints — the loop would not converge. We invite falsification.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§3.4: add falsification clause for convergence"
-"
+```
 
 ---
 
@@ -285,10 +285,10 @@ Restructure the limits summary table to nest AL-1 through AL-4 under Autonomy:
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§3.5: restructure limits table with nested AL-1 through AL-4 rows"
-"
+```
 
 ---
 
@@ -299,16 +299,16 @@ git commit -m "§3.5: restructure limits table with nested AL-1 through AL-4 row
 
 After end of §4.2, insert:
 
-`
+```
 Notably, the CPS threshold correction from 0.70 (Papers B–E) to 0.80 STABLE / 0.70–0.79 DRIFT WARNING / <0.70 UNSTABLE (Paper F) is an empirical instance of the self-correcting loop operating *before* it was formalized in this paper. The earlier papers specified a threshold the empirical record corrected; Paper F's threshold is itself a product of the loop. The loop did not need the formalism to be active.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§4.2: add pre-formalization loop instance (CPS threshold correction)"
-"
+```
 
 ---
 
@@ -327,10 +327,10 @@ With:
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§4.3: update Round 7 correction with future ratification framing"
-"
+```
 
 ---
 
@@ -341,16 +341,16 @@ git commit -m "§4.3: update Round 7 correction with future ratification framing
 
 After "Self-correcting does not mean the theory is complete." add a new bullet:
 
-`
+```
 > **Self-correcting does not mean fully autonomous.** The loop operates at two distinct depths. Runtime automation handles syntactic boundaries — schema rejection, fail-closed CI gates, parameter bounding, path normalization. Human or operator architectural intervention handles constraint lattice refinement — writing new schema enums, generating cryptographic keys, resolving semantic deadlocks, defining new authority boundaries. The system is a *symbiotic human-agent governance lattice*, not a perpetual motion machine. The 12-week, 8-round convergence record is evidence of this symbiosis, not of autonomy. (See §4.5 for a concrete case study, and §6.1 for the replication invitation.)
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§4.4: add symbiotic division of labor bullet addressing N=1 critique"
-"
+```
 
 ---
 
@@ -361,7 +361,7 @@ git commit -m "§4.4: add symbiotic division of labor bullet addressing N=1 crit
 
 - [ ] **Insert new subsection** after §4.4 (before "The Theory's Phase Transition"):
 
-`
+```
 ### 4.5 Case Study: Federation → Genesis → Federation Bridge
 
 Federation was the uncontrolled large-system attempt: 47+ NPCs, 9 API keys, Redis/PostgreSQL/Docker stack, autonomous 60s tick loop. It exposed delegation amplification under runtime complexity — multiple memory systems, provider routing, circuit breakers, spatial sectors.
@@ -371,16 +371,16 @@ Genesis was the constrained re-architecture: 4 agents, phase-gated deterministic
 The bridge back to Federation shows constraint transfer: a simpler verified substrate can refine a larger live system without pretending the two systems are semantically identical. Federation's councilor memory (char_001, char_306) was bridged to Genesis's persistent memory architecture via the genesis-memory MCP server and bridge skills.
 
 **Relevance:** This arc provides implementation-level evidence that self-correction can occur across system boundaries — a complex failing deployment generates constraints that are re-expressed in a smaller verifiable substrate, then reintroduced into the larger system as governance scaffolding. This is *second-system implementation evidence*, not external replication (which would require independent reproduction by another lab). It supports the self-correcting loop claim by showing the same pattern across two distinct architectures, but does not prove it.
-`
+```
 
 - [ ] **Rename current §4.5** to §4.6: change ### 4.5 The Theory's Phase Transition to ### 4.6 The Theory's Phase Transition
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§4.5: insert Federation→Genesis→Federation case study box"
-"
+```
 
 ---
 
@@ -391,16 +391,16 @@ git commit -m "§4.5: insert Federation→Genesis→Federation case study box"
 
 After "The mechanism is not." append:
 
-`
+```
 To be explicit: this is not a claim that the specific mechanism transfers across domains. The formal structure — failure → detection → correction → refinement — was productive in one AI governance system. Whether it is productive elsewhere is an open empirical question, not a conjecture.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§5.3: reinforce cross-domain non-claim in implications section"
-"
+```
 
 ---
 
@@ -413,28 +413,30 @@ git commit -m "§5.3: reinforce cross-domain non-claim in implications section"
 
 Insert:
 
-`
+```
 > **Proof sketch.** For any failure class c_i in C reachable in system S, projecting c_i across the delegation boundary D yields a delegated failure mode N in P(C) that preserves the underlying structural constraint violation while altering the execution syntax. The empirical mapping table below demonstrates this: NFM-029 is the delegation projection of NFM-019 (schema-behavior mismatch at dispatch rather than at admission), NFM-030/035 are projections of NFM-014 (platform atomicity failures at the subagent boundary), and NFM-032 is a projection of NFM-020 (cross-boundary observability, now at the subagent scope boundary rather than the lane scope boundary). No Category 8 NFM lacks a precursor in Categories 1–7.
-`
+```
 
 **Change B — Remark (after implication paragraph, after line 478):**
 
 Insert:
 
-`
-> **Remark (Syntactic Bounding vs. Semantic Drift).** The Subagent Contract (SBC v2.0) constrains execution to 7 bounded verbs: status, ead_file, write_file, un_script, git, grep, and consistency_check. These verbs successfully bound deterministic OS and git operations — the 8-task validation batch achieved 0% error rate because every operation was syntactic (parameterized, bounded, verifiable by schema gates).
+```
+> **Remark (Syntactic Bounding vs. Semantic Drift).** The Subagent Contract (SBC v2.0) constrains execution to 7 bounded verbs: status, 
+ead_file, write_file, 
+un_script, git, grep, and consistency_check. These verbs successfully bound deterministic OS and git operations — the 8-task validation batch achieved 0% error rate because every operation was syntactic (parameterized, bounded, verifiable by schema gates).
 >
 > Semantic drift is the boundary condition of this approach. When the delegated task requires open-ended multi-step reasoning, code synthesis, or ambiguous semantic decision-making, the syntactic schema gates cannot verify correctness — only conformance. A subagent call that satisfies the schema may produce semantically incorrect output. Syntactic gates enforce *operational bounding* (preventing system destruction or unauthorized scope access). Semantic verification requires higher-order constitutional evaluation or multi-model convergence checks (Paper A), which remain outside the subagent contract's scope.
 >
 > This is not a limitation of the subagent contract — it is a structural boundary between syntactic determinism and semantic inference. The contract is designed for bounded automation; it does not claim to bound reasoning.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§5.4: add DAT proof sketch and syntactic/semantic Remark"
-"
+```
 
 ---
 
@@ -445,18 +447,18 @@ git commit -m "§5.4: add DAT proof sketch and syntactic/semantic Remark"
 
 Insert after NFM-028 bullet, before "We state explicitly":
 
-`
+```
 > **Network topology and partition assumption.** The source-of-truth precedence rule (runtime > lock > registry > history) and the trust store convergence mechanism assume a Security Posture Level 1 topology: lanes share a synchronized filesystem or reliable local broadcast repository (lanes/broadcast/trust-store.json). Under true network partitions across distributed physical machines (Level 2 or Level 3), two isolated lanes cannot unilaterally determine whose "live runtime" is authoritative without a traditional distributed consensus protocol (e.g., Raft leases, Byzantine fault tolerance, or cryptographic quorums).
 >
 > This is an operational boundary condition, not an implementation gap. Trust Layer V1 is scoped to Level 1; distributed consensus under partition is listed as future work. This is also a *falsifiable architectural prediction*: if a future Level 2 deployment with a shared filesystem exhibits equivalent convergence, the shared-git hypothesis is supported. If it splits, the partitioned-consensus requirement is confirmed.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§5.5: add network topology and partition assumption block"
-"
+```
 
 ---
 
@@ -467,18 +469,18 @@ git commit -m "§5.5: add network topology and partition assumption block"
 
 Insert before "### 6.2 Failure Mode Reproducibility":
 
-`
+```
 > **Replication invitation.** The empirical evidence in §6.3 documents convergence across eight rounds in a single system operated by a single human over twelve weeks. Replicating the self-correcting loop on a second independent system — ideally with a different operator composition and a different constraint domain — is the natural next step. We provide the executable test specifications in Steps 1–8 so that replication can begin from this artifact alone. We invite refutation as well as confirmation: where the loop fails to converge under controlled replication, the theory is wrong, and the failure mode itself becomes evidence for the §2.2 taxonomy.
 >
 > Preliminary second-system implementation evidence is available from the Genesis Kernel World Sim project (active CI pipeline with a growing pure-module test suite, phase-gated deterministic pipeline). While this is internal engineering replication — not external independent reproduction — it provides early support for the claim that the self-correcting loop operates across distinct architectures when constraints are explicitly specified.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§6.1: add replication invitation with Genesis CI cross-reference"
-"
+```
 
 ---
 
@@ -489,16 +491,16 @@ git commit -m "§6.1: add replication invitation with Genesis CI cross-reference
 
 After "New message types may produce new quarantine events, which would be diagnostic (NFM-024 class)." append:
 
-`
+```
 These statistics describe a non-adversarial operator environment (Security Posture Level 1). The cryptographic attestation NFM inventory in §5.5 documents the attack surface and failure modes that emerge above Level 1.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§6.3: add Level 1 statistics scoping sentence"
-"
+```
 
 ---
 
@@ -509,7 +511,7 @@ git commit -m "§6.3: add Level 1 statistics scoping sentence"
 
 After end of recursive verification discussion, append:
 
-`
+```
 > **Axiomatic root of trust.** The infinite regress of recursive verification ("who verifies the meta-verifier?") terminates at three hardened points in practical systems engineering:
 >
 > 1. **Hardware/OS enforcement boundary (EL-1):** Physical seccomp profiles, file-permission locks, and process isolation boundaries prevent bypass regardless of code state. At this layer, enforcement is architectural, not verifiable.
@@ -517,14 +519,14 @@ After end of recursive verification discussion, append:
 > 3. **Constitutional authority (Position 1):** The human operator and the Constitution (COVENANT.md) serve as the axiomatic, non-derivable foundation. The covenant is not subject to verification by the lanes — it is the substrate from which lane authority derives.
 >
 > These three termination points correspond to the three enforcement layers defined in §3.2 (EL-1 through EL-3). Verification recurses within the lattice; it does not recurse past the lattice boundary.
-`
+```
 
 - [ ] **Commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "§7.1: add axiomatic root of trust termination (3 termination points)"
-"
+```
 
 ---
 
@@ -540,10 +542,10 @@ Check for:
 
 - [ ] **Final commit**
 
-`
+```
 git add library/books/book-6-ensemble-intelligence-foundation.md
 git commit -m "paper-f: unified revision complete"
-`
+```
 
 ---
 
