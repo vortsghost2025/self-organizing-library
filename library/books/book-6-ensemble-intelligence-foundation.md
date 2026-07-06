@@ -171,7 +171,11 @@ These three failures decompose along three orthogonal axes, forming a minimal fa
 
 From these three axes we derive a unified constraint validity condition:
 
-> **A constraint is only valid within the domain in which its satisfaction conditions are observable and reachable.**
+> **Theorem (Lattice Constraint Validity).** A constraint admits only valid evaluations if and only if its satisfaction conditions are temporally reachable, semantically covered by the schema, and observably accessible to the verifier.
+>
+> **Forward direction** (what the paper states): if any condition is violated, the constraint produces false negatives.
+>
+> **Converse** (testable claim): if all three conditions are satisfied, the constraint produces only true positives. The empirical evidence (three relay loop passes after NFM-018/019/020 fixes, §2.2.1 lines 182-190) supports the converse but does not prove it. We invite falsification.
 
 This decomposes into three necessary conditions:
 
