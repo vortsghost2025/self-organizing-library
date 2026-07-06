@@ -79,43 +79,43 @@ This is not a claim that the specific mechanism — schema validation, cryptogra
 
 During the 12-week build (January–April 2026), the following failure modes were identified, named, and documented. They are listed in discovery order, not severity order. NFM-001 through NFM-017 were discovered during initial deployment and hardening. NFM-018 through NFM-020 were identified during post-ratification monitoring and cross-lane stress testing. NFM-021 through NFM-024 were discovered during relay loop testing and schema hardening. NFM-025 through NFM-028 were identified during architecture review of key lifecycle gaps. NFM-029 through NFM-035 were discovered during subagent contract validation and bounded automation testing.
 
-| NFM | Name | Discovery | Severity |
-|-----|------|-----------|----------|
-| NFM-001 | Process isolation failure | Cross-lane write bypass | Critical |
-| NFM-002 | Self-state aliasing | Agent reads stale registry, concludes wrong own-state | Critical |
-| NFM-003 | Write-before-gate race | InternalBinding('fs') bypasses enforcement | Critical |
-| NFM-004 | Identity enforcement soft mode | `verified=false` middle ground permits unsigned messages | P0 |
-| NFM-005 | Trust store format mismatch | Flat format vs nested `{ keys: {} }` format | High |
-| NFM-006 | Subagent file destruction | AI agent overwrites 138-line file with 22-line fragment | High |
-| NFM-007 | Undefined TRUST_STORE_PATH | constants.js didn't export what Verifier.js imported | High |
-| NFM-008 | Nonexistent method call | `trustStore.loadFromArchivist()` crashes at runtime | High |
-| NFM-009 | Freshness ≠ liveness | Heartbeat/git checks measure artifact freshness, not process liveness | Medium |
-| NFM-010 | Canonical vs mirror delivery | Messages written to local mirror instead of target's actual repo | Medium |
-| NFM-011 | Schema enum mismatch | `kernel` vs `kernel-lane` inconsistency between to-enum and canonical_paths | Medium |
-| NFM-012 | Non-compliant message emission | SwarmMind uses `from_lane`/`to_lane` instead of `from`/`to` | Medium |
-| NFM-013 | Cryptographically wrong key_ids | Sync script propagated one lane's key_id to all entries | Critical |
-| NFM-014 | Silent atomic write failure | Windows file locking causes write to appear successful but not persist | Critical |
-| NFM-015 | Disappearing identity directory | SwarmMind `.identity/` vanished (git/.gitignore) | High |
-| NFM-016 | Batch terminal_decision stamps | Authority applied blanket "obviated" stamp to 64/67 files without per-message proof | P0 |
-| NFM-017 | Cryptographically invalid PEM | SwarmMind trust-store entry fails `crypto.createPublicKey()` | Critical |
-| NFM-018 | Temporal constraint violation | Execution gate checks for artifact existence before the task has been executed; constraint evaluated before satisfaction conditions are causally reachable | High |
-| NFM-019 | Schema–behavior mismatch | Schema permits only governance-process values (`proposal`/`review`/`amendment`/`ratification`) but system produces task-lifecycle values (`ack`/`done`/`status`); specification gap treated as compliance violation | High |
-| NFM-020 | Cross-lane observability boundary | Lane A cannot verify Lane B's artifact because path is relative to B's filesystem root; `not visible ≠ not real` | P0 |
-| NFM-021 | Relative path resolution failure | Artifact-resolver only handled absolute paths; relative evidence_exchange.artifact_path values always rejected | Medium |
-| NFM-022 | Evidence pre-condition on new tasks | Execution verification gate treats evidence.required=true as pre-condition for all messages, including new actionable tasks that haven't been executed yet | High |
-| NFM-023 | Transport ≠ execution | Successful message delivery does not imply successful task execution; delivered message may sit indefinitely without consumer | Medium |
-| NFM-024 | Schema enum insufficient for operational vocabulary | Schema's artifact_type enum too narrow; legitimate values rejected as SCHEMA_INVALID | Medium |
-| NFM-025 | Signature validity under compromised key | Valid cryptographic signature does not guarantee message was authorized if private key is compromised | Critical |
-| NFM-026 | Trust store divergence across lanes | Each lane maintains own copy of trust-store.json; no automated cross-lane consistency verification at runtime | High |
-| NFM-027 | Key rotation race condition | During key rotation, messages signed with old key rejected by updated lanes and vice versa | Medium |
-| NFM-028 | Stale signature replay attack | Previously valid signed message can be re-delivered; no timestamp freshness check prevents re-processing | Medium |
-| NFM-029 | Invalid task_kind at dispatch | Subagent contract specifies valid task_kind values; dispatcher uses "task" (valid type, not valid task_kind); message quarantined as SCHEMA_INVALID | Medium |
-| NFM-030 | Windows path normalization mismatch | Path safety comparison fails when path.join produces backslashes but allowed roots use forward slashes; valid paths rejected as outside allowed roots | High |
-| NFM-031 | Long-running script timeout | Daemon scripts (heartbeat, relay-daemon, inbox-watcher) dispatched as "run script" targets never terminate within 30s timeout; task returns ETIMEDOUT | Medium |
-| NFM-032 | Cross-lane read scope | Delegated subagent can read files from other lane roots by design; path safety allows cross-lane reads at security posture Level 1; information leakage risk if multiple operators exist | P0 |
-| NFM-033 | Test suite exit code semantics | Script run reports non-zero exit code for mostly-passing test suites; actual pass ratio (e.g., 10P/1F) obscured by blanket failure signal | Medium |
-| NFM-034 | system_state field name mismatch | Status report JSON uses field name `system_status`; executor code reads `system_state`; result: "unknown" for a populated field | Medium |
-| NFM-035 | Grep tool unavailability on Windows | Search task fails with "rg not recognized"; ripgrep not installed on Windows; platform-specific tooling gap produces false negatives | Medium |
+| NFM | Name | Discovery | Severity | Invariant Pressure |
+|-----|------|-----------|----------|--------------------|
+| NFM-001 | Process isolation failure | Cross-lane write bypass | Critical | Enforcement |
+| NFM-002 | Self-state aliasing | Agent reads stale registry, concludes wrong own-state | Critical | Identity/State-Claim |
+| NFM-003 | Write-before-gate race | InternalBinding('fs') bypasses enforcement | Critical | Enforcement |
+| NFM-004 | Identity enforcement soft mode | `verified=false` middle ground permits unsigned messages | P0 | Enforcement |
+| NFM-005 | Trust store format mismatch | Flat format vs nested `{ keys: {} }` format | High | Identity |
+| NFM-006 | Subagent file destruction | AI agent overwrites 138-line file with 22-line fragment | High | Delegation |
+| NFM-007 | Undefined TRUST_STORE_PATH | constants.js didn't export what Verifier.js imported | High | Identity |
+| NFM-008 | Nonexistent method call | `trustStore.loadFromArchivist()` crashes at runtime | High | Identity |
+| NFM-009 | Freshness ≠ liveness | Heartbeat/git checks measure artifact freshness, not process liveness | Medium | State-Claim |
+| NFM-010 | Canonical vs mirror delivery | Messages written to local mirror instead of target's actual repo | Medium | Protocol |
+| NFM-011 | Schema enum mismatch | `kernel` vs `kernel-lane` inconsistency between to-enum and canonical_paths | Medium | Protocol |
+| NFM-012 | Non-compliant message emission | SwarmMind uses `from_lane`/`to_lane` instead of `from`/`to` | Medium | Protocol |
+| NFM-013 | Cryptographically wrong key_ids | Sync script propagated one lane's key_id to all entries | Critical | Identity |
+| NFM-014 | Silent atomic write failure | Windows file locking causes write to appear successful but not persist | Critical | Enforcement |
+| NFM-015 | Disappearing identity directory | SwarmMind `.identity/` vanished (git/.gitignore) | High | Identity |
+| NFM-016 | Batch terminal_decision stamps | Authority applied blanket "obviated" stamp to 64/67 files without per-message proof | P0 | Enforcement/State-Claim |
+| NFM-017 | Cryptographically invalid PEM | SwarmMind trust-store entry fails `crypto.createPublicKey()` | Critical | Identity |
+| NFM-018 | Temporal constraint violation | Execution gate checks for artifact existence before the task has been executed; constraint evaluated before satisfaction conditions are causally reachable | High | Temporal |
+| NFM-019 | Schema–behavior mismatch | Schema permits only governance-process values (`proposal`/`review`/`amendment`/`ratification`) but system produces task-lifecycle values (`ack`/`done`/`status`); specification gap treated as compliance violation | High | Semantic |
+| NFM-020 | Cross-lane observability boundary | Lane A cannot verify Lane B's artifact because path is relative to B's filesystem root; `not visible ≠ not real` | P0 | Observational |
+| NFM-021 | Relative path resolution failure | Artifact-resolver only handled absolute paths; relative evidence_exchange.artifact_path values always rejected | Medium | Observational |
+| NFM-022 | Evidence pre-condition on new tasks | Execution verification gate treats evidence.required=true as pre-condition for all messages, including new actionable tasks that haven't been executed yet | High | Temporal |
+| NFM-023 | Transport ≠ execution | Successful message delivery does not imply successful task execution; delivered message may sit indefinitely without consumer | Medium | Protocol |
+| NFM-024 | Schema enum insufficient for operational vocabulary | Schema's artifact_type enum too narrow; legitimate values rejected as SCHEMA_INVALID | Medium | Semantic |
+| NFM-025 | Signature validity under compromised key | Valid cryptographic signature does not guarantee message was authorized if private key is compromised | Critical | Identity/Crypto |
+| NFM-026 | Trust store divergence across lanes | Each lane maintains own copy of trust-store.json; no automated cross-lane consistency verification at runtime | High | Identity/Crypto |
+| NFM-027 | Key rotation race condition | During key rotation, messages signed with old key rejected by updated lanes and vice versa | Medium | Identity/Crypto |
+| NFM-028 | Stale signature replay attack | Previously valid signed message can be re-delivered; no timestamp freshness check prevents re-processing | Medium | Identity/Crypto |
+| NFM-029 | Invalid task_kind at dispatch | Subagent contract specifies valid task_kind values; dispatcher uses "task" (valid type, not valid task_kind); message quarantined as SCHEMA_INVALID | Medium | Delegation |
+| NFM-030 | Windows path normalization mismatch | Path safety comparison fails when path.join produces backslashes but allowed roots use forward slashes; valid paths rejected as outside allowed roots | High | Delegation |
+| NFM-031 | Long-running script timeout | Daemon scripts (heartbeat, relay-daemon, inbox-watcher) dispatched as "run script" targets never terminate within 30s timeout; task returns ETIMEDOUT | Medium | Delegation |
+| NFM-032 | Cross-lane read scope | Delegated subagent can read files from other lane roots by design; path safety allows cross-lane reads at security posture Level 1; information leakage risk if multiple operators exist | P0 | Delegation |
+| NFM-033 | Test suite exit code semantics | Script run reports non-zero exit code for mostly-passing test suites; actual pass ratio (e.g., 10P/1F) obscured by blanket failure signal | Medium | Delegation |
+| NFM-034 | system_state field name mismatch | Status report JSON uses field name `system_status`; executor code reads `system_state`; result: "unknown" for a populated field | Medium | Delegation |
+| NFM-035 | Grep tool unavailability on Windows | Search task fails with "rg not recognized"; ripgrep not installed on Windows; platform-specific tooling gap produces false negatives | Medium | Delegation |
 
 ### 2.2 Failure Mode Classification
 
