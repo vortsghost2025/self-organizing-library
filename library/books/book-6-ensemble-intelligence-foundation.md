@@ -711,6 +711,14 @@ The failure space decomposition (§2.2.1) reveals that the verification layer is
 
 These meta-checks operate above the execution gate. They are not additional constraints — they are validity conditions on the constraints themselves. Future work should investigate whether these three checks are sufficient (the minimal meta-verification set) or whether further recursion is needed.
 
+> **Axiomatic root of trust.** The infinite regress of recursive verification ("who verifies the meta-verifier?") terminates at three hardened points in practical systems engineering:
+>
+> 1. **Hardware/OS enforcement boundary (EL-1):** Physical seccomp profiles, file-permission locks, and process isolation boundaries prevent bypass regardless of code state. At this layer, enforcement is architectural, not verifiable.
+> 2. **Cryptographic genesis anchor:** The immutable trust store hash (SHA256: 58a8aad5aa6597fe) locked during Phase 4 convergence. This hash is the root of the attestation chain — it is not verified, it is *assumed correct* as the bootstrap condition.
+> 3. **Constitutional authority (Position 1):** The human operator and the Constitution (COVENANT.md) serve as the axiomatic, non-derivable foundation. The covenant is not subject to verification by the lanes — it is the substrate from which lane authority derives.
+>
+> These three termination points correspond to the three enforcement layers defined in §3.2 (EL-1 through EL-3). Verification recurses within the lattice; it does not recurse past the lattice boundary.
+
 ---
 
 ## Appendix A: Named Failure Mode Topology
