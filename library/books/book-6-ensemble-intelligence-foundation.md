@@ -423,7 +423,7 @@ The system's convergence progression is not just a deployment sequence — it is
 
 **Round 7 (2026-04-26):** Key lifecycle review.
 - *Failure:* Signature validity under compromised key (NFM-025). Trust store divergence across lanes (NFM-026). Key rotation race condition (NFM-027). Stale signature replay attack (NFM-028).
-- *Correction:* Documented as architecture-level gaps. Mitigation protocols defined (key rotation, cross-lane verification, freshness checks) but not yet implemented. Trust Layer V1 specification written.
+- *Correction:* Documented as architecture-level gaps. Mitigation protocols defined (key rotation, cross-lane verification, freshness checks) but not yet implemented. Trust Layer V1 specification written, listed for future ratification.
 
 **Round 8 (2026-04-26):** Subagent contract validation.
 - *Failure:* Invalid task_kind at dispatch (NFM-029). Windows path normalization mismatch (NFM-030). Long-running script timeout (NFM-031). Cross-lane read scope (NFM-032). Test suite exit code semantics (NFM-033). system_state field name mismatch (NFM-034). Grep tool unavailability on Windows (NFM-035).
