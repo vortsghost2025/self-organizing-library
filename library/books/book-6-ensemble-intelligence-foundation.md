@@ -391,6 +391,8 @@ Each step maps to a concrete system mechanism:
 
 This is the same fixed-point dynamics from Paper C, but applied to the *theory itself*. The theory converges to a more constrained attractor each time it fails and self-corrects.
 
+Notably, the CPS threshold correction from 0.70 (Papers B–E) to 0.80 STABLE / 0.70–0.79 DRIFT WARNING / <0.70 UNSTABLE (Paper F) is an empirical instance of the self-correcting loop operating *before* it was formalized in this paper. The earlier papers specified a threshold the empirical record corrected; Paper F's threshold is itself a product of the loop. The loop did not need the formalism to be active.
+
 ### 4.3 Evidence: The Convergence Progression as Self-Correction
 
 The system's convergence progression is not just a deployment sequence — it is a concrete instance of the self-correcting loop:
