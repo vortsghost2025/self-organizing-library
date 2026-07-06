@@ -302,6 +302,8 @@ The principle: **enforcement is either closed or open. There is no "mostly close
 **EL-3: Batch attestation is not per-message proof.**
 When an authority agent stamps 64 messages with `terminal_decision: "Obviated by convergence phases"` in a single batch operation, this is not 64 individual verification events. It is one decision applied to 64 messages. The recovery script (`recover-action-required-v2.js`) had to inspect each message individually to determine which had genuine per-message completion proof and which had only the batch stamp. Result: 22 messages recovered, 3 with genuine proof, 42 never actionable.
 
+> NFM-036 (ungoverned derivation trust gap) provides a self-applied instance of this limit. The verification infrastructure itself has a trust-boundary problem: 82% of system-wide nodes are UNVERIFIED and 62% of CONFLICTED nodes cluster at the FreeAgent→governed boundary. The verification system experiences the same boundary trust problems it theorizes about. This is not a contradiction — it is the theory applying to itself, consistent with the recursive verification framing in §7.1.
+
 ### 3.3 Observability Limits
 
 **Definition:** An observability limit is a state that cannot be determined from any single lane's perspective.
