@@ -19,9 +19,9 @@
 
 Check that the file is at the 855-line baseline. If modified since this plan was written, adjust all subsequent anchors.
 
-- [ ] **Verify Appendix A invariant labels match the NFM→Invariant column mapping**
+- [ ] **Review Appendix A category labels against the interpretive NFM→Invariant Pressure mapping**
 
-Appendix A (lines 652-690) uses Category labels. The mapping to invariant values is:
+Appendix A (lines 652-690) uses Category labels. The default category-to-pressure hints are:
 - "Process isolation" → Enforcement
 - "State-claim" → State-Claim
 - "Enforcement" → Enforcement
@@ -32,7 +32,7 @@ Appendix A (lines 652-690) uses Category labels. The mapping to invariant values
 - "Schema-Reality" → Semantic
 - "Subagent/*" → Delegation
 
-Check each NFM's Category column against this mapping before writing the new column.
+Check each NFM's Category column against these hints before writing the new column. Richer pressure labels may intentionally diverge when the operational pressure is more specific than Appendix A's category label.
 
 - [ ] **Commit the clean baseline**
 
@@ -80,21 +80,23 @@ git commit -m "§1: add evidence baseline migration, source-of-truth invariant, 
 
 ---
 
-### Task 2: §2.1 — NFM→Invariant Trace Column (Edit 1f)
+### Task 2: §2.1 — NFM→Invariant Pressure Column (Edit 1f)
 
 **Files:**
 - Modify: library/books/book-6-ensemble-intelligence-foundation.md (lines 78-114)
 
 The NFM table currently has 4 columns: NFM | Name | Discovery | Severity.
-Add a 5th column: Invariant Tested.
+Add a 5th column: Invariant Pressure.
 
-**Step 1:** Change header from | NFM | Name | Discovery | Severity | to | NFM | Name | Discovery | Severity | Invariant Tested |
+Note: This column is interpretive. It is informed by Appendix A categories but is not a mechanical copy of them. Where the operational pressure is more specific than Appendix A's category label, the table uses the more precise pressure label.
+
+**Step 1:** Change header from | NFM | Name | Discovery | Severity | to | NFM | Name | Discovery | Severity | Invariant Pressure |
 
 **Step 2:** Change separator to include 5th column: |----|----|----|----|----|
 
-**Step 3:** Add invariant value to each of the 35 rows:
+**Step 3:** Add pressure value to each of the 35 rows:
 
-| NFM | Invariant Tested |
+| NFM | Invariant Pressure |
 |-----|-----------------|
 | NFM-001 | Enforcement |
 | NFM-002 | Identity/State-Claim |
@@ -138,7 +140,7 @@ Add a 5th column: Invariant Tested.
 
 ```
 git add library/books/book-6-ensemble-intelligence-foundation.md
-git commit -m "§2.1: add NFM→Invariant Trace column to NFM table"
+git commit -m "§2.1: add NFM→Invariant Pressure column to NFM table"
 ```
 
 ---
@@ -556,7 +558,7 @@ git commit -m "paper-f: unified revision complete"
 | Evidence baseline migration (§2.1) | Task 1 | |
 | Source-of-truth as invariant (S1) | Task 1 | |
 | Cross-domain non-claim (§1.3) | Task 1 | |
-| NFM→Invariant trace column (1f) | Task 2 | |
+| NFM→Invariant Pressure column (1f) | Task 2 | |
 | Structural criterion per category (2a-2h) | Task 3 | |
 | Lattice Constraint Validity theorem (1e) | Task 4 | |
 | Self-state aliasing pseudo-code (S4) | Task 5 | |
