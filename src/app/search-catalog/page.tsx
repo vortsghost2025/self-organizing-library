@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 export default function SearchCatalogPage() {
   const index = getSiteIndex();
   const entries = index.entries;
+  const catalogEntries = entries.slice(0, 500);
   const categories = getCategories();
 
   return (
@@ -49,13 +50,16 @@ export default function SearchCatalogPage() {
       </div>
 
       {/* Results count */}
-      <p className="text-[var(--text-muted)] mb-4">
-        Showing {entries.length} indexed documents across {Object.keys(index.stats.by_repo).length} repositories
+      <p className="text-[var(--text-muted)] mb-2">
+        Showing the first {catalogEntries.length} of {entries.length.toLocaleString()} indexed documents across {Object.keys(index.stats.by_repo).length} repositories
+      </p>
+      <p className="text-xs text-[var(--text-muted)] mb-4">
+        Full index is available through the <Link href="/library" className="underline hover:text-[var(--primary)]">library</Link> and <Link href="/graph" className="underline hover:text-[var(--primary)]">graph</Link> views.
       </p>
 
       {/* Results list */}
       <div className="space-y-3">
-        {entries.map((entry) => (
+        {catalogEntries.map((entry) => (
           <div
             key={entry.id}
             className="p-4 border border-[var(--border)] rounded-lg hover:border-[var(--primary)]/50 transition-colors"
