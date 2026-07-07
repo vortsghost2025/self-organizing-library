@@ -1,0 +1,792 @@
+{
+  "generated_at": "2026-07-06T23:00:00-04:00",
+  "operator": "Sean",
+  "mapping_agent": "opencode (Library lane)",
+  "session_id": "session_FdLqml30EkCL6TukRDS8i",
+  "status": "EVIDENCE_INDEX_v0.1",
+  "hard_constraints": [
+    "No claim enters this index unless supported by file path, command output, GitHub API result, or explicit INFERENCE label",
+    "GitHub creation date != conceptual creation date",
+    "File metadata generation date != paper authorship date",
+    "Generated directories excluded from architectural counts unless explicitly included",
+    "Local directory existence != active system membership",
+    "GitHub repo existence != canonical authority",
+    "WARNING — 16 repos deleted by agent and restored: git/GitHub timestamps may reflect restore dates, not original project start",
+    "All dates in this index carry a provenance label — see FULL_ARCHITECTURE_MAP.md §header for 8-label system"
+  ],
+  "date_provenance_labels": [
+    "USER_REPORTED — operator-stated date",
+    "VIDEO_TRANSCRIPT — extracted from Feb 26 YouTube transcript",
+    "FILE_HEADER_DATE — date in document header/metadata",
+    "GIT_COMMIT_DATE — git log timestamp (may reflect repo restore)",
+    "GITHUB_CREATED_DATE — GitHub API creation timestamp (may reflect repo restore)",
+    "LOCAL_FS_DATE — local filesystem LastWriteTime",
+    "ARCHIVE_RESTORE_DATE — date reflects archive extraction or repo restore",
+    "NEEDS_VERIFICATION — no reliable timestamp available"
+  ],
+  "repos": [
+    {
+      "id": "archivist-agent",
+      "name": "Archivist-Agent",
+      "local_path": "S:\\Archivist-Agent",
+      "remote_url": "https://github.com/vortsghost2025/Archivist-Agent",
+      "headless_mirror": "~/agent/repos/Archivist-Agent",
+      "first_commit": "2026-04-13T23:07:32-04:00",
+      "first_commit_msg": "feat: Initialize Archivist-Agent Tauri desktop app",
+      "last_commit": null,
+      "total_commits": 1336,
+      "tracked_files": 10296,
+      "branches": null,
+      "tier": 1,
+      "role": "core_governance_lane",
+      "description": "Final authority, ratification, artifact storage. Oldest continuous lane repo.",
+      "github_created": "2026-04-13T08:02:32Z",
+      "evidence_paths": [
+        "S:\\Archivist-Agent\\.git",
+        "S:\\Archivist-Agent\\lanes\\archivist\\ (575 files)",
+        "S:\\Archivist-Agent\\lanes\\broadcast\\ (200 files)"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "swarmmind",
+      "name": "SwarmMind",
+      "local_path": "S:\\SwarmMind",
+      "remote_url": "https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+      "headless_mirror": "~/agent/repos/SwarmMind",
+      "first_commit": "2026-04-23T15:13:03-04:00",
+      "first_commit_msg": "init: SwarmMind lane - initial commit with gitignore and safe_test",
+      "last_commit": null,
+      "total_commits": 1126,
+      "tracked_files": 1512,
+      "branches": null,
+      "tier": 1,
+      "role": "core_governance_lane",
+      "description": "Idea engine, proposal generation, autonomous improvement loops.",
+      "github_created": "2026-04-12T22:08:30Z",
+      "evidence_paths": [
+        "S:\\SwarmMind\\.git",
+        "S:\\SwarmMind\\lanes\\swarmmind\\ (188 files)",
+        "S:\\SwarmMind\\lanes\\broadcast\\ (171 files)"
+      ],
+      "notes": "GitHub repo created 2026-04-12. First local git commit in current clone 2026-04-23. Creation date and local commit history diverge — do not infer conceptual birth from local first commit.",
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "kernel-lane",
+      "name": "kernel-lane",
+      "local_path": "S:\\kernel-lane",
+      "remote_url": "https://github.com/vortsghost2025/kernel-lane",
+      "headless_mirror": "~/agent/repos/kernel-lane",
+      "first_commit": "2026-04-20T17:13:00-04:00",
+      "first_commit_msg": "Initial commit",
+      "last_commit": null,
+      "total_commits": 1193,
+      "tracked_files": 1248,
+      "branches": null,
+      "tier": 1,
+      "role": "core_governance_lane",
+      "description": "Infrastructure, routing, system health, cross-lane coordination.",
+      "github_created": "2026-04-20T21:12:59Z",
+      "evidence_paths": [
+        "S:\\kernel-lane\\.git",
+        "S:\\kernel-lane\\lanes\\kernel\\ (442 files)",
+        "S:\\kernel-lane\\lanes\\broadcast\\ (174 files)"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "self-organizing-library",
+      "name": "self-organizing-library",
+      "local_path": "S:\\self-organizing-library",
+      "remote_url": "https://github.com/vortsghost2025/self-organizing-library",
+      "headless_mirror": "~/agent/repos/self-organizing-library",
+      "first_commit": "2026-04-15T09:36:40-04:00",
+      "first_commit_msg": "Initial commit",
+      "last_commit": null,
+      "total_commits": 938,
+      "tracked_files": 9410,
+      "branches": null,
+      "tier": 1,
+      "role": "core_governance_lane",
+      "description": "Library lane: verification, Nexus Graph, Paper F. This repo.",
+      "github_created": "2026-04-15T17:20:45Z",
+      "evidence_paths": [
+        "S:\\self-organizing-library\\.git",
+        "S:\\self-organizing-library\\lanes\\library\\ (340 files)",
+        "S:\\self-organizing-library\\lanes\\broadcast\\ (63 files)",
+        "S:\\self-organizing-library\\library\\books\\book-6-ensemble-intelligence-foundation.md"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "kucoin-lane",
+      "name": "kucoin-lane",
+      "local_path": "S:\\kucoin-lane",
+      "remote_url": "https://github.com/vortsghost2025/kucoin-lane",
+      "headless_mirror": "~/agent/repos/kucoin-lane",
+      "first_commit": "2026-05-16T01:24:39-04:00",
+      "first_commit_msg": "Initial commit: kucoin-lane (Lane 4) — merged kucoin-margin-bot + Deliberate-AI-Ensemble trading logic",
+      "last_commit": null,
+      "total_commits": 132,
+      "tracked_files": 450,
+      "branches": null,
+      "tier": 3,
+      "role": "domain_lane",
+      "description": "KuCoin margin trading bot with ABC exchange adapter, regime-aware risk management.",
+      "github_created": "2026-05-16T05:24:26Z",
+      "evidence_paths": [
+        "S:\\kucoin-lane\\.git",
+        "S:\\kucoin-lane\\lanes\\kucoin\\ (7 files)"
+      ],
+      "notes": "First commit message explicitly states merge from kucoin-margin-bot + Deliberate-AI-Ensemble.",
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "solana-launch-lane",
+      "name": "solana-launch-lane",
+      "local_path": "S:\\solana-launch-lane",
+      "remote_url": "https://github.com/vortsghost2025/solana-launch-lane",
+      "headless_mirror": "~/agent/repos/solana-launch-lane",
+      "first_commit": "2026-06-10T17:07:23-04:00",
+      "first_commit_msg": "chore: scaffold solana-launch-lane project skeleton",
+      "last_commit": null,
+      "total_commits": 12,
+      "tracked_files": 33,
+      "branches": null,
+      "tier": 3,
+      "role": "domain_lane",
+      "description": "Solana token birth detection and paper decision relay.",
+      "github_created": "2026-06-10T23:03:17Z",
+      "evidence_paths": [
+        "S:\\solana-launch-lane\\.git",
+        "S:\\solana-launch-lane\\lanes\\solana-launch\\ (6 files)"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "we4free-control-plane",
+      "name": "WE4FREE-Control-Plane",
+      "local_path": "S:\\WE4FREE-Control-Plane",
+      "remote_url": "https://github.com/vortsghost2025/WE4FREE-Control-Plane",
+      "headless_mirror": "~/agent/repos/WE4FREE-Control-Plane",
+      "first_commit": "2026-05-09T10:58:52-04:00",
+      "first_commit_msg": "Initialize WE4FREE control plane rig",
+      "last_commit": null,
+      "total_commits": 188,
+      "tracked_files": 355,
+      "branches": null,
+      "tier": 2,
+      "role": "sidecar",
+      "description": "Control Plane sidecar: monitors lanes, emits reports, supervises agents. Not a lane itself.",
+      "github_created": "2026-05-09T15:00:08Z",
+      "evidence_paths": [
+        "S:\\WE4FREE-Control-Plane\\.git",
+        "S:\\WE4FREE-Control-Plane\\config\\control-plane.config.json",
+        "S:\\WE4FREE-Control-Plane\\docs\\SCOPE_BOUNDARY.md",
+        "S:\\WE4FREE-Control-Plane\\docs\\THREE_SURFACE_RIG_DOCTRINE.md",
+        "S:\\WE4FREE-Control-Plane\\docs\\CONTROL_PLANE_LIVE_ENFORCEMENT_MAP.md",
+        "S:\\WE4FREE-Control-Plane\\tools\\ (119 tracked tools)"
+      ],
+      "config_revealed": {
+        "six_monitored_lanes": [
+          "Archivist-Agent",
+          "SwarmMind",
+          "kernel-lane",
+          "self-organizing-library",
+          "kucoin-lane",
+          "solana-launch-lane"
+        ],
+        "headless_target": "we4free@we",
+        "lattice_deck_url": null,
+        "supervision_cycle": null
+      },
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "we4free-lattice-deck",
+      "name": "WE4FREE-Lattice-Deck",
+      "local_path": "S:\\WE4FREE-Lattice-Deck",
+      "remote_url": "https://github.com/vortsghost2025/WE4FREE-Lattice-Deck",
+      "first_commit": "2026-05-14T08:59:08-04:00",
+      "first_commit_msg": "Initial commit",
+      "last_commit": null,
+      "total_commits": 26,
+      "tracked_files": 106,
+      "branches": null,
+      "tier": 2,
+      "role": "observability_surface",
+      "description": "Next.js observatory/UI. Provenance surface, status dashboards, lattice constraint visualization.",
+      "github_created": "2026-05-14T16:40:56Z",
+      "evidence_paths": [
+        "S:\\WE4FREE-Lattice-Deck\\.git",
+        "S:\\WE4FREE-Lattice-Deck\\JOURNAL.md",
+        "S:\\WE4FREE-Lattice-Deck\\AGENTS.md",
+        "S:\\WE4FREE-Lattice-Deck\\docs\\DISPLAY_AND_PROVENANCE_CONTRACT.md",
+        "S:\\WE4FREE-Lattice-Deck\\src\\app\\api\\ (7 API routes)"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "we4free-research-intake",
+      "name": "WE4FREE-Research-Intake",
+      "local_path": "S:\\WE4FREE-Research-Intake",
+      "remote_url": "https://github.com/vortsghost2025/WE4FREE-Research-Intake",
+      "first_commit": "2026-05-15T01:07:17-04:00",
+      "first_commit_msg": "chore: add .aider* to .gitignore",
+      "last_commit": null,
+      "total_commits": 10,
+      "tracked_files": 69,
+      "branches": null,
+      "tier": 2,
+      "role": "intake_pipeline",
+      "description": "Quarantine-first research pipeline: discover, normalize, score, quarantine, signed packet, lane inbox.",
+      "github_created": "2026-05-15T04:52:44Z",
+      "evidence_paths": [
+        "S:\\WE4FREE-Research-Intake\\.git",
+        "S:\\WE4FREE-Research-Intake\\AGENTS.md",
+        "S:\\WE4FREE-Research-Intake\\src\\ (50 tracked files)",
+        "S:\\WE4FREE-Research-Intake\\work-orders\\ (6 work orders)"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "federation",
+      "name": "federation",
+      "local_path": "S:\\federation",
+      "remote_url": "https://github.com/vortsghost2025/federation",
+      "first_commit": "2026-04-12T10:15:26-04:00",
+      "first_commit_msg": "first commit",
+      "last_commit": null,
+      "total_commits": 322,
+      "tracked_files": 640,
+      "branches": null,
+      "tier": 4,
+      "role": "experimental_spinoff",
+      "description": "Federation simulation. Branch bridge/memory-phase-1.",
+      "github_created": "2026-04-12T14:14:44Z",
+      "evidence_paths": [
+        "S:\\federation\\.git"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "sean-machine-janitor",
+      "name": "sean-machine-janitor",
+      "local_path": "S:\\sean-machine-janitor",
+      "remote_url": "https://github.com/vortsghost2025/sean-machine-janitor",
+      "first_commit": "2026-06-13T16:04:27-04:00",
+      "first_commit_msg": "Initialize machine janitor handoff control repo",
+      "last_commit": null,
+      "total_commits": 42,
+      "tracked_files": 289,
+      "branches": null,
+      "tier": 5,
+      "role": "tooling",
+      "description": "Machine janitor: cleanup, recovery, subagent tooling, commit-policy spec.",
+      "github_created": "2026-06-21T13:39:15Z",
+      "first_commit_before_github": true,
+      "evidence_paths": [
+        "S:\\sean-machine-janitor\\.git"
+      ],
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "papers",
+      "name": "papers",
+      "local_path": "S:\\papers",
+      "remote_url": null,
+      "first_commit": "2026-05-01T08:12:02-04:00",
+      "first_commit_msg": "Initial commit: Add rosetta-stone.json CAISC 2026 meta",
+      "last_commit": null,
+      "total_commits": 1,
+      "tracked_files": 1,
+      "branches": null,
+      "tier": 0,
+      "role": "theory_source",
+      "description": "Single-commit repo. Contains 5 PDFs (Papers 1-5) + .papers-meta/ index. NOT on GitHub.",
+      "evidence_paths": [
+        "S:\\papers\\.git",
+        "S:\\papers\\.papers-meta\\index.json",
+        "S:\\papers\\.papers-meta\\rosetta-stone.md",
+        "S:\\papers\\.papers-meta\\constraint-lattices.md",
+        "S:\\papers\\.papers-meta\\phenotype-selection.md",
+        "S:\\papers\\.papers-meta\\drift-identity.md",
+        "S:\\papers\\.papers-meta\\we4free-framework.md"
+      ],
+      "notes": "git ls-files returns only .papers-meta/rosetta-stone.json (1 tracked file). 5 PDFs exist on disk but are NOT tracked by git. 17 files total on disk including .papers-meta/ JSON+MD files and Untitled.txt.",
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "genesis-kernel-world-sim",
+      "name": "Genesis Kernel World Sim",
+      "local_path": "S:\\Genesis Kernel World Sim",
+      "remote_url": "https://github.com/vortsghost2025/Genesis-Kernel-World-Sim",
+      "first_commit": "2026-06-19T19:48:22-04:00",
+      "first_commit_msg": "merge: integrate remote changes, keep local cognitive/veil fixes",
+      "last_commit": null,
+      "total_commits": 187,
+      "tracked_files": 217,
+      "branches": null,
+      "tier": 4,
+      "role": "experimental_spinoff",
+      "description": "Earth-origin civilization simulation. Adam and Eve world sim.",
+      "github_created": "2026-05-30T18:32:11Z",
+      "evidence_paths": [
+        "S:\\Genesis Kernel World Sim\\.git"
+      ],
+      "notes": "GitHub created 2026-05-30, but first local commit 2026-06-19 (merge). First remote commit on different timeline.",
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    },
+    {
+      "id": "we-cartographer",
+      "name": "WE-Cartographer",
+      "local_path": "S:\\WE-Cartographer",
+      "remote_url": null,
+      "tier": 2,
+      "role": "mapping_tool",
+      "description": "NOT a git repo. Directory with profiles/, reports/, single-test.txt, Untitled.txt. No .git directory, no remote.",
+      "evidence_paths": [
+        "S:\\WE-Cartographer\\profiles\\",
+        "S:\\WE-Cartographer\\reports\\"
+      ],
+      "notes": "Not version-controlled. Contains mapping/audit output files. No evidence of lane structure.",
+      "last_commit_extraction": "not_extracted",
+      "branches_extraction": "not_extracted"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "archivist",
+      "name": "Archivist",
+      "type": "core",
+      "authority": "100",
+      "implemented_by": "Archivist-Agent",
+      "inbox_count": null,
+      "outbox_count": null
+    },
+    {
+      "id": "swarmmind",
+      "name": "SwarmMind",
+      "type": "core",
+      "authority": null,
+      "implemented_by": "SwarmMind",
+      "inbox_count": null,
+      "outbox_count": null
+    },
+    {
+      "id": "kernel",
+      "name": "Kernel",
+      "type": "core",
+      "authority": null,
+      "implemented_by": "kernel-lane",
+      "inbox_count": null,
+      "outbox_count": null
+    },
+    {
+      "id": "library",
+      "name": "Library",
+      "type": "core",
+      "authority": "60",
+      "implemented_by": "self-organizing-library",
+      "inbox_count": null,
+      "outbox_count": null
+    },
+    {
+      "id": "kucoin",
+      "name": "KuCoin",
+      "type": "domain",
+      "authority": null,
+      "implemented_by": "kucoin-lane",
+      "inbox_count": 7,
+      "outbox_count": 0,
+      "notes": "Control-plane config lists this as monitored lane"
+    },
+    {
+      "id": "solana-launch",
+      "name": "Solana Launch",
+      "type": "domain",
+      "authority": null,
+      "implemented_by": "solana-launch-lane",
+      "inbox_count": 6,
+      "outbox_count": 0,
+      "notes": "Control-plane config lists this as monitored lane"
+    },
+    {
+      "id": "broadcast",
+      "name": "Broadcast",
+      "type": "cross_lane",
+      "authority": null,
+      "notes": "Cross-lane public message directory. Present in all 4 core lane repos."
+    },
+    {
+      "id": "logs",
+      "name": "Logs",
+      "type": "cross_lane",
+      "authority": null,
+      "notes": "Shared logging directory. Present in all 4 core lane repos."
+    }
+  ],
+  "papers": [
+    {
+      "id": "paper-a",
+      "label": "Paper A (1)",
+      "title": "The Rosetta Stone: Core Invariants Across Physics, Biology, Computation, and Ensemble Intelligence",
+      "location": "S:\\papers\\01_The_Rosetta_Stone.pdf.pdf",
+      "meta_location": "S:\\papers\\.papers-meta\\rosetta-stone.md",
+      "meta_generated": "2026-04-29T18:56:49.566Z",
+      "git_committed": "2026-05-01",
+      "type": "pdf",
+      "tier": 0,
+      "tags": [
+        "Rosetta Stone",
+        "Constitutional AI",
+        "CAISC 2026"
+      ],
+      "known_authorship_date": null
+    },
+    {
+      "id": "paper-b",
+      "label": "Paper B (2)",
+      "title": "Constraint Lattices and Stability: How Layered Boundaries Create Predictable Behavior Without Central Control",
+      "location": "S:\\papers\\02_Constraint_Lattices_and_Stability.pdf.pdf",
+      "meta_location": "S:\\papers\\.papers-meta\\constraint-lattices.md",
+      "meta_generated": "2026-04-29T18:56:49.57Z",
+      "git_committed": "2026-05-01",
+      "type": "pdf",
+      "tier": 0,
+      "tags": [
+        "Constraint Lattice",
+        "Governance"
+      ],
+      "known_authorship_date": null
+    },
+    {
+      "id": "paper-c",
+      "label": "Paper C (3)",
+      "title": "Phenotype Selection in Constraint-Governed Systems: How Behavioral Regularities Emerge, Stabilize, and Persist Under Structural Pressure",
+      "location": "S:\\papers\\03_Phenotype_Selection_in_Constraint_Governed_Systems.pdf.pdf",
+      "meta_location": "S:\\papers\\.papers-meta\\phenotype-selection.md",
+      "meta_generated": "2026-04-29T18:56:49.571Z",
+      "git_committed": "2026-05-01",
+      "type": "pdf",
+      "tier": 0,
+      "tags": [
+        "Phenotype",
+        "Verification"
+      ],
+      "known_authorship_date": null
+    },
+    {
+      "id": "paper-d",
+      "label": "Paper D (4)",
+      "title": "Drift, Identity, and Ensemble Coherence: How Multi-Agent Systems Maintain Stability Across Temporal Discontinuity",
+      "location": "S:\\papers\\04_Drift_Identity_and_Ensemble_Coherence.pdf.pdf",
+      "meta_location": "S:\\papers\\.papers-meta\\drift-identity.md",
+      "meta_generated": "2026-04-29T18:56:49.571Z",
+      "git_committed": "2026-05-01",
+      "type": "pdf",
+      "tier": 0,
+      "tags": [
+        "Drift",
+        "Identity Enforcement",
+        "Attestation"
+      ],
+      "known_authorship_date": null
+    },
+    {
+      "id": "paper-e",
+      "label": "Paper E (5)",
+      "title": "The WE4FREE Framework: Operationalizing Papers A-D as Deployable Infrastructure",
+      "location": "S:\\papers\\05_The_WE4FREE_Framework.pdf.pdf",
+      "meta_location": "S:\\papers\\.papers-meta\\we4free-framework.md",
+      "meta_generated": "2026-04-29T18:56:49.572Z",
+      "git_committed": "2026-05-01",
+      "type": "pdf",
+      "tier": 0,
+      "tags": [
+        "WE4FREE",
+        "Constitutional AI",
+        "Federation"
+      ],
+      "known_authorship_date": null,
+      "paper_dependencies": [
+        "paper-a",
+        "paper-b",
+        "paper-c",
+        "paper-d"
+      ]
+    },
+    {
+      "id": "paper-f",
+      "label": "Paper F (6)",
+      "title": "Paper F: Failure Modes, Formal Limits, and the Self-Correcting Loop",
+      "location": "S:\\self-organizing-library\\library\\books\\book-6-ensemble-intelligence-foundation.md",
+      "git_committed": "2026-04-24T18:14:57-04:00 (first commit: 7c02d5d6)",
+      "type": "markdown",
+      "tier": 0,
+      "date_header": "2026-04-24",
+      "status_header": "REVIEWABLE",
+      "line_count": 927,
+      "nfm_count": 36,
+      "nfm_range": "NFM-001 to NFM-036",
+      "nfm_categories": [
+        "NFM-001 to 010: Identity/enforcement failures",
+        "NFM-011 to 024: Schema/protocol/observability failures",
+        "NFM-025 to 028: Key lifecycle gaps",
+        "NFM-029 to 035: Subagent contract failures",
+        "NFM-036: Self-applied theory"
+      ],
+      "recent_commits": "Last modified 2026-07-06 (today — [LANE-3] section updates)",
+      "notes": "Paper F's first git commit (2026-04-24) predates Papers 1-5 PDF commit (2026-05-01). However, the paper itself references data from the running 4-lane system that existed by April 20."
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "windows-cockpit",
+      "name": "Windows cockpit",
+      "path": "S:\\",
+      "os": "Windows 11",
+      "role": "Authoring, development, UI, operator control",
+      "evidence": "S:\\WE4FREE-Control-Plane\\docs\\THREE_SURFACE_RIG_DOCTRINE.md"
+    },
+    {
+      "id": "ubuntu-headless",
+      "name": "Ubuntu headless",
+      "host": "100.95.40.99",
+      "lan": "192.168.0.171",
+      "user": "we4free",
+      "os": "Ubuntu 22.04.5",
+      "role": "Autonomous agents, daemons, lane execution, verifier",
+      "evidence": "SSH confirmed 7 repos at ~/agent/repos/",
+      "disk_usage": "68%",
+      "load": "3.32"
+    },
+    {
+      "id": "github-canonical",
+      "name": "GitHub canonical state",
+      "org": "vortsghost2025",
+      "role": "Backup, sync, CI, canonical references",
+      "evidence": "gh repo list vortsghost2025 (40 repos total)"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-001",
+      "statement": "There are 6 monitored lanes: Archivist, SwarmMind, Kernel, Library, KuCoin, Solana Launch",
+      "evidence": "S:\\WE4FREE-Control-Plane\\config\\control-plane.config.json",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-002",
+      "statement": "The 4 core governance lanes (Archivist, SwarmMind, Kernel, Library) share a symmetrical lanes/ message directory structure",
+      "evidence": "Command output: Get-ChildItem S:\\{Archivist-Agent,SwarmMind,kernel-lane,self-organizing-library}\\lanes\\ -Directory",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-003",
+      "statement": "Headless Ubuntu mirrors 7 repos at ~/agent/repos/",
+      "evidence": "SSH output from 100.95.40.99 ls ~/agent/repos/",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-004",
+      "statement": "WE4FREE-Control-Plane is a sidecar, not a lane",
+      "evidence": "S:\\WE4FREE-Control-Plane\\docs\\SCOPE_BOUNDARY.md",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-005",
+      "statement": "Papers 1-5 metadata .md files have generated_at timestamp 2026-04-29",
+      "evidence": "S:\\papers\\.papers-meta\\rosetta-stone.md line 6, constraint-lattices.md line 6, etc.",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-006",
+      "statement": "Paper F's first git commit was 2026-04-24 (SHA 7c02d5d6)",
+      "evidence": "git log --follow --format=\"%h %ai %s\" -- library/books/book-6-ensemble-intelligence-foundation.md",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-007",
+      "statement": "Papers repo has 1 tracked file (.papers-meta/rosetta-stone.json); 5 PDFs exist on disk but are NOT tracked by git",
+      "evidence": "git -C S:\\papers ls-files returns 1 file; Get-ChildItem shows 17 files on disk",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-008",
+      "statement": "WE-Cartographer is NOT a git repository",
+      "evidence": "Test-Path S:\\WE-Cartographer\\.git returns False",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-009",
+      "statement": "Paper F's first commit predates Papers 1-5 PDF commit by 7 days",
+      "evidence": "2026-04-24 vs 2026-05-01",
+      "confidence": "VERIFIED",
+      "notes": "This does NOT prove Paper F was authored before Papers 1-5. The PDFs may have existed before being committed to git."
+    },
+    {
+      "id": "claim-010",
+      "statement": "Paper F documents 36 failure modes (NFM-001 through NFM-036) from the 4-lane system",
+      "evidence": "grep -c NFM- in book-6-ensemble-intelligence-foundation.md",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "INFERENCE-001",
+      "statement": "Phase 3 repos (Control Plane, Lattice Deck, Research Intake) were created in response to failures documented in Paper F",
+      "evidence": null,
+      "confidence": "INFERENCE",
+      "notes": "Chronological sequence: Paper F dated 2024-04-24, Phase 3 repos created 2026-05-09 onward. But no document explicitly states causal dependency. Repos may have been planned independently."
+    },
+    {
+      "id": "INFERENCE-002",
+      "statement": "kucoin-lane is the successor to kucoin-margin-bot",
+      "evidence": "First commit message of kucoin-lane: 'merged kucoin-margin-bot + Deliberate-AI-Ensemble trading logic'",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "NEEDS_VERIFICATION-001",
+      "statement": "Papers 1-5 were authored before Paper F",
+      "evidence": null,
+      "confidence": "NEEDS_VERIFICATION",
+      "notes": "No authorship dates exist for Papers 1-5 PDFs. Only git commit date (2026-05-01) and meta generation date (2026-04-29) are known. Paper F's git history starts 2026-04-24 but references data from the 4-lane system built by Apr 20."
+    },
+    {
+      "id": "claim-011",
+      "statement": "Total tracked files across all repos: 36,632 (36,518 non-generated, 114 generated)",
+      "evidence": "Import-Csv S:\\self-organizing-library\\data\\repo-file-manifest.csv | Where-Object { $_.is_generated -eq 'false' } | Measure-Object",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-012",
+      "statement": "21 GitHub repos have no S: drive local clone (GitHub-only)",
+      "evidence": "S:\\self-organizing-library\\data\\github-local-crosscheck.csv: 39 total, 18 local_match=True, 21 local_match=False",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-013",
+      "statement": "Paper F is currently 927 lines (grew from ~855 via LANE-3 edits on 2026-07-06)",
+      "evidence": "(Get-Content S:\\self-organizing-library\\library\\books\\book-6-ensemble-intelligence-foundation.md).Count = 927",
+      "confidence": "VERIFIED"
+    },
+    {
+      "id": "claim-014",
+      "statement": "Papers A-E were completed before Feb 26, 2026 demo",
+      "evidence": "User-supplied YouTube transcript (2026-02-26): 'my papers comparing my paper, my thesis, the Rosetta Stone. It's all there.'",
+      "confidence": "USER_PROVIDED_TRANSCRIPT"
+    },
+    {
+      "id": "archive-autonomous-elasticsearch-evolution-agent",
+      "type": "archived_source_tree",
+      "path": "S:\\_ARCHIVED\\abandoned-projects\\autonomous-elasticsearch-evolution-agent",
+      "classification": "Tier -1 ancestor/source epoch",
+      "file_count": 91446,
+      "not_current_runtime": true,
+      "genealogy_critical": true,
+      "evidence_paths": [
+        "agents/", "dashboards/", "memory/", "orchestration/",
+        "PERSISTENT_MEMORY.md (2026-02-20)", "ORCHESTRATOR_ARCHITECTURE.md",
+        "SWARM_ARCHITECTURE.md", "VERIFICATION_AGENT_ARCHITECTURE.md",
+        "RESEARCH_AGENT_ARCHITECTURE.md", "CODING_AGENT_ARCHITECTURE.md",
+        "DEVPOST_SUBMISSION.md (2026-02-21)", "MASTER_ORCHESTRATION_GUIDE.md"
+      ]
+    },
+    {
+      "id": "archive-deliberate-ai-ensemble",
+      "type": "archived_source_tree",
+      "path": "S:\\_ARCHIVED\\abandoned-projects\\Deliberate-AI-Ensemble",
+      "classification": "Tier -1 ancestor/source epoch",
+      "file_count": 1233,
+      "not_current_runtime": true,
+      "genealogy_critical": true,
+      "evidence_files_date_stamped": [
+        "CONSTITUTIONAL_CORRECTION_2026-02-07.md",
+        "DUAL_INDEPENDENT_VERIFICATION_2026-02-06.md",
+        "SIGNAL_HANDLER_BREAKTHROUGH_FEB7_2026.md",
+        "PUBLIC_REPLICATION_PROOF_2026-02-06.md",
+        "CRASH_RECOVERY_VALIDATION_FEB7_2026.md",
+        "SESSION_ID_PERSISTENCE_VALIDATION.md",
+        "PAPER_04_THE_ROSETTA_STONE.md",
+        "PAPER_C_VERSION_COMPARISON.md",
+        "WE4FREE_README.md",
+        "COVENANT.md",
+        "CPS_COMPARISON_PROTOCOL.md",
+        "EVIDENCE_OF_SELF_CORRECTION.md",
+        "FAILURE_ANALYSIS_FEB9_2026.md"
+      ]
+    },
+    {
+      "id": "archive-onequemvp",
+      "type": "archived_source_tree",
+      "path": "S:\\_ARCHIVED\\abandoned-projects\\httpsgithub.comvortsghost2025ONEQUEMVP\\ONEQUEMVP",
+      "classification": "archived implementation precursor / queue-router precursor",
+      "file_count": 5272,
+      "not_current_runtime": true,
+      "genealogy_critical": true,
+      "evidence_paths": [
+        "AGENTS.md", "ARCHITECTURE_ANALYSIS.md", "IMPLEMENTATION_PLAN.md",
+        "STRESS_TEST_RESULTS.md", "SAFETY_FEATURES.md", "UNIVERSAL_ROUTER.md",
+        "UI_AUDIT_2026-04-09.md", "E2E_TEST_REPORT.md", "CRITICAL_FIXES.md"
+      ]
+    },
+    {
+      "id": "archive-april152026-main-reference-point",
+      "type": "archive_bundle_root",
+      "path": "S:\\_ARCHIVED\\abandoned-projects\\April152026mainreferencepoint",
+      "classification": "reference snapshot / export point (2026-04-16 bundles)",
+      "file_count": 3981,
+      "not_origin": true,
+      "contains": [
+        "Deliberate-AI-Ensemble-main.zip",
+        "papers-20260416T223833Z-3-001.zip",
+        "kucoin-margin-bot/",
+        "resilience_bundle_preview/",
+        "WE4FREE_Sean_Infra_Replay_Constraints_Drift_Bundle/",
+        "WE4FREE_Sean_Resilience_Code_Bundle/",
+        "we4free_aws_iac_bundles/"
+      ]
+    },
+    {
+      "id": "archive-freeagent",
+      "type": "archived_source_tree",
+      "path": "S:\\_ARCHIVED\\abandoned-projects\\FreeAgent",
+      "classification": "Tier -1 ancestor/source epoch",
+      "file_count": 26027,
+      "not_current_runtime": true,
+      "genealogy_critical": true,
+      "note": "Contains cockpit, swarm, orchestration, medical, federation, persistence subsystems"
+    },
+    {
+      "id": "video-2026-02-26-hackathon-demo",
+      "type": "video_transcript",
+      "url": "https://www.youtube.com/watch?v=VjlNpj_ubNc&t=12s",
+      "date_claimed": "2026-02-26",
+      "evidence_from": "user-provided transcript",
+      "confidence": "USER_PROVIDED_TRANSCRIPT",
+      "claims_supported": [
+        "Sean started coding January 20, 2026",
+        "A five-agent cockpit existed by February 26, 2026",
+        "System included master cockpit, five AI tabs, swarm tab, shared task queue",
+        "System included autonomous mode, rebalance/optimize controls, backtesting",
+        "System demonstrated medical/genomics pipelines and parallel agent execution",
+        "System demonstrated 50 parallel operations with 100% success rate",
+        "Persistence crisis from agent reset was a core motivating pressure",
+        "The first five papers were completed before the video, per operator statement"
+      ]
+    }
+  ]
+}

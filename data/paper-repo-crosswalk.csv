@@ -1,0 +1,35 @@
+paper_id,paper_title,repo,relationship,evidence_path,confidence,notes
+paper-a,"The Rosetta Stone",self-organizing-library,references,"S:\self-organizing-library\library\books\book-6-ensemble-intelligence-foundation.md §1.1",VERIFIED,"Paper F references Paper A claim about multi-model convergence"
+paper-a,"The Rosetta Stone",Archivist-Agent,implements,"INFERENCE based on authority role","INFERENCE","Archivist enforces invariants; no explicit 'Rosetta Stone implementation' doc found"
+paper-a,"The Rosetta Stone",kernel-lane,references,INFERENCE,INFERENCE,"Kernel routing may implement propagation layer; not confirmed"
+paper-b,"Constraint Lattices and Stability",WE4FREE-Lattice-Deck,implements,"S:\WE4FREE-Lattice-Deck\AGENTS.md, JOURNAL.md, docs\DISPLAY_AND_PROVENANCE_CONTRACT.md","VERIFIED","Lattice Deck is explicitly the visualization/observatory for constraint lattice state"
+paper-b,"Constraint Lattices and Stability",kernel-lane,implements,INFERENCE,INFERENCE,"kernel-lane/lanes/kernel/ contains constraint propagation; needs doc-level confirmation"
+paper-b,"Constraint Lattices and Stability",WE4FREE-Control-Plane,implements,"S:\WE4FREE-Control-Plane\docs\CONTROL_PLANE_LIVE_ENFORCEMENT_MAP.md","VERIFIED","Control Plane enforces lattice constraints at runtime"
+paper-c,"Phenotype Selection in Constraint-Governed Systems",WE4FREE-Research-Intake,implements,"S:\WE4FREE-Research-Intake\AGENTS.md, src\","VERIFIED","Research Intake uses quarantine-first pipeline: score, select, route — direct operationalization of phenotype selection"
+paper-c,"Phenotype Selection in Constraint-Governed Systems",SwarmMind,implements,"S:\SwarmMind\lanes\swarmmind\ (188 proposal files)","VERIFIED","SwarmMind generates proposals that compete for selection; phenotype selection operator"
+paper-d,"Drift, Identity, and Ensemble Coherence",WE4FREE-Control-Plane,implements,"S:\WE4FREE-Control-Plane\docs\ADAPTIVE_OBSERVER_PROTOCOL.md, OBSERVER_ESCALATION_POLICY.md","VERIFIED","Control Plane observer detects drift via adaptive observation; escalation when drift exceeds thresholds"
+paper-d,"Drift, Identity, and Ensemble Coherence",self-organizing-library,implements,"S:\self-organizing-library\lanes\library\ (evidence verification)","VERIFIED","Library verifies identity and detects drift through evidence comparison"
+paper-d,"Drift, Identity, and Ensemble Coherence",Archivist-Agent,implements,"INFERENCE - identity enforcement role","INFERENCE","Archivist enforces identity attestation; needs explicit drift detection doc"
+paper-e,"The WE4FREE Framework",WE4FREE-Control-Plane,implements,"S:\WE4FREE-Control-Plane\docs\SCOPE_BOUNDARY.md, THREE_SURFACE_RIG_DOCTRINE.md","VERIFIED","Control Plane is the direct operationalization of the WE4FREE Framework"
+paper-e,"The WE4FREE Framework",kucoin-lane,extends,"S:\kucoin-lane\lanes\kucoin\","VERIFIED","KuCoin lane extends WE4FREE governance to trading domain"
+paper-e,"The WE4FREE Framework",solana-launch-lane,extends,"S:\solana-launch-lane\lanes\solana-launch\","VERIFIED","Solana Launch lane extends WE4FREE governance to token detection"
+paper-e,"The WE4FREE Framework",WE4FREE-Lattice-Deck,implements,"S:\WE4FREE-Lattice-Deck\docs\DISPLAY_AND_PROVENANCE_CONTRACT.md","VERIFIED","Lattice Deck implements Paper E's display/provenance layer"
+paper-e,"The WE4FREE Framework",WE4FREE-Research-Intake,implements,"S:\WE4FREE-Research-Intake\AGENTS.md","VERIFIED","Research Intake operationalizes Paper E's intake pipeline"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",self-organizing-library,contains,"S:\self-organizing-library\library\books\book-6-ensemble-intelligence-foundation.md","VERIFIED","Paper F manuscript lives here"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",Archivist-Agent,criticizes,"book-6 §1, §2 NFM-001 to 010","VERIFIED","Paper F identifies identity, enforcement, and trust store failures in Archivist"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",SwarmMind,criticizes,"book-6 §2 NFM-012, NFM-015, NFM-017","VERIFIED","Paper F identifies schema mismatch, disappearing identity dir, invalid PEM in SwarmMind"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",kernel-lane,criticizes,"book-6 §2 NFM-011","VERIFIED","Paper F identifies kernel vs kernel-lane naming inconsistency"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",WE4FREE-Control-Plane,corrects,"INFERENCE - chronological only","INFERENCE","Control Plane implements observer protocol, enforcement map, drift detection that Paper F found missing"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",WE4FREE-Lattice-Deck,corrects,"INFERENCE - chronological only","INFERENCE","Lattice Deck provides cross-lane observability that Paper F found missing (NFM-020)"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",WE4FREE-Research-Intake,corrects,"INFERENCE - chronological only","INFERENCE","Research Intake's quarantine pipeline addresses schema-validation gaps (NFM-019)"
+paper-a,"The Rosetta Stone",papers,contains,"S:\papers\01_The_Rosetta_Stone.pdf.pdf","VERIFIED",
+paper-b,"Constraint Lattices and Stability",papers,contains,"S:\papers\02_Constraint_Lattices_and_Stability.pdf.pdf","VERIFIED",
+paper-c,"Phenotype Selection in Constraint-Governed Systems",papers,contains,"S:\papers\03_Phenotype_Selection_in_Constraint_Governed_Systems.pdf.pdf","VERIFIED",
+paper-d,"Drift, Identity, and Ensemble Coherence",papers,contains,"S:\papers\04_Drift_Identity_and_Ensemble_Coherence.pdf.pdf","VERIFIED",
+paper-e,"The WE4FREE Framework",papers,contains,"S:\papers\05_The_WE4FREE_Framework.pdf.pdf","VERIFIED",
+paper-a,"The Rosetta Stone",we-and-ai-papers,historical_precursor,"https://github.com/vortsghost2025/we-and-ai-papers","VERIFIED","Raw working documents for Rosetta Stone papers (145+ files)"
+paper-b,"Constraint Lattices and Stability",we-and-ai-papers,historical_precursor,"https://github.com/vortsghost2025/we-and-ai-papers","VERIFIED","Raw working documents"
+paper-c,"Phenotype Selection in Constraint-Governed Systems",we-and-ai-papers,historical_precursor,"https://github.com/vortsghost2025/we-and-ai-papers","VERIFIED","Raw working documents"
+paper-d,"Drift, Identity, and Ensemble Coherence",we-and-ai-papers,historical_precursor,"https://github.com/vortsghost2025/we-and-ai-papers","VERIFIED","Raw working documents"
+paper-e,"The WE4FREE Framework",we-and-ai-papers,historical_precursor,"https://github.com/vortsghost2025/we-and-ai-papers","VERIFIED","Raw working documents"
+paper-f,"Failure Modes, Formal Limits, and the Self-Correcting Loop",we-and-ai-papers,historical_precursor,"https://github.com/vortsghost2025/we-and-ai-papers contains Bookpaper6","VERIFIED","'Bookpaper6' file found in we-and-ai-papers; likely precursor to Paper F"
