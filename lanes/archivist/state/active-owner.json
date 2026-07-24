@@ -1,10 +1,10 @@
 {
-  "session_id": "sess_mq600ahs_14000",
+  "session_id": "sess_mrws8sjr_7528",
   "lane": "archivist",
-  "claimed_at": "2026-06-09T02:06:01.504Z",
-  "renewed_at": "2026-06-09T21:19:11.125Z",
-  "expires_at": "2026-06-09T21:34:11.125Z",
-  "pid": 14000,
+  "claimed_at": "2026-07-23T00:38:10.311Z",
+  "renewed_at": "2026-07-24T04:29:26.609Z",
+  "expires_at": "2026-07-24T04:44:26.609Z",
+  "pid": 7528,
   "origin_runtime": "kilo",
   "origin_workspace": "S:\\self-organizing-library"
 }
