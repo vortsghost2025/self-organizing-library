@@ -14,14 +14,12 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
-const discovery = new LaneDiscovery();
 const LANE_DIRS = {
-  archivist: discovery.getLocalPath('archivist'),
-  library: discovery.getLocalPath('library'),
-  swarmmind: discovery.getLocalPath('swarmmind'),
-  kernel: discovery.getLocalPath('kernel')
+  archivist: 'S:/Archivist-Agent',
+  library: 'S:/self-organizing-library',
+  swarmmind: 'S:/SwarmMind',
+  kernel: 'S:/kernel-lane',
 };
 
 function loadMessage(filePath) {

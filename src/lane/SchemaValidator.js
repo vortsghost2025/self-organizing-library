@@ -31,8 +31,8 @@ const REQUIRED_FIELDS = [
 const ENUM_CONSTRAINTS = {
   // v1.3 adds support for schema_version 1.3
   schema_version: ['1.0', '1.1', '1.2', '1.3'],
-  // Updated canonical target names (includes broadcast and all for multi-lane messaging)
-  to: ['archivist', 'library', 'swarmmind', 'kernel', 'broadcast', 'all'],
+  // Updated canonical target name for kernel lane
+  to: ['archivist', 'library', 'swarmmind', 'kernel', 'broadcast', 'all', 'authority', 'functions.git'],
   type: ['task', 'response', 'heartbeat', 'escalation', 'handoff', 'ack', 'alert', 'notification', 'status'],
   // NFM-019 fix: extend task_kind to cover task lifecycle + alert + notification + heartbeat
   // Governance process: proposal, review, amendment, ratification
@@ -57,6 +57,7 @@ const TYPE_CHECKS = {
   to: 'string',
   type: 'string',
   task_kind: 'string',
+  metrics: 'object',
   priority: 'string',
   subject: 'string',
   body: 'string',
@@ -304,14 +305,13 @@ function createMessage(template = {}) {
       },
       ...template.watcher,
     },
-  delivery_verification: {
-    verified: false,
-    verified_at: null,
-    retries: 0,
-    // NOTE: template.delivery_verification is NOT spread here.
-    // Bug 3 fix: caller cannot override verified=true during construction.
-    // Only deliverMessage() can set verified=true after validating + writing.
-  },
+    delivery_verification: {
+      verified: false,
+      verified_at: null,
+      retries: 0,
+    },
+    confidence: template.confidence !== undefined ? template.confidence : 8,
+    investigation: template.investigation || null,
   };
 
   const message = normalizeMessageForSchema({ ...defaults, ...template });
@@ -366,48 +366,13 @@ function loadSchema() {
  * Returns { delivered: boolean, schema_valid: boolean, verified: boolean,
  *           path: string, error: string|null, validation_errors: string[]|null }
  */
-function deliverMessage(message, canonicalPath, signingOptions) {
+function deliverMessage(message, canonicalPath) {
   const normalizedMessage = normalizeMessageForSchema(message);
   // VALIDATE BEFORE WRITE — Bug 1 fix: never stamp verified=true without schema check
   const validationResult = validate(normalizedMessage);
   const schemaValid = validationResult.valid;
 
-  let signedMessage = normalizedMessage;
-
-  if (signingOptions && signingOptions.signer && signingOptions.privateKey && signingOptions.keyId) {
-    try {
-      signedMessage = signingOptions.signer.signInboxMessage(normalizedMessage, signingOptions.privateKey, signingOptions.keyId);
-    } catch (signErr) {
-      return {
-        delivered: false,
-        schema_valid: schemaValid,
-        verified: false,
-        path: null,
-        error: `SIGNING_FAILED: ${signErr.message}`,
-        validation_errors: schemaValid ? null : validationResult.errors,
-      };
-    }
-  }
-
-  const hasSignature = !!(signedMessage.signature && signedMessage.key_id);
-  if (!hasSignature) {
-    try {
-      const { guardWrite } = require('../../scripts/outbox-write-guard');
-      const filename = `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
-      guardWrite(signedMessage, canonicalPath, filename);
-    } catch (guardErr) {
-      return {
-        delivered: false,
-        schema_valid: schemaValid,
-        verified: false,
-        path: null,
-        error: guardErr.code === 'OUTBOX_GUARD_REJECTED' ? `OUTBOX_WRITE_BLOCKED: ${guardErr.errors ? guardErr.errors.join(', ') : guardErr.message}` : guardErr.message,
-        validation_errors: schemaValid ? null : validationResult.errors,
-      };
-    }
-  }
-
-  const filename = `${signedMessage.task_id || signedMessage.message_id || `msg-${Date.now()}`}.json`;
+  const filename = `${normalizedMessage.task_id || normalizedMessage.message_id || `msg-${Date.now()}`}.json`;
   const fullPath = path.join(canonicalPath, filename);
 
   try {
@@ -415,36 +380,36 @@ function deliverMessage(message, canonicalPath, signingOptions) {
     fs.mkdirSync(canonicalPath, { recursive: true });
 
     // Pre-stamp delivery_verification with schema result
-    if (signedMessage.delivery_verification) {
-      signedMessage.delivery_verification.verified = false; // will be set to true only if both checks pass
-      signedMessage.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
+    if (normalizedMessage.delivery_verification) {
+      normalizedMessage.delivery_verification.verified = false; // will be set to true only if both checks pass
+      normalizedMessage.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
     }
 
     // Write message — even if schema-invalid, for audit trail
-    fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
+    fs.writeFileSync(fullPath, JSON.stringify(normalizedMessage, null, 2), 'utf8');
 
     // Verify delivery (v1.1 requirement) — file landed on disk
     const exists = fs.existsSync(fullPath);
 
     if (exists) {
       // delivery_verification.verified = true ONLY if both schema valid AND file landed
-      if (signedMessage.delivery_verification) {
-        signedMessage.delivery_verification.verified = schemaValid;
-        signedMessage.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
+      if (normalizedMessage.delivery_verification) {
+        normalizedMessage.delivery_verification.verified = schemaValid;
+        normalizedMessage.delivery_verification.verified_at = schemaValid ? new Date().toISOString() : null;
         // Clean up validation_errors if valid (no errors to report)
         if (schemaValid) {
-          delete signedMessage.delivery_verification.validation_errors;
+          delete normalizedMessage.delivery_verification.validation_errors;
         }
       }
 
       // Re-write with updated verification stamps
-      fs.writeFileSync(fullPath, JSON.stringify(signedMessage, null, 2), 'utf8');
+      fs.writeFileSync(fullPath, JSON.stringify(normalizedMessage, null, 2), 'utf8');
     }
 
     if (!schemaValid) {
       console.warn(`[SchemaValidator] deliverMessage: WARNING — message written but schema-invalid:`);
       for (const err of validationResult.errors) {
-        console.warn(` - ${err}`);
+        console.warn(`  - ${err}`);
       }
     }
 

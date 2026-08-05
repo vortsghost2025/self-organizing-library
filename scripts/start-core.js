@@ -16,12 +16,10 @@
 
 const { spawn } = require('child_process');
 const path = require('path');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
-const discovery = new LaneDiscovery();
-const ARCHIVIST_ROOT = discovery.getLocalPath('archivist');
-const LIBRARY_ROOT = discovery.getLocalPath('library');
-const SWARMIND_ROOT = discovery.getLocalPath('swarmmind');
+const ARCHIVIST_ROOT = 'S:/Archivist-Agent';
+const LIBRARY_ROOT = 'S:/self-organizing-library';
+const SWARMIND_ROOT = 'S:/SwarmMind';
 
 function runCommand(cmd, args, cwd) {
   return new Promise((resolve, reject) => {
@@ -87,7 +85,7 @@ async function runHealthChecks() {
   
   // In lane_single_process mode, health checks are file-based
   const checks = [
-    { name: 'Trust Store', path: `${ARCHIVIST_ROOT}/.trust/keys.json` },
+    { name: 'Trust Store', path: `${ARCHIVIST_ROOT}/lanes/broadcast/trust-store.json` },
     { name: 'System Anchor', path: `${ARCHIVIST_ROOT}/FREEAGENT_SYSTEM_ANCHOR.json` },
     { name: 'Library Identity', path: `${LIBRARY_ROOT}/.identity/snapshot.jws` },
     { name: 'Library Key', path: `${LIBRARY_ROOT}/.identity/private.pem` },
@@ -171,7 +169,7 @@ async function main() {
   console.log('='.repeat(60));
   console.log('\nTo start lanes individually:');
   console.log('  Library:  cd S:/self-organizing-library && LANE_KEY_PASSPHRASE=<secret> npm run governed-start');
-  console.log('  SwarmMind: cd S:/SwarmMind && LANE_KEY_PASSPHRASE=<secret> npm start');
+  console.log('  SwarmMind: cd "S:/SwarmMind" && LANE_KEY_PASSPHRASE=<secret> npm start');
   console.log('\nNote: Archivist does not require governed-start (hosts trust store)');
   
   process.exit(0);

@@ -1,10 +1,10 @@
 /**
- * SOVEREIGNTY ENFORCEMENT SCANNER — Library Lane
+ * SOVEREIGNTY ENFORCEMENT SCANNER — Kernel Lane
  * Purpose: Auto-detect and prevent cross-lane imports
  * Rule: NO CROSS-LANE require() OR hardcoded paths
  *
  * ORIGIN: S:/SwarmMind/scripts/sovereignty-enforcer.js (fine-tuned version)
- * ADAPTED_FOR: Library lane (CURRENT_LANE = 'Library')
+ * ADAPTED_FOR: Kernel lane (CURRENT_LANE = 'Kernel')
  * Last Updated: 2026-05-02
  */
 
@@ -26,8 +26,17 @@ for (const [pascalKey, laneId] of Object.entries(LANE_ID_MAP)) {
   LANES[pascalKey] = _discovery.getLocalPath(laneId);
 }
 
-const CURRENT_LANE = 'Library';
+const CURRENT_LANE = 'Kernel';
 const CURRENT_ROOT = LANES[CURRENT_LANE];
+
+if (process.platform !== 'win32') {
+  for (const [name, p] of Object.entries(LANES)) {
+    if (/^[A-Za-z]:[\\/]/.test(p)) {
+      console.error(`[sovereignty] FATAL: Windows path leak on ${process.platform}: ${name}=${p}`);
+      process.exit(1);
+    }
+  }
+}
 
 if (process.platform !== 'win32') {
   for (const [name, p] of Object.entries(LANES)) {
@@ -250,7 +259,7 @@ if (report.total_violations === 0) {
 
 console.log('\n═══════════════════════════════════════════════════════════════\n');
 
-const reportDir = path.join(CURRENT_ROOT, 'lanes', 'library', 'state');
+const reportDir = path.join(CURRENT_ROOT, 'lanes', 'kernel', 'state');
 if (!fs.existsSync(reportDir)) {
   fs.mkdirSync(reportDir, { recursive: true });
 }
