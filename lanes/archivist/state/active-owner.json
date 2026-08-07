@@ -1,10 +1,11 @@
 {
-  "session_id": "sess_mq600ahs_14000",
+  "session_id": "sess_msjdv9rp_432053",
   "lane": "archivist",
-  "claimed_at": "2026-06-09T02:06:01.504Z",
-  "renewed_at": "2026-06-09T21:19:11.125Z",
-  "expires_at": "2026-06-09T21:34:11.125Z",
-  "pid": 14000,
+  "lane_state": "ACTIVE",
+  "claimed_at": "2026-08-07T20:14:26.869Z",
+  "renewed_at": "2026-08-07T20:14:31.686Z",
+  "expires_at": "2026-08-07T20:29:31.686Z",
+  "pid": 432053,
   "origin_runtime": "kilo",
-  "origin_workspace": "S:\\self-organizing-library"
+  "origin_workspace": "/home/we4free/agent/repos/Archivist-Agent"
 }
