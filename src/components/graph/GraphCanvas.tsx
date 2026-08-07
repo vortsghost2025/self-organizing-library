@@ -1887,7 +1887,7 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
       */
     }, [graphLens]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       updateNavigationOverlay();
     }, [graphLens, searchQuery, selectedNodeId, updateNavigationOverlay]);
 
@@ -1953,7 +1953,7 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
       updateRegionLabels();
       updateNavigationOverlay();
       onCameraUpdate(fit.ratio);
-    }, [onCameraUpdate, updateNavigationOverlay, updateRegionLabels]);
+    }, [onCameraUpdate, updateNavigationOverlay, updateRegionLabels, graphLens]);
 
     const zoomIn = useCallback(() => {
       const renderer = sigmaRef.current;
