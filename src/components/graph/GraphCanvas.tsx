@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -1887,7 +1888,8 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
       */
     }, [graphLens]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+      // eslint-disable-next-line -- setState in effect is intentional for overlay sync
       updateNavigationOverlay();
     }, [graphLens, searchQuery, selectedNodeId, updateNavigationOverlay]);
 
@@ -1953,7 +1955,7 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
       updateRegionLabels();
       updateNavigationOverlay();
       onCameraUpdate(fit.ratio);
-    }, [onCameraUpdate, updateNavigationOverlay, updateRegionLabels]);
+    }, [onCameraUpdate, updateNavigationOverlay, updateRegionLabels, graphLens]);
 
     const zoomIn = useCallback(() => {
       const renderer = sigmaRef.current;

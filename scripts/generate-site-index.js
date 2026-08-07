@@ -10,9 +10,52 @@ const {
   loadJson,
   getArgValue
 } = require('./graph-write-guard');
-const { LaneDiscovery } = require('./util/lane-discovery');
+let LaneDiscovery = null;
+try {
+  ({ LaneDiscovery } = require('./util/lane-discovery'));
+} catch (e) {
+  console.warn(`[generate-site-index] lane-discovery unavailable: ${e.message}`);
+}
 
-const discovery = new LaneDiscovery();
+let discovery = null;
+if (LaneDiscovery) {
+  try {
+    discovery = new LaneDiscovery();
+  } catch (e) {
+    console.warn(`[generate-site-index] Lane registry unavailable: ${e.message}`);
+  }
+}
+
+if (!discovery) {
+  console.warn('[generate-site-index] Falling back to REPO_ROOTS env or static roots');
+}
+
+const REPO_ROOTS_ALIASES = {
+  'SwarmMind-Self-Optimizing-Multi-Agent-AI-System': 'SwarmMind'
+};
+
+function getRepoRoot(repoName, laneId, fallbackRoot) {
+  const aliases = [repoName, REPO_ROOTS_ALIASES[repoName]].filter(Boolean);
+  if (process.env.REPO_ROOTS) {
+    for (const pair of process.env.REPO_ROOTS.split(/\s+/).filter(Boolean)) {
+      const eq = pair.indexOf('=');
+      if (eq === -1) continue;
+      if (aliases.includes(pair.slice(0, eq))) {
+        return pair.slice(eq + 1);
+      }
+    }
+  }
+  if (discovery) {
+    try {
+      return discovery.getLocalPath(laneId);
+    } catch (e) {
+      // lane not in registry; use fallback
+    }
+  }
+  return fallbackRoot;
+}
+
+const LIBRARY_ROOT = getRepoRoot('self-organizing-library', 'library', path.join(__dirname, '..'));
 
 const ARGS = process.argv.slice(2);
 const ADJUDICATION_PATH = getArgValue(ARGS, '--adjudication');
@@ -20,7 +63,7 @@ const ADJUDICATION_PATH = getArgValue(ARGS, '--adjudication');
 const REPOS = [
   {
     name: 'self-organizing-library',
-    root: discovery.getLocalPath('library'),
+    root: LIBRARY_ROOT,
     github: 'https://github.com/vortsghost2025/self-organizing-library/blob/main',
     categoryMap: {
       'library/books': 'paper',
@@ -58,7 +101,7 @@ const REPOS = [
   },
   {
     name: 'Archivist-Agent',
-    root: discovery.getLocalPath('archivist'),
+    root: getRepoRoot('Archivist-Agent', 'archivist', 'S:/Archivist-Agent'),
     github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/master',
     categoryMap: {
       'docs': 'docs',
@@ -99,7 +142,7 @@ const REPOS = [
   },
   {
     name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
-    root: discovery.getLocalPath('swarmmind'),
+    root: getRepoRoot('SwarmMind-Self-Optimizing-Multi-Agent-AI-System', 'swarmmind', 'S:/SwarmMind'),
     github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
     categoryMap: {
       'docs': 'docs',
@@ -122,7 +165,7 @@ const REPOS = [
   },
   {
     name: 'kernel-lane',
-    root: discovery.getLocalPath('kernel'),
+    root: getRepoRoot('kernel-lane', 'kernel', 'S:/kernel-lane'),
     github: 'https://github.com/vortsghost2025/kernel-lane/blob/master',
     categoryMap: {
       'kernels': 'kernel',
@@ -925,19 +968,19 @@ function main() {
     entries: allEntries
   };
 
-  const outputPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index.json');
+  const outputPath = path.join(LIBRARY_ROOT, 'data', 'site-index.json');
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const previousIndex = loadJson(outputPath);
   const guardDecision = enforceGraphWriteGuard({
     operation: 'generate-site-index',
-    guardPath: path.join(discovery.getLocalPath('library'), 'scripts', 'graph-write-guard.js'),
+    guardPath: path.join(LIBRARY_ROOT, 'scripts', 'graph-write-guard.js'),
     writePath: outputPath,
     beforeObject: previousIndex,
     afterObject: index,
     adjudicationPath: ADJUDICATION_PATH,
     mode: 'index'
   });
-  writeGuardAudit(discovery.getLocalPath('library'), 'generate-site-index', guardDecision, ADJUDICATION_PATH);
+  writeGuardAudit(LIBRARY_ROOT, 'generate-site-index', guardDecision, ADJUDICATION_PATH);
 
   if (!guardDecision.allowWrite) {
     console.log('\n=== GRAPH WRITE GUARD ===');
@@ -958,7 +1001,7 @@ console.log(` ${Object.keys(tagIndex).length} unique tags`);
 console.log(` ${crossRefs.length} cross-references`);
 console.log(` ${repoStats.total_size_bytes.toLocaleString()} total bytes`);
 
-const snapshotDir = path.join(discovery.getLocalPath('library'), 'data', 'snapshots');
+const snapshotDir = path.join(LIBRARY_ROOT, 'data', 'snapshots');
 if (!fs.existsSync(snapshotDir)) fs.mkdirSync(snapshotDir, { recursive: true });
 const snapshotDate = new Date().toISOString().slice(0, 10);
 const snapshotPath = path.join(snapshotDir, `${snapshotDate}.json`);
@@ -969,7 +1012,7 @@ if (!fs.existsSync(snapshotPath)) {
   console.log(`Snapshot already exists for ${snapshotDate}, skipping`);
 }
 
-  const summaryPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index-summary.json');
+  const summaryPath = path.join(LIBRARY_ROOT, 'data', 'site-index-summary.json');
   const summary = {
     schema_version: '2.0',
     generated_at: index.generated_at,

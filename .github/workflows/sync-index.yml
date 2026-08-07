@@ -9,6 +9,9 @@ on:
       - 'scripts/generate-site-index.js'
       - '.github/workflows/sync-index.yml'
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -25,17 +28,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate site index
-        run: node scripts/generate-site-index.js
-        env:
-          REPO_ROOTS: >-
-            self-organizing-library=${{ github.workspace }}
-            Archivist-Agent=/tmp/repos/Archivist-Agent
-            SwarmMind=/tmp/repos/SwarmMind
-            kernel-lane=/tmp/repos/kernel-lane
-            federation=/tmp/repos/federation
-            FreeAgent=/tmp/repos/FreeAgent
-
       - name: Clone sibling repos for indexing
         run: |
           mkdir -p /tmp/repos
@@ -46,8 +38,16 @@ jobs:
             mv "/tmp/repos/SwarmMind-Self-Optimizing-Multi-Agent-AI-System" "/tmp/repos/SwarmMind"
           fi
 
-      - name: Re-generate index with all repos
+      - name: Generate site index
         run: node scripts/generate-site-index.js
+        env:
+          REPO_ROOTS: >-
+            self-organizing-library=${{ github.workspace }}
+            Archivist-Agent=/tmp/repos/Archivist-Agent
+            SwarmMind=/tmp/repos/SwarmMind
+            kernel-lane=/tmp/repos/kernel-lane
+            federation=/tmp/repos/federation
+            FreeAgent=/tmp/repos/FreeAgent
 
       - name: Build & generate Pagefind index
         run: |
@@ -69,6 +69,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/site-index.json data/site-index-summary.json public/pagefind/
+          git add data/site-index.json data/site-index-summary.json
+          git add -f public/pagefind/
           git commit -m "chore: auto-sync site index and Pagefind [skip ci]"
           git push

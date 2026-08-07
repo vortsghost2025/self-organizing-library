@@ -1,183 +1,172 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-07-06T17:54:04.662Z",
+  "generated_at": "2026-08-07T13:38:00.969Z",
   "repo_count": 9,
   "stats": {
-    "total_files": 21387,
-    "total_size_bytes": 188990509,
+    "total_files": 19063,
+    "total_size_bytes": 164758601,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 8659,
-        "total_size_bytes": 117682525
+        "total_files": 8608,
+        "total_size_bytes": 112988776
       },
       "Archivist-Agent": {
-        "total_files": 9337,
-        "total_size_bytes": 30635031
+        "total_files": 9259,
+        "total_size_bytes": 29050233
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 831,
-        "total_size_bytes": 7301118
+        "total_files": 677,
+        "total_size_bytes": 6907460
       },
       "kernel-lane": {
-        "total_files": 1108,
-        "total_size_bytes": 17018068
-      },
-      "federation": {
-        "total_files": 1376,
-        "total_size_bytes": 15689269
-      },
-      "papers": {
-        "total_files": 76,
-        "total_size_bytes": 664498
+        "total_files": 519,
+        "total_size_bytes": 15812132
       }
     }
   },
-  "tag_count": 108,
-  "cross_ref_count": 187,
+  "tag_count": 104,
+  "cross_ref_count": 5,
   "top_tags": [
     {
-      "tag": "Verification",
-      "count": 501
-    },
-    {
       "tag": "Archivist",
-      "count": 488
+      "count": 358
     },
     {
       "tag": "Library",
-      "count": 460
+      "count": 342
+    },
+    {
+      "tag": "Verification",
+      "count": 316
     },
     {
       "tag": "Swarmmind",
-      "count": 445
+      "count": 298
     },
     {
       "tag": "Governance",
-      "count": 394
+      "count": 273
     },
     {
       "tag": "Kernel",
-      "count": 349
+      "count": 242
     },
     {
       "tag": "Drift",
-      "count": 278
-    },
-    {
-      "tag": "Federation",
-      "count": 212
+      "count": 160
     },
     {
       "tag": "Multi-Agent",
-      "count": 176
+      "count": 97
     },
     {
       "tag": "WE4FREE",
-      "count": 148
-    },
-    {
-      "tag": "Covenant",
-      "count": 132
-    },
-    {
-      "tag": "Ensemble",
-      "count": 107
-    },
-    {
-      "tag": "Phase 2",
-      "count": 104
-    },
-    {
-      "tag": "Convergence Gate",
-      "count": 94
-    },
-    {
-      "tag": "Failure Mode",
-      "count": 93
-    },
-    {
-      "tag": "Phase 1",
       "count": 89
     },
     {
-      "tag": "Phenotype",
-      "count": 88
+      "tag": "Covenant",
+      "count": 80
     },
     {
-      "tag": "Rosetta Stone",
-      "count": 82
+      "tag": "Convergence Gate",
+      "count": 73
     },
     {
-      "tag": "Constraint Lattice",
-      "count": 71
-    },
-    {
-      "tag": "Phase 3",
-      "count": 68
-    },
-    {
-      "tag": "Attestation",
+      "tag": "Phase 2",
       "count": 67
     },
     {
-      "tag": "Phase 4",
-      "count": 53
+      "tag": "Failure Mode",
+      "count": 59
     },
     {
-      "tag": "Freeagent",
+      "tag": "Ensemble",
+      "count": 54
+    },
+    {
+      "tag": "Phenotype",
+      "count": 54
+    },
+    {
+      "tag": "Attestation",
       "count": 51
     },
     {
-      "tag": "Constitutional AI",
+      "tag": "Freeagent",
+      "count": 48
+    },
+    {
+      "tag": "Phase 3",
       "count": 45
     },
     {
-      "tag": "CAISC 2026",
+      "tag": "Phase 1",
+      "count": 42
+    },
+    {
+      "tag": "Rosetta Stone",
+      "count": 42
+    },
+    {
+      "tag": "Federation",
+      "count": 40
+    },
+    {
+      "tag": "Phase 4",
       "count": 36
     },
     {
+      "tag": "Constraint Lattice",
+      "count": 33
+    },
+    {
+      "tag": "Constitutional AI",
+      "count": 22
+    },
+    {
       "tag": "NFM-002",
-      "count": 24
-    },
-    {
-      "tag": "Phase 5",
-      "count": 22
-    },
-    {
-      "tag": "Phase1",
-      "count": 22
-    },
-    {
-      "tag": "Identity Enforcement",
-      "count": 21
+      "count": 20
     },
     {
       "tag": "NFM-036",
-      "count": 21
+      "count": 19
+    },
+    {
+      "tag": "NFM-003",
+      "count": 16
+    },
+    {
+      "tag": "NFM-001",
+      "count": 15
+    },
+    {
+      "tag": "NFM-032",
+      "count": 15
+    },
+    {
+      "tag": "NFM-020",
+      "count": 15
     }
   ],
   "category_breakdown": {
-    "root-doc": 289,
-    "config": 16925,
+    "root-doc": 226,
+    "config": 16802,
     "data": 20,
-    "docs": 544,
+    "docs": 486,
     "drafts": 1,
-    "evidence": 132,
+    "evidence": 68,
     "governance": 57,
     "hooks": 16,
-    "log": 16,
-    "quarantine": 2,
-    "reports": 113,
+    "log": 14,
+    "reports": 28,
     "schema": 48,
-    "script": 777,
-    "code": 151,
-    "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": 35,
-    "test-results": 2,
-    "test": 16,
+    "script": 771,
+    "code": 147,
+    "test": 15,
     "verification": 20,
     "paper": 18,
-    "library": 10,
-    "web": 7,
+    "library": 4,
+    "web": 6,
     "attestation": 24,
     "audit": 1,
     "database": 2,
@@ -193,17 +182,15 @@
     "reflection": 1,
     "spec": 7,
     "coordination": 2,
-    "ai-ensemble-lab": 15,
     "benchmark_results": 3,
     "e2e-tests": 6,
     "plans": 5,
     "infrastructure": 3,
-    "scratch": 21,
-    "sensitive": 1,
+    "scratch": 2,
     "specs": 4,
     "system": 1,
     "ui": 6,
-    "universe": 6,
+    "universe": 3,
     "bridge": 9,
     "monitoring": 3,
     "tool": 2,
@@ -217,19 +204,6 @@
     "kernel": 5,
     "release": 6,
     "artifacts-from-ubuntu": 141,
-    "backup_20260514_095856": 583,
-    "profile": 7,
-    "audit-reports": 1,
-    "continuity-test-handoff": 3,
-    "game": 182,
-    "galaxy_theme": 2,
-    "gastown-rig": 6,
-    "genesis-memory": 9,
-    "medical": 167,
-    "out_federation": 3,
-    "session": 50,
-    "backups": 1,
-    "_archive": 756,
-    "paper-section": 71
+    "profile": 7
   }
 }

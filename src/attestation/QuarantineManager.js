@@ -163,6 +163,10 @@ See: ${this.logPath}
     return this.quarantinedItems.has(itemId);
   }
 
+  get(itemId) {
+    return this.quarantinedItems.get(itemId) || null;
+  }
+
   getQuarantineStatus(itemId) {
     return this.quarantinedItems.get(itemId) || null;
   }
