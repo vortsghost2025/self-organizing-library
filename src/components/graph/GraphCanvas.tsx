@@ -1888,6 +1888,7 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
     }, [graphLens]);
 
     useLayoutEffect(() => {
+      // eslint-disable-next-line -- setState in effect is intentional for overlay sync
       updateNavigationOverlay();
     }, [graphLens, searchQuery, selectedNodeId, updateNavigationOverlay]);
 
