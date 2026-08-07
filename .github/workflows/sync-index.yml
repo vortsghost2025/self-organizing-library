@@ -9,6 +9,9 @@ on:
       - 'scripts/generate-site-index.js'
       - '.github/workflows/sync-index.yml'
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
