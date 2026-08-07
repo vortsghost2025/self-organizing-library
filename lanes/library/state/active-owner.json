@@ -1,8 +1,11 @@
 {
-  "session_id": "sess_msiaf8l0_502503",
+  "session_id": "sess_msj7bxgr_186997",
   "lane": "library",
-  "claimed_at": "2026-08-07T01:50:14.074Z",
-  "pid": 502503,
-  "origin_runtime": "opencode",
+  "lane_state": "ACTIVE",
+  "claimed_at": "2026-08-07T17:11:26.763Z",
+  "renewed_at": "2026-08-07T18:28:31.186Z",
+  "expires_at": "2026-08-07T18:43:31.186Z",
+  "pid": 186997,
+  "origin_runtime": "kilo",
   "origin_workspace": "/home/we4free/agent/repos/self-organizing-library"
 }
