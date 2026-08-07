@@ -42,12 +42,14 @@ try {
   console.log(` ✓ LANE_ID: ${constants.LANE_ID}`);
   console.log(` ✓ ARCHIVIST_ORCHESTRATOR_URL: ${constants.ARCHIVIST_ORCHESTRATOR_URL}`);
 
-  // Check trust store path is configured for local lane broadcast
-  if (!constants.ARCHIVIST_TRUST_STORE_PATH.includes('library/lanes/broadcast/trust-store.json')) {
-    console.error(' ✗ Trust store path does not point to local lane broadcast');
+  // Check trust store path is configured (local or shared Archivist)
+  const trustPath = constants.ARCHIVIST_TRUST_STORE_PATH || constants.TRUST_STORE_PATH;
+  const hasLocalTrustStore = trustPath && (trustPath.includes('library/lanes/broadcast/trust-store.json') || trustPath.includes('Archivist-Agent/lanes/broadcast/trust-store.json'));
+  if (!hasLocalTrustStore) {
+    console.error(' ✗ Trust store path does not point to local or shared broadcast trust store');
     allFilesExist = false;
   } else {
-    console.log(' ✓ Trust store path correctly points to local lane broadcast');
+    console.log(' ✓ Trust store path correctly points to broadcast trust store');
   }
 } catch (e) {
   console.error(' ✗ Failed to load constants:', e.message);
@@ -78,19 +80,18 @@ try {
   allFilesExist = false;
 }
 
-// Test 4: Verify VerifierWrapper enforces lane identity first
-console.log('\n=== Test 4: VerifierWrapper Lane Identity Check ===\n');
+// Test 4: Verify Verifier enforces lane identity first
+console.log('\n=== Test 4: Verifier Lane Identity Check ===\n');
 
 try {
-  const VerifierWrapper = require('../src/attestation/VerifierWrapper');
-  const wrapperCode = fs.readFileSync(path.join(__dirname, '../src/attestation/VerifierWrapper.js'), 'utf8');
+  const Verifier = require('../src/attestation/Verifier');
+  const verifierCode = fs.readFileSync(path.join(__dirname, '../src/attestation/Verifier.js'), 'utf8');
   
   // Check for lane comparison before crypto
-  const hasOuterLane = wrapperCode.includes('outerLane');
-  const hasPayloadLane = wrapperCode.includes('payloadLane');
-  const hasLaneComparison = wrapperCode.includes('payloadLane !== outerLane');
-  const hasCryptoAfter = wrapperCode.includes('verify(') && wrapperCode.indexOf('payloadLane !== outerLane') < wrapperCode.lastIndexOf('verify(');
-  
+  const hasOuterLane = verifierCode.includes('outerLane');
+  const hasPayloadLane = verifierCode.includes('signedPayloadLane') || verifierCode.includes('payloadLane');
+  const hasLaneComparison = verifierCode.includes('outerLane !== signedPayloadLane') || verifierCode.includes('payloadLane !== outerLane');
+  const hasCryptoAfter = verifierCode.includes('verify(') && verifierCode.indexOf('outerLane !==') < verifierCode.lastIndexOf('verify(');
   console.log(` ${hasOuterLane ? '✓' : '✗'} Extracts outerLane from envelope`);
   console.log(` ${hasPayloadLane ? '✓' : '✗'} Extracts payloadLane from signature`);
   console.log(` ${hasLaneComparison ? '✓' : '✗'} Compares lanes before crypto`);
