@@ -184,8 +184,6 @@ class Verifier {
   }
 
   // HMAC-related methods removed per anchor policy (hmac_accepted: false)
-  // isHMACAccepted() and getMigrationStatus() removed to eliminate
-  // contradictory bypass surfaces
 
   getTrustStoreStats() {
 		const lanes = Object.keys(this.trustStore.keys || {});

@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-04-20T17:03:17.374Z",
+  "timestamp": "2026-08-07T05:17:13.603Z",
   "passed": 5,
   "failed": 0,
   "proof": {
-    "timestamp": "2026-04-20T17:03:17.374Z",
+    "timestamp": "2026-08-07T05:17:13.603Z",
     "proven": [
       {
         "probeId": "QuarantineManager.quarantine",
         "invokeCount": 1,
-        "lastInvoked": "2026-04-20T17:03:17.371Z"
+        "lastInvoked": "2026-08-07T05:17:13.591Z"
       }
     ],
     "notProven": [],
@@ -42,7 +42,7 @@
     {
       "name": "No bypass paths in verification flow",
       "passed": true,
-      "reason": "No high-risk bypass paths (2 total detected, all low/medium)"
+      "reason": "No high-risk bypass paths (0 total detected, all low/medium)"
     }
   ]
 }
