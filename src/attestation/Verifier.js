@@ -114,9 +114,37 @@ class Verifier {
 	}
 
 	verifyAgainstTrustStore(jws, laneId) {
+		let parsed;
+		try {
+			parsed = this._parseJWS(jws);
+		} catch (e) {
+			return { valid: false, error: 'INVALID_JWS_FORMAT' };
+		}
+		if (!parsed) {
+			return { valid: false, error: 'INVALID_JWS_FORMAT' };
+		}
+
+		// Invariant A = B: signed payload lane must match requested lane
+		// BEFORE any trust-store lookup or crypto verification.
+		const signedLane = parsed.payload?.lane;
+		if (signedLane && signedLane !== laneId) {
+			return {
+				valid: false,
+				error: 'LANE_MISMATCH',
+				note: `Signed lane (${signedLane}) differs from requested lane (${laneId})`
+			};
+		}
+
+		// Lane must be present in the trust store.
+		const keyEntry = this.trustStore.keys?.[laneId] || this.trustStore[laneId];
+		if (!keyEntry) {
+			return { valid: false, error: 'LANE_NOT_IN_TRUST_STORE' };
+		}
+
 		const publicKey = this.getPublicKey(laneId);
 		if (!publicKey) {
-			return { valid: false, error: 'LANE_NOT_IN_TRUST_STORE' };
+			// Lane exists but key is revoked or unavailable.
+			return { valid: false, error: 'KEY_NOT_FOUND' };
 		}
 
 		return this.verify(jws, publicKey);
@@ -126,7 +154,7 @@ class Verifier {
     // ANCHOR ENFORCEMENT: missing_signature_mode = "REJECT"
     // No HMAC acceptance regardless of cutoff date
     if (!item.signature) {
-      return { valid: false, reason: VERIFY_REASON.MISSING_SIGNATURE, error: 'SIGNATURE_REQUIRED' };
+      return { valid: false, reason: VERIFY_REASON.MISSING_SIGNATURE, error: 'MISSING_SIGNATURE' };
     }
 
     // Step 1: Parse JWS WITHOUT trusting it yet
