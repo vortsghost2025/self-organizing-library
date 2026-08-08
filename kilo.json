@@ -53,6 +53,10 @@
       "model": "kilo/kilo-auto/free",
       "steps": 40
     },
+    "explore": {
+      "model": "kilo/kilo-auto/free",
+      "steps": 30
+    },
     "code-reviewer": {
       "model": "nvidia/openai/gpt-oss-120b",
       "steps": 25
