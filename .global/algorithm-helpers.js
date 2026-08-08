@@ -107,7 +107,7 @@ function generateKeyPair(algorithm) {
 				type: 'pkcs8',
 				format: 'pem',
 				cipher: 'aes-256-cbc',
-				passphrase: 'archivist-lane-key'
+				passphrase: process.env.LANE_KEY_PASSPHRASE || ''
 			}
 		});
 	}

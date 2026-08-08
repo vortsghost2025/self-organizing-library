@@ -193,7 +193,7 @@ function createSignedMessage(msg, laneId) {
 
   const algoParams = getAlgorithmParams(privateKey);
   const keyId = deriveKeyId(publicPem);
-  const from = msg.from || msg.from_lane || laneId;
+  const from = laneId;
   const to = msg.to || msg.to_lane || null;
   const msgId = msg.id || msg.task_id || `msg-${Date.now()}`;
   const contentHash = 'sha256:' + crypto.createHash('sha256')

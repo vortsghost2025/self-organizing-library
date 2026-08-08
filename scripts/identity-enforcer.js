@@ -161,13 +161,16 @@ class IdentityEnforcer {
 
   if (!publicKeyPem && parsed.header.kid) {
     const keyById = this._getPublicKeyByKeyId(parsed.header.kid);
-    if (keyById) {
+    if (keyById && !keyById.archived) {
       publicKeyPem = keyById.publicKey;
       archived = keyById.archived;
     }
   }
 
   if (!publicKeyPem) {
+    if (archived) {
+      return { valid: false, error: 'KEY_ARCHIVED', lane: laneId, authenticated: false };
+    }
     return { valid: false, error: 'KEY_NOT_FOUND', lane: laneId, authenticated: false };
   }
 

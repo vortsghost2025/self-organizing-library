@@ -82,11 +82,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       >
         <button
           onClick={() => setMode("high-contrast")}
-          className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
-            mode === "high-contrast"
-? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
-  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
-          }`}
+          className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${mode === "high-contrast" ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]" : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"}`}
           aria-pressed={mode === "high-contrast"}
           aria-label="High Contrast mode"
           title="High Contrast"
@@ -95,11 +91,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         </button>
         <button
           onClick={() => setMode("large-text")}
-          className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
-            mode === "large-text"
-? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
-  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
-          }`}
+          className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${mode === "large-text" ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]" : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"}`}
           aria-pressed={mode === "large-text"}
           aria-label="Large Text mode"
           title="Large Text"

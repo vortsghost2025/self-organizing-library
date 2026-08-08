@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type { MeaningLayer, DensityLevel } from "@/lib/graph-types";
 import { LAYER_META } from "@/lib/graph-types";
 
@@ -59,9 +59,11 @@ export default function GraphContextPanel({
     setDismissKey(0);
   };
 
-  if (contextKey.length !== dismissKey || dismissCount === 0) {
-    if (dismissCount > 0) setDismissCount(0);
-  }
+  useEffect(() => {
+    if (contextKey.length !== dismissKey || dismissCount === 0) {
+      if (dismissCount > 0) setDismissCount(0);
+    }
+  }, [contextKey, dismissKey, dismissCount]);
 
   if (isDismissed) {
     return (

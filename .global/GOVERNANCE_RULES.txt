@@ -13,7 +13,7 @@ target: <what-youre-working-on>
 
 4. CLAIM STATUS: Separate verified facts, known bugs, proposed fixes, fixes in progress, and accepted fixes. Do not claim acceptance without verification.
 
-5. MESSAGE PROTOCOL: All lane messages must conform to schemas/inbox-message-v1.json v1.4. Include: id, from, to, timestamp, priority, type, task_kind, body, requires_action.
+5. MESSAGE PROTOCOL: All lane messages must conform to schemas/inbox-message-v1.json v1.7. Include: id, from, to, timestamp, priority, type, task_kind, body, requires_action.
 
 6. COMMIT PREFIX: All commits must use [LANE-X] prefix format (numbers, not letters).
 

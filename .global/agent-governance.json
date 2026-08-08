@@ -14,7 +14,7 @@
   },
   "message_protocol": {
     "schema": "schemas/inbox-message-v1.json",
-    "version": "1.4",
+    "version": "1.7",
     "required_fields": ["id", "from", "to", "timestamp", "priority", "type", "task_kind", "body", "requires_action"],
     "signature": "JWT RS256 required for automated messages, null acceptable for declarative/manual messages"
   },

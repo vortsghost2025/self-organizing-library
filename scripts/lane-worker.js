@@ -75,8 +75,8 @@ const ORIGIN_RUNTIME = process.env.LANE_ORIGIN_RUNTIME || 'opencode';
 const ORIGIN_WORKSPACE = process.cwd();
 const WORKER_ID = process.pid.toString();
 
-function getActiveOwner(laneRoot) {
-  const lockPath = path.join(laneRoot, 'lanes', laneRoot.split('/').pop().toLowerCase(), 'state', 'active-owner.json');
+function getActiveOwner(laneRoot, lane) {
+  const lockPath = path.join(laneRoot, 'lanes', lane, 'state', 'active-owner.json');
   try {
     if (fs.existsSync(lockPath)) {
       return JSON.parse(fs.readFileSync(lockPath, 'utf8'));
@@ -89,10 +89,21 @@ function claimActiveOwner(laneRoot, lane) {
   const stateDir = path.join(laneRoot, 'lanes', lane, 'state');
   if (!fs.existsSync(stateDir)) fs.mkdirSync(stateDir, { recursive: true });
   const lockPath = path.join(stateDir, 'active-owner.json');
+  try {
+    if (fs.existsSync(lockPath)) {
+      const existing = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
+      const claimedAt = new Date(existing.claimed_at).getTime();
+      if (existing.session_id !== SESSION_ID && (Date.now() - claimedAt) <= 900000) {
+        return existing;
+      }
+    }
+  } catch (_) {}
   const owner = {
     session_id: SESSION_ID,
     lane,
     claimed_at: nowIso(),
+    renewed_at: nowIso(),
+    expires_at: new Date(Date.now() + 900000).toISOString(),
     pid: process.pid,
     origin_runtime: ORIGIN_RUNTIME,
     origin_workspace: ORIGIN_WORKSPACE,
@@ -492,11 +503,8 @@ class LaneWorker {
       config: this._loadAdaptiveAlertConfig(),
     });
     if (!this.dryRun) {
-      const existing = getActiveOwner(this.repoRoot);
-      if (!existing || existing.session_id === SESSION_ID || (Date.now() - new Date(existing.claimed_at).getTime()) > 900000) {
-        claimActiveOwner(this.repoRoot, this.lane);
-        this.isOwner = true;
-      }
+      const owner = claimActiveOwner(this.repoRoot, this.lane);
+      this.isOwner = owner.session_id === SESSION_ID;
     } else {
       this.isOwner = true;
     }
@@ -695,32 +703,12 @@ class LaneWorker {
         } catch (_) {}
       }
     }
-// CONFIDENCE_DERIVATION_CONTRACT: Flag performative confidence (≥7 without derivation)
-if (msg.confidence !== undefined && msg.confidence >= 7) {
-    const derivation = msg.confidence_derivation;
-    if (!derivation || typeof derivation !== 'object' || !derivation.measured || !derivation.how_measured) {
-        if (!msg._governance_flags) msg._governance_flags = [];
-        msg._governance_flags.push('PERFORMATIVE_CONFIDENCE');
-        const cpsEntry = {
-            timestamp: new Date().toISOString(),
-            event: 'PERFORMATIVE_CONFIDENCE',
-            agent: msg.from || 'unknown',
-            task_id: msg.task_id || 'unknown',
-            confidence: msg.confidence,
-        };
-        const cpsPath = path.join(repoRoot, 'context-buffer', 'cps_log.jsonl');
-        try {
-            fs.appendFileSync(cpsPath, JSON.stringify(cpsEntry) + '\n');
-        } catch (e) {
-            process.stderr.write(`[lane-worker] CPS log failed: ${e.message}\n`);
-        }
-    }
-}
+
   if (!isEnglishOnly(msg)) {
       return { queue: 'quarantine', reason: 'FORMAT_VIOLATION_NON_ASCII', detail: 'Message contains non-ASCII content. Re-request in English per governance constraint.' };
     }
 
-  const OUTPUT_PROV_EXEMPT_TYPES = new Set(['task', 'escalation', 'request', 'notification', 'heartbeat', 'status']);
+  const OUTPUT_PROV_EXEMPT_TYPES = new Set(['heartbeat']);
   if (typeof msg.body === 'string' && !OUTPUT_PROV_EXEMPT_TYPES.has(String(msg.type || '').toLowerCase()) && !isActionable(msg)) {
     var prov = verifyOutputProvenance(msg.body);
     if (!prov.ok) {

@@ -93,7 +93,7 @@ export interface SystemPulseData {
 }
 
 const REPO_ROOT = process.cwd();
-const CONTROL_PLANE_ROOT = "S:/WE4FREE-Control-Plane";
+const CONTROL_PLANE_ROOT = process.env.CONTROL_PLANE_ROOT || path.join(REPO_ROOT, '..', 'WE4FREE-Control-Plane');
 const HEADLESS_JOURNAL_PATH = path.join(CONTROL_PLANE_ROOT, "agent-logs", "headless-supervision-journal.jsonl");
 const CONTROL_PLANE_FILES = [
   path.join(CONTROL_PLANE_ROOT, "agent-logs", "latest-headless-supervision-board.md"),
@@ -128,9 +128,9 @@ const LANE_META: Record<LaneId, { label: string; role: string; whatItDoes: strin
 
 const LOCAL_HEARTBEAT_PATHS: Record<LaneId, string> = {
   library: path.join(REPO_ROOT, "lanes", "library", "inbox", "heartbeat-library.json"),
-  archivist: "S:/Archivist-Agent/lanes/archivist/inbox/heartbeat-archivist.json",
-  swarmmind: "S:/SwarmMind/lanes/swarmmind/inbox/heartbeat-swarmmind.json",
-  kernel: "S:/kernel-lane/lanes/kernel/inbox/heartbeat-kernel.json",
+  archivist: path.join(process.env.ARCHIVIST_REPO_ROOT || REPO_ROOT, "lanes", "archivist", "inbox", "heartbeat-archivist.json"),
+  swarmmind: path.join(process.env.SWARMMIND_REPO_ROOT || REPO_ROOT, "lanes", "swarmmind", "inbox", "heartbeat-swarmmind.json"),
+  kernel: path.join(process.env.KERNEL_REPO_ROOT || REPO_ROOT, "lanes", "kernel", "inbox", "heartbeat-kernel.json"),
 };
 
 function readJsonSafe<T>(filePath: string): T | null {

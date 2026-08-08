@@ -38,7 +38,7 @@ fi
 UNCERTAINTY_SIGNALS="(uncertain|not sure|may need|i think|possibly|might be|could not determine|unable to|insufficient|recommend.*(stronger|higher)|escalate)"
 
 run_local() {
-  OLLAMA_HOST="${OLLAMA_HOST:-100.95.92.117:11434}" bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
+  OLLAMA_HOST="${OLLAMA_HOST:-localhost:11434}" bash "$ROUTER_DIR/ollama-review.sh" "$prompt" 2>&1
 }
 
 run_strong() {

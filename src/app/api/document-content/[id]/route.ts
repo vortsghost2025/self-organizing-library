@@ -51,7 +51,7 @@ export async function GET(
   }
 
   const repoRoots = getRepoRoots();
-  const repoRoot = repoRoots[entry.repo] || process.env.REPO_ROOT || "S:/self-organizing-library";
+  const repoRoot = repoRoots[entry.repo] || process.env.REPO_ROOT || '';
 
   try {
     const filePath = join(repoRoot, entry.path);

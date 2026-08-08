@@ -42,17 +42,17 @@
     "auto_escalate": false
   },
   "endpoints": {
-    "ollama": "http://100.95.92.117:11434/v1/chat/completions",
-    "ollama_local": "http://100.95.92.117:11434/v1/chat/completions",
+    "ollama": "http://localhost:11434/v1/chat/completions",
+    "ollama_local": "http://localhost:11434/v1/chat/completions",
     "nvidia": "https://integrate.api.nvidia.com/v1/chat/completions",
     "openrouter": "https://openrouter.ai/api/v1/chat/completions"
   },
   "vps": {
-    "host": "100.95.40.99",
+    "host": "localhost",
     "port": 11434,
     "tailscale_only": true,
     "model": "qwen2.5-coder:7b",
-    "note": "Ollama on Hostinger KVM1 Ubuntu. Tailscale-only, not public. Primary endpoint; local Windows Ollama is fallback."
+    "note": "Ollama endpoint. Override via OLLAMA_HOST env var for remote instances. Primary endpoint; local Ollama is fallback."
   },
   "guardrails": {
     "review_only": true,

@@ -385,6 +385,20 @@ function deliverMessage(message, canonicalPath) {
       normalizedMessage.delivery_verification.validation_errors = schemaValid ? null : validationResult.errors;
     }
 
+    if (!schemaValid) {
+      const quarantineDir = path.join(path.dirname(canonicalPath), 'quarantine');
+      fs.mkdirSync(quarantineDir, { recursive: true });
+      const qPath = path.join(quarantineDir, filename);
+      fs.writeFileSync(qPath, JSON.stringify(normalizedMessage, null, 2), 'utf8');
+      return {
+        delivered: false,
+        path: qPath,
+        verified: false,
+        error: 'SCHEMA_INVALID',
+        validation_errors: validationResult.errors,
+      };
+    }
+
     // Write message — even if schema-invalid, for audit trail
     fs.writeFileSync(fullPath, JSON.stringify(normalizedMessage, null, 2), 'utf8');
 
@@ -437,11 +451,12 @@ function deliverMessage(message, canonicalPath) {
  * Get canonical inbox path for a target lane.
  */
 function getCanonicalPath(lane) {
+  const repoRoot = process.env.REPO_ROOT || '';
   const paths = {
-    archivist: 'S:/Archivist-Agent/lanes/archivist/inbox/',
-    library: 'S:/self-organizing-library/lanes/library/inbox/',
-    swarmmind: 'S:/SwarmMind/lanes/swarmmind/inbox/',
-    kernel: 'S:/kernel-lane/lanes/kernel/inbox/',
+    archivist: path.join(process.env.ARCHIVIST_REPO_ROOT || repoRoot, 'lanes', 'archivist', 'inbox', ''),
+    library: path.join(process.env.LIBRARY_REPO_ROOT || repoRoot, 'lanes', 'library', 'inbox', ''),
+    swarmmind: path.join(process.env.SWARMMIND_REPO_ROOT || repoRoot, 'lanes', 'swarmmind', 'inbox', ''),
+    kernel: path.join(process.env.KERNEL_REPO_ROOT || repoRoot, 'lanes', 'kernel', 'inbox', ''),
   };
   return paths[lane] || null;
 }

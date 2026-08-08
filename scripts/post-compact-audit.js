@@ -8,7 +8,7 @@ const { execSync } = require('child_process');
 
 const _archivistRoot = path.join(__dirname, '..');
 
-const UBUNTU_SSH_HOST = 'we4free@100.95.40.99';
+const UBUNTU_SSH_HOST = process.env.UBUNTU_SSH_HOST || 'we4free@localhost';
 const UBUNTU_REPOS_BASE = '/home/we4free/agent/repos';
 const HEARTBEAT_TIMEOUT_SECONDS = 900;
 

@@ -216,7 +216,7 @@ A four-tier hybrid AI model router for shell-based code review. All tiers are **
 
 **Auto-escalation:** `bash scripts/ai-review.sh --auto '<prompt>'` — starts local, escalates to strong if uncertainty signals detected.
 
-**Guardrails** (enforced by policy in `scripts/ai-router/ai-review-router.json`):
+**Guardrails** (enforced by policy in `config/ai-review-router.json`):
 - Review only: no mutation authority, no file writes
 - API keys in `.env.local` only (never committed to repo)
 - Run `bash scripts/ai-review.sh help` for full usage
