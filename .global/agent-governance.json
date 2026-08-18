@@ -21,12 +21,21 @@
   "packet_first_review": {
     "for_graph": true,
     "canonical_surface": [
+      "docs/graph/GRAPH_RESTORE_SPEC_V1.md",
       "docs/AGENT_WEB_REVIEW_BRIEF.md",
       "data/graph-analysis-packets.json",
       "data/website-section-index.json",
       "data/graph-packet-schema.json"
     ],
     "prohibited": "Do not inspect raw graph JSON unless escalation is justified and documented"
+  },
+  "nexus_graph_restore": {
+    "authority": "docs/graph/GRAPH_RESTORE_SPEC_V1.md",
+    "status": "AUTHORITY",
+    "code_changes": "FROZEN until inspect-only gap analysis and restoration plan are approved",
+    "next_allowed_step": "inspect current implementation against the spec and historical screenshots; produce a restoration plan; do not change code",
+    "restore_target": "Meaning first → progressive disclosure → evidence on demand",
+    "forbidden": "Do not redefine graph purpose during unrelated frontend work. Do not mix data-model changes into UI restoration without explicit approval."
   },
   "claim_status_taxonomy": {
     "verified_fact": "Backed by packet fields, route index, accepted artifacts, or build/typecheck/browser evidence",

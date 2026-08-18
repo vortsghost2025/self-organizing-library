@@ -4,6 +4,8 @@ _Generated: 2026-05-08T06:09:53.215Z_
 
 Start here. Do not open raw graph snapshots first.
 
+**Nexus Graph authority:** `docs/graph/GRAPH_RESTORE_SPEC_V1.md`. The graph is a reasoning interface, not a data dump. Until a restoration plan is approved, agents may inspect and compare against that spec, but must not change graph code, layout, filters, layers, or data-generation semantics.
+
 ## What this website is
 A public evidence surface for a multi-lane constitutional AI governance system. It displays:
 - Governance rules and their enforcement state
