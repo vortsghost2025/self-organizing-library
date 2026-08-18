@@ -16,8 +16,134 @@ const discovery = new LaneDiscovery();
 
 const ARGS = process.argv.slice(2);
 const ADJUDICATION_PATH = getArgValue(ARGS, '--adjudication');
+const OUTPUT_ARG = getArgValue(ARGS, '--output');
+
+const { execSync } = require('child_process');
 
 const REGISTRY_PATH = path.join(discovery.getLocalPath('library'), 'data', 'repo-registry.json');
+const REMOTE_CACHE_DIR = path.join(discovery.getLocalPath('library'), '.cache', 'repo-sources');
+
+function extractGitTreeBlobs(repoDir) {
+  try {
+    const rawTree = execSync(`git -C "${repoDir}" ls-tree -r HEAD`, { encoding: 'utf8' });
+    const lines = rawTree.trim().split('\n');
+    const pathMap = {};
+    for (const line of lines) {
+      if (!line) continue;
+      const parts = line.split('\t');
+      const meta = parts[0].split(' ');
+      const sha = meta[2];
+      const origGitPath = parts[1];
+      if (!origGitPath || !sha) continue;
+      const sanitizedPath = origGitPath.replace(/[:*?"<>|]/g, '_');
+      const fullTarget = path.join(repoDir, sanitizedPath);
+      pathMap[sanitizedPath] = origGitPath;
+      fs.mkdirSync(path.dirname(fullTarget), { recursive: true });
+      if (!fs.existsSync(fullTarget)) {
+        const content = execSync(`git -C "${repoDir}" cat-file -p ${sha}`);
+        fs.writeFileSync(fullTarget, content);
+      }
+    }
+    fs.writeFileSync(path.join(repoDir, '.git-path-map.json'), JSON.stringify(pathMap, null, 2));
+  } catch (e) {}
+}
+
+function getRepoGitProvenance(repoName, rootDir, defaultBranch, sourceMode) {
+  let commitSha = 'UNKNOWN';
+  let commitDate = 'UNKNOWN';
+  let gitRemote = null;
+
+  try {
+    commitSha = execSync(`git -C "${rootDir}" rev-parse HEAD`, { encoding: 'utf8' }).trim();
+    commitDate = execSync(`git -C "${rootDir}" log -1 --format=%cI`, { encoding: 'utf8' }).trim();
+    try {
+      const rem = execSync(`git -C "${rootDir}" remote get-url origin`, { encoding: 'utf8' }).trim();
+      if (rem) gitRemote = rem;
+    } catch (_) {}
+  } catch (e) {
+    commitSha = 'ERR: ' + e.message;
+  }
+
+  return {
+    repo: repoName,
+    source_mode: sourceMode,
+    source_path: rootDir,
+    git_remote: gitRemote,
+    default_branch: defaultBranch,
+    indexed_commit_sha: commitSha,
+    indexed_commit_date: commitDate
+  };
+}
+
+function resolveRepoRoot(r) {
+  // 1. Configured local path
+  if (r.local_path && fs.existsSync(r.local_path)) {
+    return { root: r.local_path, source: 'LOCAL' };
+  }
+
+  // 2. Core lane local paths
+  if (r.name === 'self-organizing-library' && fs.existsSync(discovery.getLocalPath('library'))) {
+    return { root: discovery.getLocalPath('library'), source: 'LOCAL' };
+  }
+  if (r.name === 'Archivist-Agent' && fs.existsSync(discovery.getLocalPath('archivist'))) {
+    return { root: discovery.getLocalPath('archivist'), source: 'LOCAL' };
+  }
+  if (r.name === 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System' && fs.existsSync(discovery.getLocalPath('swarmmind'))) {
+    return { root: discovery.getLocalPath('swarmmind'), source: 'LOCAL' };
+  }
+  if (r.name === 'kernel-lane' && fs.existsSync(discovery.getLocalPath('kernel'))) {
+    return { root: discovery.getLocalPath('kernel'), source: 'LOCAL' };
+  }
+
+  // 3. Known alternate local paths on S:
+  const candidateLocalPaths = [
+    path.join('S:', r.name),
+    path.join('S:', r.name.replace(/-/g, ' ')),
+  ];
+  if (r.name === 'Deliberate-AI-Ensemble') {
+    candidateLocalPaths.unshift('S:/April152026mainreferencepoint');
+  }
+
+  for (const cand of candidateLocalPaths) {
+    if (fs.existsSync(cand)) {
+      return { root: cand, source: 'LOCAL' };
+    }
+  }
+
+  // 4. Remote Cache Fallback
+  const cachedDir = path.join(REMOTE_CACHE_DIR, r.name);
+  if (fs.existsSync(cachedDir)) {
+    try {
+      const items = fs.readdirSync(cachedDir);
+      if (items.length <= 1 && fs.existsSync(path.join(cachedDir, '.git'))) {
+        extractGitTreeBlobs(cachedDir);
+      }
+    } catch (e) {}
+    return { root: cachedDir, source: 'REMOTE_CACHE' };
+  }
+
+  // 5. If not cached, attempt shallow clone from public GitHub URL
+  if (r.github_url && r.visibility === 'public') {
+    fs.mkdirSync(REMOTE_CACHE_DIR, { recursive: true });
+    try {
+      console.log(`[REMOTE_FALLBACK] Cloning ${r.name} into isolated cache: ${cachedDir}`);
+      execSync(`git clone --depth 1 ${r.github_url}.git "${cachedDir}"`, { stdio: 'pipe' });
+      if (fs.existsSync(cachedDir)) {
+        try {
+          const items = fs.readdirSync(cachedDir);
+          if (items.length <= 1 && fs.existsSync(path.join(cachedDir, '.git'))) {
+            extractGitTreeBlobs(cachedDir);
+          }
+        } catch (e) {}
+        return { root: cachedDir, source: 'REMOTE_CACHE' };
+      }
+    } catch (e) {
+      console.warn(`[WARN] Remote clone failed for ${r.name}: ${e.message}`);
+    }
+  }
+
+  return { root: path.join('S:', r.name), source: 'MISSING' };
+}
 
 function loadRepoConfigsFromRegistry() {
   if (!fs.existsSync(REGISTRY_PATH)) {
@@ -28,18 +154,7 @@ function loadRepoConfigsFromRegistry() {
 
   const configs = [];
   for (const r of eligible) {
-    let root = r.local_path;
-    if (!root) {
-      if (r.name === 'self-organizing-library') root = discovery.getLocalPath('library');
-      else if (r.name === 'Archivist-Agent') root = discovery.getLocalPath('archivist');
-      else if (r.name === 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System') root = discovery.getLocalPath('swarmmind');
-      else if (r.name === 'kernel-lane') root = discovery.getLocalPath('kernel');
-      else if (r.name === 'Deliberate-AI-Ensemble') {
-        root = fs.existsSync('S:/April152026mainreferencepoint') ? 'S:/April152026mainreferencepoint' : 'S:/Deliberate-AI-Ensemble';
-      } else {
-        root = path.join('S:', r.name);
-      }
-    }
+    const { root, source } = resolveRepoRoot(r);
 
     const defaultBranch = (r.name === 'Archivist-Agent' || r.name === 'kernel-lane' || r.name === 'storytime') ? 'master' : 'main';
     const github = r.github_url ? `${r.github_url}/blob/${defaultBranch}` : null;
@@ -204,9 +319,22 @@ function loadRepoConfigsFromRegistry() {
       ]);
     }
 
+    let gitPathMap = undefined;
+    const gitPathMapFile = path.join(root, '.git-path-map.json');
+    if (fs.existsSync(gitPathMapFile)) {
+      try {
+        gitPathMap = JSON.parse(fs.readFileSync(gitPathMapFile, 'utf8'));
+      } catch (_) {}
+    }
+
+    const provenance = getRepoGitProvenance(r.name, root, defaultBranch, source);
+
     configs.push({
       name: r.name,
       root,
+      source_type: source,
+      provenance,
+      gitPathMap,
       github,
       categoryMap,
       maxDepth,
@@ -227,8 +355,14 @@ const DEFAULT_EXCLUDE_DIRS = new Set([
   '.vercel', 'dist', '.cache', 'target', '.turbo', '.astro', '.nuxt',
   '.svelte-kit', '.vuepress', '.docusaurus', '.terraform', '.tox',
   '__pycache__', '.pytest_cache', '.mypy_cache', '.venv', 'venv',
-  '.pytest_cache', 'tmp', 'worktrees',
-  'lanes', '.tmp',
+  'tmp', 'worktrees', 'lanes', '.tmp',
+  '.archive', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+  '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.global',
+  '.artifacts', '.compact-audit', '.test-trust', '.test-memory',
+  '.test-identity', '.continuity_test', '.continuity_test2',
+  '.continuity_test2b', '.continuity_test3', '.continuity_test4',
+  '.lane-relay', 'backup_static_old', 'public_html', 'quarantine',
+  '.kilo-federation-profile', '.opencode', '_archive'
 ]);
 
 const DEFAULT_EXTENSIONS = new Set([
@@ -239,7 +373,10 @@ const DEFAULT_EXTENSIONS = new Set([
 const SKIP_FILES = new Set([
   'package-lock.json', 'bun.lock', 'yarn.lock', 'pnpm-lock.yaml',
   'tsconfig.tsbuildinfo', 'next-env.d.ts', '.DS_Store',
-  'nul', 'test-write-permission.txt'
+  'nul', 'test-write-permission.txt', '.git-path-map.json',
+  'site-index.json', 'site-index-summary.json',
+  'site-index.phase3-candidate.json', 'site-index-summary.phase3-candidate.json',
+  'site-index.json.backup'
 ]);
 
 const CONTENT_TYPE_MAP = {
@@ -283,7 +420,9 @@ const TAG_EXTRACTION_PATTERNS = [
 
 function shouldExcludeDir(dirName, repoConfig) {
   if (repoConfig.excludeDirs && repoConfig.excludeDirs.has(dirName)) return true;
-  return DEFAULT_EXCLUDE_DIRS.has(dirName);
+  if (DEFAULT_EXCLUDE_DIRS.has(dirName)) return true;
+  if (dirName.startsWith('backup_') || dirName.startsWith('backup-') || dirName.startsWith('.archive') || dirName.startsWith('_archive')) return true;
+  return false;
 }
 
 function shouldSkipFile(fileName) {
@@ -539,55 +678,77 @@ function computeId(repoName, relativePath) {
   return crypto.createHash('sha256').update(`${repoName}:${relativePath}`).digest('hex').slice(0, 16);
 }
 
-function walkDir(repoRoot, repoConfig) {
-  const entries = [];
-  const queue = [{ dir: repoRoot, depth: 0 }];
-
-  const allowedExtensions = repoConfig.extensionsOnly
-    ? new Set(repoConfig.extensionsOnly)
-    : DEFAULT_EXTENSIONS;
+function isExcludedRelativePath(relPath, repoConfig) {
+  const parts = relPath.split('/');
+  const fileName = parts[parts.length - 1];
+  const depth = parts.length - 1;
 
   const maxDepth = repoConfig.maxDepth || Infinity;
+  if (depth > maxDepth) return true;
+  if (SKIP_FILES.has(fileName)) return true;
 
-  while (queue.length > 0) {
-    const { dir, depth } = queue.shift();
-    let items;
-    try {
-      items = fs.readdirSync(dir, { withFileTypes: true });
-    } catch (e) {
-      continue;
-    }
-
-    for (const item of items) {
-      const fullPath = path.join(dir, item.name);
-
-      if (item.isDirectory()) {
-        if (!shouldExcludeDir(item.name, repoConfig) && depth < maxDepth) {
-          queue.push({ dir: fullPath, depth: depth + 1 });
-        }
-      } else if (item.isFile()) {
-        const ext = path.extname(item.name).toLowerCase();
-        if (allowedExtensions.has(ext) && !shouldSkipFile(item.name)) {
-          entries.push(fullPath);
-        }
-      }
-    }
+  // Explicitly exclude all generated site-index files, seal files, and snapshot archives
+  if (
+    fileName.startsWith('site-index') ||
+    fileName.includes('site-index') ||
+    fileName.endsWith('.seal.json') ||
+    relPath.startsWith('data/snapshots/')
+  ) {
+    return true;
   }
 
+  for (let i = 0; i < parts.length - 1; i++) {
+    const dir = parts[i];
+    if (DEFAULT_EXCLUDE_DIRS.has(dir)) return true;
+    if (repoConfig.excludeDirs && repoConfig.excludeDirs.has(dir)) return true;
+    if (dir.startsWith('backup_') || dir.startsWith('backup-') || dir.startsWith('.archive') || dir.startsWith('_archive')) return true;
+  }
+
+  const ext = path.extname(fileName).toLowerCase();
+  const allowed = repoConfig.extensionsOnly ? new Set(repoConfig.extensionsOnly) : DEFAULT_EXTENSIONS;
+  if (!allowed.has(ext)) return true;
+
+  return false;
+}
+
+function walkGitTree(repoConfig) {
+  const entries = [];
+  try {
+    const treeRaw = execSync(`git -C "${repoConfig.root}" ls-tree -r HEAD`, {
+      encoding: 'utf8',
+      maxBuffer: 100 * 1024 * 1024
+    });
+    const lines = treeRaw.trim().split('\n');
+    for (const line of lines) {
+      if (!line) continue;
+      const parts = line.split('\t');
+      const meta = parts[0].split(' ');
+      const sha = meta[2];
+      let relPath = parts[1].replace(/\\/g, '/');
+      if (repoConfig.gitPathMap && repoConfig.gitPathMap[relPath]) {
+        relPath = repoConfig.gitPathMap[relPath];
+      }
+      if (!isExcludedRelativePath(relPath, repoConfig)) {
+        entries.push({ relPath, blobSha: sha });
+      }
+    }
+  } catch (e) {
+    console.warn(`[WARN] git ls-tree failed for ${repoConfig.name}: ${e.message}`);
+  }
   return entries;
 }
 
-function processFile(fullPath, repoConfig) {
-  const relativePath = getRelativePath(fullPath, repoConfig.root);
-  const ext = path.extname(fullPath).toLowerCase();
-  const fileName = path.basename(fullPath);
-  const stat = fs.statSync(fullPath);
+function processGitEntry(item, repoConfig) {
+  const relativePath = item.relPath;
+  const fileName = path.basename(relativePath);
+  const ext = path.extname(relativePath).toLowerCase();
+  const blobSha = item.blobSha;
 
   const entry = {
     id: computeId(repoConfig.name, relativePath),
     repo: repoConfig.name,
     path: relativePath,
-      github_url: shouldHaveGitHubUrl(repoConfig, relativePath, fileName) ? (repoConfig.github ? `${repoConfig.github}/${encodeGithubPath(applyGithubPathRewrite(repoConfig, relativePath))}` : null) : null,
+    github_url: shouldHaveGitHubUrl(repoConfig, relativePath, fileName) ? (repoConfig.github ? `${repoConfig.github}/${encodeGithubPath(applyGithubPathRewrite(repoConfig, relativePath))}` : null) : null,
     title: fileName,
     extension: ext,
     content_type: getContentType(ext),
@@ -595,23 +756,43 @@ function processFile(fullPath, repoConfig) {
     breadcrumbs: getBreadcrumbs(relativePath),
     tags: [],
     date: null,
-    modified: stat.mtime.toISOString(),
-    size_bytes: stat.size,
+    modified: repoConfig.provenance ? repoConfig.provenance.indexed_commit_date : new Date().toISOString(),
+    size_bytes: 0,
     description: null,
     content_snippet: null
   };
 
-  if (ext === '.md' || ext === '.mdx' || ext === '.txt') {
+  let content = null;
+  const readContent = (ext === '.md' || ext === '.mdx' || ext === '.txt' || ext === '.json');
+  if (readContent) {
     try {
-      const content = fs.readFileSync(fullPath, 'utf-8');
-      entry.title = extractTitle(content, fileName);
-      entry.tags = [...new Set([...extractFrontmatterTags(content).map(normalizeTag), ...extractTags(content)])];
-      entry.date = extractDate(content, relativePath);
-      entry.description = extractDescription(content);
-      entry.content_snippet = extractContentSnippet(content);
+      content = execSync(`git -C "${repoConfig.root}" cat-file -p ${blobSha}`, {
+        encoding: 'utf8',
+        maxBuffer: 20 * 1024 * 1024
+      });
+      entry.size_bytes = Buffer.byteLength(content, 'utf8');
     } catch (e) {
-      // skip content extraction on read error
+      const fullPath = path.join(repoConfig.root, relativePath.replace(/[:*?"<>|]/g, '_'));
+      if (fs.existsSync(fullPath)) {
+        try {
+          content = fs.readFileSync(fullPath, 'utf8');
+          entry.size_bytes = Buffer.byteLength(content, 'utf8');
+        } catch (_) {}
+      }
     }
+  } else {
+    try {
+      const sizeStr = execSync(`git -C "${repoConfig.root}" cat-file -s ${blobSha}`, { encoding: 'utf8' }).trim();
+      entry.size_bytes = parseInt(sizeStr, 10) || 0;
+    } catch (_) {}
+  }
+
+  if (content && (ext === '.md' || ext === '.mdx' || ext === '.txt')) {
+    entry.title = extractTitle(content, fileName);
+    entry.tags = [...new Set([...extractFrontmatterTags(content).map(normalizeTag), ...extractTags(content)])];
+    entry.date = extractDate(content, relativePath);
+    entry.description = extractDescription(content);
+    entry.content_snippet = extractContentSnippet(content);
   }
 
   if (ext === '.pdf') {
@@ -628,9 +809,9 @@ function processFile(fullPath, repoConfig) {
     entry.section_index = null;
   }
 
-  if (ext === '.json' && repoConfig.isPapersRepo && relativePath.includes('.papers-meta') && !fileName.includes('index.json')) {
+  if (ext === '.json' && repoConfig.isPapersRepo && relativePath.includes('.papers-meta') && !fileName.includes('index.json') && content) {
     try {
-      const paperData = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
+      const paperData = JSON.parse(content);
       const sectionEntries = [];
       for (let i = 0; i < paperData.sections.length; i++) {
         const section = paperData.sections[i];
@@ -639,7 +820,7 @@ function processFile(fullPath, repoConfig) {
           id: sectionId,
           repo: repoConfig.name,
           path: `.papers-meta/${paperData.paper_id}.json`,
-           github_url: repoConfig.github ? `${repoConfig.github}/${encodeGithubPath(`.papers-meta/${paperData.paper_id}.json`)}` : null,
+          github_url: repoConfig.github ? `${repoConfig.github}/${encodeGithubPath(`.papers-meta/${paperData.paper_id}.json`)}` : null,
           title: `${paperData.title} — ${section.title}`,
           extension: '.json',
           content_type: 'paper-section',
@@ -647,8 +828,8 @@ function processFile(fullPath, repoConfig) {
           breadcrumbs: [paperData.title, section.title],
           tags: section.tags,
           date: null,
-          modified: stat.mtime.toISOString(),
-          size_bytes: stat.size,
+          modified: entry.modified,
+          size_bytes: entry.size_bytes,
           description: `Section ${section.level > 2 ? 'subsection' : 'section'}: ${section.title} (from ${paperData.title})`,
           content_snippet: `Paper: ${paperData.title}. Section: ${section.title}. Tags: ${section.tags.join(', ')}`,
           paper_id: paperData.paper_id,
@@ -671,7 +852,11 @@ function processFile(fullPath, repoConfig) {
     }
   }
 
-  if (ext === '.json' && fileName !== 'package.json' && fileName !== 'tsconfig.json') {
+  if (entry.category === 'schema' && entry.content_type === 'data') {
+    entry.content_type = 'schema';
+  } else if (entry.category === 'config' && entry.content_type === 'data') {
+    entry.content_type = 'config';
+  } else if (entry.content_type === 'code' && (ext === '.ts' || ext === '.tsx' || ext === '.js' || ext === '.jsx' || ext === '.py' || ext === '.mjs')) {
     const relPath = relativePath.toLowerCase();
     if (relPath.includes('schema') || relPath.includes('schemas')) {
       entry.content_type = 'schema';
@@ -861,11 +1046,11 @@ function main() {
     for (const rc of REPOS) {
       const exists = fs.existsSync(rc.root);
       if (exists) presentCount++;
-      const status = exists ? 'LOCAL_FOUND' : 'LOCAL_MISSING';
+      const status = rc.source_type || (exists ? 'LOCAL' : 'MISSING');
       console.log(`  - ${rc.name.padEnd(50)} [${status.padEnd(13)}] -> ${rc.root}`);
     }
     console.log('--------------------------------------------------------------------------------');
-    console.log(`Summary: ${REPOS.length} index-eligible repositories (${presentCount} available locally on disk).`);
+    console.log(`Summary: ${REPOS.length} index-eligible repositories (${presentCount} available).`);
     console.log('Dry-run mode active. No index files written.');
     console.log('================================================================================');
     process.exit(0);
@@ -874,33 +1059,37 @@ function main() {
   const allEntries = [];
 
   for (const repoConfig of REPOS) {
-    console.log(`\nScanning ${repoConfig.name} (${repoConfig.root})...`);
+    const status = repoConfig.source_type || (fs.existsSync(repoConfig.root) ? 'LOCAL' : 'MISSING');
+    console.log(`\nScanning ${repoConfig.name} [${status}] (${repoConfig.root})...`);
     if (!fs.existsSync(repoConfig.root)) {
       console.log(`  SKIP — directory not found`);
       continue;
     }
-    const files = walkDir(repoConfig.root, repoConfig);
-    console.log(`  Found ${files.length} content files`);
+    const gitItems = walkGitTree(repoConfig);
+    console.log(`  Found ${gitItems.length} content files in Git HEAD tree`);
 
-  let count = 0;
-  for (const file of files) {
-    try {
-      const entry = processFile(file, repoConfig);
-      allEntries.push(entry);
-      count++;
-      if (entry._childSections) {
-        for (const child of entry._childSections) {
-          allEntries.push(child);
-          count++;
+    let count = 0;
+    for (const item of gitItems) {
+      try {
+        const entry = processGitEntry(item, repoConfig);
+        allEntries.push(entry);
+        count++;
+        if (entry._childSections) {
+          for (const child of entry._childSections) {
+            allEntries.push(child);
+            count++;
+          }
+          delete entry._childSections;
         }
-        delete entry._childSections;
+      } catch (e) {
+        console.error(`  Error processing ${item.relPath}: ${e.message}`);
       }
-        } catch (e) {
-            console.error(`  Error processing ${file}: ${e.message}`);
-        }
     }
     console.log(`  Processed ${count} entries`);
   }
+
+  // Sort entries deterministically by repo then path
+  allEntries.sort((a, b) => (a.repo === b.repo ? a.path.localeCompare(b.path) : a.repo.localeCompare(b.repo)));
 
   console.log(`\n--- Total: ${allEntries.length} entries across ${REPOS.length} repos ---`);
 
@@ -920,62 +1109,87 @@ function main() {
     repoRoots[rc.name] = rc.root;
   }
 
+  let latestCommitDate = '1970-01-01T00:00:00.000Z';
+  for (const rc of REPOS) {
+    if (rc.provenance && rc.provenance.indexed_commit_date) {
+      if (rc.provenance.indexed_commit_date > latestCommitDate) {
+        latestCommitDate = rc.provenance.indexed_commit_date;
+      }
+    }
+  }
+
   const index = {
     schema_version: '2.0',
-    generated_at: new Date().toISOString(),
+    generated_at: latestCommitDate,
     github_org: 'vortsghost2025',
     repo_roots: repoRoots,
+    source_provenance: REPOS.map(rc => rc.provenance),
     stats: repoStats,
     tag_index: tagIndex,
     cross_references: crossRefs,
     entries: allEntries
   };
 
-  const outputPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index.json');
+  const isCandidateOutput = Boolean(OUTPUT_ARG);
+  const outputPath = OUTPUT_ARG
+    ? path.resolve(OUTPUT_ARG)
+    : path.join(discovery.getLocalPath('library'), 'data', 'site-index.json');
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-  const previousIndex = loadJson(outputPath);
-  const guardDecision = enforceGraphWriteGuard({
-    operation: 'generate-site-index',
-    guardPath: path.join(discovery.getLocalPath('library'), 'scripts', 'graph-write-guard.js'),
-    writePath: outputPath,
-    beforeObject: previousIndex,
-    afterObject: index,
-    adjudicationPath: ADJUDICATION_PATH,
-    mode: 'index'
-  });
-  writeGuardAudit(discovery.getLocalPath('library'), 'generate-site-index', guardDecision, ADJUDICATION_PATH);
 
-  if (!guardDecision.allowWrite) {
-    console.log('\n=== GRAPH WRITE GUARD ===');
-    console.log(`STATUS: ${guardDecision.status}`);
-    console.log(`guard_path: ${guardDecision.guard_path}`);
-    console.log(`write_path: ${guardDecision.write_path}`);
-    console.log(`blocked_case: ${guardDecision.blocked_case}`);
-    console.log(`evidence_required: ${guardDecision.evidence_required}`);
-    console.log(`bypass_notes: ${guardDecision.bypass_notes}`);
-    process.exit(2);
+  const summaryPath = OUTPUT_ARG
+    ? (OUTPUT_ARG.includes('candidate')
+        ? path.join(path.dirname(outputPath), 'site-index-summary.phase3-candidate.json')
+        : path.join(path.dirname(outputPath), path.basename(outputPath, '.json') + '-summary.json'))
+    : path.join(discovery.getLocalPath('library'), 'data', 'site-index-summary.json');
+
+  if (!isCandidateOutput) {
+    const previousIndex = loadJson(outputPath);
+    const guardDecision = enforceGraphWriteGuard({
+      operation: 'generate-site-index',
+      guardPath: path.join(discovery.getLocalPath('library'), 'scripts', 'graph-write-guard.js'),
+      writePath: outputPath,
+      beforeObject: previousIndex,
+      afterObject: index,
+      adjudicationPath: ADJUDICATION_PATH,
+      mode: 'index'
+    });
+    writeGuardAudit(discovery.getLocalPath('library'), 'generate-site-index', guardDecision, ADJUDICATION_PATH);
+
+    if (!guardDecision.allowWrite) {
+      console.log('\n=== GRAPH WRITE GUARD ===');
+      console.log(`STATUS: ${guardDecision.status}`);
+      console.log(`guard_path: ${guardDecision.guard_path}`);
+      console.log(`write_path: ${guardDecision.write_path}`);
+      console.log(`blocked_case: ${guardDecision.blocked_case}`);
+      console.log(`evidence_required: ${guardDecision.evidence_required}`);
+      console.log(`bypass_notes: ${guardDecision.bypass_notes}`);
+      process.exit(2);
+    }
   }
 
-fs.writeFileSync(outputPath, JSON.stringify(index, null, 2));
-writeSeal(outputPath, index, 'generate-site-index', ADJUDICATION_PATH);
-console.log(`\nIndex written to ${outputPath}`);
-console.log(` ${allEntries.length} entries`);
-console.log(` ${Object.keys(tagIndex).length} unique tags`);
-console.log(` ${crossRefs.length} cross-references`);
-console.log(` ${repoStats.total_size_bytes.toLocaleString()} total bytes`);
+  fs.writeFileSync(outputPath, JSON.stringify(index, null, 2));
+  if (!isCandidateOutput) {
+    writeSeal(outputPath, index, 'generate-site-index', ADJUDICATION_PATH);
+  }
+  console.log(`\nIndex written to ${outputPath}`);
+  console.log(` ${allEntries.length} entries`);
+  console.log(` ${Object.keys(tagIndex).length} unique tags`);
+  console.log(` ${crossRefs.length} cross-references`);
+  console.log(` ${repoStats.total_size_bytes.toLocaleString()} total bytes`);
 
-const snapshotDir = path.join(discovery.getLocalPath('library'), 'data', 'snapshots');
-if (!fs.existsSync(snapshotDir)) fs.mkdirSync(snapshotDir, { recursive: true });
-const snapshotDate = new Date().toISOString().slice(0, 10);
-const snapshotPath = path.join(snapshotDir, `${snapshotDate}.json`);
-if (!fs.existsSync(snapshotPath)) {
-  fs.writeFileSync(snapshotPath, JSON.stringify(index, null, 2));
-  console.log(`Snapshot saved to ${snapshotPath}`);
-} else {
-  console.log(`Snapshot already exists for ${snapshotDate}, skipping`);
-}
+  if (!isCandidateOutput) {
+    const snapshotDir = path.join(discovery.getLocalPath('library'), 'data', 'snapshots');
+    if (!fs.existsSync(snapshotDir)) fs.mkdirSync(snapshotDir, { recursive: true });
+    const snapshotDate = new Date().toISOString().slice(0, 10);
+    const snapshotPath = path.join(snapshotDir, `${snapshotDate}.json`);
+    if (!fs.existsSync(snapshotPath)) {
+      fs.writeFileSync(snapshotPath, JSON.stringify(index, null, 2));
+      console.log(`Snapshot saved to ${snapshotPath}`);
+    } else {
+      console.log(`Snapshot already exists for ${snapshotDate}, skipping`);
+    }
+  }
 
-  const summaryPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index-summary.json');
   const summary = {
     schema_version: '2.0',
     generated_at: index.generated_at,
@@ -987,13 +1201,15 @@ if (!fs.existsSync(snapshotPath)) {
         Object.entries(repoStats.by_repo).map(([name, rs]) => [name, { total_files: rs.total_files, total_size_bytes: rs.total_size_bytes }])
       ),
     },
+    source_provenance: REPOS.map(rc => rc.provenance),
     tag_count: Object.keys(tagIndex).length,
     cross_ref_count: crossRefs.length,
     top_tags: Object.entries(tagIndex)
       .sort((a, b) => b[1].length - a[1].length)
       .slice(0, 30)
       .map(([tag, ids]) => ({ tag, count: ids.length })),
-    category_breakdown: repoStats.by_category
+    category_breakdown: repoStats.by_category,
+    extension_breakdown: repoStats.by_extension
   };
   fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
   console.log(`Summary written to ${summaryPath}`);

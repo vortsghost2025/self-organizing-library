@@ -1,209 +1,511 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-08-07T13:38:00.969Z",
-  "repo_count": 9,
+  "generated_at": "2026-08-18T14:08:24-04:00",
+  "repo_count": 19,
   "stats": {
-    "total_files": 19063,
-    "total_size_bytes": 164758601,
+    "total_files": 6980,
+    "total_size_bytes": 162490312,
     "by_repo": {
-      "self-organizing-library": {
-        "total_files": 8608,
-        "total_size_bytes": 112988776
+      "ai-ensemble-lab-": {
+        "total_files": 15,
+        "total_size_bytes": 72063
       },
       "Archivist-Agent": {
-        "total_files": 9259,
-        "total_size_bytes": 29050233
+        "total_files": 748,
+        "total_size_bytes": 5559935
       },
-      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 677,
-        "total_size_bytes": 6907460
+      "autonomous-elasticsearch-evolution-agent": {
+        "total_files": 271,
+        "total_size_bytes": 4330486
+      },
+      "Deliberate-AI-Ensemble": {
+        "total_files": 1123,
+        "total_size_bytes": 18884698
+      },
+      "federation": {
+        "total_files": 468,
+        "total_size_bytes": 5759473
+      },
+      "FreeAgent": {
+        "total_files": 804,
+        "total_size_bytes": 24680063
+      },
+      "Genesis-Kernel-First-Humans-World-Sim": {
+        "total_files": 54,
+        "total_size_bytes": 299645
+      },
+      "Genesis-Kernel-World-Sim": {
+        "total_files": 353,
+        "total_size_bytes": 5490017
       },
       "kernel-lane": {
-        "total_files": 519,
-        "total_size_bytes": 15812132
+        "total_files": 517,
+        "total_size_bytes": 11763232
+      },
+      "kucoin-lane": {
+        "total_files": 425,
+        "total_size_bytes": 3153779
+      },
+      "mev-bot": {
+        "total_files": 393,
+        "total_size_bytes": 4538254
+      },
+      "multi-ai-ensemble": {
+        "total_files": 29,
+        "total_size_bytes": 109811
+      },
+      "SeanCody2026ResearchProject": {
+        "total_files": 199,
+        "total_size_bytes": 1065421
+      },
+      "self-organizing-library": {
+        "total_files": 741,
+        "total_size_bytes": 69814427
+      },
+      "storytime": {
+        "total_files": 265,
+        "total_size_bytes": 3613470
+      },
+      "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
+        "total_files": 363,
+        "total_size_bytes": 2073480
+      },
+      "we-and-ai-papers": {
+        "total_files": 55,
+        "total_size_bytes": 619298
+      },
+      "WE4FREE-Lattice-Deck": {
+        "total_files": 91,
+        "total_size_bytes": 406868
+      },
+      "WE4FREE-Research-Intake": {
+        "total_files": 66,
+        "total_size_bytes": 255892
       }
     }
   },
-  "tag_count": 104,
-  "cross_ref_count": 5,
+  "source_provenance": [
+    {
+      "repo": "Archivist-Agent",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\Archivist-Agent",
+      "git_remote": "https://github.com/vortsghost2025/Archivist-Agent.git",
+      "default_branch": "master",
+      "indexed_commit_sha": "fd93bc403e8b12fc8a7dc9e1b71e670026eb83d0",
+      "indexed_commit_date": "2026-08-08T00:54:56Z"
+    },
+    {
+      "repo": "kernel-lane",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\kernel-lane",
+      "git_remote": "https://github.com/vortsghost2025/kernel-lane.git",
+      "default_branch": "master",
+      "indexed_commit_sha": "1d0d5c6e7e23e42d88247c046e8ea82792a95e48",
+      "indexed_commit_date": "2026-08-14T02:17:40-04:00"
+    },
+    {
+      "repo": "self-organizing-library",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\self-organizing-library",
+      "git_remote": "https://github.com/vortsghost2025/self-organizing-library.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "8db52c023f17690ff8d12a4be7cc002b2941724a",
+      "indexed_commit_date": "2026-08-18T14:08:24-04:00"
+    },
+    {
+      "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\SwarmMind",
+      "git_remote": "https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "b19ae37813ae0f8abcc2f18f5e4abccf1b343af1",
+      "indexed_commit_date": "2026-07-24T00:32:02-04:00"
+    },
+    {
+      "repo": "WE4FREE-Lattice-Deck",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\WE4FREE-Lattice-Deck",
+      "git_remote": "https://github.com/vortsghost2025/WE4FREE-Lattice-Deck",
+      "default_branch": "main",
+      "indexed_commit_sha": "444c561f3d82db28c2c67926a0872c8ff1d7a116",
+      "indexed_commit_date": "2026-06-10T16:27:38-04:00"
+    },
+    {
+      "repo": "Deliberate-AI-Ensemble",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Deliberate-AI-Ensemble",
+      "git_remote": "https://github.com/vortsghost2025/Deliberate-AI-Ensemble.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "b401f26053924b0a087f195a4da3aa2b2b39f106",
+      "indexed_commit_date": "2026-05-16T03:06:33-04:00"
+    },
+    {
+      "repo": "federation",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\federation",
+      "git_remote": "https://github.com/vortsghost2025/federation.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "145f3afc04a465b12956b22fd4073f48485cd67f",
+      "indexed_commit_date": "2026-08-08T04:31:49Z"
+    },
+    {
+      "repo": "kucoin-lane",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\kucoin-lane",
+      "git_remote": "https://github.com/vortsghost2025/kucoin-lane.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "2ed32ace984899587ae15042f3cf3710d57e67b6",
+      "indexed_commit_date": "2026-07-24T00:29:51-04:00"
+    },
+    {
+      "repo": "we-and-ai-papers",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\we-and-ai-papers",
+      "git_remote": "https://github.com/vortsghost2025/we-and-ai-papers.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "d08f065b06e65ec7e5ab49849f4ce002050c27f8",
+      "indexed_commit_date": "2026-06-01T12:08:27-04:00"
+    },
+    {
+      "repo": "WE4FREE-Research-Intake",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\WE4FREE-Research-Intake",
+      "git_remote": "https://github.com/vortsghost2025/WE4FREE-Research-Intake.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "c65ab50ded724b658197577d1349b8f502a57596",
+      "indexed_commit_date": "2026-05-16T14:20:02-04:00"
+    },
+    {
+      "repo": "ai-ensemble-lab-",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\ai-ensemble-lab-",
+      "git_remote": "https://github.com/vortsghost2025/ai-ensemble-lab-.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "4099ef645dc6d2c8e5d3a48147c03acdac7e931e",
+      "indexed_commit_date": "2026-02-01T15:18:57-05:00"
+    },
+    {
+      "repo": "autonomous-elasticsearch-evolution-agent",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\autonomous-elasticsearch-evolution-agent",
+      "git_remote": "https://github.com/vortsghost2025/autonomous-elasticsearch-evolution-agent.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "d3badfd22c443db1b54e428f0d14751f7a5d35d8",
+      "indexed_commit_date": "2026-02-22T07:45:14-05:00"
+    },
+    {
+      "repo": "FreeAgent",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\FreeAgent",
+      "git_remote": "https://github.com/vortsghost2025/FreeAgent.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "6ceb72e410bee6bdf4dfaa12901e27bb9cf00da7",
+      "indexed_commit_date": "2026-04-28T15:45:18-04:00"
+    },
+    {
+      "repo": "Genesis-Kernel-First-Humans-World-Sim",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\Genesis Kernel First Humans World Sim",
+      "git_remote": "https://github.com/vortsghost2025/Genesis-Kernel-First-Humans-World-Sim.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "287f287456ae9b7a4e0e090d3dcde7b1aa1723f1",
+      "indexed_commit_date": "2026-05-30T16:39:16-04:00"
+    },
+    {
+      "repo": "Genesis-Kernel-World-Sim",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\Genesis Kernel World Sim",
+      "git_remote": "https://github.com/vortsghost2025/Genesis-Kernel-World-Sim.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "2a5efbd1aa6035af5e26b1f6bc65f2f7eb1f0423",
+      "indexed_commit_date": "2026-08-09T01:37:03-04:00"
+    },
+    {
+      "repo": "mev-bot",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\mev-bot",
+      "git_remote": "https://github.com/vortsghost2025/mev-bot.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "65a0d40f3ae7810fea08a48d97515b57b49bad38",
+      "indexed_commit_date": "2026-04-28T08:16:06-04:00"
+    },
+    {
+      "repo": "multi-ai-ensemble",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\multi-ai-ensemble",
+      "git_remote": "https://github.com/vortsghost2025/multi-ai-ensemble.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "049efdec46d6cf23065e1b3d0704654bf9a365ea",
+      "indexed_commit_date": "2026-03-27T20:26:39-04:00"
+    },
+    {
+      "repo": "SeanCody2026ResearchProject",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\SeanCody2026ResearchProject",
+      "git_remote": "https://github.com/vortsghost2025/SeanCody2026ResearchProject.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "7adfc8cdea638223dbcfae27894d0ef9ae95f064",
+      "indexed_commit_date": "2026-07-18T21:06:36-04:00"
+    },
+    {
+      "repo": "storytime",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\storytime",
+      "git_remote": "https://github.com/vortsghost2025/storytime.git",
+      "default_branch": "master",
+      "indexed_commit_sha": "1a4eb041aade1b6fb6ba78bd10a0a886e5275462",
+      "indexed_commit_date": "2026-04-11T05:18:46-04:00"
+    }
+  ],
+  "tag_count": 116,
+  "cross_ref_count": 986,
   "top_tags": [
     {
-      "tag": "Archivist",
-      "count": 358
-    },
-    {
-      "tag": "Library",
-      "count": 342
-    },
-    {
       "tag": "Verification",
-      "count": 316
-    },
-    {
-      "tag": "Swarmmind",
-      "count": 298
+      "count": 914
     },
     {
       "tag": "Governance",
-      "count": 273
+      "count": 694
     },
     {
-      "tag": "Kernel",
-      "count": 242
+      "tag": "Library",
+      "count": 564
     },
     {
-      "tag": "Drift",
-      "count": 160
+      "tag": "Archivist",
+      "count": 527
     },
     {
       "tag": "Multi-Agent",
-      "count": 97
+      "count": 487
     },
     {
       "tag": "WE4FREE",
-      "count": 89
+      "count": 445
     },
     {
-      "tag": "Covenant",
-      "count": 80
+      "tag": "Kernel",
+      "count": 439
     },
     {
-      "tag": "Convergence Gate",
-      "count": 73
+      "tag": "Drift",
+      "count": 424
     },
     {
-      "tag": "Phase 2",
-      "count": 67
-    },
-    {
-      "tag": "Failure Mode",
-      "count": 59
+      "tag": "Swarmmind",
+      "count": 410
     },
     {
       "tag": "Ensemble",
-      "count": 54
-    },
-    {
-      "tag": "Phenotype",
-      "count": 54
-    },
-    {
-      "tag": "Attestation",
-      "count": 51
-    },
-    {
-      "tag": "Freeagent",
-      "count": 48
-    },
-    {
-      "tag": "Phase 3",
-      "count": 45
-    },
-    {
-      "tag": "Phase 1",
-      "count": 42
-    },
-    {
-      "tag": "Rosetta Stone",
-      "count": 42
+      "count": 372
     },
     {
       "tag": "Federation",
-      "count": 40
+      "count": 343
+    },
+    {
+      "tag": "Phase 2",
+      "count": 267
+    },
+    {
+      "tag": "Phase 1",
+      "count": 240
+    },
+    {
+      "tag": "Phase 3",
+      "count": 225
     },
     {
       "tag": "Phase 4",
-      "count": 36
+      "count": 159
     },
     {
-      "tag": "Constraint Lattice",
-      "count": 33
+      "tag": "Phenotype",
+      "count": 139
+    },
+    {
+      "tag": "Phase 10",
+      "count": 138
+    },
+    {
+      "tag": "Rosetta Stone",
+      "count": 133
+    },
+    {
+      "tag": "Covenant",
+      "count": 131
+    },
+    {
+      "tag": "Freeagent",
+      "count": 105
+    },
+    {
+      "tag": "Failure Mode",
+      "count": 104
+    },
+    {
+      "tag": "Phase 5",
+      "count": 98
+    },
+    {
+      "tag": "Convergence Gate",
+      "count": 97
     },
     {
       "tag": "Constitutional AI",
-      "count": 22
+      "count": 88
     },
     {
-      "tag": "NFM-002",
-      "count": 20
+      "tag": "Constraint Lattice",
+      "count": 74
     },
     {
-      "tag": "NFM-036",
-      "count": 19
+      "tag": "Attestation",
+      "count": 71
     },
     {
-      "tag": "NFM-003",
-      "count": 16
+      "tag": "Phase 6",
+      "count": 45
     },
     {
-      "tag": "NFM-001",
-      "count": 15
+      "tag": "Phase 9",
+      "count": 44
     },
     {
-      "tag": "NFM-032",
-      "count": 15
+      "tag": "Phase 8",
+      "count": 38
     },
     {
-      "tag": "NFM-020",
-      "count": 15
+      "tag": "Phase 0",
+      "count": 28
     }
   ],
   "category_breakdown": {
-    "root-doc": 226,
-    "config": 16802,
-    "data": 20,
-    "docs": 486,
-    "drafts": 1,
-    "evidence": 68,
-    "governance": 57,
+    "docs": 834,
+    "examples": 3,
+    "root-doc": 1450,
+    "code": 606,
+    "test": 75,
+    "config": 279,
+    "archivist": 1,
+    "benchmark_results": 3,
+    "coordination": 22,
+    "e2e-tests": 6,
+    "evidence": 67,
+    "governance": 67,
     "hooks": 16,
-    "log": 14,
-    "reports": 28,
-    "schema": 48,
-    "script": 771,
-    "code": 147,
-    "test": 15,
-    "verification": 20,
+    "improvement-reports": 10,
+    "log": 15,
+    "mcp-servers": 15,
     "paper": 18,
-    "library": 4,
-    "web": 6,
+    "plans": 5,
+    "proposals": 24,
+    "infrastructure": 14,
+    "reports": 54,
+    "schema": 66,
+    "scratch": 2,
+    "script": 785,
+    "specs": 4,
     "attestation": 24,
-    "audit": 1,
-    "database": 2,
-    "identity": 2,
+    "bridge": 9,
     "lane-protocol": 2,
-    "memory": 2,
+    "memory": 11,
+    "monitoring": 3,
     "queue": 4,
-    "resilience": 2,
-    "swarmmind": 2,
-    "usage": 4,
+    "tool": 2,
+    "system": 1,
+    "ui": 12,
+    "universe": 6,
+    "bin": 3,
+    "extension": 1,
+    "lib": 9,
+    "web": 8,
+    "sharedClientCache": 187,
+    "agent": 129,
+    "distributed": 25,
+    "ai": 18,
+    "math": 9,
+    "medical": 513,
+    "data": 72,
+    "game": 383,
+    "we4free": 130,
+    "project": 6,
+    "continuity-test-handoff": 3,
+    "galaxy_theme": 2,
+    "gastown-rig": 6,
+    "genesis-memory": 9,
+    "out_federation": 3,
+    "session": 22,
+    "ARCHITECTURE_DECISION_RECORDS": 1,
+    "orchestrator": 3,
+    "phase-6": 5,
+    "we": 97,
+    "genesis-sim": 37,
+    "tooling": 10,
+    "world-sim": 338,
+    "artifacts-from-ubuntu": 141,
+    "artifacts": 20,
+    "baseline": 1,
+    "benchmark": 18,
+    "integration": 1,
+    "kernel": 5,
+    "profile": 7,
+    "release": 6,
+    "journal": 1,
+    "abi": 2,
+    "agent-system": 4,
+    "budget-guard": 3,
+    "clawhub": 3,
+    "clawteam-web": 1,
+    "containers": 6,
+    "contracts": 1,
+    "freeagent-clean": 13,
+    "gateway": 3,
+    "kimi": 2,
+    "openrouter-proxy": 2,
+    "pages": 1,
+    "runbooks": 1,
+    "skills": 1,
+    "swarm-core": 7,
+    "TASKS": 5,
+    "workflows": 4,
+    "api": 2,
+    "model_service_1": 4,
+    "model_service_2": 2,
+    "shared": 1,
+    "graph": 25,
+    "project_audit": 1,
+    "research_inbox": 57,
+    "research_questions": 11,
+    "drafts": 1,
+    "library": 4,
     "failure-mode": 14,
     "pending": 6,
     "reflection": 1,
     "spec": 7,
-    "coordination": 2,
-    "benchmark_results": 3,
-    "e2e-tests": 6,
-    "plans": 5,
-    "infrastructure": 3,
-    "scratch": 2,
-    "specs": 4,
-    "system": 1,
-    "ui": 6,
-    "universe": 3,
-    "bridge": 9,
-    "monitoring": 3,
-    "tool": 2,
-    "archivist": 1,
-    "mcp-servers": 15,
+    "verification": 20,
+    "audit": 1,
+    "database": 2,
+    "identity": 2,
+    "resilience": 2,
+    "swarmmind": 2,
+    "usage": 4,
     "templates": 1,
-    "artifacts": 1,
-    "baseline": 1,
-    "benchmark": 15,
-    "integration": 1,
-    "kernel": 5,
-    "release": 6,
-    "artifacts-from-ubuntu": 141,
-    "profile": 7
+    "work-orders": 7
+  },
+  "extension_breakdown": {
+    ".md": 2599,
+    ".txt": 217,
+    ".py": 917,
+    ".yml": 53,
+    ".json": 963,
+    ".js": 1625,
+    ".yaml": 11,
+    ".ts": 390,
+    ".html": 94,
+    ".pdf": 2,
+    ".mjs": 15,
+    ".tsx": 94
   }
 }
