@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "status": "RATIFIED",
+  "ratified_at": "2026-08-18T15:45:00Z",
+  "ratification": {
+    "task_id": "GOV-RATIFY-AUTH-2026-08-18",
+    "proposal_doc_path": "docs/governance/AUTHORITY_RECONCILIATION_PROPOSAL_2026-08-18.md",
+    "library_verification_path": "lanes/library/evidence/authority-reconciliation-verification-2026-08-18.json",
+    "library_key_id": "33daff393bc73937",
+    "original_broadcast": {
+      "task_id": "GOV-RATIFY-AUTH-2026-08-18",
+      "authoritative_external_path": "S:/Archivist-Agent/lanes/broadcast/2026-08-18T15-45-00Z_authority_authority-reconciliation-response.json",
+      "local_mirror_path": "lanes/broadcast/2026-08-18T15-45-00Z_authority_authority-reconciliation-response.json",
+      "content_hash": "sha256:e9b3918311a0a6236a09848464e92f1f194c26b6e4bbd7624bada07aa84a6eb5",
+      "signer": "archivist",
+      "key_id": "6ed65c18a0afca45"
+    },
+    "provenance_correction": {
+      "task_id": "GOV-RATIFY-AUTH-2026-08-18-CORR-01",
+      "authoritative_external_path": "S:/Archivist-Agent/lanes/broadcast/2026-08-18T16-10-00Z_authority_gov-ratify-auth-provenance-correction.json",
+      "local_mirror_path": "lanes/broadcast/2026-08-18T16-10-00Z_authority_gov-ratify-auth-provenance-correction.json",
+      "content_hash": "sha256:bdeb32edf36f53cd008b4b7987a49fe2ac9720358835f30416510d2b62f90edd",
+      "signer": "archivist",
+      "key_id": "6ed65c18a0afca45"
+    }
+  },
+  "constitutional_lane_authority": {
+    "archivist": 100,
+    "swarmmind": 80,
+    "kernel": 70,
+    "library": 60
+  },
+  "phase_completion_approval_weights": {
+    "user": 100,
+    "archivist": 90,
+    "library": 90,
+    "codex": 70,
+    "swarmmind": 80
+  },
+  "semantic_definitions": {
+    "constitutional_lane_authority": "Ordinal decision power and governance boundary in the 4-lane constitutional hierarchy (CANONICAL_ARCHITECTURE.md §2.2). Displayed on public architecture surfaces.",
+    "phase_completion_approval_weights": "Approval weights of verification participants required before a build phase closes (GOVERNANCE.md §12). Separate operational gate."
+  },
+  "sources": {
+    "constitutional": "docs/CANONICAL_ARCHITECTURE.md §2.2",
+    "phase_completion": "GOVERNANCE.md §12"
+  },
+  "adjudicated_drift": {
+    "kernel_40": "Declared UNSUPPORTED_UI_DRIFT. No governance source in constitutional records.",
+    "library_90_as_lane_authority": "Declared PHASE_COMPLETION_MISCLASSIFICATION. 90 is phase-completion approval weight, not constitutional authority.",
+    "codex_kernel_succession": "Declared REJECTED_COINCIDENCE_ONLY. Codex-5.3 was agent runtime in phase gate, not a predecessor to Kernel."
+  },
+  "historical_policy": {
+    "preserve_original_context": true,
+    "description": "Historical broadcasts, snapshots, and archived records retain their original numbers and context without retroactive rewriting."
+  }
+}
