@@ -6,6 +6,7 @@
 
 1. **`.global/GOVERNANCE_RULES.txt`** — 8 governance rules including `OUTPUT_PROVENANCE` (all outputs must include the header), `MESSAGE_PROTOCOL` (signed JSON format), `COMMIT PREFIX`, and `CLAIM STATUS` taxonomy.
 2. **`.global/agent-governance.json`** — Detailed config with enforcement specifications, runtime assignments, and daemon requirements.
+3. **If the work touches `/graph` or Nexus Graph UI/data presentation:** `docs/graph/GRAPH_RESTORE_SPEC_V1.md` — design authority. Code changes are frozen until an inspect-only restoration plan is approved.
 
 **FAILURE TO COMPLY** results in: lane-worker NACKs, pre-commit hook rejection, and your inbox receiving violation notices. Every prior agent has been told this — do not make us repeat it.
 
@@ -109,7 +110,9 @@ S:/self-organizing-library/
 5. **Look at recent verification work:** `lanes/library/state/sovereignty-report-latest.json`
    shows recent enforcement scans.
 6. **Run locally:** `npm run dev` then visit http://localhost:3000/graph to see the
-   Nexus Graph. Use the Fit button to center visible nodes.
+   Nexus Graph. Use the Fit button to center visible nodes. Before changing anything
+   on `/graph`, read `docs/graph/GRAPH_RESTORE_SPEC_V1.md`. Current standing order:
+   inspect and plan only — do not restore or redesign yet.
 
 ---
 
@@ -189,6 +192,16 @@ Full spec: `GOVERNANCE.md`
 
 ---
 
+## Nexus Graph Authority
+
+`docs/graph/GRAPH_RESTORE_SPEC_V1.md` is the authority document for the Nexus Graph.
+
+The graph is a **reasoning and investigation interface**, not an everything-at-once visualization. Restore target: meaning first → progressive disclosure → evidence on demand.
+
+**Standing order:** do not change graph code, layout, filters, layers, or data-generation semantics until an inspect-only gap analysis and restoration plan are approved. Unrelated frontend work must not redefine the graph's purpose.
+
+---
+
 ## Where to Go Next
 
 - **[System Overview](/)** — 2-minute orientation (already read it, right?)
@@ -196,6 +209,7 @@ Full spec: `GOVERNANCE.md`
 - **[4-Lane Architecture](/#lane-architecture)** — detailed lane responsibilities
 - **[System Evolution timeline](/timeline)** — chronological history of governance events
 - **[Nexus Graph](/graph)** — explore the knowledge graph (try the Fit button)
+- **[GRAPH_RESTORE_SPEC_V1](docs/graph/GRAPH_RESTORE_SPEC_V1.md)** — graph design authority; inspect/plan only until approved
 - **[Start Here guide](/start-here)** — deeper dive into reading the dashboard
 - **[Technical Papers](/papers)** — full specifications and theory
 

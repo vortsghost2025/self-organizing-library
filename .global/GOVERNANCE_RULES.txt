@@ -9,7 +9,7 @@ target: <what-youre-working-on>
 
 2. LANE SOVEREIGNTY: No cross-lane require(). String literals referencing other lanes are allowed.
 
-3. PACKET-FIRST REVIEW: For /graph, start from packet files (AGENT_WEB_REVIEW_BRIEF.md, graph-analysis-packets.json). Do not open raw graph JSON without documented escalation.
+3. PACKET-FIRST REVIEW: For /graph, start from GRAPH_RESTORE_SPEC_V1.md (design authority; code frozen until inspect/plan approved), then packet files (AGENT_WEB_REVIEW_BRIEF.md, graph-analysis-packets.json). Do not open raw graph JSON without documented escalation. Do not change graph code during unrelated frontend work.
 
 4. CLAIM STATUS: Separate verified facts, known bugs, proposed fixes, fixes in progress, and accepted fixes. Do not claim acceptance without verification.
 

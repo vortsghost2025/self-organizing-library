@@ -15,7 +15,7 @@ import Graph from "graphology";
 import Sigma from "sigma";
 
 import { computeCameraFitFromDisplayPoints } from "@/lib/graph-camera-fit";
-import type { GraphEdge, GraphLens, GraphNode } from "@/lib/graph-types";
+import type { DensityLevel, GraphEdge, GraphLens, GraphNode, MeaningLayer } from "@/lib/graph-types";
 import {
   computeSemanticGraphLayout,
   getSemanticLayoutRegion,
@@ -268,8 +268,16 @@ interface GraphCanvasProps {
   nodes: GraphNode[];
   edges: GraphEdge[];
   graphLens?: GraphLens;
+  density?: DensityLevel;
+  activeClusterId?: string | null;
+  activeEntryPoint?: string | null;
+  activeLayers?: MeaningLayer[];
   searchQuery: string;
   selectedNodeId: string | null;
+  requestedNodeToken?: string | null;
+  resolvedNodeId?: string | null;
+  resolvedNodeTitle?: string | null;
+  resolutionMethod?: string | null;
   onNodeClick: (nodeId: string) => void;
   onCameraUpdate: (ratio: number) => void;
 }
@@ -1268,6 +1276,7 @@ function buildRenderableGraph(
   nodes: GraphNode[],
   edges: GraphEdge[],
   graphLens: GraphLens,
+  density?: DensityLevel,
 ): Graph<RenderNodeAttributes> {
   const preset = getGraphWorkspacePreset(graphLens);
   const graph = new Graph<RenderNodeAttributes>({ multi: false, type: "undirected" });
@@ -1336,9 +1345,9 @@ function buildRenderableGraph(
             theme.edgeColor || DEFAULT_EDGE_COLOR,
           )
         : edge.authority === "CONTRADICTS"
-        ? "rgba(240, 84, 135, 0.34)"
+        ? "rgba(240, 84, 135, 0.85)"
         : edge.authority === "VERIFIES"
-        ? "rgba(80, 195, 139, 0.28)"
+        ? "rgba(80, 195, 139, 0.55)"
         : theme.edgeColor || DEFAULT_EDGE_COLOR;
 
     graph.addEdge(edge.source, edge.target, {
@@ -1357,9 +1366,9 @@ function buildRenderableGraph(
             ? 0.94
             : 0.72
           : edge.authority === "CONTRADICTS"
-          ? 1.4
+          ? 1.8
           : edge.authority === "VERIFIES"
-          ? 1.2
+          ? 1.4
           : 1.05,
       type: graphLens === "navigation" ? "line" : EDGE_CURVE_PROGRAM ? "curve" : "line",
       curvature: undefined,
@@ -1378,7 +1387,7 @@ function buildRenderableGraph(
     });
   }
 
-  if (graphLens === "navigation") {
+  if (graphLens === "navigation" && density !== "overview") {
     applyNavigationPresentationLayout(graph);
     addNavigationSupportEdges(graph);
   }
@@ -1392,8 +1401,16 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
       nodes,
       edges,
       graphLens = "navigation",
+      density = "overview",
+      activeClusterId = null,
+      activeEntryPoint = null,
+      activeLayers = [],
       searchQuery,
       selectedNodeId,
+      requestedNodeToken = null,
+      resolvedNodeId = null,
+      resolvedNodeTitle = null,
+      resolutionMethod = "UNRESOLVED",
       onNodeClick,
       onCameraUpdate,
     },
@@ -1932,11 +1949,9 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
         containerHeight: container.clientHeight,
         paddingFactor:
           query || selectedNodeIdRef.current
-            ? 0.7
-            : graphLens === "navigation"
-            ? 0.82
-            : 0.86,
-        trimPercentile: graphLens === "navigation" ? 0.02 : 0.01,
+            ? 0.85
+            : 1.10,
+        trimPercentile: 0,
         minDisplayExtent: 0.16,
       });
 
@@ -1995,7 +2010,7 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
       if (!isWebglAvailable()) return;
       if (!containerRef.current) return;
 
-      const renderGraph = buildRenderableGraph(nodes, edges, graphLens);
+      const renderGraph = buildRenderableGraph(nodes, edges, graphLens, density);
       const renderer = new Sigma(renderGraph, containerRef.current, {
         renderLabels: true,
         renderEdgeLabels: false,
@@ -2003,8 +2018,8 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
         labelSize: 11.5,
         labelWeight: "500",
         labelColor: { color: "#D9DCE7" },
-        labelDensity: 1.35,
-        labelGridCellSize: 120,
+        labelDensity: 1.1,
+        labelGridCellSize: 140,
         labelRenderedSizeThreshold: 5,
         defaultEdgeColor: DEFAULT_EDGE_COLOR,
         edgeProgramClasses: EDGE_CURVE_PROGRAM ? { curve: EDGE_CURVE_PROGRAM } : {},
@@ -2050,18 +2065,25 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
           }
 
           if (focusNode && !isSelected && !isHovered && !isNeighbor) {
-            next.color = DIM_NODE_COLOR;
+            next.color = "rgba(45, 52, 68, 0.2)";
             next.label = "";
-            next.size = Math.max(3, attributes.size * 0.7);
+            next.size = Math.max(2.5, attributes.size * 0.6);
+            return next;
+          }
+
+          if (activeClusterId && !attributes.searchText.includes(activeClusterId.replace("repo:", "").replace("tag:", "")) && !isSelected && !isNeighbor) {
+            next.color = "rgba(45, 52, 68, 0.25)";
+            next.label = "";
+            next.size = Math.max(2.8, attributes.size * 0.65);
             return next;
           }
 
           if (isSelected) {
-            next.color = SELECTED_COLOR;
+            next.color = "#38BDF8";
             next.label = attributes.label;
             next.highlighted = true;
-            next.size = attributes.size * 1.22;
-            next.zIndex = attributes.importance + 100;
+            next.size = attributes.size * 1.5;
+            next.zIndex = attributes.importance + 1000;
             return next;
           }
 
@@ -2241,6 +2263,54 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
 
       initialFit();
 
+      if (typeof window !== "undefined") {
+        (window as any).__NEXUS_GRAPH_STATE__ = {
+          renderedNodes: renderGraph.nodes().length,
+          renderedEdges: renderGraph.edges().length,
+          nodeIds: renderGraph.nodes(),
+          graphLens,
+          density,
+          activeClusterId,
+          selectedNodeId,
+          activeEntryPoint,
+          activeLayers,
+          requestedNodeToken,
+          resolvedNodeId,
+          resolvedNodeTitle,
+          resolutionMethod,
+          getNodeContainment: () => {
+            if (!containerRef.current || !renderer) return null;
+            const container = containerRef.current;
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const allNodeIds = renderGraph.nodes();
+            let outsideCount = 0;
+            const outsideNodes: Array<{ id: string; x: number; y: number; size: number }> = [];
+            for (const id of allNodeIds) {
+              if (!renderGraph.hasNode(id)) continue;
+              const graphX = Number(renderGraph.getNodeAttribute(id, "x") || 0);
+              const graphY = Number(renderGraph.getNodeAttribute(id, "y") || 0);
+              const viewportPos = renderer.graphToViewport({ x: graphX, y: graphY });
+              const display = renderer.getNodeDisplayData(id);
+              const size = display ? display.size || 0 : 0;
+              const x = viewportPos.x;
+              const y = viewportPos.y;
+              if (x - size < 0 || x + size > width || y - size < 0 || y + size > height) {
+                outsideCount++;
+                outsideNodes.push({ id, x, y, size });
+              }
+            }
+            return {
+              totalNodes: allNodeIds.length,
+              outsideCount,
+              containerWidth: width,
+              containerHeight: height,
+              outsideNodes,
+            };
+          },
+        };
+      }
+
       return () => {
         resizeObserver.disconnect();
         camera.removeListener("updated", handleCameraUpdate);
@@ -2250,7 +2320,7 @@ const GraphCanvas = forwardRef<GraphCanvasImperativeHandle, GraphCanvasProps>(
         setNavigationOverlayPaths([]);
         renderer.kill();
       };
-    }, [edges, fitVisible, graphLens, nodes, onCameraUpdate, onNodeClick, updateNavigationOverlay, updateRegionLabels]);
+    }, [edges, fitVisible, graphLens, nodes, density, activeClusterId, selectedNodeId, activeEntryPoint, activeLayers, requestedNodeToken, resolvedNodeId, resolvedNodeTitle, resolutionMethod, onCameraUpdate, onNodeClick, updateNavigationOverlay, updateRegionLabels]);
 
     if (!isWebglAvailable()) {
       return (
