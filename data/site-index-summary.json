@@ -1,26 +1,26 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-08-07T13:38:00.969Z",
+  "generated_at": "2026-08-18T06:56:00.766Z",
   "repo_count": 9,
   "stats": {
-    "total_files": 19063,
-    "total_size_bytes": 164758601,
+    "total_files": 19091,
+    "total_size_bytes": 162838418,
     "by_repo": {
       "self-organizing-library": {
-        "total_files": 8608,
-        "total_size_bytes": 112988776
+        "total_files": 8614,
+        "total_size_bytes": 110925933
       },
       "Archivist-Agent": {
         "total_files": 9259,
-        "total_size_bytes": 29050233
+        "total_size_bytes": 29050689
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 677,
-        "total_size_bytes": 6907460
+        "total_files": 685,
+        "total_size_bytes": 6967675
       },
       "kernel-lane": {
-        "total_files": 519,
-        "total_size_bytes": 15812132
+        "total_files": 533,
+        "total_size_bytes": 15894121
       }
     }
   },
@@ -33,7 +33,7 @@
     },
     {
       "tag": "Library",
-      "count": 342
+      "count": 346
     },
     {
       "tag": "Verification",
@@ -41,35 +41,35 @@
     },
     {
       "tag": "Swarmmind",
-      "count": 298
+      "count": 304
     },
     {
       "tag": "Governance",
-      "count": 273
+      "count": 289
     },
     {
       "tag": "Kernel",
-      "count": 242
+      "count": 248
     },
     {
       "tag": "Drift",
       "count": 160
     },
     {
+      "tag": "WE4FREE",
+      "count": 105
+    },
+    {
       "tag": "Multi-Agent",
       "count": 97
     },
     {
-      "tag": "WE4FREE",
+      "tag": "Convergence Gate",
       "count": 89
     },
     {
       "tag": "Covenant",
       "count": 80
-    },
-    {
-      "tag": "Convergence Gate",
-      "count": 73
     },
     {
       "tag": "Phase 2",
@@ -149,24 +149,25 @@
     }
   ],
   "category_breakdown": {
-    "root-doc": 226,
-    "config": 16802,
+    "root-doc": 230,
+    "config": 16806,
     "data": 20,
     "docs": 486,
     "drafts": 1,
     "evidence": 68,
     "governance": 57,
     "hooks": 16,
-    "log": 14,
+    "log": 11,
+    "proposals": 16,
     "reports": 28,
     "schema": 48,
-    "script": 771,
+    "script": 774,
     "code": 147,
     "test": 15,
     "verification": 20,
     "paper": 18,
     "library": 4,
-    "web": 6,
+    "web": 7,
     "attestation": 24,
     "audit": 1,
     "database": 2,
@@ -199,7 +200,7 @@
     "templates": 1,
     "artifacts": 1,
     "baseline": 1,
-    "benchmark": 15,
+    "benchmark": 18,
     "integration": 1,
     "kernel": 5,
     "release": 6,
