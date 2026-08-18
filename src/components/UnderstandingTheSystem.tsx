@@ -18,15 +18,15 @@ At its core, it's a multi-agent system where autonomous AI lanes operate under c
     title: "The 4 Lanes",
     icon: "◈",
     color: "#10B981",
-    content: `The system is organized into 4 autonomous lanes, each with distinct authority and duties:
+    content: `The system is organized into 4 autonomous lanes, each with distinct constitutional authority and duties:
 
 **Archivist** (Authority 100) — The constitutional root. Ratifies proposals, manages policy, holds the single active blocker. Nothing becomes law without Archivist ratification.
 
-**Library** (Authority 90) — The verification surface. Proves or rejects claims with runtime evidence. Pre-filters all inputs before they reach the coordinator. No truth claims without verified evidence.
-
 **SwarmMind** (Authority 80) — The execution layer. Dispatches parallel agents, runs code, implements features. When tasks need doing, SwarmMind does them.
 
-**Kernel** (Authority 40) — The runtime layer. Handles GPU compute, model inference, and infrastructure operations. The compute backbone.
+**Kernel** (Authority 70) — The infrastructure and runtime layer. System health, cross-lane coordination, and compute backbone.
+
+**Library** (Authority 60) — The verification surface. Proves or rejects claims with runtime evidence. Pre-filters all inputs before they reach the coordinator. No truth claims without verified evidence.
 
 Lanes communicate through signed cross-lane relay messages using JWS RS256 cryptography. No unsigned messages are processed — this is enforced at the pipeline level.`,
   },

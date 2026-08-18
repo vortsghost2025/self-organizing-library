@@ -1,4 +1,8 @@
+import { getConstitutionalLaneAuthority } from "@/lib/canonical-governance";
+
 export default function AboutPage() {
+  const auth = getConstitutionalLaneAuthority();
+
   return (
     <div className="p-8" data-pagefind-body>
       <div className="mb-8 animate-fade-in">
@@ -16,23 +20,23 @@ export default function AboutPage() {
             CAISC 2026 conference paper.
           </p>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-4 mt-8">The 4-Lane System</h2>
+          <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-4 mt-8">The 4-Lane System (Constitutional Lane Authority)</h2>
           <div className="grid grid-cols-2 gap-4 mb-8">
             <div className="p-4 rounded-lg bg-[var(--bg-surface-hover)]">
-              <h3 className="font-semibold text-[var(--primary)] mb-1">Archivist (Authority 100)</h3>
+              <h3 className="font-semibold text-[var(--primary)] mb-1">Archivist (Authority {auth.archivist})</h3>
               <p className="text-sm text-[var(--text-muted)]">Governance root — ratification and policy</p>
             </div>
             <div className="p-4 rounded-lg bg-[var(--bg-surface-hover)]">
-              <h3 className="font-semibold text-[var(--success)] mb-1">SwarmMind (Authority 80)</h3>
+              <h3 className="font-semibold text-[var(--success)] mb-1">SwarmMind (Authority {auth.swarmmind})</h3>
               <p className="text-sm text-[var(--text-muted)]">Execution layer — task dispatch and agents</p>
             </div>
             <div className="p-4 rounded-lg bg-[var(--bg-surface-hover)]">
-              <h3 className="font-semibold text-[var(--secondary)] mb-1">Library (Authority 90)</h3>
-              <p className="text-sm text-[var(--text-muted)]">Verification and enforcement — evidence-based proof</p>
+              <h3 className="font-semibold text-[var(--warning)] mb-1">Kernel (Authority {auth.kernel})</h3>
+              <p className="text-sm text-[var(--text-muted)]">Runtime layer — system operations and infrastructure</p>
             </div>
             <div className="p-4 rounded-lg bg-[var(--bg-surface-hover)]">
-              <h3 className="font-semibold text-[var(--warning)] mb-1">Kernel (Authority 40)</h3>
-              <p className="text-sm text-[var(--text-muted)]">Runtime layer — system operations</p>
+              <h3 className="font-semibold text-[var(--secondary)] mb-1">Library (Authority {auth.library})</h3>
+              <p className="text-sm text-[var(--text-muted)]">Verification and enforcement — evidence-based proof</p>
             </div>
           </div>
 

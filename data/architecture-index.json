@@ -382,7 +382,7 @@
       "id": "swarmmind",
       "name": "SwarmMind",
       "type": "core",
-      "authority": null,
+      "authority": "80",
       "implemented_by": "SwarmMind",
       "inbox_count": null,
       "outbox_count": null
@@ -391,7 +391,7 @@
       "id": "kernel",
       "name": "Kernel",
       "type": "core",
-      "authority": null,
+      "authority": "70",
       "implemented_by": "kernel-lane",
       "inbox_count": null,
       "outbox_count": null

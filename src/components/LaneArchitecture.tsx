@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { getLaneConstitutionalAuthority } from "@/lib/canonical-governance";
 
 const LANES = [
   {
     id: "archivist",
     name: "Archivist",
     position: 1,
-    authority: 100,
+    authority: getLaneConstitutionalAuthority("archivist"),
     role: "Governance Root",
     description: "Constitutional authority. Ratifies proposals, manages policy, holds the single active blocker.",
     color: "#8B5CF6",
@@ -23,7 +24,7 @@ const LANES = [
     id: "swarmmind",
     name: "SwarmMind",
     position: 2,
-    authority: 80,
+    authority: getLaneConstitutionalAuthority("swarmmind"),
     role: "Execution Layer",
     description: "Orchestrates multi-agent execution. Dispatches parallel agents, runs code, implements features.",
     color: "#06B6D4",
@@ -35,10 +36,25 @@ const LANES = [
     duties: ["Parallel agent dispatch", "Code execution", "Feature implementation", "Task orchestration"],
   },
   {
+    id: "kernel",
+    name: "Kernel",
+    position: 3,
+    authority: getLaneConstitutionalAuthority("kernel"),
+    role: "Infrastructure & Runtime",
+    description: "CUDA/GPU runtime and system infrastructure. Cross-lane coordination and compute backbone.",
+    color: "#F59E0B",
+    textColor: "#FCD34D",
+    icon: "⚙",
+    repo: "kernel-lane",
+    pageHref: "/kernel",
+    readmeUrl: "https://github.com/vortsghost2025/kernel-lane",
+    duties: ["GPU compute", "Cross-lane coordination", "Infrastructure ops", "Runtime services"],
+  },
+  {
     id: "library",
     name: "Library",
-    position: 3,
-    authority: 90,
+    position: 4,
+    authority: getLaneConstitutionalAuthority("library"),
     role: "Verification & Enforcement",
     description: "Proves or rejects claims with runtime evidence. Pre-filters inputs before they reach the coordinator.",
     color: "#10B981",
@@ -48,21 +64,6 @@ const LANES = [
     pageHref: "/library",
     readmeUrl: "https://github.com/vortsghost2025/self-organizing-library",
     duties: ["Evidence verification", "Claim proof/rejection", "Convergence assessment", "Schema enforcement"],
-  },
-  {
-    id: "kernel",
-    name: "Kernel",
-    position: 4,
-    authority: 40,
-    role: "Runtime Layer",
-    description: "CUDA/GPU runtime. Handles compute-intensive tasks, model inference, and infrastructure operations.",
-    color: "#F59E0B",
-    textColor: "#FCD34D",
-    icon: "⚙",
-    repo: "kernel-lane",
-    pageHref: "/kernel",
-    readmeUrl: "https://github.com/vortsghost2025/kernel-lane",
-    duties: ["GPU compute", "Model inference", "Infrastructure ops", "Runtime services"],
   },
 ];
 
@@ -91,7 +92,7 @@ export function LaneArchitecture() {
       <div
         className="relative flex justify-between items-start gap-4 mb-8"
         role="img"
-        aria-label="Lane architecture diagram showing 4 lanes arranged horizontally with relay connections: Archivist (authority 100), Library (authority 90), SwarmMind (authority 80), Kernel (authority 40). Arrows show directive, ratification, evidence, and compute flows between lanes."
+        aria-label="Lane architecture diagram showing 4 lanes arranged horizontally with relay connections: Archivist (authority 100), SwarmMind (authority 80), Kernel (authority 70), Library (authority 60). Arrows show directive, ratification, evidence, and compute flows between lanes."
       >
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
