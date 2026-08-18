@@ -25,6 +25,7 @@
     "generate-keys": "node scripts/generate-library-keys.js",
     "test-lane-consistency": "node scripts/test-lane-consistency.js",
     "check:authority": "node scripts/check-authority-consistency.js",
+    "check:repos": "node scripts/check-repo-registry.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun run src/db/migrate.ts",
     "act:daemon": "node scripts/act-daemon.js",

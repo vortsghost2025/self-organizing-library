@@ -10,274 +10,216 @@ const {
   loadJson,
   getArgValue
 } = require('./graph-write-guard');
-let LaneDiscovery = null;
-try {
-  ({ LaneDiscovery } = require('./util/lane-discovery'));
-} catch (e) {
-  console.warn(`[generate-site-index] lane-discovery unavailable: ${e.message}`);
-}
+const { LaneDiscovery } = require('./util/lane-discovery');
 
-let discovery = null;
-if (LaneDiscovery) {
-  try {
-    discovery = new LaneDiscovery();
-  } catch (e) {
-    console.warn(`[generate-site-index] Lane registry unavailable: ${e.message}`);
-  }
-}
-
-if (!discovery) {
-  console.warn('[generate-site-index] Falling back to REPO_ROOTS env or static roots');
-}
-
-const REPO_ROOTS_ALIASES = {
-  'SwarmMind-Self-Optimizing-Multi-Agent-AI-System': 'SwarmMind'
-};
-
-function getRepoRoot(repoName, laneId, fallbackRoot) {
-  const aliases = [repoName, REPO_ROOTS_ALIASES[repoName]].filter(Boolean);
-  if (process.env.REPO_ROOTS) {
-    for (const pair of process.env.REPO_ROOTS.split(/\s+/).filter(Boolean)) {
-      const eq = pair.indexOf('=');
-      if (eq === -1) continue;
-      if (aliases.includes(pair.slice(0, eq))) {
-        return pair.slice(eq + 1);
-      }
-    }
-  }
-  if (discovery) {
-    try {
-      return discovery.getLocalPath(laneId);
-    } catch (e) {
-      // lane not in registry; use fallback
-    }
-  }
-  return fallbackRoot;
-}
-
-const LIBRARY_ROOT = getRepoRoot('self-organizing-library', 'library', path.join(__dirname, '..'));
+const discovery = new LaneDiscovery();
 
 const ARGS = process.argv.slice(2);
 const ADJUDICATION_PATH = getArgValue(ARGS, '--adjudication');
 
-const REPOS = [
-  {
-    name: 'self-organizing-library',
-    root: LIBRARY_ROOT,
-    github: 'https://github.com/vortsghost2025/self-organizing-library/blob/main',
-    categoryMap: {
-      'library/books': 'paper',
-      'library/docs/papers': 'paper',
-      'library/docs/specs': 'spec',
-      'library/docs/verification': 'verification',
-      'library/docs/failure-modes': 'failure-mode',
-      'library/docs/attestation': 'attestation',
-      'library/docs/archivist': 'governance',
-      'library/docs/reflection': 'reflection',
-      'library/docs/pending': 'pending',
-      'schemas': 'schema',
-      'scripts': 'script',
-      'src/attestation': 'attestation',
-      'src/audit': 'audit',
-      'src/identity': 'identity',
-  'src/lane': 'lane-protocol',
-  'src/resilience': 'resilience',
-  'src/swarmmind': 'swarmmind',
-  'src/queue': 'queue',
-  'src/usage': 'usage',
-  'src/memory': 'memory',
-  'src/db': 'database',
-  'docs': 'docs',
-      'tests': 'test',
-      'verification': 'verification',
-      'config': 'config',
-      'data': 'data',
-    },
-    maxDepth: Infinity,
-    excludeDirs: new Set([
-      '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-      'tmp', 'out', 'context-buffer',  // local-only artifacts, no GitHub mirror
-    ]),
-  },
-  {
-    name: 'Archivist-Agent',
-    root: getRepoRoot('Archivist-Agent', 'archivist', 'S:/Archivist-Agent'),
-    github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/master',
-    categoryMap: {
-      'docs': 'docs',
-      'docs/spec': 'spec',
-    'docs/verification': 'verification',
-    'papers': 'paper',
-      'logs': 'log',
-      'config': 'config',
-      'projects': 'project',
-      'COORDINATION': 'coordination',
-      'context': 'context',
-      'schemas': 'schema',
-      'scripts': 'script',
-      'src/attestation': 'attestation',
-      'src/core': 'governance',
-      'src/lane': 'lane-protocol',
-      'src/orchestrator': 'governance',
-      'src/monitoring': 'monitoring',
-      'src/queue': 'queue',
-      'src/memory': 'memory',
-      'src/bridge': 'bridge',
-      'src/tools': 'tool',
-      'tests': 'test',
-      'verification': 'verification',
-      'data': 'data',
-      'library': 'library',
-    },
-    maxDepth: Infinity,
-    excludeDirs: new Set([
-      '.overstory', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-      '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.global',
-      '.artifacts', '.compact-audit', '.test-trust', '.test-memory',
-      '.test-identity', '.continuity_test', '.continuity_test2',
-      '.continuity_test2b', '.continuity_test3', '.continuity_test4',
-      '.lane-relay', 'backup_static_old', 'target', 'public_html',
-      'context-buffer',  // Local-only artifacts, no GitHub mirror
-    ]),
-  },
-  {
-    name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
-    root: getRepoRoot('SwarmMind-Self-Optimizing-Multi-Agent-AI-System', 'swarmmind', 'S:/SwarmMind'),
-    github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
-    categoryMap: {
+const REGISTRY_PATH = path.join(discovery.getLocalPath('library'), 'data', 'repo-registry.json');
+
+function loadRepoConfigsFromRegistry() {
+  if (!fs.existsSync(REGISTRY_PATH)) {
+    throw new Error(`CRITICAL: Repository registry not found at ${REGISTRY_PATH}`);
+  }
+  const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const eligible = (registry.repositories || []).filter(r => r.doc_index_allowed && r.visibility === 'public');
+
+  const configs = [];
+  for (const r of eligible) {
+    let root = r.local_path;
+    if (!root) {
+      if (r.name === 'self-organizing-library') root = discovery.getLocalPath('library');
+      else if (r.name === 'Archivist-Agent') root = discovery.getLocalPath('archivist');
+      else if (r.name === 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System') root = discovery.getLocalPath('swarmmind');
+      else if (r.name === 'kernel-lane') root = discovery.getLocalPath('kernel');
+      else if (r.name === 'Deliberate-AI-Ensemble') {
+        root = fs.existsSync('S:/April152026mainreferencepoint') ? 'S:/April152026mainreferencepoint' : 'S:/Deliberate-AI-Ensemble';
+      } else {
+        root = path.join('S:', r.name);
+      }
+    }
+
+    const defaultBranch = (r.name === 'Archivist-Agent' || r.name === 'kernel-lane' || r.name === 'storytime') ? 'master' : 'main';
+    const github = r.github_url ? `${r.github_url}/blob/${defaultBranch}` : null;
+
+    let categoryMap = {
       'docs': 'docs',
       'src': 'code',
       'scripts': 'script',
       'tests': 'test',
-    'config': 'config',
-    'schemas': 'schema',
-    'data': 'data',
-  },
-  maxDepth: Infinity,
-  excludeDirs: new Set([
-    '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-    '.pi', '.mulch', '.sapling', '.canopy', '.seeds',
-    '.global', '.compact-audit', '.test-trust', '.test-memory',
-    '.test-identity', '.continuity_test', '.continuity_test2',
-    '.continuity_test2b', '.continuity_test3', '.continuity_test4',
-    'worktrees', 'tmp',
-  ]),
-  },
-  {
-    name: 'kernel-lane',
-    root: getRepoRoot('kernel-lane', 'kernel', 'S:/kernel-lane'),
-    github: 'https://github.com/vortsghost2025/kernel-lane/blob/master',
-    categoryMap: {
-      'kernels': 'kernel',
-      'docs': 'docs',
-      'schemas': 'schema',
-      'scripts': 'script',
-    'src': 'code',
-    'benchmarks': 'benchmark',
-      'integration': 'integration',
       'config': 'config',
-      'profiles': 'profile',
-      'baselines': 'baseline',
-    },
-    maxDepth: Infinity,
-  },
-  {
-    name: 'federation',
-    root: 'S:/federation',
-    github: 'https://github.com/vortsghost2025/federation/blob/main',
-    categoryMap: {
-      'docs': 'docs',
-      'src': 'code',
-      'scripts': 'script',
       'schemas': 'schema',
-    'config': 'config',
-    'data': 'data',
-  },
-  maxDepth: Infinity,
-},
-  {
-    name: 'FreeAgent',
-    root: 'S:/FreeAgent',
-    github: 'https://github.com/vortsghost2025/FreeAgent/blob/main',
-    categoryMap: {
-      'docs': 'docs',
-      'src': 'code',
-      'scripts': 'script',
-      'config': 'config',
-    'schemas': 'schema',
-    'tests': 'test',
       'data': 'data',
-      'library': 'library',
-      'verification': 'verification',
-    },
-    maxDepth: 3,
-    extensionsOnly: ['.md', '.mdx', '.txt'],
-    excludeDirs: new Set(['node_modules', '.git', '.next', 'dist', 'build', 'coverage', '.cache', '.vercel',
-    'supreme-octo-computing-machine', 'context-buffer', '.identity', '.trust', '.memory', '.runtime']),
-  },
-  {
-    name: 'papers',
-    root: 'S:/papers',
-    github: null, // Local-only repo, no GitHub mirror
-    categoryMap: {
       'papers': 'paper',
-      '.papers-meta': 'paper-section',
-    },
-    maxDepth: 2,
-    extensionsOnly: ['.pdf', '.md', '.json'],
-    excludeDirs: new Set(['.git']),
-    isPapersRepo: true,
-  },
-  {
-    name: 'storytime',
-    root: 'S:/storytime',
-    github: 'https://github.com/vortsghost2025/storytime/blob/master',
-    categoryMap: {
-      'docs': 'docs',
-      'src': 'code',
-      'scripts': 'script',
-      'tests': 'test',
-      'test': 'test',
-      'config': 'config',
-    'data': 'data',
-    'schemas': 'schema',
-      'logs': 'log',
-      'agents': 'agent',
-      'templates': 'template',
-    },
-    maxDepth: Infinity,
-    excludeDirs: new Set([
-      '.overstory', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-      '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.cline',
-    ]),
-  },
-  {
-    name: 'Deliberate-AI-Ensemble',
-    root: 'S:/April152026mainreferencepoint',
-    github: 'https://github.com/vortsghost2025/Deliberate-AI-Ensemble/blob/main',
-    githubPathRewrite: [
-      { prefix: 'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/', replaceWith: '' },
-      { prefix: 'Deliberate-AI-Ensemble-main/', replaceWith: '' },
-    ],
-    categoryMap: {
-      'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents/architecture': 'architecture',
-      'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents': 'agent',
-      'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main': 'governance',
-      'we4free_aws_iac_bundles': 'iac',
-      'WE4FREE_Sean_Infra_Replay_Constraints_Drift_Bundle': 'drift',
-      'WE4FREE_Sean_Resilience_Code_Bundle': 'resilience',
-      'resilience_bundle_preview': 'resilience',
-      'papers-20260416T223833Z-3-001': 'paper',
-      'git-20260416T223826Z-3-001': 'git-history',
-    },
-    maxDepth: 5,
-    extensionsOnly: ['.md', '.mdx', '.txt', '.py', '.json', '.yaml', '.yml', '.js', '.ts', '.html'],
-    excludeDirs: new Set([
-      '__pycache__', '.git', 'node_modules', '.vscode', 'we4free_website',
-      'connection_bridge', 'medical_data_poc', 'consensus_checker',
-    ]),
-  },
-];
+    };
+    let maxDepth = Infinity;
+    let excludeDirs = new Set([
+      '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+      'tmp', 'out', 'context-buffer',
+    ]);
+    let extensionsOnly = undefined;
+    let githubPathRewrite = undefined;
+
+    if (r.name === 'self-organizing-library') {
+      categoryMap = {
+        'library/books': 'paper',
+        'library/docs/papers': 'paper',
+        'library/docs/specs': 'spec',
+        'library/docs/verification': 'verification',
+        'library/docs/failure-modes': 'failure-mode',
+        'library/docs/attestation': 'attestation',
+        'library/docs/archivist': 'governance',
+        'library/docs/reflection': 'reflection',
+        'library/docs/pending': 'pending',
+        'schemas': 'schema',
+        'scripts': 'script',
+        'src/attestation': 'attestation',
+        'src/audit': 'audit',
+        'src/identity': 'identity',
+        'src/lane': 'lane-protocol',
+        'src/resilience': 'resilience',
+        'src/swarmmind': 'swarmmind',
+        'src/queue': 'queue',
+        'src/usage': 'usage',
+        'src/memory': 'memory',
+        'src/db': 'database',
+        'docs': 'docs',
+        'tests': 'test',
+        'verification': 'verification',
+        'config': 'config',
+        'data': 'data',
+      };
+    } else if (r.name === 'Archivist-Agent') {
+      categoryMap = {
+        'docs': 'docs',
+        'docs/spec': 'spec',
+        'docs/verification': 'verification',
+        'papers': 'paper',
+        'logs': 'log',
+        'config': 'config',
+        'projects': 'project',
+        'COORDINATION': 'coordination',
+        'context': 'context',
+        'schemas': 'schema',
+        'scripts': 'script',
+        'src/attestation': 'attestation',
+        'src/core': 'governance',
+        'src/lane': 'lane-protocol',
+        'src/orchestrator': 'governance',
+        'src/monitoring': 'monitoring',
+        'src/queue': 'queue',
+        'src/memory': 'memory',
+        'src/bridge': 'bridge',
+        'src/tools': 'tool',
+        'tests': 'test',
+        'verification': 'verification',
+        'data': 'data',
+        'library': 'library',
+      };
+      excludeDirs = new Set([
+        '.overstory', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+        '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.global',
+        '.artifacts', '.compact-audit', '.test-trust', '.test-memory',
+        '.test-identity', '.continuity_test', '.continuity_test2',
+        '.continuity_test2b', '.continuity_test3', '.continuity_test4',
+        '.lane-relay', 'backup_static_old', 'target', 'public_html',
+        'context-buffer',
+      ]);
+    } else if (r.name === 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System') {
+      excludeDirs = new Set([
+        '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+        '.pi', '.mulch', '.sapling', '.canopy', '.seeds',
+        '.global', '.compact-audit', '.test-trust', '.test-memory',
+        '.test-identity', '.continuity_test', '.continuity_test2',
+        '.continuity_test2b', '.continuity_test3', '.continuity_test4',
+        'worktrees', 'tmp',
+      ]);
+    } else if (r.name === 'kernel-lane') {
+      categoryMap = {
+        'kernels': 'kernel',
+        'docs': 'docs',
+        'schemas': 'schema',
+        'scripts': 'script',
+        'src': 'code',
+        'benchmarks': 'benchmark',
+        'integration': 'integration',
+        'config': 'config',
+        'profiles': 'profile',
+        'baselines': 'baseline',
+      };
+    } else if (r.name === 'FreeAgent') {
+      maxDepth = 3;
+      extensionsOnly = ['.md', '.mdx', '.txt'];
+      excludeDirs = new Set(['node_modules', '.git', '.next', 'dist', 'build', 'coverage', '.cache', '.vercel',
+        'supreme-octo-computing-machine', 'context-buffer', '.identity', '.trust', '.memory', '.runtime']);
+    } else if (r.name === 'papers') {
+      categoryMap = {
+        'papers': 'paper',
+        '.papers-meta': 'paper-section',
+      };
+      maxDepth = 2;
+      extensionsOnly = ['.pdf', '.md', '.json'];
+      excludeDirs = new Set(['.git']);
+    } else if (r.name === 'storytime') {
+      categoryMap = {
+        'docs': 'docs',
+        'src': 'code',
+        'scripts': 'script',
+        'tests': 'test',
+        'test': 'test',
+        'config': 'config',
+        'data': 'data',
+        'schemas': 'schema',
+        'logs': 'log',
+        'agents': 'agent',
+        'templates': 'template',
+      };
+      excludeDirs = new Set([
+        '.overstory', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
+        '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.cline',
+      ]);
+    } else if (r.name === 'Deliberate-AI-Ensemble') {
+      maxDepth = 5;
+      githubPathRewrite = [
+        { prefix: 'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/', replaceWith: '' },
+        { prefix: 'Deliberate-AI-Ensemble-main/', replaceWith: '' },
+      ];
+      categoryMap = {
+        'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents/architecture': 'architecture',
+        'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main/agents': 'agent',
+        'Deliberate-AI-Ensemble-main/Deliberate-AI-Ensemble-main': 'governance',
+        'we4free_aws_iac_bundles': 'iac',
+        'WE4FREE_Sean_Infra_Replay_Constraints_Drift_Bundle': 'drift',
+        'WE4FREE_Sean_Resilience_Code_Bundle': 'resilience',
+        'resilience_bundle_preview': 'resilience',
+        'papers-20260416T223833Z-3-001': 'paper',
+        'git-20260416T223826Z-3-001': 'git-history',
+      };
+      extensionsOnly = ['.md', '.mdx', '.txt', '.py', '.json', '.yaml', '.yml', '.js', '.ts', '.html'];
+      excludeDirs = new Set([
+        '__pycache__', '.git', 'node_modules', '.vscode', 'we4free_website',
+        'connection_bridge', 'medical_data_poc', 'consensus_checker',
+      ]);
+    }
+
+    configs.push({
+      name: r.name,
+      root,
+      github,
+      categoryMap,
+      maxDepth,
+      excludeDirs,
+      extensionsOnly,
+      githubPathRewrite,
+      isPapersRepo: r.name === 'papers'
+    });
+  }
+  return configs;
+}
+
+const REPOS = loadRepoConfigsFromRegistry();
 
 const DEFAULT_EXCLUDE_DIRS = new Set([
   'node_modules', '.next', '.git', '.ruff_cache', '.identity', '.trust',
@@ -908,6 +850,27 @@ function buildPaperSectionRefs(allEntries) {
 }
 
 function main() {
+  if (ARGS.includes('--dry-run')) {
+    console.log('================================================================================');
+    console.log('              SITE INDEX GENERATOR — DRY RUN REPO DISCOVERY');
+    console.log('================================================================================');
+    console.log(`Loaded repository registry from: ${REGISTRY_PATH}`);
+    console.log(`Total doc_index_allowed repositories: ${REPOS.length}\n`);
+
+    let presentCount = 0;
+    for (const rc of REPOS) {
+      const exists = fs.existsSync(rc.root);
+      if (exists) presentCount++;
+      const status = exists ? 'LOCAL_FOUND' : 'LOCAL_MISSING';
+      console.log(`  - ${rc.name.padEnd(50)} [${status.padEnd(13)}] -> ${rc.root}`);
+    }
+    console.log('--------------------------------------------------------------------------------');
+    console.log(`Summary: ${REPOS.length} index-eligible repositories (${presentCount} available locally on disk).`);
+    console.log('Dry-run mode active. No index files written.');
+    console.log('================================================================================');
+    process.exit(0);
+  }
+
   const allEntries = [];
 
   for (const repoConfig of REPOS) {
@@ -968,19 +931,19 @@ function main() {
     entries: allEntries
   };
 
-  const outputPath = path.join(LIBRARY_ROOT, 'data', 'site-index.json');
+  const outputPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index.json');
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const previousIndex = loadJson(outputPath);
   const guardDecision = enforceGraphWriteGuard({
     operation: 'generate-site-index',
-    guardPath: path.join(LIBRARY_ROOT, 'scripts', 'graph-write-guard.js'),
+    guardPath: path.join(discovery.getLocalPath('library'), 'scripts', 'graph-write-guard.js'),
     writePath: outputPath,
     beforeObject: previousIndex,
     afterObject: index,
     adjudicationPath: ADJUDICATION_PATH,
     mode: 'index'
   });
-  writeGuardAudit(LIBRARY_ROOT, 'generate-site-index', guardDecision, ADJUDICATION_PATH);
+  writeGuardAudit(discovery.getLocalPath('library'), 'generate-site-index', guardDecision, ADJUDICATION_PATH);
 
   if (!guardDecision.allowWrite) {
     console.log('\n=== GRAPH WRITE GUARD ===');
@@ -1001,7 +964,7 @@ console.log(` ${Object.keys(tagIndex).length} unique tags`);
 console.log(` ${crossRefs.length} cross-references`);
 console.log(` ${repoStats.total_size_bytes.toLocaleString()} total bytes`);
 
-const snapshotDir = path.join(LIBRARY_ROOT, 'data', 'snapshots');
+const snapshotDir = path.join(discovery.getLocalPath('library'), 'data', 'snapshots');
 if (!fs.existsSync(snapshotDir)) fs.mkdirSync(snapshotDir, { recursive: true });
 const snapshotDate = new Date().toISOString().slice(0, 10);
 const snapshotPath = path.join(snapshotDir, `${snapshotDate}.json`);
@@ -1012,7 +975,7 @@ if (!fs.existsSync(snapshotPath)) {
   console.log(`Snapshot already exists for ${snapshotDate}, skipping`);
 }
 
-  const summaryPath = path.join(LIBRARY_ROOT, 'data', 'site-index-summary.json');
+  const summaryPath = path.join(discovery.getLocalPath('library'), 'data', 'site-index-summary.json');
   const summary = {
     schema_version: '2.0',
     generated_at: index.generated_at,
