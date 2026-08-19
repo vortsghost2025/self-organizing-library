@@ -57,17 +57,23 @@ export function HeroSection({ title, tagline, onStartWalkthrough }: HeroSectionP
 
       <div className="flex flex-wrap gap-4 mb-8">
         <Link
-          href="/start-here"
+          href="/repos"
           className="px-6 py-3 bg-[var(--primary)] text-white rounded-lg font-medium hover:bg-[var(--primary)]/90 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
-          onClick={onStartWalkthrough}
         >
-          Start Here
+          Explore Projects
         </Link>
         <Link
           href="/graph"
-          className="px-6 py-3 border-2 border-[var(--primary)] text-[var(--text-primary)] rounded-lg font-medium hover:bg-[var(--primary)]/10 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
+          className="px-6 py-3 border-2 border-[var(--primary)] text-[var(--text-primary)] rounded-lg font-medium hover:bg-[var(--primary)]/10 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
         >
-          Explore Live Graph
+          Interactive Graph
+        </Link>
+        <Link
+          href="/start-here"
+          className="px-6 py-3 border border-[var(--border)] text-[var(--text-secondary)] rounded-lg font-medium hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-primary)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)]"
+          onClick={onStartWalkthrough}
+        >
+          Start Here
         </Link>
       </div>
     </div>

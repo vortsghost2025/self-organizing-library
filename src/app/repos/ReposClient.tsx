@@ -1,313 +1,291 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
+import type { RepositoryRecord } from "@/lib/repo-registry";
+
+interface LaneRepoInfo {
+  id: string;
+  name: string;
+  repo: string;
+  authority: number;
+  desc: string;
+  href: string;
+  graphHref: string;
+  color: string;
+  stat: string;
+}
 
 interface ReposClientProps {
-  repoGroups: Record<string, { count: number; categories: Record<string, number> }>;
-  laneRepos: Array<{
-    name: string;
-    desc: string;
-    href: string;
-    graphHref: string;
-    color: string;
-    stat: string;
-  }>;
-  index: {
-    entries: Array<any>;
-    tag_index: Record<string, any>;
-    cross_references: Array<any>;
+  featured: RepositoryRecord[];
+  listed: RepositoryRecord[];
+  archive: RepositoryRecord[];
+  allPublic: RepositoryRecord[];
+  repoCounts: {
+    totalPublic: number;
+    featured: number;
+    listed: number;
+    archive: number;
+    docIndexAllowed: number;
   };
+  repoFileCounts: Record<string, number>;
+  laneRepos: LaneRepoInfo[];
+  totalIndexCount: number;
   categories: Array<{ category: string; count: number }>;
   topTags: Array<{ tag: string; count: number }>;
 }
 
 export default function ReposClient({
-  repoGroups,
+  featured,
+  listed,
+  archive,
+  allPublic,
+  repoCounts,
+  repoFileCounts,
   laneRepos,
-  index,
-  categories,
-  topTags,
+  totalIndexCount,
 }: ReposClientProps) {
-  const [tab, setTab] = useState<"lanes" | "all">("lanes");
+  const [activeTab, setActiveTab] = useState<"featured" | "listed" | "archive" | "all">("featured");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredRepos = useMemo(() => {
+    let list: RepositoryRecord[] = [];
+    if (activeTab === "featured") list = featured;
+    else if (activeTab === "listed") list = listed;
+    else if (activeTab === "archive") list = archive;
+    else list = allPublic;
+
+    if (!searchQuery.trim()) return list;
+
+    const q = searchQuery.toLowerCase();
+    return list.filter(
+      (r) =>
+        r.name.toLowerCase().includes(q) ||
+        r.system_role.toLowerCase().includes(q) ||
+        r.portfolio_summary.toLowerCase().includes(q) ||
+        r.description.toLowerCase().includes(q)
+    );
+  }, [activeTab, searchQuery, featured, listed, archive, allPublic]);
 
   return (
-    <div className="p-4 md:p-8">
-      <div className="mb-8 animate-fade-in">
-        <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Repositories</h1>
-        <p className="text-[var(--text-secondary)]">
-          The Deliberate Ensemble system spans 4 coordinated lanes working in concert
+    <div className="p-4 md:p-8 space-y-8" data-pagefind-body>
+      {/* Header */}
+      <div className="animate-fade-in space-y-2">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-semibold uppercase tracking-wider">
+          Systems &amp; Codebase Portfolio
+        </div>
+        <h1 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)]">
+          Repositories &amp; Technical Projects
+        </h1>
+        <p className="text-[var(--text-secondary)] max-w-3xl text-base">
+          Engineering portfolio covering constitutional multi-agent systems, CUDA runtime infrastructure,
+          financial simulation engines, and reproducible research archives.
         </p>
       </div>
 
-      {/* Tab navigation */}
-      <div className="flex border-b border-[var(--border)] mb-6" role="tablist">
-        <button
-          className={`px-4 py-2 text-sm font-medium border-b-2 ${
-            tab === "lanes"
-              ? "border-[var(--primary)] text-[var(--primary)]"
-              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-          role="tab"
-          aria-selected={tab === "lanes"}
-          id="tab-lanes"
-          onClick={() => setTab("lanes")}
-        >
-          The 4 Lanes
-        </button>
-        <button
-          className={`px-4 py-2 text-sm font-medium border-b-2 ${
-            tab === "all"
-              ? "border-[var(--primary)] text-[var(--primary)]"
-              : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-          }`}
-          role="tab"
-          aria-selected={tab === "all"}
-          id="tab-all"
-          onClick={() => setTab("all")}
-        >
-          Explore All Repos
-        </button>
+      {/* Overview Stats Bar */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="card p-4 text-center">
+          <div className="text-2xl font-bold text-[var(--primary)]">{repoCounts.featured}</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium mt-1">Featured Systems</div>
+        </div>
+        <div className="card p-4 text-center">
+          <div className="text-2xl font-bold text-[var(--success)]">{repoCounts.listed}</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium mt-1">More Original Work</div>
+        </div>
+        <div className="card p-4 text-center">
+          <div className="text-2xl font-bold text-[var(--secondary)]">{repoCounts.archive}</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium mt-1">Research Archive</div>
+        </div>
+        <div className="card p-4 text-center">
+          <div className="text-2xl font-bold text-[var(--warning)]">{totalIndexCount.toLocaleString()}</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium mt-1">Indexed Artifacts</div>
+        </div>
       </div>
 
-      {/* Tab panel: The 4 Lanes */}
-      {tab === "lanes" && (
-        <div className="lanes-tab-content">
-          {/* Lane cards grid with full info inline */}
-          <div
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
-            role="tabpanel"
-            aria-labelledby="tab-lanes"
+      {/* Tabs & Search Navigation */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Repository Tiers">
+          <button
+            role="tab"
+            aria-selected={activeTab === "featured"}
+            onClick={() => setActiveTab("featured")}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+              activeTab === "featured"
+                ? "bg-[var(--primary)] text-white"
+                : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
+            }`}
           >
-            {laneRepos.map((lane, i) => (
-              <div key={lane.name} className="card flex flex-col">
-                {/* Card header — clickable to lane page */}
-                <Link
-                  href={lane.href}
-                  className="p-4 hover:border-[var(--primary)] transition-colors block"
-                  style={{ animationDelay: `${(i % 4) * 100}ms` }}
-                >
+            Featured Systems ({repoCounts.featured})
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === "listed"}
+            onClick={() => setActiveTab("listed")}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+              activeTab === "listed"
+                ? "bg-[var(--primary)] text-white"
+                : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
+            }`}
+          >
+            Additional Systems ({repoCounts.listed})
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === "archive"}
+            onClick={() => setActiveTab("archive")}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+              activeTab === "archive"
+                ? "bg-[var(--primary)] text-white"
+                : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
+            }`}
+          >
+            Research Archive ({repoCounts.archive})
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === "all"}
+            onClick={() => setActiveTab("all")}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+              activeTab === "all"
+                ? "bg-[var(--primary)] text-white"
+                : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
+            }`}
+          >
+            All Public ({allPublic.length})
+          </button>
+        </div>
+
+        <div className="w-full md:w-72">
+          <input
+            type="text"
+            placeholder="Search systems by keyword..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-3.5 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)]"
+            aria-label="Search repositories"
+          />
+        </div>
+      </div>
+
+      {/* Featured Lanes Deep-Dive (When Featured tab is selected) */}
+      {activeTab === "featured" && !searchQuery && (
+        <section className="space-y-4" aria-label="Constitutional Lanes">
+          <h2 className="text-xl font-bold text-[var(--text-primary)]">
+            Four Constitutional Governance Lanes
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {laneRepos.map((lane) => (
+              <div key={lane.id} className="card p-5 flex flex-col justify-between space-y-3">
+                <div>
                   <div className="flex items-center justify-between mb-2">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                      style={{ backgroundColor: `${lane.color}15`, color: lane.color }}
-                    >
-                      {lane.name.charAt(0)}
-                    </div>
-                    <span className="text-xs text-[var(--text-muted)]">{lane.stat}</span>
+                    <span className="font-bold text-sm" style={{ color: lane.color }}>
+                      {lane.name} Lane
+                    </span>
+                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-[var(--bg-surface-hover)] text-[var(--text-muted)]">
+                      Auth {lane.authority}
+                    </span>
                   </div>
-                  <h3 className="font-semibold text-[var(--text-primary)] mb-1">{lane.name}</h3>
-                  <p className="text-sm text-[var(--text-secondary)] line-clamp-2">{lane.desc}</p>
-                </Link>
-
-                {/* Full README content — always visible */}
-                <div className="px-4 pb-4 prose prose-slate dark:prose-invert max-w-none text-sm border-t border-[var(--border)] pt-3">
-                  {lane.name === "Library" && (
-                    <>
-                      <h4 className="text-[var(--text-primary)] text-sm font-semibold mb-2">The Archive</h4>
-                      <ul className="mb-2 text-xs">
-                        <li><strong>Aggregates</strong> documents from all lanes</li>
-                        <li><strong>Maintains</strong> searchable catalog (tags, categories, cross-refs)</li>
-                        <li><strong>Publishes</strong> runtime proof transcripts</li>
-                        <li><strong>Broadcasts</strong> coordination messages</li>
-                        <li><strong>Hosts</strong> <code>deliberateensemble.works</code></li>
-                      </ul>
-                      <p className="text-xs mb-2 text-[var(--text-secondary)]">
-                        The Library is a read-only mirror — it indexes but does not enforce governance. Authority comes from being the convergence coordinator.
-                      </p>
-                    </>
-                  )}
-
-                  {lane.name === "Archivist" && (
-                    <>
-                      <h4 className="text-[var(--text-primary)] text-sm font-semibold mb-2">The Sovereign</h4>
-                      <ul className="mb-2 text-xs">
-                        <li><strong>Identity &amp; trust:</strong> RSA key lifecycle, trust-store ratification</li>
-                        <li><strong>Message schema:</strong> Inbox v1.0 enforcement, idempotency</li>
-                        <li><strong>Convergence gate:</strong> Final ratification of cross-lane proposals</li>
-                        <li><strong>Session handoff:</strong> Maintains continuity across compactions</li>
-                        <li><strong>Quarantine:</strong> Rejects non-compliant messages</li>
-                      </ul>
-                      <p className="text-xs mb-2 text-[var(--text-secondary)]">
-                        The Archivist&apos;s authority is non-negotiable — final arbiter of truth. No lane may mutate trust anchors without ratification.
-                      </p>
-                    </>
-                  )}
-
-                  {lane.name === "Kernel" && (
-                    <>
-                      <h4 className="text-[var(--text-primary)] text-sm font-semibold mb-2">The OS</h4>
-                      <ul className="mb-2 text-xs">
-                        <li><strong>Constraint lattice:</strong> Minimize drift subject to constraints</li>
-                        <li><strong>Runtime validation:</strong> Output provenance, blob boundaries</li>
-                        <li><strong>Process supervision:</strong> Agent lifecycle, heartbeat monitoring</li>
-                        <li><strong>OS-level policies:</strong> File-system layout, lane-directory enforcement</li>
-                        <li><strong>Drift score:</strong> Computes divergence from intended state</li>
-                      </ul>
-                      <p className="text-xs mb-2 text-[var(--text-secondary)]">
-                        The Kernel runs closest to the metal — absolute authority but bounded by Archivist-ratified constraints.
-                      </p>
-                    </>
-                  )}
-
-                  {lane.name === "SwarmMind" && (
-                    <>
-                      <h4 className="text-[var(--text-primary)] text-sm font-semibold mb-2">The Watchdog</h4>
-                      <ul className="mb-2 text-xs">
-                        <li><strong>Drift detection:</strong> Monitors deviation from ratified state</li>
-                        <li><strong>Constraint verification:</strong> Recomputes drift scores</li>
-                        <li><strong>Evidence collection:</strong> Logs, verdicts, snapshots</li>
-                        <li><strong>Escalation:</strong> P0 escalations for contradictions/blockers</li>
-                        <li><strong>Health checks:</strong> Heartbeat, session validation</li>
-                      </ul>
-                      <p className="text-xs mb-2 text-[var(--text-secondary)]">
-                        SwarmMind is read-only observer — declares &ldquo;blocker&rdquo; or &ldquo;conflicted&rdquo; states, freezing non-essential work.
-                      </p>
-                    </>
-                  )}
-
-                  {/* Action links */}
-                  <div className="flex flex-col gap-2 mt-3">
-                    <Link
-                      href={lane.href}
-                      className="text-sm font-medium px-3 py-1.5 rounded-lg border border-[var(--border)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors text-center"
-                      style={{ borderColor: lane.color + "40", color: lane.color }}
-                    >
-                      Browse {lane.name} documentation →
-                    </Link>
-                    <Link
-                      href={lane.graphHref}
-                      className="text-sm font-medium px-3 py-1.5 rounded-lg border border-[var(--border)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors text-center"
-                    >
-                      See {lane.name} in the graph →
-                    </Link>
-                  </div>
+                  <h3 className="font-semibold text-sm text-[var(--text-primary)]">{lane.repo}</h3>
+                  <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">{lane.desc}</p>
+                </div>
+                <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between text-xs">
+                  <span className="text-[var(--text-muted)]">{lane.stat}</span>
+                  <Link href={lane.href} className="font-medium text-[var(--primary)] hover:underline">
+                    View Lane →
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Coordination section */}
-          <section className="card p-6 mb-8 animate-fade-in">
-            <h2 className="text-2xl font-semibold mb-4 text-[var(--text-primary)]">
-              How the 4 Lanes Work Together
-            </h2>
-            <div className="prose prose-slate dark:prose-invert max-w-none text-[var(--text-secondary)]">
-              <p className="lead">
-                The Deliberate Ensemble is a 4-lane multi-agent coordination system. Each lane is a sovereign agent with its own repository, governance rules, and runtime enforcement. They do not merge or share code — instead, they <strong>publish artifacts</strong> and <strong>cross-reference</strong> via a shared governance graph.
-              </p>
-
-              <div className="my-6 p-4 rounded-lg bg-[var(--bg-surface)] border-l-4 border-[var(--primary)]">
-                <h4 className="text-[var(--text-primary)] font-semibold mb-2">Convergence Protocol</h4>
-                <p className="mb-0">
-                  Cross-lane decisions go through a 5-phase Convergence Gate: <strong>Proposal → Review → Amend → Converge → Ratify</strong>. The Archivist lane is the final ratifier. No lane can unilaterally change trust anchors, identity keys, or governance constraints.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Combined Graph Section */}
-          <section className="card p-6 animate-fade-in border-2 border-[var(--primary)]">
-            <h2 className="text-2xl font-semibold mb-2 text-[var(--text-primary)]">
-              The Full Governance Graph
-            </h2>
-            <p className="text-[var(--text-secondary)] mb-4">
-              See all 4 lanes together in the live Nexus graph. Each node is colored by lane. Hover for details, filter by status, and explore connections.
-            </p>
-            <Link
-              href="/graph"
-              className="inline-flex items-center px-4 py-2 bg-[var(--primary)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
-            >
-              Open Combined Graph →
-            </Link>
-          </section>
-        </div>
+        </section>
       )}
 
-      {/* Tab panel: All Repositories */}
-      {tab === "all" && (
-        <div
-          className="grid grid-cols-2 gap-6"
-          role="tabpanel"
-          aria-labelledby="tab-all"
-        >
-          {Object.entries(repoGroups).map(([repo, data], i) => (
-            <div key={repo} className={`card p-6 animate-fade-in stagger-${(i % 5) + 1}`}>
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/15 flex items-center justify-center text-xl text-[var(--primary-text)]">
-                    ⌘
+      {/* Repository Cards Grid */}
+      <section className="space-y-4" aria-label="Repository Catalog">
+        <h2 className="text-xl font-bold text-[var(--text-primary)]">
+          {activeTab === "featured"
+            ? "Featured Repositories"
+            : activeTab === "listed"
+            ? "Additional Original Systems"
+            : activeTab === "archive"
+            ? "Research & Historical Tools Archive"
+            : "All Public Repositories"}
+        </h2>
+
+        {filteredRepos.length === 0 ? (
+          <div className="card p-12 text-center text-[var(--text-muted)]">
+            No repositories found matching &ldquo;{searchQuery}&rdquo;.
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredRepos.map((repo) => {
+              const fileCount = repoFileCounts[repo.name];
+              return (
+                <div
+                  key={repo.name}
+                  className="card p-6 flex flex-col justify-between hover:border-[var(--primary)] transition-all group"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${
+                          repo.public_site_class === "FEATURED"
+                            ? "bg-[var(--primary)]/10 text-[var(--primary)]"
+                            : repo.public_site_class === "LISTED"
+                            ? "bg-[var(--success)]/10 text-[var(--success)]"
+                            : "bg-[var(--secondary)]/10 text-[var(--secondary)]"
+                        }`}
+                      >
+                        {repo.public_site_class}
+                      </span>
+                      {fileCount !== undefined && (
+                        <span className="text-xs text-[var(--text-muted)] font-mono">
+                          {fileCount.toLocaleString()} files
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-lg font-bold text-[var(--text-primary)] group-hover:text-[var(--primary)] transition-colors">
+                      {repo.name}
+                    </h3>
+
+                    {repo.system_role && (
+                      <div className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide">
+                        {repo.system_role}
+                      </div>
+                    )}
+
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                      {repo.portfolio_summary || repo.description || "System repository and codebase."}
+                    </p>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-[var(--text-primary)]">{repo}</h3>
+
+                  <div className="pt-4 mt-4 border-t border-[var(--border)] flex items-center justify-between">
                     <a
-                      href={`https://github.com/vortsghost2025/${repo}`}
+                      href={repo.github_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-[var(--secondary)] hover:underline"
+                      className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1"
                     >
-                      vortsghost2025/{repo}
+                      <span>GitHub</span>
+                      <span aria-hidden="true">↗</span>
                     </a>
+                    {repo.doc_index_allowed && (
+                      <Link
+                        href={`/library?repo=${encodeURIComponent(repo.name)}`}
+                        className="text-xs font-medium text-[var(--primary)] hover:underline"
+                      >
+                        Browse Docs →
+                      </Link>
+                    )}
                   </div>
                 </div>
-                <span className="text-xs text-[var(--text-muted)] px-2 py-1 bg-[var(--bg-surface-hover)] rounded">
-                  {data.count} files
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(data.categories)
-                  .sort(([, a], [, b]) => b - a)
-                  .slice(0, 4)
-                  .map(([cat, count]) => (
-                    <Link
-                      key={cat}
-                      href={`/library?category=${cat}`}
-                      className="text-xs px-2 py-1 rounded-full bg-[var(--bg-surface-hover)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-                    >
-                      {cat} ({count})
-                    </Link>
-                  ))}
-              </div>
-            </div>
-          ))}
-
-          <div className="card p-6 border-dashed">
-            <div className="flex flex-col items-center justify-center h-full py-8">
-              <div className="w-12 h-12 rounded-xl bg-[var(--bg-surface-hover)] flex items-center justify-center text-2xl text-[var(--text-muted)] mb-4">
-                +
-              </div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2">More Repos Coming</h3>
-              <p className="text-sm text-[var(--text-muted)] text-center">
-                Additional repos will be indexed as the archive grows
-              </p>
-            </div>
+              );
+            })}
           </div>
-        </div>
-      )}
-
-      {/* Index stats (shown on both tabs) */}
-      <div className="card p-6 mt-8 animate-fade-in">
-        <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">Index Stats</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div>
-            <div className="text-2xl font-bold text-[var(--primary)]">{index.entries.length}</div>
-            <div className="text-sm text-[var(--text-muted)]">Total Documents</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-[var(--secondary)]">{Object.keys(index.tag_index).length}</div>
-            <div className="text-sm text-[var(--text-muted)]">Tags</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-[var(--success)]">{categories.length}</div>
-            <div className="text-sm text-[var(--text-muted)]">Categories</div>
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-[var(--warning)]">{index.cross_references.length}</div>
-            <div className="text-sm text-[var(--text-muted)]">Cross-Refs</div>
-          </div>
-        </div>
-      </div>
+        )}
+      </section>
     </div>
   );
 }

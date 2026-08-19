@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function LibraryPage() {
-  const allEntries = getEntries({ limit: 3000 });
+  const allEntries = getEntries({ limit: 10000 });
   const categories = getCategories();
   const topTags = getTopTags(12);
   const stats = getStats();
