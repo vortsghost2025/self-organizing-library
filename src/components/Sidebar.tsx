@@ -16,21 +16,19 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { href: "/", icon: "◈", label: "Dashboard", ariaLabel: "Dashboard - overview and stats" },
-  { href: "/system-pulse", icon: "◉", label: "System Pulse", ariaLabel: "System Pulse - public live progress across lanes and surfaces" },
-  { href: "/library", icon: "☰", label: "Library", ariaLabel: "Library - browse all documents" },
-  { href: "/search-catalog", icon: "⊗", label: "Search Index", ariaLabel: "Search index - full document catalog" },
-  { href: "/repos", icon: "⊕", label: "Repos", ariaLabel: "Repositories - browse by repo" },
-  { href: "/graph", icon: "◇", label: "Graph", ariaLabel: "Nexus graph - interactive document map" },
-  { href: "/papers", icon: "⋇", label: "Papers", ariaLabel: "Papers - Rosetta Stone series and CAISC" },
-  { href: "/videos", icon: "▶", label: "Videos", ariaLabel: "Videos - hackathon demos and system recordings" },
-  { href: "/logs", icon: "▤", label: "Logs", ariaLabel: "Logs - session and verification logs" },
-  { href: "/about", icon: "⊛", label: "About", ariaLabel: "About - project description" },
+  { href: "/", icon: "◈", label: "Home", ariaLabel: "Home - systems engineering overview" },
+  { href: "/repos", icon: "⊕", label: "Projects", ariaLabel: "Projects & Repositories - featured systems and archive" },
+  { href: "/library", icon: "☰", label: "Library", ariaLabel: "Library - search and browse verified knowledge artifacts" },
+  { href: "/system-pulse", icon: "◉", label: "System Pulse", ariaLabel: "System Pulse - live telemetry across lanes" },
+  { href: "/graph", icon: "◇", label: "Nexus Graph", ariaLabel: "Nexus Graph - interactive reasoning and document map" },
+  { href: "/papers", icon: "⋇", label: "Papers", ariaLabel: "Papers - Rosetta Stone series and CAISC theory" },
+  { href: "/governance", icon: "⚖", label: "Governance", ariaLabel: "Governance - 4-lane constitutional dashboard" },
+  { href: "/about", icon: "⊛", label: "About", ariaLabel: "About - Sean David Ramsingh and system background" },
+  { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour of the system" },
+  { href: "/observability", icon: "📊", label: "Observability", ariaLabel: "Observability - test monitoring and test results" },
+  { href: "/logs", icon: "▤", label: "Logs", ariaLabel: "Logs - session and verification transcripts" },
+  { href: "/videos", icon: "▶", label: "Videos", ariaLabel: "Videos - demos and system recordings" },
   { href: "/agents", icon: "◆", label: "Agents", ariaLabel: "Agents - system map for AI agents" },
-  { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour" },
-  { href: "/governance", icon: "⚖", label: "Governance", ariaLabel: "Governance - 4-lane system dashboard" },
-  { href: "/governance/dual-plane-authority", icon: "⬡", label: "Dual-Plane", ariaLabel: "Dual-plane authority - initiation vs execution" },
-  { href: "/observability", icon: "📊", label: "Observability", ariaLabel: "Observability - test monitoring and error classification" },
 ];
 
 export function Sidebar({ stats }: SidebarProps) {
@@ -109,7 +107,7 @@ export function Sidebar({ stats }: SidebarProps) {
         <div className="card p-4" role="region" aria-label="Index statistics">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm text-[var(--text-muted)]">Documents</span>
-            <span className="tag" aria-label={`${stats.totalFiles} documents`}>{stats.totalFiles}</span>
+            <span className="tag" aria-label={`${stats.totalFiles} documents`}>{stats.totalFiles.toLocaleString()}</span>
           </div>
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm text-[var(--text-muted)]">Tags</span>

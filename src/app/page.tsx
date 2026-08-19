@@ -6,123 +6,189 @@ import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
 import SystemOverview from "@/components/SystemOverview";
 import { getStats } from "@/lib/site-index";
+import { getFeaturedRepositories, getRepoCounts } from "@/lib/repo-registry";
 
 export default async function Dashboard() {
   const stats = getStats();
-  const heroTitle = "An AI system that proves what it knows.";
-  const heroTagline = "Most AI gives answers. This one verifies them.";
+  const featuredRepos = getFeaturedRepositories();
+  const repoCounts = getRepoCounts();
+
+  const heroTitle = "Sean David Ramsingh — AI Systems Architecture & Research";
+  const heroTagline =
+    "Engineering autonomous multi-agent orchestration, constitutional governance, GPU-accelerated runtime infrastructure, and deterministic verification.";
 
   return (
-    <div className="p-4 md:p-8" data-pagefind-body>
-    <HeroSection
-        title={heroTitle}
-        tagline={heroTagline}
-      />
-      <LiveSystemPulse />
+    <div className="p-4 md:p-8 space-y-12" data-pagefind-body>
+      {/* 1. Hero Section */}
+      <HeroSection title={heroTitle} tagline={heroTagline} />
 
-      <HomeSystemStateStrip />
-      <SystemOverview />
-
-      <div className="card p-6 mb-12 animate-fade-in">
-        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">How It Works</h2>
-        <div className="grid md:grid-cols-3 gap-4 text-center">
-          <div>
-            <div className="text-3xl mb-2">1</div>
-            <h3 className="font-medium text-[var(--text-primary)] mb-2">Agents generate ideas</h3>
-          </div>
-          <div>
-            <div className="text-3xl mb-2">2</div>
-            <h3 className="font-medium text-[var(--text-primary)] mb-2">Other agents challenge them</h3>
-          </div>
-          <div>
-            <div className="text-3xl mb-2">3</div>
-            <h3 className="font-medium text-[var(--text-primary)] mb-2">The system tracks what survives</h3>
+      {/* 2. Professional Profile & Focus Areas */}
+      <section className="card p-6 md:p-8 animate-fade-in" aria-label="Technical Profile and Focus Areas">
+        <div className="flex flex-col md:flex-row gap-8 items-start justify-between">
+          <div className="flex-1 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-semibold uppercase tracking-wider">
+              Principal Systems Engineering & Research
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+              Verifiable Multi-Agent Systems & Distributed AI Infrastructure
+            </h2>
+            <p className="text-[var(--text-secondary)] text-base leading-relaxed">
+              Specializing in the design of sovereign multi-agent architectures, cryptographic state
+              verification, and high-throughput CUDA infrastructure. Systems built here enforce rigorous
+              constitutional constraints, multi-stage consensus gates, and reproducible evidence ledgers.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+              <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
+                <div className="text-xl mb-1">⚡</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">Multi-Agent Systems</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">Autonomous orchestration & consensus gates</div>
+              </div>
+              <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
+                <div className="text-xl mb-1">⚖️</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">AI Governance</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">Constitutional policy & proof verification</div>
+              </div>
+              <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
+                <div className="text-xl mb-1">⚙️</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">GPU/Runtime Ops</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">CUDA optimization & message relays</div>
+              </div>
+              <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
+                <div className="text-xl mb-1">📊</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">Observability</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">Interactive graphs & live telemetry</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
+      {/* 3. Featured Systems Showcase (5 Canonical FEATURED Repositories) */}
+      <section className="space-y-6" aria-label="Featured Systems">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-1">
+              Core Portfolio
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+              Featured Systems & Applications
+            </h2>
+          </div>
+          <Link
+            href="/repos"
+            className="text-sm font-medium text-[var(--primary)] hover:underline inline-flex items-center gap-1"
+          >
+            View all {repoCounts.totalPublic} repositories →
+          </Link>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredRepos.map((repo) => (
+            <div
+              key={repo.name}
+              className="card p-6 flex flex-col justify-between hover:border-[var(--primary)] transition-all group"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)]">
+                    {repo.system_role}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)] font-mono">FEATURED</span>
+                </div>
+                <h3 className="text-lg font-bold text-[var(--text-primary)] group-hover:text-[var(--primary)] transition-colors">
+                  {repo.name}
+                </h3>
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                  {repo.portfolio_summary || repo.description}
+                </p>
+              </div>
+
+              <div className="pt-4 mt-4 border-t border-[var(--border)] flex items-center justify-between">
+                <a
+                  href={repo.github_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1.5"
+                >
+                  <span>GitHub Repository</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <Link
+                  href={`/repos?tab=all&selected=${repo.name}`}
+                  className="text-xs font-medium text-[var(--primary)] hover:underline"
+                >
+                  Explore Details →
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. Live Telemetry & Constitutional State */}
+      <LiveSystemPulse />
+      <HomeSystemStateStrip />
+
+      {/* 5. Four-Lane Architecture & Constitutional Governance */}
       <LaneArchitecture />
 
-      <div className="mb-12">
-        <div className="grid md:grid-cols-3 gap-4">
-    <Link
-      href="/start-here"
-      className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
-    >
-      <div className="text-4xl" aria-hidden="true">🟢</div>
-      <div>
-        <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Understand the idea</h3>
-        <p className="text-sm text-[var(--text-secondary)]">Start with the foundational concepts.</p>
-      </div>
-    </Link>
-    <Link
-      href="/timeline"
-      className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
-    >
-      <div className="text-4xl" aria-hidden="true">🔵</div>
-      <div>
-        <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">See the evolution</h3>
-        <p className="text-sm text-[var(--text-secondary)]">Explore the chronological time-lapse of the system.</p>
-      </div>
-    </Link>
-    <Link
-      href="/papers"
-      className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
-    >
-      <div className="text-4xl" aria-hidden="true">🟣</div>
-      <div>
-        <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Read the theory</h3>
-        <p className="text-sm text-[var(--text-secondary)]">Deep technical papers and specs.</p>
-      </div>
-    </Link>
-        </div>
-      </div>
+      {/* 6. System Overview */}
+      <SystemOverview />
 
-  <div className="mb-12">
-    <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">Community Work &amp; Advocacy</h2>
-    <p className="text-sm text-[var(--text-secondary)] mb-6">
-      Mental health advocacy and community resource work — built to lower barriers, share lived experience, and connect people to support.
-    </p>
-        <div className="grid md:grid-cols-3 gap-4">
+      {/* 7. Research, Media & Community (Preserving MeshCast Preexisting Work) */}
+      <section className="space-y-6" aria-label="Research, Publications and Community Initiatives">
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-1">
+            Broader Work & Research
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+            Publications, Media & Community Initiatives
+          </h2>
+          <p className="text-sm text-[var(--text-secondary)] mt-1">
+            Peer-reviewed theory, audio media, interactive game environments, and public mental health resources.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Preexisting MeshCast Podcast Card (PREEXISTING_KEEP) */}
+          <Link
+            href="/meshcast"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-purple-500 hover:border-purple-400 hover:bg-purple-500/10 transition-all group"
+          >
+            <div className="text-4xl" aria-hidden="true">🎙️</div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-1">Audio Series</div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-purple-400 transition-colors">
+                MeshCast Podcast
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Exploring AI, governance, and multi-agent systems through in-depth technical discussions and system breakdowns.
+              </p>
+              <span className="inline-block mt-3 text-xs font-medium text-purple-400">Listen now →</span>
+            </div>
+          </Link>
+
+          {/* OSF Preprints */}
           <a
-            href="https://orangered-jellyfish-637583.hostingersite.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
-      >
-        <div className="text-4xl" aria-hidden="true">💚</div>
-        <div>
-          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">Mental Health Website</h3>
-          <p className="text-sm text-[var(--text-secondary)]">A dedicated space for mental health awareness, lived experience, and community support.</p>
-          <span className="inline-block mt-3 text-xs font-medium text-[var(--success)]">Visit site →</span>
-        </div>
-      </a>
-      <a
-        href="https://orangered-jellyfish-637583.hostingersite.com/resources.html"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--secondary)] hover:border-[var(--secondary)]/70 hover:bg-[var(--secondary)]/10 transition-all group"
-      >
-        <div className="text-4xl" aria-hidden="true">🧠</div>
-        <div>
-          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--secondary)] transition-colors">Mental Health Resources</h3>
-          <p className="text-sm text-[var(--text-secondary)]">Curated resources, coping strategies, and support links for those navigating mental health challenges.</p>
-          <span className="inline-block mt-3 text-xs font-medium text-[var(--secondary)]">View resources →</span>
-        </div>
-      </a>
-      <a
-        href="https://www.linkedin.com/in/sean-david-ramsingh-2143a63ab/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
-      >
-        <div className="text-4xl" aria-hidden="true">💼</div>
-        <div>
-          <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">LinkedIn</h3>
-          <p className="text-sm text-[var(--text-secondary)]">Professional profile, background, and career experience.</p>
-          <span className="inline-block mt-3 text-xs font-medium text-[var(--primary)]">View profile →</span>
-        </div>
-      </a>
+            href="https://osf.io/n3tya"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+          >
+            <div className="text-4xl" aria-hidden="true">📄</div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-1">Research Preprints</div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">
+                OSF Research Papers
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Open Science Framework publications on deliberate ensembles, constitutional constraints, and multi-agent governance.
+              </p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--primary)]">View on OSF →</span>
+            </div>
+          </a>
+
+          {/* Medium Research */}
           <a
             href="https://medium.com/@ai_28876"
             target="_blank"
@@ -131,105 +197,116 @@ export default async function Dashboard() {
           >
             <div className="text-4xl" aria-hidden="true">✍️</div>
             <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Medium Articles</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Research publications on AI governance, multi-agent systems, and constitutional constraints.</p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--warning)]">Read articles →</span>
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--warning)] mb-1">Articles & Insights</div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">
+                Medium Articles
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Technical articles detailing agent coordination loops, failure modes, and constitutional constraint engineering.
+              </p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--warning)]">Read on Medium →</span>
             </div>
           </a>
-          <a
-            href="https://osf.io/n3tya"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--text-primary)] hover:border-[var(--text-primary)]/70 hover:bg-[var(--text-primary)]/10 transition-all group"
-          >
-            <div className="text-4xl" aria-hidden="true">📄</div>
-            <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--text-primary)] transition-colors">OSF Research Papers</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Open Science Framework preprints and publications on deliberate ensembles, AI governance, and multi-agent systems.</p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--text-primary)]">View papers →</span>
-            </div>
-          </a>
-        </div>
-      </div>
 
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">Federation Game</h2>
-        <p className="text-sm text-[var(--text-secondary)] mb-6">
-          Interactive simulations exploring deliberation, governance, and multi-agent coordination in a game environment.
-        </p>
-        <div className="grid md:grid-cols-3 gap-4">
+          {/* Federation Game */}
           <a
             href="https://federation-game.deliberatefederation.cloud/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--secondary)] hover:border-[var(--secondary)]/70 hover:bg-[var(--secondary)]/10 transition-all group"
           >
             <div className="text-4xl" aria-hidden="true">🎮</div>
             <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">Federation Game</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Main game environment — explore deliberation and governance through interactive play.</p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--primary)]">Play now →</span>
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--secondary)] mb-1">Simulation Engine</div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--secondary)] transition-colors">
+                Federation Game
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Interactive web simulation exploring agent deliberation, governance, and game-theoretic coordination.
+              </p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--secondary)]">Launch simulation →</span>
             </div>
           </a>
+
+          {/* Mental Health Advocacy */}
           <a
-            href="https://federation-game.deliberatefederation.cloud/adult.html"
+            href="https://orangered-jellyfish-637583.hostingersite.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--secondary)] hover:border-[var(--secondary)]/70 hover:bg-[var(--secondary)]/10 transition-all group"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
           >
-            <div className="text-4xl" aria-hidden="true">🧩</div>
+            <div className="text-4xl" aria-hidden="true">💚</div>
             <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--secondary)] transition-colors">Adult Module</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Advanced scenarios with complex governance dilemmas and constitutional constraints.</p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--secondary)]">Enter →</span>
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--success)] mb-1">Community Advocacy</div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">
+                Mental Health Resource Hub
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Community resource platform providing accessible tools, lived-experience sharing, and support navigation.
+              </p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--success)]">Visit resource hub →</span>
             </div>
           </a>
+
+          {/* Professional Network */}
           <a
-            href="https://federation-game.deliberatefederation.cloud/command-deck/"
+            href="https://www.linkedin.com/in/sean-david-ramsingh-2143a63ab/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--warning)] hover:border-[var(--warning)]/70 hover:bg-[var(--warning)]/10 transition-all group"
+            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--primary)] hover:border-[var(--primary)]/70 hover:bg-[var(--primary)]/10 transition-all group"
           >
-            <div className="text-4xl" aria-hidden="true">🖥️</div>
+            <div className="text-4xl" aria-hidden="true">💼</div>
             <div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--warning)] transition-colors">Command Deck</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Operational control interface — monitor and direct multi-agent system coordination in real time.</p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--warning)]">Access →</span>
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-1">Professional Profile</div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary)] transition-colors">
+                LinkedIn
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Career background, systems engineering projects, and research collaboration contacts.
+              </p>
+              <span className="inline-block mt-3 text-xs font-medium text-[var(--primary)]">Connect on LinkedIn →</span>
             </div>
           </a>
         </div>
-      </div>
+      </section>
 
-      <div className="card p-6 mt-6 animate-fade-in">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="flex-1">
-            <h2 className="text-xl font-semibold mb-4 text-[var(--text-primary)]">About Deliberate Ensemble</h2>
-            <p className="text-[var(--text-secondary)] mb-4 text-sm">
-              This is a living archive. It&apos;s not a finished product — it&apos;s the record of how the system
-              was built, why decisions were made, and what constraints are enforced. Every governance
-              artifact, every test result, and every failure mode is preserved here for audit.
+      {/* 8. Scale & Knowledge Archive Summary */}
+      <section className="card p-6 md:p-8 animate-fade-in" aria-label="Research Archive Summary">
+        <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold text-[var(--text-primary)]">
+              Verifiable Knowledge Base & Research Archive
+            </h2>
+            <p className="text-sm text-[var(--text-secondary)] max-w-2xl">
+              Every change, specification, and validation transcript is indexed into a reproducible knowledge
+              base across all active repositories.
             </p>
-            <div className="flex flex-wrap gap-4 text-xs text-[var(--text-muted)] mono">
+            <div className="flex flex-wrap gap-4 text-xs text-[var(--text-muted)] font-mono pt-2">
               <span>Status: Operational</span>
               <span>•</span>
-              <span>Lanes: 4 active</span>
+              <span>Constitutional Lanes: 4 Sovereign</span>
               <span>•</span>
-              <span>Documents: {stats.totalFiles.toLocaleString()}</span>
+              <span>Indexed Artifacts: {stats.totalFiles.toLocaleString()}</span>
               <span>•</span>
-              <span>Tags: {stats.tagCount.toLocaleString()}</span>
+              <span>Eligible Repositories: {repoCounts.docIndexAllowed}</span>
             </div>
           </div>
-          <div className="w-full md:w-48 h-32 md:h-auto flex-shrink-0 rounded-lg overflow-hidden border border-[var(--border)]">
-            <Image
-              src="/ss.jpg"
-              alt="Human-AI partnership: the convergence point where human intent meets machine verification"
-              width={192}
-              height={128}
-              className="w-full h-full object-cover"
-            />
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/library"
+              className="px-5 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:bg-[var(--primary)]/90 transition-colors"
+            >
+              Browse Library
+            </Link>
+            <Link
+              href="/graph"
+              className="px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--text-primary)] text-sm font-medium hover:border-[var(--primary)] transition-colors"
+            >
+              Nexus Graph
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
