@@ -66,6 +66,7 @@ lanes/*/outbox/
 
 lanes/*/outbox/unsigned/
 logs/quarantine-tracker.json
+logs/contradiction-adjudicator.json
 
 # Pagefind generated index (rebuilt on each build)
 /public/pagefind/
