@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 
 import GraphCanvas, { type GraphCanvasImperativeHandle } from "./graph/GraphCanvas";
 import GraphToolbar from "./graph/GraphToolbar";
@@ -16,6 +17,7 @@ import GraphLegend from "./graph/GraphLegend";
 import { computeClusters, computeEntryPoints } from "@/lib/graph-clusters";
 import type { GraphEdge, GraphLens, GraphNode, MeaningLayer, DensityLevel } from "@/lib/graph-types";
 import { LENS_CONFIG, MEANING_LAYER_EDGES } from "@/lib/graph-types";
+import { getFeaturedRepositories, getListedRepositories } from "@/lib/repo-registry";
 
 interface NexusGraphProps {
   initialFilter?: string;
@@ -88,15 +90,18 @@ export default function NexusGraph({
   const [lensDescription, setLensDescription] = useState(LENS_CONFIG[initialLens].description);
   
   // Investigation State (Restrained Defaults)
-  // Locked spec: Structure=ON, Verification=ON, Conflicts=OFF, Execution=OFF, Governance=OFF
   const [density, setDensity] = useState<DensityLevel>("overview");
   const [activeLayers, setActiveLayers] = useState<MeaningLayer[]>(["structure", "verification"]);
   const [activeEntryPoint, setActiveEntryPoint] = useState<string | null>(null);
   const [activeClusterId, setActiveClusterId] = useState<string | null>(null);
+  const [activePreset, setActivePreset] = useState<string>("overview");
 
   const graphCanvasRef = useRef<GraphCanvasImperativeHandle>(null);
 
-  // Handle EntryPoint Selection with automatic layer activation and lens selection
+  const featuredRepos = useMemo(() => getFeaturedRepositories(), []);
+  const listedRepos = useMemo(() => getListedRepositories(), []);
+
+  // Handle EntryPoint Selection
   const handleEntryPointSelect = useCallback((epId: string | null) => {
     setActiveEntryPoint(epId);
     if (epId === "ep:contradictions" || epId === "ep:gov-contradicted") {
@@ -136,7 +141,6 @@ export default function NexusGraph({
         });
       }
     }
-    // Allow explicit layer override via URL (comma-separated)
     if (urlLayers) {
       const parsed = urlLayers.split(",").map((l) => l.trim()).filter(Boolean) as MeaningLayer[];
       if (parsed.length > 0) setActiveLayers(parsed);
@@ -219,9 +223,54 @@ export default function NexusGraph({
     );
   }, []);
 
-  // Filtered Nodes Pipeline based on Density, EntryPoint, Cluster, Search, and Selected Node Focus
+  // Guided View Preset Handler
+  const applyPreset = useCallback((presetId: string) => {
+    setActivePreset(presetId);
+    setSelectedNodeId(null);
+    setSearchQuery("");
+
+    switch (presetId) {
+      case "overview":
+        setDensity("overview");
+        setGraphLens("navigation");
+        setActiveLayers(["structure", "verification"]);
+        setActiveClusterId(null);
+        setActiveEntryPoint(null);
+        break;
+      case "lanes":
+        setDensity("overview");
+        setGraphLens("authority");
+        setActiveLayers(["structure", "verification", "governance"]);
+        setActiveClusterId(null);
+        setActiveEntryPoint("ep:authority");
+        break;
+      case "kernel":
+        setDensity("overview");
+        setGraphLens("navigation");
+        setActiveLayers(["structure", "execution", "verification"]);
+        setActiveClusterId("repo:kernel-lane");
+        setActiveEntryPoint(null);
+        break;
+      case "swarmmind":
+        setDensity("overview");
+        setGraphLens("navigation");
+        setActiveLayers(["structure", "verification"]);
+        setActiveClusterId("repo:SwarmMind-Self-Optimizing-Multi-Agent-AI-System");
+        setActiveEntryPoint(null);
+        break;
+      case "library":
+        setDensity("overview");
+        setGraphLens("navigation");
+        setActiveLayers(["structure", "verification"]);
+        setActiveClusterId("repo:self-organizing-library");
+        setActiveEntryPoint(null);
+        break;
+    }
+  }, []);
+
+  // Filtered Nodes Pipeline
   const filteredNodes = useMemo(() => {
-    // 1. Highest Priority: Selected Node Focus Isolation (only when resolved)
+    // 1. Highest Priority: Selected Node Focus Isolation
     if (selectedNodeId && resolvedSelectedNode) {
       const neighborSet = new Set<string>([resolvedSelectedNode.id]);
       for (const edge of edges) {
@@ -229,8 +278,6 @@ export default function NexusGraph({
         if (edge.target === resolvedSelectedNode.id) neighborSet.add(edge.source);
       }
       return nodes.filter((n) => neighborSet.has(n.id));
-      // Note: if selectedNodeId is UNRESOLVED (no resolvedSelectedNode), fall through
-      // to cluster/entrypoint/density filters below — do NOT return all nodes
     }
 
     // 2. Second Priority: Active Cluster Filter
@@ -285,7 +332,7 @@ export default function NexusGraph({
     return nodes;
   }, [nodes, edges, activeEntryPoint, activeClusterId, density, selectedNodeId, resolvedSelectedNode, clusters, entryPoints]);
 
-  // Filtered Edges Pipeline based on active Meaning Layers, visible nodes, and edge bundle reduction
+  // Filtered Edges Pipeline
   const filteredEdges = useMemo(() => {
     const visibleNodeIds = new Set(filteredNodes.map((n) => n.id));
     const allowedEdgeTypes = new Set<string>();
@@ -301,7 +348,6 @@ export default function NexusGraph({
       return true;
     });
 
-    // In Contradictions entry point, suppress unrelated structure edges if CONTRADICTS edges are 0
     if (activeEntryPoint === "ep:contradictions" || activeEntryPoint === "ep:gov-contradicted") {
       const hasContradicts = result.some((e) => e.authority === "CONTRADICTS");
       if (!hasContradicts) {
@@ -309,7 +355,6 @@ export default function NexusGraph({
       }
     }
 
-    // In Overview density, suppress parallel cross-cluster edge bundles
     if (density === "overview" && !resolvedSelectedNode && !activeClusterId && !activeEntryPoint) {
       const seenClusterPairs = new Set<string>();
       result = result.filter((e) => {
@@ -341,9 +386,6 @@ export default function NexusGraph({
 
   const selectedNode = resolvedSelectedNode;
 
-  // Deduplicate edges the same way buildRenderableGraph does (undirected graph, multi:false).
-  // Graphology with {multi:false, type:"undirected"} skips the second of any A↔B pair,
-  // so A→B and B→A count as 1 edge, not 2. The toolbar must use the same count as Sigma.
   const deduplicatedEdgeCount = useMemo(() => {
     const seen = new Set<string>();
     let count = 0;
@@ -384,13 +426,6 @@ export default function NexusGraph({
     setSelectedNodeId((current) => (current === nodeId ? null : nodeId));
   }, []);
 
-  const workspaceSummary = selectedNode
-    ? selectedNode.title
-    : searchQuery
-    ? `${searchMatches} matching ${searchMatches === 1 ? "node" : "nodes"}`
-    : lensDescription;
-
-  // Status counts for ViewContextBanner
   const statusCounts = useMemo(() => {
     const counts: Record<string, number> = { VERIFIED: 0, UNVERIFIED: 0, CONFLICTED: 0, QUARANTINED: 0 };
     for (const n of filteredNodes) {
@@ -400,145 +435,350 @@ export default function NexusGraph({
   }, [filteredNodes]);
 
   return (
-    <div className="px-4 py-5 md:px-6 md:py-6" data-pagefind-ignore>
-      <div className="mx-auto max-w-[1440px]">
-        <section className="rounded-[22px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,22,31,0.98),rgba(12,15,22,1))] p-4 shadow-[0_18px_54px_rgba(0,0,0,0.28)] md:p-5">
-          <div className="mb-4 space-y-2">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#8f95a8]">
-                Nexus Graph
-              </span>
-              <span className="rounded-full border border-[#4f8df733] bg-[#4f8df714] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#7aa7ff]">
-                {LENS_CONFIG[graphLens].label}
-              </span>
+    <div className="px-4 pt-20 pb-8 md:pt-6 md:px-8 max-w-7xl mx-auto space-y-8" data-pagefind-ignore>
+      {/* 1. Header & Architectural Purpose */}
+      <section className="space-y-3 animate-fade-in">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/20">
+            Interactive Architecture
+          </span>
+          <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-slate-300 border border-white/10">
+            38 Core Subsystems • 4 Sovereign Lanes
+          </span>
+        </div>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
+          Nexus Knowledge Graph &amp; Systems Architecture
+        </h1>
+        <p className="text-base text-[var(--text-secondary)] max-w-3xl leading-relaxed">
+          Interactive map of Sean David Ramsingh's multi-agent AI architecture, autonomous execution loops,
+          cryptographic governance policies, and reproducible verification pipelines.
+        </p>
+      </section>
+
+      {/* 2. Guided Exploration Presets */}
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+            Guided Exploration Presets
+          </h2>
+          <span className="text-xs text-[var(--text-muted)]">Click any preset to scope the graph</span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+          <button
+            onClick={() => applyPreset("overview")}
+            className={`p-3 rounded-xl border text-left transition-all ${
+              activePreset === "overview" && !selectedNodeId && !activeClusterId && !activeEntryPoint
+                ? "bg-[var(--primary)] text-white border-[var(--primary)] shadow-lg shadow-[var(--primary)]/20"
+                : "bg-[#141824] border-white/10 text-[var(--text-secondary)] hover:border-white/20 hover:text-white"
+            }`}
+          >
+            <div className="text-lg mb-1" aria-hidden="true">🌐</div>
+            <div className="font-semibold text-xs text-white">Full Overview</div>
+            <div className="text-[11px] opacity-80 mt-0.5 truncate">Global balanced map</div>
+          </button>
+
+          <button
+            onClick={() => applyPreset("lanes")}
+            className={`p-3 rounded-xl border text-left transition-all ${
+              activePreset === "lanes"
+                ? "bg-[var(--primary)] text-white border-[var(--primary)] shadow-lg shadow-[var(--primary)]/20"
+                : "bg-[#141824] border-white/10 text-[var(--text-secondary)] hover:border-white/20 hover:text-white"
+            }`}
+          >
+            <div className="text-lg mb-1" aria-hidden="true">🏛️</div>
+            <div className="font-semibold text-xs text-white">4 Governance Lanes</div>
+            <div className="text-[11px] opacity-80 mt-0.5 truncate">Authority &amp; policy roots</div>
+          </button>
+
+          <button
+            onClick={() => applyPreset("kernel")}
+            className={`p-3 rounded-xl border text-left transition-all ${
+              activePreset === "kernel"
+                ? "bg-[var(--primary)] text-white border-[var(--primary)] shadow-lg shadow-[var(--primary)]/20"
+                : "bg-[#141824] border-white/10 text-[var(--text-secondary)] hover:border-white/20 hover:text-white"
+            }`}
+          >
+            <div className="text-lg mb-1" aria-hidden="true">⚡</div>
+            <div className="font-semibold text-xs text-white">GPU Runtime &amp; CUDA</div>
+            <div className="text-[11px] opacity-80 mt-0.5 truncate">Kernel execution engine</div>
+          </button>
+
+          <button
+            onClick={() => applyPreset("swarmmind")}
+            className={`p-3 rounded-xl border text-left transition-all ${
+              activePreset === "swarmmind"
+                ? "bg-[var(--primary)] text-white border-[var(--primary)] shadow-lg shadow-[var(--primary)]/20"
+                : "bg-[#141824] border-white/10 text-[var(--text-secondary)] hover:border-white/20 hover:text-white"
+            }`}
+          >
+            <div className="text-lg mb-1" aria-hidden="true">🧠</div>
+            <div className="font-semibold text-xs text-white">Multi-Agent Deliberation</div>
+            <div className="text-[11px] opacity-80 mt-0.5 truncate">SwarmMind idea loops</div>
+          </button>
+
+          <button
+            onClick={() => applyPreset("library")}
+            className={`p-3 rounded-xl border text-left transition-all ${
+              activePreset === "library"
+                ? "bg-[var(--primary)] text-white border-[var(--primary)] shadow-lg shadow-[var(--primary)]/20"
+                : "bg-[#141824] border-white/10 text-[var(--text-secondary)] hover:border-white/20 hover:text-white"
+            }`}
+          >
+            <div className="text-lg mb-1" aria-hidden="true">📚</div>
+            <div className="font-semibold text-xs text-white">Research &amp; Evidence</div>
+            <div className="text-[11px] opacity-80 mt-0.5 truncate">6,980 indexed artifacts</div>
+          </button>
+        </div>
+      </section>
+
+      {/* 3. Main Interactive Graph Workspace */}
+      <section className="rounded-2xl border border-white/10 bg-[#0f131c] p-4 md:p-5 shadow-2xl space-y-4">
+        <GraphToolbar
+          graphLens={graphLens}
+          searchQuery={searchQuery}
+          nodeCount={filteredNodes.length}
+          edgeCount={deduplicatedEdgeCount}
+          highlightedCount={searchMatches}
+          onLensChange={handleLensChange}
+          onSearchChange={setSearchQuery}
+          onFitVisible={() => graphCanvasRef.current?.fitVisible()}
+          onZoomIn={() => graphCanvasRef.current?.zoomIn()}
+          onZoomOut={() => graphCanvasRef.current?.zoomOut()}
+        />
+
+        <ViewContextBanner
+          mode={density === "overview" ? "understand" : density === "mid" ? "explore" : "full"}
+          visibleCount={filteredNodes.length}
+          totalNodes={nodes.length}
+          statusCounts={statusCounts}
+          focusNodeTitle={selectedNode?.title}
+          filterLabel={activeEntryPoint ? `Entry: ${activeEntryPoint}` : activeClusterId ? `Cluster: ${activeClusterId}` : null}
+          activePresetLabel={
+            activePreset === "lanes"
+              ? "Four Constitutional Lanes"
+              : activePreset === "kernel"
+              ? "Kernel GPU & CUDA Subsystems"
+              : activePreset === "swarmmind"
+              ? "SwarmMind Deliberation Engine"
+              : activePreset === "library"
+              ? "Library Knowledge & Evidence Archive"
+              : null
+          }
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          {/* Controls Sidebar */}
+          <div className="lg:col-span-3 space-y-3 max-h-[76vh] overflow-y-auto pr-1">
+            <div className="card p-3 bg-[#151924] border border-white/10 rounded-xl">
+              <DensityControl density={density} onChange={setDensity} />
             </div>
-            <div>
-              <h1 className="text-[1.95rem] font-semibold tracking-[-0.03em] text-[#f1f4fb]">
-                self-organizing-library
-              </h1>
-              <p className="mt-2 max-w-3xl text-sm text-[#9fa7bc]">
-                Reasoning &amp; Investigation Instrument — Meaning first, progressive disclosure, evidence on demand.
-              </p>
+            <div className="card p-3 bg-[#151924] border border-white/10 rounded-xl">
+              <MeaningLayers activeLayers={activeLayers} onToggle={handleLayerToggle} />
+            </div>
+            <div className="card p-3 bg-[#151924] border border-white/10 rounded-xl">
+              <EntryPoints entryPoints={entryPoints} activeEntryPoint={activeEntryPoint} onSelect={handleEntryPointSelect} />
+            </div>
+            <div className="card p-3 bg-[#151924] border border-white/10 rounded-xl">
+              <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
             </div>
           </div>
 
-          <div className="rounded-[20px] border border-white/10 bg-[#0f131b] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] md:p-4">
-            <GraphToolbar
-              graphLens={graphLens}
-              searchQuery={searchQuery}
-              nodeCount={filteredNodes.length}
+          {/* WebGL Graph Canvas */}
+          <div className={`relative h-[76vh] min-h-[580px] max-h-[850px] overflow-hidden rounded-xl border border-white/10 bg-[#0a0d14] ${selectedNode ? "lg:col-span-5" : "lg:col-span-9"}`}>
+            <GraphContextPanel
+              nodeCount={nodes.length}
               edgeCount={deduplicatedEdgeCount}
-              highlightedCount={searchMatches}
-              onLensChange={handleLensChange}
-              onSearchChange={setSearchQuery}
-              onFitVisible={() => graphCanvasRef.current?.fitVisible()}
-              onZoomIn={() => graphCanvasRef.current?.zoomIn()}
-              onZoomOut={() => graphCanvasRef.current?.zoomOut()}
+              visibleCount={filteredNodes.length}
+              density={density}
+              activeLayers={activeLayers}
+              filter="all"
+              filterMode="type"
+              activeEntryPoint={activeEntryPoint}
+              activeClusterId={activeClusterId}
+              focusedNodeId={selectedNodeId}
+              selectedNodeTitle={selectedNode?.title || null}
+              searchQuery={searchQuery}
             />
 
-            <div className="mt-3">
-              <ViewContextBanner
-                mode={density === "overview" ? "understand" : density === "mid" ? "explore" : "full"}
-                visibleCount={filteredNodes.length}
-                totalNodes={nodes.length}
-                statusCounts={statusCounts}
-                focusNodeTitle={selectedNode?.title}
-                filterLabel={activeEntryPoint ? `Entry Point: ${activeEntryPoint}` : activeClusterId ? `Cluster: ${activeClusterId}` : null}
+            {loading ? (
+              <div className="flex h-full items-center justify-center text-sm text-[#9ea5ba]">
+                Rendering interactive graph workspace...
+              </div>
+            ) : error ? (
+              <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#ef9090]">
+                {error}
+              </div>
+            ) : filteredNodes.length === 0 ? (
+              <div className="flex h-full items-center justify-center text-sm text-[#9ea5ba]">
+                No nodes match the selected scope. Try resetting filters.
+              </div>
+            ) : (
+              <GraphCanvas
+                ref={graphCanvasRef}
+                nodes={filteredNodes}
+                edges={filteredEdges}
+                graphLens={graphLens}
+                density={density}
+                activeClusterId={activeClusterId}
+                activeEntryPoint={activeEntryPoint}
+                activeLayers={activeLayers}
+                searchQuery={searchQuery}
+                selectedNodeId={selectedNodeId}
+                requestedNodeToken={resolvedResult.requestedToken}
+                resolvedNodeId={resolvedResult.resolvedId}
+                resolvedNodeTitle={resolvedResult.resolvedTitle}
+                resolutionMethod={resolvedResult.method}
+                onNodeClick={handleNodeClick}
+                onCameraUpdate={() => {}}
+              />
+            )}
+          </div>
+
+          {/* Right Node Detail Panel when selected */}
+          {selectedNode && (
+            <div className="lg:col-span-4 max-h-[76vh] overflow-y-auto card p-4 bg-[#141926] border border-[#38BDF8]/40 shadow-2xl rounded-xl">
+              <NodeDetail
+                node={selectedNode}
+                interactionMode="focus"
+                focusedNodeId={selectedNodeId}
+                pathSource={null}
+                pathTarget={null}
+                onFocusNode={handleNodeClick}
+                onTracePath={() => {}}
+                onClose={() => setSelectedNodeId(null)}
               />
             </div>
+          )}
+        </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mt-3">
-              {/* Left Investigation Control Sidebar */}
-              <div className="lg:col-span-3 space-y-4 max-h-[78vh] overflow-y-auto pr-1">
-                <div className="card p-3 bg-[#151922] border border-white/10 rounded-xl">
-                  <DensityControl density={density} onChange={setDensity} />
-                </div>
-                <div className="card p-3 bg-[#151922] border border-white/10 rounded-xl">
-                  <MeaningLayers activeLayers={activeLayers} onToggle={handleLayerToggle} />
-                </div>
-                <div className="card p-3 bg-[#151922] border border-white/10 rounded-xl">
-                  <EntryPoints entryPoints={entryPoints} activeEntryPoint={activeEntryPoint} onSelect={handleEntryPointSelect} />
-                </div>
-                <div className="card p-3 bg-[#151922] border border-white/10 rounded-xl">
-                  <ClusterSelector clusters={clusters} activeClusterId={activeClusterId} onSelect={setActiveClusterId} />
-                </div>
-              </div>
+        {/* Legend */}
+        <GraphLegend />
+      </section>
 
-              {/* Main Graph Canvas Area */}
-              <div className={`relative h-[78vh] min-h-[620px] max-h-[900px] overflow-hidden rounded-[18px] border border-white/8 bg-[#0b0e14] ${selectedNode ? "lg:col-span-6" : "lg:col-span-9"}`}>
-                <GraphContextPanel
-                  nodeCount={nodes.length}
-                  edgeCount={deduplicatedEdgeCount}
-                  visibleCount={filteredNodes.length}
-                  density={density}
-                  activeLayers={activeLayers}
-                  filter="all"
-                  filterMode="type"
-                  activeEntryPoint={activeEntryPoint}
-                  activeClusterId={activeClusterId}
-                  focusedNodeId={selectedNodeId}
-                  selectedNodeTitle={selectedNode?.title || null}
-                  searchQuery={searchQuery}
-                />
+      {/* 4. Case Study Narrative: Deliberation Lifecycle */}
+      <section className="card p-6 md:p-8 rounded-2xl bg-[#141824] border border-white/10 space-y-6">
+        <div>
+          <span className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-1 block">
+            Architectural Case Study
+          </span>
+          <h2 className="text-2xl font-bold text-[var(--text-primary)]">
+            How the Multi-Agent Deliberation Lifecycle Operates
+          </h2>
+          <p className="text-sm text-[var(--text-secondary)] max-w-3xl mt-1">
+            Every improvement, policy update, and artifact follows a strictly enforced 5-stage sovereign consensus loop.
+          </p>
+        </div>
 
-                {loading ? (
-                  <div className="flex h-full items-center justify-center text-sm text-[#9ea5ba]">
-                    Rendering graph workspace...
-                  </div>
-                ) : error ? (
-                  <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#ef9090]">
-                    {error}
-                  </div>
-                ) : filteredNodes.length === 0 ? (
-                  <div className="flex h-full items-center justify-center text-sm text-[#9ea5ba]">
-                    No graph data is available for this view.
-                  </div>
-                ) : (
-                  <GraphCanvas
-                    ref={graphCanvasRef}
-                    nodes={filteredNodes}
-                    edges={filteredEdges}
-                    graphLens={graphLens}
-                    density={density}
-                    activeClusterId={activeClusterId}
-                    activeEntryPoint={activeEntryPoint}
-                    activeLayers={activeLayers}
-                    searchQuery={searchQuery}
-                    selectedNodeId={selectedNodeId}
-                    requestedNodeToken={resolvedResult.requestedToken}
-                    resolvedNodeId={resolvedResult.resolvedId}
-                    resolvedNodeTitle={resolvedResult.resolvedTitle}
-                    resolutionMethod={resolvedResult.method}
-                    onNodeClick={handleNodeClick}
-                    onCameraUpdate={() => {}}
-                  />
-                )}
-              </div>
-
-              {/* Right Node Detail Panel when selected */}
-              {selectedNode && (
-                <div className="lg:col-span-3 max-h-[78vh] overflow-y-auto card p-4 bg-[#141926] border-2 border-[#38BDF8]/40 shadow-2xl rounded-2xl">
-                  <NodeDetail
-                    node={selectedNode}
-                    interactionMode="focus"
-                    focusedNodeId={selectedNodeId}
-                    pathSource={null}
-                    pathTarget={null}
-                    onFocusNode={handleNodeClick}
-                    onTracePath={() => {}}
-                    onClose={() => setSelectedNodeId(null)}
-                  />
-                </div>
-              )}
-            </div>
-
-            <div className="mt-4">
-              <GraphLegend />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2">
+            <div className="text-xl" aria-hidden="true">💡</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-[#38bdf8]">1. Proposal</div>
+            <div className="text-sm font-bold text-slate-100">SwarmMind (80)</div>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              Autonomous agent loops detect architectural drift or performance opportunities, signing structured JSON proposals.
+            </p>
           </div>
-        </section>
-      </div>
+
+          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2">
+            <div className="text-xl" aria-hidden="true">⚖️</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-purple-400">2. Review</div>
+            <div className="text-sm font-bold text-slate-100">Four-Lane Review</div>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              Sovereign lanes evaluate the proposal against constitutional boundaries, authority weights, and safety policies.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2">
+            <div className="text-xl" aria-hidden="true">⚡</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-amber-400">3. Execution</div>
+            <div className="text-sm font-bold text-slate-100">Kernel Lane (70)</div>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              GPU/CUDA worker nodes execute benchmarks, run integration tests, and isolate runtime processes with strict timeouts.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2">
+            <div className="text-xl" aria-hidden="true">🔬</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400">4. Verification</div>
+            <div className="text-sm font-bold text-slate-100">Library Lane (60)</div>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              Proof-of-evidence gatekeeper validates cryptographic hashes, test outputs, and reproducible evidence before ratification.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2">
+            <div className="text-xl" aria-hidden="true">🔒</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-violet-400">5. Ratification</div>
+            <div className="text-sm font-bold text-slate-100">Archivist Lane (100)</div>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              Constitutional root ratifies changes, inlines permanent records, and commits verifiable state to canonical storage.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Accessible Architecture Catalog (Text Equivalent for Screen Readers & Non-WebGL) */}
+      <section className="card p-6 md:p-8 rounded-2xl bg-[#141824] border border-white/10 space-y-6" aria-label="Accessible Architecture Directory">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-[var(--text-primary)]">
+              Subsystems &amp; Codebases Directory
+            </h2>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Direct access to all featured systems, source repositories, and verification records.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Link
+              href="/repos"
+              className="px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-xs font-medium hover:bg-[var(--primary)]/90 transition-colors"
+            >
+              All 40 Repositories →
+            </Link>
+            <Link
+              href="/library"
+              className="px-4 py-2 rounded-lg border border-white/10 text-xs text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-white transition-colors"
+            >
+              Browse Library →
+            </Link>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {featuredRepos.map((repo) => (
+            <div
+              key={repo.name}
+              className="p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/20 transition-all space-y-2"
+            >
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-semibold text-slate-200">{repo.name}</span>
+                <span className="font-mono text-[10px] text-[#38BDF8] px-2 py-0.5 rounded bg-[#38BDF8]/10">
+                  FEATURED
+                </span>
+              </div>
+              <p className="text-xs text-[var(--text-secondary)] line-clamp-2">
+                {repo.portfolio_summary || repo.description}
+              </p>
+              <div className="flex items-center justify-between pt-2 border-t border-white/5 text-xs">
+                <Link
+                  href={`/repos?tab=all&selected=${repo.name}`}
+                  className="text-[var(--primary)] hover:underline"
+                >
+                  View Details →
+                </Link>
+                <a
+                  href={repo.github_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#38BDF8] hover:underline"
+                >
+                  GitHub ↗
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
-
