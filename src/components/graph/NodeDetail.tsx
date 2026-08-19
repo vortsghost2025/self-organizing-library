@@ -232,7 +232,7 @@ export default function NodeDetail({
               href={`/library/${node.id}`}
               className="px-3 py-2 rounded-lg bg-[var(--primary)] text-white text-xs font-medium text-center hover:bg-[var(--primary)]/90 transition-colors"
             >
-              Document Proof →
+              View Document →
             </Link>
             <button
               onClick={() => onFocusNode(node.id)}

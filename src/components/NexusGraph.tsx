@@ -526,7 +526,7 @@ export default function NexusGraph({
           >
             <div className="text-lg mb-1" aria-hidden="true">📚</div>
             <div className="font-semibold text-xs text-white">Research &amp; Evidence</div>
-            <div className="text-[11px] opacity-80 mt-0.5 truncate">6,980 indexed artifacts</div>
+            <div className="text-[11px] opacity-80 mt-0.5 truncate">Library &amp; proof systems</div>
           </button>
         </div>
       </section>
@@ -659,13 +659,13 @@ export default function NexusGraph({
       <section className="card p-6 md:p-8 rounded-2xl bg-[#141824] border border-white/10 space-y-6">
         <div>
           <span className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-1 block">
-            Architectural Case Study
+            Architectural Case Study — Conceptual Deliberation Model
           </span>
           <h2 className="text-2xl font-bold text-[var(--text-primary)]">
             How the Multi-Agent Deliberation Lifecycle Operates
           </h2>
           <p className="text-sm text-[var(--text-secondary)] max-w-3xl mt-1">
-            Every improvement, policy update, and artifact follows a strictly enforced 5-stage sovereign consensus loop.
+            Conceptual 5-stage sovereign consensus loop governing autonomous proposals, policy review, GPU execution, proof verification, and permanent ratification across the four lanes.
           </p>
         </div>
 
