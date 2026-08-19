@@ -152,19 +152,19 @@ export default async function Dashboard() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Preexisting MeshCast Podcast Card (PREEXISTING_KEEP) */}
           <Link
-            href="/meshcast"
+            href="/videos"
             className="flex items-start gap-4 p-6 rounded-xl border-2 border-purple-500 hover:border-purple-400 hover:bg-purple-500/10 transition-all group"
           >
             <div className="text-4xl" aria-hidden="true">🎙️</div>
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-1">Audio Series</div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-1">Audio Series &amp; Demos</div>
               <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-purple-400 transition-colors">
-                MeshCast Podcast
+                MeshCast Podcast &amp; Demos
               </h3>
               <p className="text-sm text-[var(--text-secondary)]">
                 Exploring AI, governance, and multi-agent systems through in-depth technical discussions and system breakdowns.
               </p>
-              <span className="inline-block mt-3 text-xs font-medium text-purple-400">Listen now →</span>
+              <span className="inline-block mt-3 text-xs font-medium text-purple-400">Explore series &amp; recordings →</span>
             </div>
           </Link>
 
