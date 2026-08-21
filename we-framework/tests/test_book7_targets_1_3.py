@@ -54,7 +54,10 @@ class BeliefLatticeTargetTests(unittest.TestCase):
     def test_meet_and_join(self):
         a = {"active@t1", "terminated@t2"}
         b = {"terminated@t2", "corrupt"}
-        self.assertEqual(self.L.meet(a, b), frozenset({"active@t1", "terminated@t2", "corrupt"}))
+        self.assertEqual(
+            self.L.meet(a, b),
+            frozenset({"active@t1", "terminated@t2", "corrupt"}),
+        )
         self.assertEqual(self.L.join(a, b), frozenset({"terminated@t2"}))
 
     def test_evidence_narrows_without_guessing(self):
@@ -71,7 +74,12 @@ class BeliefLatticeTargetTests(unittest.TestCase):
 
 class ConstraintTargetTests(unittest.TestCase):
     def test_boolean_subfamily_is_ambient_sublattice(self):
-        fam = [sig(), sig("task_binding"), sig("freshness"), sig("task_binding", "freshness")]
+        fam = [
+            sig(),
+            sig("task_binding"),
+            sig("freshness"),
+            sig("task_binding", "freshness"),
+        ]
         r = classify(fam)
         self.assertEqual(r.kind, "lattice")
         self.assertTrue(r.ambient_meet_closed)
@@ -102,6 +110,32 @@ class ConstraintTargetTests(unittest.TestCase):
         self.assertEqual(r.kind, "poset")
         self.assertFalse(r.induced_has_all_meets)
         self.assertFalse(r.induced_has_all_joins)
+
+
+class EvidenceBackedAideSliceTests(unittest.TestCase):
+    def test_preserved_aide_slices_classify_without_global_overclaim(self):
+        import json
+        from pathlib import Path
+
+        path = Path("we-framework/evidence/aide-observed-signatures-v1.json")
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        by_id = {s["id"]: s for s in payload["slices"]}
+
+        causal8 = by_id["causal-8-task-challenge-binding"]
+        r8 = classify(
+            [c["signature"] for c in causal8["cases"]],
+            frozenset(causal8["constraints"]),
+        )
+        self.assertEqual(r8.kind, "lattice")
+        self.assertTrue(r8.ambient_meet_closed and r8.ambient_join_closed)
+
+        nfm26 = by_id["nfm-026-trust-store-divergence"]
+        r26 = classify(
+            [c["signature"] for c in nfm26["cases"]],
+            frozenset(nfm26["constraints"]),
+        )
+        self.assertEqual(r26.kind, "lattice")
+        self.assertTrue(r26.ambient_meet_closed and r26.ambient_join_closed)
 
 
 if __name__ == "__main__":
