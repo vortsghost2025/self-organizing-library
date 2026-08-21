@@ -1,0 +1,415 @@
+# Book 7 — WE Framework: The Rosetta Calculus of State, Translation, and Recovery
+
+**Status:** Draft 0.1 research seed  
+**Date:** 2026-08-21  
+**Canonical working manuscript:** Google Doc `1f0T6dm3R5JB3rSoDVHMrTjnbNT4SnOl0_xskVvtLSB4`  
+**Repository role:** versioned mathematical definitions, executable specifications, and experiment lineage
+
+## 1. Epistemic boundary
+
+This work does not claim that physics, biology, artificial intelligence, distributed systems, quantum mechanics, and human cognition are literally the same system.
+
+It asks a narrower testable question:
+
+> When different domains contain state, transformation, constraint, observation, failure, uncertainty, and recovery, which relationships admit structure-preserving translations?
+
+A translation is accepted only under a declared scope and only where the relevant operations or predictions survive formal or adversarial test.
+
+## 2. Domain state system
+
+For a domain `D`, define
+
+```text
+D = (X, T, C, O, E, R, A)
+```
+
+where:
+
+- `X` — possible states;
+- `T` — allowed transformations;
+- `C` — constraints defining admissibility;
+- `O` — observations or projections;
+- `E` — perturbations, errors, or failures;
+- `R` — recovery or correction operations;
+- `A` — authority / precedence structure used when observations disagree.
+
+A candidate Rosetta translation `F : D1 -> D2` must declare which relations it claims to preserve.
+
+### Composition
+
+```text
+F(g ∘ f) = F(g) ∘ F(f)
+```
+
+### Invariant preservation
+
+```text
+I1(x) = I2(F(x))
+```
+
+or within an explicit tolerance.
+
+### Constraint preservation
+
+If `x` satisfies a declared constraint `c` in `D1`, the translated state must satisfy the translated constraint in `D2` under the declared scope.
+
+### Failure / recovery preservation
+
+```text
+F(R1(E1(x))) ≈ R2(E2(F(x)))
+```
+
+A mapping that only preserves vocabulary is analogy. A mapping that preserves operations and predicts failures is a candidate structural translation.
+
+## 3. Operational phenotype
+
+Let `H_t` be the complete historical record available to a long-running system at time `t`.
+
+Define an operational phenotype map
+
+```text
+I : H -> P
+```
+
+where `I(H_t)` contains the declared properties that must survive for the system to count as the same operational process for a specified task class: mission, authority, constraints, active state, commitments, unresolved failures, expected next actions, provenance, evidence references, and other frozen invariants.
+
+Two histories are phenotype-equivalent when
+
+```text
+H ~I H'  iff  I(H) = I(H')
+```
+
+or approximately
+
+```text
+d(I(H), I(H')) <= ε.
+```
+
+This partitions the historical state space into equivalence classes whose token histories may differ while their declared operational phenotype agrees.
+
+## 4. Compact / restore
+
+Define
+
+```text
+C : H -> Z
+R : Z -> H*
+```
+
+where `Z` is a much smaller explicit operational state.
+
+A restore is phenotype-preserving when
+
+```text
+I(R(C(H))) ≈ I(H).
+```
+
+A stronger phenotype-level idempotence target is
+
+```text
+C(R(C(H))) = C(H)
+```
+
+within a declared tolerance.
+
+Candidate compression objective:
+
+```text
+C* = arg min_C [ |C(H)| + λ d(I(H), I(R(C(H)))) ]
+```
+
+The compact packet is not a miniature transcript. It is an encoding of an operational equivalence class.
+
+## 5. Operational sufficiency
+
+Let `π` be the policy selecting future actions. `Z_t` is `ε`-operationally sufficient for `H_t` over a declared evaluation class when
+
+```text
+sup_a | Pπ(a | H_t) - Pπ(a | Z_t) | <= ε.
+```
+
+This intentionally resembles a sufficient statistic, but it is treated as a testable engineering property rather than assuming natural-language agent state satisfies classical statistical sufficiency.
+
+## 6. Effective temporal context
+
+Let `K` be nominal model context capacity. A recurrent compact / restore system evolves
+
+```text
+z_(t+1) = C(R(z_t) ⊕ Δ_t ⊕ P_t)
+```
+
+where `Δ_t` is newly accumulated history and `P_t` is selected state synchronized from peer lanes or durable stores.
+
+The model's active buffer remains finite while operational state can survive arbitrarily many context turnovers subject to storage, computation, and cumulative fidelity loss.
+
+Define `T_eff` as the age of the oldest event whose declared invariant contribution remains recoverable from current state within an accepted fidelity threshold.
+
+```text
+nominal context          = tokens available now
+effective temporal state = historically relevant state still represented now
+```
+
+This is the mathematical version of the long-running Archivist / Library / Swarm / Control Plane compact-restore behavior: the native context window did not become larger; the state lifetime exceeded a single context-window lifetime.
+
+## 7. Distributed projections
+
+Let `X_t` be the complete system state. No single component necessarily observes it directly.
+
+```text
+O_i(t) = P_i(X_t)
+```
+
+A reconstruction operator attempts
+
+```text
+X_hat_t = Q(O_1, O_2, ..., O_n)
+```
+
+and may only need phenotype-level fidelity:
+
+```text
+I(X_hat_t) ≈ I(X_t).
+```
+
+Useful redundancy is complementary projection redundancy, not universal token duplication.
+
+## 8. Belief state and belief lattice
+
+Let `Ω` be the set of possible complete states. Define
+
+```text
+B_t ⊆ Ω
+```
+
+as states still consistent with currently accepted evidence.
+
+Evidence narrows possibilities:
+
+```text
+B_(t+1) = B_t ∩ Consistent(E).
+```
+
+Use the reverse-inclusion knowledge order
+
+```text
+B1 ⪯ B2  iff  B1 ⊇ B2.
+```
+
+Then `P(Ω)` is a complete lattice. Greater information corresponds to fewer possible worlds.
+
+This supplies a classical mathematical interpretation of retaining multiple valid hypotheses rather than prematurely choosing one. It is not quantum superposition.
+
+### Conflict Preservation Principle — candidate
+
+If two observations are individually valid, mutually incompatible under the current model, and neither dominates by a frozen temporal or authority rule, reconciliation should preserve multiple hypotheses or return an explicit `UNRESOLVED` / `CONFLICT` disposition.
+
+## 9. Ambient constraint lattice
+
+Let
+
+```text
+Cset = {c1, c2, ..., cm}
+```
+
+be a finite declared constraint family.
+
+The power set
+
+```text
+L_C = (P(Cset), ⊆, ∩, ∪)
+```
+
+is a Boolean lattice.
+
+A concrete state maps to a satisfaction signature
+
+```text
+σ(x) = { c in Cset : x satisfies c }.
+```
+
+This provides an ambient lattice even when concrete admissible runtime states are not closed under meet and join. The executable program must test whether the observed admissible signatures form a lattice, a semilattice, or only a poset.
+
+## 10. Dual-lattice verification model
+
+The framework couples:
+
+- `L_C`: which declared constraints are satisfied?
+- `L_B`: which underlying states remain possible?
+
+Evidence updates both:
+
+```text
+(B_t, σ_t) --evidence--> (B_(t+1), σ_(t+1)).
+```
+
+This separates:
+
+```text
+what could be true?
+```
+
+from
+
+```text
+what would be admissible if it were true?
+```
+
+## 11. Semantic binding
+
+A recurring failure family is
+
+```text
+formal validity != semantic validity
+```
+
+Examples:
+
+```text
+valid signature != authorized signer
+valid signer != correct role
+valid evidence != evidence for this task
+valid proof != proof of the intended statement
+valid state artifact != current state
+valid compact packet != faithful operational phenotype
+```
+
+Define
+
+```text
+Bind(q, φ, c) ∈ {BOUND, UNBOUND, UNKNOWN}
+```
+
+where `q` is the intended claim or task, `φ` is the formal object presented as its representation, and `c` contains scope, authority, time, provenance, definitions, and task identity.
+
+Formal derivability alone
+
+```text
+⊢ φ
+```
+
+does not establish the binding relation.
+
+A cross-domain Rosetta translation must therefore answer both:
+
+1. Does the structural diagram commute?
+2. Is the translated structure still bound to the intended semantic role?
+
+## 12. Failure as a discovery operator
+
+Book 6 supplied
+
+```text
+failure -> detection -> correction -> constraint refinement -> new stable state
+```
+
+Book 7 models an update
+
+```text
+C_(t+1) = Refine(C_t, Diagnose(f_t, e_t)).
+```
+
+A patch is not automatically a structural constraint. A candidate refinement should predict a class of future failures and survive adversarial test.
+
+## 13. Causal-slice harness
+
+For one verification event define
+
+```text
+x = (q, φ, signer, role, task, challenge, time,
+     trust, evidence, provenance, verifier_state).
+```
+
+The verifier computes
+
+```text
+V(x) ∈ {VERIFIED, REJECTED, UNKNOWN, EXPIRED, CONFLICT, ...}.
+```
+
+A causal experiment compares
+
+```text
+V(x)
+```
+
+with
+
+```text
+V(x + δ_i)
+```
+
+where `δ_i` changes exactly one frozen coordinate.
+
+This is an experimental slice through a high-dimensional constraint state space. AIDE / Obscura is currently one external architecture on which these slices are tested; it is not the owner or definition of the WE Framework mathematics.
+
+## 14. First executable targets
+
+### R7-1 — context-turnover invariance
+
+Compare future decisions from a frozen full-history state with decisions from multiple compact target sizes across repeated fresh-context restores.
+
+Metrics: compression ratio, phenotype fidelity, future-action agreement, cumulative drift, recovery failures.
+
+### R7-2 — multi-lane projection reconstruction
+
+Ablate lane projections and determine the minimal reconstructive basis required after total conversational context loss.
+
+### R7-3 — valid-state conflict preservation
+
+Inject authentic but temporally inconsistent state artifacts. Require `CONFLICT` / `UNRESOLVED` until disambiguating evidence arrives.
+
+### R7-4 — authority-guided temporal reconciliation
+
+Add one frozen authoritative transition event and test whether the belief state contracts only as justified.
+
+### R7-5 — semantic-binding attack
+
+Supply a formally valid object bound to the wrong task, role, time, or intended claim.
+
+### R7-6 — lattice closure test
+
+Enumerate observed satisfaction signatures for a bounded constraint family and test meet/join closure.
+
+### R7-7 — Rosetta commutation test
+
+Freeze explicit maps and recovery / perturbation operators across two narrow domains and test the commuting condition.
+
+### R7-8 — failure-prediction transfer
+
+Predict an unobserved failure in domain B from a failure class in domain A before observing B.
+
+### R7-9 — cumulative compact drift
+
+Measure phenotype drift over many compact/restore cycles and controlled authoritative resynchronization intervals.
+
+### R7-10 — destructive restart reconstruction
+
+Terminate active contexts, restart from durable partial/conflicting projections, and compare reconstructed phenotype against an external frozen reference.
+
+## 15. Falsification conditions
+
+The program loses strength if:
+
+- formalized cross-domain mappings repeatedly fail to preserve the claimed operations;
+- failure patterns do not transfer predictively;
+- compact phenotypes do not preserve future-relevant behavior better than ordinary summaries;
+- belief-state preservation does not reduce false reconciliation;
+- constraint refinement degenerates into non-predictive patch accumulation;
+- adversarial testing shows the apparent independent constraint dimensions are implementation naming artifacts.
+
+A precise failed Rosetta mapping is preferred over a vague universal analogy.
+
+## 16. Status labels
+
+- **PROVEN MATHEMATICS** — standard mathematical property independent of WE implementation.
+- **IMPLEMENTATION EVIDENCE** — observed behavior supported by preserved system evidence.
+- **PROPOSITION CANDIDATE** — mathematically plausible statement awaiting a complete project proof.
+- **CONJECTURE** — empirical/cross-domain claim requiring experiments.
+- **ANALOGY ONLY** — resemblance without a demonstrated structure-preserving map.
+
+## 17. Immediate next work
+
+1. Freeze a concrete phenotype vector `I` from existing compact/restore evidence.
+2. Implement a bounded belief-lattice reference model.
+3. Enumerate a bounded WE/AIDE constraint family and run the closure classification.
+4. Convert one already-preserved causal experiment into a Rosetta commuting-diagram test without rerunning or rewriting its historical evidence.
+5. Keep external-system attribution explicit through bridge manifests.
