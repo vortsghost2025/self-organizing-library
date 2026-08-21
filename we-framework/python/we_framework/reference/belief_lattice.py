@@ -3,6 +3,12 @@
 For a finite universe Ω, P(Ω) under reverse inclusion is a complete lattice.
 Knowledge order: B1 <= B2 iff B1 is a superset of B2. Thus fewer possible
 worlds means more information.
+
+This is the order-dual of the ordinary powerset lattice (P(Ω), subseteq). The
+carrier is the same, but meet and join swap roles: union is meet and
+intersection is join. Book 7 couples this dualized belief lattice to a forward-
+inclusion constraint lattice, so callers must not assume the words "meet" and
+"join" denote the same set operations in both modules.
 """
 from __future__ import annotations
 
@@ -60,7 +66,11 @@ class BeliefLattice:
         return bool(self.validate(belief))
 
     def update(self, belief: Iterable[World], evidence_consistent_worlds: Iterable[World]) -> Belief:
-        """Evidence update by intersection: B' = B ∩ Consistent(E)."""
+        """Evidence update by intersection: B' = B ∩ Consistent(E).
+
+        In the reverse-inclusion knowledge lattice this operation is join: new
+        evidence moves upward toward more information (or to inconsistent top).
+        """
         b = self.validate(belief)
         e = self.validate(evidence_consistent_worlds)
         return b & e
