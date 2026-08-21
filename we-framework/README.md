@@ -77,7 +77,7 @@ Targets 1–3 are executable. The branch currently:
 - freezes a prospective holdout protocol for R7-8;
 - records established mathematical prior art without importing stronger theorem names than the WE objects justify.
 
-The Draft 0.2 reference test suite contains 15 tests and was independently re-executed during the authoring pass with all tests passing.
+The Draft 0.2 reference suite contains 15 tests. The same reference behavior was independently reconstructed and executed during the authoring pass with all 15 passing; this is authoring-session verification, not GitHub Actions CI evidence.
 
 The first evidence-reference classifier covers two narrow preserved AIDE slices. CAUSAL-8 task/challenge binding and NFM-026 signature-validity/trust-membership each form a **distributive two-element lattice** within their declared subspaces. This is not a claim that the full AIDE state space is a lattice.
 
