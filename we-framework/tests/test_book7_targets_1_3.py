@@ -1,6 +1,10 @@
 import unittest
 
-from we_framework.reference.phenotype import equivalent, phenotype
+from we_framework.reference.phenotype import (
+    COLLECTION_SEMANTICS,
+    equivalent,
+    phenotype,
+)
 from we_framework.reference.belief_lattice import BeliefLattice
 from we_framework.reference.constraint_poset import classify, sig
 
@@ -39,6 +43,12 @@ class PhenotypeTargetTests(unittest.TestCase):
         self.assertEqual(equivalent(a, b), equivalent(b, a))
         self.assertTrue(equivalent(a, b) and equivalent(b, c) and equivalent(a, c))
 
+    def test_v1_collection_fields_are_set_semantic(self):
+        other = dict(BASE)
+        other["constraints"] = ["preserve-evidence", "fail-closed", "fail-closed"]
+        self.assertEqual(COLLECTION_SEMANTICS, "set")
+        self.assertTrue(equivalent(BASE, other))
+
 
 class BeliefLatticeTargetTests(unittest.TestCase):
     def setUp(self):
@@ -66,6 +76,11 @@ class BeliefLatticeTargetTests(unittest.TestCase):
         self.assertEqual(updated, frozenset({"terminated@t2"}))
         self.assertTrue(self.L.consistent(updated))
 
+    def test_evidence_update_is_join_in_knowledge_order(self):
+        belief = {"active@t1", "terminated@t2"}
+        evidence = {"terminated@t2", "corrupt"}
+        self.assertEqual(self.L.update(belief, evidence), self.L.join(belief, evidence))
+
     def test_conflicting_evidence_can_reach_inconsistent_top(self):
         updated = self.L.update({"active@t1"}, {"terminated@t2"})
         self.assertEqual(updated, self.L.top)
@@ -84,6 +99,8 @@ class ConstraintTargetTests(unittest.TestCase):
         self.assertEqual(r.kind, "lattice")
         self.assertTrue(r.ambient_meet_closed)
         self.assertTrue(r.ambient_join_closed)
+        self.assertTrue(r.distributive)
+        self.assertIsNone(r.forbidden_sublattice_witness)
 
     def test_induced_lattice_need_not_be_ambient_closed(self):
         fam = [
@@ -98,6 +115,36 @@ class ConstraintTargetTests(unittest.TestCase):
         self.assertTrue(r.ambient_join_closed)
         self.assertTrue(r.induced_has_all_meets)
         self.assertTrue(r.induced_has_all_joins)
+        self.assertTrue(r.distributive)
+
+    def test_m3_diamond_is_lattice_but_not_distributive(self):
+        fam = [
+            sig(),
+            sig("task_binding"),
+            sig("freshness"),
+            sig("challenge_binding"),
+            sig("task_binding", "freshness", "challenge_binding"),
+        ]
+        r = classify(fam)
+        self.assertEqual(r.kind, "lattice")
+        self.assertFalse(r.distributive)
+        self.assertIsNotNone(r.distributivity_witness)
+        self.assertIsNotNone(r.forbidden_sublattice_witness)
+        self.assertEqual(r.forbidden_sublattice_witness.kind, "M3")
+
+    def test_n5_pentagon_is_lattice_but_not_distributive(self):
+        fam = [
+            sig(),
+            sig("task_binding"),
+            sig("task_binding", "freshness"),
+            sig("challenge_binding"),
+            sig("task_binding", "freshness", "challenge_binding"),
+        ]
+        r = classify(fam)
+        self.assertEqual(r.kind, "lattice")
+        self.assertFalse(r.distributive)
+        self.assertIsNotNone(r.forbidden_sublattice_witness)
+        self.assertEqual(r.forbidden_sublattice_witness.kind, "N5")
 
     def test_true_poset_when_glb_and_lub_are_not_unique_or_absent(self):
         fam = [
@@ -110,6 +157,7 @@ class ConstraintTargetTests(unittest.TestCase):
         self.assertEqual(r.kind, "poset")
         self.assertFalse(r.induced_has_all_meets)
         self.assertFalse(r.induced_has_all_joins)
+        self.assertIsNone(r.distributive)
 
 
 class EvidenceBackedAideSliceTests(unittest.TestCase):
@@ -128,6 +176,7 @@ class EvidenceBackedAideSliceTests(unittest.TestCase):
         )
         self.assertEqual(r8.kind, "lattice")
         self.assertTrue(r8.ambient_meet_closed and r8.ambient_join_closed)
+        self.assertTrue(r8.distributive)
 
         nfm26 = by_id["nfm-026-trust-store-divergence"]
         r26 = classify(
@@ -136,6 +185,7 @@ class EvidenceBackedAideSliceTests(unittest.TestCase):
         )
         self.assertEqual(r26.kind, "lattice")
         self.assertTrue(r26.ambient_meet_closed and r26.ambient_join_closed)
+        self.assertTrue(r26.distributive)
 
 
 if __name__ == "__main__":
