@@ -239,6 +239,7 @@ we-framework/python/we_framework/reference/belief_lattice.py
 we-framework/python/we_framework/reference/constraint_poset.py
 we-framework/python/we_framework/tools/classify_aide_signatures.py
 we-framework/tests/test_book7_targets_1_3.py
+we-framework/tests/test_r7_6_real_evidence.py
 ```
 
 Canonical Python package import:
@@ -257,32 +258,14 @@ PYTHONPATH=we-framework/python python -m unittest discover -s we-framework/tests
 
 ## Verification result
 
-The Draft 0.2 reference logic was independently reconstructed and executed in the authoring session after the changes:
+The original Draft 0.2 reference logic was independently reconstructed and executed in the authoring session after the initial hardening:
 
 ```text
 Ran 15 tests
 OK
 ```
 
-This is an authoring-session verification of the reference behavior, not a GitHub Actions CI result. The PR remains draft and its deployment workflow status must not be used as proof of these tests.
-
-Coverage now includes:
-
-- phenotype invariance under non-declared transcript noise;
-- phenotype divergence after a declared invariant changes;
-- reflexive/symmetric/transitive fixture checks for exact `~I`;
-- explicit v1 set semantics for collection fields;
-- reverse-inclusion belief ordering;
-- correct meet/join/bottom/top definitions;
-- evidence narrowing;
-- evidence update = join in the knowledge order;
-- contradiction reaching empty belief rather than fabricated certainty;
-- ambient Boolean sublattice closure;
-- induced lattice without ambient meet closure;
-- explicit `M3` nondistributivity witness;
-- explicit `N5` nondistributivity witness;
-- a true poset fixture lacking pairwise GLB/LUB;
-- two evidence-backed AIDE slices classified without a global-lattice overclaim.
+This is an authoring-session verification of the reference behavior, not a GitHub Actions CI result. Three additional real-evidence tests are now committed and remain **pending explicit local or CI execution** before the project may claim an 18-test PASS.
 
 ## What is proven versus pending
 
@@ -306,30 +289,108 @@ Coverage now includes:
 - that a larger observed WE/AIDE lattice is distributive or non-distributive;
 - that any cross-domain Rosetta translation is valid.
 
-## First evidence-backed classifications
+## Evidence projection rule — FALSE is not UNKNOWN
 
-A read-only reference extraction from the preserved AIDE continuity record produced two deliberately narrow slices in `we-framework/evidence/aide-observed-signatures-v1.json`. No frozen experiment was rerun and no AIDE evidence artifact was copied or modified.
+A frozen external case is projected into a Boolean satisfaction signature only when every declared coordinate of that slice is directly supported for every included case.
 
 ```text
-CAUSAL-8 task/challenge binding
-2 cases, 2 unique signatures
-classification: lattice
-distributive: true
-ambient meet closed: true
-ambient join closed: true
-
-NFM-026 signature-validity/trust-membership
-6 cases, 2 unique signatures
-classification: lattice
-distributive: true
-ambient meet closed: true
-ambient join closed: true
+FALSE   = evidence supports failure of the declared constraint
+UNKNOWN = the experiment did not establish that coordinate
 ```
 
-These results establish only that each bounded two-signature slice forms a distributive two-element lattice under its explicitly declared constraint subspace. They **do not** establish that AIDE as a whole, the full ten-dimensional constraint family, or all observed admissible states form a lattice.
+`UNKNOWN` must never be encoded as simple absence from a Boolean signature merely to align dimensions. Doing so would collapse epistemic uncertainty into constraint failure and silently mix the `L_B` knowledge problem with the `L_C` satisfaction problem.
 
-The next evidence step is to extract additional preserved cases only where the relevant per-case dimensions can be justified directly, then test unions of bounded slices to discover the first missing closure, GLB/LUB, or distributivity witness.
+## Evidence-backed classifications
+
+The original read-only extraction produced narrow distributive two-element lattices for CAUSAL-8 task/challenge binding and NFM-026 signature-validity/trust-membership.
+
+The CAUSAL-9 / CAUSAL-9B read-only expansion adds seven local two-case axes that also classify as distributive two-element lattices in their declared subspaces:
+
+- CAUSAL-9 issuer identity;
+- CAUSAL-9 algorithm binding;
+- CAUSAL-9 role authorization;
+- CAUSAL-9 task/challenge binding;
+- CAUSAL-9B current-authority binding;
+- CAUSAL-9B role authorization;
+- CAUSAL-9B rotation-state validity.
+
+These local results do not establish a global lattice.
+
+## First multi-axis real-data break
+
+Across all five frozen CAUSAL-9 cases, the common directly evidenced coordinate domain is:
+
+```text
+signature_validity
+issuer_identity
+algorithm_binding
+task_binding
+challenge_binding
+```
+
+The five cases collapse to four unique observed signatures. Their induced order classifies as:
+
+```text
+kind                  = join-semilattice
+ambient meet closed   = false
+ambient join closed   = true
+all induced meets     = false
+all induced joins     = true
+distributivity        = not applicable
+```
+
+Representative missing meet signatures are:
+
+```text
+{signature_validity, algorithm_binding}
+{signature_validity, task_binding, challenge_binding}
+{signature_validity, issuer_identity}
+```
+
+No alternative observed GLB exists for the corresponding pairs.
+
+This is an **observed-family** result. It does not prove that the full AIDE admissible state space lacks meets. The missing signatures correspond to joint-failure combinations not exercised by the frozen one-shot CAUSAL-9 matrix; the current break is therefore also an experimental-coverage / observability finding.
+
+No real `M3` or `N5` witness has been observed. The combined CAUSAL-9 family fails the lattice prerequisite before distributivity is reached.
+
+## Cross-slice gluing gate
+
+The intended union
+
+```text
+CAUSAL-8 ∪ CAUSAL-9 ∪ CAUSAL-9B ∪ NFM-026
+```
+
+cannot yet be classified as one satisfaction poset without inventing values. The whole-experiment common coordinate domains are:
+
+```text
+CAUSAL-8  = {task_binding, challenge_binding}
+CAUSAL-9  = {signature_validity, issuer_identity, algorithm_binding,
+             task_binding, challenge_binding}
+CAUSAL-9B = {signature_validity}
+NFM-026   = {signature_validity, trust_state_membership}
+```
+
+Their total intersection is empty. The global satisfaction-poset classification is therefore:
+
+```text
+UNDERDETERMINED
+```
+
+rather than `lattice`, `semilattice`, or `poset`.
+
+A heterogeneous union may be promoted to one global constraint-order claim only if at least one of these gates is satisfied:
+
+1. a non-empty jointly observed coordinate domain across all included cases;
+2. same-state observations that bridge the local coordinate charts;
+3. a separately frozen and justified gluing rule, with synthetic combinations explicitly labeled inferred rather than observed.
+
+A three-valued `TRUE/FALSE/UNKNOWN` product can be studied separately as an epistemic structure, but it is not a drop-in replacement for the Boolean satisfaction poset because that would erase the `L_B` / `L_C` typing boundary.
 
 ## Prior-art map
 
 See [`../theory/PRIOR-ART.md`](../theory/PRIOR-ART.md). The document deliberately uses “adjacent to” rather than importing stronger theorem names when WE's current objects do not satisfy the classical hypotheses.
+
+## Evidence checkpoint
+
+See [`../evidence/R7-6-REAL-DATA-CHECKPOINT-2026-08-21.md`](../evidence/R7-6-REAL-DATA-CHECKPOINT-2026-08-21.md) for the immutable-reference identities, the observed signatures, missing-meet witnesses, and the explicit scope boundary.
