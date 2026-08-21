@@ -52,6 +52,8 @@ See:
 
 This is an **observed-family** result. It does not establish that the full AIDE admissible state space lacks meets. The missing meet signatures correspond to joint-failure combinations that the frozen matrix did not exercise.
 
+The corresponding three real-evidence test assertions are committed in `../tests/test_r7_6_real_evidence.py` but have not yet been executed in the repository or CI. Do not label them PASS until an explicit run is preserved.
+
 ## Cross-slice UNKNOWN / gluing gate
 
 A direct union of CAUSAL-8, CAUSAL-9, CAUSAL-9B, and NFM-026 cannot yet be classified as one satisfaction poset without inventing values. Their whole-experiment common coordinate domains have an empty total intersection.
