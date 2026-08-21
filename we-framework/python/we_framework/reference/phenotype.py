@@ -3,6 +3,10 @@
 The model is intentionally explicit: it does not infer phenotype fields from prose.
 A caller must supply the declared invariant vector. This keeps the mathematical
 object testable and separates semantic fidelity from token overlap.
+
+Version-1 collection semantics are SET semantics: ordering and duplicate copies of
+the same normalized label are intentionally discarded. If multiplicity becomes
+future-relevant, that is a schema change rather than a silent reinterpretation.
 """
 from __future__ import annotations
 
@@ -12,6 +16,7 @@ import json
 from typing import Any, Iterable, Mapping
 
 SCHEMA_VERSION = "we.phenotype/v1"
+COLLECTION_SEMANTICS = "set"
 
 # Frozen Book-7 v1 invariant vector. These are the fields whose preservation is
 # required for two bounded histories to count as operationally equivalent.
@@ -28,7 +33,8 @@ PHENOTYPE_FIELDS = (
 )
 
 
-def _stable_tuple(values: Iterable[str]) -> tuple[str, ...]:
+def _stable_set_tuple(values: Iterable[str]) -> tuple[str, ...]:
+    """Canonicalize a v1 set-semantic collection into deterministic tuple form."""
     return tuple(sorted({str(v).strip() for v in values if str(v).strip()}))
 
 
@@ -65,6 +71,9 @@ def phenotype(history: Mapping[str, Any]) -> OperationalPhenotype:
     Unknown fields are deliberately ignored: transcript wording, repeated
     explanations, timestamps not declared as invariants, and other human noise
     do not alter the phenotype unless they change one of the frozen fields.
+
+    All v1 collection fields use set semantics. Reordering or duplicating the
+    same normalized label therefore does not change the phenotype.
     """
     missing = [field for field in PHENOTYPE_FIELDS if field not in history]
     if missing:
@@ -77,14 +86,14 @@ def phenotype(history: Mapping[str, Any]) -> OperationalPhenotype:
     return OperationalPhenotype(
         schema_version=SCHEMA_VERSION,
         mission=mission,
-        authority_bindings=_stable_tuple(history["authority_bindings"]),
-        constraints=_stable_tuple(history["constraints"]),
-        active_work_items=_stable_tuple(history["active_work_items"]),
-        commitments=_stable_tuple(history["commitments"]),
-        unresolved_failures=_stable_tuple(history["unresolved_failures"]),
-        next_actions=_stable_tuple(history["next_actions"]),
-        provenance_refs=_stable_tuple(history["provenance_refs"]),
-        evidence_refs=_stable_tuple(history["evidence_refs"]),
+        authority_bindings=_stable_set_tuple(history["authority_bindings"]),
+        constraints=_stable_set_tuple(history["constraints"]),
+        active_work_items=_stable_set_tuple(history["active_work_items"]),
+        commitments=_stable_set_tuple(history["commitments"]),
+        unresolved_failures=_stable_set_tuple(history["unresolved_failures"]),
+        next_actions=_stable_set_tuple(history["next_actions"]),
+        provenance_refs=_stable_set_tuple(history["provenance_refs"]),
+        evidence_refs=_stable_set_tuple(history["evidence_refs"]),
     )
 
 
