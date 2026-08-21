@@ -57,7 +57,16 @@ A precise failed mapping is a successful result.
 - `harness/` — causal-slice and falsification methodology.
 - `experiments/` — WE Framework experiment registry.
 - `bridges/` — external-system adapters and attribution boundaries.
-- `evidence/` — evidence-index policy; no copied immutable evidence by default.
+- `evidence/` — evidence-index policy and bounded evidence-reference extractions; immutable external evidence is not copied by default.
+- `python/` — dependency-free executable reference mathematics.
+- `specs/` — bounded executable specifications and proof-status boundaries.
+- `tests/` — verification tests for executable targets.
+
+## Current Book 7 checkpoint
+
+Targets 1–3 are executable. The branch currently freezes a nine-field operational phenotype, implements the finite reverse-inclusion belief lattice, and distinguishes ambient Boolean sublattice closure from lattice structure in the induced observed constraint order.
+
+The first evidence-reference classifier covers two narrow preserved AIDE slices. CAUSAL-8 task/challenge binding and NFM-026 signature-validity/trust-membership each form a two-element lattice within their declared subspaces. This is not a claim that the full AIDE state space is a lattice.
 
 ## Status
 
