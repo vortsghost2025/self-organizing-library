@@ -31,12 +31,38 @@ Current derived index:
 
 `aide-observed-signatures-v1.json`
 
-It contains two bounded slices:
+It now contains bounded slices from:
 
 - CAUSAL-8 task/challenge binding;
+- CAUSAL-9 issuer identity, algorithm binding, role authorization, task/challenge binding, plus a five-coordinate common projection;
+- CAUSAL-9B current-authority binding, role authorization, and rotation-state validity;
 - NFM-026 signature validity / trust-state membership.
 
-Each currently classifies as a two-element lattice **inside that declared subspace only**. This does not classify the full AIDE system or its complete admissible-state family.
+Every slice is typed by its own declared constraint domain. Coordinates that are not directly evidenced for every case in a slice remain **UNKNOWN** and are omitted; they are never encoded as failed constraints merely to make dimensions line up.
+
+## First real-data multi-axis result
+
+The local CAUSAL-9 and CAUSAL-9B adversarial axes each classify as distributive two-element lattices in their narrow declared subspaces.
+
+The five-coordinate CAUSAL-9 common projection is different: its four unique observed signatures form a **join-semilattice**, not a lattice. Ambient joins are present, while several required meets are absent from the observed family and no alternative observed GLB exists.
+
+See:
+
+`R7-6-REAL-DATA-CHECKPOINT-2026-08-21.md`
+
+This is an **observed-family** result. It does not establish that the full AIDE admissible state space lacks meets. The missing meet signatures correspond to joint-failure combinations that the frozen matrix did not exercise.
+
+## Cross-slice UNKNOWN / gluing gate
+
+A direct union of CAUSAL-8, CAUSAL-9, CAUSAL-9B, and NFM-026 cannot yet be classified as one satisfaction poset without inventing values. Their whole-experiment common coordinate domains have an empty total intersection.
+
+Therefore the current global result is:
+
+`UNDERDETERMINED`
+
+not `lattice`, `semilattice`, or `poset`.
+
+Book 7 deliberately does not convert UNKNOWN into FALSE. A three-valued knowledge structure would belong to the epistemic side of the model and must not be silently substituted for the constraint-satisfaction order.
 
 ## Book 7 status labels
 
