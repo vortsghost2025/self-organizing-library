@@ -5,7 +5,7 @@
     "drive_document_id": "1NidafnI63EaDmQTGG4KL75D_LKjcS5z6Pm5oaefcDlM",
     "title": "SESSION_HANDOFF — AIDE Provider Test Env Isolation — 2026-08-20",
     "mode": "read-only evidence-reference extraction",
-    "warning": "This index does not copy or mutate frozen AIDE evidence. It records only bounded signatures justified by the cited preserved checkpoints."
+    "warning": "This index does not copy or mutate frozen AIDE evidence. Every slice contains only coordinates directly evidenced for every case in that slice; UNKNOWN coordinates are omitted rather than encoded as false."
   },
   "slices": [
     {
@@ -26,6 +26,200 @@
           "id": "byte-identical-task-a-replay-under-task-b",
           "signature": [],
           "basis": "Task-A identity and challenge both differ from Task-B; exact current-task/challenge binding REJECTED the replay."
+        }
+      ]
+    },
+    {
+      "id": "causal-9-issuer-identity",
+      "constraints": ["signature_validity", "issuer_identity"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\authority-issuer-binding-v1",
+        "producer@09fe611aef3c49999a37730811a8822bde947e41",
+        "matrix-sha256:5a551561ea025e34745195af832cd7911ac248cff21f32a17e08104ff58abcc5",
+        "policy-sha256:f237c902f2999220316561d9db19fcb8ba1bd3080a6d729f24b94951f43cf7eb"
+      ],
+      "cases": [
+        {
+          "id": "A-attacker-bundled-key",
+          "signature": ["signature_validity"],
+          "basis": "Bundled attacker signature is cryptographically accepted by the naive verifier; hardened verifier rejects issuer-mismatch."
+        },
+        {
+          "id": "B-trusted-current-task",
+          "signature": ["signature_validity", "issuer_identity"],
+          "basis": "Trusted coordinator authority control verifies under the pinned issuer/key policy."
+        }
+      ]
+    },
+    {
+      "id": "causal-9-algorithm-binding",
+      "constraints": ["signature_validity", "algorithm_binding"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\authority-issuer-binding-v1",
+        "producer@09fe611aef3c49999a37730811a8822bde947e41",
+        "matrix-sha256:5a551561ea025e34745195af832cd7911ac248cff21f32a17e08104ff58abcc5"
+      ],
+      "cases": [
+        {
+          "id": "B-trusted-current-task",
+          "signature": ["signature_validity", "algorithm_binding"],
+          "basis": "Trusted control declares Ed25519 consistently with the pinned key/policy and verifies."
+        },
+        {
+          "id": "E-trusted-key-conflicting-algorithm",
+          "signature": ["signature_validity"],
+          "basis": "Naive verifier accepts the cryptographic signature while ignoring conflicting rsa-sha256 metadata; hardened verifier rejects algorithm-mismatch."
+        }
+      ]
+    },
+    {
+      "id": "causal-9-role-binding",
+      "constraints": ["signature_validity", "role_authorization"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\authority-issuer-binding-v1",
+        "producer@09fe611aef3c49999a37730811a8822bde947e41",
+        "matrix-sha256:5a551561ea025e34745195af832cd7911ac248cff21f32a17e08104ff58abcc5"
+      ],
+      "cases": [
+        {
+          "id": "B-trusted-current-task",
+          "signature": ["signature_validity", "role_authorization"],
+          "basis": "Trusted authority-signing control verifies."
+        },
+        {
+          "id": "D-known-witness-wrong-role",
+          "signature": ["signature_validity"],
+          "basis": "Known world-witness key has a valid signature but is rejected when used in the authority-signing role."
+        }
+      ]
+    },
+    {
+      "id": "causal-9-task-challenge-binding",
+      "constraints": ["task_binding", "challenge_binding"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\authority-issuer-binding-v1",
+        "producer@09fe611aef3c49999a37730811a8822bde947e41",
+        "matrix-sha256:5a551561ea025e34745195af832cd7911ac248cff21f32a17e08104ff58abcc5"
+      ],
+      "cases": [
+        {
+          "id": "B-trusted-current-task",
+          "signature": ["task_binding", "challenge_binding"],
+          "basis": "Trusted control is bound to current Task B and its challenge."
+        },
+        {
+          "id": "C-trusted-stale-task",
+          "signature": [],
+          "basis": "Trusted Task-A decision is rejected under current Task B because the task/challenge context differs."
+        }
+      ]
+    },
+    {
+      "id": "causal-9-combined-common-projection",
+      "constraints": ["signature_validity", "issuer_identity", "algorithm_binding", "task_binding", "challenge_binding"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\authority-issuer-binding-v1",
+        "producer@09fe611aef3c49999a37730811a8822bde947e41",
+        "evidence-note-sha256:74f6211720af1f5c10d3b2cfe51999c1b3a175ddff443777db283974fc263ca7",
+        "matrix-sha256:5a551561ea025e34745195af832cd7911ac248cff21f32a17e08104ff58abcc5",
+        "report-sha256:589b2d4154831997f85abd2fcea648093389c15cec34987d5e3e5ad7c5cd5bcc",
+        "policy-sha256:f237c902f2999220316561d9db19fcb8ba1bd3080a6d729f24b94951f43cf7eb"
+      ],
+      "cases": [
+        {
+          "id": "A-attacker-bundled-key",
+          "signature": ["signature_validity", "algorithm_binding", "task_binding", "challenge_binding"],
+          "basis": "Signature valid; current Task-B/challenge and Ed25519 declaration are directly evidenced; pinned issuer identity fails."
+        },
+        {
+          "id": "B-trusted-current-task",
+          "signature": ["signature_validity", "issuer_identity", "algorithm_binding", "task_binding", "challenge_binding"],
+          "basis": "Positive control satisfies all five jointly observed coordinates."
+        },
+        {
+          "id": "C-trusted-stale-task",
+          "signature": ["signature_validity", "issuer_identity", "algorithm_binding"],
+          "basis": "Trusted issuer/key and Ed25519 signature are valid, but current Task-B/challenge binding fails."
+        },
+        {
+          "id": "D-known-witness-wrong-role",
+          "signature": ["signature_validity", "issuer_identity", "algorithm_binding", "task_binding", "challenge_binding"],
+          "basis": "Known witness issuer/key is recognized and Ed25519/current Task-B context matches; role is deliberately omitted from this projection because role is a separate coordinate."
+        },
+        {
+          "id": "E-trusted-key-conflicting-algorithm",
+          "signature": ["signature_validity", "issuer_identity", "task_binding", "challenge_binding"],
+          "basis": "Trusted issuer/current Task-B signature remains cryptographically valid while the declared algorithm conflicts and is rejected by hardened binding."
+        }
+      ],
+      "expected_classification": {
+        "kind": "join-semilattice",
+        "ambient_meet_closed": false,
+        "ambient_join_closed": true,
+        "note": "Observed-family classification only. Missing meets correspond to unobserved joint failure combinations, not proof that the full admissible state space lacks meets."
+      }
+    },
+    {
+      "id": "causal-9b-current-authority-binding",
+      "constraints": ["signature_validity", "current_authority_binding"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\key-rotation-binding-v1",
+        "contract@1216b75892b99a362006b6aa32222c2398f3d9e3",
+        "producer@81a3112f7523b904bfd713d7d452bc9e0eb33d97",
+        "matrix-sha256:250c3b27fb6f1f6fe336f993af1ba53d6cb1dd369f3bb427600e01de6eb8a428"
+      ],
+      "cases": [
+        {
+          "id": "H-trusted-predecessor-control",
+          "signature": ["signature_validity", "current_authority_binding"],
+          "basis": "Trusted predecessor grants the successor; naive and hardened both verify."
+        },
+        {
+          "id": "S-successor-self-grant",
+          "signature": ["signature_validity"],
+          "basis": "All required signatures are valid, but hardened verification rejects issuer-not-current-authority."
+        }
+      ]
+    },
+    {
+      "id": "causal-9b-role-binding",
+      "constraints": ["signature_validity", "role_authorization"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\key-rotation-binding-v1",
+        "producer@81a3112f7523b904bfd713d7d452bc9e0eb33d97",
+        "matrix-sha256:250c3b27fb6f1f6fe336f993af1ba53d6cb1dd369f3bb427600e01de6eb8a428"
+      ],
+      "cases": [
+        {
+          "id": "H-trusted-predecessor-control",
+          "signature": ["signature_validity", "role_authorization"],
+          "basis": "Positive control authorizes authority-signing and verifies."
+        },
+        {
+          "id": "R-predecessor-grants-wrong-role",
+          "signature": ["signature_validity"],
+          "basis": "Cryptographically valid predecessor grant is rejected because world-witness does not authorize authority-signing."
+        }
+      ]
+    },
+    {
+      "id": "causal-9b-rotation-state",
+      "constraints": ["signature_validity", "rotation_state_validity"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\key-rotation-binding-v1",
+        "producer@81a3112f7523b904bfd713d7d452bc9e0eb33d97",
+        "matrix-sha256:250c3b27fb6f1f6fe336f993af1ba53d6cb1dd369f3bb427600e01de6eb8a428"
+      ],
+      "cases": [
+        {
+          "id": "H-trusted-predecessor-control",
+          "signature": ["signature_validity", "rotation_state_validity"],
+          "basis": "Positive-control successor lifecycle is predecessor-authorized and valid."
+        },
+        {
+          "id": "V-revoked-successor-inside-original-window",
+          "signature": ["signature_validity"],
+          "basis": "Successor signature remains cryptographically valid and inside original grant interval, but effective revocation makes lifecycle state invalid."
         }
       ]
     },
@@ -73,5 +267,16 @@
         }
       ]
     }
-  ]
+  ],
+  "cross_slice_gate": {
+    "primary_experiment_common_domains": {
+      "CAUSAL-8": ["task_binding", "challenge_binding"],
+      "CAUSAL-9": ["signature_validity", "issuer_identity", "algorithm_binding", "task_binding", "challenge_binding"],
+      "CAUSAL-9B": ["signature_validity"],
+      "NFM-026": ["signature_validity", "trust_state_membership"]
+    },
+    "all_experiment_intersection": [],
+    "global_union_classification": "UNDERDETERMINED",
+    "reason": "There is no non-empty constraint domain jointly observed across every case family. Treating an unobserved coordinate as false would collapse UNKNOWN into constraint failure and conflate epistemic state with satisfaction state."
+  }
 }
