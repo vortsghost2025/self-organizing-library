@@ -56,10 +56,13 @@ def classify_index(path: Path) -> dict:
                 ),
             }
         )
+
+    gate = payload.get("cross_slice_gate")
     return {
-        "schema": "we.aide-signature-classification/v2",
+        "schema": "we.aide-signature-classification/v3",
         "source_schema": payload["schema"],
         "results": results,
+        "cross_slice_gate": gate,
     }
 
 
