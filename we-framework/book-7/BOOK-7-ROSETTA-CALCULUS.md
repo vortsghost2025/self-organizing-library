@@ -568,12 +568,14 @@ The bounded reference implementation now includes:
 - evidence-reference indexing for preserved AIDE cases;
 - fifteen dependency-free unit tests.
 
-The Draft 0.2 reference logic was independently executed in the authoring session:
+The same Draft 0.2 reference behavior was independently reconstructed and executed in the authoring session:
 
 ```text
 Ran 15 tests
 OK
 ```
+
+This is authoring-session verification of the reference logic, not GitHub Actions CI evidence.
 
 The two narrow preserved AIDE slices remain:
 
