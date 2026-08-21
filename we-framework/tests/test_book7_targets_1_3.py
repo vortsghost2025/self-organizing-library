@@ -1,0 +1,108 @@
+import unittest
+
+from we_framework.reference.phenotype import equivalent, phenotype
+from we_framework.reference.belief_lattice import BeliefLattice
+from we_framework.reference.constraint_poset import classify, sig
+
+
+BASE = {
+    "mission": "preserve verified operational continuity",
+    "authority_bindings": ["human:final-authority", "library:state-custodian"],
+    "constraints": ["fail-closed", "preserve-evidence"],
+    "active_work_items": ["book7-r7-1"],
+    "commitments": ["do-not-rewrite-frozen-evidence"],
+    "unresolved_failures": ["relay-target-identity"],
+    "next_actions": ["classify-bounded-constraint-space"],
+    "provenance_refs": ["commit:c64bc6ec"],
+    "evidence_refs": ["drive:book7-draft"],
+    "transcript_noise": "this field is deliberately outside the phenotype",
+}
+
+
+class PhenotypeTargetTests(unittest.TestCase):
+    def test_noise_can_change_without_changing_phenotype(self):
+        other = dict(BASE)
+        other["transcript_noise"] = "completely different wording"
+        self.assertTrue(equivalent(BASE, other))
+        self.assertEqual(phenotype(BASE).fingerprint(), phenotype(other).fingerprint())
+
+    def test_declared_invariant_change_breaks_equivalence(self):
+        other = dict(BASE)
+        other["constraints"] = ["fail-closed", "preserve-evidence", "freshness-required"]
+        self.assertFalse(equivalent(BASE, other))
+
+    def test_equivalence_relation_on_fixture_triplet(self):
+        a = dict(BASE)
+        b = dict(BASE, transcript_noise="B")
+        c = dict(BASE, transcript_noise="C")
+        self.assertTrue(equivalent(a, a))
+        self.assertEqual(equivalent(a, b), equivalent(b, a))
+        self.assertTrue(equivalent(a, b) and equivalent(b, c) and equivalent(a, c))
+
+
+class BeliefLatticeTargetTests(unittest.TestCase):
+    def setUp(self):
+        self.L = BeliefLattice({"active@t1", "terminated@t2", "corrupt"})
+
+    def test_reverse_inclusion_order_and_bounds(self):
+        total = self.L.universe
+        narrowed = frozenset({"active@t1", "terminated@t2"})
+        self.assertTrue(self.L.leq(total, narrowed))
+        self.assertEqual(self.L.bottom, total)
+        self.assertEqual(self.L.top, frozenset())
+
+    def test_meet_and_join(self):
+        a = {"active@t1", "terminated@t2"}
+        b = {"terminated@t2", "corrupt"}
+        self.assertEqual(self.L.meet(a, b), frozenset({"active@t1", "terminated@t2", "corrupt"}))
+        self.assertEqual(self.L.join(a, b), frozenset({"terminated@t2"}))
+
+    def test_evidence_narrows_without_guessing(self):
+        belief = {"active@t1", "terminated@t2"}
+        updated = self.L.update(belief, {"terminated@t2", "corrupt"})
+        self.assertEqual(updated, frozenset({"terminated@t2"}))
+        self.assertTrue(self.L.consistent(updated))
+
+    def test_conflicting_evidence_can_reach_inconsistent_top(self):
+        updated = self.L.update({"active@t1"}, {"terminated@t2"})
+        self.assertEqual(updated, self.L.top)
+        self.assertFalse(self.L.consistent(updated))
+
+
+class ConstraintTargetTests(unittest.TestCase):
+    def test_boolean_subfamily_is_ambient_sublattice(self):
+        fam = [sig(), sig("task_binding"), sig("freshness"), sig("task_binding", "freshness")]
+        r = classify(fam)
+        self.assertEqual(r.kind, "lattice")
+        self.assertTrue(r.ambient_meet_closed)
+        self.assertTrue(r.ambient_join_closed)
+
+    def test_induced_lattice_need_not_be_ambient_closed(self):
+        fam = [
+            sig(),
+            sig("task_binding", "freshness"),
+            sig("task_binding", "challenge_binding"),
+            sig("task_binding", "freshness", "challenge_binding"),
+        ]
+        r = classify(fam)
+        self.assertEqual(r.kind, "lattice")
+        self.assertFalse(r.ambient_meet_closed)
+        self.assertTrue(r.ambient_join_closed)
+        self.assertTrue(r.induced_has_all_meets)
+        self.assertTrue(r.induced_has_all_joins)
+
+    def test_true_poset_when_glb_and_lub_are_not_unique_or_absent(self):
+        fam = [
+            sig("task_binding"),
+            sig("freshness"),
+            sig("task_binding", "freshness", "challenge_binding"),
+            sig("task_binding", "freshness", "role_authorization"),
+        ]
+        r = classify(fam)
+        self.assertEqual(r.kind, "poset")
+        self.assertFalse(r.induced_has_all_meets)
+        self.assertFalse(r.induced_has_all_joins)
+
+
+if __name__ == "__main__":
+    unittest.main()
