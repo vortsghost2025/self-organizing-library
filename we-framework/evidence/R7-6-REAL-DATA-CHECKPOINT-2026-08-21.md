@@ -185,6 +185,30 @@ Before combining heterogeneous experiment slices into one constraint-poset claim
 
 Until then, local classifications remain valid and the global structure remains underdetermined.
 
+## Exact branch verification
+
+After the real-evidence assertions were committed, the exact GitHub branch was cloned into a disposable temporary directory and executed independently of the user's existing working tree.
+
+```text
+repository  vortsghost2025/self-organizing-library
+branch      book7/we-framework-rosetta-calculus
+HEAD        29ef942d1923267bcd21db7f8ed6ce0115b871f1
+command     python -m unittest discover -s we-framework/tests -v
+result      Ran 18 tests in 0.007s — OK
+```
+
+All 18 tests passed, including the three real-evidence assertions:
+
+```text
+test_causal9_combined_common_projection_is_join_semilattice       PASS
+test_causal9_local_axes_are_two_element_distributive_lattices     PASS
+test_global_union_gate_preserves_unknown_instead_of_imputing_false PASS
+```
+
+The temporary clone was removed after execution. This is exact-branch local verification supplied from the user's machine; it is not GitHub Actions CI evidence.
+
+Subsequent documentation-only commits do not alter the executable files validated at `29ef942d1923267bcd21db7f8ed6ce0115b871f1`.
+
 ## Current result
 
 The first real-data expansion therefore produced **both** outcomes we wanted:
@@ -193,3 +217,5 @@ The first real-data expansion therefore produced **both** outcomes we wanted:
 2. the first multi-axis CAUSAL-9 observed family breaks from lattice to **join-semilattice** because meet witnesses are absent.
 
 No real `M3` or `N5` witness has been observed. Distributivity is not reached for the combined CAUSAL-9 family because the lattice prerequisite already fails.
+
+The next step is prospective rather than retrospective: freeze predictions for the missing meet states before constructing or executing any new AIDE cases.
