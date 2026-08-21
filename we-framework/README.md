@@ -77,7 +77,15 @@ Targets 1–3 are executable. The branch currently:
 - freezes a prospective holdout protocol for R7-8;
 - records established mathematical prior art without importing stronger theorem names than the WE objects justify.
 
-The original Draft 0.2 reference suite contains 15 tests and previously passed in an independent authoring-session reconstruction. Three additional real-evidence assertions are now committed for the CAUSAL-9/9B expansion; they still require an explicit local or CI execution before being labeled PASS.
+Exact executable checkpoint:
+
+```text
+head   29ef942d1923267bcd21db7f8ed6ce0115b871f1
+tests  18/18 PASS
+mode   disposable exact-branch clone on the user's machine
+```
+
+That is local exact-branch verification, not GitHub Actions CI. Documentation-only commits after that checkpoint do not alter the executable files that were tested.
 
 ## First real-data expansion
 
@@ -97,6 +105,18 @@ This is the first evidence-backed point where a multi-axis observed family stops
 The attempted four-experiment union is also correctly blocked: CAUSAL-8, CAUSAL-9, CAUSAL-9B, and NFM-026 have no non-empty coordinate domain observed across every case family. Missing coordinates remain `UNKNOWN`; they are not silently converted to failed constraints. The global satisfaction-poset classification is therefore **UNDERDETERMINED** until bridging observations or a separately justified gluing rule exist.
 
 See `evidence/R7-6-REAL-DATA-CHECKPOINT-2026-08-21.md`.
+
+## Prospective R7-6C prediction
+
+Before constructing any new CAUSAL-9 completion cases, Book 7 freezes the missing-meet prediction in:
+
+`experiments/R7-6C-MISSING-MEET-PREREGISTRATION.md`
+
+Relative to the three varying axes `issuer_identity`, `algorithm_binding`, and the observed composite `task_binding ∧ challenge_binding`, the current four unique signatures are the top plus the three coatoms of a candidate Boolean `B3`.
+
+The preregistered prediction is that four joint-failure cases will realize the three missing atoms plus the bottom. If that occurs, the augmented eight-signature family will be an ambient-closed, distributive Boolean lattice isomorphic to `B3`, with `signature_validity` invariant across all eight states.
+
+This is **not yet observed**. Failure to realize those signatures is equally valuable because it identifies hidden coupling or a missing coordinate.
 
 ## Status
 
