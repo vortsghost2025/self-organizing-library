@@ -197,6 +197,8 @@ B1 ⪯ B2  iff  B1 ⊇ B2.
 
 Then `P(Ω)` is a complete lattice. Greater information corresponds to fewer possible worlds.
 
+The formal top of the full lattice is the empty belief `∅`, representing inconsistency: no world remains possible. A singleton `{x}` is instead a maximal consistent belief, representing one resolved possible world.
+
 This supplies a classical mathematical interpretation of retaining multiple valid hypotheses rather than prematurely choosing one. It is not quantum superposition.
 
 ### Conflict Preservation Principle — candidate
@@ -227,7 +229,7 @@ A concrete state maps to a satisfaction signature
 σ(x) = { c in Cset : x satisfies c }.
 ```
 
-This provides an ambient lattice even when concrete admissible runtime states are not closed under meet and join. The executable program must test whether the observed admissible signatures form a lattice, a semilattice, or only a poset.
+This provides an ambient lattice even when concrete admissible runtime states are not closed under ambient intersection and union. The executable program therefore distinguishes two questions: whether observed signatures form a sublattice of the ambient Boolean lattice, and whether the induced observed order has its own pairwise greatest lower bounds and least upper bounds. The latter determines whether the observed family is a lattice, semilattice, or only a poset.
 
 ## 10. Dual-lattice verification model
 
@@ -367,7 +369,7 @@ Supply a formally valid object bound to the wrong task, role, time, or intended 
 
 ### R7-6 — lattice closure test
 
-Enumerate observed satisfaction signatures for a bounded constraint family and test meet/join closure.
+Enumerate observed satisfaction signatures for a bounded constraint family. Separately test ambient meet/join closure and existence of GLB/LUB in the induced observed order.
 
 ### R7-7 — Rosetta commutation test
 
@@ -406,10 +408,26 @@ A precise failed Rosetta mapping is preferred over a vague universal analogy.
 - **CONJECTURE** — empirical/cross-domain claim requiring experiments.
 - **ANALOGY ONLY** — resemblance without a demonstrated structure-preserving map.
 
-## 17. Immediate next work
+## 17. Implementation checkpoint — Targets 1–3
 
-1. Freeze a concrete phenotype vector `I` from existing compact/restore evidence.
-2. Implement a bounded belief-lattice reference model.
-3. Enumerate a bounded WE/AIDE constraint family and run the closure classification.
-4. Convert one already-preserved causal experiment into a Rosetta commuting-diagram test without rerunning or rewriting its historical evidence.
-5. Keep external-system attribution explicit through bridge manifests.
+The bounded reference implementation now includes:
+
+- `we.phenotype/v1`, a nine-field declared operational phenotype projection;
+- a finite reverse-inclusion belief lattice implementation;
+- an ambient-constraint / induced-poset classifier;
+- evidence-reference indexing for preserved AIDE cases;
+- eleven dependency-free unit tests.
+
+Two narrow preserved AIDE slices have been classified without rerunning or rewriting their evidence:
+
+```text
+CAUSAL-8 task/challenge binding:
+2 cases, 2 unique signatures -> two-element lattice
+
+NFM-026 signature validity / trust membership:
+6 cases, 2 unique signatures -> two-element lattice
+```
+
+Both slices are ambient meet/join closed and possess induced pairwise meets/joins. This is **not** evidence that the full AIDE state space or the full ten-dimensional admissible-signature family is a lattice.
+
+The next evidence target is to add further preserved cases only where the relevant per-case dimensions can be justified directly, then classify unions of slices to find the first missing closure, GLB, or LUB.
