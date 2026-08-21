@@ -77,9 +77,26 @@ Targets 1–3 are executable. The branch currently:
 - freezes a prospective holdout protocol for R7-8;
 - records established mathematical prior art without importing stronger theorem names than the WE objects justify.
 
-The Draft 0.2 reference suite contains 15 tests. The same reference behavior was independently reconstructed and executed during the authoring pass with all 15 passing; this is authoring-session verification, not GitHub Actions CI evidence.
+The original Draft 0.2 reference suite contains 15 tests and previously passed in an independent authoring-session reconstruction. Three additional real-evidence assertions are now committed for the CAUSAL-9/9B expansion; they still require an explicit local or CI execution before being labeled PASS.
 
-The first evidence-reference classifier covers two narrow preserved AIDE slices. CAUSAL-8 task/challenge binding and NFM-026 signature-validity/trust-membership each form a **distributive two-element lattice** within their declared subspaces. This is not a claim that the full AIDE state space is a lattice.
+## First real-data expansion
+
+The evidence index now covers preserved CAUSAL-8, CAUSAL-9, CAUSAL-9B, and NFM-026 slices without rerunning the external experiments.
+
+Narrow adversarial axes remain distributive two-element lattices in their declared subspaces. However, the five-coordinate common projection across all five CAUSAL-9 cases produces four unique observed signatures that classify as a **join-semilattice**:
+
+```text
+ambient meet closed = false
+ambient join closed = true
+all induced meets   = false
+all induced joins   = true
+```
+
+This is the first evidence-backed point where a multi-axis observed family stops being a lattice. The missing meets correspond to joint-failure combinations absent from the frozen experiment, so the result is an observed-coverage statement rather than a theorem that the full AIDE state space lacks meets.
+
+The attempted four-experiment union is also correctly blocked: CAUSAL-8, CAUSAL-9, CAUSAL-9B, and NFM-026 have no non-empty coordinate domain observed across every case family. Missing coordinates remain `UNKNOWN`; they are not silently converted to failed constraints. The global satisfaction-poset classification is therefore **UNDERDETERMINED** until bridging observations or a separately justified gluing rule exist.
+
+See `evidence/R7-6-REAL-DATA-CHECKPOINT-2026-08-21.md`.
 
 ## Status
 
