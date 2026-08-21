@@ -257,12 +257,14 @@ PYTHONPATH=we-framework/python python -m unittest discover -s we-framework/tests
 
 ## Verification result
 
-The Draft 0.2 reference logic was independently executed in the authoring session after the changes:
+The Draft 0.2 reference logic was independently reconstructed and executed in the authoring session after the changes:
 
 ```text
 Ran 15 tests
 OK
 ```
+
+This is an authoring-session verification of the reference behavior, not a GitHub Actions CI result. The PR remains draft and its deployment workflow status must not be used as proof of these tests.
 
 Coverage now includes:
 
