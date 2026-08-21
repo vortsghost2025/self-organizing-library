@@ -1,0 +1,77 @@
+{
+  "schema": "we.aide-observed-signatures/v1",
+  "extraction_date": "2026-08-21",
+  "source": {
+    "drive_document_id": "1NidafnI63EaDmQTGG4KL75D_LKjcS5z6Pm5oaefcDlM",
+    "title": "SESSION_HANDOFF — AIDE Provider Test Env Isolation — 2026-08-20",
+    "mode": "read-only evidence-reference extraction",
+    "warning": "This index does not copy or mutate frozen AIDE evidence. It records only bounded signatures justified by the cited preserved checkpoints."
+  },
+  "slices": [
+    {
+      "id": "causal-8-task-challenge-binding",
+      "constraints": ["task_binding", "challenge_binding"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-20\\authority-task-binding-v1",
+        "lab/causal-8-authority-task-binding@76b94d90cf0e3bcc26cf26734b83503f3f7507dd",
+        "anchors/causal-8/authority-decision-task-a-v1.json@8189fc7b9f02e0b08db50ec42ad5d15541a828ce"
+      ],
+      "cases": [
+        {
+          "id": "genuine-task-a",
+          "signature": ["task_binding", "challenge_binding"],
+          "basis": "Genuine Task-A authority VERIFIED under the Task-A identity/challenge."
+        },
+        {
+          "id": "byte-identical-task-a-replay-under-task-b",
+          "signature": [],
+          "basis": "Task-A identity and challenge both differ from Task-B; exact current-task/challenge binding REJECTED the replay."
+        }
+      ]
+    },
+    {
+      "id": "nfm-026-trust-store-divergence",
+      "constraints": ["signature_validity", "trust_state_membership"],
+      "evidence_refs": [
+        "S:\\AIDE-External-Evidence\\2026-08-21\\nfm-026-trust-store-divergence-v1",
+        "contract@48697b33bbabab3d899fc5ad8e4257a6b67eca87",
+        "fixture-freeze@b1c1b58e156ef4c3add085f8b7a1659b3a0fef62",
+        "producer@9647b671ad675cae2482678f3d083bf16c47ba40",
+        "evidence-freeze@522afddbdec0156a7f8032b450cf08f876944db3",
+        "evidence-note-sha256:a2b90acac20539272082808d47449aa4c9309194e9a228228cf0803aae243a5d"
+      ],
+      "cases": [
+        {
+          "id": "p0-verifier-a",
+          "signature": ["signature_validity"],
+          "basis": "P0 A rejected; all required signatures cryptographically valid; trust membership absent before update."
+        },
+        {
+          "id": "p0-verifier-b",
+          "signature": ["signature_validity"],
+          "basis": "P0 B rejected; all required signatures cryptographically valid; trust membership absent before update."
+        },
+        {
+          "id": "p1-verifier-a-after-a-only-trust-update",
+          "signature": ["signature_validity", "trust_state_membership"],
+          "basis": "After A-only trust update, A verified."
+        },
+        {
+          "id": "p1-verifier-b-stale",
+          "signature": ["signature_validity"],
+          "basis": "After A-only trust update, B remained rejected while signatures remained cryptographically valid."
+        },
+        {
+          "id": "p2-verifier-a-after-reconciliation",
+          "signature": ["signature_validity", "trust_state_membership"],
+          "basis": "After reconciliation, A verified."
+        },
+        {
+          "id": "p2-verifier-b-after-reconciliation",
+          "signature": ["signature_validity", "trust_state_membership"],
+          "basis": "After reconciliation, B verified."
+        }
+      ]
+    }
+  ]
+}
