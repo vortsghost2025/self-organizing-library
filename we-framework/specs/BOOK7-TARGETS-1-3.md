@@ -160,7 +160,7 @@ PYTHONPATH=we-framework/python python -m unittest discover -s we-framework/tests
 Local pre-commit execution on 2026-08-21:
 
 ```text
-Ran 10 tests
+Ran 11 tests
 OK
 ```
 
@@ -175,7 +175,8 @@ The tests cover:
 - contradiction reaching empty belief rather than fabricated certainty;
 - ambient Boolean sublattice closure;
 - induced lattice without ambient meet closure;
-- a true poset fixture lacking pairwise GLB/LUB.
+- a true poset fixture lacking pairwise GLB/LUB;
+- two evidence-backed AIDE slices classified without a global-lattice overclaim.
 
 ## What is proven versus pending
 
@@ -194,4 +195,24 @@ The tests cover:
 - that actual AIDE admissible-state signatures form a lattice or semilattice;
 - that any cross-domain Rosetta translation is valid.
 
-The next evidence step is to extract a bounded set of actual AIDE verification cases into signatures without changing frozen AIDE evidence, then run the classifier over those references.
+## First evidence-backed classifications
+
+A read-only reference extraction from the preserved AIDE continuity record produced two deliberately narrow slices in `we-framework/evidence/aide-observed-signatures-v1.json`. No frozen experiment was rerun and no AIDE evidence artifact was copied or modified.
+
+```text
+CAUSAL-8 task/challenge binding
+2 cases, 2 unique signatures
+classification: lattice
+ambient meet closed: true
+ambient join closed: true
+
+NFM-026 signature-validity/trust-membership
+6 cases, 2 unique signatures
+classification: lattice
+ambient meet closed: true
+ambient join closed: true
+```
+
+These results establish only that each bounded two-signature slice forms a two-element lattice under its explicitly declared constraint subspace. They **do not** establish that AIDE as a whole, the full ten-dimensional constraint family, or all observed admissible states form a lattice.
+
+The next evidence step is to extract additional preserved cases (starting with CAUSAL-9 where per-case dimensions can be justified without inference), then test unions of bounded slices to discover where closure or unique GLB/LUB structure breaks.
