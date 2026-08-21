@@ -1,6 +1,6 @@
 # Book 7 — WE Framework: The Rosetta Calculus of State, Translation, and Recovery
 
-**Status:** Draft 0.1 research seed  
+**Status:** Draft 0.2 research program  
 **Date:** 2026-08-21  
 **Canonical working manuscript:** Google Doc `1f0T6dm3R5JB3rSoDVHMrTjnbNT4SnOl0_xskVvtLSB4`  
 **Repository role:** versioned mathematical definitions, executable specifications, and experiment lineage
@@ -33,18 +33,29 @@ where:
 - `R` — recovery or correction operations;
 - `A` — authority / precedence structure used when observations disagree.
 
-A candidate Rosetta translation `F : D1 -> D2` must declare which relations it claims to preserve.
+A candidate Rosetta translation from `D1` to `D2` must declare separate maps for the objects/operations it claims to translate, rather than treating one symbol `F` as automatically well typed.
+
+For example:
+
+```text
+F_X : X1 -> X2
+F_T : T1 -> T2
+```
 
 ### Composition
 
+A composition-preservation claim is meaningful only when the transformations are composable and their translations actually land in `T2`:
+
 ```text
-F(g ∘ f) = F(g) ∘ F(f)
+F_T(g ∘ f) = F_T(g) ∘ F_T(f).
 ```
+
+If either side is undefined, the statement is ill typed rather than falsified.
 
 ### Invariant preservation
 
 ```text
-I1(x) = I2(F(x))
+I1(x) = I2(F_X(x))
 ```
 
 or within an explicit tolerance.
@@ -55,8 +66,10 @@ If `x` satisfies a declared constraint `c` in `D1`, the translated state must sa
 
 ### Failure / recovery preservation
 
+Where the maps and operations are defined:
+
 ```text
-F(R1(E1(x))) ≈ R2(E2(F(x)))
+F_X(R1(E1(x))) ≈ R2(E2(F_X(x))).
 ```
 
 A mapping that only preserves vocabulary is analogy. A mapping that preserves operations and predicts failures is a candidate structural translation.
@@ -73,19 +86,38 @@ I : H -> P
 
 where `I(H_t)` contains the declared properties that must survive for the system to count as the same operational process for a specified task class: mission, authority, constraints, active state, commitments, unresolved failures, expected next actions, provenance, evidence references, and other frozen invariants.
 
+### Exact phenotype equivalence
+
 Two histories are phenotype-equivalent when
 
 ```text
-H ~I H'  iff  I(H) = I(H')
+H ~I H'  iff  I(H) = I(H').
 ```
 
-or approximately
+This exact relation is the quotient relation. Because it is equality after a fixed map, it is reflexive, symmetric, and transitive.
+
+### Approximate phenotype fidelity
+
+Approximate closeness is measured separately:
 
 ```text
 d(I(H), I(H')) <= ε.
 ```
 
-This partitions the historical state space into equivalence classes whose token histories may differ while their declared operational phenotype agrees.
+A generic `ε`-threshold relation is **not** assumed to be an equivalence relation because transitivity can fail. Many individually small deviations can accumulate into a large long-run drift.
+
+That is not a defect in the framework; it is the mathematical reason R7-9 exists. The quotient lives at exact equality. The fidelity metric measures distance between quotient representatives and restored states over time.
+
+### Frozen v1 collection semantics
+
+The executable `we.phenotype/v1` vector uses set semantics for all collection-valued coordinates:
+
+```text
+order ignored
+duplicate normalized labels ignored
+```
+
+If multiplicity later becomes future-relevant, that requires a new schema rather than a silent reinterpretation of v1.
 
 ## 4. Compact / restore
 
@@ -112,13 +144,15 @@ C(R(C(H))) = C(H)
 
 within a declared tolerance.
 
-Candidate compression objective:
+Candidate engineering compression objective:
 
 ```text
 C* = arg min_C [ |C(H)| + λ d(I(H), I(R(C(H)))) ]
 ```
 
-The compact packet is not a miniature transcript. It is an encoding of an operational equivalence class.
+The compact packet is not a miniature transcript. It is an encoding of an operational equivalence class plus whatever bounded metadata the chosen restoration protocol requires.
+
+The objective is deliberately described as **rate-distortion / information-bottleneck adjacent**, not identical to those classical formulations. `|C(H)|` is currently a size proxy, not Shannon rate or mutual information.
 
 ## 5. Operational sufficiency
 
@@ -128,7 +162,9 @@ Let `π` be the policy selecting future actions. `Z_t` is `ε`-operationally suf
 sup_a | Pπ(a | H_t) - Pπ(a | Z_t) | <= ε.
 ```
 
-This intentionally resembles a sufficient statistic, but it is treated as a testable engineering property rather than assuming natural-language agent state satisfies classical statistical sufficiency.
+This is a bounded engineering criterion for action-distribution preservation.
+
+It is adjacent to statistical sufficiency and Blackwell's comparison of experiments, but it is **not named Blackwell sufficiency**: Blackwell comparison is a stronger decision-theoretic relation over experiments and decision problems.
 
 ## 6. Effective temporal context
 
@@ -139,6 +175,16 @@ z_(t+1) = C(R(z_t) ⊕ Δ_t ⊕ P_t)
 ```
 
 where `Δ_t` is newly accumulated history and `P_t` is selected state synchronized from peer lanes or durable stores.
+
+### Typing condition
+
+The recurrence is defined only when
+
+```text
+R(z_t) ⊕ Δ_t ⊕ P_t ∈ dom(C).
+```
+
+Likewise, `R` must be defined on every reachable compact state supplied to it. These domain/codomain requirements turn a class of interface/import failures into definition-time checks.
 
 The model's active buffer remains finite while operational state can survive arbitrarily many context turnovers subject to storage, computation, and cumulative fidelity loss.
 
@@ -201,11 +247,26 @@ The formal top of the full lattice is the empty belief `∅`, representing incon
 
 This supplies a classical mathematical interpretation of retaining multiple valid hypotheses rather than prematurely choosing one. It is not quantum superposition.
 
+### Order-dual convention
+
+`L_B` is the order dual of the ordinary powerset lattice under forward inclusion. Its carrier is unchanged but its operations are reversed:
+
+```text
+belief meet = union
+belief join = intersection
+bottom      = Ω
+top         = ∅
+```
+
+Thus evidence intersection is **join in the knowledge order**.
+
 ### Conflict Preservation Principle — candidate
 
 If two observations are individually valid, mutually incompatible under the current model, and neither dominates by a frozen temporal or authority rule, reconciliation should preserve multiple hypotheses or return an explicit `UNRESOLVED` / `CONFLICT` disposition.
 
-## 9. Ambient constraint lattice
+Simple intersection that reaches `∅` identifies a contradiction; it does not itself solve belief revision. AGM belief revision is therefore prior-art framing for the next operator, not something the current implementation claims to instantiate.
+
+## 9. Ambient constraint lattice and induced observed order
 
 Let
 
@@ -229,7 +290,35 @@ A concrete state maps to a satisfaction signature
 σ(x) = { c in Cset : x satisfies c }.
 ```
 
-This provides an ambient lattice even when concrete admissible runtime states are not closed under ambient intersection and union. The executable program therefore distinguishes two questions: whether observed signatures form a sublattice of the ambient Boolean lattice, and whether the induced observed order has its own pairwise greatest lower bounds and least upper bounds. The latter determines whether the observed family is a lattice, semilattice, or only a poset.
+This provides an ambient lattice even when concrete admissible runtime states are not closed under ambient intersection and union.
+
+The executable program distinguishes:
+
+1. ambient Boolean sublattice closure;
+2. induced pairwise GLB/LUB existence;
+3. distributivity of the induced lattice, when an induced lattice exists.
+
+Failure of ambient closure does not by itself show that the induced order is not a lattice.
+
+### R7-6b — distributivity boundary
+
+If the induced family is a lattice, test:
+
+```text
+x ∧ (y ∨ z) = (x ∧ y) ∨ (x ∧ z)
+x ∨ (y ∧ z) = (x ∨ y) ∧ (x ∨ z)
+```
+
+If either identity fails, preserve the explicit triple counterexample and search for a five-element forbidden sublattice witness:
+
+```text
+M3 — diamond
+N5 — pentagon
+```
+
+The executable classifier now does this.
+
+A nondistributive result would be mathematically significant, but it would **not prove quantum mechanics or quantum logic**. Nondistributivity is one structural feature important in the history of quantum logic; many non-quantum mathematical lattices are nondistributive.
 
 ## 10. Dual-lattice verification model
 
@@ -244,6 +333,22 @@ Evidence updates both:
 (B_t, σ_t) --evidence--> (B_(t+1), σ_(t+1)).
 ```
 
+The lattices use opposite order orientations:
+
+```text
+L_C: forward inclusion
+L_B: reverse inclusion
+```
+
+There is no claimed isomorphism between them; their base sets differ. The identity-on-carrier map from ordinary belief-set inclusion to the knowledge order is order reversing and explains the meet/join swap within `L_B`.
+
+Operationally:
+
+```text
+constraint accumulation: union        = join in L_C
+belief narrowing:        intersection = join in L_B
+```
+
 This separates:
 
 ```text
@@ -255,6 +360,8 @@ from
 ```text
 what would be admissible if it were true?
 ```
+
+without silently confusing their lattice orientations.
 
 ## 11. Semantic binding
 
@@ -295,6 +402,8 @@ A cross-domain Rosetta translation must therefore answer both:
 
 1. Does the structural diagram commute?
 2. Is the translated structure still bound to the intended semantic role?
+
+This distinction is adjacent to the established software verification/validation distinction: satisfying a formal specification and satisfying the intended need are different questions.
 
 ## 12. Failure as a discovery operator
 
@@ -341,9 +450,38 @@ V(x + δ_i)
 
 where `δ_i` changes exactly one frozen coordinate.
 
-This is an experimental slice through a high-dimensional constraint state space. AIDE / Obscura is currently one external architecture on which these slices are tested; it is not the owner or definition of the WE Framework mathematics.
+This is an experimental slice through a high-dimensional constraint state space.
 
-## 14. First executable targets
+The construction is Pearl-intervention adjacent only when the coordinate belongs to an explicit structural causal model and the intervention semantics are frozen. A one-coordinate perturbation by itself is not automatically a Pearl `do` intervention.
+
+AIDE / Obscura is currently one external architecture on which these slices are tested; it is not the owner or definition of the WE Framework mathematics.
+
+## 14. Prior-art map
+
+Book 7 now maintains a dedicated prior-art map at [`../theory/PRIOR-ART.md`](../theory/PRIOR-ART.md).
+
+The current anchors are:
+
+- Blackwell comparison of experiments / decision-theoretic informativeness;
+- Shannon rate-distortion theory;
+- Tishby–Pereira–Bialek information bottleneck;
+- AGM belief revision;
+- Birkhoff–von Neumann quantum logic and nondistributive lattices;
+- Boehm software verification/validation;
+- Pearl causal interventions.
+
+The policy is conservative:
+
+```text
+same formal object + hypotheses -> theorem may transfer
+special case                    -> theorem with restriction
+adjacent structure              -> framing only
+word-level resemblance          -> ANALOGY ONLY
+```
+
+Book 7 should not borrow a prestigious theorem name when the current WE object does not satisfy that theorem's hypotheses.
+
+## 15. First executable targets
 
 ### R7-1 — context-turnover invariance
 
@@ -367,40 +505,49 @@ Add one frozen authoritative transition event and test whether the belief state 
 
 Supply a formally valid object bound to the wrong task, role, time, or intended claim.
 
-### R7-6 — lattice closure test
+### R7-6 — lattice classification
 
 Enumerate observed satisfaction signatures for a bounded constraint family. Separately test ambient meet/join closure and existence of GLB/LUB in the induced observed order.
 
+### R7-6b — distributivity / forbidden-sublattice test
+
+For an induced lattice, test distributivity and preserve either a proof-by-exhaustion on the finite family or a counterexample plus `M3`/`N5` witness where found.
+
 ### R7-7 — Rosetta commutation test
 
-Freeze explicit maps and recovery / perturbation operators across two narrow domains and test the commuting condition.
+Freeze explicit well-typed maps and recovery / perturbation operators across two narrow domains and test the commuting condition.
 
-### R7-8 — failure-prediction transfer
+### R7-8 — holdout failure-prediction transfer
 
-Predict an unobserved failure in domain B from a failure class in domain A before observing B.
+Predict an unobserved failure in domain B from a failure class in domain A **before** inspecting the target outcome.
+
+A prospective result requires an outcome-blinded holdout protocol. Freeze the target artifact/version/hash, mapping, typing assumptions, predicted failure/disposition, scoring rule, and known prior exposure before unblinding. If the outcome was already inspected during mapping design, label the exercise retrospective.
+
+See [`../experiments/R7-8-HOLDOUT-PROTOCOL.md`](../experiments/R7-8-HOLDOUT-PROTOCOL.md).
 
 ### R7-9 — cumulative compact drift
 
-Measure phenotype drift over many compact/restore cycles and controlled authoritative resynchronization intervals.
+Measure phenotype drift over many compact/restore cycles and controlled authoritative resynchronization intervals. This directly tests the failure of naive `ε`-equivalence transitivity over repeated near-preserving steps.
 
 ### R7-10 — destructive restart reconstruction
 
 Terminate active contexts, restart from durable partial/conflicting projections, and compare reconstructed phenotype against an external frozen reference.
 
-## 15. Falsification conditions
+## 16. Falsification conditions
 
 The program loses strength if:
 
 - formalized cross-domain mappings repeatedly fail to preserve the claimed operations;
-- failure patterns do not transfer predictively;
+- failure patterns do not transfer predictively under preregistered holdout tests;
 - compact phenotypes do not preserve future-relevant behavior better than ordinary summaries;
 - belief-state preservation does not reduce false reconciliation;
 - constraint refinement degenerates into non-predictive patch accumulation;
-- adversarial testing shows the apparent independent constraint dimensions are implementation naming artifacts.
+- adversarial testing shows the apparent independent constraint dimensions are implementation naming artifacts;
+- purported structural results depend on ill-typed equations or post-hoc changes to mappings.
 
 A precise failed Rosetta mapping is preferred over a vague universal analogy.
 
-## 16. Status labels
+## 17. Status labels
 
 - **PROVEN MATHEMATICS** — standard mathematical property independent of WE implementation.
 - **IMPLEMENTATION EVIDENCE** — observed behavior supported by preserved system evidence.
@@ -408,26 +555,45 @@ A precise failed Rosetta mapping is preferred over a vague universal analogy.
 - **CONJECTURE** — empirical/cross-domain claim requiring experiments.
 - **ANALOGY ONLY** — resemblance without a demonstrated structure-preserving map.
 
-## 17. Implementation checkpoint — Targets 1–3
+## 18. Implementation checkpoint — Targets 1–3 / Draft 0.2
 
 The bounded reference implementation now includes:
 
 - `we.phenotype/v1`, a nine-field declared operational phenotype projection;
-- a finite reverse-inclusion belief lattice implementation;
+- explicit set semantics for v1 collection coordinates;
+- a finite reverse-inclusion belief lattice implementation with dual orientation documented;
 - an ambient-constraint / induced-poset classifier;
+- direct distributivity checks;
+- `M3` and `N5` forbidden-sublattice witness search;
 - evidence-reference indexing for preserved AIDE cases;
-- eleven dependency-free unit tests.
+- fifteen dependency-free unit tests.
 
-Two narrow preserved AIDE slices have been classified without rerunning or rewriting their evidence:
+The Draft 0.2 reference logic was independently executed in the authoring session:
+
+```text
+Ran 15 tests
+OK
+```
+
+The two narrow preserved AIDE slices remain:
 
 ```text
 CAUSAL-8 task/challenge binding:
-2 cases, 2 unique signatures -> two-element lattice
+2 cases, 2 unique signatures -> two-element distributive lattice
 
 NFM-026 signature validity / trust membership:
-6 cases, 2 unique signatures -> two-element lattice
+6 cases, 2 unique signatures -> two-element distributive lattice
 ```
 
-Both slices are ambient meet/join closed and possess induced pairwise meets/joins. This is **not** evidence that the full AIDE state space or the full ten-dimensional admissible-signature family is a lattice.
+Both slices are ambient meet/join closed, possess induced pairwise meets/joins, and are distributive. This is **not** evidence that the full AIDE state space or the full ten-dimensional admissible-signature family is a lattice.
 
-The next evidence target is to add further preserved cases only where the relevant per-case dimensions can be justified directly, then classify unions of slices to find the first missing closure, GLB, or LUB.
+Synthetic reference fixtures now deliberately realize:
+
+```text
+M3 diamond -> lattice, nondistributive
+N5 pentagon -> lattice, nondistributive
+```
+
+so the classifier can distinguish “lattice” from “distributive lattice” before real evidence is expanded.
+
+The next evidence target is to add further preserved cases only where the relevant per-case dimensions can be justified directly, then classify unions of slices to find the first missing closure, GLB/LUB, or distributivity witness.
