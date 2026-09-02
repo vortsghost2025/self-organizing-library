@@ -51,7 +51,7 @@ export default function ViewContextBanner({
           <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
             {focusNodeTitle ? (
               <>
-                Displaying the isolated neighborhood for <strong className="text-slate-200">{focusNodeTitle}</strong> and its direct connections. Click "Reset Focus" or another node to explore other subsystems.
+                Displaying the isolated neighborhood for <strong className="text-slate-200">{focusNodeTitle}</strong> and its direct connections. Click &quot;Reset Focus&quot; or another node to explore other subsystems.
               </>
             ) : (
               <>
