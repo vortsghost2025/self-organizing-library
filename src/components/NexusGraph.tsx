@@ -450,7 +450,7 @@ export default function NexusGraph({
           Nexus Knowledge Graph &amp; Systems Architecture
         </h1>
         <p className="text-base text-[var(--text-secondary)] max-w-3xl leading-relaxed">
-          Interactive map of Sean David Ramsingh's multi-agent AI architecture, autonomous execution loops,
+          Interactive map of Sean David Ramsingh&apos;s multi-agent AI architecture, autonomous execution loops,
           cryptographic governance policies, and reproducible verification pipelines.
         </p>
       </section>
