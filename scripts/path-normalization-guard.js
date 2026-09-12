@@ -6,20 +6,17 @@
 
 const fs = require('fs');
 const path = require('path');
-const { LaneDiscovery } = require('./util/lane-discovery');
-
-const discovery = new LaneDiscovery();
 
 const CANONICAL_PATHS = {
-  'swarmmind': discovery.getLocalPath('swarmmind'),
-  'kernel': discovery.getLocalPath('kernel'),
-  'authority': discovery.getLocalPath('archivist'),  // Authority runs in Archivist context
-  'library': discovery.getLocalPath('library'),
-  'archivist': discovery.getLocalPath('archivist')
+  'swarmmind': 'S:/SwarmMind',
+  'kernel': 'S:/kernel-lane',
+  'authority': 'S:/Archivist-Agent',  // Authority runs in Archivist context
+  'library': 'S:/self-organizing-library',
+  'archivist': 'S:/Archivist-Agent'
 };
 
 const FORBIDDEN_VARIANTS = [
-  'SwarmMind',
+  'SwarmMind Self-Optimizing Multi-Agent AI System',
   'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
   'SwarmMindSelfOptimizingMultiAgentAISystem'
 ];
@@ -171,8 +168,8 @@ if (require.main === module) {
   
   // Generate report
   const report = guard.generateReport();
-    const reportPath = path.join(discovery.getLocalPath('archivist'), '.compact-audit', 'path-normalization-report.json');
-    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+  const reportPath = 'S:/Archivist-Agent/.compact-audit/path-normalization-report.json';
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
   
   console.log(`\n[GUARD] Report saved: ${reportPath}`);
   console.log(`[GUARD] Violations found: ${report.violations.length}`);

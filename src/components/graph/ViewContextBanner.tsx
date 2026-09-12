@@ -7,6 +7,7 @@ interface ViewContextBannerProps {
   statusCounts: Record<string, number>;
   focusNodeTitle?: string | null;
   filterLabel?: string | null;
+  activePresetLabel?: string | null;
 }
 
 export default function ViewContextBanner({
@@ -16,6 +17,7 @@ export default function ViewContextBanner({
   statusCounts,
   focusNodeTitle,
   filterLabel,
+  activePresetLabel,
 }: ViewContextBannerProps) {
   const verified = statusCounts.VERIFIED || 0;
   const contradictions = statusCounts.CONFLICTED || 0;
@@ -70,8 +72,8 @@ export default function ViewContextBanner({
             {info.explanation} {info.suggestion}
           </p>
           {filterLabel && (
-            <p className="text-sm text-[var(--text-muted)]">
-              Active filter: <span className="font-mono px-1.5 py-0.5 rounded bg-[var(--surface)]">{filterLabel}</span>
+            <p className="text-[11px] text-[var(--text-muted)] pt-0.5">
+              Active Scope: <span className="font-mono px-1.5 py-0.5 rounded bg-white/5 text-slate-300">{filterLabel}</span>
             </p>
           )}
         </div>

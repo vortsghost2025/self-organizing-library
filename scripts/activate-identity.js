@@ -5,14 +5,12 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { IdentityEnforcer } = require('./identity-enforcer');
-const { LaneDiscovery } = require('./util/lane-discovery');
-const discovery = new LaneDiscovery();
 
 const LANES = [
-  { id: 'archivist', dir: discovery.getLocalPath('archivist') },
-  { id: 'library', dir: discovery.getLocalPath('library') },
-  { id: 'swarmmind', dir: discovery.getLocalPath('swarmmind') },
-  { id: 'kernel', dir: discovery.getLocalPath('kernel') },
+  { id: 'archivist', dir: 'S:/Archivist-Agent' },
+  { id: 'library', dir: 'S:/self-organizing-library' },
+  { id: 'swarmmind', dir: 'S:/SwarmMind' },
+  { id: 'kernel', dir: 'S:/kernel-lane' },
 ];
 
 const PASSPHRASE_FILE = 'S:/Archivist-Agent/.runtime/lane-passphrases.json';

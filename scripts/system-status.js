@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
-const discovery = new LaneDiscovery();
 const LANES = {
-  archivist: discovery.getLocalPath('archivist'),
-  kernel: discovery.getLocalPath('kernel'),
-  library: discovery.getLocalPath('library'),
-  swarmmind: discovery.getLocalPath('swarmmind')
+  archivist: path.join(__dirname, '..'),
+  kernel: path.join(__dirname, '..', '..', 'kernel-lane'),
+  library: path.join(__dirname, '..', '..', 'self-organizing-library'),
+  swarmmind: path.join(__dirname, '..', '..', 'SwarmMind')
 };
 
 function checkLane(name, root) {

@@ -18,18 +18,6 @@ function _getDefaultAllowedRoots() {
     }
     if (roots.length > 0) return roots;
   }
-  // Platform-aware defaults: detect Ubuntu agent/repos layout
-  const homeDir = process.env.HOME || process.env.USERPROFILE || '';
-  const ubuntuRepos = path.join(homeDir, 'agent', 'repos');
-  if (fs.existsSync(path.join(ubuntuRepos, 'Archivist-Agent'))) {
-    return [
-      path.join(ubuntuRepos, 'Archivist-Agent'),
-      path.join(ubuntuRepos, 'kernel-lane'),
-      path.join(ubuntuRepos, 'self-organizing-library'),
-      path.join(ubuntuRepos, 'SwarmMind'),
-    ];
-  }
-  // Windows fallback
   return ['S:/Archivist-Agent', 'S:/kernel-lane', 'S:/self-organizing-library', 'S:/SwarmMind'];
 }
 
@@ -47,19 +35,8 @@ function isContainedWithin(childResolved, rootNormalized) {
 class ArtifactResolver {
   constructor(options = {}) {
     const rawRoots = options.allowedRoots || this._loadAllowedRoots(options.configPath);
-    // Filter out roots that don't exist on this platform (e.g., S:/ on Linux, /home/ on Windows)
-    const validRoots = rawRoots.filter(r => {
-      try {
-        const resolved = path.resolve(r);
-        // On non-Windows, skip paths that look like Windows drive letters
-        if (process.platform !== 'win32' && /^[A-Za-z]:/.test(r)) return false;
-        return fs.existsSync(resolved);
-      } catch (_) {
-        return false;
-      }
-    });
-    this.allowedRoots = (validRoots.length > 0 ? validRoots : rawRoots).map(r => normalizePath(path.resolve(r)));
-    this._rawAllowedRoots = validRoots.length > 0 ? validRoots : rawRoots;
+    this.allowedRoots = rawRoots.map(r => normalizePath(path.resolve(r)));
+    this._rawAllowedRoots = rawRoots;
     this.dryRun = options.dryRun !== undefined ? !!options.dryRun : true;
   }
 
@@ -99,17 +76,17 @@ class ArtifactResolver {
     return false;
   }
 
-  hasPathTraversal(artifactPath) {
-    if (!artifactPath || typeof artifactPath !== 'string') return true;
-    const normalized = artifactPath.replace(/\\/g, '/');
-    if (normalized.includes('..')) return true;
-    try {
-      const resolved = path.resolve(artifactPath);
-      return !this.isWithinAllowedRoots(resolved);
-    } catch (_) {
-      return true;
-    }
-  }
+ hasPathTraversal(artifactPath) {
+ if (!artifactPath || typeof artifactPath !== 'string') return true;
+ if (/\.\./.test(artifactPath)) return true;
+ try {
+ const resolved = path.resolve(artifactPath);
+ if (/\.\./.test(resolved)) return true;
+ } catch (_) {
+ return true;
+ }
+ return false;
+ }
 
   resolveRelativePath(artifactPath) {
     if (!artifactPath || typeof artifactPath !== 'string') return null;
@@ -131,17 +108,8 @@ class ArtifactResolver {
       return { exists: false, reason: 'EMPTY_PATH' };
     }
 
-    const hasDotDot = artifactPath.replace(/\\/g, '/').includes('..');
-    if (hasDotDot) {
+    if (this.hasPathTraversal(artifactPath)) {
       return { exists: false, reason: 'PATH_TRAVERSAL_REJECTED' };
-    }
-
-    if (!path.isAbsolute(artifactPath) && !this.isWithinAllowedRoots(path.resolve(artifactPath))) {
-      return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
-    }
-
-    if (path.isAbsolute(artifactPath) && !this.isWithinAllowedRoots(artifactPath)) {
-      return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
     }
 
     let resolvedPath = artifactPath;
@@ -151,6 +119,8 @@ class ArtifactResolver {
         return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
       }
       resolvedPath = resolved;
+    } else if (!this.isWithinAllowedRoots(artifactPath)) {
+      return { exists: false, reason: 'OUTSIDE_ALLOWED_ROOTS' };
     }
 
     if (this.dryRun) {

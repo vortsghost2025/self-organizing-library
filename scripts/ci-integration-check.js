@@ -4,14 +4,12 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { LaneDiscovery } = require('./util/lane-discovery');
-const discovery = new LaneDiscovery();
 
 const LANE_ROOTS = {
-  archivist: discovery.getLocalPath('archivist'),
-  kernel: discovery.getLocalPath('kernel'),
-  library: discovery.getLocalPath('library'),
-  swarmmind: discovery.getLocalPath('swarmmind')
+  archivist: 'S:/Archivist-Agent',
+  kernel: 'S:/kernel-lane',
+  library: 'S:/self-organizing-library',
+  swarmmind: 'S:/SwarmMind'
 };
 
 function runCheck(name, cmd, cwd) {
@@ -61,7 +59,7 @@ function main() {
     if (!result.ok) results.overall_ok = false;
   }
 
-   const reportPath = path.join(discovery.getLocalPath('archivist'), 'docs', 'autonomous-cycle-test', 'ci-check-report.json');
+  const reportPath = path.join('S:/Archivist-Agent', 'docs', 'autonomous-cycle-test', 'ci-check-report.json');
   fs.mkdirSync(path.dirname(reportPath), { recursive: true });
   fs.writeFileSync(reportPath, JSON.stringify(results, null, 2));
   console.log(JSON.stringify(results, null, 2));

@@ -4,8 +4,6 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { LaneDiscovery } = require('./util/lane-discovery');
-const discovery = new LaneDiscovery();
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
@@ -26,13 +24,13 @@ function buildStatePackage() {
     pkg.archivist_state.compaction_enabled = ss.compaction_enabled;
   } catch (_) {}
 
-   // Per-lane state
-   const lanes = ['kernel', 'library', 'swarmmind'];
-   const laneRoots = {
-     kernel: discovery.getLocalPath('kernel'),
-     library: discovery.getLocalPath('library'),
-     swarmmind: discovery.getLocalPath('swarmmind'),
-   };
+  // Per-lane state
+  const lanes = ['kernel', 'library', 'swarmmind'];
+  const laneRoots = {
+    kernel: 'S:/kernel-lane',
+    library: 'S:/self-organizing-library',
+    swarmmind: 'S:/SwarmMind',
+  };
 
   for (const lane of lanes) {
     const root = laneRoots[lane];

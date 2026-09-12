@@ -8,6 +8,7 @@
 **Timestamp:** 2026-09-12T03:30:32.940Z
 
 ## Action Required
+Review the quarantined item and decide:
 1. Release with manual approval
 2. Permanently reject
 3. Force phenotype sync

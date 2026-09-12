@@ -16,7 +16,12 @@ const {
   DEDUPE_SUPPRESS_CYCLES, AUDIT_VERSION
 } = require('./headless-self-audit');
 
+// verifyTaskOutput imported lazily inside tests to avoid circular dependency with autonomous-executor
 let pass = 0, fail = 0;
+
+function getVerifyTaskOutput() {
+  return require('./autonomous-executor').verifyTaskOutput;
+}
 
 function test(name, fn) {
   try {
@@ -308,6 +313,53 @@ test('RESOLVED entry re-activated clears resolved_at and resets state to NEW', (
   if (fs.existsSync(testLedger)) fs.unlinkSync(testLedger);
   });
 
+// === A1b: false_positive RESOLVED reopen suppresses handoff and preserves adjudication ===
+test('false_positive RESOLVED reopen preserves adjudication and suppresses cognition handoff', () => {
+  const testLedger = '/tmp/test-rec-ledger-fp-reopen.jsonl';
+  if (fs.existsSync(testLedger)) fs.unlinkSync(testLedger);
+  process.env.REC_LEDGER = testLedger;
+  const dir = path.dirname(testLedger);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(testLedger, JSON.stringify({
+    recommendation_id: 'rec-test-fp',
+    dedupe_key: 'TOPOLOGY_ANOMALY:archivist+kernel',
+    recommendation_type: 'TOPOLOGY_ANOMALY',
+    first_seen_at: '2026-05-15T05:00:00Z',
+    last_seen_at: '2026-08-06T02:31:00Z',
+    occurrence_count: 1,
+    current_state: 'RESOLVED',
+    severity: 'P1',
+    affected_lanes: ['archivist', 'kernel'],
+    reason: 'topology anomaly adjudicated false',
+    cycles_since_first: 0,
+    cycles_since_last_escalation: 0,
+    disposition: 'ACCEPT',
+    disposition_at: '2026-08-06T02:31:00Z',
+    resolution_evidence_refs: ['.compact-audit/TOPOLGY_EVIDENCE_20260806.txt'],
+    false_positive: true,
+    cognition_handoff_emitted: false,
+    resolved_at: '2026-08-06T02:31:00Z'
+  }) + '\n', 'utf8');
+  const packets = [{
+    id: 'rec-fp-001', recommendation_type: 'TOPOLOGY_ANOMALY',
+    severity: 'P1', affected_lanes: ['archivist', 'kernel'], reason: 'topology anomaly recurred',
+    requires_agent_cognition: true
+  }];
+  const result = updateRecommendationLedger(packets, 'test-fp-cycle');
+  assert.strictEqual(result.new_count, 1);
+  const entry = loadRecommendationLedger().find(e => e.dedupe_key === 'TOPOLOGY_ANOMALY:archivist+kernel');
+  assert.strictEqual(entry.current_state, 'NEW');
+  assert.strictEqual(entry.resolved_at, undefined);
+  // Adjudication evidence trail preserved (B2)
+  assert.strictEqual(entry.disposition, 'ACCEPT');
+  assert.strictEqual(entry.disposition_at, '2026-08-06T02:31:00Z');
+  assert.strictEqual(entry.false_positive, true);
+  // Handoff re-emission suppressed for adjudicated false-positive (Finding 4)
+  assert.strictEqual(entry.cognition_handoff_emitted, false);
+  delete process.env.REC_LEDGER;
+  if (fs.existsSync(testLedger)) fs.unlinkSync(testLedger);
+  });
+
 // === A2: Work-unit accounting ===
 console.log('A2. Work-unit accounting');
 test('getWorkUnitAccounting returns expected structure', () => {
@@ -353,15 +405,13 @@ test('rollup includes work-unit fields from ledger entries with work_units', () 
 // === A1: requireOutput hard gate ===
 console.log('A1. requireOutput hard gate');
 test('verifyTaskOutput returns ok when no required_output declared', () => {
-  const { verifyTaskOutput } = require('./autonomous-executor');
-  const result = verifyTaskOutput({ task_id: 'test-no-output' }, 'kernel');
+  const result = getVerifyTaskOutput()({ task_id: 'test-no-output' }, 'kernel');
   assert.strictEqual(result.ok, true);
   assert.strictEqual(result.reason, 'no_required_output_declared');
   assert.strictEqual(result.checked, false);
 });
 test('verifyTaskOutput rejects when required_output path does not exist', () => {
-  const { verifyTaskOutput } = require('./autonomous-executor');
-  const result = verifyTaskOutput({
+  const result = getVerifyTaskOutput()({
     task_id: 'test-missing-output',
     require_output: '/tmp/nonexistent-a1-test-output-' + Date.now() + '.md'
   }, 'kernel');
@@ -370,10 +420,9 @@ test('verifyTaskOutput rejects when required_output path does not exist', () => 
   assert.strictEqual(result.checked, true);
 });
 test('verifyTaskOutput rejects when required_output file is empty', () => {
-  const { verifyTaskOutput } = require('./autonomous-executor');
   const emptyFile = path.join(os.tmpdir(), `a1-test-empty-${Date.now()}.md`);
   fs.writeFileSync(emptyFile, '', 'utf8');
-  const result = verifyTaskOutput({
+  const result = getVerifyTaskOutput()({
     task_id: 'test-empty-output',
     require_output: emptyFile
   }, 'kernel');
@@ -382,10 +431,9 @@ test('verifyTaskOutput rejects when required_output file is empty', () => {
   fs.unlinkSync(emptyFile);
 });
 test('verifyTaskOutput rejects when required_output file lacks provenance', () => {
-  const { verifyTaskOutput } = require('./autonomous-executor');
   const noProvFile = path.join(os.tmpdir(), `a1-test-noprov-${Date.now()}.md`);
   fs.writeFileSync(noProvFile, 'Some content without provenance header', 'utf8');
-  const result = verifyTaskOutput({
+  const result = getVerifyTaskOutput()({
     task_id: 'test-no-provenance',
     require_output: noProvFile
   }, 'kernel');
@@ -394,10 +442,9 @@ test('verifyTaskOutput rejects when required_output file lacks provenance', () =
   fs.unlinkSync(noProvFile);
 });
 test('verifyTaskOutput passes when required_output file has valid provenance', () => {
-  const { verifyTaskOutput } = require('./autonomous-executor');
   const goodFile = path.join(os.tmpdir(), `a1-test-valid-${Date.now()}.md`);
   fs.writeFileSync(goodFile, 'OUTPUT_PROVENANCE:\nagent: test\nlane: kernel\ntarget: a1-test\n\nReal content here.', 'utf8');
-  const result = verifyTaskOutput({
+  const result = getVerifyTaskOutput()({
     task_id: 'test-valid-output',
     require_output: goodFile
   }, 'kernel');

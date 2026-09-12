@@ -4,22 +4,30 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { LaneDiscovery } = require('./util/lane-discovery');
+const os = require('os');
 
-const discovery = new LaneDiscovery();
+const isWin32 = process.platform === 'win32';
+const UBUNTU_ROOT = path.join(os.homedir(), 'agent', 'repos');
+
+function _resolvePath(winPath) {
+  if (isWin32) return winPath;
+  const match = winPath.match(/^S:\/(.+)$/);
+  if (!match) return winPath;
+  return path.join(UBUNTU_ROOT, match[1]);
+}
 
 const LANE_ROOTS = {
-  archivist: discovery.getLocalPath('archivist'),
-  kernel: discovery.getLocalPath('kernel'),
-  library: discovery.getLocalPath('library'),
-  swarmmind: discovery.getLocalPath('swarmmind'),
+  archivist: _resolvePath('S:/Archivist-Agent'),
+  kernel: _resolvePath('S:/kernel-lane'),
+  library: _resolvePath('S:/self-organizing-library'),
+  swarmmind: _resolvePath('S:/SwarmMind')
 };
 
 const TRUST_STORE_PATHS = [
-  discovery.getLocalPath('archivist') + '/lanes/broadcast/trust-store.json',
-  discovery.getLocalPath('kernel') + '/lanes/broadcast/trust-store.json',
-  discovery.getLocalPath('library') + '/lanes/broadcast/trust-store.json',
-  discovery.getLocalPath('swarmmind') + '/lanes/broadcast/trust-store.json'
+  _resolvePath('S:/Archivist-Agent/lanes/broadcast/trust-store.json'),
+  _resolvePath('S:/kernel-lane/lanes/broadcast/trust-store.json'),
+  _resolvePath('S:/self-organizing-library/lanes/broadcast/trust-store.json'),
+  _resolvePath('S:/SwarmMind/lanes/broadcast/trust-store.json')
 ];
 
 function findTrustStore() {

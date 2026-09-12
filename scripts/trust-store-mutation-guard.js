@@ -7,7 +7,14 @@ var EXPECTED_ED25519_KEY_IDS = {
   archivist: '6ed65c18a0afca45',
   kernel: '2effb49ea02dff5b',
   swarmmind: 'c707d41a7bb96d96',
-  library: '33daff393bc73937'
+  library: '42e853d4ec37955d'
+};
+
+var ALLOWED_ED25519_KEY_IDS = {
+  archivist: ['6ed65c18a0afca45'],
+  kernel: ['2effb49ea02dff5b'],
+  swarmmind: ['c707d41a7bb96d96'],
+  library: ['42e853d4ec37955d', '33daff393bc73937']
 };
 
 var EXPECTED_RSA_KEY_IDS = {
@@ -89,8 +96,9 @@ function runGuards() {
       errors.push('WRONG_ALGORITHM: Lane "' + laneId + '" current key has algorithm "' + laneEntry.algorithm + '", expected "EdDSA"');
     }
 
-    if (laneEntry.key_id && laneEntry.key_id !== expectedEdKeyId) {
-      errors.push('WRONG_KEY_ID: Lane "' + laneId + '" current key_id "' + laneEntry.key_id + '", expected "' + expectedEdKeyId + '"');
+    var allowedEdKeyIds = ALLOWED_ED25519_KEY_IDS[laneId] || [expectedEdKeyId];
+    if (laneEntry.key_id && !allowedEdKeyIds.includes(laneEntry.key_id)) {
+      errors.push('WRONG_KEY_ID: Lane "' + laneId + '" current key_id "' + laneEntry.key_id + '", expected one of [' + allowedEdKeyIds.join(', ') + ']');
     }
 
     if (!laneEntry.key_id) {

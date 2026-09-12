@@ -155,3 +155,14 @@ nul
 # Work claim registry (runtime coordination, advisory only)
 lanes/*/state/work-claim.json
 .work-claim.json
+**/quarantine-archive-*/
+
+# Runtime metrics/snapshots (regenerated continuously, never commit)
+**/metrics/resource_usage.jsonl
+**/state/snapshots/latest.json
+**/cps_log.jsonl
+lanes/broadcast/journal/SNAPSHOT.json
+lanes/broadcast/last-recovery.json
+
+# Lane-worker runtime state (regenerated continuously, never commit)
+logs/contradiction-adjudicator.json

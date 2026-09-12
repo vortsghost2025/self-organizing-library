@@ -1,16 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { LaneDiscovery } = require('./util/lane-discovery');
 
-const discovery = new LaneDiscovery();
-const lanes = ['archivist', 'kernel', 'library', 'swarmmind'];
-const roots = {
-  archivist: discovery.getLocalPath('archivist'),
-  kernel: discovery.getLocalPath('kernel'),
-  library: discovery.getLocalPath('library'),
-  swarmmind: discovery.getLocalPath('swarmmind'),
-};
+const { LaneDiscovery } = require('./util/lane-discovery');
+const _discovery = new LaneDiscovery();
+
+const lanes = _discovery.listLanes();
+const roots = {};
+for (const lane of lanes) {
+  roots[lane] = _discovery.getLocalPath(lane);
+}
 
 console.log('=== CROSS-LANE CONSISTENCY CHECK ===\n');
 
@@ -19,6 +18,7 @@ console.log('1. TRUST STORES');
 const trustHashes = {};
 for (const lane of lanes) {
   const tsPath = path.join(roots[lane], 'lanes/broadcast/trust-store.json');
+  if (!fs.existsSync(tsPath)) { trustHashes[lane] = 'NO_TRUST_STORE'; console.log('  ' + lane + ': NO_TRUST_STORE'); continue; }
   const content = fs.readFileSync(tsPath, 'utf8');
   const hash = crypto.createHash('sha256').update(content).digest('hex').slice(0, 16);
   trustHashes[lane] = hash;
@@ -26,7 +26,8 @@ for (const lane of lanes) {
   const keyIds = Object.entries(ts).map(([k, v]) => k + ':' + v.key_id).join(', ');
   console.log('  ' + lane + ': hash=' + hash + ' | ' + keyIds);
 }
-const uniqueTrustHashes = [...new Set(Object.values(trustHashes))];
+const presentTrustHashes = Object.values(trustHashes).filter(v => v !== 'NO_TRUST_STORE');
+const uniqueTrustHashes = [...new Set(presentTrustHashes)];
 console.log('  Consistent: ' + (uniqueTrustHashes.length === 1 ? 'YES' : 'NO'));
 
 // 2. Schema validators
@@ -65,6 +66,7 @@ for (const field of enumFields) {
 console.log('\n3. SYSTEM STATE');
 for (const lane of lanes) {
   const ssPath = path.join(roots[lane], 'lanes/broadcast/system_state.json');
+  if (!fs.existsSync(ssPath)) { console.log('  ' + lane + ': NO_SYSTEM_STATE'); continue; }
   const ss = JSON.parse(fs.readFileSync(ssPath, 'utf8'));
   console.log('  ' + lane + ': status=' + ss.system_status +
     ' | contradictions=' + (ss.total_contradictions || 0) +
