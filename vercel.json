@@ -16,8 +16,6 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "env": {
-    "NEXT_PUBLIC_SITE_URL": {
-      "description": "Public URL of the deployed site"
-    }
+    "NEXT_PUBLIC_SITE_URL": "https://deliberateensemble.works"
   }
 }
