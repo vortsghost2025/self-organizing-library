@@ -61,11 +61,10 @@ const ARGS = process.argv.slice(2);
 const ADJUDICATION_PATH = getArgValue(ARGS, '--adjudication');
 const OUTPUT_ARG = getArgValue(ARGS, '--output');
 
-<<<<<<< HEAD
 const { execSync } = require('child_process');
 
-const REGISTRY_PATH = path.join(discovery.getLocalPath('library'), 'data', 'repo-registry.json');
-const REMOTE_CACHE_DIR = path.join(discovery.getLocalPath('library'), '.cache', 'repo-sources');
+const REGISTRY_PATH = path.join(LIBRARY_ROOT, 'data', 'repo-registry.json');
+const REMOTE_CACHE_DIR = path.join(LIBRARY_ROOT, '.cache', 'repo-sources');
 
 function extractGitTreeBlobs(repoDir) {
   try {
@@ -120,30 +119,49 @@ function getRepoGitProvenance(repoName, rootDir, defaultBranch, sourceMode) {
 }
 
 function resolveRepoRoot(r) {
-  // 1. Configured local path
+  // 0. Check REPO_ROOTS environment variable / getRepoRoot
+  const fromEnv = getRepoRoot(r.name, null, null);
+  if (fromEnv && fs.existsSync(fromEnv)) {
+    return { root: fromEnv, source: 'REPO_ROOTS' };
+  }
+
+  // 1. Core library root
+  if (r.name === 'self-organizing-library') {
+    return { root: LIBRARY_ROOT, source: 'LOCAL' };
+  }
+
+  // 2. Configured local path
   if (r.local_path && fs.existsSync(r.local_path)) {
     return { root: r.local_path, source: 'LOCAL' };
   }
 
-  // 2. Core lane local paths
-  if (r.name === 'self-organizing-library' && fs.existsSync(discovery.getLocalPath('library'))) {
-    return { root: discovery.getLocalPath('library'), source: 'LOCAL' };
-  }
-  if (r.name === 'Archivist-Agent' && fs.existsSync(discovery.getLocalPath('archivist'))) {
-    return { root: discovery.getLocalPath('archivist'), source: 'LOCAL' };
-  }
-  if (r.name === 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System' && fs.existsSync(discovery.getLocalPath('swarmmind'))) {
-    return { root: discovery.getLocalPath('swarmmind'), source: 'LOCAL' };
-  }
-  if (r.name === 'kernel-lane' && fs.existsSync(discovery.getLocalPath('kernel'))) {
-    return { root: discovery.getLocalPath('kernel'), source: 'LOCAL' };
+  // 3. Core lane local paths via discovery if available
+  if (discovery) {
+    try {
+      if (r.name === 'Archivist-Agent') {
+        const p = discovery.getLocalPath('archivist');
+        if (fs.existsSync(p)) return { root: p, source: 'LOCAL' };
+      }
+      if (r.name === 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System') {
+        const p = discovery.getLocalPath('swarmmind');
+        if (fs.existsSync(p)) return { root: p, source: 'LOCAL' };
+      }
+      if (r.name === 'kernel-lane') {
+        const p = discovery.getLocalPath('kernel');
+        if (fs.existsSync(p)) return { root: p, source: 'LOCAL' };
+      }
+    } catch (_) {}
   }
 
-  // 3. Known alternate local paths on S:
+  // 4. Known alternate local paths on S: and /tmp/repos/
   const candidateLocalPaths = [
+    path.join('/tmp/repos', r.name),
     path.join('S:', r.name),
     path.join('S:', r.name.replace(/-/g, ' ')),
   ];
+  if (r.name === 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System') {
+    candidateLocalPaths.unshift('/tmp/repos/SwarmMind', 'S:/SwarmMind');
+  }
   if (r.name === 'Deliberate-AI-Ensemble') {
     candidateLocalPaths.unshift('S:/April152026mainreferencepoint');
   }
@@ -154,7 +172,7 @@ function resolveRepoRoot(r) {
     }
   }
 
-  // 4. Remote Cache Fallback
+  // 5. Remote Cache Fallback
   const cachedDir = path.join(REMOTE_CACHE_DIR, r.name);
   if (fs.existsSync(cachedDir)) {
     try {
@@ -166,7 +184,7 @@ function resolveRepoRoot(r) {
     return { root: cachedDir, source: 'REMOTE_CACHE' };
   }
 
-  // 5. If not cached, attempt shallow clone from public GitHub URL
+  // 6. If not cached, attempt shallow clone from public GitHub URL
   if (r.github_url && r.visibility === 'public') {
     fs.mkdirSync(REMOTE_CACHE_DIR, { recursive: true });
     try {
@@ -204,126 +222,10 @@ function loadRepoConfigsFromRegistry() {
     const github = r.github_url ? `${r.github_url}/blob/${defaultBranch}` : null;
 
     let categoryMap = {
-=======
-const REPOS = [
-  {
-    name: 'self-organizing-library',
-    root: LIBRARY_ROOT,
-    github: 'https://github.com/vortsghost2025/self-organizing-library/blob/main',
-    categoryMap: {
-      'library/books': 'paper',
-      'library/docs/papers': 'paper',
-      'library/docs/specs': 'spec',
-      'library/docs/verification': 'verification',
-      'library/docs/failure-modes': 'failure-mode',
-      'library/docs/attestation': 'attestation',
-      'library/docs/archivist': 'governance',
-      'library/docs/reflection': 'reflection',
-      'library/docs/pending': 'pending',
-      'schemas': 'schema',
-      'scripts': 'script',
-      'src/attestation': 'attestation',
-      'src/audit': 'audit',
-      'src/identity': 'identity',
-  'src/lane': 'lane-protocol',
-  'src/resilience': 'resilience',
-  'src/swarmmind': 'swarmmind',
-  'src/queue': 'queue',
-  'src/usage': 'usage',
-  'src/memory': 'memory',
-  'src/db': 'database',
-  'docs': 'docs',
-      'tests': 'test',
-      'verification': 'verification',
-      'config': 'config',
-      'data': 'data',
-    },
-    maxDepth: Infinity,
-    excludeDirs: new Set([
-      '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-      'tmp', 'out', 'context-buffer',  // local-only artifacts, no GitHub mirror
-    ]),
-  },
-  {
-    name: 'Archivist-Agent',
-    root: getRepoRoot('Archivist-Agent', 'archivist', 'S:/Archivist-Agent'),
-    github: 'https://github.com/vortsghost2025/Archivist-Agent/blob/master',
-    categoryMap: {
-      'docs': 'docs',
-      'docs/spec': 'spec',
-    'docs/verification': 'verification',
-    'papers': 'paper',
-      'logs': 'log',
-      'config': 'config',
-      'projects': 'project',
-      'COORDINATION': 'coordination',
-      'context': 'context',
-      'schemas': 'schema',
-      'scripts': 'script',
-      'src/attestation': 'attestation',
-      'src/core': 'governance',
-      'src/lane': 'lane-protocol',
-      'src/orchestrator': 'governance',
-      'src/monitoring': 'monitoring',
-      'src/queue': 'queue',
-      'src/memory': 'memory',
-      'src/bridge': 'bridge',
-      'src/tools': 'tool',
-      'tests': 'test',
-      'verification': 'verification',
-      'data': 'data',
-      'library': 'library',
-    },
-    maxDepth: Infinity,
-    excludeDirs: new Set([
-      '.overstory', '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-      '.pi', '.mulch', '.sapling', '.canopy', '.seeds', '.global',
-      '.artifacts', '.compact-audit', '.test-trust', '.test-memory',
-      '.test-identity', '.continuity_test', '.continuity_test2',
-      '.continuity_test2b', '.continuity_test3', '.continuity_test4',
-      '.lane-relay', 'backup_static_old', 'target', 'public_html',
-      'context-buffer',  // Local-only artifacts, no GitHub mirror
-    ]),
-  },
-  {
-    name: 'SwarmMind-Self-Optimizing-Multi-Agent-AI-System',
-    root: getRepoRoot('SwarmMind-Self-Optimizing-Multi-Agent-AI-System', 'swarmmind', 'S:/SwarmMind'),
-    github: 'https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System/blob/main',
-    categoryMap: {
->>>>>>> f6852600 (fix(ci): make site index generation work without local lane registry)
       'docs': 'docs',
       'src': 'code',
       'scripts': 'script',
       'tests': 'test',
-<<<<<<< HEAD
-=======
-    'config': 'config',
-    'schemas': 'schema',
-    'data': 'data',
-  },
-  maxDepth: Infinity,
-  excludeDirs: new Set([
-    '.kilo', '.kilocode', '.claude', '.cursor', '.aider-desk',
-    '.pi', '.mulch', '.sapling', '.canopy', '.seeds',
-    '.global', '.compact-audit', '.test-trust', '.test-memory',
-    '.test-identity', '.continuity_test', '.continuity_test2',
-    '.continuity_test2b', '.continuity_test3', '.continuity_test4',
-    'worktrees', 'tmp',
-  ]),
-  },
-  {
-    name: 'kernel-lane',
-    root: getRepoRoot('kernel-lane', 'kernel', 'S:/kernel-lane'),
-    github: 'https://github.com/vortsghost2025/kernel-lane/blob/master',
-    categoryMap: {
-      'kernels': 'kernel',
-      'docs': 'docs',
-      'schemas': 'schema',
-      'scripts': 'script',
-    'src': 'code',
-    'benchmarks': 'benchmark',
-      'integration': 'integration',
->>>>>>> f6852600 (fix(ci): make site index generation work without local lane registry)
       'config': 'config',
       'schemas': 'schema',
       'data': 'data',

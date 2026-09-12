@@ -1,9 +1,14 @@
 import { getEntryById, getRepoRoots } from "@/lib/site-index";
 import { NextResponse } from "next/server";
-import { readFile } from "fs/promises";
-import { join } from "path";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
+import { createRequire } from "module";
+
+const req = createRequire(import.meta.url);
+const path: any = req("path");
+const fsPromises: any = req("fs/promises");
+const safeJoin = (...parts: string[]): string => path.join(...parts);
+const readLocalFile = (p: string): Promise<string> => fsPromises.readFile(p, "utf-8");
 
 const RENDERABLE_EXTENSIONS = new Set([
   ".md",
@@ -54,8 +59,38 @@ export async function GET(
   const repoRoot = repoRoots[entry.repo] || process.env.REPO_ROOT || "S:/self-organizing-library";
 
   try {
-    const filePath = join(repoRoot, entry.path);
-    const content = await readFile(filePath, "utf-8");
+    let content: string | null = null;
+    try {
+      const filePath = safeJoin(repoRoot, entry.path);
+      content = await readLocalFile(filePath);
+    } catch {
+      content = null;
+    }
+
+    // If local read fails or is unavailable on cloud serverless, fallback to GitHub raw
+    if (content === null && entry.github_url) {
+      try {
+        const rawUrl = entry.github_url
+          .replace("github.com", "raw.githubusercontent.com")
+          .replace("/blob/", "/");
+        const res = await fetch(rawUrl, { next: { revalidate: 3600 } });
+        if (res.ok) {
+          content = await res.text();
+        }
+      } catch {
+        content = null;
+      }
+    }
+
+    if (content === null) {
+      return NextResponse.json({
+        content: null,
+        renderable: true,
+        truncated: false,
+        message:
+          "File could not be read — it may exist only in the remote repository",
+      });
+    }
 
     let mdxSource: string | null = null;
     if (entry.extension === ".mdx") {

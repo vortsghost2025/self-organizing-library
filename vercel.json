@@ -6,6 +6,11 @@
       "preview": true
     }
   },
+  "build": {
+    "env": {
+      "VERCEL_SUPPORT_LARGE_FUNCTIONS": "1"
+    }
+  },
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",

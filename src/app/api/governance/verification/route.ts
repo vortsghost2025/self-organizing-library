@@ -1,14 +1,17 @@
 import { NextResponse } from 'next/server';
-import { readFileSync, existsSync, readdirSync } from 'fs';
-import { join } from 'path';
+import { createRequire } from 'module';
 
-const PROJECT_ROOT = join(process.cwd());
+const req = createRequire(import.meta.url);
+const path: any = req('path');
+const fs: any = req('fs');
+const safeJoin = (...parts: string[]): string => path.join(...parts);
+const safeFs = fs;
 
 function readJsonSafe(relativePath: string): any | null {
-  const fullPath = join(PROJECT_ROOT, relativePath);
-  if (!existsSync(fullPath)) return null;
   try {
-    return JSON.parse(readFileSync(fullPath, 'utf-8'));
+    const fullPath = safeJoin(process.cwd(), relativePath);
+    if (!safeFs.existsSync(fullPath)) return null;
+    return JSON.parse(safeFs.readFileSync(fullPath, 'utf-8'));
   } catch {
     return null;
   }

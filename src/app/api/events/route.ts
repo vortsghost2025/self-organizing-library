@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { createRequire } from 'module';
+
+const req = createRequire(import.meta.url);
+const fs: any = req('fs');
+const path: any = req('path');
+const safeJoin = (...parts: string[]): string => path.join(...parts);
+const safeRel = (from: string, to: string): string => path.relative(from, to);
+const safeFs = fs;
 
 interface SystemEvent {
   id: string;
@@ -25,16 +31,16 @@ export async function GET() {
     const root = process.cwd();
 
     for (const dir of sourceDirs) {
-      const fullPath = path.join(root, dir.path);
-      if (!fs.existsSync(fullPath)) continue;
+      const fullPath = safeJoin(root, dir.path);
+      if (!safeFs.existsSync(fullPath)) continue;
 
-      const files = fs.readdirSync(fullPath);
+      const files = safeFs.readdirSync(fullPath);
       
       for (const file of files) {
         if (file === 'README.md' || file.startsWith('.')) continue;
 
-        const filePath = path.join(fullPath, file);
-        const stats = fs.statSync(filePath);
+        const filePath = safeJoin(fullPath, file);
+        const stats = safeFs.statSync(filePath);
         
         // Try to extract timestamp from filename or use mtime
         let timestamp = stats.mtime.toISOString();
@@ -53,7 +59,7 @@ export async function GET() {
         
         if (file.endsWith('.json')) {
           try {
-            const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+            const content = JSON.parse(safeFs.readFileSync(filePath, 'utf8'));
             title = content.subject || content.title || file;
             description = content.body || content.description || 'Detailed event record';
           } catch (e) {
@@ -67,7 +73,7 @@ export async function GET() {
           type: type as any,
           title,
           description,
-          evidencePath: path.relative(root, filePath),
+          evidencePath: safeRel(root, filePath),
           accessibility: filePath.includes('lanes/broadcast') ? 'Repo' : 'Local',
         });
       }
