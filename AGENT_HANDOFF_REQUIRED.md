@@ -5,7 +5,7 @@
 **Lane:** test-lane
 **Reason:** SIGNATURE_MISMATCH
 **Retry Count:** 5
-**Timestamp:** 2026-05-03T01:20:36.469Z
+**Timestamp:** 2026-09-12T03:30:32.940Z
 
 ## Action Required
 1. Release with manual approval
@@ -13,4 +13,4 @@
 3. Force phenotype sync
 
 ## Logs
-See: S:\self-organizing-library\scripts\test-quarantine-1777771236467.log
+See: S:\self-organizing-library\scripts\test-quarantine-1789183832938.log

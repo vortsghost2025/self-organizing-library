@@ -7,7 +7,7 @@ var EXPECTED_ED25519_KEY_IDS = {
   archivist: '6ed65c18a0afca45',
   kernel: '2effb49ea02dff5b',
   swarmmind: 'c707d41a7bb96d96',
-  library: '42e853d4ec37955d'
+  library: '33daff393bc73937'
 };
 
 var EXPECTED_RSA_KEY_IDS = {
@@ -15,6 +15,10 @@ var EXPECTED_RSA_KEY_IDS = {
   kernel: '4ac54d4100323c71',
   swarmmind: 'ec467e7103736c28',
   library: 'a5a5f5c2edbee56a'
+};
+
+var EXPECTED_ARCHIVED_ED25519_KEY_IDS = {
+  library: '42e853d4ec37955d'
 };
 
 var LANE_ROOT = process.env.LANE_ROOT || path.resolve(__dirname, '..');
@@ -102,7 +106,7 @@ function runGuards() {
       }
       if (!archivedEntry.superseded_by) {
         errors.push('MISSING_SUPERSEDED_BY: Archived key "' + expectedRsaKeyId + '" missing superseded_by link');
-      } else if (archivedEntry.superseded_by !== expectedEdKeyId) {
+      } else if (archivedEntry.superseded_by !== expectedEdKeyId && archivedEntry.superseded_by !== EXPECTED_ARCHIVED_ED25519_KEY_IDS[laneId]) {
         errors.push('WRONG_SUPERSEDED_BY: Archived key "' + expectedRsaKeyId + '" superseded_by "' + archivedEntry.superseded_by + '", expected "' + expectedEdKeyId + '"');
       }
     }
@@ -113,7 +117,7 @@ function runGuards() {
     var arkId = allArchivedKeyIds[j];
     var isExpected = false;
     for (var k = 0; k < laneIds.length; k++) {
-      if (arkId === EXPECTED_RSA_KEY_IDS[laneIds[k]]) {
+      if (arkId === EXPECTED_RSA_KEY_IDS[laneIds[k]] || arkId === EXPECTED_ARCHIVED_ED25519_KEY_IDS[laneIds[k]]) {
         isExpected = true;
         break;
       }

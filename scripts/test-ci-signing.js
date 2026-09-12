@@ -121,6 +121,7 @@ function testRsaBackwardCompatibility() {
     for (var i = 0; i < keyIds.length; i++) {
         var keyId = keyIds[i];
         var archived = archivedKeys[keyId];
+        if (archived.algorithm !== 'RS256') continue;
         var pubPem = archived.public_key_pem;
         assert(!!pubPem, archived.lane_id + ' archived RSA key has public_key_pem');
         assert(archived.algorithm === 'RS256', archived.lane_id + ' archived key is RS256');
@@ -179,15 +180,15 @@ function testTrustStoreArchivedKeysValid() {
     var archivedKeys = trustStore.archived_keys || {};
     var keyIds = Object.keys(archivedKeys);
 
-    assert(keyIds.length === 4, 'exactly 4 archived keys (got ' + keyIds.length + ')');
+    assert(keyIds.length >= 4, 'at least 4 archived keys (got ' + keyIds.length + ')');
 
     for (var i = 0; i < keyIds.length; i++) {
         var keyId = keyIds[i];
         var archived = archivedKeys[keyId];
-        assert(archived.algorithm === 'RS256', 'archived key ' + keyId + ' is RS256');
+        assert(archived.algorithm === 'RS256' || archived.algorithm === 'EdDSA', 'archived key ' + keyId + ' is valid algorithm (' + archived.algorithm + ')');
         assert(!!archived.superseded_by, 'archived key ' + keyId + ' has superseded_by');
         assert(!!archived.lane_id, 'archived key ' + keyId + ' has lane_id');
-        assert(archived.archived_reason === 'ed25519-migration', 'archived key ' + keyId + ' has ed25519-migration reason');
+        assert(!!archived.archived_reason, 'archived key ' + keyId + ' has archived_reason');
     }
 }
 

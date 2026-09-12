@@ -1,30 +1,32 @@
 [
   {
     "lane": "archivist",
-    "total": 5,
-    "verified": 5,
+    "total": 4,
+    "verified": 4,
     "mismatches": [],
     "missingEvidence": []
   },
   {
     "lane": "library",
-    "total": 2,
-    "verified": 2,
+    "total": 0,
+    "verified": 0,
     "mismatches": [],
     "missingEvidence": []
   },
   {
     "lane": "swarmmind",
-    "total": 8,
-    "verified": 8,
+    "total": 93,
+    "verified": 93,
     "mismatches": [],
     "missingEvidence": []
   },
   {
     "lane": "kernel",
-    "total": 18,
-    "verified": 18,
+    "total": 8,
+    "verified": 7,
     "mismatches": [],
-    "missingEvidence": []
+    "missingEvidence": [
+      "kernel-ubuntu-audit-recommendations-20260504.json"
+    ]
   }
 ]
