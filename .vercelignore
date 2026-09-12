@@ -1,0 +1,37 @@
+# Vercel Ignore File
+# Ignore unnecessary files to stay well below the 15,000 file limit and speed up uploads
+
+.archive/
+.kilocode/
+.kilo/
+.agents/
+.devin/
+.playwright-cli/
+.superpowers/
+.cache/
+.ruff_cache/
+.compact-audit/
+.memory/
+.cursor/
+
+# Clones & submodules not needed for web build
+SwarmMind-Self-Optimizing-Multi-Agent-AI-System/
+context-buffer/
+
+# Logs & temp
+logs/
+tmp/
+*.log
+*.zip
+*.tar.gz
+*.tgz
+
+# Historical screenshots & heavy docs
+docs/graph/historical-screenshots/
+docs/graph/Nexus_Graph_Historical_Screenshots.zip
+docs/graph/restoration-evidence/
+reports/
+
+# Tests
+tests/
+test-results/

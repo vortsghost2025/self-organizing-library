@@ -467,22 +467,154 @@ select:focus-visible,
   font-weight: 600;
 }
 
-.a11y-high-contrast .prose-dark code {
-  background: #1A1A1A;
-  border: 1px solid var(--border);
+/* Accessibility: WCAG AAA High Contrast Theme */
+html.a11y-high-contrast,
+body.a11y-high-contrast {
+  --bg-base: #000000;
+  --bg-surface: #0A0A0E;
+  --bg-surface-hover: #18181E;
+  --border: #71717A;
+  --primary: #A78BFA;
+  --primary-hover: #C4B5FD;
+  --primary-text: #FFFFFF;
+  --secondary: #38BDF8;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E4E4E7;
+  --text-muted: #D4D4D8;
+  --success: #34D399;
+  --warning: #FBBF24;
+  --error: #F87171;
 }
 
-.a11y-high-contrast .prose-dark pre {
+html.a11y-high-contrast .card {
+  border: 2px solid #71717A;
+  background: #0D0D12;
+}
+
+html.a11y-high-contrast .card:hover {
+  border-color: #C4B5FD;
+  box-shadow: 0 0 0 2px #C4B5FD;
+}
+
+html.a11y-high-contrast a:focus,
+html.a11y-high-contrast button:focus,
+html.a11y-high-contrast input:focus {
+  outline: 3px solid #38BDF8 !important;
+  outline-offset: 3px !important;
+}
+
+html.a11y-high-contrast .prose-dark code {
+  background: #1A1A22;
+  border: 2px solid var(--border);
+  color: #FFFFFF;
+}
+
+html.a11y-high-contrast .prose-dark pre {
   border-width: 2px;
+  border-color: #71717A;
+  background: #050508;
 }
 
-.a11y-large-text .prose-dark {
+/* Accessibility: Large Text Mode for low-vision reading */
+html.a11y-large-text {
   font-size: 18px;
-  line-height: 1.8;
 }
 
-.a11y-large-text .prose-dark h1 { font-size: 2rem; }
-.a11y-large-text .prose-dark h2 { font-size: 1.6rem; }
-.a11y-large-text .prose-dark h3 { font-size: 1.35rem; }
-.a11y-large-text .prose-dark code { font-size: 0.85em; }
-.a11y-large-text .prose-dark pre code { font-size: 1rem; }
+html.a11y-large-text body {
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+html.a11y-large-text h1 { font-size: 2.5rem; }
+html.a11y-large-text h2 { font-size: 2rem; }
+html.a11y-large-text h3 { font-size: 1.5rem; }
+
+html.a11y-large-text .card {
+  padding: 1.75rem;
+}
+
+html.a11y-large-text button,
+html.a11y-large-text .btn-primary {
+  padding: 12px 24px;
+  font-size: 1.05rem;
+}
+
+html.a11y-large-text .prose-dark {
+  font-size: 20px;
+  line-height: 1.85;
+}
+
+html.a11y-large-text .prose-dark h1 { font-size: 2.25rem; }
+html.a11y-large-text .prose-dark h2 { font-size: 1.85rem; }
+html.a11y-large-text .prose-dark h3 { font-size: 1.5rem; }
+html.a11y-large-text .prose-dark code { font-size: 0.9em; }
+html.a11y-large-text .prose-dark pre code { font-size: 1.05rem; }
+
+/* ==========================================================================
+   Cosmic Observatory & Sci-Fi Command Deck Visual System
+   ========================================================================== */
+.cosmic-canvas-wrapper {
+  background: radial-gradient(ellipse at 50% 35%, #0e172a 0%, #080d1a 50%, #030712 100%);
+  position: relative;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.15), inset 0 0 60px -20px rgba(15, 23, 42, 0.85);
+  overflow: hidden;
+}
+
+.cosmic-canvas-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    radial-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px, 12px 12px;
+  background-position: 0 0, 18px 18px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.cosmic-glass-panel {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+}
+
+.cosmic-glass-hud {
+  background: rgba(10, 15, 30, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(99, 102, 241, 0.2);
+}
+
+.cosmic-pill {
+  background: rgba(30, 41, 59, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cosmic-pill:hover {
+  background: rgba(51, 65, 85, 0.8);
+  border-color: rgba(167, 139, 250, 0.4);
+  transform: translateY(-1px);
+}
+
+.cosmic-pill-active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.35) 100%);
+  border-color: rgba(167, 139, 250, 0.6);
+  box-shadow: 0 0 16px -2px rgba(139, 92, 246, 0.4);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite ease-in-out;
+}

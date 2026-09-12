@@ -1,0 +1,34 @@
+﻿=== PASS-1.6B MANIFEST ===
+RUN_ID: run_16b_20260817234135_EBxoPIai
+CREATED_AT: 2026-08-17T23:41:55.6268986-04:00
+DEFAULT_SPEC_COMPLIANT: YES
+EDGE_COUNT_SOURCE_MATCHES_RENDERER: YES
+UNPROVEN_ALIAS_REMOVED: YES
+LARGE_TEXT_ENABLED: YES
+NODES_OUTSIDE_VISIBLE_VIEWPORT: 38
+LARGE_TEXT_NODE_CONTAINMENT_PASS: NO
+GRAPH_DATA_CHANGED: NO
+
+--- A16b_default ---
+PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.6\run_16b_20260817234135_EBxoPIai\A16b_default.png
+SHA256: 03296d04798f8b77655080b30fe94ce3fbe2b22ee4281ee671d7fcec1fc37e19
+SIGMA: 38n / 0e
+TOOLBAR: 38 nodes / 0 edges
+LAYERS: structure,verification
+
+--- C16b_focus_rawid ---
+PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.6\run_16b_20260817234135_EBxoPIai\C16b_focus_rawid.png
+SHA256: 360f39a909aadb0ac2ff5e0ded11db48887a965c71034b53f2ed47f6540e813e
+RESOLUTION_METHOD: exact_node_id
+RESOLVED_ID: 2abc406c3496acfd
+SIGMA: 1n / 0e
+TOOLBAR: 1 nodes / 0 edges
+
+--- F16b_large_text_viewport ---
+PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.6\run_16b_20260817234135_EBxoPIai\F16b_large_text_viewport.png
+SHA256: da230f2d7a38b4f2d12b97cd01bc005bdad91986d59ecf1f3fc21ce9a2c8354f
+LARGE_TEXT_DOM: True
+LARGE_TEXT_ARIA: true
+NODES_OUTSIDE_VIEWPORT: 38
+SIGMA: 38n / 0e
+TOOLBAR: 38 nodes / 0 edges

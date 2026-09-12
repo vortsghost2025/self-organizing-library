@@ -8,32 +8,37 @@ interface DensityControlProps {
 }
 
 const DENSITIES: { level: DensityLevel; label: string; icon: string; description: string }[] = [
-  { level: "overview", label: "Overview", icon: "◉", description: "Cluster representatives only" },
-  { level: "mid", label: "Explore", icon: "◈", description: "Active cluster nodes" },
-  { level: "focus", label: "Focus", icon: "◎", description: "Node + neighbors" },
+  { level: "overview", label: "Overview", icon: "◉", description: "Cluster hubs" },
+  { level: "mid", label: "Explore", icon: "◈", description: "Active view" },
+  { level: "focus", label: "Focus", icon: "◎", description: "Neighborhood" },
 ];
 
 export default function DensityControl({ density, onChange }: DensityControlProps) {
   return (
-    <div className="space-y-1" role="radiogroup" aria-label="Density level">
-      <h3 className="text-sm font-medium uppercase tracking-wide text-[var(--text-secondary)] mb-2">Density</h3>
-      {DENSITIES.map((d) => (
-        <button
-          key={d.level}
-          onClick={() => onChange(d.level)}
-          role="radio"
-          aria-checked={density === d.level}
-          className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-1 ${
-            density === d.level
-              ? "bg-[var(--primary)] text-white"
-              : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
-          }`}
-        >
-          <span className="w-5 text-center" aria-hidden="true">{d.icon}</span>
-          <span className="flex-1">{d.label}</span>
-          <span className="text-sm text-[var(--text-muted)] truncate" title={d.description}>{d.description}</span>
-        </button>
-      ))}
+    <div className="space-y-1.5" role="radiogroup" aria-label="Density level">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 px-1">Constellation Density</h3>
+      <div className="grid grid-cols-3 gap-1 p-1 bg-slate-900/60 rounded-lg border border-white/5">
+        {DENSITIES.map((d) => {
+          const isActive = density === d.level;
+          return (
+            <button
+              key={d.level}
+              onClick={() => onChange(d.level)}
+              role="radio"
+              aria-checked={isActive}
+              className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-md text-xs transition-all cursor-pointer ${
+                isActive
+                  ? "bg-purple-600/30 text-purple-200 border border-purple-400/50 shadow-sm font-semibold"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+              }`}
+              title={d.description}
+            >
+              <span className="text-xs mb-0.5" aria-hidden="true">{d.icon}</span>
+              <span className="text-[11px]">{d.label}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

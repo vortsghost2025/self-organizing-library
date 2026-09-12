@@ -1,6 +1,4 @@
 import siteIndex from "../../data/site-index.json";
-import type { GraphSection, AuthorityWeight, ExteriorRole } from "@/lib/graph-types";
-import { getArchitectureMapRegion, getSystemsMapRegion } from "@/lib/semantic-graph-layout";
 import {
   computeAuthorityEdges,
   computeGovernanceDepths,
@@ -69,7 +67,6 @@ export type GraphLens =
 export interface GraphNodeRecord {
   id: string;
   title: string;
-  path: string;
   type: string;
   category: string;
   repo: string;
@@ -81,9 +78,6 @@ export interface GraphNodeRecord {
   governanceLayer: string;
   authorityDepth: number;
   bridgeState: string;
-  graphSection: "core" | "exterior";
-  authorityWeight: "normal" | "0";
-  exteriorRole: "pattern_donor" | "origin_artifact" | "simulation" | "history" | "";
 }
 
 export interface GraphEdgeRecord {
@@ -172,7 +166,7 @@ const AUTHORITY_EDGE_TYPES = [
 const LENS_META: Record<GraphLens, { label: string; description: string }> = {
   navigation: {
     label: "Navigation Map",
-    description: "Curated architecture view of the self-organizing-library runtime, graph engine, and evidence flow.",
+    description: "Human-first overview of the core archive, key papers, and active contradictions.",
   },
   authority: {
     label: "Authority Map",
@@ -191,8 +185,8 @@ const LENS_META: Record<GraphLens, { label: string; description: string }> = {
     description: "Cross-repo view of the four main lane repositories and their highest-signal artifacts.",
   },
   full: {
-    label: "Full Explicit Graph",
-    description: "All indexed nodes with explicit references and explicit authority edges only.",
+    label: "Full Cosmic Archive",
+    description: "Full celestial observatory galaxy — core archive nodes, key papers, and outer stellar shell.",
   },
   canonical: {
     label: "Canonical Graph",
@@ -210,10 +204,8 @@ type BuiltGraphData = {
 };
 
 type LensDefinition = GraphLensDefinitionSummary & {
-  sourceGraph?: "explicit" | "canonical";
   selectNodeIds: (graph: BuiltGraphData) => Set<string>;
   edgeFilter?: (edge: GraphEdgeRecord) => boolean;
-  scoreEdge?: (edge: GraphEdgeRecord, graph: BuiltGraphData) => number;
 };
 
 const baseNodeScore = (node: GraphNodeRecord): number => {
@@ -242,20 +234,6 @@ function buildGraphData(includeTagInferences: boolean): BuiltGraphData {
 
   const statusMap = new Map(nodeStatuses.map((status) => [status.id, status]));
   const governanceMap = new Map(governanceDepths.map((depth) => [depth.id, depth]));
-
-  const sectionMap = new Map<string, "core" | "exterior">();
-  const weightMap = new Map<string, "normal" | "0">();
-  const roleMap = new Map<string, "pattern_donor" | "origin_artifact" | "simulation" | "history" | "">();
-  for (const [tagKey, ids] of Object.entries(index.tag_index)) {
-    if (tagKey === "graph_section:core") ids.forEach((id) => sectionMap.set(id, "core"));
-    else if (tagKey === "graph_section:exterior") ids.forEach((id) => sectionMap.set(id, "exterior"));
-    else if (tagKey === "authority_weight:normal") ids.forEach((id) => weightMap.set(id, "normal"));
-    else if (tagKey === "authority_weight:0") ids.forEach((id) => weightMap.set(id, "0"));
-    else if (tagKey === "exterior_role:pattern_donor") ids.forEach((id) => roleMap.set(id, "pattern_donor"));
-    else if (tagKey === "exterior_role:origin_artifact") ids.forEach((id) => roleMap.set(id, "origin_artifact"));
-    else if (tagKey === "exterior_role:simulation") ids.forEach((id) => roleMap.set(id, "simulation"));
-    else if (tagKey === "exterior_role:history") ids.forEach((id) => roleMap.set(id, "history"));
-  }
 
   const crossRefEdges = index.cross_references.map((ref) => ({
     source: ref.source,
@@ -297,7 +275,6 @@ function buildGraphData(includeTagInferences: boolean): BuiltGraphData {
     return {
       id: entry.id,
       title: entry.title,
-      path: entry.path,
       type: entry.content_type,
       category: entry.category,
       repo: entry.repo,
@@ -309,9 +286,6 @@ function buildGraphData(includeTagInferences: boolean): BuiltGraphData {
       governanceLayer: governance?.governanceLayer || "unknown",
       authorityDepth: governance?.authorityDepth || 0,
       bridgeState: governance?.bridgeState || "unknown",
-      graphSection: (sectionMap.get(entry.id) || "core") as GraphSection,
-      authorityWeight: (weightMap.get(entry.id) || "normal") as AuthorityWeight,
-      exteriorRole: (roleMap.get(entry.id) || "") as ExteriorRole,
     };
   });
 
@@ -370,420 +344,6 @@ function expandByNeighbors(
     }
   }
   return expanded;
-}
-
-function readableAuthorityRegionKey(node: GraphNodeRecord): string {
-  return getSystemsMapRegion(node as Parameters<typeof getSystemsMapRegion>[0]);
-}
-
-function readableNavigationRegionKey(node: GraphNodeRecord): string {
-  return getArchitectureMapRegion(node as Parameters<typeof getArchitectureMapRegion>[0]);
-}
-
-function pickDiverseNodes(
-  candidates: GraphNodeRecord[],
-  limit: number,
-  softCapPerRegion: number,
-  regionKey: (node: GraphNodeRecord) => string
-): GraphNodeRecord[] {
-  const ranked = [...candidates].sort(
-    (left, right) => baseNodeScore(right) - baseNodeScore(left)
-  );
-  const picked: GraphNodeRecord[] = [];
-  const usedIds = new Set<string>();
-  const regionCounts = new Map<string, number>();
-
-  for (const node of ranked) {
-    if (picked.length >= limit) break;
-    const key = regionKey(node);
-    if ((regionCounts.get(key) || 0) >= softCapPerRegion) continue;
-    picked.push(node);
-    usedIds.add(node.id);
-    regionCounts.set(key, (regionCounts.get(key) || 0) + 1);
-  }
-
-  for (const node of ranked) {
-    if (picked.length >= limit) break;
-    if (usedIds.has(node.id)) continue;
-    picked.push(node);
-    usedIds.add(node.id);
-  }
-
-  return picked;
-}
-
-function normalizeGraphPath(path: string): string {
-  return path.replace(/\\/g, "/").toLowerCase();
-}
-
-function buildNeighborMapFromEdges(
-  graph: BuiltGraphData,
-  edges: GraphEdgeRecord[],
-): Map<string, GraphNodeRecord[]> {
-  const neighborMap = new Map<string, GraphNodeRecord[]>();
-
-  const addNeighbor = (sourceId: string, targetId: string) => {
-    const target = graph.nodeMap.get(targetId);
-    if (!target) return;
-    const list = neighborMap.get(sourceId);
-    if (list) {
-      list.push(target);
-    } else {
-      neighborMap.set(sourceId, [target]);
-    }
-  };
-
-  for (const edge of edges) {
-    addNeighbor(edge.source, edge.target);
-    addNeighbor(edge.target, edge.source);
-  }
-
-  return neighborMap;
-}
-
-function buildAuthorityNeighborMap(graph: BuiltGraphData): Map<string, GraphNodeRecord[]> {
-  return buildNeighborMapFromEdges(graph, graph.authorityEdges);
-}
-
-function buildCombinedNeighborMap(graph: BuiltGraphData): Map<string, GraphNodeRecord[]> {
-  return buildNeighborMapFromEdges(graph, graph.combinedEdges);
-}
-
-function createReadableAuthorityNodeIds(graph: BuiltGraphData): Set<string> {
-  const authorityNeighborMap = buildAuthorityNeighborMap(graph);
-  const selected = new Set<string>();
-  const regionCounts = new Map<string, number>();
-  const targetNodeCount = 78;
-  const regionCaps: Record<string, number> = {
-    sources: 14,
-    claims: 14,
-    governance: 18,
-    execution: 12,
-    external: 8,
-    conflicts: 12,
-    default: 6,
-  };
-
-  const getRegionCap = (region: string) => regionCaps[region] ?? regionCaps.default;
-
-  const tryAddNode = (node: GraphNodeRecord, capBonus = 0): boolean => {
-    if (selected.has(node.id) || selected.size >= targetNodeCount) return false;
-    const region = readableAuthorityRegionKey(node);
-    const cap = getRegionCap(region) + capBonus;
-    if ((regionCounts.get(region) || 0) >= cap) return false;
-    selected.add(node.id);
-    regionCounts.set(region, (regionCounts.get(region) || 0) + 1);
-    return true;
-  };
-
-  const seedCandidates = graph.nodes.filter((node) =>
-    CORE_GOVERNANCE_LAYERS.has(node.governanceLayer) ||
-    BRIDGED_STATES.has(node.bridgeState) ||
-    node.status === "VERIFIED" ||
-    node.status === "CONFLICTED" ||
-    (THEORETICAL_GOVERNANCE_LAYERS.has(node.governanceLayer) &&
-      node.authorityDepth >= 70)
-  );
-
-  const primaryHubs = pickDiverseNodes(
-    seedCandidates,
-    12,
-    3,
-    readableAuthorityRegionKey
-  );
-
-  for (const hub of primaryHubs) {
-    tryAddNode(hub);
-  }
-
-  primaryHubs.slice(0, 8).forEach((hub, hubIndex) => {
-    const rankedNeighbors = [...(authorityNeighborMap.get(hub.id) || [])]
-      .filter(
-        (neighbor) =>
-          !NOISE_CATEGORIES.has(neighbor.category) &&
-          !NOISE_TYPES.has(neighbor.type) &&
-          (
-            neighbor.status === "VERIFIED" ||
-            neighbor.status === "CONFLICTED" ||
-            BRIDGED_STATES.has(neighbor.bridgeState) ||
-            CORE_GOVERNANCE_LAYERS.has(neighbor.governanceLayer) ||
-            neighbor.authorityDepth >= 65 ||
-            baseNodeScore(neighbor) >= 80
-          )
-      )
-      .sort((left, right) => baseNodeScore(right) - baseNodeScore(left));
-
-    let added = 0;
-    const localLimit = hubIndex < 4 ? 4 : 3;
-    for (const neighbor of rankedNeighbors) {
-      if (tryAddNode(neighbor, 2)) added += 1;
-      if (added >= localLimit) break;
-    }
-  });
-
-  const adjacentImportantNodes = graph.nodes.filter((node) => {
-    if (selected.has(node.id)) return false;
-    if (NOISE_CATEGORIES.has(node.category) || NOISE_TYPES.has(node.type)) return false;
-    const neighbors = authorityNeighborMap.get(node.id) || [];
-    return (
-      neighbors.some((neighbor) => selected.has(neighbor.id)) &&
-      (
-        node.status === "VERIFIED" ||
-        node.status === "CONFLICTED" ||
-        BRIDGED_STATES.has(node.bridgeState) ||
-        node.authorityDepth >= 70 ||
-        baseNodeScore(node) >= 75
-      )
-    );
-  });
-
-  for (const node of pickDiverseNodes(adjacentImportantNodes, 18, 4, readableAuthorityRegionKey)) {
-    tryAddNode(node, 1);
-  }
-
-  const regionalAnchors = graph.nodes.filter((node) => {
-    if (selected.has(node.id)) return false;
-    if (NOISE_CATEGORIES.has(node.category) || NOISE_TYPES.has(node.type)) return false;
-    return (
-      readableAuthorityRegionKey(node) === "claims" ||
-      readableAuthorityRegionKey(node) === "execution" ||
-      readableAuthorityRegionKey(node) === "sources" ||
-      node.governanceLayer === "constitutional" ||
-      node.governanceLayer === "operational" ||
-      node.governanceLayer === "evidence"
-    );
-  });
-
-  for (const node of pickDiverseNodes(regionalAnchors, 12, 3, readableAuthorityRegionKey)) {
-    tryAddNode(node);
-  }
-
-  if (selected.size < targetNodeCount) {
-    const fallbackNodes = graph.nodes.filter((node) => {
-      if (selected.has(node.id)) return false;
-      if (NOISE_CATEGORIES.has(node.category) || NOISE_TYPES.has(node.type)) return false;
-      return baseNodeScore(node) >= 70;
-    });
-
-    for (const node of pickDiverseNodes(
-      fallbackNodes,
-      targetNodeCount - selected.size,
-      3,
-      readableAuthorityRegionKey
-    )) {
-      tryAddNode(node);
-    }
-  }
-
-  return selected;
-}
-
-function createReadableNavigationNodeIds(graph: BuiltGraphData): Set<string> {
-  const combinedNeighborMap = buildCombinedNeighborMap(graph);
-  const selected = new Set<string>();
-  const regionCounts = new Map<string, number>();
-  const targetNodeCount = 52;
-  const regionCaps: Record<string, number> = {
-    archive: 12,
-    graph: 14,
-    governance: 10,
-    runtime: 8,
-    experience: 12,
-    conflicts: 8,
-    default: 6,
-  };
-
-  const getRegionCap = (region: string) => regionCaps[region] ?? regionCaps.default;
-
-  const countSelectedNeighbors = (nodeId: string): number =>
-    (combinedNeighborMap.get(nodeId) || []).reduce(
-      (count, neighbor) => count + (selected.has(neighbor.id) ? 1 : 0),
-      0,
-    );
-
-  const tryAddNode = (node: GraphNodeRecord, capBonus = 0): boolean => {
-    if (selected.has(node.id) || selected.size >= targetNodeCount) return false;
-    const region = readableNavigationRegionKey(node);
-    const cap = getRegionCap(region) + capBonus;
-    if ((regionCounts.get(region) || 0) >= cap) return false;
-    selected.add(node.id);
-    regionCounts.set(region, (regionCounts.get(region) || 0) + 1);
-    return true;
-  };
-
-  const excludedNavigationPrefixes = [
-    "public/pagefind/",
-    "logs/",
-    ".guard-seals/",
-    "swarmmind-self-optimizing-multi-agent-ai-system/",
-    "docs/graph/snapshots/",
-    "deliberate-ai-ensemble-main/",
-    ".papers-meta/",
-    "library/books/",
-    "we4free/papers/",
-    "papers/",
-  ];
-
-  const architectureSignalRoots = new Set([
-    "agents.md",
-    "governance.md",
-    "readme.md",
-    "bootstrap.md",
-  ]);
-
-  const isCoreNavigationNode = (node: GraphNodeRecord): boolean => {
-    if (NOISE_CATEGORIES.has(node.category) || NOISE_TYPES.has(node.type)) return false;
-    if (node.repo !== "self-organizing-library") return false;
-    const normalizedPath = normalizeGraphPath(node.path);
-    if (excludedNavigationPrefixes.some((prefix) => normalizedPath.startsWith(prefix))) return false;
-    if (architectureSignalRoots.has(normalizedPath)) return true;
-
-    return (
-      normalizedPath.startsWith("src/") ||
-      normalizedPath.startsWith("app/") ||
-      normalizedPath.startsWith("scripts/") ||
-      normalizedPath.startsWith("verification/") ||
-      normalizedPath.startsWith(".global/") ||
-      normalizedPath.startsWith("schemas/") ||
-      normalizedPath.startsWith("docs/graph/") ||
-      normalizedPath.startsWith("data/graph-analysis") ||
-      normalizedPath.startsWith("data/website-section") ||
-      normalizedPath.startsWith("data/site-index") ||
-      normalizedPath.startsWith("library/docs/archivist/") ||
-      normalizedPath.startsWith("library/docs/attestation/") ||
-      normalizedPath.startsWith("library/docs/specs/")
-    );
-  };
-
-  const isNavigationNeighborNode = (node: GraphNodeRecord): boolean => {
-    if (NOISE_CATEGORIES.has(node.category) || NOISE_TYPES.has(node.type)) return false;
-    if (isCoreNavigationNode(node)) return true;
-    if (node.repo === "papers" || node.category === "paper" || node.category === "papers") return false;
-    if (!LANE_REPOS.has(node.repo)) return false;
-    return (
-      node.connectionCount >= 2 &&
-      (
-        node.status === "VERIFIED" ||
-        node.status === "CONFLICTED" ||
-        node.bridgeState !== "unknown" ||
-        node.authorityDepth >= 55
-      )
-    );
-  };
-
-  const seedCandidates = graph.nodes.filter(isCoreNavigationNode);
-  const regionBudgets: Record<string, number> = {
-    archive: 12,
-    graph: 14,
-    governance: 10,
-    runtime: 8,
-    experience: 12,
-    conflicts: 8,
-  };
-
-  Object.entries(regionBudgets).forEach(([region, budget]) => {
-    limitRankedNodes(
-      seedCandidates.filter((node) => readableNavigationRegionKey(node) === region),
-      budget,
-    ).forEach((node) => {
-      tryAddNode(node, region === "graph" ? 2 : 1);
-    });
-  });
-
-  const mustIncludePatterns = [
-    /^src\/app\/graph\//,
-    /^src\/components\/graph\//,
-    /^src\/lib\//,
-    /^src\/app\/api\/graph-data\//,
-    /^src\/components\/Sidebar\.tsx$/,
-    /^src\/app\/.+\/page\.tsx$/,
-    /^data\/site-index(?:-summary)?\.json$/,
-    /^verification\//,
-    /^\.global\//,
-    /^schemas\//,
-  ];
-
-  limitRankedNodes(
-    seedCandidates.filter((node) =>
-      mustIncludePatterns.some((pattern) => pattern.test(normalizeGraphPath(node.path))),
-    ),
-    22,
-  ).forEach((node) => {
-    tryAddNode(node, 2);
-  });
-
-  const connectedNeighbors = graph.nodes.filter((node) => {
-    if (selected.has(node.id)) return false;
-    if (!isNavigationNeighborNode(node)) return false;
-
-    return (combinedNeighborMap.get(node.id) || []).some((neighbor) => selected.has(neighbor.id));
-  });
-
-  pickDiverseNodes(connectedNeighbors, 20, 4, readableNavigationRegionKey).forEach((node) => {
-    tryAddNode(node, 1);
-  });
-
-  if (selected.size < targetNodeCount) {
-    const frontierNodes = graph.nodes
-      .filter((node) => {
-        if (selected.has(node.id)) return false;
-        if (!isNavigationNeighborNode(node)) return false;
-        return countSelectedNeighbors(node.id) > 0;
-      })
-      .sort((left, right) => {
-        const neighborDelta = countSelectedNeighbors(right.id) - countSelectedNeighbors(left.id);
-        if (neighborDelta !== 0) return neighborDelta;
-        return baseNodeScore(right) - baseNodeScore(left);
-      });
-
-    frontierNodes.forEach((node) => {
-      if (selected.size >= targetNodeCount) return;
-      tryAddNode(node, countSelectedNeighbors(node.id) >= 2 ? 2 : 1);
-    });
-  }
-
-  if (selected.size < targetNodeCount) {
-    pickDiverseNodes(
-      seedCandidates.filter((node) => !selected.has(node.id)),
-      targetNodeCount - selected.size,
-      4,
-      readableNavigationRegionKey,
-    ).forEach((node) => {
-      tryAddNode(node);
-    });
-  }
-
-  return selected;
-}
-
-function defaultEdgePriority(edge: GraphEdgeRecord): number {
-  return (
-    (edge.type === "authority" ? 100 : 0) +
-    (edge.authority === "CONTRADICTS" ? 50 : 0) +
-    (edge.authority === "VERIFIES" ? 30 : 0)
-  );
-}
-
-function navigationEdgePriority(edge: GraphEdgeRecord, graph: BuiltGraphData): number {
-  const source = graph.nodeMap.get(edge.source);
-  const target = graph.nodeMap.get(edge.target);
-  if (!source || !target) return defaultEdgePriority(edge);
-
-  const sourceRegion = readableNavigationRegionKey(source);
-  const targetRegion = readableNavigationRegionKey(target);
-  const sourcePath = normalizeGraphPath(source.path);
-  const targetPath = normalizeGraphPath(target.path);
-
-  let score = defaultEdgePriority(edge);
-  score += (baseNodeScore(source) + baseNodeScore(target)) * 0.08;
-  score += source.repo === "self-organizing-library" ? 8 : 0;
-  score += target.repo === "self-organizing-library" ? 8 : 0;
-  score += sourceRegion === targetRegion ? 22 : 14;
-  score += source.connectionCount >= 10 ? 8 : 0;
-  score += target.connectionCount >= 10 ? 8 : 0;
-  score += source.status === "CONFLICTED" || target.status === "CONFLICTED" ? 16 : 0;
-  score += sourcePath.startsWith("src/") || targetPath.startsWith("src/") ? 6 : 0;
-  return score;
 }
 
 function collectEdgeBoundNodeIds(
@@ -850,27 +410,80 @@ function pruneMostlyIsolatedNodes(
 function createLensDefinitions(): Record<GraphLens, LensDefinition> {
   return {
     navigation: {
-      purpose: "Give humans and agents a readable systems map of the self-organizing-library runtime instead of an archive-scale dump.",
+      purpose: "Give humans and agents a first-pass map of the system without archive-level noise.",
       includedNodeTypes: ["doc", "paper", "code"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "VERIFIES", "DERIVES_FROM", "CONTRADICTS", "SIGNED_BY"],
-      excludedNoise: ["full archive traversal", "pagefind output", "historical scratch artifacts", "low-signal tag cliques outside the curated cap"],
-      maxRecommendedNodes: 84,
-      maxRecommendedEdges: 180,
-      agentReviewInstruction: "Use this lens to understand the self-organizing-library architecture first. It is a curated systems view, not the raw archive.",
-      sourceGraph: "canonical",
-      selectNodeIds: (graph) => createReadableNavigationNodeIds(graph),
+      excludedNoise: ["config files", "test data", "historical scratch artifacts", "tag-only inferred edges"],
+      maxRecommendedNodes: 400,
+      maxRecommendedEdges: 1400,
+      agentReviewInstruction: "Use this lens to orient first. If a claim matters, jump from here into authority, governance, or papers.",
+      selectNodeIds: (graph) => {
+        const ids = collectNodeIds(graph, (node) => {
+          if (/[\u4e00-\u9fa5]/.test(node.title)) return false;
+          return (
+            (LANE_REPOS.has(node.repo) &&
+              (CORE_GOVERNANCE_LAYERS.has(node.governanceLayer) ||
+                node.status !== "UNVERIFIED" ||
+                GOVERNANCE_CATEGORIES.has(node.category))) ||
+            ((PAPER_REPOS.has(node.repo) || node.category === "paper") &&
+              (BRIDGED_STATES.has(node.bridgeState) || node.status === "VERIFIED")) ||
+            node.contradictionCount > 0 ||
+            node.bridgeState === "enforced" ||
+            node.connectionCount > 0
+          );
+        });
+        for (const node of limitRankedNodes(
+          graph.nodes.filter(
+            (node) =>
+              !NOISE_CATEGORIES.has(node.category) &&
+              !/[\u4e00-\u9fa5]/.test(node.title)
+          ),
+          200
+        )) {
+          ids.add(node.id);
+        }
+        return expandByNeighbors(
+          ids,
+          graph,
+          (node) =>
+            baseNodeScore(node) >= 20 &&
+            !NOISE_TYPES.has(node.type) &&
+            !/[\u4e00-\u9fa5]/.test(node.title)
+        );
+      },
       edgeFilter: (edge) => edge.type === "authority" || edge.type === "cross-reference",
-      scoreEdge: navigationEdgePriority,
     },
     authority: {
       purpose: "Answer who verifies, signs, bridges, or contradicts whom using explicit authority-bearing artifacts.",
       includedNodeTypes: ["doc", "paper", "code", "data"],
       includedEdgeTypes: ["authority", ...AUTHORITY_EDGE_TYPES],
       excludedNoise: ["ordinary file references", "inactive unverified nodes", "tag-only inferred edges"],
-      maxRecommendedNodes: 90,
-      maxRecommendedEdges: 140,
+      maxRecommendedNodes: 220,
+      maxRecommendedEdges: 700,
       agentReviewInstruction: "Use this lens for trust, provenance, or ratification questions. Ignore ordinary archive traversal here.",
-      selectNodeIds: (graph) => createReadableAuthorityNodeIds(graph),
+      selectNodeIds: (graph) => {
+        const seedIds = collectNodeIds(graph, (node) =>
+          CORE_GOVERNANCE_LAYERS.has(node.governanceLayer) ||
+          BRIDGED_STATES.has(node.bridgeState) ||
+          node.status === "VERIFIED" ||
+          node.status === "CONFLICTED" ||
+          (THEORETICAL_GOVERNANCE_LAYERS.has(node.governanceLayer) && node.authorityDepth >= 70)
+        );
+
+        const edgeBound = collectEdgeBoundNodeIds(
+          graph,
+          seedIds,
+          (edge) => edge.type === "authority",
+          (node) =>
+            node.status === "VERIFIED" ||
+            node.status === "CONFLICTED" ||
+            BRIDGED_STATES.has(node.bridgeState) ||
+            CORE_GOVERNANCE_LAYERS.has(node.governanceLayer)
+        );
+        return expandByNeighbors(edgeBound, graph, (node) =>
+          node.status === "VERIFIED" || node.bridgeState === "enforced"
+        );
+      },
       edgeFilter: (edge) => edge.type === "authority",
     },
     governance: {
@@ -878,8 +491,8 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["doc", "data", "code"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "VERIFIES", "CONTRADICTS", "SIGNED_BY", "DERIVES_FROM"],
       excludedNoise: ["application-adjacent assets", "low-signal operational files", "tag-only inferred edges"],
-      maxRecommendedNodes: 500,
-      maxRecommendedEdges: 2000,
+      maxRecommendedNodes: 240,
+      maxRecommendedEdges: 850,
       agentReviewInstruction: "Use this lens for policy, enforcement, contradiction, and runtime-governance questions.",
       selectNodeIds: (graph) => {
         const ids = collectNodeIds(graph, (node) =>
@@ -892,7 +505,7 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
         return expandByNeighbors(
           ids,
           graph,
-          (node) => GOVERNANCE_CATEGORIES.has(node.category) || node.bridgeState === "enforced" || !NOISE_CATEGORIES.has(node.category)
+          (node) => GOVERNANCE_CATEGORIES.has(node.category) || node.bridgeState === "enforced"
         );
       },
       edgeFilter: (edge) => edge.type === "authority" || edge.type === "cross-reference",
@@ -902,8 +515,8 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["paper", "doc", "code"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "DERIVES_FROM", "VERIFIES"],
       excludedNoise: ["pure repo plumbing", "test data", "tag-only inferred edges"],
-      maxRecommendedNodes: 500,
-      maxRecommendedEdges: 1500,
+      maxRecommendedNodes: 180,
+      maxRecommendedEdges: 550,
       agentReviewInstruction: "Use this lens when asking which papers support which runtime artifacts, and what evidence bridges theory into practice.",
       selectNodeIds: (graph) => {
         const ids = collectNodeIds(graph, (node) =>
@@ -925,15 +538,17 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
       includedNodeTypes: ["doc", "code", "data"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, "VERIFIES", "DERIVES_FROM", "EXECUTES"],
       excludedNoise: ["small local files", "historical scratch artifacts", "tag-only inferred edges"],
-      maxRecommendedNodes: 600,
-      maxRecommendedEdges: 2000,
+      maxRecommendedNodes: 240,
+      maxRecommendedEdges: 750,
       agentReviewInstruction: "Use this lens to compare lane roles and repo-level structure. Do not use it for deep paper or contradiction analysis.",
       selectNodeIds: (graph) => {
         const seedIds = collectNodeIds(graph, (node) =>
-          LANE_REPOS.has(node.repo)
+          LANE_REPOS.has(node.repo) &&
+          (node.status !== "UNVERIFIED" ||
+            node.connectionCount >= 1 ||
+            CORE_GOVERNANCE_LAYERS.has(node.governanceLayer))
         );
-        const edgeBound = new Set(seedIds);
-        for (const nodeId of collectEdgeBoundNodeIds(
+        const edgeBound = collectEdgeBoundNodeIds(
           graph,
           seedIds,
           (edge) => edge.type === "authority" || edge.type === "cross-reference",
@@ -943,27 +558,36 @@ function createLensDefinitions(): Record<GraphLens, LensDefinition> {
             GOVERNANCE_CATEGORIES.has(node.category) ||
             CORE_GOVERNANCE_LAYERS.has(node.governanceLayer) ||
             node.status === "CONFLICTED"
-        )) {
-          edgeBound.add(nodeId);
-        }
+        );
         const expanded = expandByNeighbors(edgeBound, graph, (node) =>
           LANE_REPOS.has(node.repo) ||
           PAPER_REPOS.has(node.repo) ||
-          GOVERNANCE_CATEGORIES.has(node.category) ||
-          !NOISE_CATEGORIES.has(node.category)
+          GOVERNANCE_CATEGORIES.has(node.category)
         );
-        return limitToSet(expanded, 600, graph);
+
+        // Ensure all 4 lane repositories have representative governance artifacts
+        for (const laneRepo of LANE_REPOS) {
+          const laneNodes = graph.nodes
+            .filter((node) => node.repo === laneRepo && !NOISE_CATEGORIES.has(node.category))
+            .sort((a, b) => baseNodeScore(b) - baseNodeScore(a))
+            .slice(0, 15);
+          for (const node of laneNodes) {
+            expanded.add(node.id);
+          }
+        }
+
+        return limitToSet(expanded, 240, graph);
       },
       edgeFilter: (edge) => edge.type === "authority" || edge.type === "cross-reference",
     },
     full: {
-      purpose: "Expose the full explicit graph for debugging, search, and expert exploration.",
+      purpose: "Expose the full cosmic archive galaxy — core archive nodes, key papers, and outer stellar shell.",
       includedNodeTypes: ["doc", "paper", "code", "data", "config", "schema", "test-data"],
       includedEdgeTypes: [...EXPLICIT_EDGE_TYPES, ...AUTHORITY_EDGE_TYPES],
       excludedNoise: ["none beyond tag-only inferred edges"],
-      maxRecommendedNodes: explicitGraph.nodes.length,
-      maxRecommendedEdges: explicitGraph.combinedEdges.length,
-      agentReviewInstruction: "Use only when scoped lenses are insufficient. Expect file-centric noise.",
+      maxRecommendedNodes: 1668,
+      maxRecommendedEdges: 3500,
+      agentReviewInstruction: "Observatory galaxy overview. Jump to curated lenses for focused analysis.",
       selectNodeIds: (graph) => new Set(graph.nodes.map((node) => node.id)),
       edgeFilter: () => true,
     },
@@ -985,17 +609,13 @@ const LENS_DEFINITIONS = createLensDefinitions();
 
 function createLensNodeIds(lens: GraphLens): Set<string> {
   const definition = LENS_DEFINITIONS[lens];
-  const graph = definition.sourceGraph === "canonical" || lens === "canonical"
-    ? canonicalGraph
-    : explicitGraph;
+  const graph = lens === "canonical" ? canonicalGraph : explicitGraph;
   return definition.selectNodeIds(graph);
 }
 
 function buildPacketFromLens(lens: GraphLens): GraphDataPacket {
+  const graph = lens === "canonical" ? canonicalGraph : explicitGraph;
   const definition = LENS_DEFINITIONS[lens];
-  const graph = definition.sourceGraph === "canonical" || lens === "canonical"
-    ? canonicalGraph
-    : explicitGraph;
   const rawNodeIds = createLensNodeIds(lens);
   const nodeIds = rawNodeIds.size > definition.maxRecommendedNodes
     ? limitToSet(rawNodeIds, definition.maxRecommendedNodes, graph)
@@ -1025,18 +645,26 @@ function buildPacketFromLens(lens: GraphLens): GraphDataPacket {
       : pruneMostlyIsolatedNodes(
           initialNodes,
           filteredEdges,
-          lens === "navigation" ? 36 : 500
+          lens === "repos" ? 80 : lens === "navigation" ? 15 : 0
         );
   allowedIds = new Set(nodes.map((node) => node.id));
 
   const authorityEdges = filteredAuthorityEdges.filter(
     (edge) => allowedIds.has(edge.source) && allowedIds.has(edge.target)
   );
-  const edgePriority = (edge: GraphEdgeRecord) =>
-    definition.scoreEdge ? definition.scoreEdge(edge, graph) : defaultEdgePriority(edge);
   const edges = filteredEdges.length > definition.maxRecommendedEdges
     ? filteredEdges
-        .sort((left, right) => edgePriority(right) - edgePriority(left))
+        .sort((left, right) => {
+          const leftScore =
+            (left.type === "authority" ? 100 : 0) +
+            (left.authority === "CONTRADICTS" ? 50 : 0) +
+            (left.authority === "VERIFIES" ? 30 : 0);
+          const rightScore =
+            (right.type === "authority" ? 100 : 0) +
+            (right.authority === "CONTRADICTS" ? 50 : 0) +
+            (right.authority === "VERIFIES" ? 30 : 0);
+          return rightScore - leftScore;
+        })
         .slice(0, definition.maxRecommendedEdges)
     : filteredEdges;
   const stabilizedEdges = edges.filter(
@@ -1055,11 +683,8 @@ function buildPacketFromLens(lens: GraphLens): GraphDataPacket {
       lensEdgeCount: stabilizedEdges.length,
       canonicalNodeCount: canonicalGraph.nodes.length,
       canonicalEdgeCount: canonicalGraph.combinedEdges.length,
-      includesTagInferences: definition.sourceGraph === "canonical" || lens === "canonical",
-      edgePolicy:
-        definition.sourceGraph === "canonical" || lens === "canonical"
-          ? "explicit_plus_inference"
-          : "explicit_only",
+      includesTagInferences: lens === "canonical",
+      edgePolicy: lens === "canonical" ? "explicit_plus_inference" : "explicit_only",
       lensDefinition: {
         purpose: definition.purpose,
         includedNodeTypes: definition.includedNodeTypes,

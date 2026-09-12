@@ -1,14 +1,18 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-08-18T14:08:24-04:00",
-  "repo_count": 19,
+  "generated_at": "2026-09-08T12:07:26Z",
+  "repo_count": 26,
   "stats": {
-    "total_files": 6980,
-    "total_size_bytes": 162490312,
+    "total_files": 16501,
+    "total_size_bytes": 230789976,
     "by_repo": {
       "ai-ensemble-lab-": {
         "total_files": 15,
         "total_size_bytes": 72063
+      },
+      "aide-sovereign-workbench": {
+        "total_files": 263,
+        "total_size_bytes": 1168694
       },
       "Archivist-Agent": {
         "total_files": 748,
@@ -18,13 +22,25 @@
         "total_files": 271,
         "total_size_bytes": 4330486
       },
+      "context-mode": {
+        "total_files": 538,
+        "total_size_bytes": 7810726
+      },
+      "deepseek-harness": {
+        "total_files": 7427,
+        "total_size_bytes": 47636882
+      },
       "Deliberate-AI-Ensemble": {
         "total_files": 1123,
         "total_size_bytes": 18884698
       },
+      "Doberman-Core": {
+        "total_files": 574,
+        "total_size_bytes": 5994392
+      },
       "federation": {
-        "total_files": 468,
-        "total_size_bytes": 5759473
+        "total_files": 473,
+        "total_size_bytes": 5887651
       },
       "FreeAgent": {
         "total_files": 804,
@@ -35,8 +51,8 @@
         "total_size_bytes": 299645
       },
       "Genesis-Kernel-World-Sim": {
-        "total_files": 353,
-        "total_size_bytes": 5490017
+        "total_files": 378,
+        "total_size_bytes": 5791897
       },
       "kernel-lane": {
         "total_files": 517,
@@ -59,8 +75,8 @@
         "total_size_bytes": 1065421
       },
       "self-organizing-library": {
-        "total_files": 741,
-        "total_size_bytes": 69814427
+        "total_files": 742,
+        "total_size_bytes": 69825471
       },
       "storytime": {
         "total_files": 265,
@@ -70,9 +86,21 @@
         "total_files": 363,
         "total_size_bytes": 2073480
       },
+      "Vortscore": {
+        "total_files": 234,
+        "total_size_bytes": 1807511
+      },
+      "waveterm-pwsh7-mcp": {
+        "total_files": 436,
+        "total_size_bytes": 3344320
+      },
       "we-and-ai-papers": {
         "total_files": 55,
         "total_size_bytes": 619298
+      },
+      "WE4FREE": {
+        "total_files": 18,
+        "total_size_bytes": 96037
       },
       "WE4FREE-Lattice-Deck": {
         "total_files": 91,
@@ -109,8 +137,8 @@
       "source_path": "S:\\self-organizing-library",
       "git_remote": "https://github.com/vortsghost2025/self-organizing-library.git",
       "default_branch": "main",
-      "indexed_commit_sha": "8db52c023f17690ff8d12a4be7cc002b2941724a",
-      "indexed_commit_date": "2026-08-18T14:08:24-04:00"
+      "indexed_commit_sha": "2c7e8c92bbfd6f0872a67f995a50b242e73ebe83",
+      "indexed_commit_date": "2026-08-18T23:39:22-04:00"
     },
     {
       "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
@@ -145,8 +173,8 @@
       "source_path": "S:\\federation",
       "git_remote": "https://github.com/vortsghost2025/federation.git",
       "default_branch": "main",
-      "indexed_commit_sha": "145f3afc04a465b12956b22fd4073f48485cd67f",
-      "indexed_commit_date": "2026-08-08T04:31:49Z"
+      "indexed_commit_sha": "e032f0d219c54d34cafb17daec4f54c457f4a352",
+      "indexed_commit_date": "2026-08-20T22:47:52-04:00"
     },
     {
       "repo": "kucoin-lane",
@@ -158,6 +186,15 @@
       "indexed_commit_date": "2026-07-24T00:29:51-04:00"
     },
     {
+      "repo": "waveterm-pwsh7-mcp",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\waveterm-pwsh7-mcp",
+      "git_remote": "https://github.com/vortsghost2025/waveterm-pwsh7-mcp.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "08de4c3a1bd4497d8e0338369781fe0c94098ffa",
+      "indexed_commit_date": "2026-09-03T22:52:01-04:00"
+    },
+    {
       "repo": "we-and-ai-papers",
       "source_mode": "REMOTE_CACHE",
       "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\we-and-ai-papers",
@@ -165,6 +202,15 @@
       "default_branch": "main",
       "indexed_commit_sha": "d08f065b06e65ec7e5ab49849f4ce002050c27f8",
       "indexed_commit_date": "2026-06-01T12:08:27-04:00"
+    },
+    {
+      "repo": "WE4FREE",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\WE4FREE",
+      "git_remote": "https://github.com/vortsghost2025/WE4FREE.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "2fd883000d97907aee0e1a47f1bf6d35359db2df",
+      "indexed_commit_date": "2026-08-19T19:55:19Z"
     },
     {
       "repo": "WE4FREE-Research-Intake",
@@ -185,6 +231,15 @@
       "indexed_commit_date": "2026-02-01T15:18:57-05:00"
     },
     {
+      "repo": "aide-sovereign-workbench",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\aide-sovereign-workbench",
+      "git_remote": "https://github.com/AnonymousNomad/aide-sovereign-workbench.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "e9471337f0aec6598efb1e19fe4205808e3949f0",
+      "indexed_commit_date": "2026-08-20T17:23:08-04:00"
+    },
+    {
       "repo": "autonomous-elasticsearch-evolution-agent",
       "source_mode": "REMOTE_CACHE",
       "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\autonomous-elasticsearch-evolution-agent",
@@ -192,6 +247,33 @@
       "default_branch": "main",
       "indexed_commit_sha": "d3badfd22c443db1b54e428f0d14751f7a5d35d8",
       "indexed_commit_date": "2026-02-22T07:45:14-05:00"
+    },
+    {
+      "repo": "context-mode",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\context-mode",
+      "git_remote": "https://github.com/vortsghost2025/context-mode.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "95b4e08bf07c5e16690d8669643f9d1b825d51be",
+      "indexed_commit_date": "2026-09-08T12:07:26Z"
+    },
+    {
+      "repo": "deepseek-harness",
+      "source_mode": "LOCAL",
+      "source_path": "S:\\deepseek-harness",
+      "git_remote": "https://github.com/vortsghost2025/deepseek-harness.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "85b2cde10e0019a9801276226deb0df483175fbe",
+      "indexed_commit_date": "2026-09-02T00:12:36-04:00"
+    },
+    {
+      "repo": "Doberman-Core",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Doberman-Core",
+      "git_remote": "https://github.com/vortsghost2025/Doberman-Core.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "fcaef9fc7f9bdf1c47f8aa5646996d6dc3b39602",
+      "indexed_commit_date": "2026-09-06T11:29:07-07:00"
     },
     {
       "repo": "FreeAgent",
@@ -204,8 +286,8 @@
     },
     {
       "repo": "Genesis-Kernel-First-Humans-World-Sim",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\Genesis Kernel First Humans World Sim",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Genesis-Kernel-First-Humans-World-Sim",
       "git_remote": "https://github.com/vortsghost2025/Genesis-Kernel-First-Humans-World-Sim.git",
       "default_branch": "main",
       "indexed_commit_sha": "287f287456ae9b7a4e0e090d3dcde7b1aa1723f1",
@@ -217,8 +299,8 @@
       "source_path": "S:\\Genesis Kernel World Sim",
       "git_remote": "https://github.com/vortsghost2025/Genesis-Kernel-World-Sim.git",
       "default_branch": "main",
-      "indexed_commit_sha": "2a5efbd1aa6035af5e26b1f6bc65f2f7eb1f0423",
-      "indexed_commit_date": "2026-08-09T01:37:03-04:00"
+      "indexed_commit_sha": "789fd1302b96de594ff8c7ed4aa74208d845b1b3",
+      "indexed_commit_date": "2026-08-29T02:17:07-04:00"
     },
     {
       "repo": "mev-bot",
@@ -255,42 +337,51 @@
       "default_branch": "master",
       "indexed_commit_sha": "1a4eb041aade1b6fb6ba78bd10a0a886e5275462",
       "indexed_commit_date": "2026-04-11T05:18:46-04:00"
+    },
+    {
+      "repo": "Vortscore",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Vortscore",
+      "git_remote": "https://github.com/vortsghost2025/Vortscore.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "c3e2cd8c0632d4c047cf6f940a1fc3a1abdc86a8",
+      "indexed_commit_date": "2026-05-30T23:55:08Z"
     }
   ],
-  "tag_count": 116,
-  "cross_ref_count": 986,
+  "tag_count": 123,
+  "cross_ref_count": 11885,
   "top_tags": [
     {
       "tag": "Verification",
-      "count": 914
+      "count": 1173
     },
     {
       "tag": "Governance",
-      "count": 694
+      "count": 702
     },
     {
       "tag": "Library",
-      "count": 564
-    },
-    {
-      "tag": "Archivist",
-      "count": 527
-    },
-    {
-      "tag": "Multi-Agent",
-      "count": 487
-    },
-    {
-      "tag": "WE4FREE",
-      "count": 445
-    },
-    {
-      "tag": "Kernel",
-      "count": 439
+      "count": 679
     },
     {
       "tag": "Drift",
-      "count": 424
+      "count": 608
+    },
+    {
+      "tag": "Archivist",
+      "count": 528
+    },
+    {
+      "tag": "Multi-Agent",
+      "count": 509
+    },
+    {
+      "tag": "Kernel",
+      "count": 490
+    },
+    {
+      "tag": "WE4FREE",
+      "count": 449
     },
     {
       "tag": "Swarmmind",
@@ -298,27 +389,27 @@
     },
     {
       "tag": "Ensemble",
-      "count": 372
+      "count": 378
     },
     {
       "tag": "Federation",
-      "count": 343
+      "count": 346
     },
     {
       "tag": "Phase 2",
-      "count": 267
+      "count": 274
     },
     {
       "tag": "Phase 1",
-      "count": 240
+      "count": 245
     },
     {
       "tag": "Phase 3",
-      "count": 225
+      "count": 231
     },
     {
       "tag": "Phase 4",
-      "count": 159
+      "count": 162
     },
     {
       "tag": "Phenotype",
@@ -326,27 +417,27 @@
     },
     {
       "tag": "Phase 10",
-      "count": 138
-    },
-    {
-      "tag": "Rosetta Stone",
-      "count": 133
-    },
-    {
-      "tag": "Covenant",
-      "count": 131
-    },
-    {
-      "tag": "Freeagent",
-      "count": 105
+      "count": 139
     },
     {
       "tag": "Failure Mode",
-      "count": 104
+      "count": 136
+    },
+    {
+      "tag": "Covenant",
+      "count": 135
+    },
+    {
+      "tag": "Rosetta Stone",
+      "count": 134
+    },
+    {
+      "tag": "Freeagent",
+      "count": 107
     },
     {
       "tag": "Phase 5",
-      "count": 98
+      "count": 101
     },
     {
       "tag": "Convergence Gate",
@@ -354,27 +445,27 @@
     },
     {
       "tag": "Constitutional AI",
-      "count": 88
+      "count": 89
+    },
+    {
+      "tag": "Attestation",
+      "count": 76
     },
     {
       "tag": "Constraint Lattice",
       "count": 74
     },
     {
-      "tag": "Attestation",
-      "count": 71
-    },
-    {
       "tag": "Phase 6",
-      "count": 45
+      "count": 47
     },
     {
       "tag": "Phase 9",
-      "count": 44
+      "count": 45
     },
     {
       "tag": "Phase 8",
-      "count": 38
+      "count": 40
     },
     {
       "tag": "Phase 0",
@@ -382,19 +473,47 @@
     }
   ],
   "category_breakdown": {
-    "docs": 834,
-    "examples": 3,
-    "root-doc": 1450,
-    "code": 606,
-    "test": 75,
-    "config": 279,
+    "docs": 1241,
+    "examples": 413,
+    "root-doc": 1605,
+    "code": 998,
+    "test": 685,
+    "config": 2659,
+    "academy": 5,
+    "artifacts": 22,
+    "benchmarks": 7,
+    "bin": 5,
+    "blueprint": 1,
+    "browser": 24,
+    "capsules": 4,
+    "common": 14,
+    "community": 9,
+    "daemon": 28,
+    "debuggers": 1,
+    "desktop": 4,
+    "editor": 4,
+    "fixtures": 2,
+    "harness": 13,
+    "languages": 1,
+    "models": 3,
+    "node": 30,
+    "plugins": 4,
+    "providers": 3,
+    "release": 11,
+    "replays": 2,
+    "runtime": 1,
+    "script": 989,
+    "session": 24,
+    "skills": 16,
+    "tasks": 3,
+    "training": 3,
     "archivist": 1,
     "benchmark_results": 3,
     "coordination": 22,
     "e2e-tests": 6,
     "evidence": 67,
     "governance": 67,
-    "hooks": 16,
+    "hooks": 102,
     "improvement-reports": 10,
     "log": 15,
     "mcp-servers": 15,
@@ -403,9 +522,8 @@
     "proposals": 24,
     "infrastructure": 14,
     "reports": 54,
-    "schema": 66,
+    "schema": 72,
     "scratch": 2,
-    "script": 785,
     "specs": 4,
     "attestation": 24,
     "bridge": 9,
@@ -417,41 +535,45 @@
     "system": 1,
     "ui": 12,
     "universe": 6,
-    "bin": 3,
     "extension": 1,
     "lib": 9,
-    "web": 8,
+    "web": 12,
     "sharedClientCache": 187,
+    "apps": 273,
+    "native": 46,
+    "packages": 3799,
+    "python": 30,
+    "vendor": 65,
+    "website": 4,
     "agent": 129,
     "distributed": 25,
     "ai": 18,
     "math": 9,
     "medical": 513,
-    "data": 72,
-    "game": 383,
+    "data": 73,
+    "game": 384,
     "we4free": 130,
     "project": 6,
+    "adapters": 8,
+    "changelog.d": 23,
     "continuity-test-handoff": 3,
     "galaxy_theme": 2,
     "gastown-rig": 6,
     "genesis-memory": 9,
     "out_federation": 3,
-    "session": 22,
     "ARCHITECTURE_DECISION_RECORDS": 1,
     "orchestrator": 3,
     "phase-6": 5,
     "we": 97,
     "genesis-sim": 37,
     "tooling": 10,
-    "world-sim": 338,
+    "world-sim": 363,
     "artifacts-from-ubuntu": 141,
-    "artifacts": 20,
     "baseline": 1,
     "benchmark": 18,
     "integration": 1,
     "kernel": 5,
     "profile": 7,
-    "release": 6,
     "journal": 1,
     "abi": 2,
     "agent-system": 4,
@@ -466,7 +588,6 @@
     "openrouter-proxy": 2,
     "pages": 1,
     "runbooks": 1,
-    "skills": 1,
     "swarm-core": 7,
     "TASKS": 5,
     "workflows": 4,
@@ -492,20 +613,37 @@
     "swarmmind": 2,
     "usage": 4,
     "templates": 1,
+    "app": 5,
+    "fsi_core.egg-info": 5,
+    "ide_kernel": 5,
+    "test_module": 1,
+    "test_module2": 1,
+    "vitalis_ide.egg-info": 5,
+    "vitalis_ide": 15,
+    "vitalis": 2,
+    "aiprompts": 28,
+    "cmd": 1,
+    "emain": 19,
+    "frontend": 274,
+    "pkg": 10,
+    "testdriver": 2,
+    "tsunami": 20,
+    "agent_coordination": 7,
     "work-orders": 7
   },
   "extension_breakdown": {
-    ".md": 2599,
-    ".txt": 217,
-    ".py": 917,
-    ".yml": 53,
-    ".json": 963,
-    ".js": 1625,
-    ".yaml": 11,
-    ".ts": 390,
+    ".md": 5333,
+    ".txt": 316,
+    ".py": 1635,
+    ".yml": 257,
+    ".json": 1822,
+    ".mjs": 233,
+    ".js": 1650,
+    ".ts": 3440,
+    ".yaml": 1169,
+    ".tsx": 526,
     ".html": 94,
     ".pdf": 2,
-    ".mjs": 15,
-    ".tsx": 94
+    ".mdx": 24
   }
 }

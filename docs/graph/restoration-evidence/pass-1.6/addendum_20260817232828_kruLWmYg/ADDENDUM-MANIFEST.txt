@@ -1,0 +1,67 @@
+﻿=== PASS-1.6A ADDENDUM MANIFEST ===
+RUN_ID: addendum_20260817232828_kruLWmYg
+CREATED_AT: 2026-08-17T23:28:46.7017228-04:00
+PARENT_RUN: run_20260817231151_laRXBFgV
+BLOCKER_1_TOOLBAR_SIGMA_EDGES_MATCH: YES
+BLOCKER_2_LARGE_TEXT_ACTUALLY_ENABLED: NO
+BLOCKER_3_CANONICAL_ALIAS_PROVEN: NO (alias invented in pass-1.6, not pre-existing)
+BLOCKER_3_EXACT_NODE_ID_RESOLUTION: YES
+CANONICAL_ALIAS_SOURCE_FILE: NexusGraph.tsx (CANONICAL_SLUG_MAP)
+ALIAS_PREEXISTED_PASS_1_6: NO (not present in any committed version)
+FOCUS_PANEL_NOW_USES_RAW_ID: 2abc406c3496acfd
+GRAPH_DATA_CHANGED: NO
+NEXUS_GRAPH_CODE_CHANGES: deduplicatedEdgeCount memo + toolbar/context wiring (edge dedup fix)
+ALL_HASHES_UNIQUE: True
+READY_FOR_COMMIT_REVIEW: NO - see FAIL above
+
+--- A_default_edgefix ---
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.6\addendum_20260817232828_kruLWmYg\A_default_edgefix.png
+SHA256: b9588ace75a280802d2ff4e5818fc8070367ef0b1c9dd95fd55485be86b26a87
+HASH_MATCH: True
+FILE_SIZE_BYTES: 230143
+SIGMA_NODES: 38
+SIGMA_EDGES: 1
+TOOLBAR_TEXT: 38 nodes / 1 edges
+TOOLBAR_EDGES: 1
+EDGES_MISMATCH: False
+LARGE_TEXT_DOM: False
+LARGE_TEXT_ARIA_PRESSED: false
+RESOLUTION_METHOD: UNRESOLVED
+RESOLVED_ID: 
+CAPTURED_AT: 2026-08-18T03:28:34.975Z
+EXPECTED: navigation default. BLOCKER-1 FIX: toolbar and Sigma must both show same deduplicated edge count
+
+--- C_focus_rawid ---
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.6\addendum_20260817232828_kruLWmYg\C_focus_rawid.png
+SHA256: d37dbd62a7ca0931ae8e345a868bb4cbdf8801a4b6755728432d67759cb09a6b
+HASH_MATCH: True
+FILE_SIZE_BYTES: 223199
+SIGMA_NODES: 1
+SIGMA_EDGES: 0
+TOOLBAR_TEXT: 1 nodes / 0 edges
+TOOLBAR_EDGES: 0
+EDGES_MISMATCH: False
+LARGE_TEXT_DOM: False
+LARGE_TEXT_ARIA_PRESSED: false
+RESOLUTION_METHOD: exact_node_id
+RESOLVED_ID: 2abc406c3496acfd
+CAPTURED_AT: 2026-08-18T03:28:40.933Z
+EXPECTED: authority focus using raw node ID. BLOCKER-3: resolutionMethod=exact_node_id, no alias claim
+
+--- F_large_text ---
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.6\addendum_20260817232828_kruLWmYg\F_large_text.png
+SHA256: f822c9e7bb5e840c5e30bf3ae4183d1b12a4f01eca8640b50890eada57a66466
+HASH_MATCH: True
+FILE_SIZE_BYTES: 230762
+SIGMA_NODES: 38
+SIGMA_EDGES: 1
+TOOLBAR_TEXT: 38 nodes / 1 edges
+TOOLBAR_EDGES: 1
+EDGES_MISMATCH: False
+LARGE_TEXT_DOM: False
+LARGE_TEXT_ARIA_PRESSED: true
+RESOLUTION_METHOD: UNRESOLVED
+RESOLVED_ID: 
+CAPTURED_AT: 2026-08-18T03:28:46.325Z
+EXPECTED: navigation default with Large Text accessibility. BLOCKER-2: LARGE_TEXT_DOM=true, LARGE_TEXT_ARIA=true
+

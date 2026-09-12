@@ -1,0 +1,95 @@
+=== FINAL-MANIFEST.txt ===
+RUN_ID: run_20260818024714_z90ddzuh
+CREATED_AT: 2026-08-18T02:48:01.577Z
+TARGET_DIR: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.5b\run_20260818024714_z90ddzuh
+
+--- PANELS ---
+[A9_default]
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.5b\run_20260818024714_z90ddzuh\A9_default.png
+SHA256: 2ec21323bc936e8d627654ecc8bc3025721bde5f8bbcd31c5e47f4d4245dc821
+VISIBLE_COUNTER: 38 nodes / 0 edges
+SIGMA_NODES: 38
+SIGMA_EDGES: 0
+SELECTED_CLUSTER: null
+SELECTED_NODE: null
+REQUESTED_NODE_TOKEN: null
+RESOLVED_NODE_ID: null
+RESOLVED_NODE_TITLE: null
+RESOLUTION_METHOD: UNRESOLVED
+ACTIVE_ENTRY_POINT: null
+ACTIVE_LAYERS: [structure, verification]
+
+[B9_cluster]
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.5b\run_20260818024714_z90ddzuh\B9_cluster.png
+SHA256: 14ce3dcad6444a9d0d563d5283b6faafd78b2a98a19cd76ca54a77f026831af7
+VISIBLE_COUNTER: 16 nodes / 0 edges
+SIGMA_NODES: 16
+SIGMA_EDGES: 0
+SELECTED_CLUSTER: Governance
+SELECTED_NODE: null
+REQUESTED_NODE_TOKEN: null
+RESOLVED_NODE_ID: null
+RESOLVED_NODE_TITLE: null
+RESOLUTION_METHOD: UNRESOLVED
+ACTIVE_ENTRY_POINT: null
+ACTIVE_LAYERS: [structure, verification]
+
+[C9_focus]
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.5b\run_20260818024714_z90ddzuh\C9_focus.png
+SHA256: 4e6d5ab5ed2d11b855400146f14fa8cd527c784501457d57f6943a9c5f36ebe1
+VISIBLE_COUNTER: 38 nodes / 0 edges
+SIGMA_NODES: 38
+SIGMA_EDGES: 0
+SELECTED_CLUSTER: null
+SELECTED_NODE: node:archivist-governance-spec
+REQUESTED_NODE_TOKEN: node:archivist-governance-spec
+RESOLVED_NODE_ID: null
+RESOLVED_NODE_TITLE: null
+RESOLUTION_METHOD: UNRESOLVED
+ACTIVE_ENTRY_POINT: null
+ACTIVE_LAYERS: [structure, verification]
+
+[D9_contradictions]
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.5b\run_20260818024714_z90ddzuh\D9_contradictions.png
+SHA256: 7a0bd45f606f9103d444579599ecea5152fe2884ba0f8f865de8fd5432830af2
+VISIBLE_COUNTER: 38 nodes / 0 edges
+SIGMA_NODES: 38
+SIGMA_EDGES: 0
+SELECTED_CLUSTER: null
+SELECTED_NODE: null
+REQUESTED_NODE_TOKEN: null
+RESOLVED_NODE_ID: null
+RESOLVED_NODE_TITLE: null
+RESOLUTION_METHOD: UNRESOLVED
+ACTIVE_ENTRY_POINT: ep:contradictions
+ACTIVE_LAYERS: [structure, verification, conflicts]
+
+[E9_authority]
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.5b\run_20260818024714_z90ddzuh\E9_authority.png
+SHA256: 4e8c839e84e1319b64c4ff92b27bc605a0055131ac9fee15306afcee6154dc93
+VISIBLE_COUNTER: 45 nodes / 5 edges
+SIGMA_NODES: 45
+SIGMA_EDGES: 5
+SELECTED_CLUSTER: null
+SELECTED_NODE: null
+REQUESTED_NODE_TOKEN: null
+RESOLVED_NODE_ID: null
+RESOLVED_NODE_TITLE: null
+RESOLUTION_METHOD: UNRESOLVED
+ACTIVE_ENTRY_POINT: null
+ACTIVE_LAYERS: [structure, verification, governance]
+
+[F9_large_text]
+ABSOLUTE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.5b\run_20260818024714_z90ddzuh\F9_large_text.png
+SHA256: fc9c0a61c2f2adaeb8520364ae1f7b0f844b57492d5a11f9b11c08c2409f280f
+VISIBLE_COUNTER: 38 nodes / 0 edges
+SIGMA_NODES: 38
+SIGMA_EDGES: 0
+SELECTED_CLUSTER: null
+SELECTED_NODE: null
+REQUESTED_NODE_TOKEN: null
+RESOLVED_NODE_ID: null
+RESOLVED_NODE_TITLE: null
+RESOLUTION_METHOD: UNRESOLVED
+ACTIVE_ENTRY_POINT: null
+ACTIVE_LAYERS: [structure, verification]

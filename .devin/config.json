@@ -1,0 +1,63 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)"
+    ]
+  },
+  "skills": {
+    "enabled": [
+      "library-governance",
+      "nexus-graph",
+      "next-best-practices",
+      "verification-before-completion",
+      "systematic-debugging"
+    ],
+    "paths": [
+      ".agents/skills"
+    ]
+  },
+  "mcp": {
+    "servers": {
+      "devin/memory": {
+        "enabled": true,
+        "description": "Knowledge graph memory for tracking entities and relationships"
+      },
+      "morph-mcp": {
+        "enabled": true,
+        "description": "Advanced code editing and search capabilities"
+      },
+      "sequential-thinking": {
+        "enabled": true,
+        "description": "Sequential reasoning for complex problem solving"
+      }
+    }
+  },
+  "workflow": {
+    "governance": {
+      "enabled": true,
+      "lane": "library",
+      "enforce_provenance": true,
+      "enforce_protocol": true
+    },
+    "deployment": {
+      "platform": "vercel",
+      "environment": "production",
+      "preview_deployments": true
+    },
+    "verification": {
+      "typecheck": true,
+      "lint": true,
+      "build": true,
+      "test": false
+    }
+  },
+  "project": {
+    "type": "nextjs",
+    "governance_system": "deliberate-ensemble-library",
+    "lanes": ["library", "archivist", "swarmmind", "kernel"],
+    "runtime": "devin"
+  }
+}

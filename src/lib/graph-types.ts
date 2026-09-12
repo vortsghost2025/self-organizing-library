@@ -25,7 +25,6 @@ export type ExteriorRole = "pattern_donor" | "origin_artifact" | "simulation" | 
 export interface GraphNode {
   id: string;
   title: string;
-  path?: string;
   type: string;
   category: string;
   repo: string;
@@ -38,9 +37,10 @@ export interface GraphNode {
   governanceLayer: GovernanceLayer;
   authorityDepth: number;
   bridgeState: BridgeState;
-  graphSection: GraphSection;
-  authorityWeight: AuthorityWeight;
-  exteriorRole: ExteriorRole;
+  path?: string;
+  graphSection?: GraphSection;
+  authorityWeight?: AuthorityWeight;
+  exteriorRole?: ExteriorRole;
 }
 
 export interface GraphEdge {
@@ -76,7 +76,7 @@ export const MEANING_LAYER_EDGES: Record<MeaningLayer, AuthorityEdgeType[]> = {
   governance: ["VERIFIES", "SIGNED_BY", "CONTRADICTS", "DERIVES_FROM"],
 };
 
-export const DEFAULT_LAYERS: MeaningLayer[] = ["structure", "verification", "execution", "governance"];
+export const DEFAULT_LAYERS: MeaningLayer[] = ["structure", "verification"];
 
 export const TYPE_COLORS: Record<string, string> = {
   doc: "#7C3AED",
@@ -88,75 +88,56 @@ export const TYPE_COLORS: Record<string, string> = {
   "test-data": "#F97316",
 };
 
-export const TYPE_RING_COLORS: Record<string, string> = {
-  doc: "#A78BFA",
-  paper: "#22D3EE",
-  code: "#34D399",
-  data: "#FBBF24",
-  config: "#F472B6",
-  schema: "#A78BFA",
-  "test-data": "#FB923C",
-};
-
-export const RING_SIZE = 2.5;
-
-export const CONFLICT_CANDIDATE_THRESHOLD = 1;
-
-export const STATUS_GLYPHS: Record<string, string> = {
-  CONFLICTED: "⚠",
-  CONFLICT_CANDIDATE: "⚠",
-  QUARANTINED: "⧖",
-};
-
-export const CONFLICT_KIND_COLORS = {
-  candidate: "#FCA5A5",
-  adjudicated: "#EF4444",
-} as const;
-
 export const NODE_SHAPE_MAP: Record<string, string> = {
-  paper: "ring",
-  doc: "ring",
-  code: "ring",
-  data: "ring",
-  config: "ring",
-  schema: "ring",
-  "test-data": "ring",
+  paper: "",
+  doc: "border",
+  code: "square",
+  data: "square",
+  config: "",
+  schema: "square",
+  "test-data": "",
+};
+
+export const NODE_BORDER_COLORS: Record<string, string> = {
+  doc: "#ffffff",
 };
 
 export const SHAPE_LABELS: Record<string, string> = {
   "": "Circle",
-  ring: "Ringed Circle",
+  square: "Square",
+  border: "Bordered Circle",
 };
-
-export const COLLAPSE_FAMILY_GLYPH = "⊞";
-export const COLLAPSE_FAMILY_COLOR = "#60A5FA";
-export const COLLAPSE_STATUS_PRIORITY: Record<NodeStatus, number> = {
-  VERIFIED: 0,
-  UNVERIFIED: 1,
-  CONFLICTED: 2,
-  QUARANTINED: 3,
-};
-
-export interface CollapseFamilyData {
-  representativeId: string;
-  title: string;
-  memberIds: string[];
-  memberCount: number;
-  bestStatus: NodeStatus;
-  dominantType: string;
-  dominantRepo: string;
-  mergedTags: string[];
-  maxVerificationCount: number;
-  maxContradictionCount: number;
-}
 
 export const REPO_COLORS: Record<string, string> = {
-  "self-organizing-library": "#7C3AED",
-  "Archivist-Agent": "#06B6D4",
-  "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": "#10B981",
-  "kernel-lane": "#F59E0B",
-  federation: "#EC4899",
-  FreeAgent: "#8B5CF6",
+  // Four Sovereign Lanes & Core Systems
+  "self-organizing-library": "#06B6D4", // Electric Cyan (Library)
+  "Archivist-Agent": "#F43F5E",          // Vivid Coral Red (Archivist)
+  "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": "#10B981", // Radiant Emerald (SwarmMind)
+  "kernel-lane": "#F59E0B",              // Solar Amber (Kernel)
+
+  // Architectural & Agentic Core
+  "Deliberate-AI-Ensemble": "#38BDF8",  // Celestial Sky Blue
+  "deepseek-harness": "#EC4899",        // Neon Magenta
+  FreeAgent: "#8B5CF6",                 // Vibrant Violet
+  federation: "#FBBF24",                // Golden Amber
+
+  // Flagship Tooling & Agent Runtimes
+  "waveterm-pwsh7-mcp": "#06B6D4",      // Cyan
+  "context-mode": "#10B981",            // Emerald
+  "Doberman-Core": "#F43F5E",           // Coral Red
+  "Genesis-Kernel-World-Sim": "#A855F7",// Purple
+  "kucoin-lane": "#F59E0B",             // Solar Amber
+  "mev-bot": "#10B981",                 // Emerald
+  Vortscore: "#06B6D4",                 // Cyan
+  "autonomous-elasticsearch-evolution-agent": "#8B5CF6", // Violet
+  "aide-sovereign-workbench": "#38BDF8", // Sky Blue
+  storytime: "#EC4899",                 // Hot Pink
+  SeanCody2026ResearchProject: "#34D399",// Mint
+  "we-and-ai-papers": "#06B6D4",        // Cyan
+  WE4FREE: "#10B981",                   // Emerald
+  "WE4FREE-Lattice-Deck": "#10B981",    // Emerald
+  "WE4FREE-Research-Intake": "#10B981", // Emerald
+  "Genesis-Kernel-First-Humans-World-Sim": "#A855F7", // Purple
 };
 
 export const STATUS_COLORS: Record<NodeStatus, string> = {
@@ -236,17 +217,22 @@ export const BRIDGE_STATE_LABELS: Record<BridgeState, string> = {
 export type GraphMode = "understand" | "explore" | "full";
 export type GraphLens = "navigation" | "authority" | "governance" | "papers" | "repos" | "full" | "canonical";
 
-export const DEFAULT_MODE: GraphMode = "explore";
-export const DEFAULT_LENS: GraphLens = "authority";
+export const DEFAULT_MODE: GraphMode = "understand";
+export const DEFAULT_LENS: GraphLens = "full";
 
 export const LENS_CONFIG: Record<GraphLens, {
   label: string;
   description: string;
   advanced?: boolean;
 }> = {
+  full: {
+    label: "Full Cosmic Archive",
+    description: "Full celestial observatory galaxy — core archive nodes, key papers, and outer stellar shell.",
+    advanced: false,
+  },
   navigation: {
     label: "Navigation Map",
-    description: "Curated architecture map for the self-organizing-library runtime, graph engine, and evidence flow.",
+    description: "Default map for people and agents: core archive, papers, and active issues.",
   },
   authority: {
     label: "Authority Map",
@@ -263,11 +249,6 @@ export const LENS_CONFIG: Record<GraphLens, {
   repos: {
     label: "Repository Map",
     description: "High-signal view across the lane repositories.",
-  },
-  full: {
-    label: "Full Explicit Graph",
-    description: "All indexed nodes with explicit references only.",
-    advanced: true,
   },
   canonical: {
     label: "Canonical Graph",
@@ -291,17 +272,17 @@ export const MODE_CONFIG: Record<GraphMode, {
     label: "Verified Core",
     description: "Human-friendly entry — verified cores only",
     density: "mid",
-    layers: ["structure", "verification", "execution", "governance"],
+    layers: ["structure", "verification"],
     showUnverified: true,
     showQuarantined: true,
-    highlightCoreNodes: true,
+    highlightCoreNodes: false,
     groupEntryPoints: "start",
   },
   explore: {
     label: "Contradictions & Quarantine",
     description: "See how system detects and isolates problems",
     density: "mid",
-    layers: ["structure", "verification", "conflicts", "execution", "governance"],
+    layers: ["structure", "verification", "conflicts"],
     showUnverified: true,
     showQuarantined: true,
     highlightCoreNodes: false,

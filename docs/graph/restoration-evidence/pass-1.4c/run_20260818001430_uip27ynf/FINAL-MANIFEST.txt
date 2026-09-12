@@ -1,0 +1,47 @@
+FINAL PROVENANCE MANIFEST
+RUN_ID: run_20260818001430_uip27ynf
+RUN_DIRECTORY: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.4c\run_20260818001430_uip27ynf
+SEALED_AT: 2026-08-18T00:19:52.169Z
+--------------------------------------------------------------------------------
+VIEW: A7_default
+  SOURCE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.4c\run_20260818001430_uip27ynf\A7_default.png
+  VISIBLE_RUN_ID: run_20260818001430_uip27ynf
+  SHA256: 710b9751b5ddebe82f200d8fbf47b65b3885d1ce8966c667c87c42f13af84152
+  FILE_SIZE: 323614 bytes
+  LAST_WRITE_TIME: 2026-08-18T00:14:39.150Z
+--------------------------------------------------------------------------------
+VIEW: B7_cluster
+  SOURCE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.4c\run_20260818001430_uip27ynf\B7_cluster.png
+  VISIBLE_RUN_ID: run_20260818001430_uip27ynf
+  SHA256: 1d3ce4b857edf84d4f97879ea53929a601c109340175aa7179c8706c9048909e
+  FILE_SIZE: 258125 bytes
+  LAST_WRITE_TIME: 2026-08-18T00:14:45.816Z
+--------------------------------------------------------------------------------
+VIEW: C7_focus
+  SOURCE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.4c\run_20260818001430_uip27ynf\C7_focus.png
+  VISIBLE_RUN_ID: run_20260818001430_uip27ynf
+  SHA256: bcbc9e3cea588580b46f4b45c13ce200999d759355b8305dd990a8f4ae47e2ef
+  FILE_SIZE: 259556 bytes
+  LAST_WRITE_TIME: 2026-08-18T00:14:52.387Z
+--------------------------------------------------------------------------------
+VIEW: D7_contradictions
+  SOURCE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.4c\run_20260818001430_uip27ynf\D7_contradictions.png
+  VISIBLE_RUN_ID: run_20260818001430_uip27ynf
+  SHA256: cfbbc8abf4e38db4c0a2f0eec5ea3a497b2c41d9c61c543e5400c4a456ed277a
+  FILE_SIZE: 298851 bytes
+  LAST_WRITE_TIME: 2026-08-18T00:15:00.508Z
+--------------------------------------------------------------------------------
+VIEW: E7_authority
+  SOURCE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.4c\run_20260818001430_uip27ynf\E7_authority.png
+  VISIBLE_RUN_ID: run_20260818001430_uip27ynf
+  SHA256: 49e57cd4b6057a62e079df9a20c68e2818b096a569325062470f586545bd6d8d
+  FILE_SIZE: 320396 bytes
+  LAST_WRITE_TIME: 2026-08-18T00:15:08.274Z
+--------------------------------------------------------------------------------
+VIEW: F7_large_text
+  SOURCE_PATH: S:\self-organizing-library\docs\graph\restoration-evidence\pass-1.4c\run_20260818001430_uip27ynf\F7_large_text.png
+  VISIBLE_RUN_ID: run_20260818001430_uip27ynf
+  SHA256: 492c052f93a492f859ed2a0b890ee363e5ce7be9ac18ff6e047db9ff504775f5
+  FILE_SIZE: 294316 bytes
+  LAST_WRITE_TIME: 2026-08-18T00:15:17.097Z
+--------------------------------------------------------------------------------

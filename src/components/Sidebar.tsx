@@ -17,7 +17,9 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/", icon: "◈", label: "Home", ariaLabel: "Home - systems engineering overview" },
-  { href: "/repos", icon: "⊕", label: "Projects", ariaLabel: "Projects & Repositories - featured systems and archive" },
+  { href: "/repos", icon: "⊕", label: "Projects & Builds", ariaLabel: "Projects & Builds - Wave, Kilo, featured systems and archive" },
+  { href: "/meshcast", icon: "🎙️", label: "MeshCast", ariaLabel: "MeshCast - podcast, YouTube, and creator media" },
+  { href: "/videos", icon: "▶", label: "Videos", ariaLabel: "Videos - demos and system recordings" },
   { href: "/library", icon: "☰", label: "Library", ariaLabel: "Library - search and browse verified knowledge artifacts" },
   { href: "/system-pulse", icon: "◉", label: "System Pulse", ariaLabel: "System Pulse - live telemetry across lanes" },
   { href: "/graph", icon: "◇", label: "Nexus Graph", ariaLabel: "Nexus Graph - interactive reasoning and document map" },
@@ -27,7 +29,6 @@ const navItems = [
   { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour of the system" },
   { href: "/observability", icon: "📊", label: "Observability", ariaLabel: "Observability - test monitoring and test results" },
   { href: "/logs", icon: "▤", label: "Logs", ariaLabel: "Logs - session and verification transcripts" },
-  { href: "/videos", icon: "▶", label: "Videos", ariaLabel: "Videos - demos and system recordings" },
   { href: "/agents", icon: "◆", label: "Agents", ariaLabel: "Agents - system map for AI agents" },
 ];
 

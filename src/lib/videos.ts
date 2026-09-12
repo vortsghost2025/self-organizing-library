@@ -9,6 +9,15 @@ export interface VideoEntry {
 
 export const videos: VideoEntry[] = [
   {
+    youtubeId: "uFc5eaMikHw",
+    title: "MeshCast: Multi-Agent Systems & Verifiable Architecture Series",
+    description:
+      "Deep dive into multi-agent systems, constitutional AI governance, and autonomous runtime coordination hosted by Sean David Ramsingh.",
+    date: "2026-05-01",
+    tags: ["meshcast", "multi-agent", "governance", "architecture"],
+    category: "system-demo",
+  },
+  {
     youtubeId: "VjlNpj_ubNc",
     title: "Autonomous Elasticsearch Evolution Agent (v2 — Mar 2026)",
     description:

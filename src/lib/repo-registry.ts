@@ -6,7 +6,13 @@
 import repoRegistryData from "../../data/repo-registry.json";
 
 export type PublicSiteClass = "FEATURED" | "LISTED" | "ARCHIVE_ONLY" | "EXCLUDE";
-export type OwnershipClass = "ORIGINAL_WORK" | "FORK_OR_MIRROR";
+export type OwnershipClass = "ORIGINAL_WORK" | "FORK_OR_MIRROR" | "FORK" | "MIRROR" | "EXPERIMENT" | "ARCHIVE" | "UNKNOWN";
+export type DomainCategory =
+  | "safety_governance"
+  | "terminals_workspace"
+  | "swarm_consensus"
+  | "simulation_research"
+  | "public_health";
 
 export interface RepositoryRecord {
   name: string;
@@ -23,6 +29,8 @@ export interface RepositoryRecord {
   portfolio_summary: string;
   local_path: string | null;
   source_of_truth: string;
+  domain_category?: DomainCategory;
+  tech_tags?: string[];
 }
 
 export interface RepoRegistry {
@@ -32,7 +40,7 @@ export interface RepoRegistry {
   repositories: RepositoryRecord[];
 }
 
-const registry: RepoRegistry = repoRegistryData as RepoRegistry;
+const registry: RepoRegistry = repoRegistryData as unknown as RepoRegistry;
 
 /**
  * Returns the entire repository registry.
@@ -42,7 +50,7 @@ export function getRepoRegistry(): RepoRegistry {
 }
 
 /**
- * Returns all public non-excluded repositories (34 repos).
+ * Returns all public non-excluded repositories.
  */
 export function getAllPublicRepositories(): RepositoryRecord[] {
   return registry.repositories.filter(
@@ -51,24 +59,42 @@ export function getAllPublicRepositories(): RepositoryRecord[] {
 }
 
 /**
- * Returns the 5 featured portfolio repositories.
+ * Returns the featured portfolio repositories.
  */
 export function getFeaturedRepositories(): RepositoryRecord[] {
   return registry.repositories.filter((r) => r.public_site_class === "FEATURED");
 }
 
 /**
- * Returns the 5 listed original work repositories.
+ * Returns the listed original work and extension repositories.
  */
 export function getListedRepositories(): RepositoryRecord[] {
   return registry.repositories.filter((r) => r.public_site_class === "LISTED");
 }
 
 /**
- * Returns the 24 archive-only repositories.
+ * Returns the archive-only repositories.
  */
 export function getArchiveRepositories(): RepositoryRecord[] {
   return registry.repositories.filter((r) => r.public_site_class === "ARCHIVE_ONLY");
+}
+
+/**
+ * Returns all active showcase repositories (FEATURED + LISTED).
+ */
+export function getShowcaseRepositories(): RepositoryRecord[] {
+  return registry.repositories.filter(
+    (r) => r.visibility === "public" && (r.public_site_class === "FEATURED" || r.public_site_class === "LISTED")
+  );
+}
+
+/**
+ * Returns repositories belonging to a specific domain category.
+ */
+export function getRepositoriesByDomain(domain: DomainCategory): RepositoryRecord[] {
+  return registry.repositories.filter(
+    (r) => r.visibility === "public" && r.public_site_class !== "EXCLUDE" && r.domain_category === domain
+  );
 }
 
 /**
@@ -79,7 +105,7 @@ export function getRepositoryByName(name: string): RepositoryRecord | undefined 
 }
 
 /**
- * Returns summary counts for public repository tiers.
+ * Returns summary counts for public repository tiers and domains.
  */
 export function getRepoCounts() {
   const featured = getFeaturedRepositories();
@@ -91,6 +117,15 @@ export function getRepoCounts() {
     featured: featured.length,
     listed: listed.length,
     archive: archive.length,
+    showcase: featured.length + listed.length,
     docIndexAllowed: registry.repositories.filter((r) => r.doc_index_allowed).length,
+    domains: {
+      safety_governance: registry.repositories.filter((r) => r.domain_category === "safety_governance").length,
+      terminals_workspace: registry.repositories.filter((r) => r.domain_category === "terminals_workspace").length,
+      swarm_consensus: registry.repositories.filter((r) => r.domain_category === "swarm_consensus").length,
+      simulation_research: registry.repositories.filter((r) => r.domain_category === "simulation_research").length,
+      public_health: registry.repositories.filter((r) => r.domain_category === "public_health").length,
+    },
   };
 }
+

@@ -76,11 +76,11 @@ const ARCHITECTURE_MAP_REGION_ORDER: ArchitectureMapRegion[] = [
 export const SYSTEMS_MAP_REGION_SPECS: Record<SystemsMapRegion, SystemsMapRegionSpec> = {
   sources: {
     label: "Sources & Docs",
-    center: { x: -760, y: 40 },
+    center: { x: -780, y: 40 },
     hubOffsets: [
       { x: 0, y: 0 },
-      { x: -130, y: -90 },
-      { x: -110, y: 96 },
+      { x: -140, y: -90 },
+      { x: -120, y: 96 },
     ],
     fanCenterAngle: Math.PI,
     fanSweep: 2.2,
@@ -88,31 +88,31 @@ export const SYSTEMS_MAP_REGION_SPECS: Record<SystemsMapRegion, SystemsMapRegion
   },
   claims: {
     label: "Claims & Papers",
-    center: { x: -250, y: -210 },
+    center: { x: -340, y: -260 },
     hubOffsets: [
       { x: 0, y: 0 },
-      { x: -120, y: 78 },
-      { x: 102, y: 92 },
+      { x: -130, y: 78 },
+      { x: 110, y: 92 },
     ],
     fanCenterAngle: -2.15,
-    fanSweep: 2.05,
+    fanSweep: 2.2,
     labelOffset: { x: 0, y: -150 },
   },
   governance: {
     label: "Governance & Verification",
-    center: { x: 120, y: -40 },
+    center: { x: 140, y: -40 },
     hubOffsets: [
       { x: 0, y: 0 },
       { x: -130, y: 104 },
       { x: 128, y: 110 },
     ],
     fanCenterAngle: 0.55,
-    fanSweep: 3.8,
+    fanSweep: 3.6,
     labelOffset: { x: 0, y: -160 },
   },
   execution: {
     label: "Execution & Agents",
-    center: { x: 170, y: 210 },
+    center: { x: 220, y: 260 },
     hubOffsets: [
       { x: 0, y: 0 },
       { x: -120, y: 86 },
@@ -124,7 +124,7 @@ export const SYSTEMS_MAP_REGION_SPECS: Record<SystemsMapRegion, SystemsMapRegion
   },
   external: {
     label: "External & Deployment",
-    center: { x: 700, y: 60 },
+    center: { x: 800, y: 80 },
     hubOffsets: [
       { x: 0, y: 0 },
       { x: -120, y: -86 },
@@ -136,7 +136,7 @@ export const SYSTEMS_MAP_REGION_SPECS: Record<SystemsMapRegion, SystemsMapRegion
   },
   conflicts: {
     label: "Conflict & Quarantine",
-    center: { x: 920, y: 0 },
+    center: { x: 1080, y: -40 },
     hubOffsets: [
       { x: 0, y: 0 },
       { x: -120, y: -88 },
@@ -340,8 +340,8 @@ export function getArchitectureMapRegion(node: SemanticLayoutNode): Architecture
     return "conflicts";
   }
 
-  const normalizedPath = (node.path ?? "").replace(/\\/g, "/").toLowerCase();
-  const normalizedTitle = (node.title ?? "").toLowerCase();
+  const normalizedPath = String(node.path ?? "").replace(/\\/g, "/").toLowerCase();
+  const normalizedTitle = String(node.title ?? "").toLowerCase();
 
   if (
     normalizedPath.startsWith("src/components/graph/") ||
@@ -527,9 +527,9 @@ function placeSatelliteBucket(
   let ring = 0;
 
   while (cursor < bucket.length) {
-    const nodesInRing = Math.min(bucket.length - cursor, 5 + ring * 2);
-    const baseRadius = 84 + ring * 48 + hubIndex * 14;
-    const fanSweep = Math.min(spec.fanSweep, 1.45 + ring * 0.24);
+    const nodesInRing = Math.min(bucket.length - cursor, 3 + ring * 2);
+    const baseRadius = 112 + ring * 64 + hubIndex * 20;
+    const fanSweep = Math.min(spec.fanSweep, 1.65 + ring * 0.3);
     const angleStart =
       spec.fanCenterAngle -
       fanSweep / 2 +
@@ -567,7 +567,7 @@ function runCollisionPass(
   positions: Record<string, SemanticLayoutPosition>,
   hubIds: Set<string>,
 ): void {
-  for (let pass = 0; pass < 2; pass += 1) {
+  for (let pass = 0; pass < 4; pass += 1) {
     for (let leftIndex = 0; leftIndex < nodeIds.length; leftIndex += 1) {
       for (let rightIndex = leftIndex + 1; rightIndex < nodeIds.length; rightIndex += 1) {
         const leftId = nodeIds[leftIndex];
@@ -579,14 +579,22 @@ function runCollisionPass(
         const dx = right.x - left.x;
         const dy = right.y - left.y;
         const distance = Math.sqrt(dx * dx + dy * dy) || 0.001;
-        const minimumSpacing =
-          hubIds.has(leftId) || hubIds.has(rightId) ? 88 : 54;
+        
+        // Base minimum circle spacing
+        let minimumSpacing = hubIds.has(leftId) || hubIds.has(rightId) ? 116 : 82;
+        
+        // Horizontal text label collision avoidance:
+        // Sigma labels project rightward from each node circle.
+        // If two nodes are on nearly the same horizontal plane (dy < 26), stagger them vertically.
+        if (Math.abs(dy) < 26) {
+          minimumSpacing = Math.max(minimumSpacing, 118);
+        }
 
         if (distance >= minimumSpacing) continue;
 
         const push = (minimumSpacing - distance) / 2;
-        const nx = dx / distance;
-        const ny = dy / distance;
+        const nx = Math.abs(dy) < 26 ? (dx / distance) * 0.65 : dx / distance;
+        const ny = Math.abs(dy) < 26 ? (dy >= 0 ? 1 : -1) * 0.95 : dy / distance;
 
         if (!hubIds.has(leftId)) {
           left.x -= nx * push;
@@ -650,6 +658,11 @@ export function computeSemanticGraphLayout(
 
     runCollisionPass(sortedNodes.map((node) => node.id), positions, hubIds);
   }
+
+  // Global collision pass across all placed nodes to ensure no cross-region overlap
+  const allNodeIds = Object.keys(positions);
+  const globalHubIds = new Set<string>();
+  runCollisionPass(allNodeIds, positions, globalHubIds);
 
   return positions;
 }

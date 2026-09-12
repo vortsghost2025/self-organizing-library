@@ -67,10 +67,12 @@ export default function GraphContextPanel({
     return (
       <button
         onClick={handleRestore}
-        className="absolute top-3 left-3 px-2 py-1 rounded bg-[var(--bg-surface)]/80 text-sm text-[var(--text-muted)] backdrop-blur-sm hover:text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50"
-        aria-label="Show graph context panel"
+        className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full cosmic-glass-hud text-xs text-[var(--text-secondary)] hover:text-white hover:border-purple-500/50 transition-all cursor-pointer shadow-lg group"
+        aria-label="Expand Observatory Telemetry"
       >
-        i
+        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <span className="font-medium tracking-wide">Telemetry</span>
+        <span className="text-[var(--text-muted)] group-hover:text-purple-300">• {visibleCount} Nodes</span>
       </button>
     );
   }
@@ -87,69 +89,56 @@ export default function GraphContextPanel({
 
   return (
     <div
-      className="absolute top-3 left-3 max-w-xs px-3 py-2.5 rounded-lg bg-[var(--bg-surface)]/90 backdrop-blur-sm border border-[var(--border)] text-sm shadow-lg"
+      className="absolute top-4 left-4 z-20 w-80 p-4 rounded-xl cosmic-glass-hud text-xs shadow-2xl transition-all animate-fade-in"
       role="region"
-      aria-label="Graph context: what you are looking at"
+      aria-label="Graph context"
     >
-      <div className="flex items-center justify-between mb-1.5">
-        <span className="text-[var(--text-primary)] font-semibold">What am I looking at?</span>
+      <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+        <h3 className="text-white font-semibold text-xs tracking-wide">
+          What am I looking at?
+        </h3>
         <button
           onClick={handleDismiss}
-          className="text-[var(--text-muted)] hover:text-[var(--text-secondary)] text-sm ml-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 rounded px-1"
-          aria-label="Dismiss context panel"
+          className="text-slate-400 hover:text-white text-xs px-2 py-0.5 rounded hover:bg-white/10 transition-colors cursor-pointer"
+          aria-label="Dismiss panel"
         >
           Dismiss
         </button>
       </div>
 
-      <p className="text-[var(--text-secondary)] text-sm leading-snug mb-2">
+      <p className="text-slate-300 text-xs leading-relaxed mb-3">
         {DENSITY_DESCRIPTIONS[density]}
       </p>
 
-      <ul className="space-y-1 text-sm text-[var(--text-secondary)]" role="list">
-        <li className="flex justify-between">
-          <span>Visible</span>
-          <span className="text-[var(--text-primary)] font-medium">{visibleCount} of {nodeCount} nodes</span>
-        </li>
-        <li className="flex justify-between">
-          <span>Edges</span>
-          <span className="text-[var(--text-primary)] font-medium">{edgeCount}</span>
-        </li>
+      <div className="space-y-1.5 text-xs text-slate-300">
+        <div className="flex justify-between items-center">
+          <span className="text-slate-400">Visible</span>
+          <span className="text-white font-mono font-medium">
+            {visibleCount} of {nodeCount} nodes
+          </span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-slate-400">Edges</span>
+          <span className="text-cyan-300 font-mono font-medium">
+            {edgeCount}
+          </span>
+        </div>
         {activeFilterLabel && (
-          <li className="flex justify-between">
-            <span>Filter</span>
-            <span className="text-[var(--text-primary)] font-medium">{activeFilterLabel}</span>
-          </li>
-        )}
-        {searchQuery && (
-          <li className="flex justify-between">
-            <span>Search</span>
-            <span className="text-[var(--text-primary)] font-medium truncate ml-2">&ldquo;{searchQuery}&rdquo;</span>
-          </li>
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400">Scope</span>
+            <span className="text-purple-300 font-medium truncate max-w-[150px]">{activeFilterLabel}</span>
+          </div>
         )}
         {focusedNodeId && selectedNodeTitle && (
-          <li className="flex justify-between">
-            <span>Focused</span>
-            <span className="text-[var(--text-primary)] font-medium truncate ml-2">{selectedNodeTitle}</span>
-          </li>
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400">Selected</span>
+            <span className="text-white font-medium truncate max-w-[150px]">{selectedNodeTitle}</span>
+          </div>
         )}
-        {activeEntryPoint && (
-          <li className="flex justify-between">
-            <span>Entry point</span>
-            <span className="text-[var(--text-primary)] font-medium">active</span>
-          </li>
-        )}
-        {activeClusterId && (
-          <li className="flex justify-between">
-            <span>Cluster</span>
-            <span className="text-[var(--text-primary)] font-medium">active</span>
-          </li>
-        )}
-      </ul>
-
-      <div className="mt-2 pt-2 border-t border-[var(--border)]">
-        <span className="text-sm text-[var(--text-muted)]">Layers: </span>
-        <span className="text-sm text-[var(--text-secondary)]">{activeLayerLabels}</span>
+        <div className="pt-2 mt-2 border-t border-white/10 text-[11px] text-slate-400">
+          <span className="font-semibold text-slate-300">Layers: </span>
+          <span>{activeLayerLabels}</span>
+        </div>
       </div>
     </div>
   );

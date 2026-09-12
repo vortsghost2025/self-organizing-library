@@ -2,128 +2,89 @@ import Image from "next/image";
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
+import { FlagshipBuildsSection } from "@/components/homepage/FlagshipBuildsSection";
+import { MediaCreatorSection } from "@/components/homepage/MediaCreatorSection";
 import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
 import SystemOverview from "@/components/SystemOverview";
 import { getStats } from "@/lib/site-index";
-import { getFeaturedRepositories, getRepoCounts } from "@/lib/repo-registry";
+import { getFeaturedRepositories, getListedRepositories, getRepoCounts } from "@/lib/repo-registry";
+import { ShowcaseSection } from "@/components/homepage/ShowcaseSection";
 
 export default async function Dashboard() {
   const stats = getStats();
   const featuredRepos = getFeaturedRepositories();
+  const listedRepos = getListedRepositories();
   const repoCounts = getRepoCounts();
 
-  const heroTitle = "Sean David Ramsingh — AI Systems Architecture & Research";
+  const heroTitle = "Sean David Ramsingh — Systems Architecture, Open Source & Creator";
   const heroTagline =
-    "Engineering autonomous multi-agent orchestration, constitutional governance, GPU-accelerated runtime infrastructure, and deterministic verification.";
+    "Engineering agent-operable terminal runtimes (Wave + PowerShell 7), contributing to agentic coding platforms (Kilo MCP), orchestrating autonomous swarms, and hosting MeshCast.";
 
   return (
-    <div className="p-4 md:p-8 space-y-12" data-pagefind-body>
-      {/* 1. Hero Section */}
+    <div className="p-4 md:p-8 space-y-16" data-pagefind-body>
+      {/* 1. Hero Section & Creator Identity */}
       <HeroSection title={heroTitle} tagline={heroTagline} />
 
-      {/* 2. Professional Profile & Focus Areas */}
+      {/* 2. Flagship Source Builds & MCP Tooling (Wave, Kilo, Context-Mode, SwarmMind) */}
+      <FlagshipBuildsSection />
+
+      {/* 3. Media & Creator Hub (MeshCast, YouTube Video Demos, TikTok) */}
+      <MediaCreatorSection />
+
+      {/* 2. Professional Profile & Core Focus Areas */}
       <section className="card p-6 md:p-8 animate-fade-in" aria-label="Technical Profile and Focus Areas">
         <div className="flex flex-col md:flex-row gap-8 items-start justify-between">
           <div className="flex-1 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-semibold uppercase tracking-wider">
-              Principal Systems Engineering & Research
+              Principal Systems Engineering &amp; Research
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
-              Verifiable Multi-Agent Systems & Distributed AI Infrastructure
+              Verifiable Multi-Agent Systems &amp; Autonomous Infrastructure
             </h2>
-            <p className="text-[var(--text-secondary)] text-base leading-relaxed">
-              Specializing in the design of sovereign multi-agent architectures, cryptographic state
-              verification, and high-throughput CUDA infrastructure. Systems built here enforce rigorous
-              constitutional constraints, multi-stage consensus gates, and reproducible evidence ledgers.
+            <p className="text-[var(--text-secondary)] text-base md:text-lg leading-relaxed">
+              Specializing in the architecture of sovereign multi-agent systems, runtime safety gating,
+              terminal multiplexing for AI agents, and cryptographic state verification. Systems built here enforce
+              strict constitutional constraints, multi-stage consensus convergence, and reproducible audit ledgers.
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-2">
               <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
-                <div className="text-xl mb-1">⚡</div>
-                <div className="font-semibold text-sm text-[var(--text-primary)]">Multi-Agent Systems</div>
-                <div className="text-xs text-[var(--text-muted)] mt-1">Autonomous orchestration & consensus gates</div>
+                <div className="text-xl mb-1">🛡️</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">AI Safety &amp; Gating</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">Runtime tool interception &amp; guardrails</div>
               </div>
               <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
-                <div className="text-xl mb-1">⚖️</div>
-                <div className="font-semibold text-sm text-[var(--text-primary)]">AI Governance</div>
-                <div className="text-xs text-[var(--text-muted)] mt-1">Constitutional policy & proof verification</div>
+                <div className="text-xl mb-1">⚡</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">Agentic Terminals</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">wmux, Wave Terminal &amp; WSH streaming</div>
+              </div>
+              <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
+                <div className="text-xl mb-1">🌐</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">Multi-Agent Swarms</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">Autonomous dispatch &amp; consensus</div>
               </div>
               <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
                 <div className="text-xl mb-1">⚙️</div>
-                <div className="font-semibold text-sm text-[var(--text-primary)]">GPU/Runtime Ops</div>
-                <div className="text-xs text-[var(--text-muted)] mt-1">CUDA optimization & message relays</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">CUDA &amp; Runtime Ops</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">GPU acceleration &amp; relay daemons</div>
               </div>
               <div className="p-4 rounded-xl bg-[var(--bg-surface-hover)] border border-[var(--border)]">
-                <div className="text-xl mb-1">📊</div>
-                <div className="font-semibold text-sm text-[var(--text-primary)]">Observability</div>
-                <div className="text-xs text-[var(--text-muted)] mt-1">Interactive graphs & live telemetry</div>
+                <div className="text-xl mb-1">💚</div>
+                <div className="font-semibold text-sm text-[var(--text-primary)]">Public Good &amp; Health</div>
+                <div className="text-xs text-[var(--text-muted)] mt-1">Offline mental health directory</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Featured Systems Showcase (5 Canonical FEATURED Repositories) */}
-      <section className="space-y-6" aria-label="Featured Systems">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-1">
-              Core Portfolio
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
-              Featured Systems & Applications
-            </h2>
-          </div>
-          <Link
-            href="/repos"
-            className="text-sm font-medium text-[var(--primary)] hover:underline inline-flex items-center gap-1"
-          >
-            View all {repoCounts.totalPublic} repositories →
-          </Link>
-        </div>
+      {/* 3. Featured Systems & Codebase Showcase (Interactive Domain Explorer) */}
+      <ShowcaseSection
+        featured={featuredRepos}
+        listed={listedRepos}
+        totalPublicCount={repoCounts.totalPublic}
+      />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredRepos.map((repo) => (
-            <div
-              key={repo.name}
-              className="card p-6 flex flex-col justify-between hover:border-[var(--primary)] transition-all group"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)]">
-                    {repo.system_role}
-                  </span>
-                  <span className="text-xs text-[var(--text-muted)] font-mono">FEATURED</span>
-                </div>
-                <h3 className="text-lg font-bold text-[var(--text-primary)] group-hover:text-[var(--primary)] transition-colors">
-                  {repo.name}
-                </h3>
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                  {repo.portfolio_summary || repo.description}
-                </p>
-              </div>
-
-              <div className="pt-4 mt-4 border-t border-[var(--border)] flex items-center justify-between">
-                <a
-                  href={repo.github_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1.5"
-                >
-                  <span>GitHub Repository</span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-                <Link
-                  href={`/repos?tab=all&selected=${repo.name}`}
-                  className="text-xs font-medium text-[var(--primary)] hover:underline"
-                >
-                  Explore Details →
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* 4. Live Telemetry & Constitutional State */}
       <LiveSystemPulse />

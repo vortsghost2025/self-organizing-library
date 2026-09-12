@@ -18,8 +18,8 @@ const NexusGraph = dynamic(() => import("@/components/NexusGraph"), {
               Loading interactive graph...
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link href="/graph?lens=navigation" className="px-4 py-2 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
-                Navigation Map
+              <Link href="/graph?lens=authority" className="px-4 py-2 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
+                Authority Backbone
               </Link>
               <Link href="/graph?lens=canonical&mode=full" className="px-4 py-2 border-2 border-[var(--primary)] text-[var(--text-primary)] rounded hover:bg-[var(--primary)]/10 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">
                 Canonical Graph
@@ -53,7 +53,7 @@ function GraphContent() {
     | "repos"
     | "full"
     | "canonical"
-    | null) || "navigation";
+    | null) || "full";
 
   return (
     <NexusGraph

@@ -66,7 +66,7 @@ export default function NodeDetail({
 
   return (
     <aside className="fixed inset-x-0 bottom-0 md:relative md:inset-auto md:w-80 md:flex-shrink-0 z-30 md:z-auto max-h-[60vh] md:max-h-none overflow-y-auto border-t md:border-t-0 bg-[var(--bg-surface)] md:bg-transparent" role="complementary" aria-label="Node details panel">
-      <div className="card p-5 sticky top-8" ref={panelRef} onKeyDown={handleKeyDown}>
+      <div className="cosmic-glass-panel p-5 rounded-xl border border-white/10 shadow-2xl sticky top-8" ref={panelRef} onKeyDown={handleKeyDown}>
         <div className="flex items-center gap-2 mb-4">
           <span
             className="w-3 h-3 rounded-full"

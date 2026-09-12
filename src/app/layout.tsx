@@ -6,6 +6,7 @@ import { AccessibilityProvider } from "@/components/AccessibilityProvider";
 import { getStats } from "@/lib/site-index";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://deliberateensemble.works"),
   title: "Deliberate Ensemble - Research Archive",
   description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
   openGraph: {
