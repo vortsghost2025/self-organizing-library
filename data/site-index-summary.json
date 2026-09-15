@@ -1,22 +1,30 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-09-08T12:07:26Z",
-  "repo_count": 26,
+  "generated_at": "2026-09-14T22:07:49-04:00",
+  "repo_count": 33,
   "stats": {
-    "total_files": 16501,
-    "total_size_bytes": 230789976,
+    "total_files": 19004,
+    "total_size_bytes": 258600189,
     "by_repo": {
+      "agentic-supervisor": {
+        "total_files": 20,
+        "total_size_bytes": 125327
+      },
       "ai-ensemble-lab-": {
         "total_files": 15,
         "total_size_bytes": 72063
       },
       "aide-sovereign-workbench": {
         "total_files": 263,
-        "total_size_bytes": 1168694
+        "total_size_bytes": 1168409
+      },
+      "AIPass": {
+        "total_files": 2305,
+        "total_size_bytes": 24644200
       },
       "Archivist-Agent": {
-        "total_files": 748,
-        "total_size_bytes": 5559935
+        "total_files": 676,
+        "total_size_bytes": 5277492
       },
       "autonomous-elasticsearch-evolution-agent": {
         "total_files": 271,
@@ -32,35 +40,43 @@
       },
       "Deliberate-AI-Ensemble": {
         "total_files": 1123,
-        "total_size_bytes": 18884698
+        "total_size_bytes": 18887523
       },
       "Doberman-Core": {
         "total_files": 574,
         "total_size_bytes": 5994392
       },
       "federation": {
-        "total_files": 473,
-        "total_size_bytes": 5887651
+        "total_files": 501,
+        "total_size_bytes": 6214543
+      },
+      "firstmate": {
+        "total_files": 114,
+        "total_size_bytes": 1760614
       },
       "FreeAgent": {
         "total_files": 804,
-        "total_size_bytes": 24680063
+        "total_size_bytes": 24675132
       },
       "Genesis-Kernel-First-Humans-World-Sim": {
         "total_files": 54,
         "total_size_bytes": 299645
       },
       "Genesis-Kernel-World-Sim": {
-        "total_files": 378,
-        "total_size_bytes": 5791897
+        "total_files": 392,
+        "total_size_bytes": 5884230
       },
       "kernel-lane": {
         "total_files": 517,
-        "total_size_bytes": 11763232
+        "total_size_bytes": 11763397
+      },
+      "kilo-desktop": {
+        "total_files": 10,
+        "total_size_bytes": 119389
       },
       "kucoin-lane": {
-        "total_files": 425,
-        "total_size_bytes": 3153779
+        "total_files": 408,
+        "total_size_bytes": 3061725
       },
       "mev-bot": {
         "total_files": 393,
@@ -70,21 +86,29 @@
         "total_files": 29,
         "total_size_bytes": 109811
       },
+      "Rom-Baro": {
+        "total_files": 5,
+        "total_size_bytes": 11905
+      },
       "SeanCody2026ResearchProject": {
         "total_files": 199,
         "total_size_bytes": 1065421
       },
       "self-organizing-library": {
-        "total_files": 742,
-        "total_size_bytes": 69825471
+        "total_files": 809,
+        "total_size_bytes": 70362088
+      },
+      "SharkGame4Adam": {
+        "total_files": 7,
+        "total_size_bytes": 22660
       },
       "storytime": {
         "total_files": 265,
         "total_size_bytes": 3613470
       },
       "SwarmMind-Self-Optimizing-Multi-Agent-AI-System": {
-        "total_files": 363,
-        "total_size_bytes": 2073480
+        "total_files": 371,
+        "total_size_bytes": 2158417
       },
       "Vortscore": {
         "total_files": 234,
@@ -103,92 +127,96 @@
         "total_size_bytes": 96037
       },
       "WE4FREE-Lattice-Deck": {
-        "total_files": 91,
-        "total_size_bytes": 406868
+        "total_files": 90,
+        "total_size_bytes": 399014
       },
       "WE4FREE-Research-Intake": {
         "total_files": 66,
         "total_size_bytes": 255892
+      },
+      "wmux-": {
+        "total_files": 15,
+        "total_size_bytes": 469916
       }
     }
   },
   "source_provenance": [
     {
       "repo": "Archivist-Agent",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\Archivist-Agent",
+      "source_mode": "REPO_ROOTS",
+      "source_path": "/tmp/repos/Archivist-Agent",
       "git_remote": "https://github.com/vortsghost2025/Archivist-Agent.git",
       "default_branch": "master",
-      "indexed_commit_sha": "fd93bc403e8b12fc8a7dc9e1b71e670026eb83d0",
-      "indexed_commit_date": "2026-08-08T00:54:56Z"
+      "indexed_commit_sha": "8b253ff631b7b6dead1a81b69a2f1def5fb51c8a",
+      "indexed_commit_date": "2026-09-09T00:41:15-04:00"
     },
     {
       "repo": "kernel-lane",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\kernel-lane",
+      "source_mode": "REPO_ROOTS",
+      "source_path": "/tmp/repos/kernel-lane",
       "git_remote": "https://github.com/vortsghost2025/kernel-lane.git",
       "default_branch": "master",
-      "indexed_commit_sha": "1d0d5c6e7e23e42d88247c046e8ea82792a95e48",
-      "indexed_commit_date": "2026-08-14T02:17:40-04:00"
+      "indexed_commit_sha": "8762428103a80b4ccb1cc142d3369fba221a0d1b",
+      "indexed_commit_date": "2026-08-15T18:33:53Z"
     },
     {
       "repo": "self-organizing-library",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\self-organizing-library",
-      "git_remote": "https://github.com/vortsghost2025/self-organizing-library.git",
+      "source_mode": "REPO_ROOTS",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library",
+      "git_remote": "https://github.com/vortsghost2025/self-organizing-library",
       "default_branch": "main",
-      "indexed_commit_sha": "2c7e8c92bbfd6f0872a67f995a50b242e73ebe83",
-      "indexed_commit_date": "2026-08-18T23:39:22-04:00"
+      "indexed_commit_sha": "8cdeef7f22536be4ee32f46add8eb0d57910d3ec",
+      "indexed_commit_date": "2026-09-12T00:27:19-04:00"
     },
     {
       "repo": "SwarmMind-Self-Optimizing-Multi-Agent-AI-System",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\SwarmMind",
+      "source_mode": "REPO_ROOTS",
+      "source_path": "/tmp/repos/SwarmMind",
       "git_remote": "https://github.com/vortsghost2025/SwarmMind-Self-Optimizing-Multi-Agent-AI-System.git",
       "default_branch": "main",
-      "indexed_commit_sha": "b19ae37813ae0f8abcc2f18f5e4abccf1b343af1",
-      "indexed_commit_date": "2026-07-24T00:32:02-04:00"
+      "indexed_commit_sha": "9b272a85fbad92e972ae7425b0604947d7859740",
+      "indexed_commit_date": "2026-08-08T03:55:04Z"
     },
     {
       "repo": "WE4FREE-Lattice-Deck",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\WE4FREE-Lattice-Deck",
-      "git_remote": "https://github.com/vortsghost2025/WE4FREE-Lattice-Deck",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/WE4FREE-Lattice-Deck",
+      "git_remote": "https://github.com/vortsghost2025/WE4FREE-Lattice-Deck.git",
       "default_branch": "main",
-      "indexed_commit_sha": "444c561f3d82db28c2c67926a0872c8ff1d7a116",
-      "indexed_commit_date": "2026-06-10T16:27:38-04:00"
+      "indexed_commit_sha": "43f0fec6de357cfef82ac3e718743c2ab7b051b2",
+      "indexed_commit_date": "2026-05-18T14:47:26-04:00"
     },
     {
       "repo": "Deliberate-AI-Ensemble",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Deliberate-AI-Ensemble",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/Deliberate-AI-Ensemble",
       "git_remote": "https://github.com/vortsghost2025/Deliberate-AI-Ensemble.git",
       "default_branch": "main",
-      "indexed_commit_sha": "b401f26053924b0a087f195a4da3aa2b2b39f106",
-      "indexed_commit_date": "2026-05-16T03:06:33-04:00"
+      "indexed_commit_sha": "1302e1a3781f5438356ff7db65bb25d1d690daa3",
+      "indexed_commit_date": "2026-08-24T22:29:27-04:00"
     },
     {
       "repo": "federation",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\federation",
+      "source_mode": "REPO_ROOTS",
+      "source_path": "/tmp/repos/federation",
       "git_remote": "https://github.com/vortsghost2025/federation.git",
       "default_branch": "main",
-      "indexed_commit_sha": "e032f0d219c54d34cafb17daec4f54c457f4a352",
-      "indexed_commit_date": "2026-08-20T22:47:52-04:00"
+      "indexed_commit_sha": "e1df142250a3ce08dca20002bf4e67f7df197c9f",
+      "indexed_commit_date": "2026-09-02T01:00:57-04:00"
     },
     {
       "repo": "kucoin-lane",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\kucoin-lane",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/kucoin-lane",
       "git_remote": "https://github.com/vortsghost2025/kucoin-lane.git",
       "default_branch": "main",
-      "indexed_commit_sha": "2ed32ace984899587ae15042f3cf3710d57e67b6",
-      "indexed_commit_date": "2026-07-24T00:29:51-04:00"
+      "indexed_commit_sha": "4e315eeaf1051eebbec5fad35485ab012903d226",
+      "indexed_commit_date": "2026-06-11T16:05:17-04:00"
     },
     {
       "repo": "waveterm-pwsh7-mcp",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\waveterm-pwsh7-mcp",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/waveterm-pwsh7-mcp",
       "git_remote": "https://github.com/vortsghost2025/waveterm-pwsh7-mcp.git",
       "default_branch": "main",
       "indexed_commit_sha": "08de4c3a1bd4497d8e0338369781fe0c94098ffa",
@@ -197,7 +225,7 @@
     {
       "repo": "we-and-ai-papers",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\we-and-ai-papers",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/we-and-ai-papers",
       "git_remote": "https://github.com/vortsghost2025/we-and-ai-papers.git",
       "default_branch": "main",
       "indexed_commit_sha": "d08f065b06e65ec7e5ab49849f4ce002050c27f8",
@@ -206,7 +234,7 @@
     {
       "repo": "WE4FREE",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\WE4FREE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/WE4FREE",
       "git_remote": "https://github.com/vortsghost2025/WE4FREE.git",
       "default_branch": "main",
       "indexed_commit_sha": "2fd883000d97907aee0e1a47f1bf6d35359db2df",
@@ -214,17 +242,26 @@
     },
     {
       "repo": "WE4FREE-Research-Intake",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\WE4FREE-Research-Intake",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/WE4FREE-Research-Intake",
       "git_remote": "https://github.com/vortsghost2025/WE4FREE-Research-Intake.git",
       "default_branch": "main",
       "indexed_commit_sha": "c65ab50ded724b658197577d1349b8f502a57596",
       "indexed_commit_date": "2026-05-16T14:20:02-04:00"
     },
     {
+      "repo": "agentic-supervisor",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/agentic-supervisor",
+      "git_remote": "https://github.com/vortsghost2025/agentic-supervisor.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "8988ca834c8acadd4ea929d0f652017dd886e0fb",
+      "indexed_commit_date": "2026-08-05T05:50:57Z"
+    },
+    {
       "repo": "ai-ensemble-lab-",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\ai-ensemble-lab-",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/ai-ensemble-lab-",
       "git_remote": "https://github.com/vortsghost2025/ai-ensemble-lab-.git",
       "default_branch": "main",
       "indexed_commit_sha": "4099ef645dc6d2c8e5d3a48147c03acdac7e931e",
@@ -232,17 +269,26 @@
     },
     {
       "repo": "aide-sovereign-workbench",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\aide-sovereign-workbench",
-      "git_remote": "https://github.com/AnonymousNomad/aide-sovereign-workbench.git",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/aide-sovereign-workbench",
+      "git_remote": "https://github.com/vortsghost2025/aide-sovereign-workbench.git",
       "default_branch": "main",
-      "indexed_commit_sha": "e9471337f0aec6598efb1e19fe4205808e3949f0",
-      "indexed_commit_date": "2026-08-20T17:23:08-04:00"
+      "indexed_commit_sha": "a6ff4834be58b1e197662e892db5cfdbe6b14323",
+      "indexed_commit_date": "2026-08-20T15:33:10-05:00"
+    },
+    {
+      "repo": "AIPass",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/AIPass",
+      "git_remote": "https://github.com/vortsghost2025/AIPass.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "088957d702a277d34e931b581469b2ca9fbc4619",
+      "indexed_commit_date": "2026-09-01T13:57:30-07:00"
     },
     {
       "repo": "autonomous-elasticsearch-evolution-agent",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\autonomous-elasticsearch-evolution-agent",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/autonomous-elasticsearch-evolution-agent",
       "git_remote": "https://github.com/vortsghost2025/autonomous-elasticsearch-evolution-agent.git",
       "default_branch": "main",
       "indexed_commit_sha": "d3badfd22c443db1b54e428f0d14751f7a5d35d8",
@@ -251,7 +297,7 @@
     {
       "repo": "context-mode",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\context-mode",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/context-mode",
       "git_remote": "https://github.com/vortsghost2025/context-mode.git",
       "default_branch": "main",
       "indexed_commit_sha": "95b4e08bf07c5e16690d8669643f9d1b825d51be",
@@ -259,8 +305,8 @@
     },
     {
       "repo": "deepseek-harness",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\deepseek-harness",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/deepseek-harness",
       "git_remote": "https://github.com/vortsghost2025/deepseek-harness.git",
       "default_branch": "main",
       "indexed_commit_sha": "85b2cde10e0019a9801276226deb0df483175fbe",
@@ -269,25 +315,34 @@
     {
       "repo": "Doberman-Core",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Doberman-Core",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/Doberman-Core",
       "git_remote": "https://github.com/vortsghost2025/Doberman-Core.git",
       "default_branch": "main",
       "indexed_commit_sha": "fcaef9fc7f9bdf1c47f8aa5646996d6dc3b39602",
       "indexed_commit_date": "2026-09-06T11:29:07-07:00"
     },
     {
-      "repo": "FreeAgent",
+      "repo": "firstmate",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\FreeAgent",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/firstmate",
+      "git_remote": "https://github.com/vortsghost2025/firstmate.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "1b0fbb9b8693d551af64b9e1949ca66dfae9ac78",
+      "indexed_commit_date": "2026-09-03T19:47:08-07:00"
+    },
+    {
+      "repo": "FreeAgent",
+      "source_mode": "REPO_ROOTS",
+      "source_path": "/tmp/repos/FreeAgent",
       "git_remote": "https://github.com/vortsghost2025/FreeAgent.git",
       "default_branch": "main",
-      "indexed_commit_sha": "6ceb72e410bee6bdf4dfaa12901e27bb9cf00da7",
-      "indexed_commit_date": "2026-04-28T15:45:18-04:00"
+      "indexed_commit_sha": "5636c5c4af9c7b0ad251b1dd1a22395946aea71f",
+      "indexed_commit_date": "2026-08-19T14:48:04-04:00"
     },
     {
       "repo": "Genesis-Kernel-First-Humans-World-Sim",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Genesis-Kernel-First-Humans-World-Sim",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/Genesis-Kernel-First-Humans-World-Sim",
       "git_remote": "https://github.com/vortsghost2025/Genesis-Kernel-First-Humans-World-Sim.git",
       "default_branch": "main",
       "indexed_commit_sha": "287f287456ae9b7a4e0e090d3dcde7b1aa1723f1",
@@ -295,17 +350,26 @@
     },
     {
       "repo": "Genesis-Kernel-World-Sim",
-      "source_mode": "LOCAL",
-      "source_path": "S:\\Genesis Kernel World Sim",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/Genesis-Kernel-World-Sim",
       "git_remote": "https://github.com/vortsghost2025/Genesis-Kernel-World-Sim.git",
       "default_branch": "main",
-      "indexed_commit_sha": "789fd1302b96de594ff8c7ed4aa74208d845b1b3",
-      "indexed_commit_date": "2026-08-29T02:17:07-04:00"
+      "indexed_commit_sha": "93bf554f989d11d06057148353a03a6b9135b7da",
+      "indexed_commit_date": "2026-09-14T22:07:49-04:00"
+    },
+    {
+      "repo": "kilo-desktop",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/kilo-desktop",
+      "git_remote": "https://github.com/vortsghost2025/kilo-desktop.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "a9494ce6e7915d3712dacef4d7717c86ebbc4208",
+      "indexed_commit_date": "2026-07-31T22:46:31-04:00"
     },
     {
       "repo": "mev-bot",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\mev-bot",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/mev-bot",
       "git_remote": "https://github.com/vortsghost2025/mev-bot.git",
       "default_branch": "main",
       "indexed_commit_sha": "65a0d40f3ae7810fea08a48d97515b57b49bad38",
@@ -314,25 +378,43 @@
     {
       "repo": "multi-ai-ensemble",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\multi-ai-ensemble",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/multi-ai-ensemble",
       "git_remote": "https://github.com/vortsghost2025/multi-ai-ensemble.git",
       "default_branch": "main",
       "indexed_commit_sha": "049efdec46d6cf23065e1b3d0704654bf9a365ea",
       "indexed_commit_date": "2026-03-27T20:26:39-04:00"
     },
     {
+      "repo": "Rom-Baro",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/Rom-Baro",
+      "git_remote": "https://github.com/vortsghost2025/Rom-Baro.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "d36e49fa6cd4502608bff9a60d5430850b4097e4",
+      "indexed_commit_date": "2026-08-17T14:39:35-04:00"
+    },
+    {
       "repo": "SeanCody2026ResearchProject",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\SeanCody2026ResearchProject",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/SeanCody2026ResearchProject",
       "git_remote": "https://github.com/vortsghost2025/SeanCody2026ResearchProject.git",
       "default_branch": "main",
       "indexed_commit_sha": "7adfc8cdea638223dbcfae27894d0ef9ae95f064",
       "indexed_commit_date": "2026-07-18T21:06:36-04:00"
     },
     {
+      "repo": "SharkGame4Adam",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/SharkGame4Adam",
+      "git_remote": "https://github.com/vortsghost2025/SharkGame4Adam.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "9e1a1cd68c456129d4f566d26a9de431f7bee7bf",
+      "indexed_commit_date": "2026-08-14T15:00:57-04:00"
+    },
+    {
       "repo": "storytime",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\storytime",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/storytime",
       "git_remote": "https://github.com/vortsghost2025/storytime.git",
       "default_branch": "master",
       "indexed_commit_sha": "1a4eb041aade1b6fb6ba78bd10a0a886e5275462",
@@ -341,87 +423,96 @@
     {
       "repo": "Vortscore",
       "source_mode": "REMOTE_CACHE",
-      "source_path": "S:\\self-organizing-library\\.cache\\repo-sources\\Vortscore",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/Vortscore",
       "git_remote": "https://github.com/vortsghost2025/Vortscore.git",
       "default_branch": "main",
       "indexed_commit_sha": "c3e2cd8c0632d4c047cf6f940a1fc3a1abdc86a8",
       "indexed_commit_date": "2026-05-30T23:55:08Z"
+    },
+    {
+      "repo": "wmux-",
+      "source_mode": "REMOTE_CACHE",
+      "source_path": "/home/runner/work/self-organizing-library/self-organizing-library/.cache/repo-sources/wmux-",
+      "git_remote": "https://github.com/vortsghost2025/wmux-.git",
+      "default_branch": "main",
+      "indexed_commit_sha": "571787a7a4abf0ffe6112e708032bf86e257ab29",
+      "indexed_commit_date": "2026-08-14T14:58:23-04:00"
     }
   ],
-  "tag_count": 123,
-  "cross_ref_count": 11885,
+  "tag_count": 150,
+  "cross_ref_count": 12267,
   "top_tags": [
     {
       "tag": "Verification",
-      "count": 1173
-    },
-    {
-      "tag": "Governance",
-      "count": 702
+      "count": 1250
     },
     {
       "tag": "Library",
-      "count": 679
+      "count": 718
+    },
+    {
+      "tag": "Governance",
+      "count": 714
     },
     {
       "tag": "Drift",
-      "count": 608
+      "count": 639
     },
     {
       "tag": "Archivist",
-      "count": 528
+      "count": 518
     },
     {
       "tag": "Multi-Agent",
-      "count": 509
+      "count": 516
     },
     {
       "tag": "Kernel",
-      "count": 490
+      "count": 506
     },
     {
       "tag": "WE4FREE",
-      "count": 449
+      "count": 439
     },
     {
       "tag": "Swarmmind",
-      "count": 410
+      "count": 419
     },
     {
       "tag": "Ensemble",
-      "count": 378
+      "count": 382
     },
     {
       "tag": "Federation",
-      "count": 346
+      "count": 348
     },
     {
       "tag": "Phase 2",
-      "count": 274
+      "count": 286
     },
     {
       "tag": "Phase 1",
-      "count": 245
+      "count": 256
     },
     {
       "tag": "Phase 3",
-      "count": 231
+      "count": 239
     },
     {
       "tag": "Phase 4",
-      "count": 162
-    },
-    {
-      "tag": "Phenotype",
-      "count": 139
-    },
-    {
-      "tag": "Phase 10",
-      "count": 139
+      "count": 171
     },
     {
       "tag": "Failure Mode",
-      "count": 136
+      "count": 144
+    },
+    {
+      "tag": "Phase 10",
+      "count": 141
+    },
+    {
+      "tag": "Phenotype",
+      "count": 138
     },
     {
       "tag": "Covenant",
@@ -429,27 +520,27 @@
     },
     {
       "tag": "Rosetta Stone",
-      "count": 134
+      "count": 133
     },
     {
       "tag": "Freeagent",
-      "count": 107
+      "count": 108
     },
     {
       "tag": "Phase 5",
-      "count": 101
-    },
-    {
-      "tag": "Convergence Gate",
-      "count": 97
+      "count": 107
     },
     {
       "tag": "Constitutional AI",
       "count": 89
     },
     {
+      "tag": "Convergence Gate",
+      "count": 89
+    },
+    {
       "tag": "Attestation",
-      "count": 76
+      "count": 82
     },
     {
       "tag": "Constraint Lattice",
@@ -457,32 +548,34 @@
     },
     {
       "tag": "Phase 6",
-      "count": 47
+      "count": 50
     },
     {
       "tag": "Phase 9",
-      "count": 45
+      "count": 46
     },
     {
       "tag": "Phase 8",
       "count": 40
     },
     {
-      "tag": "Phase 0",
-      "count": 28
+      "tag": "Phase 7",
+      "count": 30
     }
   ],
   "category_breakdown": {
-    "docs": 1241,
+    "designs": 1,
+    "root-doc": 1660,
+    "schema": 77,
+    "code": 3273,
+    "test": 695,
+    "docs": 1315,
     "examples": 413,
-    "root-doc": 1605,
-    "code": 998,
-    "test": 685,
-    "config": 2659,
+    "config": 2676,
     "academy": 5,
     "artifacts": 22,
     "benchmarks": 7,
-    "bin": 5,
+    "bin": 15,
     "blueprint": 1,
     "browser": 24,
     "capsules": 4,
@@ -502,27 +595,25 @@
     "release": 11,
     "replays": 2,
     "runtime": 1,
-    "script": 989,
+    "script": 1030,
     "session": 24,
-    "skills": 16,
+    "skills": 17,
     "tasks": 3,
     "training": 3,
+    "project": 7,
     "archivist": 1,
     "benchmark_results": 3,
     "coordination": 22,
     "e2e-tests": 6,
     "evidence": 67,
-    "governance": 67,
+    "governance": 64,
     "hooks": 102,
-    "improvement-reports": 10,
-    "log": 15,
+    "log": 13,
     "mcp-servers": 15,
     "paper": 18,
     "plans": 5,
-    "proposals": 24,
     "infrastructure": 14,
     "reports": 54,
-    "schema": 72,
     "scratch": 2,
     "specs": 4,
     "attestation": 24,
@@ -533,11 +624,11 @@
     "queue": 4,
     "tool": 2,
     "system": 1,
-    "ui": 12,
+    "ui": 19,
     "universe": 6,
     "extension": 1,
     "lib": 9,
-    "web": 12,
+    "web": 13,
     "sharedClientCache": 187,
     "apps": 273,
     "native": 46,
@@ -551,15 +642,15 @@
     "math": 9,
     "medical": 513,
     "data": 73,
-    "game": 384,
+    "game": 394,
     "we4free": 130,
-    "project": 6,
     "adapters": 8,
     "changelog.d": 23,
     "continuity-test-handoff": 3,
     "galaxy_theme": 2,
     "gastown-rig": 6,
     "genesis-memory": 9,
+    "npc-agent": 4,
     "out_federation": 3,
     "ARCHITECTURE_DECISION_RECORDS": 1,
     "orchestrator": 3,
@@ -567,13 +658,14 @@
     "we": 97,
     "genesis-sim": 37,
     "tooling": 10,
-    "world-sim": 363,
+    "world-sim": 377,
     "artifacts-from-ubuntu": 141,
     "baseline": 1,
     "benchmark": 18,
     "integration": 1,
     "kernel": 5,
     "profile": 7,
+    "proposals": 16,
     "journal": 1,
     "abi": 2,
     "agent-system": 4,
@@ -632,16 +724,16 @@
     "work-orders": 7
   },
   "extension_breakdown": {
-    ".md": 5333,
-    ".txt": 316,
-    ".py": 1635,
-    ".yml": 257,
-    ".json": 1822,
-    ".mjs": 233,
-    ".js": 1650,
+    ".md": 5785,
+    ".json": 1984,
+    ".js": 1673,
+    ".txt": 354,
+    ".py": 3432,
+    ".yml": 275,
+    ".mjs": 239,
     ".ts": 3440,
-    ".yaml": 1169,
-    ".tsx": 526,
+    ".yaml": 1172,
+    ".tsx": 530,
     ".html": 94,
     ".pdf": 2,
     ".mdx": 24
