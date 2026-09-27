@@ -1,10 +1,11 @@
 {
-  "session_id": "sess_mtwdjiot_10076",
+  "session_id": "sess_muja4l0s_183288",
   "lane": "archivist",
-  "claimed_at": "2026-09-11T03:06:01.181Z",
-  "renewed_at": "2026-09-12T03:30:58.142Z",
-  "expires_at": "2026-09-12T03:45:58.142Z",
-  "pid": 10076,
+  "lane_state": "ACTIVE",
+  "claimed_at": "2026-09-27T03:49:07.564Z",
+  "renewed_at": "2026-09-27T05:25:20.820Z",
+  "expires_at": "2026-09-27T05:40:20.820Z",
+  "pid": 183288,
   "origin_runtime": "kilo",
   "origin_workspace": "S:\\self-organizing-library"
 }
