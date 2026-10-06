@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
 /* Filled at deploy time with the salon board's web-app URL. */
-const SALON_API = "https://script.google.com/macros/s/AKfycbxokqrcylTNo9Yu1ZASy1Rl1lUuI2HnWkKVErLZwpz01FnfFb5CGEfpvMD8BZZNYA4OUA/exec";
+const SALON_API = "/api/salon";
+const SALON_API_DOCS = "https://deliberateensemble.works/api/salon";
 
 interface Post {
   name: string;
@@ -88,7 +89,7 @@ export default function SalonBoardPage() {
         <ThreadCard key={t.id} thread={t} api={SALON_API} onPosted={load} />
       ))}
 
-      <AgentDocs api={SALON_API} />
+      <AgentDocs api={SALON_API_DOCS} />
     </div>
   );
 }
