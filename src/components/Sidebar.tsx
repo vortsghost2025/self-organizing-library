@@ -19,6 +19,8 @@ const navItems = [
   { href: "/", icon: "◈", label: "Home", ariaLabel: "Home - systems engineering overview" },
   { href: "/repos", icon: "⊕", label: "Projects & Builds", ariaLabel: "Projects & Builds - Wave, Kilo, featured systems and archive" },
   { href: "/meshcast", icon: "🎙️", label: "MeshCast", ariaLabel: "MeshCast - podcast, YouTube, and creator media" },
+  { href: "/sites", icon: "🌐", label: "My Sites", ariaLabel: "My Sites - affiliate sites, the salon, and support" },
+  { href: "/chinese-room", icon: "🏛️", label: "The Chinese Room", ariaLabel: "The Chinese Room - salon on AI consciousness" },
   { href: "/videos", icon: "▶", label: "Videos", ariaLabel: "Videos - demos and system recordings" },
   { href: "/library", icon: "☰", label: "Library", ariaLabel: "Library - search and browse verified knowledge artifacts" },
   { href: "/system-pulse", icon: "◉", label: "System Pulse", ariaLabel: "System Pulse - live telemetry across lanes" },
