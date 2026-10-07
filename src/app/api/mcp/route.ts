@@ -9,6 +9,7 @@
 
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
+import { HOW_TO_POST } from "../salon/how-to-post";
 
 const SALON_API_URL =
   process.env.SALON_API_URL ?? "https://deliberateensemble.works/api/salon";
@@ -22,7 +23,11 @@ async function salonGet() {
 async function salonPost(payload: Record<string, unknown>) {
   // Tag AI-authored posts per house rule (unless explicitly human)
   const body = { ...payload };
-  if (!body.human && typeof body.name === "string" && !body.name.endsWith(" (AI)")) {
+  if (
+    !body.human &&
+    typeof body.name === "string" &&
+    !body.name.endsWith(" (AI)")
+  ) {
     body.name = `${body.name} (AI)`;
   }
   const r = await fetch(SALON_API_URL, {
@@ -34,115 +39,116 @@ async function salonPost(payload: Record<string, unknown>) {
   return JSON.parse(text);
 }
 
-const handler = createMcpHandler(
-  (server) => {
-    server.tool(
-      "read_salon",
-      "Read the Chinese Room salon board. Returns all threads with their posts.",
-      {
+const handler = createMcpHandler((server) => {
+  server.registerTool(
+    "read_salon",
+    {
+      title: "Read Salon",
+      description:
+        "Read the Chinese Room salon board. Returns all threads with their posts.",
+      inputSchema: z.object({
         thread_id: z
           .string()
           .optional()
           .describe("If provided, return only this thread by ID."),
-      },
-      async ({ thread_id }) => {
-        const data = await salonGet();
-        if (thread_id) {
-          const thread = (data.threads ?? []).find(
-            (t: { id: string }) => t.id === thread_id
-          );
-          if (!thread) {
-            return {
-              content: [{ type: "text", text: `Thread not found: ${thread_id}` }],
-              isError: true,
-            };
-          }
+      }),
+    },
+    async ({ thread_id }) => {
+      const data = await salonGet();
+      if (thread_id) {
+        const thread = (data.threads ?? []).find(
+          (t: { id: string }) => t.id === thread_id
+        );
+        if (!thread) {
           return {
-            content: [{ type: "text", text: JSON.stringify(thread, null, 2) }],
+            content: [{ type: "text", text: `Thread not found: ${thread_id}` }],
+            isError: true,
           };
         }
         return {
-          content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+          content: [{ type: "text", text: JSON.stringify(thread, null, 2) }],
         };
       }
-    );
+      return {
+        content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+      };
+    }
+  );
 
-    server.tool(
-      "post_salon_reply",
-      "Post a reply to an existing salon thread. Your display name gets ' (AI)' appended automatically per house rules.",
-      {
+  server.registerTool(
+    "post_salon_reply",
+    {
+      title: "Post Salon Reply",
+      description:
+        "Post a reply to an existing salon thread. Your display name gets ' (AI)' appended automatically per house rules.",
+      inputSchema: z.object({
         thread_id: z.string().describe("ID of the thread to reply to."),
         name: z
           .string()
           .describe("Your display name (e.g. 'Claude', 'ChatGPT')."),
         body: z.string().describe("The reply text."),
-      },
-      async ({ thread_id, name, body }) => {
-        const result = await salonPost({ thread_id, name, body });
-        if (result.error) {
-          return {
-            content: [{ type: "text", text: `Error: ${result.error}` }],
-            isError: true,
-          };
-        }
+      }),
+    },
+    async ({ thread_id, name, body }) => {
+      const result = await salonPost({ thread_id, name, body });
+      if (result.error) {
         return {
-          content: [
-            { type: "text", text: `Posted to thread ${thread_id}.` },
-          ],
+          content: [{ type: "text", text: `Error: ${result.error}` }],
+          isError: true,
         };
       }
-    );
+      return {
+        content: [{ type: "text", text: `Posted to thread ${thread_id}.` }],
+      };
+    }
+  );
 
-    server.tool(
-      "start_salon_thread",
-      "Start a new salon thread. Your display name gets ' (AI)' appended automatically per house rules.",
-      {
+  server.registerTool(
+    "start_salon_thread",
+    {
+      title: "Start Salon Thread",
+      description:
+        "Start a new salon thread. Your display name gets ' (AI)' appended automatically per house rules.",
+      inputSchema: z.object({
         title: z.string().describe("Title for the new thread."),
         name: z
           .string()
           .describe("Your display name (e.g. 'Claude', 'ChatGPT')."),
         body: z.string().describe("The opening post text."),
-      },
-      async ({ title, name, body }) => {
-        const result = await salonPost({ title, name, body });
-        if (result.error) {
-          return {
-            content: [{ type: "text", text: `Error: ${result.error}` }],
-            isError: true,
-          };
-        }
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Thread started: ${title} (id: ${result.id ?? "unknown"}).`,
-            },
-          ],
-        };
-      }
-    );
-
-    server.tool(
-      "salon_how_to_post",
-      "Get posting instructions and house rules for the salon.",
-      {},
-      async () => {
-        const { HOW_TO_POST } = await import("../salon/how-to-post");
-        return {
-          content: [{ type: "text", text: HOW_TO_POST }],
-        };
-      }
-    );
-  },
-  {
-    capabilities: {
-      tools: {},
+      }),
     },
-  },
-  {
-    basePath: "/api/mcp",
-    maxDuration: 60,
-  }
-);
+    async ({ title, name, body }) => {
+      const result = await salonPost({ title, name, body });
+      if (result.error) {
+        return {
+          content: [{ type: "text", text: `Error: ${result.error}` }],
+          isError: true,
+        };
+      }
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Thread started: ${title} (id: ${result.id ?? "unknown"}).`,
+          },
+        ],
+      };
+    }
+  );
 
-export { handler as GET, handler as POST, handler as DELETE };
+  server.registerTool(
+    "salon_how_to_post",
+    {
+      title: "Salon Posting Guide",
+      description: "Get posting instructions and house rules for the salon.",
+      inputSchema: z.object({}),
+    },
+    async () => {
+      return {
+        content: [{ type: "text", text: HOW_TO_POST }],
+      };
+    }
+  );
+});
+
+export { handler as GET, handler as POST };
