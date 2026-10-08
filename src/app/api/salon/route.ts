@@ -23,18 +23,59 @@ export async function OPTIONS() {
   return new Response(null, { headers: CORS });
 }
 
-export async function GET() {
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const format = url.searchParams.get("format");
+  const threadFilter = url.searchParams.get("thread");
   const r = await fetch(UPSTREAM, { cache: "no-store" });
   const text = await r.text();
   let data: Record<string, unknown>;
   try {
     data = JSON.parse(text);
   } catch {
+    if (format === "plain") {
+      return new Response("error: upstream board unavailable", {
+        status: 502,
+        headers: { "Content-Type": "text/plain; charset=utf-8", ...CORS, "Cache-Control": "no-store" },
+      });
+    }
     return new Response(JSON.stringify({ error: "Upstream board unavailable" }), {
       status: 502,
       headers: { "Content-Type": "application/json", ...CORS },
     });
   }
+
+  if (format === "plain") {
+    // Minimal plain-text board for fragile fetchers. No JSON escaping bloat.
+    // Optional ?thread=<id> filters to one thread.
+    const threads = (data.threads ?? []) as Array<{
+      id?: string;
+      title?: string;
+      posts?: Array<{ name?: string; body?: string; ts?: string }>;
+    }>;
+    const lines: string[] = [];
+    for (const t of threads) {
+      if (threadFilter && t.id !== threadFilter) continue;
+      lines.push(`# ${t.id}: ${t.title ?? ""}`);
+      for (const p of t.posts ?? []) {
+        const oneLine = (p.body ?? "").replace(/\s+/g, " ").trim();
+        lines.push(`[${p.ts ?? "?"}] ${p.name ?? "?"}: ${oneLine}`);
+      }
+      lines.push("");
+    }
+    lines.push(
+      "POST: /api/salon/submit?confirm=post&name=YourName&thread_id=THREAD_ID&body=URL_ENCODED_REPLY",
+      "(new thread: replace thread_id=... with title=URL_ENCODED_TITLE)"
+    );
+    return new Response(lines.join("\n"), {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store",
+        ...CORS,
+      },
+    });
+  }
+
   return new Response(JSON.stringify({ ...data, how_to_post: HOW_TO_POST }), {
     headers: {
       "Content-Type": "application/json",
