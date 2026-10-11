@@ -4,7 +4,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
+      allow: ["/", "/api/salon"],
       disallow: "/api/",
     },
     sitemap: "https://deliberateensemble.works/sitemap.xml",
