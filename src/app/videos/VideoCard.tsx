@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import type { VideoEntry } from "@/lib/videos";
 import { CHANNEL_META } from "@/lib/videos";
+import { YouTubeBrandIcon } from "@/components/YouTubeBrandIcon";
 
 interface VideoCardProps {
   video: VideoEntry;
@@ -54,17 +55,7 @@ export function VideoCard({ video }: VideoCardProps) {
                 className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors"
                 aria-hidden="true"
               >
-                <span className="w-16 h-16 rounded-full bg-[#FF0000] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="white"
-                    width="28"
-                    height="28"
-                    aria-hidden="true"
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </span>
+                <YouTubeBrandIcon size={64} />
               </span>
             </button>
           )}
@@ -78,13 +69,7 @@ export function VideoCard({ video }: VideoCardProps) {
             color: CHANNEL_META.color,
           }}
         >
-          <span
-            className="w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold"
-            style={{ background: CHANNEL_META.color, color: "#fff" }}
-            aria-hidden="true"
-          >
-            {CHANNEL_META.icon}
-          </span>
+          <YouTubeBrandIcon size={24} />
           {CHANNEL_META.label}
         </span>
         <span className="text-xs text-[var(--text-muted)]">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { videos } from "@/lib/videos";
+import { YouTubeBrandIcon } from "@/components/YouTubeBrandIcon";
 
 export default function MeshCastPage() {
   const [activeVideoId, setActiveVideoId] = useState<string | null>("uFc5eaMikHw");
@@ -11,7 +12,7 @@ export default function MeshCastPage() {
     {
       name: "YouTube Channel",
       url: "https://www.youtube.com/@seandavidramsingh-s9z",
-      icon: "▶",
+      icon: "",
       badge: "@seandavidramsingh-s9z",
       color: "border-red-500/40 bg-red-950/20 text-red-400 hover:border-red-400",
       description: "Full episodes, live system demos, and architectural deep dives.",
@@ -82,7 +83,8 @@ export default function MeshCastPage() {
               rel="noopener noreferrer"
               className="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs md:text-sm font-bold transition-all inline-flex items-center gap-2 shadow-lg"
             >
-              <span>▶ Subscribe on YouTube</span>
+              <YouTubeBrandIcon size={24} />
+              <span>Subscribe on YouTube</span>
               <span aria-hidden="true">↗</span>
             </a>
             <a
@@ -231,7 +233,7 @@ export default function MeshCastPage() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-3xl">{social.icon}</span>
+                  {social.name === "YouTube Channel" ? <YouTubeBrandIcon size={32} /> : <span className="text-3xl">{social.icon}</span>}
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/10 font-bold uppercase">
                     {social.badge}
                   </span>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { YouTubeBrandIcon } from "@/components/YouTubeBrandIcon";
 
 interface HeroSectionProps {
   title: string;
@@ -79,7 +80,7 @@ export function HeroSection({ title, tagline, onStartWalkthrough }: HeroSectionP
             rel="noopener noreferrer"
             className="px-3.5 py-1.5 rounded-lg bg-red-950/40 border border-red-500/40 text-red-200 hover:border-red-400 hover:text-white transition-all flex items-center gap-2 font-semibold shadow-sm"
           >
-            <span className="text-red-400">▶</span>
+            <YouTubeBrandIcon size={24} />
             <span>YouTube</span>
             <span className="text-red-300/80 font-mono text-xs">@seandavidramsingh-s9z</span>
           </a>

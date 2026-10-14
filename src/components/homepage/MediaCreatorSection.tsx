@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { videos } from "@/lib/videos";
+import { YouTubeBrandIcon } from "@/components/YouTubeBrandIcon";
 
 export function MediaCreatorSection() {
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
@@ -31,7 +32,8 @@ export function MediaCreatorSection() {
             rel="noopener noreferrer"
             className="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs md:text-sm font-bold transition-all inline-flex items-center gap-2 shadow-md"
           >
-            <span>▶ Subscribe on YouTube</span>
+            <YouTubeBrandIcon size={24} />
+            <span>Subscribe on YouTube</span>
             <span aria-hidden="true">↗</span>
           </a>
           <a
@@ -80,7 +82,7 @@ export function MediaCreatorSection() {
         <div className="card p-6 border border-red-500/30 bg-red-950/20 hover:border-red-400/60 transition-all rounded-2xl flex flex-col justify-between group">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-3xl text-red-500">▶</span>
+              <a href="https://www.youtube.com/@seandavidramsingh-s9z" target="_blank" rel="noopener noreferrer" aria-label="Visit our YouTube channel"><YouTubeBrandIcon size={32} /></a>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-500/20 text-red-200 border border-red-500/30 font-bold uppercase">
                 Main Channel
               </span>
@@ -186,9 +188,7 @@ export function MediaCreatorSection() {
                         loading="lazy"
                       />
                       <div className="absolute inset-0 bg-black/40 group-hover/btn:bg-black/20 transition-colors flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover/btn:scale-110 group-hover/btn:bg-red-500 transition-all">
-                          <span className="text-xl ml-0.5">▶</span>
-                        </div>
+                        <YouTubeBrandIcon size={52} />
                       </div>
                       <span className="absolute bottom-2 right-2 text-[10px] font-mono px-2 py-0.5 rounded bg-black/80 text-white font-bold">
                         {video.category === "hackathon" ? "🏆 HACKATHON" : "⚡ SYSTEM DEMO"}

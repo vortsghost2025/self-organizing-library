@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { videos, CHANNEL_META, CATEGORY_META, getVideosByCategory } from "@/lib/videos";
 import { VideoCard } from "./VideoCard";
+import { YouTubeBrandIcon } from "@/components/YouTubeBrandIcon";
 
 export const metadata: Metadata = {
   title: "Videos — Deliberate Ensemble",
@@ -147,13 +148,7 @@ export default function VideosPage() {
           className="inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border border-[var(--border)] hover:border-[var(--secondary)] transition-colors"
           style={{ color: CHANNEL_META.color }}
         >
-          <span
-            className="w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold"
-            style={{ background: CHANNEL_META.color, color: "#fff" }}
-            aria-hidden="true"
-          >
-            {CHANNEL_META.icon}
-          </span>
+          <YouTubeBrandIcon size={24} />
           {CHANNEL_META.channelName}
         </a>
       </div>
