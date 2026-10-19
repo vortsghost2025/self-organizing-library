@@ -18,8 +18,8 @@
 SwarmMind-Self-Optimizing-Multi-Agent-AI-System/
 context-buffer/
 
-# Logs & temp
-logs/
+# Root logs only. A bare "logs/" pattern also drops src/app/logs and 404s /logs.
+/logs/
 tmp/
 *.log
 *.zip

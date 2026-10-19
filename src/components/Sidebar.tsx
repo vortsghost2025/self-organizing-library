@@ -17,6 +17,7 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/", icon: "◈", label: "Home", ariaLabel: "Home - systems engineering overview" },
+  { href: "/hire", icon: "✦", label: "Hire me", ariaLabel: "Hire me - websites, automation, and care plans" },
   { href: "/repos", icon: "⊕", label: "Projects & Builds", ariaLabel: "Projects & Builds - Wave, Kilo, featured systems and archive" },
   { href: "/meshcast", icon: "🎙️", label: "MeshCast", ariaLabel: "MeshCast - podcast, YouTube, and creator media" },
   { href: "/chinese-room", icon: "🏮", label: "Chinese Room", ariaLabel: "Chinese Room - AI consciousness salon" },
@@ -29,7 +30,6 @@ const navItems = [
   { href: "/about", icon: "⊛", label: "About", ariaLabel: "About - Sean David Ramsingh and system background" },
   { href: "/start-here", icon: "→", label: "Start Here", ariaLabel: "Start here - guided tour of the system" },
   { href: "/observability", icon: "📊", label: "Observability", ariaLabel: "Observability - test monitoring and test results" },
-  { href: "/logs", icon: "▤", label: "Logs", ariaLabel: "Logs - session and verification transcripts" },
   { href: "/agents", icon: "◆", label: "Agents", ariaLabel: "Agents - system map for AI agents" },
 ];
 
@@ -69,7 +69,7 @@ export function Sidebar({ stats }: SidebarProps) {
             DE
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-[var(--text-primary)]">Deliberate Ensemble</h1>
+            <p className="text-lg font-semibold text-[var(--text-primary)]">Deliberate Ensemble</p>
             <p className="text-xs text-[var(--text-muted)]">Research Archive</p>
           </div>
         </Link>

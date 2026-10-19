@@ -24,12 +24,18 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: clip;
+}
+
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);
   font-size: 15px;
   line-height: 1.6;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
