@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { LaneArchitecture } from "@/components/LaneArchitecture";
 import { HeroSection } from "@/components/homepage/HeroSection";
@@ -7,6 +6,8 @@ import { MediaCreatorSection } from "@/components/homepage/MediaCreatorSection";
 import { LiveSystemPulse } from "@/components/homepage/LiveSystemPulse";
 import HomeSystemStateStrip from "@/components/homepage/HomeSystemStateStrip";
 import SystemOverview from "@/components/SystemOverview";
+import { ClientWorkSection } from "@/components/hire/ClientWorkSection";
+import { WorkWithMeSection } from "@/components/hire/WorkWithMeSection";
 import { getStats } from "@/lib/site-index";
 import { getFeaturedRepositories, getListedRepositories, getRepoCounts } from "@/lib/repo-registry";
 import { ShowcaseSection } from "@/components/homepage/ShowcaseSection";
@@ -22,9 +23,12 @@ export default async function Dashboard() {
     "Engineering agent-operable terminal runtimes (Wave + PowerShell 7), contributing to agentic coding platforms (Kilo MCP), orchestrating autonomous swarms, and hosting MeshCast.";
 
   return (
-    <div className="p-4 md:p-8 space-y-16" data-pagefind-body>
+    <div className="p-4 md:p-8 space-y-16 max-w-full min-w-0" data-pagefind-body>
       {/* 1. Hero Section & Creator Identity */}
       <HeroSection title={heroTitle} tagline={heroTagline} />
+
+      <WorkWithMeSection />
+      <ClientWorkSection compact />
 
       {/* 2. Flagship Source Builds & MCP Tooling (Wave, Kilo, Context-Mode, SwarmMind) */}
       <FlagshipBuildsSection />
@@ -169,45 +173,44 @@ export default async function Dashboard() {
             </div>
           </a>
 
-          {/* Federation Game */}
-          <a
-            href="https://federation-game.deliberatefederation.cloud/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--secondary)] hover:border-[var(--secondary)]/70 hover:bg-[var(--secondary)]/10 transition-all group"
-          >
+          {/* Federation Game — live instance is gone */}
+          <article className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--border)] min-w-0">
             <div className="text-4xl" aria-hidden="true">🎮</div>
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--secondary)] mb-1">Simulation Engine</div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--secondary)] transition-colors">
+            <div className="min-w-0">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--warning)] mb-1">Archived</div>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2">
                 Federation Game
               </h3>
               <p className="text-sm text-[var(--text-secondary)]">
                 Interactive web simulation exploring agent deliberation, governance, and game-theoretic coordination.
+                The live simulation is offline and stays in the research archive.
               </p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--secondary)]">Launch simulation →</span>
+              <span className="inline-block mt-3 text-xs font-semibold uppercase tracking-wider text-[var(--warning)]">Archived</span>
             </div>
-          </a>
+          </article>
 
-          {/* Mental Health Advocacy */}
-          <a
-            href="https://orangered-jellyfish-637583.hostingersite.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] hover:border-[var(--success)]/70 hover:bg-[var(--success)]/10 transition-all group"
-          >
+          {/* Mental Health Advocacy — temporary host is not a public address */}
+          <article className="flex items-start gap-4 p-6 rounded-xl border-2 border-[var(--success)] min-w-0">
             <div className="text-4xl" aria-hidden="true">💚</div>
-            <div>
+            <div className="min-w-0">
               <div className="text-xs font-semibold uppercase tracking-wider text-[var(--success)] mb-1">Community Advocacy</div>
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--success)] transition-colors">
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2">
                 Mental Health Resource Hub
               </h3>
               <p className="text-sm text-[var(--text-secondary)]">
-                Community resource platform providing accessible tools, lived-experience sharing, and support navigation.
+                Community resource platform for accessible tools and support navigation.
+                The old temporary web address is no longer linked. The project source is on GitHub.
               </p>
-              <span className="inline-block mt-3 text-xs font-medium text-[var(--success)]">Visit resource hub →</span>
+              <a
+                href="https://github.com/vortsghost2025/WE4FREE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-3 text-xs font-medium text-[var(--success)] underline underline-offset-2"
+              >
+                WE4FREE source on GitHub
+              </a>
             </div>
-          </a>
+          </article>
 
           {/* Professional Network */}
           <a

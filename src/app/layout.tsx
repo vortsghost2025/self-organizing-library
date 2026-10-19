@@ -1,17 +1,22 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import { SearchModal } from "@/components/SearchModal";
 import { AccessibilityProvider } from "@/components/AccessibilityProvider";
+import { SiteJsonLd } from "@/components/SiteJsonLd";
 import { getStats } from "@/lib/site-index";
+
+const siteTitle = "Sean David Ramsingh — Websites, Automation & AI Research";
+const siteDescription =
+  "Sean David Ramsingh builds small-business websites, custom tools, Postiz setups, and n8n or Docker automation. This site is also the Deliberate Ensemble research archive.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://deliberateensemble.works"),
-  title: "Deliberate Ensemble - Research Archive",
-  description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
+  title: siteTitle,
+  description: siteDescription,
   openGraph: {
-    title: "Deliberate Ensemble - Research Archive",
-    description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
+    title: siteTitle,
+    description: siteDescription,
     url: "https://deliberateensemble.works",
     siteName: "Deliberate Ensemble",
     images: [
@@ -33,10 +38,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Deliberate Ensemble - Research Archive",
-    description: "Living research archive for human-AI collaboration, multi-agent systems, and constitutional AI governance",
+    title: siteTitle,
+    description: siteDescription,
     images: ["/sigularity2.jpg"],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -47,15 +57,13 @@ export default function RootLayout({
   const stats = getStats();
   return (
     <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-    <body className="min-h-screen">
+    <body className="min-h-screen overflow-x-clip">
+    <SiteJsonLd />
     <AccessibilityProvider>
       <a href="#main-content" className="skip-to-content">Skip to main content</a>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen min-w-0 max-w-full">
         <Sidebar stats={stats} />
-        <main id="main-content" className="flex-1 ml-0 md:ml-[280px] min-h-screen" role="main">
+        <main id="main-content" className="flex-1 ml-0 md:ml-[280px] min-h-screen min-w-0 max-w-full overflow-x-clip pb-8 md:pb-20" role="main">
           {children}
         </main>
       </div>

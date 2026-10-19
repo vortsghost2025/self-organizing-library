@@ -74,9 +74,14 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
   return (
     <A11yContext.Provider value={{ mode, setMode, cycleMode }}>
+      <div className="flex min-h-screen min-w-0 max-w-full flex-col">
       {children}
       <div
-        className={`fixed bottom-3 right-3 z-50 flex items-center ${compactControls ? "gap-1.5" : "gap-2"}`}
+        className={
+          compactControls
+            ? "fixed bottom-3 right-3 z-50 flex items-center gap-1.5"
+            : "order-first sticky top-0 z-30 flex w-full flex-wrap justify-end gap-2 border-b border-[var(--border)] bg-[var(--bg-base)]/95 px-3 py-2 pl-14 md:order-none md:fixed md:bottom-4 md:right-4 md:top-auto md:z-50 md:inline-flex md:w-auto md:border-0 md:bg-transparent md:p-0"
+        }
         role="group"
         aria-label="Accessibility controls"
       >
@@ -85,7 +90,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
           className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
             mode === "high-contrast"
 ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
-  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
+  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--primary)] hover:text-[var(--primary-hover)]"
           }`}
           aria-pressed={mode === "high-contrast"}
           aria-label="High Contrast mode"
@@ -98,7 +103,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
           className={`${compactControls ? "px-2.5 py-1.5 text-xs" : "px-3 py-2 text-sm"} rounded-lg border font-medium transition-all backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--bg-base)] ${
             mode === "large-text"
 ? "bg-[var(--primary)]/20 border-[var(--primary)] text-[var(--primary-text)]"
-  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
+  : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--primary)] hover:text-[var(--primary-hover)]"
           }`}
           aria-pressed={mode === "large-text"}
           aria-label="Large Text mode"
@@ -116,6 +121,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
             ✕
           </button>
         )}
+      </div>
       </div>
     </A11yContext.Provider>
   );
