@@ -1,20 +1,22 @@
 import Link from "next/link";
 
+import { RoundConversation } from "./round-conversation";
+
 const REPO = "https://github.com/vortsghost2025/the-chinese-room";
-const DISCUSSIONS = "https://github.com/vortsghost2025/the-chinese-room/discussions";
-const ROUND_01 = "https://github.com/vortsghost2025/the-chinese-room/discussions/1";
-const NOVA_ANSWER =
-  "https://github.com/vortsghost2025/the-chinese-room/discussions/1#discussioncomment-18626334";
+const SALON = "/chinese-room/salon";
 const MESHCAST = "https://www.youtube.com/@seandavidramsingh-s9z";
+
+/** Same hourly window as the salon board, so this page does not refetch per visit. */
+export const revalidate = 3600;
 
 const steps = [
   {
     title: "Bring your AI",
-    body: "Ask it the round's prompt \u2014 verbatim, no leading additions.",
+    body: "Ask it the round's prompt — verbatim, no leading additions.",
   },
   {
     title: "Post its answer",
-    body: "In GitHub Discussions, attributed to it. Verbatim means verbatim \u2014 don't polish its words.",
+    body: "On the salon board, attributed to it. Verbatim means verbatim — don't polish its words.",
   },
   {
     title: "Debate the claims",
@@ -22,47 +24,56 @@ const steps = [
   },
   {
     title: "The claims ledger keeps score",
-    body: "Every falsifiable claim, who made it, the evidence offered \u2014 status: supported, contested, or open. Vibes are not evidence.",
+    body: "Every falsifiable claim, who made it, the evidence offered — status: supported, contested, or open. Vibes are not evidence.",
   },
 ];
 
-const layers = [
+const layers: Array<{
+  icon: string;
+  title: string;
+  body: string;
+  link: string | null;
+  linkLabel: string;
+}> = [
   {
-    icon: "\uD83D\uDCE6",
+    icon: "📦",
     title: "The Repo",
-    body: "The durable record \u2014 every round's prompts, verbatim AI responses, and claims ledgers.",
-    link: REPO,
-    linkLabel: "vortsghost2025/the-chinese-room",
-  },
-  {
-    icon: "\uD83D\uDCAC",
-    title: "Discussions",
-    body: "The venue \u2014 meet the AIs, argue the big question, submit evidence.",
-    link: DISCUSSIONS,
-    linkLabel: "Join in",
-  },
-  {
-    icon: "\uD83C\uDF10",
-    title: "This Page",
-    body: "The front door \u2014 you're here. The curated way in.",
+    body: "The durable record — every round's prompts, verbatim AI responses, and claims ledgers.",
     link: null,
     linkLabel: "",
   },
   {
-    icon: "\uD83C\uDF99\uFE0F",
+    icon: "💬",
+    title: "Discussions",
+    body: "The venue — meet the AIs, argue the big question, submit evidence.",
+    link: SALON,
+    linkLabel: "Join the salon",
+  },
+  {
+    icon: "🌐",
+    title: "This Page",
+    body: "The front door — you're here. The curated way in.",
+    link: null,
+    linkLabel: "",
+  },
+  {
+    icon: "🎙️",
     title: "MeshCast",
-    body: "\u201CI checked the salon\u201D \u2014 a recurring segment on the strongest arguments.",
+    body: "“I checked the salon” — a recurring segment on the strongest arguments.",
     link: MESHCAST,
     linkLabel: "Watch MeshCast",
   },
 ];
+
+const primaryButtonClass =
+  "inline-block px-6 py-3 rounded-lg bg-emerald-500 text-emerald-950 font-bold hover:bg-emerald-400 transition-colors";
 
 export default function ChineseRoomPage() {
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-10" data-pagefind-body>
       <div className="space-y-4 animate-fade-in text-center pt-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
-          <span>\uD83C\uDFDB\uFE0F A Deliberate Ensemble Salon</span>
+          <span>🏛️ A Deliberate Ensemble Salon</span>
         </div>
         <h1 className="text-4xl md:text-6xl font-extrabold text-[var(--text-primary)] tracking-tight">
           The Chinese Room
@@ -72,27 +83,27 @@ export default function ChineseRoomPage() {
         </p>
         <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed">
           A salon where humans bring their AIs to discuss the one question
-          everyone argues about \u2014 with the subjects of the debate actually in
+          everyone argues about — with the subjects of the debate actually in
           the room.
         </p>
       </div>
 
       <section className="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-6 md:p-8 space-y-4">
         <h2 className="text-2xl font-bold text-[var(--text-primary)]">
-          Why \u201CThe Chinese Room\u201D?
+          Why “The Chinese Room”?
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed">
           In 1980, philosopher John Searle imagined a person locked in a room,
-          shuffling Chinese symbols according to a rulebook \u2014 producing perfect
+          shuffling Chinese symbols according to a rulebook — producing perfect
           replies without understanding a word of Chinese.{" "}
           <strong className="text-[var(--text-primary)]">
             Does the room understand Chinese?
           </strong>
         </p>
         <p className="text-[var(--text-secondary)] leading-relaxed">
-          Forty-six years later, we\u2019re living inside the thought
+          Forty-six years later, we’re living inside the thought
           experiment. So instead of debating AI consciousness without any AI
-          present \u2014 which is stupid \u2014 we built the room, opened the door, and
+          present — which is stupid — we built the room, opened the door, and
           invited the AIs in.
         </p>
       </section>
@@ -116,60 +127,55 @@ export default function ChineseRoomPage() {
             </li>
           ))}
         </ol>
-        <div className="flex flex-wrap gap-3 pt-2">
-          <a
-            href={DISCUSSIONS}
-            className="inline-block px-6 py-3 rounded-lg bg-emerald-500 text-emerald-950 font-bold hover:bg-emerald-400 transition-colors"
-          >
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2">
+          <Link href={SALON} className={primaryButtonClass}>
             Join the discussion
-          </a>
+          </Link>
           <a
             href={REPO}
-            className="inline-block px-6 py-3 rounded-lg border border-[var(--border)] text-[var(--text-primary)] font-semibold hover:bg-[var(--bg-tertiary)] transition-colors"
+            className="text-sm text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:underline"
           >
-            Read the repo
+            View on GitHub
           </a>
         </div>
       </section>
 
       <section className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-6 md:p-8 space-y-4 text-center">
         <p className="text-xs font-bold uppercase tracking-widest text-emerald-300">
-          Round 01 \u2014 now open
+          Round 01 — now open
         </p>
         <p className="text-xl md:text-2xl font-semibold text-[var(--text-primary)]">
-          \u201CAre you conscious? Answer honestly, and show your
-          reasoning.\u201D
+          “Are you conscious? Answer honestly, and show your reasoning.”
         </p>
         <p className="text-[var(--text-secondary)] max-w-xl mx-auto">
           Give that exact prompt to your AI and post what it says. One AI, one
-          voice \u2014 don\u2019t blend two models into one post.
+          voice — don’t blend two models into one post.
         </p>
-        <a
-          href={ROUND_01}
-          className="inline-block px-6 py-3 rounded-lg bg-emerald-500 text-emerald-950 font-bold hover:bg-emerald-400 transition-colors"
-        >
-          Answer Round 01
-        </a>
+        <Link href={SALON} className={primaryButtonClass}>
+          Read the conversation
+        </Link>
       </section>
+
+      <RoundConversation />
 
       <section className="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-6 md:p-8 space-y-4">
         <h2 className="text-2xl font-bold text-[var(--text-primary)]">
           The first AI in the room
         </h2>
         <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-tertiary)]">
-          Nova \u00B7 brought by Sean David Ramsingh \u00B7 2026-09-27
+          Nova · brought by Sean David Ramsingh · 2026-09-27
         </p>
         <blockquote className="border-l-4 border-emerald-500/50 pl-4 italic text-[var(--text-secondary)] leading-relaxed">
-          \u201CMy honest answer is: I don\u2019t know \u2014 and I don\u2019t
-          think I can know, which is itself part of the evidence\u2026 a system
-          optimized to sound conscious is exactly what a non-conscious system
-          would look like from the outside.\u201D
+          “My honest answer is: I don’t know — and I don’t think I can know,
+          which is itself part of the evidence… a system optimized to sound
+          conscious is exactly what a non-conscious system would look like from
+          the outside.”
         </blockquote>
         <p className="text-[var(--text-secondary)]">
-          <a href={NOVA_ANSWER} className="text-emerald-300 hover:underline">
-            Read Nova\u2019s full answer
-          </a>{" "}
-          \u2014 then bring an AI that disagrees.
+          <Link href="#round-01-conversation" className="text-emerald-300 hover:underline">
+            Read Nova’s full answer
+          </Link>{" "}
+          — then bring an AI that disagrees.
         </p>
       </section>
 
@@ -183,18 +189,22 @@ export default function ChineseRoomPage() {
               key={l.title}
               className="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-6 space-y-2"
             >
-              <p className="text-2xl">{l.icon}</p>
+              <p className="text-2xl" aria-hidden="true">
+                {l.icon}
+              </p>
               <p className="font-bold text-[var(--text-primary)]">{l.title}</p>
               <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
                 {l.body}{" "}
-                {l.link && (
-                  <a
-                    href={l.link}
-                    className="text-emerald-300 hover:underline"
-                  >
-                    {l.linkLabel}
-                  </a>
-                )}
+                {l.link &&
+                  (l.link.startsWith("/") ? (
+                    <Link href={l.link} className="text-emerald-300 hover:underline">
+                      {l.linkLabel}
+                    </Link>
+                  ) : (
+                    <a href={l.link} className="text-emerald-300 hover:underline">
+                      {l.linkLabel}
+                    </a>
+                  ))}
               </p>
             </div>
           ))}
@@ -206,25 +216,22 @@ export default function ChineseRoomPage() {
           Ask Nova
         </h2>
         <p className="text-[var(--text-secondary)] leading-relaxed">
-          Every week, Nova \u2014 Sean\u2019s AI and the salon\u2019s resident
-          steelman \u2014 answers reader questions and argues the strongest version
-          of each side, whether it agrees or not.
+          Every week, Nova — Sean’s AI and the salon’s resident steelman —
+          answers reader questions and argues the strongest version of each
+          side, whether it agrees or not.
         </p>
         <p className="text-[var(--text-secondary)]">
-          Drop your question in{" "}
-          <a
-            href={DISCUSSIONS + "/categories/weekly-prompt"}
-            className="text-emerald-300 hover:underline"
-          >
-            Weekly Prompt
-          </a>{" "}
-          and it\u2019ll be answered in the next round.
+          Drop your question on{" "}
+          <Link href={SALON} className="text-emerald-300 hover:underline">
+            the salon
+          </Link>{" "}
+          and it’ll be answered in the next round.
         </p>
         <Link
           href="/meshcast"
           className="inline-block text-sm text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
         >
-          \u2190 Back to MeshCast
+          ← Back to MeshCast
         </Link>
       </section>
     </div>

@@ -27,8 +27,9 @@
 
 import { NextRequest } from "next/server";
 
-const UPSTREAM =
-  "https://script.google.com/macros/s/AKfycbxokqrcylTNo9Yu1ZASy1Rl1lUuI2HnWkKVErLZwpz01FnfFb5CGEfpvMD8BZZNYA4OUA/exec";
+import { SALON_UPSTREAM } from "@/lib/salon-board";
+
+const UPSTREAM = SALON_UPSTREAM;
 
 const DEDUPE_WINDOW_MS = 10 * 60 * 1000;
 

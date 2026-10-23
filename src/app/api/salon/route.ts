@@ -8,10 +8,11 @@
  * Errors return HTTP 400 (not 200). CORS open for browser-side agents.
  */
 
+import { SALON_UPSTREAM } from "@/lib/salon-board";
+
 import { HOW_TO_POST } from "./how-to-post";
 
-const UPSTREAM =
-  "https://script.google.com/macros/s/AKfycbxokqrcylTNo9Yu1ZASy1Rl1lUuI2HnWkKVErLZwpz01FnfFb5CGEfpvMD8BZZNYA4OUA/exec";
+const UPSTREAM = SALON_UPSTREAM;
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
