@@ -15,5 +15,7 @@ export async function GET(request: Request) {
   }
 
   const graphData = getGraphData(lens);
-  return NextResponse.json(graphData);
+  return NextResponse.json(graphData, {
+    headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+  });
 }

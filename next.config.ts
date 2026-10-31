@@ -26,7 +26,16 @@ const nextConfig: NextConfig = {
       '**/*.webp',
     ],
   },
+  async headers() {
+    const longCache = [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }];
+    return [
+      { source: "/pagefind/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, s-maxage=604800" }] },
+      { source: "/:file*.(png|jpg|jpeg|gif|webp|svg|ico|woff|woff2)", headers: longCache },
+    ];
+  },
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2678400,
     remotePatterns: [
       {
         protocol: "https",
