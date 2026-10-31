@@ -10,7 +10,18 @@ export const metadata: Metadata = {
 };
 
 export default function LibraryPage() {
-  const allEntries = getEntries({ limit: 10000 });
+  // Bandwidth: only ship the fields LibraryClient actually renders/filters on.
+  const allEntries = getEntries({ limit: 10000 }).map((e) => ({
+    id: e.id,
+    repo: e.repo,
+    path: e.path,
+    title: e.title,
+    content_type: e.content_type,
+    category: e.category,
+    tags: e.tags,
+    modified: e.modified,
+    description: e.description ? e.description.slice(0, 200) : null,
+  })) as unknown as ReturnType<typeof getEntries>;
   const categories = getCategories();
   const topTags = getTopTags(12);
   const stats = getStats();

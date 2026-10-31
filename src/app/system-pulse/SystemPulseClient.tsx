@@ -307,7 +307,7 @@ export function SystemPulseClient() {
     void loadData();
     const interval = window.setInterval(() => {
       if (mounted) void loadData();
-    }, 30000);
+    }, 120000);
 
     return () => {
       mounted = false;
